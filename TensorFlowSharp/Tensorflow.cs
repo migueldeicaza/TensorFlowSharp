@@ -8,6 +8,8 @@
 // The API generally takes a TF_Status that defaults to null, if the value is null, on error, this raises an exception, otherwise, the error is returned on the TF_Status.
 // You can use TFStatus.Default for a value to use when you do not want to create the value yourself and are ok reusing the value.
 //
+// Guidaance on doing language bindings for Tensorflow:
+// https://www.tensorflow.org/versions/r0.11/how_tos/language_bindings/
 //
 using System;
 using System.Runtime.InteropServices;
@@ -29,18 +31,27 @@ using TF_BufferPtr = System.IntPtr;
 
 using size_t = System.IntPtr;
 
-namespace TensorFlowSharp
+namespace TensorFlow
 {
 	static partial class NativeBinding
 	{
-		public const string TensorFlowLibrary = "libtensor";
+		public const string TensorFlowLibrary = "libtensorflow";
 
+		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
+	}
+
+	public static class TFCore {
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_Version ();
+		static extern unsafe IntPtr TF_Version ();
+
+		public static string Version => TF_Version ().GetStr ();
 
 		// extern size_t TF_DataTypeSize (TF_DataType dt);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern IntPtr TF_DataTypeSize (TFDataType dt);
+
+		public static long GetDataTypeSize (TFDataType dt) => (long)TF_DataTypeSize (dt);
+
 	}
 
 	public abstract class TFDisposable : IDisposable
@@ -122,9 +133,9 @@ namespace TensorFlowSharp
 
 		// extern const char * TF_Message (const TF_Status *s);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_Message (TF_Status s);
+		static extern unsafe IntPtr TF_Message (TF_Status s);
 
-		public string StatusMessage => TF_Message (handle);
+		public string StatusMessage => TF_Message (handle).GetStr ();
 
 		public void Raise ()
 		{
@@ -246,6 +257,9 @@ namespace TensorFlowSharp
 		{
 			Marshal.FreeHGlobal (data);
 		}
+
+		// TODO:
+		// Great opportunity to create overloads based on the TFDataType that take strongly typed data arrays instead of bytes
 
 		public TFTensor (TFDataType dataType, long [] dims, byte [] data, int start, int count) : base (IntPtr.Zero)
 		{
@@ -429,6 +443,34 @@ namespace TensorFlowSharp
 			TF_GraphGetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
 			cstatus.MaybeRaise (status);
 		}
+
+		// extern void TF_GraphToGraphDef (TF_Graph *graph, TF_Buffer *output_graph_def, TF_Status *status);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_GraphToGraphDef (TF_Graph graph, LLBuffer* output_graph_def, TF_Status status);
+
+		public void ToGraphDef (TFBuffer outputGraphDef, TFStatus status = null)
+		{
+			if (outputGraphDef == null)
+				throw new ArgumentNullException (nameof (outputGraphDef));
+			
+			var cstatus = TFStatus.Setup (status);
+			unsafe
+			{
+				TF_GraphToGraphDef (handle, outputGraphDef.LLBuffer, cstatus.handle);
+			}
+			cstatus.MaybeRaise (status);
+		}
+
+		// extern void TF_GraphImportGraphDef (TF_Graph *graph, const TF_Buffer *graph_def, const TF_ImportGraphDefOptions *options, TF_Status *status);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
+
+		public void ImportGraphDef (TFBuffer graphDef)
+		{
+			// TODO
+		}
+
+	
 	}
 
 	//
@@ -529,7 +571,7 @@ namespace TensorFlowSharp
 			var buf = Marshal.AllocHGlobal (bytes.Length + 1);
 			Marshal.Copy (bytes, 0, buf, bytes.Length);
 
-			TF_SetAttrString (handle, attrName, buf, (IntPtr) bytes.Length);
+			TF_SetAttrString (handle, attrName, buf, (IntPtr)bytes.Length);
 		}
 
 		// extern void TF_SetAttrStringList (TF_OperationDescription *desc, const char *attr_name, const void *const *values, const size_t *lengths, int num_values);
@@ -571,7 +613,7 @@ namespace TensorFlowSharp
 
 		public void SetAttr (string attrName, bool value)
 		{
-			TF_SetAttrBool (handle, attrName, (byte) (value ? 1 : 0));
+			TF_SetAttrBool (handle, attrName, (byte)(value ? 1 : 0));
 		}
 
 		// extern void TF_SetAttrBoolList (TF_OperationDescription *desc, const char *attr_name, const unsigned char *values, int num_values);
@@ -583,7 +625,7 @@ namespace TensorFlowSharp
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrType (TF_OperationDescription desc, string attr_name, TFDataType value);
 
-		public void SetAttr (string attrName, TFDataType dataType)
+		public void SetAttrType (string attrName, TFDataType dataType)
 		{
 			TF_SetAttrType (handle, attrName, dataType);
 		}
@@ -659,21 +701,21 @@ namespace TensorFlowSharp
 
 		// extern const char * TF_OperationName (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_OperationName (TF_Operation oper);
+		static extern unsafe IntPtr TF_OperationName (TF_Operation oper);
 
-		public string Name => TF_OperationName (handle);
+		public string Name => TF_OperationName (handle).GetStr ();
 
 		// extern const char * TF_OperationOpType (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_OperationOpType (TF_Operation oper);
+		static extern unsafe IntPtr TF_OperationOpType (TF_Operation oper);
 
-		public string OpType => TF_OperationOpType (handle);
+		public string OpType => TF_OperationOpType (handle).GetStr ();
 
 		// extern const char * TF_OperationDevice (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_OperationDevice (TF_Operation oper);
+		static extern unsafe IntPtr TF_OperationDevice (TF_Operation oper);
 
-		public string Device => TF_OperationDevice (handle);
+		public string Device => TF_OperationDevice (handle).GetStr ();
 
 		// extern int TF_OperationNumOutputs (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -734,7 +776,7 @@ namespace TensorFlowSharp
 
 		// extern int TF_OperationGetControlOutputs (TF_Operation *oper, TF_Operation **control_outputs, int max_control_outputs);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe int TF_OperationGetControlOutputs (TF_Operation oper, [Out] [MarshalAs (UnmanagedType.LPArray,SizeParamIndex=2)] IntPtr [] control_outputs, int max_control_outputs);
+		static extern unsafe int TF_OperationGetControlOutputs (TF_Operation oper, [Out] [MarshalAs (UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr [] control_outputs, int max_control_outputs);
 
 		TFOperation [] ControlOutputs {
 			get {
@@ -855,35 +897,40 @@ namespace TensorFlowSharp
 		static extern unsafe TF_Operation TF_GraphNextOperation (TF_Graph graph, size_t* pos);
 		// TODO:
 
-		// extern void TF_GraphToGraphDef (TF_Graph *graph, TF_Buffer *output_graph_def, TF_Status *status);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphToGraphDef (TF_Graph graph, LLBuffer* output_graph_def, TF_Status status);
-		// TODO:
-
-		// extern TF_ImportGraphDefOptions * TF_NewImportGraphDefOptions ();
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_ImportGraphDefOptions TF_NewImportGraphDefOptions ();
-		// TODO:
-
-		// extern void TF_DeleteImportGraphDefOptions (TF_ImportGraphDefOptions *opts);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_DeleteImportGraphDefOptions (TF_ImportGraphDefOptions opts);
-		// TODO:
-
-		// extern void TF_ImportGraphDefOptionsSetPrefix (TF_ImportGraphDefOptions *opts, const char *prefix);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_ImportGraphDefOptionsSetPrefix (TF_ImportGraphDefOptions opts, sbyte* prefix);
-		// TODO:
-
-		// extern void TF_GraphImportGraphDef (TF_Graph *graph, const TF_Buffer *graph_def, const TF_ImportGraphDefOptions *options, TF_Status *status);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
-		// TODO:
-
 		// extern void TF_OperationToNodeDef (TF_Operation *oper, TF_Buffer *output_node_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer* output_node_def, TF_Status status);
 		// TODO:
+	}
+
+	public class TFImportGraphDefOptions : TFDisposable {
+		// extern TF_ImportGraphDefOptions * TF_NewImportGraphDefOptions ();
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe TF_ImportGraphDefOptions TF_NewImportGraphDefOptions ();
+
+		public TFImportGraphDefOptions () : base (TF_NewImportGraphDefOptions ())
+		{
+		}
+
+		// extern void TF_DeleteImportGraphDefOptions (TF_ImportGraphDefOptions *opts);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_DeleteImportGraphDefOptions (TF_ImportGraphDefOptions opts);
+
+		internal override void NativeDispose (IntPtr handle)
+		{
+			TF_DeleteImportGraphDefOptions (handle);
+		}
+
+		// extern void TF_ImportGraphDefOptionsSetPrefix (TF_ImportGraphDefOptions *opts, const char *prefix);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_ImportGraphDefOptionsSetPrefix (TF_ImportGraphDefOptions opts, string prefix);
+
+		public void SetPrefix (string prefix)
+		{
+			TF_ImportGraphDefOptionsSetPrefix (handle, prefix);
+		}
+
+
 	}
 
 	public class TFSession : TFDisposable {
