@@ -29,7 +29,7 @@ this is the command I used:
 
 If you want debug symbols for Tensorflow, while debugging the binding:
 
-    bazel build -c opt //tensorflow:libtensorflow.so
+    bazel build -c dbg --strip=never //tensorflow:libtensorflow.so
 
 You will need this library to be in the same directory as the 
 executable that you will be testing.
