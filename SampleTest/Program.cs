@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using TensorFlow;
 
 namespace SampleTest
@@ -80,6 +81,7 @@ namespace SampleTest
 				var scalar = graph ["imported/scalar"];
 				var feed = graph ["imported/feed"];
 				Assert (scalar != null);
+
 				Assert (feed != null);
 
 				// Can add nodes to the imported graph without trouble
@@ -112,20 +114,30 @@ namespace SampleTest
 						new TFOutput (add, 0)
 					};
 					var output_values = new TFTensor [] {
+						TFTensor.Constant (3)
 					};
 
-					return;
+					var results = session.Run (    runOptions: null,
+									   inputs: inputs,
+								      inputValues: input_values,
+									  outputs: outputs,
+								      targetOpers: null,
+								      runMetadata: null,
+							             status: status);
+					Assert (status);
+					var res = results [0];
+					Assert (res.TensorType == TFDataType.Int32);
+					Assert (res.NumDims == 0); // Scalar
+					Assert (res.ByteSize == (UIntPtr) 4);
+					Assert (Marshal.ReadInt32 (res.Data) == 3 + 2);
 
-					session.Run (runOptions: null,
-							   inputs: inputs,
-						      inputValues: input_values,
-							  outputs: outputs,
-						     outputValues: null,
-						      targetOpers: null,
-						      runMetadata: null,
-					             status: status);
+
 				}
 			}
+		}
+		public static void p (string p)
+		{
+			Console.WriteLine (p);
 		}
 
 		public static void Main (string [] args)

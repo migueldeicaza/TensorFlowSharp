@@ -144,6 +144,11 @@ namespace TensorFlow
 
 		public string StatusMessage => TF_Message (handle).GetStr ();
 
+		public override string ToString ()
+		{
+			return string.Format ("[TFStatus: StatusCode={0}, StatusMessage={1}]", StatusCode, StatusMessage);
+		}
+
 		public void Raise ()
 		{
 			if (TF_GetCode (handle) != TFCode.Ok)
@@ -1212,7 +1217,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionRun (TF_Session session, LLBuffer* run_options, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, LLBuffer* run_metadata, TF_Status status);
 
-		public void Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFTensor []outputValues, TFOperation [] targetOpers, TFBuffer runMetadata, TFStatus status = null)
+		public TFTensor [] Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers, TFBuffer runMetadata, TFStatus status = null)
 		{
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
@@ -1232,12 +1237,9 @@ namespace TensorFlow
 			var ivals = new IntPtr [iLen];
 			for (int i = 0; i < iLen; i++)
 				ivals [i] = inputValues [i].handle;
-			IntPtr [] ovals = null;
-			if (outputValues != null) {
-				ovals = new IntPtr [outputValues.Length];
-				for (int i = outputValues.Length - 1; i >= 0; i--)
-					ovals [i] = outputValues [i].handle;
-			}
+
+			// I believe this might not be necessary, the output values in TF_SessionRun looks like a write-only result
+			var ovals = new IntPtr [outputs.Length];		
 			IntPtr [] topers = null;
 			int tLen = 0;
 			if (targetOpers != null) {
@@ -1252,6 +1254,11 @@ namespace TensorFlow
 				TF_SessionRun (handle, runOptions == null ? null : runOptions.LLBuffer, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, runMetadata == null ? null : runMetadata.LLBuffer, cstatus.handle);
 			}
 			cstatus.MaybeRaise (status);
+			var result = new TFTensor [oLen];
+			for (int i = 0; i < oLen; i++) {
+				result [i] = new TFTensor (ovals [i]);
+			}
+			return result;
 		}
 
 		// extern void TF_SessionPRunSetup (TF_Session, const TF_Output *inputs, int ninputs, const TF_Output *outputs, int noutputs, const TF_Operation *const *target_opers, int ntargets, const char **handle, TF_Status *);
@@ -1286,7 +1293,7 @@ namespace TensorFlow
 
 		// extern void TF_SessionPRun (TF_Session *, const char *handle, const TF_Output *inputs, TF_Tensor *const *input_values, int ninputs, const TF_Output *outputs, TF_Tensor **output_values, int noutputs, const TF_Operation *const *target_opers, int ntargets, TF_Status *);
 		static extern unsafe void TF_SessionPRun (TF_Session session, IntPtr partialHandle, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, TF_Status status);
-		public void PartialRun (PartialRunToken token, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFTensor [] outputValues, TFOperation [] targetOpers, TFStatus status = null)
+		public TFTensor [] PartialRun (PartialRunToken token, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
@@ -1294,16 +1301,12 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (inputValues));
 			if (outputs == null)
 				throw new ArgumentNullException (nameof (outputs));
-			if (outputValues == null)
-				throw new ArgumentNullException (nameof (outputValues));
 			if (targetOpers == null)
 				throw new ArgumentNullException (nameof (targetOpers));
 			int iLen = inputs.Length;
 			if (iLen != inputValues.Length)
 				throw new ArgumentException ("inputs and inputValues have different lengths", "inputs");
 			int oLen = outputs.Length;
-			if (oLen != outputValues.Length)
-				throw new ArgumentException ("outputs and outputValues have different lengths", "outputs");
 
 			// runOptions and runMetadata might be null
 			var cstatus = TFStatus.Setup (status);
@@ -1313,8 +1316,6 @@ namespace TensorFlow
 			for (int i = 0; i < iLen; i++)
 				ivals [i] = inputValues [i].handle;
 			var ovals = new IntPtr [oLen];
-			for (int i = 0; i < oLen; i++)
-				ovals [i] = outputValues [i].handle;
 			int tLen = targetOpers.Length;
 			var topers = new IntPtr [tLen];
 			for (int i = 0; i < tLen; i++)
@@ -1325,6 +1326,12 @@ namespace TensorFlow
 				TF_SessionPRun (handle, token.token, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, cstatus.handle);
 			}
 			cstatus.MaybeRaise (status);
+
+			var result = new TFTensor [oLen];
+			for (int i = 0; i < oLen; i++) {
+				result [i] = new TFTensor (ovals [i]);
+			}
+			return result;
 		}
 	}
 
@@ -1473,6 +1480,11 @@ namespace TensorFlow
 		}
 
 
+		public TFOperation Operation => new TFOperation (LLOperation);
+		public override string ToString ()
+		{
+			return string.Format ("[TFOutput: LLOperation={0:X} Index={0} NumConsumers={0}, OutputType={1}, Operation={2}]", (long) LLOperation, Index, NumConsumers, OutputType, Operation);
+		}
 	}
 
 	public enum TFAttributeType : uint
@@ -1495,6 +1507,11 @@ namespace TensorFlow
 		public long ListSize;
 		public TFAttributeType Type;
 		public long TotalSize;
+
+		public override string ToString ()
+		{
+			return string.Format ($"[TFAttributeMetadata IsList={IsList != 0?true:false} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
+		}
 	}
 
 }
