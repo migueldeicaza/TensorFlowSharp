@@ -22,7 +22,7 @@ namespace SampleTest
 
 		TFOperation Placeholder (TFGraph graph, TFStatus s)
 		{
-			var desc = new TFOperation (graph, "Placeholder", "feed");
+			var desc = new TFOperationDesc (graph, "Placeholder", "feed");
 			desc.SetAttrType ("dtype", TFDataType.Int32);
 			Console.WriteLine ("Handle: {0}", desc.Handle);
 			var j = desc.FinishOperation ();
@@ -32,7 +32,7 @@ namespace SampleTest
 
 		TFOperation ScalarConst (int v, TFGraph graph, TFStatus status)
 		{
-			var desc = new TFOperation (graph, "Const", "scalar");
+			var desc = new TFOperationDesc (graph, "Const", "scalar");
 			desc.SetAttr ("value", TFTensor.Constant (v), status);
 			if (status.StatusCode != TFCode.Ok)
 				return null;
@@ -42,11 +42,10 @@ namespace SampleTest
 
 		TFOperation Add (TFOperation left, TFOperation right, TFGraph graph, TFStatus status)
 		{
-			var op = new TFOperation (graph, "AddN", "add");
+			var op = new TFOperationDesc (graph, "AddN", "add");
 
 			op.AddInputs (new TFOutput (left, 0), new TFOutput (right, 0));
-			op.FinishOperation ();
-			return op;
+			return op.FinishOperation ();
 		}
 
 		public void TestImportGraphDef ()
@@ -98,8 +97,33 @@ namespace SampleTest
 				var add = Add (feed, two, graph, status);
 				Assert (status);
 
+				// Create a session for this graph
 				using (var session = new TFSession (graph, status)) {
-					
+					Assert (status);
+
+					// Run the graph
+					var inputs = new TFOutput [] {
+						new TFOutput (feed, 0)
+					};
+					var input_values = new TFTensor [] {
+						TFTensor.Constant (3)
+					};
+					var outputs = new TFOutput [] {
+						new TFOutput (add, 0)
+					};
+					var output_values = new TFTensor [] {
+					};
+
+					return;
+
+					session.Run (runOptions: null,
+							   inputs: inputs,
+						      inputValues: input_values,
+							  outputs: outputs,
+						     outputValues: null,
+						      targetOpers: null,
+						      runMetadata: null,
+					             status: status);
 				}
 			}
 		}

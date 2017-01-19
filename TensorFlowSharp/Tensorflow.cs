@@ -83,6 +83,9 @@ namespace TensorFlow
 			Dispose (false);
 		}
 
+		// Must be implemented in subclasses to dispose the unmanaged object, it does
+		// not need to take care of zeroing out the handle, that is done by the Dispose
+		// method inherited from TFDisposable
 		internal abstract void NativeDispose (IntPtr handle);
 
 		public virtual void Dispose (bool disposing)
@@ -244,7 +247,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteBuffer (LLBuffer* buffer);
 
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
 			unsafe { TF_DeleteBuffer ((LLBuffer*)handle); }
 		}
@@ -344,7 +347,7 @@ namespace TensorFlow
 
 		}
 
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
 			TF_DeleteTensor (handle);
 		}
@@ -425,7 +428,7 @@ namespace TensorFlow
 		// extern void TF_DeleteSessionOptions (TF_SessionOptions *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		internal static extern unsafe void TF_DeleteSessionOptions (TF_SessionOptions options);
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
 			TF_DeleteSessionOptions (handle);
 		}
@@ -466,7 +469,7 @@ namespace TensorFlow
 		// extern void TF_DeleteGraph (TF_Graph *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteGraph (TF_Graph graph);
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
 			TF_DeleteGraph (handle);
 		}
@@ -557,45 +560,32 @@ namespace TensorFlow
 				var h = TF_GraphOperationByName (handle, name);
 				if (h == IntPtr.Zero)
 					return null;
-				return new TFOperation (h, owns: false);
+				return new TFOperation (h);
 			}
 		}
-
-	
 	}
 
-	//
-	// TF_Operation and TF_OperationDescription are the same, they just represent two separate states
-	// on the cycle of the object. 
-	//
-	public class TFOperation : TFDisposable
+	public class TFOperationDesc : TFDisposable
 	{
-		bool owns;
+		string opType, operName;
 
 		// extern TF_OperationDescription * TF_NewOperation (TF_Graph *graph, const char *op_type, const char *oper_name);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_OperationDescription TF_NewOperation (TF_Graph graph, string opType, string oper_name);
 
-		internal TFOperation (IntPtr handle, bool owns) : base (handle)
-		{
-			this.owns = owns;
-		}
-
-		public TFOperation (TFGraph graph, string opType, string operName) : base (IntPtr.Zero)
+		public TFOperationDesc (TFGraph graph, string opType, string operName) : base (IntPtr.Zero)
 		{
 			if (graph == null)
 				throw new ArgumentNullException ("graph");
 			handle = TF_NewOperation (graph.handle, opType, operName);
-			owns = true;
+			this.opType = opType;
+			this.operName = operName;
 		}
 
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
-			if (owns) {
-				// TODO: Nothing yet
-			}
-
-			// else - nothing
+			// If you reach this, you never called FinishOperation
+			Console.WriteLine ($"TFOperationDescription({opType},{operName} was never turned into an TFOperation");
 		}
 
 		// extern void TF_SetDevice (TF_OperationDescription *desc, const char *device);
@@ -626,7 +616,7 @@ namespace TensorFlow
 		{
 			if (inputs == null || inputs.Length == 0)
 				return;
-			
+
 			TF_AddInputList (handle, inputs, inputs.Length);
 		}
 
@@ -789,9 +779,24 @@ namespace TensorFlow
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_FinishOperation (handle, cstatus.handle);
 			cstatus.MaybeRaise (status);
+			handle = IntPtr.Zero;
+			GC.SuppressFinalize (this);
 
 			// TODO: THIS IS WRONG ON UPGRADE WE NEED TO KILL OWNS ON THIS.
-			return new TFOperation (h, owns: true);
+			return new TFOperation (h);
+		}
+
+
+	}
+
+	public class TFOperation
+	{
+		internal IntPtr handle;
+		public IntPtr Handle => handle;
+
+		internal TFOperation (IntPtr handle)
+		{
+			this.handle = handle;
 		}
 
 		// extern const char * TF_OperationName (TF_Operation *oper);
@@ -880,7 +885,7 @@ namespace TensorFlow
 				TF_OperationGetControlOutputs (handle, arr, n);
 				var ret = new TFOperation [n];
 				for (int i = 0; i < n; i++)
-					ret [i] = new TFOperation (arr [i], owns: false);
+					ret [i] = new TFOperation (arr [i]);
 				return ret;
 			}
 		}
@@ -1117,16 +1122,10 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (inputValues));
 			if (outputs == null)
 				throw new ArgumentNullException (nameof (outputs));
-			if (outputValues == null)
-				throw new ArgumentNullException (nameof (outputValues));
-			if (targetOpers == null)
-				throw new ArgumentNullException (nameof (targetOpers));
 			int iLen = inputs.Length;
 			if (iLen != inputValues.Length)
 				throw new ArgumentException ("inputs and inputValues have different lengths", "inputs");
 			int oLen = outputs.Length;
-			if (oLen != outputValues.Length)
-				throw new ArgumentException ("outputs and outputValues have different lengths", "outputs");
 
 			// runOptions and runMetadata might be null
 			var cstatus = TFStatus.Setup (status);
@@ -1135,13 +1134,20 @@ namespace TensorFlow
 			var ivals = new IntPtr [iLen];
 			for (int i = 0; i < iLen; i++)
 				ivals [i] = inputValues [i].handle;
-			var ovals = new IntPtr [oLen];
-			for (int i = 0; i < oLen; i++)
-				ovals [i] = outputValues [i].handle;
-			int tLen = targetOpers.Length;
-			var topers = new IntPtr [tLen];
-			for (int i = 0; i < tLen; i++)
-				topers [i] = targetOpers [i].handle;
+			IntPtr [] ovals = null;
+			if (outputValues != null) {
+				ovals = new IntPtr [outputValues.Length];
+				for (int i = outputValues.Length - 1; i >= 0; i--)
+					ovals [i] = outputValues [i].handle;
+			}
+			IntPtr [] topers = null;
+			int tLen = 0;
+			if (targetOpers != null) {
+				tLen = targetOpers.Length;
+				topers = new IntPtr [tLen];
+				for (int i = 0; i < tLen; i++)
+					topers [i] = targetOpers [i].handle;
+			}
 
 			unsafe
 			{
@@ -1248,7 +1254,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteLibraryHandle (TF_Library lib_handle);
 
-		internal override void NativeDispose (TF_Status handle)
+		internal override void NativeDispose (IntPtr handle)
 		{
 			TF_DeleteLibraryHandle (handle);
 		}
