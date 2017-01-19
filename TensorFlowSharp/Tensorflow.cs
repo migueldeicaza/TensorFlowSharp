@@ -11,12 +11,6 @@
 // Guidaance on doing language bindings for Tensorflow:
 // https://www.tensorflow.org/versions/r0.11/how_tos/language_bindings/
 //
-// I made a Mistake early on, there is a difference betwen TF_Operation and TF_OperationDescription, the latter
-// is "upgraded" into the former when you call "FinishOperaetion", and some properties only make sense in that world, so
-// I will have to review those APIs and change them, otherwise, we get a crash (show by exploring properties in
-// TestSession).
-
-// TODO: figure out the lifecyle for Descriptions turning into Operations
 //
 using System;
 using System.Runtime.InteropServices;
@@ -38,6 +32,7 @@ using TF_BufferPtr = System.IntPtr;
 
 using size_t = System.UIntPtr;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace TensorFlow
 {
@@ -259,8 +254,6 @@ namespace TensorFlow
 
 	public delegate void TFTensorDeallocator (IntPtr data, IntPtr size, IntPtr deallocatorData);
 
-	// TODO: More convenience constructors
-	// TODO: 
 	public class TFTensor : TFDisposable
 	{
 		// extern TF_Tensor * TF_NewTensor (TF_DataType, const int64_t *dims, int num_dims, void *data, size_t len, void (* deallocator)(void *, size_t, void *), void *deallocator_arg);
@@ -282,7 +275,7 @@ namespace TensorFlow
 			gch.Free ();
 		}
 
-		// Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
+		// TODO: Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
 		// QInt16, QUint16, Half, Resource
 		public TFTensor (long [] dims, sbyte [] data, int start, int count)   : base (SetupTensor (TFDataType.Int8, dims, data, start, count, size: 2)) { }
 		public TFTensor (long [] dims, byte [] data, int start, int count)    : base (SetupTensor (TFDataType.UInt8, dims, data, start, count, size: 1)) { }
@@ -321,6 +314,12 @@ namespace TensorFlow
 			else
 				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)count, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 		}
+
+
+		// 
+		// Factory methods to create tensors from a constant
+		//
+		// TODO: add more data types
 
 		unsafe public static TFTensor Constant (int value)
 		{
@@ -563,6 +562,19 @@ namespace TensorFlow
 				return new TFOperation (h);
 			}
 		}
+
+		// extern TF_Operation * TF_GraphNextOperation (TF_Graph *graph, size_t *pos);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe TF_Operation TF_GraphNextOperation (TF_Graph graph, ref IntPtr token);
+
+		public IEnumerable<TFOperation> GetEnumerator ()
+		{
+			IntPtr token = IntPtr.Zero;
+			IntPtr operll;
+
+			while ((operll = TF_GraphNextOperation (handle, ref token)) != IntPtr.Zero)
+				yield return new TFOperation (operll);
+		}
 	}
 
 	public class TFOperationDesc : TFDisposable
@@ -649,6 +661,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, string value)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			var bytes = Encoding.UTF8.GetBytes (value);
 			var buf = Marshal.AllocHGlobal (bytes.Length + 1);
 			Marshal.Copy (bytes, 0, buf, bytes.Length);
@@ -658,8 +672,29 @@ namespace TensorFlow
 
 		// extern void TF_SetAttrStringList (TF_OperationDescription *desc, const char *attr_name, const void *const *values, const size_t *lengths, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, void** values, size_t* lengths, int num_values);
-		// TODO: SetAttrStringList
+		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, IntPtr [] values, UIntPtr []lengths, int num_values);
+		public void SetAttr (string attrName, string [] values)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (values == null)
+				throw new ArgumentNullException (nameof (values));
+
+			int n = values.Length;
+			var unmanaged = new IntPtr [n];
+			var lenghts = new UIntPtr [n];
+			for (int i = 0; i < n; i++) {
+				var bytes = Encoding.UTF8.GetBytes (values [i]);
+				var buf = Marshal.AllocHGlobal (bytes.Length + 1);
+				var bc = bytes.Length;
+
+				Marshal.Copy (bytes, 0, buf, bc);
+				unmanaged [i] = buf;
+				lenghts [i] = (size_t) bc;
+			}
+			TF_SetAttrStringList (handle, attrName, unmanaged, lenghts, n);
+		}
+
 
 		// extern void TF_SetAttrInt (TF_OperationDescription *desc, const char *attr_name, int64_t value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -667,13 +702,25 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, long value)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrInt (handle, attrName, value);
 		}
 
 		// extern void TF_SetAttrIntList (TF_OperationDescription *desc, const char *attr_name, const int64_t *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrIntList (TF_OperationDescription desc, string attr_name, long* values, int num_values);
-		// TODO: Above
+		static extern unsafe void TF_SetAttrIntList (TF_OperationDescription desc, string attr_name, long [] values, int num_values);
+
+		public void SetAttr (string attrName, long [] values)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (values == null)
+				throw new ArgumentNullException (nameof (values));
+
+			TF_SetAttrIntList (handle, attrName, values, values.Length);
+		}
+
 
 		// extern void TF_SetAttrFloat (TF_OperationDescription *desc, const char *attr_name, float value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -681,13 +728,24 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, float value)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrFloat (handle, attrName, value);
 		}
 
 		// extern void TF_SetAttrFloatList (TF_OperationDescription *desc, const char *attr_name, const float *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrFloatList (TF_OperationDescription desc, string attr_name, float* values, int num_values);
-		// TODO: above
+		static extern unsafe void TF_SetAttrFloatList (TF_OperationDescription desc, string attr_name, float [] values, int num_values);
+
+		public void SetAttr (string attrName, float [] values)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (values == null)
+				throw new ArgumentNullException (nameof (values));
+			
+			TF_SetAttrFloatList (handle, attrName, values, values.Length);
+		}
 
 		// extern void TF_SetAttrBool (TF_OperationDescription *desc, const char *attr_name, unsigned char value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -695,13 +753,24 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, bool value)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrBool (handle, attrName, (byte)(value ? 1 : 0));
 		}
 
 		// extern void TF_SetAttrBoolList (TF_OperationDescription *desc, const char *attr_name, const unsigned char *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrBoolList (TF_OperationDescription desc, string attr_name, byte* values, int num_values);
-		// TODO:
+		static extern unsafe void TF_SetAttrBoolList (TF_OperationDescription desc, string attr_name, bool [] values, int num_values);
+
+		public void SetAttr (string attrName, bool [] values)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (values == null)
+				throw new ArgumentNullException (nameof (values));
+
+			TF_SetAttrBoolList (handle, attrName, values, values.Length);
+		}
 
 		// extern void TF_SetAttrType (TF_OperationDescription *desc, const char *attr_name, TF_DataType value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -709,13 +778,23 @@ namespace TensorFlow
 
 		public void SetAttrType (string attrName, TFDataType dataType)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrType (handle, attrName, dataType);
 		}
 
 		// extern void TF_SetAttrTypeList (TF_OperationDescription *desc, const char *attr_name, const TF_DataType *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrTypeList (TF_OperationDescription desc, string attr_name, TFDataType* values, int num_values);
-		// TODO:
+		static extern unsafe void TF_SetAttrTypeList (TF_OperationDescription desc, string attr_name, TFDataType [] values, int num_values);
+
+		public void SetAttrType (string attrName, params TFDataType [] dataType)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (dataType == null)
+				throw new ArgumentNullException (nameof (dataType));
+			TF_SetAttrTypeList (handle, attrName, dataType, dataType.Length);
+		}
 
 		// extern void TF_SetAttrShape (TF_OperationDescription *desc, const char *attr_name, const int64_t *dims, int num_dims);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -725,6 +804,8 @@ namespace TensorFlow
 
 		public void SetAttrShape (string attrName, long [] dims)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			if (dims == null)
 				TF_SetAttrShape (handle, attrName, null, -1);
 			else
@@ -752,6 +833,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, TFTensor tensor, TFStatus status = null)
 		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
 			if (tensor == null)
 				throw new ArgumentNullException ("tensor");
 			var cstatus = TFStatus.Setup (status);
@@ -762,8 +845,20 @@ namespace TensorFlow
 
 		// extern void TF_SetAttrTensorList (TF_OperationDescription *desc, const char *attr_name, TF_Tensor *const *values, int num_values, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrTensorList (TF_OperationDescription desc, string attr_name, TF_Tensor values, int num_values, TF_Status status);
-		// TODO:
+		static extern unsafe void TF_SetAttrTensorList (TF_OperationDescription desc, string attr_name, IntPtr [] values, int num_values, TF_Status status);
+		public void SetAttr (string attrName, TFTensor [] tensor, TFStatus status = null)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (tensor == null)
+				throw new ArgumentNullException (nameof (tensor));
+			var cstatus = TFStatus.Setup (status);
+			var unmanaged = new IntPtr [tensor.Length];
+			for (int i = 0; i < tensor.Length; i++)
+				unmanaged [i] = tensor [i].handle;
+			TF_SetAttrTensorList (handle, attrName, unmanaged, unmanaged.Length, cstatus.handle);
+			cstatus.MaybeRaise (status);
+		}
 
 		// extern void TF_SetAttrValueProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -782,7 +877,6 @@ namespace TensorFlow
 			handle = IntPtr.Zero;
 			GC.SuppressFinalize (this);
 
-			// TODO: THIS IS WRONG ON UPGRADE WE NEED TO KILL OWNS ON THIS.
 			return new TFOperation (h);
 		}
 
@@ -854,11 +948,6 @@ namespace TensorFlow
 			cstatus.MaybeRaise (status);
 			return res;
 		}
-
-		// extern int TF_OperationOutputConsumers (TF_Output oper_out, TF_Input *consumers, int max_consumers);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe int TF_OperationOutputConsumers (TFOutput oper_out, TFInput* consumers, int max_consumers);
-		// TODO:
 
 		// extern int TF_OperationNumControlInputs (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -988,15 +1077,24 @@ namespace TensorFlow
 		// TODO:
 
 
-		// extern TF_Operation * TF_GraphNextOperation (TF_Graph *graph, size_t *pos);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_Operation TF_GraphNextOperation (TF_Graph graph, size_t* pos);
-		// TODO:
-
 		// extern void TF_OperationToNodeDef (TF_Operation *oper, TF_Buffer *output_node_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer* output_node_def, TF_Status status);
-		// TODO:
+		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer *output_node_def, TF_Status status);
+		public TFBuffer ToNodeDef (TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+			var r = new TFBuffer ();
+			unsafe
+			{
+				TF_OperationToNodeDef (handle, r.LLBuffer, cstatus.handle);
+			}
+			// No need to raise, we can return null in that case.
+			if (cstatus.StatusCode != TFCode.Ok) {
+				r.Dispose ();
+				return null;
+			}
+			return r;
+		}
 	}
 
 	public class TFImportGraphDefOptions : TFDisposable {
@@ -1356,6 +1454,22 @@ namespace TensorFlow
 		{
 			LLOperation = operation.handle;
 			Index = index;
+		}
+
+		// extern int TF_OperationOutputConsumers (TF_Output oper_out, TF_Input *consumers, int max_consumers);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe int TF_OperationOutputConsumers (TFOutput oper_out, TFInput* consumers, int max_consumers);
+
+		public TFInput [] OutputConsumers {
+			get {
+				var result = new TFInput [NumConsumers];
+				unsafe
+				{
+					fixed (TFInput* first = &result [0])
+					TF_OperationOutputConsumers (this, first, result.Length);
+				}
+				return result;
+			}
 		}
 
 
