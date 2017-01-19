@@ -25,11 +25,11 @@ and building the core.
 Once you do that, you will need to build the shared library, I believe
 this is the command I used:
 
-    bazel build -c opt //tensorflow/cc:libtensorflow.so
+    bazel build -c opt //tensorflow:libtensorflow.so
 
 If you want debug symbols for Tensorflow, while debugging the binding:
 
-    bazel build -c opt //tensorflow/cc:libtensorflow.so
+    bazel build -c opt //tensorflow:libtensorflow.so
 
 You will need this library to be in the same directory as the 
 executable that you will be testing.
