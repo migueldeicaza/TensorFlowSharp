@@ -56,3 +56,13 @@ and make sure that you select one that is 64-bit enabled.
 
 Open the solution file in the top directory, and when you hit run, this will
 run the API test.   
+
+## Notes
+
+Look at:
+
+./tensorflow/core/ops/ops.pbtxt AvgPool3D and:
+./tensorflow/core/ops/nn_ops.cc for the C++ implementation with type definitions
+
+Docs on types:
+https://www.tensorflow.org/versions/r0.11/how_tos/adding_an_op/
