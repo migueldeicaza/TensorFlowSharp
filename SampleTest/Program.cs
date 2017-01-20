@@ -2,6 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TensorFlow;
+using System.IO;
+using System.Collections.Generic;
 
 namespace SampleTest
 {
@@ -140,10 +142,15 @@ namespace SampleTest
 			Console.WriteLine (p);
 		}
 
+
 		public static void Main (string [] args)
 		{
 			Console.WriteLine (Environment.CurrentDirectory);
 			Console.WriteLine ("TensorFlow version: " + TFCore.Version);
+
+			var b = TFCore.GetAllOpList ();
+
+
 			var t = new MainClass ();
 			t.TestImportGraphDef ();
 			t.TestSession ();

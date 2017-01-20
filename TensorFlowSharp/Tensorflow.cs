@@ -41,6 +41,8 @@ namespace TensorFlow
 		public const string TensorFlowLibrary = "libtensorflow";
 
 		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
+
+
 	}
 
 	public static class TFCore {
@@ -55,6 +57,14 @@ namespace TensorFlow
 
 		public static long GetDataTypeSize (TFDataType dt) => (long)TF_DataTypeSize (dt);
 
+		// extern TF_Buffer * TF_GetAllOpList ();
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_GetAllOpList ();
+
+		public static TFBuffer GetAllOpList ()
+		{
+			return new TFBuffer (TF_GetAllOpList ());
+		}
 	}
 
 	public abstract class TFDisposable : IDisposable
@@ -200,6 +210,8 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe LLBuffer* TF_NewBuffer ();
 
+		internal TFBuffer (IntPtr handle) : base (handle) { }
+
 		unsafe public TFBuffer () : base ((IntPtr)TF_NewBuffer ())
 		{
 		}
@@ -255,6 +267,22 @@ namespace TensorFlow
 		// extern TF_Buffer TF_GetBuffer (TF_Buffer *buffer);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe LLBuffer TF_GetBuffer (LLBuffer *buffer);
+
+		public byte [] ToArray ()
+		{
+			if (handle == IntPtr.Zero)
+				return null;
+			
+			unsafe
+			{
+				var lb = (LLBuffer*)handle;
+
+				var result = new byte [(int) lb->length];
+				Marshal.Copy (lb->data, result, 0, (int) lb->length);
+
+				return result;
+			}
+		}
 	}
 
 	public delegate void TFTensorDeallocator (IntPtr data, IntPtr size, IntPtr deallocatorData);
@@ -1364,10 +1392,7 @@ namespace TensorFlow
 			TF_DeleteLibraryHandle (handle);
 		}
 
-		// extern TF_Buffer * TF_GetAllOpList ();
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe LLBuffer* TF_GetAllOpList ();
-		// TODO:
+
 	}
 
 	public enum TFDataType : uint
