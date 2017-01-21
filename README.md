@@ -57,7 +57,7 @@ and make sure that you select one that is 64-bit enabled.
 Open the solution file in the top directory, and when you hit run, this will
 run the API test.   
 
-## Notes
+## Notes on OpDefs
 
 Look at:
 
@@ -66,3 +66,12 @@ Look at:
 
 Docs on types:
 https://www.tensorflow.org/versions/r0.11/how_tos/adding_an_op/
+
+## Operation definitions:
+
+Reference, high-level Go defintiions for OpDefs:
+
+tensorflow/tensorflow/go/graph.go
+
+wrappers.go generated from the build shows what our OpDef generation should look
+like, I have not found the C++ equivalent generated code yet.

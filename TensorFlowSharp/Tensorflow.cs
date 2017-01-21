@@ -159,6 +159,9 @@ namespace TensorFlow
 			return string.Format ("[TFStatus: StatusCode={0}, StatusMessage={1}]", StatusCode, StatusMessage);
 		}
 
+		public bool Ok => StatusCode == TFCode.Ok;
+		public bool Error => StatusCode != TFCode.Ok;
+
 		public void Raise ()
 		{
 			if (TF_GetCode (handle) != TFCode.Ok)
@@ -592,7 +595,7 @@ namespace TensorFlow
 				var h = TF_GraphOperationByName (handle, name);
 				if (h == IntPtr.Zero)
 					return null;
-				return new TFOperation (h);
+				return new TFOperation (this, h);
 			}
 		}
 
@@ -606,13 +609,77 @@ namespace TensorFlow
 			IntPtr operll;
 
 			while ((operll = TF_GraphNextOperation (handle, ref token)) != IntPtr.Zero)
-				yield return new TFOperation (operll);
+				yield return new TFOperation (this, operll);
 		}
+
+		public TFOperation AddOperation (TFOpSpec opspec, TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+			var opname = string.IsNullOrEmpty (opspec.Name) ? opspec.Type : opspec.Name;
+			var desc = new TFOperationDesc (this, opspec.Type, opname);
+			foreach (var input in opspec.Inputs) {
+				if (input is TFOutput) {
+					desc.AddInput ((TFOutput)input);
+				} else if (input is TFOutput []) {
+					desc.AddInputs ((TFOutput [])input);
+				} else
+					throw new Exception ($"Unexpected object in opsec.Inputs: {input}");
+			}
+
+			foreach (var kv in opspec.Attrs) {
+				var name = kv.Key;
+				var value = kv.Value;
+
+				if (value is string)
+					desc.SetAttr (name, (string)value);
+				else if (value is string [])
+					desc.SetAttr (name, (string [])value);
+				else if (value is long)
+					desc.SetAttr (name, (long)value);
+				else if (value is long [])
+					desc.SetAttr (name, (long [])value);
+				else if (value is float)
+					desc.SetAttr (name, (float)value);
+				else if (value is float [])
+					desc.SetAttr (name, (float [])value);
+				else if (value is bool)
+					desc.SetAttr (name, (bool)value);
+				else if (value is bool [])
+					desc.SetAttr (name, (bool [])value);
+				else if (value is TFDataType)
+					desc.SetAttrType (name, (TFDataType)value);
+				else if (value is TFDataType [])
+					desc.SetAttrType (name, (TFDataType [])value);
+				else if (value is TFTensor) {
+					desc.SetAttr (name, (TFTensor)value, cstatus);
+					if (cstatus.Error) {
+						cstatus.MaybeRaise (status);
+						return null;
+					}
+				} else if (value is TFTensor []) {
+					desc.SetAttr (name, (TFTensor [])value, cstatus);
+					if (cstatus.Error) {
+						cstatus.MaybeRaise (status);
+						return null;
+					}
+				}
+
+			}
+			return desc.FinishOperation ();
+		}
+	}
+
+	public class TFOpSpec
+	{
+		internal string Name, Type;
+		internal object [] Inputs;
+		internal Dictionary<string, object> Attrs;
 	}
 
 	public class TFOperationDesc : TFDisposable
 	{
 		string opType, operName;
+		TFGraph graph;
 
 		// extern TF_OperationDescription * TF_NewOperation (TF_Graph *graph, const char *op_type, const char *oper_name);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -622,7 +689,9 @@ namespace TensorFlow
 		{
 			if (graph == null)
 				throw new ArgumentNullException ("graph");
+			
 			handle = TF_NewOperation (graph.handle, opType, operName);
+			this.graph = graph;
 			this.opType = opType;
 			this.operName = operName;
 		}
@@ -910,7 +979,7 @@ namespace TensorFlow
 			handle = IntPtr.Zero;
 			GC.SuppressFinalize (this);
 
-			return new TFOperation (h);
+			return new TFOperation (graph, h);
 		}
 
 
@@ -921,9 +990,13 @@ namespace TensorFlow
 		internal IntPtr handle;
 		public IntPtr Handle => handle;
 
-		internal TFOperation (IntPtr handle)
+		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
+		internal TFGraph graph;
+
+		internal TFOperation (TFGraph graph, IntPtr handle)
 		{
 			this.handle = handle;
+			this.graph = graph;
 		}
 
 		// extern const char * TF_OperationName (TF_Operation *oper);
@@ -1007,7 +1080,7 @@ namespace TensorFlow
 				TF_OperationGetControlOutputs (handle, arr, n);
 				var ret = new TFOperation [n];
 				for (int i = 0; i < n; i++)
-					ret [i] = new TFOperation (arr [i]);
+					ret [i] = new TFOperation (graph, arr [i]);
 				return ret;
 			}
 		}
@@ -1122,7 +1195,7 @@ namespace TensorFlow
 				TF_OperationToNodeDef (handle, r.LLBuffer, cstatus.handle);
 			}
 			// No need to raise, we can return null in that case.
-			if (cstatus.StatusCode != TFCode.Ok) {
+			if (!cstatus.Ok) {
 				r.Dispose ();
 				return null;
 			}
@@ -1505,7 +1578,7 @@ namespace TensorFlow
 		}
 
 
-		public TFOperation Operation => new TFOperation (LLOperation);
+		public TFOperation Operation => new TFOperation (null, LLOperation);
 		public override string ToString ()
 		{
 			return string.Format ("[TFOutput: LLOperation={0:X} Index={0} NumConsumers={0}, OutputType={1}, Operation={2}]", (long) LLOperation, Index, NumConsumers, OutputType, Operation);
