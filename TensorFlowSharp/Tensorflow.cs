@@ -491,7 +491,7 @@ namespace TensorFlow
 
 	}
 
-	public class TFGraph : TFDisposable
+	public partial class TFGraph : TFDisposable
 	{
 		// extern TF_Graph * TF_NewGraph ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -985,7 +985,7 @@ namespace TensorFlow
 
 	}
 
-	public class TFOperation
+	public partial class TFOperation
 	{
 		internal IntPtr handle;
 		public IntPtr Handle => handle;
