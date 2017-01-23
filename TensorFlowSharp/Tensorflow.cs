@@ -1201,6 +1201,12 @@ namespace TensorFlow
 			}
 			return r;
 		}
+
+		public TFOutput this [int idx] {
+			get {
+				return new TFOutput (this, idx);
+			}	
+		}
 	}
 
 	public class TFImportGraphDefOptions : TFDisposable {
@@ -1537,6 +1543,8 @@ namespace TensorFlow
 
 	}
 
+	public class Scope { }
+
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput
 	{
@@ -1557,6 +1565,8 @@ namespace TensorFlow
 
 		public TFOutput (TFOperation operation, int index)
 		{
+			if (operation == null)
+				throw new ArgumentNullException ("operation");
 			LLOperation = operation.handle;
 			Index = index;
 		}
