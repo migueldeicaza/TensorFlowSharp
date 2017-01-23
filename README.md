@@ -31,8 +31,9 @@ If you want debug symbols for Tensorflow, while debugging the binding:
 
     bazel build -c dbg --strip=never //tensorflow:libtensorflow.so
 
-You will need this library to be in the same directory as the 
-executable that you will be testing.
+You will need this library to be installed in a system accessible location
+like /usr/local/lib, or in the directory of the application that you are
+debugging.
 
 ## Running the test
 
