@@ -213,8 +213,8 @@ namespace SampleTest
 			t.TestSession ();
 			//t.AttributesTest ();
 
-			//var n = new Mnist ();
-			//n.ReadDataSets ("/Users/miguel/Downloads");
+			var n = new Mnist ();
+			n.ReadDataSets ("/Users/miguel/Downloads");
 		}
 	}
 }
