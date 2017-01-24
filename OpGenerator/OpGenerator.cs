@@ -1,4 +1,19 @@
-﻿using System;
+﻿//
+// This is the driver for the operation generator, this takes data that
+// is provided by the Tensorflow runtime to produce strongly-typed and
+// high level methods on the TFGraph class.
+//
+// The result is generated into a partial class that is lined with the
+// main TensorFlowSharp library
+//
+// Authors:
+//   Miguel de Icaza
+//
+// Copyright 2017, the year of downfall, Microsoft Inc
+//
+#pragma warning disable RECS0063 // Warns when a culture-aware 'StartsWith' call is used by default.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ProtoBuf;
@@ -9,8 +24,6 @@ using System.Text;
 
 class OpGenerator
 {
-	StreamWriter output;
-
 	//
 	// Maps a TensorFlow type to a C# type
 	//
@@ -44,6 +57,15 @@ class OpGenerator
 		}
 
 		return cstype + (list ? "[]" : "");
+	}
+
+	bool IsReferenceType (string tfType)
+	{
+		if (tfType.StartsWith ("list("))
+			return true;
+		if (tfType == "tensor" || tfType == "string" || tfType == "shape")
+			return true;
+		return false;
 	}
 
 	// Maps a parameter name to a C# acceptable name, to avoid clashes with 
@@ -118,10 +140,14 @@ class OpGenerator
 			sb.AppendFormat ($", ref {type} {ParamMap (arg.name)}");
 		}
 
-		// FIXME: finish this part
 		int n = 0;
-		foreach (var attr in optional_attrs)
-			sb.AppendFormat ($", object optional{n++}");
+		foreach (var attr in optional_attrs) {
+			bool reftype = IsReferenceType (attr.type);
+			var cstype = CSharpType (attr.type);
+			var cstypesuffix = reftype ? "" : "?";
+
+			sb.AppendFormat ($", {cstype}{cstypesuffix} {attr.name} = null");
+		}
 		return sb.ToString ();
 	}
 
@@ -158,10 +184,59 @@ class OpGenerator
 		p ("/// <param name=\"operName\">");
 		p ($"///   If specified, the created operation in the graph will be this one, otherwise it will be named '{oper.name}'.");
 		p ("/// </param>");
+		foreach (var attr in optional_attrs) {
+			if (String.IsNullOrEmpty (attr.description))
+				continue;
+			p ($"/// <param name=\"{ParamMap (attr.name)}\">");
+			Comment ("Optional argument");
+			Comment (attr.description);
+			p ($"/// </param>");
+		}
+
 		if (!String.IsNullOrEmpty (oper.description)) {
 			p ("/// <remarks>");
 			Comment (oper.description);
 			p ("/// </remarks>");
+		}
+	}
+
+	void SetAttribute (string type, string attrName, string csAttrName)
+	{
+		if (type == "shape") {
+			p ($"desc.SetAttrShape (\"{attrName}\", {csAttrName});");
+			return;
+		}
+		if (type.StartsWith ("list(shape")) {
+			p ($"desc.SetAttrShape (\"{attrName}\", {csAttrName});");
+			return;
+		}
+
+		var cstype = CSharpType (type);
+		switch (cstype) {
+		case "long":
+		case "long[]":
+		case "string":
+		case "string[]":
+		case "float":
+		case "float[]":
+		case "bool":
+		case "bool[]":
+			p ($"desc.SetAttr (\"{attrName}\", {csAttrName});");
+			break;
+		case "TFDataType":
+		case "TFDataType[]":
+			p ($"desc.SetAttrType (\"{attrName}\", {csAttrName});");
+			break;
+
+		// This should pass the cstatus, but requires the 
+		// function to take a TFStatus as well, so need to weave that
+		// in the parameters
+		case "TFTensor":
+		case "TFTensor[]":
+			p ($"desc.SetAttr (\"{attrName}\", {csAttrName} /* cstatus */);");
+			break;
+		default:
+			throw new Exception ("Unexpected type: " + cstype);
 		}
 	}
 
@@ -190,33 +265,22 @@ class OpGenerator
 		// If we have attributes
 		if (required_attrs.Count > 0 || optional_attrs.Count > 0) {
 			foreach (var attr in required_attrs) {
-				var cstype = CSharpType (attr.type);
-				switch (cstype) {
-				case "int":
-				case "int[]":
-				case "string":
-				case "string[]":
-				case "float":
-				case "float[]":
-				case "bool":
-				case "bool[]":
-					p ($"desc.SetAttr (\"{attr.name}\", {ParamMap(attr.name)});");
-					break;
-				case "TFDataType":
-				case "TFDataType[]":
-					p ($"desc.SetAttrType (\"{attr.name}\", {ParamMap (attr.name)});");
-					break;
+				SetAttribute (attr.type, attr.name, ParamMap (attr.name));
+			}
 
-					// This should pass the cstatus, but requires the 
-					// function to take a TFStatus as well, so need to weave that
-					// in the parameters
-				case "TFTensor":
-				case "TFTensor[]":
-					p ($"desc.SetAttr (\"{attr.name}\", {ParamMap (attr.name)} /* cstatus */);");
-					break;
-				}
+			foreach (var attr in optional_attrs) {
+				var reftype = IsReferenceType (attr.type);
+				var csattr = ParamMap (attr.name);
+				if (reftype)
+					pi ($"if ({csattr} != null)");
+				else
+					pi ($"if ({csattr}.HasValue)");
+				SetAttribute (attr.type, attr.name, csattr + (reftype ? "" : ".Value"));
+				pd ("");
+
 			}
 		}
+
 		p ("var op = desc.FinishOperation ();");
 		if (oper.output_arg.Any (x => IsListArg (x))) {
 			p ("int _idx = 0, _n = 0;");
@@ -248,6 +312,8 @@ class OpGenerator
 		output = File.CreateText ("../../../TensorFlowSharp/Operations.cs");
 
 		var operations = Serializer.Deserialize<List<OpDef>> (new MemoryStream (TFCore.GetAllOpList ().ToArray ()));
+		p ("using System;\n");
+
 		pi ("namespace TensorFlow {");
 		pi ("public partial class TFGraph {");
 		foreach (var oper in operations){
@@ -256,16 +322,24 @@ class OpGenerator
 				continue;
 
 			// Ignore functions where we lack a C# type mapping
-			if (oper.attr.Any (attr => CSharpType (attr.type) == null))
+			if (oper.attr.Any (attr => CSharpType (attr.type) == null)) {
+				var attr = oper.attr.First (a => CSharpType (a.type) == null);
+
+				//Console.WriteLine ($"Skip: {oper.name} due to attribute ({attr.type} {attr.name}) lacking a mapping to C#");
 				continue;
+			}
 
 			// Ignore reference types as well (per go's binding)
-			if (oper.input_arg.Any (ia => ia.is_ref))
+			if (oper.input_arg.Any (ia => ia.is_ref)) {
+				//Console.WriteLine ($"Skip: {oper.name} due to presence of an input argument that is a reference");
 				continue;
-			
+			}
+
 			// Ignore reference types as well (per go's binding)
-			if (oper.output_arg.Any (ia => ia.is_ref))
+			if (oper.output_arg.Any (ia => ia.is_ref)) {
+				//Console.WriteLine ($"Skip: {oper.name} due to presence of an output argument that is a reference");
 				continue;
+			}
 
 			// Undocumented operation, perhaps we should not surface
 			if (oper.summary == "")
@@ -278,8 +352,12 @@ class OpGenerator
 		output.Close ();
 	}
 
+	// The output file
+	StreamWriter output;
+
 	int indent = 0;
 
+	// Convenience methods to generate output
 	void pi (string fmt, params object [] args)
 	{
 		p (fmt, args);

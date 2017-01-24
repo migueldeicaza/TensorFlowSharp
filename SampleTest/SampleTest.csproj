@@ -31,13 +31,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="SampleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TensorFlowSharp\TensorFlowSharp.csproj">
       <Project>{0264C321-34F4-46AF-819E-168D1E597232}</Project>
       <Name>TensorFlowSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Learn\Learn.csproj">
+      <Project>{20567EDE-7C20-4734-B489-C6D303843105}</Project>
+      <Name>Learn</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

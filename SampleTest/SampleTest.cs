@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using TensorFlow;
 using System.IO;
 using System.Collections.Generic;
+using Learn;
 
 namespace SampleTest
 {
@@ -137,6 +138,62 @@ namespace SampleTest
 				}
 			}
 		}
+
+		// For this to work, we need to surface REGISTER_OP from C++ to C
+
+		class AttributeTest : IDisposable
+		{
+			static int counter;
+			public TFStatus Status;
+			TFGraph graph;
+			TFOperationDesc desc;
+
+			public AttributeTest ()
+			{
+				Status = new TFStatus ();
+				graph = new TFGraph ();
+			}
+
+			public TFOperationDesc Init (string op)
+			{
+				string opname = "AttributeTest";
+				if (op.StartsWith ("list(")) {
+					op = op.Substring (5, op.Length - 6);
+					opname += "List";
+				}
+				opname += op;
+				return new TFOperationDesc (graph, opname, "name" + (counter++));
+			}
+
+			public void Dispose ()
+			{
+				graph.Dispose ();
+				Status.Dispose ();
+			}
+		}
+
+		void ExpectMeta (TFOperation op, string name, int expectedListSize, TFAttributeType expectedType, int expectedTotalSize)
+		{
+			var meta = op.GetAttributeMetadata (name);
+			Assert (meta.IsList == (expectedListSize >= 0 ? 1 : 0));
+			Assert (expectedListSize == meta.ListSize);
+			Assert (expectedTotalSize == expectedTotalSize);
+			Assert (expectedType == meta.Type);
+		}
+
+		public void AttributesTest ()
+		{
+			using (var x = new AttributeTest ()) {
+				var shape1 = new long [] { 1, 3 };
+				var shape2 = new long [] { 2, 4, 6 };
+				var desc = x.Init ("list(shape)");
+				desc.SetAttrShape ("v", new long [] [] { shape1, shape2 });
+				var op = desc.FinishOperation ();
+				ExpectMeta (op, "v", 2, TFAttributeType.Shape, 5);
+			}
+					
+		}
+
 		public static void p (string p)
 		{
 			Console.WriteLine (p);
@@ -154,6 +211,10 @@ namespace SampleTest
 			var t = new MainClass ();
 			t.TestImportGraphDef ();
 			t.TestSession ();
+			//t.AttributesTest ();
+
+			//var n = new Mnist ();
+			//n.ReadDataSets ("/Users/miguel/Downloads");
 		}
 	}
 }

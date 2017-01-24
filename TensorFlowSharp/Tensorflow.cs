@@ -916,13 +916,46 @@ namespace TensorFlow
 
 		// extern void TF_SetAttrShapeList (TF_OperationDescription *desc, const char *attr_name, const int64_t *const *dims, const int *num_dims, int num_shapes);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrShapeList (TF_OperationDescription desc, string attr_name, long** dims, int* num_dims, int num_shapes);
-		// TODO:
+		static extern unsafe void TF_SetAttrShapeList (TF_OperationDescription desc, string attr_name, IntPtr dims, int [] num_dims, int num_shapes);
+
+		public void SetAttrShape (string attrName, long [] [] dims)
+		{
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (dims == null)
+				throw new ArgumentNullException (nameof (dims));
+			int num_shapes = dims.Length;
+			var num_dims = new int [dims.Length];
+			unsafe
+			{
+				var unmanaged = Marshal.AllocHGlobal (sizeof (IntPtr) * num_shapes);
+				int ofs = 0;
+				for (int i = 0; i < num_shapes; i++) {
+					IntPtr array = Marshal.AllocHGlobal (sizeof (long) * dims [i].Length);
+					Marshal.Copy (dims [i], 0, array, dims [i].Length);
+					Marshal.WriteIntPtr (unmanaged, ofs, array);
+					ofs += sizeof (IntPtr);
+				}
+				TF_SetAttrShapeList (handle, attrName, unmanaged, num_dims, num_shapes);
+				ofs = 0;
+				for (int i = 0; i < num_shapes; i++) {
+					var ptr = Marshal.ReadIntPtr (unmanaged, ofs);
+					Marshal.FreeHGlobal (ptr);
+					ofs += sizeof (IntPtr);
+				}
+				Marshal.FreeHGlobal (unmanaged);
+			}
+		}
 
 		// extern void TF_SetAttrTensorShapeProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrTensorShapeProto (TF_OperationDescription desc, string attr_name, void* proto, size_t proto_len, TF_Status status);
-		// TODO:
+		static extern unsafe void TF_SetAttrTensorShapeProto (TF_OperationDescription desc, string attr_name, IntPtr proto, size_t proto_len, TF_Status status);
+		public void SetAttrTensorShapeProto (string attrName, IntPtr proto, size_t protoLen, TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+			TF_SetAttrTensorShapeProto (handle, attrName, proto, protoLen, cstatus.handle);
+			cstatus.MaybeRaise (status);
+		}
 
 		// extern void TF_SetAttrTensorShapeProtoList (TF_OperationDescription *desc, const char *attr_name, const void *const *protos, const size_t *proto_lens, int num_shapes, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
