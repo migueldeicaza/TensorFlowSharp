@@ -8,13 +8,8 @@ using System.IO.Compression;
 using Mono;
 using TensorFlow;
 
-namespace Learn
+namespace Learn.Mnist
 {
-	public class DataSet
-	{
-		
-	}
-
 	public struct MnistImage
 	{
 		public int Cols, Rows;
@@ -30,10 +25,6 @@ namespace Learn
 
 	public class Mnist 
 	{
-		public DataSet Train { get; private set; }
-		public DataSet Validation { get; private set; }
-		public DataSet Test { get; private set; }
-
 		public MnistImage [] TrainImages, TestImages, ValidationImages;
 		public byte [] TrainLabels, TestLabels, ValidationLabels;
 
