@@ -36,6 +36,7 @@
     <Compile Include="Tensorflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations.cs" />
+    <Compile Include="OperationsExtras.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

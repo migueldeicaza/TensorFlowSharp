@@ -4,7 +4,8 @@ using System.Runtime.InteropServices;
 using TensorFlow;
 using System.IO;
 using System.Collections.Generic;
-using Learn;
+using Learn.Mnist;
+using CsvHelper;
 
 namespace SampleTest
 {
@@ -139,6 +140,32 @@ namespace SampleTest
 			}
 		}
 
+		public void TestOperationOutputListSize ()
+		{
+			using (var graph = new TFGraph ()) {
+				var c1 = graph.Const (null, TFTensor.Constant (1L), "c1");
+				var c2 = graph.Const (null, TFTensor.Constant (new long [,] { { 1, 2 }, { 3, 4 } }), "c2");
+
+				var outputs = graph.ShapeN (null, new TFOutput [] { c1, c2 });
+				var op = outputs [0].Operation;
+
+				Assert (op.OutputListLength ("output") == 2);
+				Assert (op.NumOutputs == 2);
+			}
+		}
+
+		public void TestOutputShape ()
+		{
+			using (var graph = new TFGraph ()) {
+				var c1 = graph.Const (null, TFTensor.Constant (0L), "c1");
+				var s1 = graph.GetShape (c1);
+				var c2 = graph.Const (null, TFTensor.Constant (new long [] { 1, 2, 3 }), "c2");
+				var s2 = graph.GetShape (c2);
+				var c3 = graph.Const (null, TFTensor.Constant (new long [,] { { 1, 2, 3 }, { 4, 5, 6 } }), "c3");
+				var s3 = graph.GetShape (c3);
+			}
+		}
+
 		// For this to work, we need to surface REGISTER_OP from C++ to C
 
 		class AttributeTest : IDisposable
@@ -194,6 +221,7 @@ namespace SampleTest
 					
 		}
 
+
 		public static void p (string p)
 		{
 			Console.WriteLine (p);
@@ -211,10 +239,21 @@ namespace SampleTest
 			var t = new MainClass ();
 			t.TestImportGraphDef ();
 			t.TestSession ();
+			t.TestOperationOutputListSize ();
+
+			// Current failing test
+			t.TestOutputShape ();
 			//t.AttributesTest ();
 
+
 			var n = new Mnist ();
-			n.ReadDataSets ("/Users/miguel/Downloads");
+			const int img_size = 28;
+			const int img_size_flat = img_size * img_size;
+			const int num_channels = 1; // black and white
+			const int numClasses = 10;
+
+			//n.ReadDataSets ("/Users/miguel/Downloads", numClasses: numClasses);
+
 		}
 	}
 }

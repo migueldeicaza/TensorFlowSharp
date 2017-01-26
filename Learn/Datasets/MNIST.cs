@@ -27,6 +27,7 @@ namespace Learn.Mnist
 	{
 		public MnistImage [] TrainImages, TestImages, ValidationImages;
 		public byte [] TrainLabels, TestLabels, ValidationLabels;
+		public byte [,] OneHotTrainLabels, OneHotTestLabels, OneHotValidationLabels;
 
 		int Read32 (Stream s)
 		{
@@ -80,17 +81,30 @@ namespace Learn.Mnist
 			return result;
 		}
 
-		public void ReadDataSets (string trainDir, bool fakeData = false, bool oneHot = false, TFDataType dtype = TFDataType.Float, bool reshape = true, int validationSize = 5000)
+		// Turn the labels array that contains values 0..numClasses-1 into
+		// a One-hot encoded array
+		byte [,] OneHot (byte [] labels, int numClasses)
+		{
+			var oneHot = new byte [labels.Length, numClasses];
+			for (int i = 0; i < labels.Length; i++) {
+				oneHot [i, labels [i]] = 1;
+			}
+			return oneHot;
+		}
+
+		/// <summary>
+		/// Reads the data sets.
+		/// </summary>
+		/// <param name="trainDir">Directory where the training data is downlaoded to.</param>
+		/// <param name="numClasses">Number classes to use for one-hot encoding, or zero if this is not desired</param>
+		/// <param name="validationSize">Validation size.</param>
+		public void ReadDataSets (string trainDir, int numClasses = 0, int validationSize = 5000)
 		{
 			const string SourceUrl = "http://yann.lecun.com/exdb/mnist/";
 			const string TrainImagesName = "train-images-idx3-ubyte.gz";
 			const string TrainLabelsName = "train-labels-idx1-ubyte.gz";
 			const string TestImagesName = "t10k-images-idx3-ubyte.gz";
 			const string TestLabelsName = "t10k-labels-idx1-ubyte.gz";
-
-			if (fakeData) {
-				return;
-			}
 
 			TrainImages = ExtractImages (Helper.MaybeDownload (SourceUrl, trainDir, TrainImagesName), TrainImagesName);
 			TestImages  = ExtractImages (Helper.MaybeDownload (SourceUrl, trainDir, TestImagesName), TestImagesName);
@@ -102,6 +116,11 @@ namespace Learn.Mnist
 			TrainImages = Pick (TrainImages, validationSize, 0);
 			TrainLabels = Pick (TrainLabels, validationSize, 0);
 
+			if (numClasses != -1) {
+				OneHotTrainLabels = OneHot (TrainLabels, numClasses);
+				OneHotValidationLabels = OneHot (ValidationLabels, numClasses);
+				OneHotTestLabels = OneHot (TestLabels, numClasses);
+			}
 		}
 	}
 }

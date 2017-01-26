@@ -174,7 +174,8 @@ namespace TensorFlow
 		// the error is returned there;   If it is not provided, then an
 		// exception is raised.
 		//
-		internal bool MaybeRaise (TFStatus incomingStatus)
+
+		internal bool CheckMaybeRaise (TFStatus incomingStatus)
 		{
 			if (incomingStatus == null) {
 				if (StatusCode != TFCode.Ok) {
@@ -321,7 +322,7 @@ namespace TensorFlow
 		public TFTensor (long [] dims, float [] data, int start, int count)   : base (SetupTensor (TFDataType.Float, dims, data, start, count, size: 4)) { }
 		public TFTensor (long [] dims, double [] data, int start, int count)  : base (SetupTensor (TFDataType.Double, dims, data, start, count, size: 8)) { }
 		public TFTensor (long [] dims, long [] data, int start, int count)    : base (SetupTensor (TFDataType.Int64, dims, data, start, count, size: 8)) { }
-		//public TFTensor (long [] dims, Complex [] data, int start, int count) : base (SetupTensor (TFDataType.Complex128, dims, data, start, count, size: 16)) { }
+		public TFTensor (long [] dims, Complex [] data, int start, int count) : base (SetupTensor (TFDataType.Complex128, dims, data, start, count, size: 16)) { }
 		public TFTensor (long [] dims, sbyte [] data) : base (SetupTensor (TFDataType.Int8, dims, data, size: 2)) { }
 		public TFTensor (long [] dims, byte [] data) : base (SetupTensor (TFDataType.UInt8, dims, data, size: 1)) { }
 		public TFTensor (long [] dims, short [] data) : base (SetupTensor (TFDataType.Int16, dims, data, size: 2)) { }
@@ -330,7 +331,7 @@ namespace TensorFlow
 		public TFTensor (long [] dims, float [] data) : base (SetupTensor (TFDataType.Float, dims, data, size: 4)) { }
 		public TFTensor (long [] dims, double [] data) : base (SetupTensor (TFDataType.Double, dims, data, size: 8)) { }
 		public TFTensor (long [] dims, long [] data) : base (SetupTensor (TFDataType.Int64, dims, data, size: 8)) { }
-		//public TFTensor (long [] dims, Complex [] data) : base (SetupTensor (TFDataType.Complex128, dims, data, size: 16)) { }
+		public TFTensor (long [] dims, Complex [] data) : base (SetupTensor (TFDataType.Complex128, dims, data, size: 16)) { }
 
 		// Convenience function to factor out the setup of a new tensor from an array
 		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int size)
@@ -338,6 +339,7 @@ namespace TensorFlow
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
+		// Use for single dimension arrays 
 		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int start, int count, int size)
 		{
 			if (start < 0 || start > data.Length - count)
@@ -346,11 +348,21 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject ()+ start*size, (UIntPtr)count, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject ()+ start*size, (UIntPtr)(count*size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)count, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count*size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 		}
 
+		// Use for multiple dimension arrays 
+		static IntPtr SetupMulti (TFDataType dt, long [] dims, Array data, long bytes)
+		{
+			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
+
+			if (dims == null)
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+			else
+				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+		}
 
 		// 
 		// Factory methods to create tensors from a constant
@@ -364,6 +376,34 @@ namespace TensorFlow
 			return new TFTensor (TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr) sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
+		unsafe public static TFTensor Constant (long value)
+		{
+			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
+			*v = value;
+			return new TFTensor (TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+		}
+
+		unsafe public static TFTensor Constant (double value)
+		{
+			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
+			*v = value;
+			return new TFTensor (TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+		}
+
+		unsafe public static TFTensor Constant (float value)
+		{
+			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
+			*v = value;
+			return new TFTensor (TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+		}
+
+		unsafe public static TFTensor Constant (Complex value)
+		{
+			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
+			*v = value;
+			return new TFTensor (TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+		}
+
 		unsafe public static TFTensor Constant (byte value)
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
@@ -371,9 +411,71 @@ namespace TensorFlow
 			return new TFTensor (TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr) sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
+		unsafe public static TFTensor Constant (Array array)
+		{
+			if (array == null)
+				throw new ArgumentNullException (nameof (array));
+			var t = array.GetType ().GetElementType ();
+			var tc = Type.GetTypeCode (t);
+			TFDataType dt;
+			long size = 0;
+			switch (tc) {
+			case TypeCode.Boolean:
+				dt = TFDataType.Bool;
+				size = 1;
+				break;
+			case TypeCode.SByte:
+				dt = TFDataType.Int8;
+				size = 1;
+				break;
+			case TypeCode.Byte:
+				dt = TFDataType.UInt8;
+				size = 1;
+				break;
+			case TypeCode.Int16:
+				dt = TFDataType.Int16;
+				size = 2;
+				break;
+			case TypeCode.UInt16:
+				dt = TFDataType.UInt16;
+				size = 2;
+				break;
+			case TypeCode.Int32:
+				dt = TFDataType.Int32;
+				size = 4;
+				break;
+			case TypeCode.Int64:
+				dt = TFDataType.Int64;
+				size = 8;
+				break;
+			case TypeCode.Single:
+				dt = TFDataType.Float;
+				size = 4;
+				break;
+			case TypeCode.Double:
+				dt = TFDataType.Double;
+				size = 8;
+				break;
+			default:
+				// Check types that are not handled by the typecode
+				if (t is Complex){
+					size = 16;
+					dt = TFDataType.Complex128;
+				} else
+					throw new ArgumentException ($"The data type {t} is not supported");
+			}
+
+			var dims = new long [array.Rank];
+			for (int i = 0; i < array.Rank; i++) {
+				dims [i] = array.GetLength (i);
+				size *= (int) dims [i];
+			}
+			return new TFTensor (SetupMulti (dt, dims, array, size));
+		}
+
 		// General purpose constructor, specifies data type and gets pointer to buffer
 		// Is the default good, one where we let the user provide their own deallocator, or should we make a copy in that case?
-		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, TFTensorDeallocator deallocator, IntPtr deallocatorData) :base (IntPtr.Zero)
+		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, TFTensorDeallocator deallocator, IntPtr deallocatorData) : base (IntPtr.Zero)
 		{
 			if (dims == null)
 				throw new ArgumentNullException ("dims");
@@ -486,7 +588,7 @@ namespace TensorFlow
 			var cstatus = TFStatus.Setup (status);
 
 			TF_SetConfig (handle, protoData, (UIntPtr)length, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 	}
@@ -522,7 +624,7 @@ namespace TensorFlow
 				TF_GraphSetTensorShape (handle, output, IntPtr.Zero, 0, cstatus.handle);
 			else
 				TF_GraphSetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern int TF_GraphGetTensorNumDims (TF_Graph *graph, TF_Output output, TF_Status *status);
@@ -533,7 +635,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var code = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return code;
 		}
 
@@ -547,7 +649,7 @@ namespace TensorFlow
 				throw new ArgumentNullException ("dims");
 			var cstatus = TFStatus.Setup (status);
 			TF_GraphGetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_GraphToGraphDef (TF_Graph *graph, TF_Buffer *output_graph_def, TF_Status *status);
@@ -558,13 +660,13 @@ namespace TensorFlow
 		{
 			if (outputGraphDef == null)
 				throw new ArgumentNullException (nameof (outputGraphDef));
-			
+
 			var cstatus = TFStatus.Setup (status);
 			unsafe
 			{
 				TF_GraphToGraphDef (handle, outputGraphDef.LLBuffer, cstatus.handle);
 			}
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_GraphImportGraphDef (TF_Graph *graph, const TF_Buffer *graph_def, const TF_ImportGraphDefOptions *options, TF_Status *status);
@@ -577,13 +679,13 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (graphDef));
 			if (options == null)
 				throw new ArgumentNullException (nameof (options));
-			
+
 			var cstatus = TFStatus.Setup (status);
 			unsafe
 			{
 				TF_GraphImportGraphDef (handle, graphDef.LLBuffer, options.handle, cstatus.handle);
 			}
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern TF_Operation * TF_GraphOperationByName (TF_Graph *graph, const char *oper_name);
@@ -653,19 +755,40 @@ namespace TensorFlow
 				else if (value is TFTensor) {
 					desc.SetAttr (name, (TFTensor)value, cstatus);
 					if (cstatus.Error) {
-						cstatus.MaybeRaise (status);
+						cstatus.CheckMaybeRaise (status);
 						return null;
 					}
 				} else if (value is TFTensor []) {
 					desc.SetAttr (name, (TFTensor [])value, cstatus);
 					if (cstatus.Error) {
-						cstatus.MaybeRaise (status);
+						cstatus.CheckMaybeRaise (status);
 						return null;
 					}
 				}
 
 			}
 			return desc.FinishOperation ();
+		}
+
+		/// <summary>
+		///  
+		/// </summary>
+		/// <returns>null for single dimension, .</returns>
+		/// <param name="output">Operation.</param>
+		/// <param name="status">Status.</param>
+		public long [] GetShape (TFOutput output, TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+			var ndims = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
+			if (!cstatus.CheckMaybeRaise (status))
+				return null;
+			
+			if (ndims == 0)
+				return null;
+			var ret = new long [ndims];
+			TF_GraphGetTensorShape (handle, output, ref ret, ndims, cstatus.handle);
+			cstatus.CheckMaybeRaise (status);
+			return ret;
 		}
 	}
 
@@ -689,7 +812,7 @@ namespace TensorFlow
 		{
 			if (graph == null)
 				throw new ArgumentNullException ("graph");
-			
+
 			handle = TF_NewOperation (graph.handle, opType, operName);
 			this.graph = graph;
 			this.opType = opType;
@@ -774,7 +897,7 @@ namespace TensorFlow
 
 		// extern void TF_SetAttrStringList (TF_OperationDescription *desc, const char *attr_name, const void *const *values, const size_t *lengths, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, IntPtr [] values, UIntPtr []lengths, int num_values);
+		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, IntPtr [] values, UIntPtr [] lengths, int num_values);
 		public void SetAttr (string attrName, string [] values)
 		{
 			if (attrName == null)
@@ -792,7 +915,7 @@ namespace TensorFlow
 
 				Marshal.Copy (bytes, 0, buf, bc);
 				unmanaged [i] = buf;
-				lenghts [i] = (size_t) bc;
+				lenghts [i] = (size_t)bc;
 			}
 			TF_SetAttrStringList (handle, attrName, unmanaged, lenghts, n);
 		}
@@ -845,7 +968,7 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (attrName));
 			if (values == null)
 				throw new ArgumentNullException (nameof (values));
-			
+
 			TF_SetAttrFloatList (handle, attrName, values, values.Length);
 		}
 
@@ -954,7 +1077,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			TF_SetAttrTensorShapeProto (handle, attrName, proto, protoLen, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_SetAttrTensorShapeProtoList (TF_OperationDescription *desc, const char *attr_name, const void *const *protos, const size_t *proto_lens, int num_shapes, TF_Status *status);
@@ -975,7 +1098,7 @@ namespace TensorFlow
 			var cstatus = TFStatus.Setup (status);
 
 			TF_SetAttrTensor (handle, attrName, tensor.handle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_SetAttrTensorList (TF_OperationDescription *desc, const char *attr_name, TF_Tensor *const *values, int num_values, TF_Status *status);
@@ -992,7 +1115,7 @@ namespace TensorFlow
 			for (int i = 0; i < tensor.Length; i++)
 				unmanaged [i] = tensor [i].handle;
 			TF_SetAttrTensorList (handle, attrName, unmanaged, unmanaged.Length, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_SetAttrValueProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
@@ -1008,7 +1131,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_FinishOperation (handle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			handle = IntPtr.Zero;
 			GC.SuppressFinalize (this);
 
@@ -1065,7 +1188,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var res = TF_OperationOutputListLength (handle, argName, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return res;
 		}
 
@@ -1084,7 +1207,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var res = TF_OperationInputListLength (handle, argName, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return res;
 		}
 
@@ -1126,7 +1249,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var x = TF_OperationGetAttrMetadata (handle, attrName, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return x;
 		}
 
@@ -1218,7 +1341,7 @@ namespace TensorFlow
 
 		// extern void TF_OperationToNodeDef (TF_Operation *oper, TF_Buffer *output_node_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer *output_node_def, TF_Status status);
+		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer* output_node_def, TF_Status status);
 		public TFBuffer ToNodeDef (TFStatus status = null)
 		{
 			var cstatus = TFStatus.Setup (status);
@@ -1238,11 +1361,12 @@ namespace TensorFlow
 		public TFOutput this [int idx] {
 			get {
 				return new TFOutput (this, idx);
-			}	
+			}
 		}
 	}
 
-	public class TFImportGraphDefOptions : TFDisposable {
+	public class TFImportGraphDefOptions : TFDisposable
+	{
 		// extern TF_ImportGraphDefOptions * TF_NewImportGraphDefOptions ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_ImportGraphDefOptions TF_NewImportGraphDefOptions ();
@@ -1272,7 +1396,8 @@ namespace TensorFlow
 
 	}
 
-	public class TFSession : TFDisposable {
+	public class TFSession : TFDisposable
+	{
 		// extern TF_Session * TF_NewSession (TF_Graph *graph, const TF_SessionOptions *opts, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Session TF_NewSession (TF_Graph graph, TF_SessionOptions opts, TF_Status status);
@@ -1283,7 +1408,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_NewSession (graph.handle, sessionOptions.handle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			handle = h;
 		}
 
@@ -1293,13 +1418,13 @@ namespace TensorFlow
 			var empty = TFSessionOptions.TF_NewSessionOptions ();
 			var h = TF_NewSession (graph.handle, empty, cstatus.handle);
 			TFSessionOptions.TF_DeleteSessionOptions (empty);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			handle = h;
 		}
 
 		// extern TF_Session * TF_LoadSessionFromSavedModel (const TF_SessionOptions *session_options, const TF_Buffer *run_options, const char *export_dir, const char *const *tags, int tags_len, TF_Graph *graph, TF_Buffer *meta_graph_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_Session TF_LoadSessionFromSavedModel (TF_SessionOptions session_options, LLBuffer* run_options, string export_dir, string []tags, int tags_len, TF_Graph graph, LLBuffer* meta_graph_def, TF_Status status);
+		static extern unsafe TF_Session TF_LoadSessionFromSavedModel (TF_SessionOptions session_options, LLBuffer* run_options, string export_dir, string [] tags, int tags_len, TF_Graph graph, LLBuffer* meta_graph_def, TF_Status status);
 
 		public TFSession FromSavedModel (TFSessionOptions sessionOptions, TFBuffer runOptions, string exportDir, string [] tags, TFGraph graph, TFBuffer metaGraphDef, TFStatus status = null)
 		{
@@ -1318,7 +1443,7 @@ namespace TensorFlow
 			{
 				var h = TF_LoadSessionFromSavedModel (sessionOptions.handle, runOptions.LLBuffer, exportDir, tags, tags.Length, graph.handle, metaGraphDef.LLBuffer, cstatus.handle);
 
-				if (cstatus.MaybeRaise (status))
+				if (cstatus.CheckMaybeRaise (status))
 					return new TFSession (h);
 			}
 			return null;
@@ -1332,7 +1457,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			TF_CloseSession (handle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		// extern void TF_DeleteSession (TF_Session *, TF_Status *status);
@@ -1343,7 +1468,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			TF_DeleteSession (handle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 		}
 
 		internal override void NativeDispose (IntPtr handle)
@@ -1379,7 +1504,7 @@ namespace TensorFlow
 				ivals [i] = inputValues [i].handle;
 
 			// I believe this might not be necessary, the output values in TF_SessionRun looks like a write-only result
-			var ovals = new IntPtr [outputs.Length];		
+			var ovals = new IntPtr [outputs.Length];
 			IntPtr [] topers = null;
 			int tLen = 0;
 			if (targetOpers != null) {
@@ -1393,7 +1518,7 @@ namespace TensorFlow
 			{
 				TF_SessionRun (handle, runOptions == null ? null : runOptions.LLBuffer, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, runMetadata == null ? null : runMetadata.LLBuffer, cstatus.handle);
 			}
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			var result = new TFTensor [oLen];
 			for (int i = 0; i < oLen; i++) {
 				result [i] = new TFTensor (ovals [i]);
@@ -1403,7 +1528,7 @@ namespace TensorFlow
 
 		// extern void TF_SessionPRunSetup (TF_Session, const TF_Output *inputs, int ninputs, const TF_Output *outputs, int noutputs, const TF_Operation *const *target_opers, int ntargets, const char **handle, TF_Status *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SessionPRunSetup (TF_Session session, TFOutput []inputs, int ninputs, TFOutput [] outputs, int noutputs, TF_Operation [] target_opers, int ntargets, out IntPtr returnHandle, TF_Status status);
+		static extern unsafe void TF_SessionPRunSetup (TF_Session session, TFOutput [] inputs, int ninputs, TFOutput [] outputs, int noutputs, TF_Operation [] target_opers, int ntargets, out IntPtr returnHandle, TF_Status status);
 
 		public struct PartialRunToken
 		{
@@ -1427,7 +1552,7 @@ namespace TensorFlow
 				topers [i] = targetOpers [i].handle;
 
 			TF_SessionPRunSetup (handle, inputs, inputs.Length, outputs, outputs.Length, topers, tLen, out returnHandle, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return new PartialRunToken () { token = returnHandle };
 		}
 
@@ -1465,7 +1590,7 @@ namespace TensorFlow
 			{
 				TF_SessionPRun (handle, token.token, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, cstatus.handle);
 			}
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 
 			var result = new TFTensor [oLen];
 			for (int i = 0; i < oLen; i++) {
@@ -1486,7 +1611,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_LoadLibrary (libraryFile, cstatus.handle);
-			cstatus.MaybeRaise (status);
+			cstatus.CheckMaybeRaise (status);
 			return new TFLibrary (h);
 		}
 
