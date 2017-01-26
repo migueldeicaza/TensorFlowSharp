@@ -5,7 +5,6 @@ using TensorFlow;
 using System.IO;
 using System.Collections.Generic;
 using Learn.Mnist;
-using CsvHelper;
 
 namespace SampleTest
 {
@@ -77,7 +76,7 @@ namespace SampleTest
 			using (var graph = new TFGraph ()) {
 				using (var options = new TFImportGraphDefOptions ()) {
 					options.SetPrefix ("imported");
-					graph.ImportGraphDef (graphDef, options, status);
+					graph.Import (graphDef, options, status);
 					Assert (status);
 				}
 				graphDef.Dispose ();
@@ -246,12 +245,7 @@ namespace SampleTest
 			//t.AttributesTest ();
 
 
-			var n = new Mnist ();
-			const int img_size = 28;
-			const int img_size_flat = img_size * img_size;
-			const int num_channels = 1; // black and white
-			const int numClasses = 10;
-
+			//var n = new Mnist ();
 			//n.ReadDataSets ("/Users/miguel/Downloads", numClasses: numClasses);
 
 		}

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpGenerator", "OpGenerator\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn", "Learn\Learn.csproj", "{20567EDE-7C20-4734-B489-C6D303843105}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleInceptionInference", "ExampleInceptionInference\ExampleInceptionInference.csproj", "{069A6736-7711-4805-8660-A267E713BC54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +33,9 @@ Global
 		{20567EDE-7C20-4734-B489-C6D303843105}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20567EDE-7C20-4734-B489-C6D303843105}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20567EDE-7C20-4734-B489-C6D303843105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069A6736-7711-4805-8660-A267E713BC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069A6736-7711-4805-8660-A267E713BC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069A6736-7711-4805-8660-A267E713BC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069A6736-7711-4805-8660-A267E713BC54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

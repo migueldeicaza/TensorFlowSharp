@@ -673,7 +673,20 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
 
-		public void ImportGraphDef (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
+		public void Import (TFBuffer graphDef, string prefix, TFStatus status = null)
+		{
+			if (graphDef == null)
+				throw new ArgumentNullException (nameof (graphDef));
+			if (prefix == null)
+				throw new ArgumentNullException (nameof (prefix));
+
+			using (var options = new TFImportGraphDefOptions ()) {
+				options.SetPrefix (prefix);
+				Import (graphDef, prefix, status);
+			}
+		}
+
+		public void Import (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (graphDef == null)
 				throw new ArgumentNullException (nameof (graphDef));
@@ -686,6 +699,31 @@ namespace TensorFlow
 				TF_GraphImportGraphDef (handle, graphDef.LLBuffer, options.handle, cstatus.handle);
 			}
 			cstatus.CheckMaybeRaise (status);
+		}
+
+		public void Import (byte [] buffer, string prefix, TFStatus status = null)
+		{
+			if (buffer == null)
+				throw new ArgumentNullException (nameof (buffer));
+			if (prefix == null)
+				throw new ArgumentNullException (nameof (prefix));
+			using (var options = new TFImportGraphDefOptions ()) {
+				options.SetPrefix (prefix);
+				Import (buffer, prefix, status);
+			}
+		}
+
+		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
+		{
+			if (buffer == null)
+				throw new ArgumentNullException (nameof (buffer));
+			if (options == null)
+				throw new ArgumentNullException (nameof (options));
+			var cstatus = TFStatus.Setup (status);
+			using (var tb = new TFBuffer (buffer, 0, buffer.Length)) 
+				Import (tb, options, status);
+			
+			cstatus.CheckMaybeRaise (cstatus);
 		}
 
 		// extern TF_Operation * TF_GraphOperationByName (TF_Graph *graph, const char *oper_name);
