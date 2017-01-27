@@ -18,6 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -25,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,12 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TensorFlowSharp\TensorFlowSharp.csproj">
-      <Project>{0264C321-34F4-46AF-819E-168D1E597232}</Project>
-      <Name>TensorFlowSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="New Folder\" />

@@ -175,15 +175,18 @@ namespace TensorFlow
 		// exception is raised.
 		//
 
-		internal bool CheckMaybeRaise (TFStatus incomingStatus)
+		internal bool CheckMaybeRaise (TFStatus incomingStatus, bool last = true)
 		{
 			if (incomingStatus == null) {
+				if (handle == IntPtr.Zero)
+					Console.WriteLine ("oops");
 				if (StatusCode != TFCode.Ok) {
 					var e = new TFException (StatusMessage);
 					Dispose ();
 					throw e;
 				}
-				Dispose ();
+				if (last)
+					Dispose ();
 				return true;
 			}
 			return StatusCode == TFCode.Ok;
@@ -295,7 +298,7 @@ namespace TensorFlow
 	{
 		// extern TF_Tensor * TF_NewTensor (TF_DataType, const int64_t *dims, int num_dims, void *data, size_t len, void (* deallocator)(void *, size_t, void *), void *deallocator_arg);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, [In] ref long [] dims, int num_dims, IntPtr data, size_t len, TFTensorDeallocator deallocator, IntPtr deallocator_arg);
+		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, long [] dims, int num_dims, IntPtr data, size_t len, TFTensorDeallocator deallocator, IntPtr deallocator_arg);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, IntPtr zeroDims, int num_dims, IntPtr data, size_t len, TFTensorDeallocator deallocator, IntPtr deallocator_arg);
@@ -350,7 +353,7 @@ namespace TensorFlow
 			if (dims == null)
 				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject ()+ start*size, (UIntPtr)(count*size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count*size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count*size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// Use for multiple dimension arrays 
@@ -361,7 +364,7 @@ namespace TensorFlow
 			if (dims == null)
 				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, ref dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// 
@@ -369,49 +372,49 @@ namespace TensorFlow
 		//
 		// TODO: add more data types
 
-		unsafe public static TFTensor Constant (int value)
+		unsafe public static implicit operator TFTensor (int value)
 		{
-			var v = (int *) Marshal.AllocHGlobal (sizeof (int));
+			var v = (int*)Marshal.AllocHGlobal (sizeof (int));
 			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr) sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (long value)
+		unsafe public static implicit operator TFTensor (long value)
 		{
 			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
 			*v = value;
 			return new TFTensor (TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (double value)
+		unsafe public static implicit operator TFTensor (double value)
 		{
 			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
 			*v = value;
 			return new TFTensor (TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (float value)
+		unsafe public static implicit operator TFTensor (float value)
 		{
 			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
 			*v = value;
 			return new TFTensor (TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (Complex value)
+		unsafe public static implicit operator TFTensor (Complex value)
 		{
 			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
 			*v = value;
 			return new TFTensor (TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (byte value)
+		unsafe public static implicit operator TFTensor (byte value)
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
 			*v = value;
 			return new TFTensor (TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr) sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
 		}
 
-		unsafe public static TFTensor Constant (Array array)
+		unsafe public static implicit operator TFTensor (Array array)
 		{
 			if (array == null)
 				throw new ArgumentNullException (nameof (array));
@@ -470,7 +473,9 @@ namespace TensorFlow
 				dims [i] = array.GetLength (i);
 				size *= (int) dims [i];
 			}
-			return new TFTensor (SetupMulti (dt, dims, array, size));
+			var newTensor = new TFTensor (SetupMulti (dt, dims, array, size));
+			var s = newTensor.Shape;
+			return newTensor;
 		}
 
 		// General purpose constructor, specifies data type and gets pointer to buffer
@@ -480,7 +485,7 @@ namespace TensorFlow
 			if (dims == null)
 				throw new ArgumentNullException ("dims");
 
-			handle = TF_NewTensor (dataType, ref dims, dims.Length, data, dataSize, deallocator, deallocatorData);
+			handle = TF_NewTensor (dataType, dims, dims.Length, data, dataSize, deallocator, deallocatorData);
 
 		}
 
@@ -536,6 +541,16 @@ namespace TensorFlow
 		static extern unsafe IntPtr TF_TensorData (TF_Tensor tensor);
 
 		public IntPtr Data => TF_TensorData (handle);
+
+		public long [] Shape {
+			get {
+				var dims = new long [TF_NumDims (handle)];
+				for (int i = 0; i < dims.Length; i++) 
+					dims [i] = (int) TF_Dim (handle, i);
+
+				return dims;
+			}
+		}
 	}
 
 	// TODO: All these
@@ -709,7 +724,7 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (prefix));
 			using (var options = new TFImportGraphDefOptions ()) {
 				options.SetPrefix (prefix);
-				Import (buffer, prefix, status);
+				Import (buffer, options, status);
 			}
 		}
 
@@ -818,7 +833,7 @@ namespace TensorFlow
 		{
 			var cstatus = TFStatus.Setup (status);
 			var ndims = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
-			if (!cstatus.CheckMaybeRaise (status))
+			if (!cstatus.CheckMaybeRaise (status, last: false))
 				return null;
 			
 			if (ndims == 0)
@@ -1520,7 +1535,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionRun (TF_Session session, LLBuffer* run_options, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, LLBuffer* run_metadata, TF_Status status);
 
-		public TFTensor [] Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers, TFBuffer runMetadata, TFStatus status = null)
+		public TFTensor [] Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFStatus status = null)
 		{
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
@@ -1738,8 +1753,6 @@ namespace TensorFlow
 		public TFDataType InputType => TF_OperationInputType (this);
 
 	}
-
-	public class Scope { }
 
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput

@@ -3,11 +3,9 @@ namespace TensorFlow
 {
 	public partial class TFGraph
 	{
-		
-		public TFOutput Const (Scope scope, TFTensor value, string operName = null)
+		public TFOutput Const (TFTensor value, string operName = null)
 		{
-			return Const (scope, value, value.TensorType, operName);
+			return Const (value, value.TensorType, operName);
 		}
-
 	}
 }

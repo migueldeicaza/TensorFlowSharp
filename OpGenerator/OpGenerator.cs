@@ -17,10 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using ProtoBuf;
-using TensorFlow;
-using tensorflow;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
+using tensorflow;
 
 class OpGenerator
 {
@@ -143,19 +143,24 @@ class OpGenerator
 	string FillArguments (OpDef def)
 	{
 		var sb = new StringBuilder ();
+		string comma = "";
 		foreach (var inarg in def.input_arg) {
 			string type = "TFOutput" + (IsListArg (inarg) ? "[]" : "");
 
-			sb.AppendFormat ($", {type} {ParamMap (inarg.name)}");
+			sb.AppendFormat ($"{comma}{type} {ParamMap (inarg.name)}");
+			comma = ", ";
 		}
-		foreach (var attr in required_attrs) 
-			sb.AppendFormat ($", {CSharpType (attr.type)} {ParamMap (attr.name)}");
+		foreach (var attr in required_attrs) {
+			sb.AppendFormat ($"{comma}{CSharpType (attr.type)} {ParamMap (attr.name)}");
+			comma = ", ";
+		}
 
 		if (!return_is_tfoutput) {
 			foreach (var arg in def.output_arg) {
 				string type = "TFOutput" + (IsListArg (arg) ? "[]" : "");
 
-				sb.AppendFormat ($", ref {type} {ParamMap (arg.name)}");
+				sb.AppendFormat ($"{comma}ref {type} {ParamMap (arg.name)}");
+				comma = ", ";
 			}
 		}
 
@@ -165,8 +170,11 @@ class OpGenerator
 			var cstype = CSharpType (attr.type);
 			var cstypesuffix = reftype ? "" : "?";
 
-			sb.AppendFormat ($", {cstype}{cstypesuffix} {attr.name} = null");
+			sb.AppendFormat ($"{comma}{cstype}{cstypesuffix} {attr.name} = null");
+			comma = ", ";
 		}
+		if (sb.Length != 0)
+			sb.Append (", ");
 		return sb.ToString ();
 	}
 
@@ -289,7 +297,7 @@ class OpGenerator
 			retType = "TFOperation";
 		
 
-		p ($"public {retType} {name} (Scope scope{FillArguments(oper)}, string operName = null)");
+		p ($"public {retType} {name} ({FillArguments(oper)}string operName = null)");
 		pi ("{");
 		bool needStatus = required_attrs.Concat (optional_attrs).Any (attr => attr.type.Contains ("TFTensor"));
 		p ($"var desc = new TFOperationDesc (this, \"{oper.name}\", operName == null ? \"{oper.name}\" : operName);");
@@ -362,12 +370,33 @@ class OpGenerator
 		pd ("}\n");
 	}
 
+	[StructLayout (LayoutKind.Sequential)]
+	internal struct LLBuffer
+	{
+		internal IntPtr data;
+		internal IntPtr length;
+		internal IntPtr data_deallocator;
+	}
+
+	[DllImport ("libtensorflow")]
+	unsafe extern static LLBuffer *TF_GetAllOpList ();
+
+	MemoryStream GetOpsList ()
+	{
+		unsafe
+		{
+			LLBuffer* ptr = TF_GetAllOpList ();
+			var ret = new byte [(int)ptr->length];
+			Marshal.Copy (ptr->data, ret, 0, (int)ptr->length);
+			return new MemoryStream (ret);
+		}
+	}
+
 	void Run ()
 	{
 		
 		output = File.CreateText ("../../../TensorFlowSharp/Operations.cs");
-
-		var operations = Serializer.Deserialize<List<OpDef>> (new MemoryStream (TFCore.GetAllOpList ().ToArray ()));
+	     	var operations = Serializer.Deserialize<List<OpDef>> (GetOpsList ());
 		p ("using System;\n");
 
 		pi ("namespace TensorFlow {");

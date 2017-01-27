@@ -37,7 +37,7 @@ namespace SampleTest
 		TFOperation ScalarConst (int v, TFGraph graph, TFStatus status)
 		{
 			var desc = new TFOperationDesc (graph, "Const", "scalar");
-			desc.SetAttr ("value", TFTensor.Constant (v), status);
+			desc.SetAttr ("value", v, status);
 			if (status.StatusCode != TFCode.Ok)
 				return null;
 			desc.SetAttrType ("dtype", TFDataType.Int32);
@@ -111,13 +111,13 @@ namespace SampleTest
 						new TFOutput (feed, 0)
 					};
 					var input_values = new TFTensor [] {
-						TFTensor.Constant (3)
+						3
 					};
 					var outputs = new TFOutput [] {
 						new TFOutput (add, 0)
 					};
 					var output_values = new TFTensor [] {
-						TFTensor.Constant (3)
+						3
 					};
 
 					var results = session.Run (    runOptions: null,
@@ -142,10 +142,11 @@ namespace SampleTest
 		public void TestOperationOutputListSize ()
 		{
 			using (var graph = new TFGraph ()) {
-				var c1 = graph.Const (null, TFTensor.Constant (1L), "c1");
-				var c2 = graph.Const (null, TFTensor.Constant (new long [,] { { 1, 2 }, { 3, 4 } }), "c2");
+				var c1 = graph.Const (1L, "c1");
+				var cl = graph.Const (new int []{ 1, 2 }, "cl");
+				var c2 = graph.Const (new long [,] { { 1, 2 }, { 3, 4 } }, "c2");
 
-				var outputs = graph.ShapeN (null, new TFOutput [] { c1, c2 });
+				var outputs = graph.ShapeN (new TFOutput [] { c1, c2 });
 				var op = outputs [0].Operation;
 
 				Assert (op.OutputListLength ("output") == 2);
@@ -156,11 +157,11 @@ namespace SampleTest
 		public void TestOutputShape ()
 		{
 			using (var graph = new TFGraph ()) {
-				var c1 = graph.Const (null, TFTensor.Constant (0L), "c1");
+				var c1 = graph.Const (0L, "c1");
 				var s1 = graph.GetShape (c1);
-				var c2 = graph.Const (null, TFTensor.Constant (new long [] { 1, 2, 3 }), "c2");
+				var c2 = graph.Const (new long [] { 1, 2, 3 }, "c2");
 				var s2 = graph.GetShape (c2);
-				var c3 = graph.Const (null, TFTensor.Constant (new long [,] { { 1, 2, 3 }, { 4, 5, 6 } }), "c3");
+				var c3 = graph.Const (new long [,] { { 1, 2, 3 }, { 4, 5, 6 } }, "c3");
 				var s3 = graph.GetShape (c3);
 			}
 		}
