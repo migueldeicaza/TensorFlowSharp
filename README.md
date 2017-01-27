@@ -68,11 +68,4 @@ Look at:
 Docs on types:
 https://www.tensorflow.org/versions/r0.11/how_tos/adding_an_op/
 
-## Operation definitions:
 
-Reference, high-level Go defintiions for OpDefs:
-
-tensorflow/tensorflow/go/graph.go
-
-wrappers.go generated from the build shows what our OpDef generation should look
-like, I have not found the C++ equivalent generated code yet.
