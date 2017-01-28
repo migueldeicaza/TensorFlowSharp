@@ -466,7 +466,8 @@ namespace TensorFlow
 					dt = TFDataType.Complex128;
 				} else
 					throw new ArgumentException ($"The data type {t} is not supported");
-			}
+                break;
+            }
 
 			var dims = new long [array.Rank];
 			for (int i = 0; i < array.Rank; i++) {
@@ -1827,7 +1828,7 @@ namespace TensorFlow
 
 		public override string ToString ()
 		{
-			return string.Format ($"[TFAttributeMetadata IsList={IsList != 0?true:false} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
+			return string.Format ($"[TFAttributeMetadata IsList={0} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]", IsList != 0 ? true : false);
 		}
 	}
 
