@@ -131,7 +131,7 @@ namespace SampleTest
 					var res = results [0];
 					Assert (res.TensorType == TFDataType.Int32);
 					Assert (res.NumDims == 0); // Scalar
-					Assert (res.ByteSize == (UIntPtr) 4);
+					Assert (res.TensorByteSize == (UIntPtr) 4);
 					Assert (Marshal.ReadInt32 (res.Data) == 3 + 2);
 
 

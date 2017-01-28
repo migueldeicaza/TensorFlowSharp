@@ -106,6 +106,7 @@ namespace ExampleInceptionInference
 					Environment.Exit (1);
 				}
 				int nlabels = (int) rshape [1];
+				var val = result.GetValue ();
 
 			}
 		}
@@ -116,7 +117,7 @@ namespace ExampleInceptionInference
 			var contents = File.ReadAllBytes (file);
 
 			// DecodeJpeg uses a scalar String-valued tensor as input.
-			var tensor = (TFTensor) contents;
+			var tensor = TFTensor.CreateString (contents);
 
 			TFGraph graph;
 			TFOutput input, output;
@@ -158,6 +159,7 @@ namespace ExampleInceptionInference
 
 			graph = new TFGraph ();
 			input = graph.Placeholder (TFDataType.String);
+
 			output = graph.Div (
 				x: graph.Sub (
 					x: graph.ResizeBilinear (
@@ -165,9 +167,9 @@ namespace ExampleInceptionInference
 							input: graph.Cast (
 								graph.DecodeJpeg (contents: input, channels: 3), DstT: TFDataType.Float),
 							dim: graph.Const (0, "make_batch")),
-						size: graph.Const (new int [] { W, H })),
-					y: graph.Const (Mean)),
-				y: graph.Const (Scale));
+						size: graph.Const (new int [] { W, H }, "size")),
+					y: graph.Const (Mean, "mean")),
+				y: graph.Const (Scale, "scale"));
 		}
 
 		//
