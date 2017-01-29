@@ -663,7 +663,7 @@ namespace TensorFlow
 			Buffer.MemoryCopy ((void*)src, target, size, size);
 		}
 
-		static unsafe void FetchArray (Array target, TFDataType dt, IntPtr data)
+		static unsafe void FetchFlatArray (Array target, TFDataType dt, IntPtr data)
 		{
 			int len = target.Length;
 			switch (dt) {
@@ -725,6 +725,70 @@ namespace TensorFlow
 			}
 		}
 
+		static void FetchMultiDimensionalArray (Array target, TFDataType dt, IntPtr data, long [] Shape)
+		{
+			var idx = new int [Shape.Length];
+			for (int i = 0; i < Shape.Length; i++) {
+				if (Shape [i] > Int32.MaxValue)
+					throw new ArgumentOutOfRangeException ("Shape can not be longer than 32 bits");
+				idx [i] = (int) Shape [i];
+			}
+			Copy (target, dt, Shape, idx, Shape.Length - 1, ref data);
+		}
+
+		static unsafe void Copy (Array target, TFDataType dt, long [] shape, int [] idx, int level, ref IntPtr data)
+		{
+			if (level > 0) {
+				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++)
+					Copy (target, dt, shape, idx, level - 1, ref data);
+			} else {
+				for (idx [0] = 0; idx [0] < shape [0]; idx [0]++){
+					switch (dt) {
+					case TFDataType.Float:
+						target.SetValue ((*(float *) data), idx);
+						data += 4;
+						break;
+					case TFDataType.Double:
+						target.SetValue ((*(double*)data), idx);
+						data += 8;
+						break;
+					case TFDataType.Int32:
+						target.SetValue ((*(int*)data), idx);
+						data += 4;
+						break;
+					case TFDataType.UInt8:
+						target.SetValue ((*(byte*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Int16:
+						target.SetValue ((*(short*)data), idx);
+						data += 2;
+						break;
+					case TFDataType.Int8:
+						target.SetValue ((*(sbyte*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Int64:
+						target.SetValue ((*(long*)data), idx);
+						data += 8;
+						break;
+					case TFDataType.Bool:
+						target.SetValue ((*(bool*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Complex128:
+						target.SetValue ((*(Complex*)data), idx);
+						data += sizeof(Complex);
+						break;
+					case TFDataType.String:
+						throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+					default:
+						throw new NotImplementedException ();
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// Returns the value of the Tensor as a C# type if possible, or null if the data type can not be represented in C#
 		/// </summary>
@@ -738,9 +802,14 @@ namespace TensorFlow
 			var t = TypeFromTensorType (TensorType);
 			if (t == null)
 				return null;
-			
+
 			var result = Array.CreateInstance (t, Shape);
-			FetchArray (result, TensorType, Data);
+			if (dims == 1)
+				FetchFlatArray (result, TensorType, Data);
+			else {
+				// Need to figure out how to do this faster
+				FetchMultiDimensionalArray (result, TensorType, Data, Shape);
+			}
 			return result;
 		}
 	}

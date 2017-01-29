@@ -105,9 +105,21 @@ namespace ExampleInceptionInference
 					Console.WriteLine ($"Error: expected to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape [{shape}]");
 					Environment.Exit (1);
 				}
-				int nlabels = (int) rshape [1];
-				var val = result.GetValue ();
+				int nlabels = (int)rshape [1];
+				var val = (float [,])result.GetValue ();
 
+				// Result is [1,N], flatten array
+				var bestIdx = 0;
+				float p = 0, best = 0;
+				for (int i = 0; i < val.GetLength (0); i++) {
+					if (val [0,i] > best) {
+						bestIdx = i;
+						best = val [0,i];
+					}
+				}
+
+				var labels = File.ReadAllLines (labelsFile);
+				Console.WriteLine ($"Best match: {val [0,bestIdx] * 100}% {labels [bestIdx]}");
 			}
 		}
 
