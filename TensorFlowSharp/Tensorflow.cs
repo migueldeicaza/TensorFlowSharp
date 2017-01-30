@@ -101,6 +101,11 @@ namespace TensorFlow
 				handle = IntPtr.Zero;
 			}
 		}
+
+		internal static void ObjectDisposedException ()
+		{
+			throw new ObjectDisposedException ("The object was disposed");
+		}
 	}
 
 	public class TFException : Exception {
@@ -725,15 +730,96 @@ namespace TensorFlow
 			}
 		}
 
-		static void FetchMultiDimensionalArray (Array target, TFDataType dt, IntPtr data, long [] Shape)
+		static unsafe object FetchJaggedArray (Type t, TFDataType dt, ref IntPtr data, long [] shape, int level = 0)
 		{
-			var idx = new int [Shape.Length];
-			for (int i = 0; i < Shape.Length; i++) {
-				if (Shape [i] > Int32.MaxValue)
-					throw new ArgumentOutOfRangeException ("Shape can not be longer than 32 bits");
-				idx [i] = (int) Shape [i];
+			Array target;
+
+			// If we are at the last node
+			if (level == shape.Length - 1) {
+				target = Array.CreateInstance (t, shape [level]);
+
+				for (long l = 0; l < shape [level]; l++)
+				switch (dt) {
+				case TFDataType.Float:
+					target.SetValue ((*(float*)data), l);
+					data += 4;
+					break;
+				case TFDataType.Double:
+					target.SetValue ((*(double*)data), l);
+					data += 8;
+					break;
+				case TFDataType.Int32:
+					target.SetValue ((*(int*)data), l);
+					data += 4;
+					break;
+				case TFDataType.UInt8:
+					target.SetValue ((*(byte*)data), l);
+					data += 1;
+					break;
+				case TFDataType.Int16:
+					target.SetValue ((*(short*)data), l);
+					data += 2;
+					break;
+				case TFDataType.Int8:
+					target.SetValue ((*(sbyte*)data), l);
+					data += 1;
+					break;
+				case TFDataType.Int64:
+					target.SetValue ((*(long*)data), l);
+					data += 8;
+					break;
+				case TFDataType.Bool:
+					target.SetValue ((*(bool*)data), l);
+					data += 1;
+					break;
+				case TFDataType.Complex128:
+					target.SetValue ((*(Complex*)data), l);
+					data += sizeof (Complex);
+					break;
+				case TFDataType.String:
+					throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+				default:
+					throw new NotImplementedException ();
+				}				
+			} else {
+				target = null;
+
+				long top = shape [level];
+				if (top < Int32.MaxValue) {
+					int itop = (int)top;
+
+					for (int i = 0; i < itop; i++) {
+						var childArray = FetchJaggedArray (t, dt, ref data, shape, level + 1);
+						if (target == null) 
+							target = Array.CreateInstance (childArray.GetType (), shape [level]);
+						
+						target.SetValue (childArray, i);
+					}
+				} else {
+					for (int l = 0; l < top; l++){
+
+						var chidArray = FetchJaggedArray (t, dt, ref data, shape, level + 1);
+						if (target == null) 
+							target = Array.CreateInstance (chidArray.GetType (), shape [level]);
+						
+						target.SetValue (chidArray, l);
+					}
+				}
+				return target;
 			}
-			Copy (target, dt, Shape, idx, Shape.Length - 1, ref data);
+
+			return target;
+		}
+
+                static void FetchMultiDimensionalArray (Array target, TFDataType dt, IntPtr data, long [] shape)
+		{
+			var idx = new int [shape.Length];
+			for (int i = 0; i < shape.Length; i++) {
+				if (shape [i] > Int32.MaxValue)
+					throw new ArgumentOutOfRangeException ("Shape can not be longer than 32 bits");
+				idx [i] = (int) shape [i];
+			}
+			Copy (target, dt, shape, idx, shape.Length - 1, ref data);
 		}
 
 		static unsafe void Copy (Array target, TFDataType dt, long [] shape, int [] idx, int level, ref IntPtr data)
@@ -792,8 +878,18 @@ namespace TensorFlow
 		/// <summary>
 		/// Returns the value of the Tensor as a C# type if possible, or null if the data type can not be represented in C#
 		/// </summary>
-		/// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values</returns>
-		public object GetValue ()
+		/// <param name="jagged">
+		/// The default is set to false, which returns .NET multi-dimensional arrays for multi-dimensional
+		/// tensors.    This is useful to feed the data back as a TFTensor created from an array.   Set to
+		/// true if you want to get arrays pointing to arrays, which are slightly more convenient to work
+		/// with from C#
+		/// </param>
+		/// <remarks>
+		/// Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
+		/// efficient memory-wise.
+		/// </remarks>
+		/// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</returns>
+		public object GetValue (bool jagged = false)
 		{
 			var dims = NumDims;
 			if (dims == 0) 
@@ -803,14 +899,20 @@ namespace TensorFlow
 			if (t == null)
 				return null;
 
-			var result = Array.CreateInstance (t, Shape);
-			if (dims == 1)
+			if (dims == 1){
+				var result = Array.CreateInstance (t, Shape [0]);
 				FetchFlatArray (result, TensorType, Data);
-			else {
-				// Need to figure out how to do this faster
-				FetchMultiDimensionalArray (result, TensorType, Data, Shape);
+				return result;
+			} else {
+				if (jagged){
+					IntPtr data = Data;
+					return FetchJaggedArray (t, TensorType, ref data, Shape);
+				} else {
+					var result = Array.CreateInstance (t, Shape);
+					FetchMultiDimensionalArray (result, TensorType, Data, Shape);
+					return result;
+				}
 			}
-			return result;
 		}
 	}
 
@@ -850,6 +952,9 @@ namespace TensorFlow
 		static extern unsafe void TF_SetTarget (TF_SessionOptions options, string target);
 		public void SetTarget (string target)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			
 			TF_SetTarget (handle, target);
 		}
 
@@ -860,6 +965,9 @@ namespace TensorFlow
 
 		public void SetConfig (IntPtr protoData, int length, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+
 			var cstatus = TFStatus.Setup (status);
 
 			TF_SetConfig (handle, protoData, (UIntPtr)length, cstatus.handle);
@@ -894,6 +1002,9 @@ namespace TensorFlow
 
 		public void SetTensorShape (TFOutput output, long [] dims, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+
 			var cstatus = TFStatus.Setup (status);
 			if (dims == null)
 				TF_GraphSetTensorShape (handle, output, IntPtr.Zero, 0, cstatus.handle);
@@ -908,6 +1019,8 @@ namespace TensorFlow
 
 		public int GetTensorNumDims (TFOutput output, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var code = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -920,6 +1033,8 @@ namespace TensorFlow
 
 		public void GetTensorShape (TFOutput output, long [] dims, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (dims == null)
 				throw new ArgumentNullException ("dims");
 			var cstatus = TFStatus.Setup (status);
@@ -933,6 +1048,8 @@ namespace TensorFlow
 
 		public void ToGraphDef (TFBuffer outputGraphDef, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (outputGraphDef == null)
 				throw new ArgumentNullException (nameof (outputGraphDef));
 
@@ -950,6 +1067,8 @@ namespace TensorFlow
 
 		public void Import (TFBuffer graphDef, string prefix, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (graphDef == null)
 				throw new ArgumentNullException (nameof (graphDef));
 			if (prefix == null)
@@ -963,6 +1082,8 @@ namespace TensorFlow
 
 		public void Import (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (graphDef == null)
 				throw new ArgumentNullException (nameof (graphDef));
 			if (options == null)
@@ -978,6 +1099,8 @@ namespace TensorFlow
 
 		public void Import (byte [] buffer, string prefix, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (buffer == null)
 				throw new ArgumentNullException (nameof (buffer));
 			if (prefix == null)
@@ -990,6 +1113,8 @@ namespace TensorFlow
 
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (buffer == null)
 				throw new ArgumentNullException (nameof (buffer));
 			if (options == null)
@@ -1007,6 +1132,8 @@ namespace TensorFlow
 
 		public TFOperation this [string name] {
 			get {
+				if (handle == IntPtr.Zero)
+					ObjectDisposedException ();
 				var h = TF_GraphOperationByName (handle, name);
 				if (h == IntPtr.Zero)
 					return null;
@@ -1020,67 +1147,13 @@ namespace TensorFlow
 
 		public IEnumerable<TFOperation> GetEnumerator ()
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			IntPtr token = IntPtr.Zero;
 			IntPtr operll;
 
 			while ((operll = TF_GraphNextOperation (handle, ref token)) != IntPtr.Zero)
 				yield return new TFOperation (this, operll);
-		}
-
-		public TFOperation AddOperation (TFOpSpec opspec, TFStatus status = null)
-		{
-			var cstatus = TFStatus.Setup (status);
-			var opname = string.IsNullOrEmpty (opspec.Name) ? opspec.Type : opspec.Name;
-			var desc = new TFOperationDesc (this, opspec.Type, opname);
-			foreach (var input in opspec.Inputs) {
-				if (input is TFOutput) {
-					desc.AddInput ((TFOutput)input);
-				} else if (input is TFOutput []) {
-					desc.AddInputs ((TFOutput [])input);
-				} else
-					throw new Exception ($"Unexpected object in opsec.Inputs: {input}");
-			}
-
-			foreach (var kv in opspec.Attrs) {
-				var name = kv.Key;
-				var value = kv.Value;
-
-				if (value is string)
-					desc.SetAttr (name, (string)value);
-				else if (value is string [])
-					desc.SetAttr (name, (string [])value);
-				else if (value is long)
-					desc.SetAttr (name, (long)value);
-				else if (value is long [])
-					desc.SetAttr (name, (long [])value);
-				else if (value is float)
-					desc.SetAttr (name, (float)value);
-				else if (value is float [])
-					desc.SetAttr (name, (float [])value);
-				else if (value is bool)
-					desc.SetAttr (name, (bool)value);
-				else if (value is bool [])
-					desc.SetAttr (name, (bool [])value);
-				else if (value is TFDataType)
-					desc.SetAttrType (name, (TFDataType)value);
-				else if (value is TFDataType [])
-					desc.SetAttrType (name, (TFDataType [])value);
-				else if (value is TFTensor) {
-					desc.SetAttr (name, (TFTensor)value, cstatus);
-					if (cstatus.Error) {
-						cstatus.CheckMaybeRaise (status);
-						return null;
-					}
-				} else if (value is TFTensor []) {
-					desc.SetAttr (name, (TFTensor [])value, cstatus);
-					if (cstatus.Error) {
-						cstatus.CheckMaybeRaise (status);
-						return null;
-					}
-				}
-
-			}
-			return desc.FinishOperation ();
 		}
 
 		/// <summary>
@@ -1091,6 +1164,8 @@ namespace TensorFlow
 		/// <param name="status">Status.</param>
 		public long [] GetShape (TFOutput output, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var ndims = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
 			if (!cstatus.CheckMaybeRaise (status, last: false))
@@ -1103,13 +1178,6 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 			return ret;
 		}
-	}
-
-	public class TFOpSpec
-	{
-		internal string Name, Type;
-		internal object [] Inputs;
-		internal Dictionary<string, object> Attrs;
 	}
 
 	public class TFOperationDesc : TFDisposable
@@ -1144,6 +1212,8 @@ namespace TensorFlow
 
 		public void SetDevice (string device)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (device == null)
 				throw new ArgumentNullException ("device");
 			TF_SetDevice (handle, device);
@@ -1155,6 +1225,8 @@ namespace TensorFlow
 
 		public void AddInput (TFOutput input)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			TF_AddInput (handle, input);
 		}
 
@@ -1164,6 +1236,8 @@ namespace TensorFlow
 
 		public void AddInputs (params TFOutput [] inputs)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (inputs == null || inputs.Length == 0)
 				return;
 
@@ -1176,6 +1250,8 @@ namespace TensorFlow
 
 		public void AddControlInput (TFOperation input)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (input == null)
 				throw new ArgumentNullException ("input");
 
@@ -1188,6 +1264,8 @@ namespace TensorFlow
 
 		public void ColocateWith (TFOperation op)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (op == null)
 				throw new ArgumentNullException ("op");
 			TF_ColocateWith (handle, op.handle);
@@ -1199,6 +1277,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, string value)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			var bytes = Encoding.UTF8.GetBytes (value);
@@ -1213,6 +1293,8 @@ namespace TensorFlow
 		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, IntPtr [] values, UIntPtr [] lengths, int num_values);
 		public void SetAttr (string attrName, string [] values)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (values == null)
@@ -1240,6 +1322,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, long value)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrInt (handle, attrName, value);
@@ -1251,6 +1335,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, long [] values)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (values == null)
@@ -1266,6 +1352,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, float value)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrFloat (handle, attrName, value);
@@ -1277,6 +1365,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, float [] values)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (values == null)
@@ -1291,6 +1381,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, bool value)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrBool (handle, attrName, (byte)(value ? 1 : 0));
@@ -1302,6 +1394,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, bool [] values)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (values == null)
@@ -1316,6 +1410,8 @@ namespace TensorFlow
 
 		public void SetAttrType (string attrName, TFDataType dataType)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrType (handle, attrName, dataType);
@@ -1327,6 +1423,8 @@ namespace TensorFlow
 
 		public void SetAttrType (string attrName, params TFDataType [] dataType)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (dataType == null)
@@ -1342,6 +1440,8 @@ namespace TensorFlow
 
 		public void SetAttrShape (string attrName, long [] dims)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (dims == null)
@@ -1356,6 +1456,8 @@ namespace TensorFlow
 
 		public void SetAttrShape (string attrName, long [] [] dims)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (dims == null)
@@ -1388,6 +1490,8 @@ namespace TensorFlow
 		static extern unsafe void TF_SetAttrTensorShapeProto (TF_OperationDescription desc, string attr_name, IntPtr proto, size_t proto_len, TF_Status status);
 		public void SetAttrTensorShapeProto (string attrName, IntPtr proto, size_t protoLen, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			TF_SetAttrTensorShapeProto (handle, attrName, proto, protoLen, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1404,6 +1508,8 @@ namespace TensorFlow
 
 		public void SetAttr (string attrName, TFTensor tensor, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (tensor == null)
@@ -1419,6 +1525,8 @@ namespace TensorFlow
 		static extern unsafe void TF_SetAttrTensorList (TF_OperationDescription desc, string attr_name, IntPtr [] values, int num_values, TF_Status status);
 		public void SetAttr (string attrName, TFTensor [] tensor, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			if (tensor == null)
@@ -1442,6 +1550,8 @@ namespace TensorFlow
 
 		public TFOperation FinishOperation (TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_FinishOperation (handle, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1450,8 +1560,6 @@ namespace TensorFlow
 
 			return new TFOperation (graph, h);
 		}
-
-
 	}
 
 	public partial class TFOperation
@@ -1472,13 +1580,13 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_OperationName (TF_Operation oper);
 
-		public string Name => TF_OperationName (handle).GetStr ();
+		public string Name => handle == IntPtr.Zero ? "<ObjectDisposed>" : TF_OperationName (handle).GetStr ();
 
 		// extern const char * TF_OperationOpType (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_OperationOpType (TF_Operation oper);
 
-		public string OpType => TF_OperationOpType (handle).GetStr ();
+		public string OpType => handle == IntPtr.Zero ? "<ObjectDisposedException>" : TF_OperationOpType (handle).GetStr ();
 
 		// extern const char * TF_OperationDevice (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -1490,7 +1598,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationNumOutputs (TF_Operation oper);
 
-		public int NumOutputs => TF_OperationNumOutputs (handle);
+		public int NumOutputs => handle == IntPtr.Zero ? -1 : TF_OperationNumOutputs (handle);
 
 
 		// extern int TF_OperationOutputListLength (TF_Operation *oper, const char *arg_name, TF_Status *status);
@@ -1499,6 +1607,8 @@ namespace TensorFlow
 
 		public int OutputListLength (string argName, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var res = TF_OperationOutputListLength (handle, argName, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1518,6 +1628,8 @@ namespace TensorFlow
 
 		public int InputListLength (string argName, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var res = TF_OperationInputListLength (handle, argName, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1560,6 +1672,8 @@ namespace TensorFlow
 
 		public TFAttributeMetadata GetAttributeMetadata (string attrName, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var x = TF_OperationGetAttrMetadata (handle, attrName, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1657,6 +1771,8 @@ namespace TensorFlow
 		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer* output_node_def, TF_Status status);
 		public TFBuffer ToNodeDef (TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var r = new TFBuffer ();
 			unsafe
@@ -1703,6 +1819,8 @@ namespace TensorFlow
 
 		public void SetPrefix (string prefix)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			TF_ImportGraphDefOptionsSetPrefix (handle, prefix);
 		}
 
@@ -1768,6 +1886,8 @@ namespace TensorFlow
 
 		public void CloseSession (TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			TF_CloseSession (handle, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1779,6 +1899,8 @@ namespace TensorFlow
 
 		public void DeleteSession (TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			var cstatus = TFStatus.Setup (status);
 			TF_DeleteSession (handle, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -1797,6 +1919,8 @@ namespace TensorFlow
 
 		public TFTensor [] Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
 			if (inputValues == null)
@@ -1850,6 +1974,8 @@ namespace TensorFlow
 
 		public PartialRunToken PartialRunSetup (TFOutput [] inputs, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
 			if (outputs == null)
@@ -1873,6 +1999,8 @@ namespace TensorFlow
 		static extern unsafe void TF_SessionPRun (TF_Session session, IntPtr partialHandle, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, TF_Status status);
 		public TFTensor [] PartialRun (PartialRunToken token, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			if (inputs == null)
 				throw new ArgumentNullException (nameof (inputs));
 			if (inputValues == null)
@@ -1941,8 +2069,6 @@ namespace TensorFlow
 		{
 			TF_DeleteLibraryHandle (handle);
 		}
-
-
 	}
 
 	public enum TFDataType : uint

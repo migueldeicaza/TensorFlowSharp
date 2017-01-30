@@ -52,11 +52,16 @@ namespace ExampleInceptionInference
 			options.WriteOptionDescriptions (Console.Out);
 		}
 
+		static bool jagged = true;
+
 		static OptionSet options = new OptionSet ()
 		{
-			{ "m|dir=",  v => dir = v },
-			{ "h|help", v => Help () }
+			{ "m|dir=",  "Specifies the directory where the model and labels are stored", v => dir = v },
+			{ "h|help", v => Help () },
+
+			{ "amulti", "Use multi-dimensional arrays instead of jagged arrays", v => jagged = false }
 		};
+
 
 		static string dir, modelFile, labelsFile;
 		public static void Main (string [] args)
@@ -108,21 +113,38 @@ namespace ExampleInceptionInference
 						Console.WriteLine ($"Error: expected to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape [{shape}]");
 						Environment.Exit (1);
 					}
-					int nlabels = (int)rshape [1];
-					var val = (float [,])result.GetValue ();
 
-					// Result is [1,N], flatten array
+					// You can get the data in two ways, as a multi-dimensional array, or arrays of arrays, 
+					// code can be nicer to read with one or the other, pick it based on how you want to process
+					// it
+					bool jagged = true;
+
 					var bestIdx = 0;
 					float p = 0, best = 0;
-					for (int i = 0; i < val.GetLength (1); i++) {
-						if (val [0, i] > best) {
-							bestIdx = i;
-							best = val [0, i];
+
+					if (jagged) {
+						var probabilities = ((float [] [])result.GetValue (jagged: true)) [0];
+						for (int i = 0; i < probabilities.Length; i++) {
+							if (probabilities [i] > best) {
+								bestIdx = i;
+								best = probabilities [i];
+							}
+						}
+
+					} else {
+						var val = (float [,])result.GetValue (jagged: false);
+
+						// Result is [1,N], flatten array
+						for (int i = 0; i < val.GetLength (1); i++) {
+							if (val [0, i] > best) {
+								bestIdx = i;
+								best = val [0, i];
+							}
 						}
 					}
 
 					var labels = File.ReadAllLines (labelsFile);
-					Console.WriteLine ($"{file} best match: [{bestIdx}] {val [0, bestIdx] * 100.0}% {labels [bestIdx]}");
+					Console.WriteLine ($"{file} best match: [{bestIdx}] {best * 100.0}% {labels [bestIdx]}");
 				}
 			}
 		}
