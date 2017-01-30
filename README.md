@@ -4,7 +4,9 @@ https://github.com/tensorflow/tensorflow
 
 This surfaces the C API as a strongly-typed C# API.
 
-Work in progress - more details will come soon.
+The API binding is pretty much done, and at this point, I am polishing the
+API to make it more pleasant to use from C# and F# and resolving some of the
+kinks and TODO-items that I left while I was doing the work.
 
 # Work in Progress
 
@@ -42,10 +44,11 @@ should work on Windows with VS and Linux with MonoDevelop, there is nothing
 Xamarin specific here.
 
 Before the solution will run you will need the shared library generated to
-be on the `SampleTest/bin/Debug directory`.   While Tensorflow builds a library
-with the extension .so, you will need to make sure that it has the proper
-name for your platform (tensorflow.dll on Windows, tensorflow.dylib on Mac)
-and copy that there.
+be on a location accessibly by the Mono runtime (for example /usr/local/lib).
+
+While Tensorflow builds a library with the extension .so, you will need 
+to make sure that it has the proper name for your platform (tensorflow.dll on Windows, 
+tensorflow.dylib on Mac) and copy that there.
 
 Tensorflow is a 64-bit library, so you will need to use a 64-bit Mono to run,
 at home (where I am doing this work), I have a copy of 64-bit Mono on /mono,
@@ -57,6 +60,39 @@ and make sure that you select one that is 64-bit enabled.
 
 Open the solution file in the top directory, and when you hit run, this will
 run the API test.   
+
+## Possible Contributions
+
+### Build More Tests
+
+Would love to have more tests to ensure the proper operation of the framework.
+
+### Samples
+
+The binding is pretty much complete, and at this point, I want to improve the 
+API to be easier and more pleasant to use from both C# and F#.   Creating
+samples that use Tensorflow is a good way of finding easy wins on the usability
+of the API, there are some here:
+
+https://github.com/tensorflow/models
+
+### Packaging
+
+x86: It is not clear to me how to distribute the native libtensorflow to users, as
+it is designed to be compiled for your host system.  I would like to figure out
+how we can distribute packages that have been compiled with the optimal set of
+optimizations for users to consume.
+
+Mobile: we need to package the library for consumption on Android and iOS.
+
+### NuGet Package
+
+Would love to have a NuGet package for all platforms.
+
+### Issues
+
+I have logged some usability problems and bugs in Issues, feel free to take
+on one of those tasks.
 
 ## Notes on OpDefs
 
