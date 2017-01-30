@@ -35,6 +35,7 @@ using Mono.Options;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Collections.Generic;
 
 namespace ExampleInceptionInference
 {
@@ -65,12 +66,13 @@ namespace ExampleInceptionInference
 				dir = "/tmp";
 				//Error ("Must specify a directory with -m to store the training data");
 			}
-			string file;
+
 			//if (files == null || files.Count == 0)
 			//	Error ("No files were specified");
-			//file = files [0];
-			file =  "/tmp/demo.jpg";
 
+			if (files.Count == 0)
+				files = new List<string> () { "/tmp/demo.jpg" };
+			
 			ModelFiles (dir);
 
 			// Construct an in-memory graph from the serialized form.
@@ -80,46 +82,48 @@ namespace ExampleInceptionInference
 
 			graph.Import (model, "");
 			using (var session = new TFSession (graph)) {
-				// Run inference on the image files
-				// For multiple images, session.Run() can be called in a loop (and
-				// concurrently). Alternatively, images can be batched since the model
-				// accepts batches of image data as input.
-				var tensor = CreateTensorFromImageFile (file);
+				foreach (var file in files) {
+					// Run inference on the image files
+					// For multiple images, session.Run() can be called in a loop (and
+					// concurrently). Alternatively, images can be batched since the model
+					// accepts batches of image data as input.
+					var tensor = CreateTensorFromImageFile (file);
 
-				var output = session.Run (null,
-							  inputs: new [] { graph ["input"] [0] },
-							  inputValues: new [] { tensor },
-							  outputs: new [] { graph ["output"] [0] });
-				// output[0].Value() is a vector containing probabilities of
-				// labels for each image in the "batch". The batch size was 1.
-				// Find the most probably label index.
+					var output = session.Run (null,
+								  inputs: new [] { graph ["input"] [0] },
+								  inputValues: new [] { tensor },
+								  outputs: new [] { graph ["output"] [0] });
+					// output[0].Value() is a vector containing probabilities of
+					// labels for each image in the "batch". The batch size was 1.
+					// Find the most probably label index.
 
-				var result = output [0];
-				var rshape = result.Shape;
-				if (result.NumDims != 2 || rshape [0] != 1) {
-					var shape = "";
-					foreach (var d in rshape) {
-						shape += $"{d} ";
+					var result = output [0];
+					var rshape = result.Shape;
+					if (result.NumDims != 2 || rshape [0] != 1) {
+						var shape = "";
+						foreach (var d in rshape) {
+							shape += $"{d} ";
+						}
+						shape = shape.Trim ();
+						Console.WriteLine ($"Error: expected to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape [{shape}]");
+						Environment.Exit (1);
 					}
-					shape = shape.Trim ();
-					Console.WriteLine ($"Error: expected to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape [{shape}]");
-					Environment.Exit (1);
-				}
-				int nlabels = (int)rshape [1];
-				var val = (float [,])result.GetValue ();
+					int nlabels = (int)rshape [1];
+					var val = (float [,])result.GetValue ();
 
-				// Result is [1,N], flatten array
-				var bestIdx = 0;
-				float p = 0, best = 0;
-				for (int i = 0; i < val.GetLength (0); i++) {
-					if (val [0,i] > best) {
-						bestIdx = i;
-						best = val [0,i];
+					// Result is [1,N], flatten array
+					var bestIdx = 0;
+					float p = 0, best = 0;
+					for (int i = 0; i < val.GetLength (1); i++) {
+						if (val [0, i] > best) {
+							bestIdx = i;
+							best = val [0, i];
+						}
 					}
-				}
 
-				var labels = File.ReadAllLines (labelsFile);
-				Console.WriteLine ($"Best match: {val [0,bestIdx] * 100}% {labels [bestIdx]}");
+					var labels = File.ReadAllLines (labelsFile);
+					Console.WriteLine ($"{file} best match: [{bestIdx}] {val [0, bestIdx] * 100.0}% {labels [bestIdx]}");
+				}
 			}
 		}
 
