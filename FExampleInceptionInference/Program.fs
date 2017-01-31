@@ -39,6 +39,17 @@ let main argv =
 
     graph.Import (File.ReadAllBytes ("/tmp/tensorflow_inception_graph.pb"), "")
     use session = new TFSession (graph)
+    let tensor = createTensorFromImageFile (argv.[0])
+
+    let output = session.Run (null, inputs = [| graph.["input"].[0] |], inputValues= [| tensor |], outputs = [| graph.["output"].[0] |])
+   
+    let probabilities = output.[0].GetValue (true) :?> float [] []
+
+
+
+
+
+
 
     0 // return an integer exit code
 
