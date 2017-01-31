@@ -8,6 +8,28 @@ The API binding is pretty much done, and at this point, I am polishing the
 API to make it more pleasant to use from C# and F# and resolving some of the
 kinks and TODO-items that I left while I was doing the work.
 
+# Getting Started
+
+You need to get yourself a copy of the TensorFlow runtime, you can either
+build your own version (see the instructions below) or you can use a precompiled
+binary:
+
+https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
+https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-darwin-x86_64-1.0.0-rc0.tar.gz
+https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.0.0-rc0.tar.gz
+https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-1.0.0-rc0.tar.gz
+
+Unpack the above .tar.gz suitable for your system on a prefix that your
+system's dynamic linker can use, for example, go to `/usr/local` and unpack there.
+
+Mac note: the package contains a `.so` file, you will need to rename this to `.dylib` for
+it to work.
+
+Once you do that, you need to open the solution file on the top
+level directory and build.   This will produce both the TensorFlowSharp
+library as well as compile the tests and samples.
+
+
 # Work in Progress
 
 These instructions reflect what you need to get up and running with the
