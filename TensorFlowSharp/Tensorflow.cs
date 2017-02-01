@@ -112,6 +112,21 @@ namespace TensorFlow
 		public TFException (string message) : base (message) { }
 	}
 
+	/// <summary>
+	/// Used to track the result of TensorFlow operations.
+	/// </summary>
+	/// <remarks>
+	/// TFStatus is used to track the status of a call to some TensorFlow
+	/// operations.   Instances of this object are passed to various
+	/// TensorFlow operations and you can use the <see cref="P:TensorFlow.TFStatus.Ok"/>
+	/// to quickly check if the operation succeeded, or get more detail from the
+	/// <see cref="P:TensorFlow.TFStatus.StatusCode"/> and a human-readable text
+	/// using the <see cref="P:TensorFlow.TFStatus.StatusMessage"/> property.
+	/// 
+	/// The convenience <see cref="M:TensorFlow.TFStatus.Raise"/> can be used
+	/// to raise a <see cref="P:TensorFlow.TFException"/> if the status of the
+	/// operation did not succeed.
+	/// </remarks>
 	public class TFStatus : TFDisposable
 	{
 		// extern TF_Status * TF_NewStatus ();
@@ -120,6 +135,9 @@ namespace TensorFlow
 
 		[ThreadStatic] public static TFStatus Default = new TFStatus ();
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFStatus"/> class.
+		/// </summary>
 		public TFStatus () : base (TF_NewStatus ())
 		{
 		}
@@ -138,6 +156,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetStatus (TF_Status s, TFCode code, string msg);
 
+		/// <summary>
+		/// Sets the status code on this TFStatus.
+		/// </summary>
+		/// <param name="code">Code.</param>
+		/// <param name="msg">Message.</param>
 		public void SetStatusCode (TFCode code, string msg)
 		{
 			TF_SetStatus (handle, code, msg);
@@ -147,6 +170,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		internal static extern unsafe TFCode TF_GetCode (TF_Status s);
 
+		/// <summary>
+		/// Gets the status code for the status code.
+		/// </summary>
+		/// <value>The status code as an enumeration.</value>
 		public TFCode StatusCode {
 			get {
 				return TF_GetCode (handle);
@@ -157,16 +184,41 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Message (TF_Status s);
 
+		/// <summary>
+		/// Gets a human-readable status message.
+		/// </summary>
+		/// <value>The status message.</value>
 		public string StatusMessage => TF_Message (handle).GetStr ();
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFStatus"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFStatus"/>.</returns>
 		public override string ToString ()
 		{
 			return string.Format ("[TFStatus: StatusCode={0}, StatusMessage={1}]", StatusCode, StatusMessage);
 		}
 
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:TensorFlow.TFStatus"/> state has been set to ok.
+		/// </summary>
+		/// <value><c>true</c> if ok; otherwise, <c>false</c>.</value>
 		public bool Ok => StatusCode == TFCode.Ok;
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:TensorFlow.TFStatus"/> state has been set to an error.
+		/// </summary>
+		/// <value><c>true</c> if error; otherwise, <c>false</c>.</value>
 		public bool Error => StatusCode != TFCode.Ok;
 
+		/// <summary>
+		/// Convenience method that raises an exception if the current status is an error.
+		/// </summary>
+		/// <remarks>
+		/// You can use this method as a convenience to raise an exception after you
+		/// invoke an operation if the operation did not succeed.
+		/// </remarks>
 		public void Raise ()
 		{
 			if (TF_GetCode (handle) != TFCode.Ok)
@@ -211,7 +263,24 @@ namespace TensorFlow
 		internal IntPtr data_deallocator;
 	}	
 
+	/// <summary>
+	/// Holds a block of data.
+	/// </summary>
+	/// <remarks>
+	/// Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks
+	/// of data out of TensorFlow.
+	/// 
+	/// There are two constructors to wrap existing data, one to wrap blocks that are 
+	/// pointed to by an IntPtr and one that takes a byte array that we want to wrap.
+	/// 
+	/// The empty constructor can be used to create a new TFBuffer that can be populated
+	/// by the TensorFlow library and returned to user code.
+	/// 
+	/// Typically, the data consists of a serialized protocol buffer, but other data
+	/// may also be held in a buffer.
+	/// </remarks>
 	// TODO: the string ctor
+	// TODO: perhaps we should have an implicit byte [] conversion that just calls ToArray?
 	public class TFBuffer : TFDisposable
 	{
 		// extern TF_Buffer * TF_NewBufferFromString (const void *proto, size_t proto_len);
@@ -228,12 +297,37 @@ namespace TensorFlow
 		{
 		}
 
-		unsafe public TFBuffer (IntPtr buffer, long size) : base ((IntPtr)TF_NewBuffer ())
+		/// <summary>
+		/// Signature of the method that is invoked to release the data.  
+		/// </summary>
+		/// <remarks>
+		/// Methods of this signature are invoked with the data pointer and the
+		/// lenght pointer when then TFBuffer no longer needs to hold on to the
+		/// data.
+		/// </remarks>
+		public delegate void BufferReleaseFunc (IntPtr data, IntPtr lenght);
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by wrapping the unmanaged resource pointed by the buffer.
+		/// </summary>
+		/// <param name="buffer">Pointer to the data that will be wrapped.</param>
+		/// <param name="size">The size of the buffer to wrap.</param>
+		/// <param name="release">Optional, if not null, this method will be invoked to release the block.</param>
+		/// <remarks>
+		/// This constructor wraps the buffer as a the data to be held by the <see cref="T:TensorFlow.TFBuffer"/>,
+		/// if the release parameter is null, then you must ensure that the data is not released before the TFBuffer
+		/// is no longer in use.   If the value is not null, the provided method will be invoked to release
+		/// the data when the TFBuffer is disposed, or the contents of the buffer replaced.
+		/// </remarks>
+		unsafe public TFBuffer (IntPtr buffer, long size, BufferReleaseFunc release) : base ((IntPtr)TF_NewBuffer ())
 		{
 			LLBuffer* buf = (LLBuffer*)handle;
 			buf->data = buffer;
 			buf->length = (size_t)size;
-			buf->data_deallocator = IntPtr.Zero;
+			if (release == null)
+				buf->data_deallocator = IntPtr.Zero;
+			else
+				buf->data_deallocator = Marshal.GetFunctionPointerForDelegate (release);
 		}
 
 		internal static void FreeBlock (IntPtr data, IntPtr lenght)
@@ -245,13 +339,30 @@ namespace TensorFlow
 
 		static TFBuffer ()
 		{
-			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<Action<IntPtr,IntPtr>> (FreeBlock);
+			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc> (FreeBlock);
 		}
 
-		// This constructor makes a copy of the data
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.
+		/// </summary>
+		/// <param name="buffer">Buffer of data that will be wrapped.</param>
+		/// <remarks>
+		/// This constructor makes a copy of the data into an unmanaged buffer, 
+		/// so the byte array is not pinned.
+		/// </remarks>
 		public TFBuffer (byte [] buffer) : this (buffer, 0, buffer.Length) { }
 
-		// This constructor makes a copy of the data
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.
+		/// </summary>
+		/// <param name="buffer">Buffer of data that will be wrapped.</param>
+		/// <param name="start">Starting offset into the buffer to wrap.</param>
+		/// <param name="count">Number of bytes from the buffer to keep.</param>
+		/// <remarks>
+		/// This constructor makes a copy of the data into an unmanaged buffer, 
+		/// so the byte array is not pinned.
+		/// </remarks>
 		public TFBuffer (byte [] buffer, int start, int count) : this ()
 		{
 			if (start < 0 || start >= buffer.Length)
@@ -283,6 +394,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe LLBuffer TF_GetBuffer (LLBuffer *buffer);
 
+		/// <summary>
+		/// Returns a byte array representing the data wrapped by this buffer.
+		/// </summary>
+		/// <returns>The array.</returns>
 		public byte [] ToArray ()
 		{
 			if (handle == IntPtr.Zero)
@@ -300,17 +415,31 @@ namespace TensorFlow
 		}
 	}
 
-
-	public delegate void TFTensorDeallocator (IntPtr data, IntPtr size, IntPtr deallocatorData);
-
+	/// <summary>
+	/// TFTensor holds a multi-dimensional array of elements of a single data type.
+	/// </summary>
+	/// <remarks>
+	/// You can create tensors with the various constructors in this class, or using
+	/// the implicit conversions from various data types into a TFTensor.
+	/// 
+	/// The implicit conversions for basic types produce tensors of one dimesion with
+	/// a single element, while the implicit conversion from an array, expects a multi-dimensional
+	/// array that is converted into a tensor of the right dimensions.
+	/// 
+	/// The special "String" tensor data type that you will find in TensorFlow documentation
+	/// really represents a byte array.   You can create string tensors by using the <see cref="M:TensorFlow.TFTensor.CreateString"/> 
+	/// method that takes a byte array buffer as input.
+	/// </remarks>
 	public class TFTensor : TFDisposable
 	{
+		public delegate void Deallocator (IntPtr data, IntPtr size, IntPtr deallocatorData);
+
 		// extern TF_Tensor * TF_NewTensor (TF_DataType, const int64_t *dims, int num_dims, void *data, size_t len, void (* deallocator)(void *, size_t, void *), void *deallocator_arg);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, long [] dims, int num_dims, IntPtr data, size_t len, TFTensorDeallocator deallocator, IntPtr deallocator_arg);
+		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, long [] dims, int num_dims, IntPtr data, size_t len, Deallocator deallocator, IntPtr deallocator_arg);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, IntPtr zeroDims, int num_dims, IntPtr data, size_t len, TFTensorDeallocator deallocator, IntPtr deallocator_arg);
+		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, IntPtr zeroDims, int num_dims, IntPtr data, size_t len, Deallocator deallocator, IntPtr deallocator_arg);
 
 		internal TFTensor (IntPtr handle) : base (handle) { }
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
@@ -516,7 +645,7 @@ namespace TensorFlow
 
 		// General purpose constructor, specifies data type and gets pointer to buffer
 		// Is the default good, one where we let the user provide their own deallocator, or should we make a copy in that case?
-		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, TFTensorDeallocator deallocator, IntPtr deallocatorData) : base (IntPtr.Zero)
+		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, Deallocator deallocator, IntPtr deallocatorData) : base (IntPtr.Zero)
 		{
 			if (dims == null)
 				throw new ArgumentNullException ("dims");
@@ -557,12 +686,28 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_NumDims (TF_Tensor tensor);
 
+		/// <summary>
+		/// Returns the number of dimensions in the tensor.
+		/// </summary>
+		/// <remarks>
+		/// For single-dimension tensors the return is 1, 2 dimensions is 2 and so on.
+		/// </remarks>
 		public int NumDims => TF_NumDims (handle);
 
 		// extern int64_t TF_Dim (const TF_Tensor *tensor, int dim_index);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe long TF_Dim (TF_Tensor tensor, int dim_index);
 
+		/// <summary>
+		/// Returns the number of elements on a specific dimension in the tensor.
+		/// </summary>
+		/// <returns>The tensor dimension.</returns>
+		/// <param name="dimIndex">Dimension that you are querying.</param>
+		/// <remarks>
+		/// If you have a tensor of 3 elements by 5, represented by [3 5],
+		/// the GetTensorDimension(0) will return 3, the GetTensorDimension(1)
+		/// will return 5.
+		/// </remarks>
 		public long GetTensorDimension (int dimIndex)
 		{
 			return TF_Dim (handle, dimIndex);
@@ -919,7 +1064,7 @@ namespace TensorFlow
 		}
 	}
 
-	public class TFString
+	internal class TFString
 	{
 		// extern size_t TF_StringEncode (const char *src, size_t src_len, char *dst, size_t dst_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -979,12 +1124,20 @@ namespace TensorFlow
 
 	}
 
+	/// <summary>
+	/// Represents a computation graph.  Graphs may be shared between sessions and are thread safe.
+	/// </summary>
+	/// <remarks>
+	/// </remarks>
 	public partial class TFGraph : TFDisposable
 	{
 		// extern TF_Graph * TF_NewGraph ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Graph TF_NewGraph ();
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFGraph"/> class.
+		/// </summary>
 		public TFGraph () : base (TF_NewGraph ())
 		{
 		}
@@ -1160,10 +1313,10 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		///  
+		///  Returns the tensor shape for the specific output pparameters as an array of longs.
 		/// </summary>
 		/// <returns>null for single dimension, .</returns>
-		/// <param name="output">Operation.</param>
+		/// <param name="output">The output operation to probe.</param>
 		/// <param name="status">Status.</param>
 		public long [] GetShape (TFOutput output, TFStatus status = null)
 		{
@@ -1183,6 +1336,18 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Low-level TensorFlow operation builder
+	/// </summary>
+	/// <remarks>
+	/// This is the low-level API that is used to create operations by manually specificying all
+	/// the parameters of an operation (inputs, outputs, attribute descriptions) that can then
+	/// be attached into a graph.
+	/// 
+	/// Generally, you will instead be using the methods surfaced in <see cref="T:TensorFlow.TFGraph"/> 
+	/// that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
+	/// nodes.
+	/// </remarks>
 	public class TFOperationDesc : TFDisposable
 	{
 		string opType, operName;
@@ -2099,6 +2264,9 @@ namespace TensorFlow
 		Resource = 20
 	}
 
+	/// <summary>
+	/// Status code for invoking a tensorflow operation.
+	/// </summary>
 	public enum TFCode : uint
 	{
 		Ok = 0,
