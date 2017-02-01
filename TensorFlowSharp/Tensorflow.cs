@@ -249,6 +249,9 @@ namespace TensorFlow
 		}
 
 		// This constructor makes a copy of the data
+		public TFBuffer (byte [] buffer) : this (buffer, 0, buffer.Length) { }
+
+		// This constructor makes a copy of the data
 		public TFBuffer (byte [] buffer, int start, int count) : this ()
 		{
 			if (start < 0 || start >= buffer.Length)
@@ -1065,7 +1068,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
 
-		public void Import (TFBuffer graphDef, string prefix, TFStatus status = null)
+		public void Import (TFBuffer graphDef, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1097,7 +1100,7 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 		}
 
-		public void Import (byte [] buffer, string prefix, TFStatus status = null)
+		public void Import (byte [] buffer, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
