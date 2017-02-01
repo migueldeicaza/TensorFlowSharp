@@ -87,6 +87,8 @@ namespace ExampleInceptionInference
 
 			graph.Import (model, "");
 			using (var session = new TFSession (graph)) {
+				var labels = File.ReadAllLines (labelsFile);
+
 				foreach (var file in files) {
 					// Run inference on the image files
 					// For multiple images, session.Run() can be called in a loop (and
@@ -132,7 +134,7 @@ namespace ExampleInceptionInference
 						}
 
 					} else {
-						var val = (float [,])result.GetValue (jagged: false);
+						var val = (float [,])result.GetValue (jagged: false);	
 
 						// Result is [1,N], flatten array
 						for (int i = 0; i < val.GetLength (1); i++) {
@@ -143,7 +145,6 @@ namespace ExampleInceptionInference
 						}
 					}
 
-					var labels = File.ReadAllLines (labelsFile);
 					Console.WriteLine ($"{file} best match: [{bestIdx}] {best * 100.0}% {labels [bestIdx]}");
 				}
 			}
