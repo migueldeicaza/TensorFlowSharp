@@ -632,6 +632,7 @@ namespace TensorFlow
 					dt = TFDataType.Complex128;
 				} else
 					throw new ArgumentException ($"The data type {t} is not supported");
+                break;
 			}
 
 			var dims = new long [array.Rank];
@@ -2163,8 +2164,9 @@ namespace TensorFlow
 			return new PartialRunToken () { token = returnHandle };
 		}
 
-		// extern void TF_SessionPRun (TF_Session *, const char *handle, const TF_Output *inputs, TF_Tensor *const *input_values, int ninputs, const TF_Output *outputs, TF_Tensor **output_values, int noutputs, const TF_Operation *const *target_opers, int ntargets, TF_Status *);
-		static extern unsafe void TF_SessionPRun (TF_Session session, IntPtr partialHandle, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, TF_Status status);
+        // extern void TF_SessionPRun (TF_Session *, const char *handle, const TF_Output *inputs, TF_Tensor *const *input_values, int ninputs, const TF_Output *outputs, TF_Tensor **output_values, int noutputs, const TF_Operation *const *target_opers, int ntargets, TF_Status *);
+        [DllImport(NativeBinding.TensorFlowLibrary)]
+        static extern unsafe void TF_SessionPRun (TF_Session session, IntPtr partialHandle, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, TF_Status status);
 		public TFTensor [] PartialRun (PartialRunToken token, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2384,7 +2386,7 @@ namespace TensorFlow
 
 		public override string ToString ()
 		{
-			return string.Format ($"[TFAttributeMetadata IsList={IsList != 0?true:false} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
+			return string.Format ($"[TFAttributeMetadata IsList={0} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]", IsList != 0 ? true : false);
 		}
 	}
 
