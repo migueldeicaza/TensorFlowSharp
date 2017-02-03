@@ -92,7 +92,7 @@ let main argv =
         let tensor = createTensorFromImageFile file
 
         // Run the session
-        let sessionOutput = session.Run (null, inputs = [| graph.["input"].[0] |], inputValues= [| tensor |], outputs = [| graph.["output"].[0] |])   
+        let sessionOutput = session.Run (inputs = [| graph.["input"].[0] |], inputValues= [| tensor |], outputs = [| graph.["output"].[0] |])   
         let resultTensor = sessionOutput.[0]
 
         // The GetValue method returns an 'object' type, we need to cast this

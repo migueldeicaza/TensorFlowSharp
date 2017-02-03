@@ -29,15 +29,21 @@ let output_tensor_names =
 [<EntryPoint>]
 let main argv = 
     use graph = new TFGraph()
-    graph.Import (new TFBuffer (File.ReadAllBytes (model)))
-    let input_tensor = graph.["Placeholder:0"]
     let outputs = [| for name in output_tensor_names do yield graph.[name] |];
     let input_image = graph.Placeholder TFDataType.String
+    let input_image_str = File.ReadAllBytes (input) |> TFTensor.CreateString
 
     let decoded_image = if Path.GetExtension (input) = ".png" then graph.DecodePng (input_image, channels = opt 3L) else graph.DecodeJpeg (input_image, channels = opt 3L)
     let expanded_image = graph.ExpandDims (decoded_image, iconst graph 0 "zero")
 
     use session = new TFSession (graph)
+    let result = session.Run (runOptions = null, inputs = [| input_image |], inputValues = [| input_image_str |], outputs = [| |], targetOpers = [| expanded_image.Operation |]);
+
+
+    // The following will fail unless you rebuild your tensorflow to remove the 64mb limitation
+    // https://github.com/tensorflow/tensorflow/issues/582
+    graph.Import (new TFBuffer (File.ReadAllBytes (model)))
+    let input_tensor = graph.["Placeholder:0"]
 
     0 // return an integer exit code
 

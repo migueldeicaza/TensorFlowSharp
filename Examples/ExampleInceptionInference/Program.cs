@@ -96,8 +96,7 @@ namespace ExampleInceptionInference
 					// accepts batches of image data as input.
 					var tensor = CreateTensorFromImageFile (file);
 
-					var output = session.Run (null,
-								  inputs: new [] { graph ["input"] [0] },
+					var output = session.Run (inputs: new [] { graph ["input"] [0] },
 								  inputValues: new [] { tensor },
 								  outputs: new [] { graph ["output"] [0] });
 					// output[0].Value() is a vector containing probabilities of
@@ -166,7 +165,7 @@ namespace ExampleInceptionInference
 
 			// Execute that graph to normalize this one image
 			using (var session = new TFSession (graph)) {
-				var normalized = session.Run (null,
+				var normalized = session.Run (
 					     inputs: new [] { input },
 					     inputValues: new [] { tensor },
 					     outputs: new [] { output });

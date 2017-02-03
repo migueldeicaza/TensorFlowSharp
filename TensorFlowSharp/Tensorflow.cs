@@ -1232,7 +1232,7 @@ namespace TensorFlow
 
 			using (var options = new TFImportGraphDefOptions ()) {
 				options.SetPrefix (prefix);
-				Import (graphDef, prefix, status);
+				Import (graphDef, options, status);
 			}
 		}
 
@@ -2085,7 +2085,27 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionRun (TF_Session session, LLBuffer* run_options, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, LLBuffer* run_metadata, TF_Status status);
 
-		public TFTensor [] Run (TFBuffer runOptions, TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFStatus status = null)
+		#if false
+		public struct Input
+		{
+			public TFOutput InputTF;
+			public TFTensor Value;
+			public Input (TFOutput input, TFTensor value)
+			{
+				InputTF = input;
+				Value = value;
+			}
+		}
+
+		public TFTensor [] Run (IEnumerable<Input> x)
+		{
+		// This API call would look liek this:
+			Run (new [] { new Input (default (TFOutput), null) , new Input (default (TFOutput), null)});
+		}
+
+		#endif
+
+		public TFTensor [] Run (TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();			
@@ -2311,24 +2331,49 @@ namespace TensorFlow
 
 	}
 
+	/// <summary>
+	/// Represents a specific output of an operation
+	/// </summary>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput
 	{
-		public unsafe TF_Operation LLOperation;
+		unsafe TF_Operation LLOperation;
 		public int Index;
 
 		// extern int TF_OperationOutputNumConsumers (TF_Output oper_out);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern int TF_OperationOutputNumConsumers (TFOutput oper_out);
 
+		/// <summary>
+		/// Gets the number consumers.
+		/// </summary>
+		/// <value>The number consumers.</value>
+		/// <remarks>
+		/// This number can change when new operations are added to the graph.
+		/// </remarks>
 		public int NumConsumers => TF_OperationOutputNumConsumers (this);
 
 		// extern TF_DataType TF_OperationOutputType (TF_Output oper_out);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern TFDataType TF_OperationOutputType (TFOutput oper_out);
 
+		/// <summary>
+		/// Gets the type of the output.
+		/// </summary>
+		/// <value>The type of the output.</value>
 		public TFDataType OutputType => TF_OperationOutputType (this);
 
+		/// <summary>
+		/// Initializes a new TFOutput instance.
+		/// </summary>
+		/// <param name="operation">The operation to which to attach the output.</param>
+		/// <param name="index">The index of the output within the operation.</param>
+		/// <remarks>
+		/// This constructor is a low-level constructor used when you create operations
+		/// manually using <see cref="T:TensorFlow.TFOperationDesc"/>, you typically
+		/// create the outputs and pass these to the AddInput method to register the
+		/// outputs in the operation.
+		/// </remarks>
 		public TFOutput (TFOperation operation, int index)
 		{
 			if (operation == null)
@@ -2341,6 +2386,15 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationOutputConsumers (TFOutput oper_out, TFInput* consumers, int max_consumers);
 
+		/// <summary>
+		/// Get list of all current consumers of a specific output of an operation
+		/// </summary>	
+		/// <value>The output consumers.</value>
+		/// <remarks>
+		/// A concurrent modification of the graph can increase the number of consumers of
+		/// an operation.
+		/// This can return null if the TFOutput does not point to a valid object.
+		/// </remarks>
 		public TFInput [] OutputConsumers {
 			get {
 				var result = new TFInput [NumConsumers];
@@ -2353,7 +2407,10 @@ namespace TensorFlow
 			}
 		}
 
-
+		/// <summary>
+		/// The associated operation.
+		/// </summary>
+		/// <value>The operation.</value>
 		public TFOperation Operation => new TFOperation (null, LLOperation);
 		public override string ToString ()
 		{
