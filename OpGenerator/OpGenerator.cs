@@ -300,7 +300,7 @@ class OpGenerator
 		p ($"public {retType} {name} ({FillArguments(oper)}string operName = null)");
 		pi ("{");
 		bool needStatus = required_attrs.Concat (optional_attrs).Any (attr => attr.type.Contains ("TFTensor"));
-		p ($"var desc = new TFOperationDesc (this, \"{oper.name}\", operName == null ? \"{oper.name}\" : operName);");
+		p ($"var desc = new TFOperationDesc (this, \"{oper.name}\", MakeName (\"{oper.name}\", operName));");
 		foreach (var arg in oper.input_arg) {
 			if (IsListArg (arg))
 				p ($"desc.AddInputs ({ParamMap (arg.name)});");

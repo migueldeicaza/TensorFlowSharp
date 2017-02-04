@@ -72,6 +72,9 @@ namespace TensorFlow
 		internal IntPtr handle;
 		public IntPtr Handle => handle;
 
+		public TFDisposable ()
+		{ }
+
 		public TFDisposable (IntPtr handle)
 		{
 			this.handle = handle;
@@ -455,7 +458,8 @@ namespace TensorFlow
 
 		// TODO: Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
 		// QInt16, QUint16, Half, Resource
-		// TODO: not clear that this is very useful (the dims versions).
+		// TODO: not clear that this is very useful (the dims versions), perhaps to reduce the surface of
+		// construcors these rarer blobs should be "FromSpec" or something like that
 		public TFTensor (long [] dims, sbyte [] data, int start, int count)   : base (SetupTensor (TFDataType.Int8, dims, data, start, count, size: 2)) { }
 		public TFTensor (long [] dims, byte [] data, int start, int count)    : base (SetupTensor (TFDataType.UInt8, dims, data, start, count, size: 1)) { }
 		public TFTensor (long [] dims, short [] data, int start, int count)   : base (SetupTensor (TFDataType.Int16, dims, data, start, count, size: 2)) { }
@@ -474,6 +478,79 @@ namespace TensorFlow
 		public TFTensor (long [] dims, double [] data) : base (SetupTensor (TFDataType.Double, dims, data, size: 8)) { }
 		public TFTensor (long [] dims, long [] data) : base (SetupTensor (TFDataType.Int64, dims, data, size: 8)) { }
 		public TFTensor (long [] dims, Complex [] data) : base (SetupTensor (TFDataType.Complex128, dims, data, size: 16)) { }
+
+		public unsafe TFTensor (int value)
+		{
+			var v = (int*)Marshal.AllocHGlobal (sizeof (int));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (sbyte value)
+		{
+			var v = (sbyte*)Marshal.AllocHGlobal (sizeof (sbyte));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Int8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (sbyte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (short value)
+		{
+			var v = (short*)Marshal.AllocHGlobal (sizeof (short));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (short), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (ushort value)
+		{
+			var v = (ushort*)Marshal.AllocHGlobal (sizeof (ushort));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (byte value)
+		{
+			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (Complex value)
+		{
+			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (float value)
+		{
+			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		public unsafe TFTensor (double value)
+		{
+			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+		public unsafe TFTensor (long value)
+		{
+			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		// Convenience, should I add T[,] and T[,,] as more convenience ones?
+		public TFTensor (sbyte [] data) : base (SetupTensor (TFDataType.Int8, data, size: 2)) { }
+		public TFTensor (byte [] data) : base (SetupTensor (TFDataType.UInt8, data, size: 1)) { }
+		public TFTensor (short [] data) : base (SetupTensor (TFDataType.Int16, data, size: 2)) { }
+		public TFTensor (ushort [] data) : base (SetupTensor (TFDataType.UInt16, data, size: 2)) { }
+		public TFTensor (int [] data) : base (SetupTensor (TFDataType.Int32, data, size: 4)) { }
+		public TFTensor (float [] data) : base (SetupTensor (TFDataType.Float, data, size: 4)) { }
+		public TFTensor (double [] data) : base (SetupTensor (TFDataType.Double, data, size: 8)) { }
+		public TFTensor (long [] data) : base (SetupTensor (TFDataType.Int64, data, size: 8)) { }
+		public TFTensor (Complex [] data) : base (SetupTensor (TFDataType.Complex128, data, size: 16)) { }
 
 		public unsafe static TFTensor CreateString (byte [] buffer)
 		{
@@ -507,6 +584,16 @@ namespace TensorFlow
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
+		// Convenience function to factor out the setup of a new tensor from an array
+		static IntPtr SetupTensor (TFDataType dt, Array data, int size)
+		{
+			long [] dims = new long [data.Rank];
+			for (int i = 0; i < dims.Length; i++)
+				dims [i] = data.GetLength (i);
+			
+			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
+		}
+
 		// Use for single dimension arrays 
 		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int start, int count, int size)
 		{
@@ -537,46 +624,34 @@ namespace TensorFlow
 		//
 		// TODO: add more data types
 
-		unsafe public static implicit operator TFTensor (int value)
+		public static implicit operator TFTensor (int value)
 		{
-			var v = (int*)Marshal.AllocHGlobal (sizeof (int));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
-		unsafe public static implicit operator TFTensor (long value)
+		public static implicit operator TFTensor (long value)
 		{
-			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
 		unsafe public static implicit operator TFTensor (double value)
 		{
-			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
 		unsafe public static implicit operator TFTensor (float value)
 		{
-			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
 		unsafe public static implicit operator TFTensor (Complex value)
 		{
-			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
 		unsafe public static implicit operator TFTensor (byte value)
 		{
-			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
-			*v = value;
-			return new TFTensor (TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr) sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero));
+			return new TFTensor (value);
 		}
 
 		unsafe public static implicit operator TFTensor (Array array)
@@ -1333,6 +1408,75 @@ namespace TensorFlow
 			TF_GraphGetTensorShape (handle, output, ref ret, ndims, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 			return ret;
+		}
+
+		/// <summary>
+		/// Returns the current name scope in use, to change this, use the WithScope method.
+		/// </summary>
+		/// <value>The current name scope.</value>
+		public string CurrentNameScope { get; internal set; } = "";
+
+		/// <summary>
+		/// Creates a new namescope by setting the scope to the description provided.
+		/// </summary>
+		/// <returns>A new scope that will remain in use until the return TFScope is disposed.</returns>
+		/// <param name="nameScopeDesc">The namescope description, if the value is null, this
+		/// will reset the toplevel namescope to be the empty value. </param>
+		/// <remarks>
+		/// To more easily name your operations and group then, you can use the
+		/// WithScope method to set a current name scope that alter the complete name
+		/// of an operation added to the graph.
+		/// 
+		/// The graph starts with a scope set to the empty string, you can introduce new
+		/// scopes by calling WithScope, and can be conveniently used with the C# using
+		/// statement, like this:
+		/// 
+		/// <code>
+		/// Assert (graph.CurrentNamescope, "");
+		/// using (var nested = graph.WithScope ("nested")){
+		///    Assert (graph.CurrentNameScope, "nested");
+		///    using (var inner = graph.WithScope ("inner")){
+		///        Assert (graph.CurrentNameScope, "nested/inner");
+		///    }
+		/// }
+		/// </code>
+		/// </remarks>
+		public TFScope WithScope (string nameScopeDesc)
+		{
+			var scope = new TFScope (this);
+			if (scope == null)
+				CurrentNameScope = "";
+			else if (CurrentNameScope.Length == 0)
+				CurrentNameScope = nameScopeDesc;
+			else
+				CurrentNameScope = CurrentNameScope + "/" + nameScopeDesc;
+			
+			return scope;
+		}
+
+		string MakeName (string operName, string userName)
+		{
+			userName = (userName == null) ? operName : userName;
+			if (CurrentNameScope == "")
+				return userName;
+			return CurrentNameScope + "/" + userName;
+		}
+	}
+
+	public class TFScope : IDisposable 
+	{
+		TFGraph container;
+		string name;
+
+		internal TFScope (TFGraph container)
+		{
+			this.container = container;
+			name = container.CurrentNameScope;
+		}
+
+		public void Dispose ()
+		{
+			container.CurrentNameScope = name;
 		}
 	}
 

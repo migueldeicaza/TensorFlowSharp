@@ -3,7 +3,6 @@
 // mono FExampleInceptionInference file1.JPG file2.jpg...
 //
 // Things to improve in the F# API
-//   Need TFTensor constructors for the sake of F# as it does not use the implicit constructors
 //   The C# Nullables are not surfaced in a way that makes it nice for F#, must manually call System.Nullable on it
 //
 open TensorFlow
@@ -34,10 +33,10 @@ let FetchModelFiles =
 
 // Convenience functiosn to create tensor constants from an integer and a float
 let iconst (graph:TFGraph) (v:int) (label:string) =
-    graph.Const (TFTensor.op_Implicit (v), label)
+    graph.Const (new TFTensor (v), label)
 
 let fconst (graph:TFGraph) (v:float32) (label:string) =
-        graph.Const (TFTensor.op_Implicit (v), label)
+        graph.Const (new TFTensor (v), label)
 
 // The inception model takes as input the image described by a Tensor in a very
 // specific normalized format (a particular image size, shape of the input tensor,
