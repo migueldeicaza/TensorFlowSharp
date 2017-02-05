@@ -220,10 +220,10 @@ namespace SampleTest
 		public void AttributesTest ()
 		{
 			using (var x = new AttributeTest ()) {
-				var shape1 = new long [] { 1, 3 };
-				var shape2 = new long [] { 2, 4, 6 };
+				var shape1 = new TFShape (new long [] { 1, 3 });
+				var shape2 = new TFShape ( 2, 4, 6 );
 				var desc = x.Init ("list(shape)");
-				desc.SetAttrShape ("v", new long [] [] { shape1, shape2 });
+				desc.SetAttrShape ("v", new TFShape [] { shape1, shape2 });
 				var op = desc.FinishOperation ();
 				ExpectMeta (op, "v", 2, TFAttributeType.Shape, 5);
 			}

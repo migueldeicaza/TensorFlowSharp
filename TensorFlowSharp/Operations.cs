@@ -4719,7 +4719,7 @@ namespace TensorFlow {
 		///   intended as a way to represent a value that will always be fed, and to
 		///   provide attrs that enable the fed value to be checked at runtime.
 		/// </remarks>
-		public TFOutput PlaceholderV2 (TFDataType dtype, long[] shape, string operName = null)
+		public TFOutput PlaceholderV2 (TFDataType dtype, TFShape shape, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "PlaceholderV2", MakeName ("PlaceholderV2", operName));
 			desc.SetAttrType ("dtype", dtype);
@@ -4763,7 +4763,7 @@ namespace TensorFlow {
 		///   intended as a way to represent a value that will always be fed, and to
 		///   provide attrs that enable the fed value to be checked at runtime.
 		/// </remarks>
-		public TFOutput Placeholder (TFDataType dtype, long[] shape = null, string operName = null)
+		public TFOutput Placeholder (TFDataType dtype, TFShape shape = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Placeholder", MakeName ("Placeholder", operName));
 			desc.SetAttrType ("dtype", dtype);
@@ -5388,7 +5388,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   All elements selected by `indices` must have the same shape.
 		/// </remarks>
-		public TFOutput TensorArrayGatherV3 (TFOutput handle, TFOutput indices, TFOutput flow_in, TFDataType dtype, long[] element_shape = null, string operName = null)
+		public TFOutput TensorArrayGatherV3 (TFOutput handle, TFOutput indices, TFOutput flow_in, TFDataType dtype, TFShape element_shape = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayGatherV3", MakeName ("TensorArrayGatherV3", operName));
 			desc.AddInput (handle);
@@ -6135,7 +6135,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   The current implementation memmaps the tensor from a file.
 		/// </remarks>
-		public TFOutput ImmutableConst (TFDataType dtype, long[] shape, string memory_region_name, string operName = null)
+		public TFOutput ImmutableConst (TFDataType dtype, TFShape shape, string memory_region_name, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ImmutableConst", MakeName ("ImmutableConst", operName));
 			desc.SetAttrType ("dtype", dtype);
@@ -7366,7 +7366,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   via Read or Pack.
 		/// </remarks>
-		public TFOperation TensorArrayV3 (TFOutput size, TFDataType dtype, ref TFOutput handle, ref TFOutput flow, long[] element_shape = null, bool? dynamic_size = null, bool? clear_after_read = null, string tensor_array_name = null, string operName = null)
+		public TFOperation TensorArrayV3 (TFOutput size, TFDataType dtype, ref TFOutput handle, ref TFOutput flow, TFShape element_shape = null, bool? dynamic_size = null, bool? clear_after_read = null, string tensor_array_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayV3", MakeName ("TensorArrayV3", operName));
 			desc.AddInput (size);
@@ -9318,7 +9318,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   A placeholder tensor that defaults to `input` if it is not fed.
 		/// </returns>
-		public TFOutput PlaceholderWithDefault (TFOutput input, long[] shape, string operName = null)
+		public TFOutput PlaceholderWithDefault (TFOutput input, TFShape shape, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "PlaceholderWithDefault", MakeName ("PlaceholderWithDefault", operName));
 			desc.AddInput (input);
@@ -9766,7 +9766,7 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ParseExample'.
 		/// </param>
-		public TFOperation ParseExample (TFOutput serialized, TFOutput names, TFOutput[] sparse_keys, TFOutput[] dense_keys, TFOutput[] dense_defaults, TFDataType[] sparse_types, long[][] dense_shapes, ref TFOutput[] sparse_indices, ref TFOutput[] sparse_values, ref TFOutput[] sparse_shapes, ref TFOutput[] dense_values, string operName = null)
+		public TFOperation ParseExample (TFOutput serialized, TFOutput names, TFOutput[] sparse_keys, TFOutput[] dense_keys, TFOutput[] dense_defaults, TFDataType[] sparse_types, TFShape[] dense_shapes, ref TFOutput[] sparse_indices, ref TFOutput[] sparse_values, ref TFOutput[] sparse_shapes, ref TFOutput[] dense_values, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ParseExample", MakeName ("ParseExample", operName));
 			desc.AddInput (serialized);
@@ -14160,7 +14160,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		/// </returns>
-		public TFOutput TensorArrayV2 (TFOutput size, TFDataType dtype, long[] element_shape = null, bool? dynamic_size = null, bool? clear_after_read = null, string tensor_array_name = null, string operName = null)
+		public TFOutput TensorArrayV2 (TFOutput size, TFDataType dtype, TFShape element_shape = null, bool? dynamic_size = null, bool? clear_after_read = null, string tensor_array_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayV2", MakeName ("TensorArrayV2", operName));
 			desc.AddInput (size);
@@ -14457,7 +14457,7 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorArrayConcatV2'.
 		/// </param>
-		public TFOperation TensorArrayConcatV2 (TFOutput handle, TFOutput flow_in, TFDataType dtype, ref TFOutput value, ref TFOutput lengths, long[] element_shape_except0 = null, string operName = null)
+		public TFOperation TensorArrayConcatV2 (TFOutput handle, TFOutput flow_in, TFDataType dtype, ref TFOutput value, ref TFOutput lengths, TFShape element_shape_except0 = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayConcatV2", MakeName ("TensorArrayConcatV2", operName));
 			desc.AddInput (handle);
@@ -14889,7 +14889,7 @@ namespace TensorFlow {
 		///   and DequeueMany) on a PriorityQueue will all require (resp. output) one extra
 		///   entry in their input (resp. output) lists.
 		/// </remarks>
-		public TFOutput PriorityQueueV2 (long[][] shapes, TFDataType[] component_types = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		public TFOutput PriorityQueueV2 (TFShape[] shapes, TFDataType[] component_types = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "PriorityQueueV2", MakeName ("PriorityQueueV2", operName));
 			desc.SetAttrShape ("shapes", shapes);
@@ -15054,7 +15054,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		/// </returns>
-		public TFOutput VarHandleOp (TFDataType dtype, long[] shape, string container = null, string shared_name = null, string operName = null)
+		public TFOutput VarHandleOp (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "VarHandleOp", MakeName ("VarHandleOp", operName));
 			desc.SetAttrType ("dtype", dtype);
@@ -15551,7 +15551,7 @@ namespace TensorFlow {
 		///   
 		///   All elements must have the same shape (excepting the first dimension).
 		/// </remarks>
-		public TFOperation TensorArrayConcatV3 (TFOutput handle, TFOutput flow_in, TFDataType dtype, ref TFOutput value, ref TFOutput lengths, long[] element_shape_except0 = null, string operName = null)
+		public TFOperation TensorArrayConcatV3 (TFOutput handle, TFOutput flow_in, TFDataType dtype, ref TFOutput value, ref TFOutput lengths, TFShape element_shape_except0 = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayConcatV3", MakeName ("TensorArrayConcatV3", operName));
 			desc.AddInput (handle);
@@ -17482,7 +17482,7 @@ namespace TensorFlow {
 		///   to 0 in the shape attr.  In this case DequeueMany will pad up to the maximum
 		///   size of any given element in the minibatch.  See below for details.
 		/// </remarks>
-		public TFOutput PaddingFIFOQueueV2 (TFDataType[] component_types, long[][] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		public TFOutput PaddingFIFOQueueV2 (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "PaddingFIFOQueueV2", MakeName ("PaddingFIFOQueueV2", operName));
 			desc.SetAttrType ("component_types", component_types);
@@ -17943,7 +17943,7 @@ namespace TensorFlow {
 		///   feature_list_dense_key[j] must always equal
 		///   feature_list_dense_shapes[j].NumEntries().
 		/// </param>
-		public TFOperation ParseSingleSequenceExample (TFOutput serialized, TFOutput feature_list_dense_missing_assumed_empty, TFOutput[] context_sparse_keys, TFOutput[] context_dense_keys, TFOutput[] feature_list_sparse_keys, TFOutput[] feature_list_dense_keys, TFOutput[] context_dense_defaults, TFOutput debug_name, ref TFOutput[] context_sparse_indices, ref TFOutput[] context_sparse_values, ref TFOutput[] context_sparse_shapes, ref TFOutput[] context_dense_values, ref TFOutput[] feature_list_sparse_indices, ref TFOutput[] feature_list_sparse_values, ref TFOutput[] feature_list_sparse_shapes, ref TFOutput[] feature_list_dense_values, TFDataType[] context_sparse_types = null, TFDataType[] feature_list_dense_types = null, long[][] context_dense_shapes = null, TFDataType[] feature_list_sparse_types = null, long[][] feature_list_dense_shapes = null, string operName = null)
+		public TFOperation ParseSingleSequenceExample (TFOutput serialized, TFOutput feature_list_dense_missing_assumed_empty, TFOutput[] context_sparse_keys, TFOutput[] context_dense_keys, TFOutput[] feature_list_sparse_keys, TFOutput[] feature_list_dense_keys, TFOutput[] context_dense_defaults, TFOutput debug_name, ref TFOutput[] context_sparse_indices, ref TFOutput[] context_sparse_values, ref TFOutput[] context_sparse_shapes, ref TFOutput[] context_dense_values, ref TFOutput[] feature_list_sparse_indices, ref TFOutput[] feature_list_sparse_values, ref TFOutput[] feature_list_sparse_shapes, ref TFOutput[] feature_list_dense_values, TFDataType[] context_sparse_types = null, TFDataType[] feature_list_dense_types = null, TFShape[] context_dense_shapes = null, TFDataType[] feature_list_sparse_types = null, TFShape[] feature_list_dense_shapes = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ParseSingleSequenceExample", MakeName ("ParseSingleSequenceExample", operName));
 			desc.AddInput (serialized);
@@ -18045,7 +18045,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   The handle to the queue.
 		/// </returns>
-		public TFOutput FIFOQueueV2 (TFDataType[] component_types, long[][] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		public TFOutput FIFOQueueV2 (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FIFOQueueV2", MakeName ("FIFOQueueV2", operName));
 			desc.SetAttrType ("component_types", component_types);
@@ -18111,7 +18111,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   The handle to the queue.
 		/// </returns>
-		public TFOutput RandomShuffleQueueV2 (TFDataType[] component_types, long[][] shapes = null, long? capacity = null, long? min_after_dequeue = null, long? seed = null, long? seed2 = null, string container = null, string shared_name = null, string operName = null)
+		public TFOutput RandomShuffleQueueV2 (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, long? min_after_dequeue = null, long? seed = null, long? seed2 = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "RandomShuffleQueueV2", MakeName ("RandomShuffleQueueV2", operName));
 			desc.SetAttrType ("component_types", component_types);
@@ -19474,7 +19474,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		/// </returns>
-		public TFOutput TensorArrayGatherV2 (TFOutput handle, TFOutput indices, TFOutput flow_in, TFDataType dtype, long[] element_shape = null, string operName = null)
+		public TFOutput TensorArrayGatherV2 (TFOutput handle, TFOutput indices, TFOutput flow_in, TFDataType dtype, TFShape element_shape = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorArrayGatherV2", MakeName ("TensorArrayGatherV2", operName));
 			desc.AddInput (handle);

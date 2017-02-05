@@ -46,7 +46,7 @@ class OpGenerator
 		case "type":
 			cstype = "TFDataType"; break;
 		case "shape":
-			cstype = "long[]"; break;
+			cstype = "TFShape"; break;
 		case "tensor":
 			cstype = "TFTensor"; break;
 		case "string":

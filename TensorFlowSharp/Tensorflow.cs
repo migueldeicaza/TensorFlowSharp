@@ -16,6 +16,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Globalization;
+using System.Linq;
 
 // We use this TF_Xxx as the native "TF_Xxx *" as those are opaque
 using TF_Status = System.IntPtr;
@@ -1757,39 +1758,39 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrShape (TF_OperationDescription desc, string attr_name, IntPtr dims, int num_dims);
 
-		public void SetAttrShape (string attrName, long [] dims)
+		public void SetAttrShape (string attrName, TFShape shape)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
-			if (dims == null)
+			if (shape == null || shape.dims  == null)
 				TF_SetAttrShape (handle, attrName, null, -1);
 			else
-				TF_SetAttrShape (handle, attrName, dims, dims.Length);
+				TF_SetAttrShape (handle, attrName, shape.dims, shape.dims.Length);
 		}
 
 		// extern void TF_SetAttrShapeList (TF_OperationDescription *desc, const char *attr_name, const int64_t *const *dims, const int *num_dims, int num_shapes);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrShapeList (TF_OperationDescription desc, string attr_name, IntPtr dims, int [] num_dims, int num_shapes);
 
-		public void SetAttrShape (string attrName, long [] [] dims)
+		public void SetAttrShape (string attrName, TFShape [] shapeList)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
-			if (dims == null)
-				throw new ArgumentNullException (nameof (dims));
-			int num_shapes = dims.Length;
-			var num_dims = new int [dims.Length];
+			if (shapeList == null)
+				throw new ArgumentNullException (nameof (shapeList));
+			int num_shapes = shapeList.Length;
+			var num_dims = new int [shapeList.Length];
 			unsafe
 			{
 				var unmanaged = Marshal.AllocHGlobal (sizeof (IntPtr) * num_shapes);
 				int ofs = 0;
 				for (int i = 0; i < num_shapes; i++) {
-					IntPtr array = Marshal.AllocHGlobal (sizeof (long) * dims [i].Length);
-					Marshal.Copy (dims [i], 0, array, dims [i].Length);
+					IntPtr array = Marshal.AllocHGlobal (sizeof (long) * shapeList [i].dims.Length);
+					Marshal.Copy (shapeList [i].dims, 0, array, shapeList [i].dims.Length);
 					Marshal.WriteIntPtr (unmanaged, ofs, array);
 					ofs += sizeof (IntPtr);
 				}
@@ -2689,6 +2690,112 @@ namespace TensorFlow
 		public override string ToString ()
 		{
 			return string.Format ($"[TFAttributeMetadata IsList={IsList != 0?true:false} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
+		}
+	}
+
+	/// <summary>
+	/// Represents the shape of a tensor
+	/// </summary>
+	/// <remarks>
+	/// The shapes can be created by calling the constructor with the number of dimensions
+	/// in the shape.   The null value is used to specify that the shape is unknown,
+	/// an empty array is used to create a scalar, and other values are used to specify
+	/// the number of dimensions.
+	/// 
+	/// For the Unknown case, you can use <see cref="P:TensorFlor.TFShape.Unknown"/>, for
+	/// scalars, you can use the <see cref="P:TensorFlor.TFShape.Scalar"/> shape.
+	/// 
+	/// To create a 2-element vector, use:
+	/// new TFShape (2)
+	/// 
+	/// To create a 2x3 matrix, use:
+	/// new TFShape (2, 3)
+	/// 
+	/// To create a shape with an unknown number of elements, you can pass the value
+	/// -1.  This is typically used to indicate the shape of tensors that represent a
+	/// variable-sized batch of values.
+	/// 
+	/// 
+	/// To create a matrix with 4 columns and an unknown number of rows:
+	/// var batch = new TFShape (-1, 4)
+	/// </remarks>
+	public class TFShape
+	{
+		/// <summary>
+		/// Represents an unknown number of dimensions in the tensor.
+		/// </summary>
+		/// <value>The unknown.</value>
+		public static TFShape Unknown => new TFShape (null);
+
+		/// <summary>
+		/// This shape is used to represent scalar values.
+		/// </summary>
+		/// <value>The scalar.</value>
+		public static TFShape Scalar => new TFShape (new long [0]);
+
+		internal long [] dims;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFShape"/> class.
+		/// </summary>
+		/// <param name="args">This is a params argument, so you can provide multiple values to it.  
+		/// A null value means that this is an unknown shape, a single value is used to create a vector,
+		/// two values are used to create a 2-D matrix and so on.
+		/// </param>
+		/// <remarks>
+		/// 
+		/// </remarks>
+		public TFShape (params long [] args)
+		{
+			this.dims = args;
+		}
+
+		/// <summary>
+		/// Gets the length of the specified dimension in the tensor
+		/// </summary>
+		/// <returns>The length, -1 for shapes that have an unknown dimension.</returns>
+		/// <param name="dimension">Dimension.</param>
+		public int GetLength (int dimension) => dims == null ? -1 : dims.GetLength (dimension);
+
+		/// <summary>
+		/// Number of dimensions represented by this shape.
+		/// </summary>
+		/// <value>The number dimensions, -1 if the number of dimensions is unknown, 0 if the shape represent a scalar, 1 for a vector, 2 for a matrix and so on..</value>
+		public int NumDimensions => dims == null ? -1 : dims.Length;
+
+		/// <summary>
+		/// Gets a value indicating whether all the dimensions in the <see cref="T:TensorFlow.TFShape"/> are fully specified.
+		/// </summary>
+		/// <value><c>true</c> if is fully specified; otherwise, <c>false</c>.</value>
+		public bool IsFullySpecified {
+			get {
+				if (dims == null)
+					return false;
+				foreach (var j in dims)
+					if (j == -1)
+						return false;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Returns the shape as an array
+		/// </summary>
+		/// <returns>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</returns>
+		public long [] ToArray ()
+		{
+			if (dims == null)
+				return null;
+			
+			var ret = (long [])dims.Clone ();
+			return ret;
+		}
+
+		public override string ToString ()
+		{
+			if (dims == null)
+				return "unknown";
+			return "[" + String.Join (", ", dims.Select (x => x == -1 ? "?" : x.ToString ())) + "]";
 		}
 	}
 
