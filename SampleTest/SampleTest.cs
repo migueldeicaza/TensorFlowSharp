@@ -113,11 +113,9 @@ namespace SampleTest
 					var input_values = new TFTensor [] {
 						3
 					};
+					var add_output = new TFOutput (add, 0);
 					var outputs = new TFOutput [] {
-						new TFOutput (add, 0)
-					};
-					var output_values = new TFTensor [] {
-						3
+						add_output
 					};
 
 					var results = session.Run (    runOptions: null,
@@ -132,6 +130,17 @@ namespace SampleTest
 					Assert (res.TensorType == TFDataType.Int32);
 					Assert (res.NumDims == 0); // Scalar
 					Assert (res.TensorByteSize == (UIntPtr) 4);
+					Assert (Marshal.ReadInt32 (res.Data) == 3 + 2);
+
+					// Use runner API
+					var runner = session.GetRunner ();
+					runner.AddInput (new TFOutput (feed, 0), 3);
+					runner.Fetch (add_output);
+					results = runner.Run (status: status);
+					res = results [0];
+					Assert (res.TensorType == TFDataType.Int32);
+					Assert (res.NumDims == 0); // Scalar
+					Assert (res.TensorByteSize == (UIntPtr)4);
 					Assert (Marshal.ReadInt32 (res.Data) == 3 + 2);
 
 

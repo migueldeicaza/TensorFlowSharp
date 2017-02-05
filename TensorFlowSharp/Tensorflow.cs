@@ -1463,6 +1463,13 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// TFGraph name scope handle
+	/// </summary>
+	/// <remarks>
+	/// Instances of this class when disposed restore the CurrentNameScope to the
+	/// value they had when the TFGraph.WithScope method was called.
+	/// </remarks>
 	public class TFScope : IDisposable 
 	{
 		TFGraph container;
@@ -1874,9 +1881,22 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Tensorflow operations attached to a <see cref="T:Tensorflow.TFGraph"/>.
+	/// </summary>
+	/// <remarks>
+	/// TFOperations are usually created by  invoking one of the methods in 
+	/// <see cref="T:Tensorflow.TFGraph"/>, but they can also be constructed
+	/// manually using the low-level <see cref="T:Tensorflow.TFOperationDesc"/> API.
+	/// </remarks>
 	public partial class TFOperation
 	{
 		internal IntPtr handle;
+
+		/// <summary>
+		/// Gets the handle to the unmanaged TF_Operation object.
+		/// </summary>
+		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
 		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
@@ -1892,6 +1912,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_OperationName (TF_Operation oper);
 
+		/// <summary>
+		/// The name for this operation/
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name => handle == IntPtr.Zero ? "<ObjectDisposed>" : TF_OperationName (handle).GetStr ();
 
 		// extern const char * TF_OperationOpType (TF_Operation *oper);
@@ -1910,6 +1934,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationNumOutputs (TF_Operation oper);
 
+		/// <summary>
+		/// Gets the number of outputs on this operation.
+		/// </summary>
+		/// <value>The number outputs.</value>
 		public int NumOutputs => handle == IntPtr.Zero ? -1 : TF_OperationNumOutputs (handle);
 
 
@@ -1931,6 +1959,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationNumInputs (TF_Operation oper);
 
+		/// <summary>
+		/// Gets the number of inputs for this operation.
+		/// </summary>
+		/// <value>The number inputs.</value>
 		public int NumInputs => TF_OperationNumInputs (handle);
 
 
@@ -2081,6 +2113,14 @@ namespace TensorFlow
 		// extern void TF_OperationToNodeDef (TF_Operation *oper, TF_Buffer *output_node_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_OperationToNodeDef (TF_Operation oper, LLBuffer* output_node_def, TF_Status status);
+
+		/// <summary>
+		/// Encodes the TFOperation as a protocol buffer payload
+		/// </summary>
+		/// <returns>The buffer with the encoded operation in the protocol buffer format.</returns>
+		/// <param name="status">Status.</param>
+		/// <remarks>
+		/// </remarks>
 		public TFBuffer ToNodeDef (TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2139,16 +2179,29 @@ namespace TensorFlow
 
 	}
 
+	/// <summary>
+	/// Drives the execution of a graph
+	/// </summary>
+	/// <remarks>
+	/// This creates a new context to execute a TFGraph.   You can use the 
+	/// constructo to create an empty session, or you can load an existing
+	/// model using the FromSAvedModel static method in this class.
+	/// </remarks>
 	public class TFSession : TFDisposable
 	{
 		// extern TF_Session * TF_NewSession (TF_Graph *graph, const TF_SessionOptions *opts, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Session TF_NewSession (TF_Graph graph, TF_SessionOptions opts, TF_Status status);
+		TFGraph graph;
 
-		TFSession (IntPtr handle) : base (handle) { }
+		TFSession (IntPtr handle, TFGraph graph) : base (handle) 
+		{
+			this.graph = graph;
+		}
 
 		public TFSession (TFGraph graph, TFSessionOptions sessionOptions, TFStatus status = null) : base (IntPtr.Zero)
 		{
+			this.graph = graph;
 			var cstatus = TFStatus.Setup (status);
 			var h = TF_NewSession (graph.handle, sessionOptions.handle, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
@@ -2157,6 +2210,7 @@ namespace TensorFlow
 
 		public TFSession (TFGraph graph, TFStatus status = null) : base (IntPtr.Zero)
 		{
+			this.graph = graph;
 			var cstatus = TFStatus.Setup (status);
 			var empty = TFSessionOptions.TF_NewSessionOptions ();
 			var h = TF_NewSession (graph.handle, empty, cstatus.handle);
@@ -2186,8 +2240,9 @@ namespace TensorFlow
 			{
 				var h = TF_LoadSessionFromSavedModel (sessionOptions.handle, runOptions.LLBuffer, exportDir, tags, tags.Length, graph.handle, metaGraphDef.LLBuffer, cstatus.handle);
 
-				if (cstatus.CheckMaybeRaise (status))
-					return new TFSession (h);
+				if (cstatus.CheckMaybeRaise (status)) {
+					return new TFSession (h, graph);
+				}
 			}
 			return null;
 		}
@@ -2229,25 +2284,73 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionRun (TF_Session session, LLBuffer* run_options, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, LLBuffer* run_metadata, TF_Status status);
 
-		#if false
-		public struct Input
+		public class Runner
 		{
-			public TFOutput InputTF;
-			public TFTensor Value;
-			public Input (TFOutput input, TFTensor value)
+			List<TFOutput> inputs = new List<TFOutput> (), outputs = new List<TFOutput> ();
+			List<TFTensor> inputValues = new List<TFTensor> ();
+			List<TFOperation> targets = new List<TFOperation> ();
+			TFSession session;
+
+			public Runner (TFSession session)
 			{
-				InputTF = input;
-				Value = value;
+				this.session = session;
+			}
+
+			public Runner AddInput (TFOutput input, TFTensor value)
+			{
+				if (value == null)
+					throw new ArgumentNullException (nameof (value));
+				inputs.Add (input);
+				inputValues.Add (value);
+				return this;
+			}
+
+
+			public Runner AddTarget (params TFOperation [] targets)
+			{
+				foreach (var t in targets)
+					this.targets.Add (t);
+				return this;
+			}
+
+			public Runner AddTarget (params string [] targetNames)
+			{
+				foreach (var tn in targetNames)
+					this.targets.Add (session.graph [tn]);
+				return this;
+			}
+
+			public Runner Fetch (string operation, int index = 0)
+			{
+				var op = session.graph [operation];
+				outputs.Add (op [index]);
+				return this;
+			}
+
+			public Runner Fetch (TFOutput output)
+			{
+				outputs.Add (output);
+				return this;
+			}
+
+			public TFTensor [] Run (TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
+			{
+				return session.Run (inputs.ToArray (), inputValues.ToArray (), outputs.ToArray (), targets.ToArray (), runMetadata, runOptions, status);
 			}
 		}
 
-		public TFTensor [] Run (IEnumerable<Input> x)
+		/// <summary>
+		/// Gets a new runner, this provides a simpler API to prepare the inputs to run on a session
+		/// </summary>
+		/// <returns>The runner.</returns>
+		/// <remarks>
+		/// The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+		/// to construct the parameters that will be passed to the TFSession.Run method.
+		/// </remarks>
+		public Runner GetRunner ()
 		{
-		// This API call would look liek this:
-			Run (new [] { new Input (default (TFOutput), null) , new Input (default (TFOutput), null)});
+			return new Runner (this);
 		}
-
-		#endif
 
 		public TFTensor [] Run (TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
 		{

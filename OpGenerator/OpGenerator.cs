@@ -410,19 +410,22 @@ class OpGenerator
 			if (oper.attr.Any (attr => CSharpType (attr.type) == null)) {
 				var attr = oper.attr.First (a => CSharpType (a.type) == null);
 
-				//Console.WriteLine ($"Skip: {oper.name} due to attribute ({attr.type} {attr.name}) lacking a mapping to C#");
+				Console.WriteLine ($"SkipTYPE: {oper.name} due to attribute ({attr.type} {attr.name}) lacking a mapping to C#");
 				continue;
 			}
 
 			// Ignore reference types as well (per go's binding)
 			if (oper.input_arg.Any (ia => ia.is_ref)) {
-				//Console.WriteLine ($"Skip: {oper.name} due to presence of an input argument that is a reference");
+				var pars = String.Join (", ", oper.input_arg.Where (x => x.is_ref).Select (x => $"{x.type} {x.name}"));
+				Console.WriteLine ($"SkipInREF: {oper.name} parameters with is_ref: {pars}");
 				continue;
 			}
 
 			// Ignore reference types as well (per go's binding)
 			if (oper.output_arg.Any (ia => ia.is_ref)) {
-				//Console.WriteLine ($"Skip: {oper.name} due to presence of an output argument that is a reference");
+				var pars = String.Join (", ", oper.input_arg.Where (x => x.is_ref).Select (x => $"{x.type} {x.name}"));
+				Console.WriteLine ($"SkipOutREF: {oper.name} parameters with is_ref: {pars}");
+
 				continue;
 			}
 
