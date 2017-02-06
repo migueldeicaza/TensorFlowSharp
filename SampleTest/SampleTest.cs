@@ -236,13 +236,100 @@ namespace SampleTest
 			Console.WriteLine (p);
 		}
 
+		void BasicConstantOps ()
+		{
+			//
+			// Test the manual GetRunner, this could be simpler
+			// we should at some point allow Run (a+b);
+			//
+			// The session implicitly creates the graph, get it.
+			using (var s = new TFSession ()){
+				var g = s.Graph;
+
+				var a = g.Const (2);
+				var b = g.Const (3);
+				Console.WriteLine ("a=2 b=3");
+
+				// Add two constants
+				var results = s.GetRunner ().Run (g.Add (a, b));
+				var val = results [0].GetValue ();
+				Console.WriteLine ("a+b={0}", val);
+
+				// Multiply two constants
+				results = s.GetRunner ().Run (g.Mul (a, b));
+				Console.WriteLine ("a*b={0}", results [0].GetValue ());
+
+				// TODO: API-wise, perhaps session.Run () can have a simple
+				// overload where we only care about the fetched values, 
+				// making the above:
+				// s.Run (g.Mul (a, b));
+			}
+		}
+
+		// 
+		// Shows how to use placeholders to pass values
+		//
+		void BasicVariables ()
+		{
+			Console.WriteLine ("Using placerholders");
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g);
+
+				// We use "shorts" here, so notice the casting to short to get the
+				// tensor with the right data type.
+				var var_a = g.Placeholder (TFDataType.Int16);
+				var var_b = g.Placeholder (TFDataType.Int16);
+
+				var add = g.Add (var_a, var_b);
+				var mul = g.Mul (var_a, var_b);
+
+				var runner = s.GetRunner ();
+				runner.AddInput (var_a, new TFTensor ((short)3));
+				runner.AddInput (var_b, new TFTensor ((short)2));
+				Console.WriteLine ("a+b={0}", runner.Run (add) [0].GetValue ());
+
+				runner = s.GetRunner ();
+				runner.AddInput (var_a, new TFTensor ((short)3));
+				runner.AddInput (var_b, new TFTensor ((short)2));
+
+				Console.WriteLine ("a*b={0}", runner.Run (mul) [0].GetValue ());
+
+				// TODO
+				// Would be nice to have an API that allows me to pass the values at Run time, easily:
+				// s.Run (add, { var_a: 3, var_b: 2 })
+				// C# allows something with Dictionary constructors, but you still must provide the type
+				// signature.
+			}
+		}
+
+		void BasicMatrix ()
+		{
+			Console.WriteLine ("Basic matrix");
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g);
+
+				// 1x2 matrix
+				var matrix1 = g.Const (new double [,] { { 3, 3 } });
+				// 2x1 matrix
+				var matrix2 = g.Const (new double [,] { { 2 }, { 2 } });
+
+				// multiply
+				var product = g.MatMul (matrix1, matrix2);
+
+
+				var result = s.GetRunner ().Run (product) [0];
+				Console.WriteLine ("Tensor ToString=" + result);
+				Console.WriteLine ("Value [0,0]=" + ((double[,])result.GetValue ())[0,0]);
+
+			};
+		}
 
 		public static void Main (string [] args)
 		{
 			Console.WriteLine (Environment.CurrentDirectory);
 			Console.WriteLine ("TensorFlow version: " + TFCore.Version);
 
-			var b = TFCore.GetAllOpList ();
+			//var b = TFCore.GetAllOpList ();
 
 
 			var t = new MainClass ();
@@ -256,8 +343,11 @@ namespace SampleTest
 
 
 			//var n = new Mnist ();
-			//n.ReadDataSets ("/Users/miguel/Downloads", numClasses: numClasses);
+			//n.ReadDataSets ("/Users/miguel/Downloads", numClasses: 10);
 
+			t.BasicConstantOps ();
+			t.BasicVariables ();
+			t.BasicMatrix ();
 		}
 	}
 }
