@@ -77,6 +77,8 @@ class OpGenerator
 			return "output";
 		case "params":
 			return "parameters";
+		case "ref":
+			return "reference";
 		}
 		return paramName;
 	}
@@ -414,6 +416,7 @@ class OpGenerator
 				continue;
 			}
 
+			#if false
 			// Ignore reference types as well (per go's binding)
 			if (oper.input_arg.Any (ia => ia.is_ref)) {
 				var pars = String.Join (", ", oper.input_arg.Where (x => x.is_ref).Select (x => $"{x.type} {x.name}"));
@@ -428,6 +431,7 @@ class OpGenerator
 
 				continue;
 			}
+			#endif
 
 			// Undocumented operation, perhaps we should not surface
 			if (oper.summary == "")
