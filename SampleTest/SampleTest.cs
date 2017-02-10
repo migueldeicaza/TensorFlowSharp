@@ -329,7 +329,7 @@ namespace SampleTest
 
 			};
 		}
-#if false
+#if true
 		void LinearRegression ()
 		{
 			Console.WriteLine ("Linear regression");

@@ -16,22 +16,23 @@ namespace TensorFlow
 		}
 
 		// Returns range(0, rank(x)) if reduction_indices is null
-		TFOutput ReduceDims (TFTensor input, TFOutput? axis = null)
+		TFOutput ReduceDims (TFOutput input, TFOutput? axis = null)
 		{
 			if (axis.HasValue)
 				return axis.Value;
 
 			// Fast path: avoid creating Rank and Range ops if ndims is known.
-			if (input.NumDims >= 0) {
+			var shape = GetTensorShape (input);
+			if (shape.Length >= 0) {
 				// The python code distinguishes between tensor and sparsetensor
 
-				var array = new int [input.NumDims];
+				var array = new int [shape.Length];
 				for (int i = 0; i < array.Length; i++)
 					array [i] = i;
 
 				return this.Const (array, TFDataType.Int32);                   
 			}
-			return Range (Const (0), Const (input.NumDims), Const (1));
+			return Range (Const (0), Const (shape.Length), Const (1));
 		}
 
 		/// <summary>
@@ -51,9 +52,9 @@ namespace TensorFlow
 		/// If axis has no entries, all dimensions are reduced, and a
 		/// tensor with a single element is returned.
 		/// </remarks>
-		public TFOutput ReduceSum (TFTensor input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
+		public TFOutput ReduceSum (TFOutput input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
 		{
-			return Sum (Const (input), this.ReduceDims (input, axis), keep_dims, operName);
+			return Sum (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
 	}
 }

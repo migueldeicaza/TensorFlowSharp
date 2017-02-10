@@ -1280,15 +1280,19 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, ref long [] dims, int num_dims, TF_Status status);
 
-		public void GetTensorShape (TFOutput output, long [] dims, TFStatus status = null)
+		public long [] GetTensorShape (TFOutput output, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
-			if (dims == null)
-				throw new ArgumentNullException ("dims");
 			var cstatus = TFStatus.Setup (status);
+			var n = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			
+			var dims = new long [n];
 			TF_GraphGetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
+			return dims;
 		}
 
 		// extern void TF_GraphToGraphDef (TF_Graph *graph, TF_Buffer *output_graph_def, TF_Status *status);
