@@ -1498,6 +1498,116 @@ namespace TensorFlow
 			return name + val;
 		}
 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		unsafe extern static void TF_GraphImportGraphDefWithReturnOutputs (
+			TF_Graph graph, LLBuffer *graph_def,
+			TF_ImportGraphDefOptions options, TFOutput *return_outputs,
+			int num_return_outputs, TF_Status status);
+
+		/// <summary>
+		/// Imports a graph serialized into the graph
+		/// </summary>
+		/// <param name="graphDef">Serialized graph definition (in protocol buffer format).</param>
+		/// <param name="options">Import options.</param>
+		/// <param name="returnOutputs">Array large enough to contain all the return options.</param>
+		/// <param name="status">Status, optional.</param>
+		public void ImportGraphDef (TFBuffer graphDef, TFImportGraphDefOptions options, TFOutput [] returnOutputs, TFStatus status = null)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			if (graphDef == null)
+				throw new ArgumentNullException (nameof (graphDef));
+			if (options == null)
+				throw new ArgumentNullException (nameof (options));
+			var cstatus = TFStatus.Setup (status);
+
+			unsafe
+			{
+				if (returnOutputs == null) {
+					TF_GraphImportGraphDefWithReturnOutputs (handle, graphDef.LLBuffer, options.handle, null, 0, cstatus.handle);
+				} else {
+					fixed (TFOutput* first = &returnOutputs [0])
+					{
+						TF_GraphImportGraphDefWithReturnOutputs (handle, graphDef.LLBuffer, options.handle, first, returnOutputs.Length, cstatus.handle);
+					}
+				}
+			}
+		}
+
+		[StructLayout (LayoutKind.Sequential)]
+		unsafe struct TFWhileParams
+		{
+			int ninputs;
+			TF_Graph cond_graph;
+			TFOutput* cond_inputs;
+			TFOutput cond_output;
+			TF_Graph* body_graph;
+			TFOutput* body_inputs;
+			TFOutput* body_outputs;
+			IntPtr charPtrName;
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe TFWhileParams TF_NewWhile (TF_Graph g, TFOutput [] inputs, int ninputs, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern void TF_AbortWhile (ref TFWhileParams pars);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_FinishWhile (ref TFWhileParams pars, TF_Status status, TFOutput [] outputs);
+
+		/// <summary>
+		/// Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
+		/// </summary>
+		/// <remarks>
+		/// The method should build up the condition on the conditionGraph and the body of the while 
+		/// loop in the provided bodyGraph.   It should set the condOutput to the value used as the
+		/// condition output and the array of values in bodyOutputs to the final outputs as well as the
+		/// name to be used, if not set, one will be assigned.
+		/// </remarks>
+		public delegate void WhileConstructor (TFGraph conditionGraph, TFGraph bodyGraph, TFOutput [] condInputs, TFOutput [] bodyInputs, ref TFOutput condOutput, ref TFOutput [] bodyOutputs, ref string name);
+
+		/// <summary>
+		/// Constructs a while loop with the specified inputs and a callback that composes the while loop
+		/// </summary>
+		/// <param name="inputs">Inputs.</param>
+		/// <param name="constructor">Callback method that fills out the various while loop parameters.</param>
+		/// <returns>
+		/// true on success, or false if it was not possible to create the while loop.
+		/// </returns>
+		public TFOutput [] While (TFOutput [] inputs, WhileConstructor constructor, TFStatus status = null)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			if (inputs == null)
+				throw new ArgumentNullException (nameof (inputs));
+			if (constructor == null)
+				throw new ArgumentNullException (nameof (constructor));
+			var s = TFStatus.Setup (status);
+			var result = TF_NewWhile (handle, inputs, inputs.Length, s.handle);
+			if (s.Error)
+				return null;
+			try {
+				// 
+				// Call constructor here
+				// Wrap the various TF_graphs (with owns=false)
+				// Marshal the condInputs, bodyInputs
+				//
+				// TODO:
+				throw new NotImplementedException ();
+
+				// On return, copy the condOutput and bodyOututs
+				// Set the name
+				var ret = new TFOutput [inputs.Length];
+				TF_FinishWhile (ref result, s.handle, ret);
+				return ret;
+			} catch {
+				TF_AbortWhile (ref result);
+				return null;
+			}
+		}
+
+
 	}
 
 	/// <summary>
@@ -2213,6 +2323,81 @@ namespace TensorFlow
 			TF_ImportGraphDefOptionsSetPrefix (handle, prefix);
 		}
 
+		// extern void TF_ImportGraphDefOptionsAddInputMapping (TF_ImportGraphDefOptions *opts, const char* src_name, int src_index, TF_Output dst);
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_ImportGraphDefOptionsAddInputMapping (TF_ImportGraphDefOptions opts, string src_name, int src_index, TFOutput dst);
+
+
+		/// <summary>
+		/// Adds an input mapping from a source name and index to a destination output
+		/// </summary>
+		/// <param name="srcName">Source name.</param>
+		/// <param name="srcIndex">Source index (in the source).</param>
+		/// <param name="dst">Replacement value for the srcName:srcIndex.</param>
+		/// <remarks>
+		/// Set any imported nodes with input `src_name:src_index` to have that input
+		/// replaced with `dst`. `src_name` refers to a node in the graph to be imported,
+		/// `dst` references a node already existing in the graph being imported into.
+		/// </remarks>
+		public void AddInputMapping (string srcName, int srcIndex, TFOutput dst)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			TF_ImportGraphDefOptionsAddInputMapping (handle, srcName, srcIndex, dst);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsAddControlDependency (TF_ImportGraphDefOptions opts, TF_Operation oper);
+
+		/// <summary>
+		/// Cause the imported graph to have a control dependency on the provided operation.
+		/// </summary>
+		/// <param name="operation">This operation should exist in the graph being imported to.</param>
+		public void AddControlDependency (TFOperation operation)
+		{
+			if (operation == null)
+				throw new ArgumentNullException (nameof (operation));
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			
+			TF_ImportGraphDefOptionsAddControlDependency (handle, operation.handle);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsAddReturnOutput (TF_ImportGraphDefOptions opts, string oper_name, int index);
+
+		/// <summary>
+		/// Add an output in the graph definition to be returned via the return outputs parameter.
+		/// </summary>
+		/// <param name="operName">Operation name.</param>
+		/// <param name="index">Operation index.</param>
+		/// <remarks>
+		/// If the output is remapped via an input
+		/// mapping, the corresponding existing tensor in graph will be returned.
+		/// </remarks>
+		public void AddReturnOutput (string operName, int index)
+		{
+			if (operName == null)
+				throw new ArgumentNullException (nameof (operName));
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			TF_ImportGraphDefOptionsAddReturnOutput (handle, operName, index);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static int TF_ImportGraphDefOptionsNumReturnOutputs (TF_ImportGraphDefOptions opts);
+
+		/// <summary>
+		/// Gets the number return outputs added via AddReturnOutput.
+		/// </summary>
+		/// <value>The number return outputs.</value>
+		public int NumReturnOutputs {
+			get {
+				if (handle == IntPtr.Zero)
+					ObjectDisposedException ();
+				return TF_ImportGraphDefOptionsNumReturnOutputs (handle);
+			}
+		}
 
 	}
 
@@ -2853,5 +3038,7 @@ namespace TensorFlow
 			return "[" + String.Join (", ", dims.Select (x => x == -1 ? "?" : x.ToString ())) + "]";
 		}
 	}
+
+
 
 }

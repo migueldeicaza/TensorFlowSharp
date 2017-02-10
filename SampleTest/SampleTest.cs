@@ -236,6 +236,12 @@ namespace SampleTest
 			Console.WriteLine (p);
 		}
 
+		#region Samples
+		// 
+		// Samples to exercise the API usability
+		//
+		// From https://github.com/aymericdamien/TensorFlow-Examples
+		//
 		void BasicConstantOps ()
 		{
 			//
@@ -323,7 +329,53 @@ namespace SampleTest
 
 			};
 		}
+#if false
+		void LinearRegression ()
+		{
+			Console.WriteLine ("Linear regression");
+			// Parameters
+			var learning_rate = 0.01;
+			var training_epochs = 1000;
+			var display_step = 50;
 
+			// Training data
+			var train_x = new double [] {
+				3.3, 4.4, 5.5, 6.71, 6.93, 4.168, 9.779, 6.182, 7.59, 2.167,
+				7.042, 10.791, 5.313, 7.997, 5.654, 9.27, 3.1
+			};
+			var train_y = new double [] {
+				1.7,2.76,2.09,3.19,1.694,1.573,3.366,2.596,2.53,1.221,
+			 	2.827,3.465,1.65,2.904,2.42,2.94,1.3
+			};
+			var n_samples = train_x.Length;
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g);
+		 		var rng = new Random ();
+				// tf Graph Input
+
+				var X = g.Placeholder (TFDataType.Float);
+				var Y = g.Placeholder (TFDataType.Float);
+				var W = g.Variable (new TFShape (rng.Next ()), TFDataType.Float, operName: "weight");
+				var b = g.Variable (new TFShape (rng.Next ()), TFDataType.Float, operName: "bias");
+
+				var pred = g.Add (g.Mul (X, W), b);
+
+		// Struggling with the following:
+		// The call to g.Pow returns a TFOutput, but g.ReduceSum expects a TFTensor
+		// Python seems to return operation definitions, and somehow those can be p
+		//passed as tensors:
+		// tensorflow/python/framework/op_def_library.py
+		//  (apply_op)
+		//
+		//https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/2_BasicModels/linear_regression.py
+				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2))), g.Mul (g.Const (2), g.Const (n_samples)));
+
+			
+
+			}
+		}
+#endif
+		#endregion
 		public static void Main (string [] args)
 		{
 			Console.WriteLine (Environment.CurrentDirectory);
