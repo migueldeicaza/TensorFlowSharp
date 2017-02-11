@@ -37,6 +37,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations.cs" />
     <Compile Include="OperationsExtras.cs" />
+    <Compile Include="Buffer.cs" />
+    <Compile Include="Tensor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
