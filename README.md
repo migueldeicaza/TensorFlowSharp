@@ -11,7 +11,7 @@ kinks and TODO-items that I left while I was doing the work.
 # Getting Started
 
 You need to get yourself a copy of the TensorFlow runtime, you can either
-build your own version (see the instructions below) or you can use a precompiled
+build your own version (recommended, see the instructions below) or you can use a precompiled
 binary:
 
 https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
@@ -29,6 +29,8 @@ Once you do that, you need to open the solution file on the top
 level directory and build.   This will produce both the TensorFlowSharp
 library as well as compile the tests and samples.
 
+It is recommended that you build your own, because these bindings of TensorFlow surface some
+features in the latest version of TensorFlow that are not available on the 1.0.0-rc0 builds above.
 
 # Work in Progress
 
