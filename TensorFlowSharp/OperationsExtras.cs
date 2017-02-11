@@ -6,10 +6,14 @@ namespace TensorFlow
 	public partial class TFGraph
 	{
 		/// <summary>
-		/// Creates a constant from a TFTensor
+		/// Creates a constant operation from a TFTensor or constant
 		/// </summary>
 		/// <param name="value">Value.</param>
 		/// <param name="operName">Oper name.</param>
+		/// <remarks>
+		/// Since TFTensor have implicit conversion operators, you can call this method with
+		/// a constant like this: graph.Const (23)
+		/// </remarks>
 		public TFOutput Const (TFTensor value, string operName = null)
 		{
 			return Const (value, value.TensorType, operName);

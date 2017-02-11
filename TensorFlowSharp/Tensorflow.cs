@@ -1235,6 +1235,10 @@ namespace TensorFlow
 		{
 		}
 
+		internal TFGraph (IntPtr handle) : base (handle)
+		{
+		}
+
 		// extern void TF_DeleteGraph (TF_Graph *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteGraph (TF_Graph graph);
@@ -1541,14 +1545,14 @@ namespace TensorFlow
 		[StructLayout (LayoutKind.Sequential)]
 		unsafe struct TFWhileParams
 		{
-			int ninputs;
-			TF_Graph cond_graph;
-			TFOutput* cond_inputs;
-			TFOutput cond_output;
-			TF_Graph* body_graph;
-			TFOutput* body_inputs;
-			TFOutput* body_outputs;
-			IntPtr charPtrName;
+			public int ninputs;
+			public TF_Graph cond_graph;
+			public TFOutput* cond_inputs;
+			public TFOutput cond_output;
+			public TF_Graph body_graph;
+			public TFOutput* body_inputs;
+			public TFOutput* body_outputs;
+			public IntPtr charPtrName;
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -1558,7 +1562,16 @@ namespace TensorFlow
 		static extern void TF_AbortWhile (ref TFWhileParams pars);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_FinishWhile (ref TFWhileParams pars, TF_Status status, TFOutput [] outputs);
+		static extern unsafe void TF_FinishWhile (ref TFWhileParams pars, TF_Status status, TFOutput *outputs);
+
+		static unsafe TFOutput [] CopyFrom (TFOutput* ptr, int n)
+		{
+			var r = new TFOutput [n];
+			for (int i = 0; i < n; i++)
+				r [i] = ptr [i];
+
+			return r;
+		}
 
 		/// <summary>
 		/// Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
@@ -1568,8 +1581,16 @@ namespace TensorFlow
 		/// loop in the provided bodyGraph.   It should set the condOutput to the value used as the
 		/// condition output and the array of values in bodyOutputs to the final outputs as well as the
 		/// name to be used, if not set, one will be assigned.
+		/// 
+		/// The conditionGraph represents the while condition and the inputs are the current values of the
+		/// input variables (condInputs).   The output should be a scalar boolean.
+		/// 
+		/// The loop body graph is in bodyGraph, The inputs are the current values of the loop
+		/// variables. The outputs are the updated values of the loop variables.
+		/// 
+		/// You can use the passed status record problems with it.
 		/// </remarks>
-		public delegate void WhileConstructor (TFGraph conditionGraph, TFGraph bodyGraph, TFOutput [] condInputs, TFOutput [] bodyInputs, ref TFOutput condOutput, ref TFOutput [] bodyOutputs, ref string name);
+		public delegate void WhileConstructor (TFGraph conditionGraph, TFOutput [] condInputs, out TFOutput condOutput, TFGraph bodyGraph, TFOutput [] bodyInputs, TFOutput [] bodyOutputs, out string name);
 
 		/// <summary>
 		/// Constructs a while loop with the specified inputs and a callback that composes the while loop
@@ -1577,7 +1598,8 @@ namespace TensorFlow
 		/// <param name="inputs">Inputs.</param>
 		/// <param name="constructor">Callback method that fills out the various while loop parameters.</param>
 		/// <returns>
-		/// true on success, or false if it was not possible to create the while loop.
+		/// An array of TFOutputs from creating the While loop, or null if there is an error creating the 
+		/// while loop, or if the constructor raised an exception when it was invoked.
 		/// </returns>
 		public TFOutput [] While (TFOutput [] inputs, WhileConstructor constructor, TFStatus status = null)
 		{
@@ -1587,24 +1609,51 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (inputs));
 			if (constructor == null)
 				throw new ArgumentNullException (nameof (constructor));
-			var s = TFStatus.Setup (status);
-			var result = TF_NewWhile (handle, inputs, inputs.Length, s.handle);
-			if (s.Error)
+			var cstatus = TFStatus.Setup (status);
+			TFWhileParams result = TF_NewWhile (handle, inputs, inputs.Length, cstatus.handle);
+			if (cstatus.Error)
 				return null;
+			
 			try {
+
 				// 
 				// Call constructor here
 				// Wrap the various TF_graphs (with owns=false)
 				// Marshal the condInputs, bodyInputs
 				//
-				// TODO:
-				throw new NotImplementedException ();
+				TFOutput condOutput;
+				string name;
 
+				int n = result.ninputs;
+				TFOutput [] bodyOutputs = new TFOutput [n];
+				unsafe
+				{
+					var condGraph = new TFGraphUnowned (result.cond_graph);
+					var bodyGraph = new TFGraphUnowned (result.body_graph);
+					constructor (condGraph, CopyFrom (result.cond_inputs, n), out result.cond_output, bodyGraph, CopyFrom (result.body_inputs, n), bodyOutputs, out name);
+				}
+				if (name == null || name == "")
+					name = MakeUnique ("while");
 				// On return, copy the condOutput and bodyOututs
-				// Set the name
-				var ret = new TFOutput [inputs.Length];
-				TF_FinishWhile (ref result, s.handle, ret);
-				return ret;
+				var text = Encoding.UTF8.GetBytes (name);
+
+				result.charPtrName = Marshal.AllocHGlobal (text.Length + 1);
+				Marshal.Copy (text, 0, result.charPtrName, text.Length);
+				Marshal.WriteByte (result.charPtrName, text.Length, 0);
+
+				unsafe
+				{
+					for (int i = 0; i < n; i++)
+						result.body_outputs [i] = bodyOutputs [i];
+					var ret = new TFOutput [inputs.Length];
+					fixed (TFOutput* first = &ret [0])
+						TF_FinishWhile (ref result, cstatus.handle, first);
+
+
+					if (cstatus.CheckMaybeRaise (status))
+						return ret;
+				}
+				return null;
 			} catch {
 				TF_AbortWhile (ref result);
 				return null;
@@ -1612,6 +1661,23 @@ namespace TensorFlow
 		}
 
 
+	}
+
+	//
+	// A TFGraph that will not release the undelying handle, this is used
+	// when we want to surface a TFGraph that we do not own, so we do not
+	// want to delete the handle when this object is collected
+	//
+	internal class TFGraphUnowned : TFGraph
+	{
+		internal TFGraphUnowned (IntPtr handle) : base (handle)
+		{
+		}
+
+		internal override void NativeDispose (TF_Status handle)
+		{
+			// nothing, we do not own the handle
+		}
 	}
 
 	/// <summary>
@@ -2515,6 +2581,16 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionRun (TF_Session session, LLBuffer* run_options, TFOutput [] inputs, TF_Tensor [] input_values, int ninputs, TFOutput [] outputs, TF_Tensor [] output_values, int noutputs, TF_Operation [] target_opers, int ntargets, LLBuffer* run_metadata, TF_Status status);
 
+
+		/// <summary>
+		/// Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
+		/// </summary>
+		/// <remarks>
+		/// The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+		/// to construct the parameters that will be passed to the TFSession.Run method.
+		/// 
+		/// Instances of this class are created by calling the GetRunner method on the TFSession.
+		/// </remarks>
 		public class Runner
 		{
 			List<TFOutput> inputs = new List<TFOutput> (), outputs = new List<TFOutput> ();
@@ -2522,11 +2598,17 @@ namespace TensorFlow
 			List<TFOperation> targets = new List<TFOperation> ();
 			TFSession session;
 
-			public Runner (TFSession session)
+			internal Runner (TFSession session)
 			{
 				this.session = session;
 			}
 
+			/// <summary>
+			/// Adds an input to the session
+			/// </summary>
+			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+			/// <param name="input">Incoming port.</param>
+			/// <param name="value">Value to assing to the incoming port.</param>
 			public Runner AddInput (TFOutput input, TFTensor value)
 			{
 				if (value == null)
@@ -2536,7 +2618,11 @@ namespace TensorFlow
 				return this;
 			}
 
-
+			/// <summary>
+			/// Adds the specified operations as the ones to be retrieved.
+			/// </summary>
+			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+			/// <param name="targets">One or more targets.</param>
 			public Runner AddTarget (params TFOperation [] targets)
 			{
 				foreach (var t in targets)
@@ -2561,6 +2647,13 @@ namespace TensorFlow
 			public Runner Fetch (TFOutput output)
 			{
 				outputs.Add (output);
+				return this;
+			}
+
+			public Runner Fetch (params TFOutput [] outputs)
+			{
+				foreach (var output in outputs)
+					this.outputs.Add (output);
 				return this;
 			}
 
@@ -2824,7 +2917,7 @@ namespace TensorFlow
 	}
 
 	/// <summary>
-	/// Represents a specific output of an operation
+	/// Represents a specific output of an operation on a tensor.
 	/// </summary>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput
@@ -2859,18 +2952,25 @@ namespace TensorFlow
 		/// Initializes a new TFOutput instance.
 		/// </summary>
 		/// <param name="operation">The operation to which to attach the output.</param>
-		/// <param name="index">The index of the output within the operation.</param>
-		/// <remarks>
-		/// This constructor is a low-level constructor used when you create operations
-		/// manually using <see cref="T:TensorFlow.TFOperationDesc"/>, you typically
-		/// create the outputs and pass these to the AddInput method to register the
-		/// outputs in the operation.
-		/// </remarks>
-		public TFOutput (TFOperation operation, int index)
+		/// <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
+		public TFOutput (TFOperation operation, int index = 0)
 		{
 			if (operation == null)
-				throw new ArgumentNullException ("operation");
+				throw new ArgumentNullException (nameof (operation));
 			LLOperation = operation.handle;
+			Index = index;
+		}
+
+		/// <summary>
+		/// Initializes a new TFOutput instance from another TFOutput
+		/// </summary>
+		/// <param name="operation">The other TFOutput that is having its operation attached.</param>
+		/// <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
+		public TFOutput (TFOutput output, int index = 0)
+		{
+			if (output.LLOperation == null)
+				throw new ArgumentNullException ("Outputs does not have a valid operation pointer");
+			LLOperation = output.LLOperation;
 			Index = index;
 		}
 
