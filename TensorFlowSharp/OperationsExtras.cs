@@ -60,5 +60,30 @@ namespace TensorFlow
 		{
 			return Sum (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
+
+		/// <summary>
+		/// Variable node, with a starting initial value.
+		/// </summary>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="init">Returns the operation that initializes the value of the variable.</param>
+		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		public TFOutput Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, string operName = null)
+		{
+			var scopeName = MakeName ("Variable", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var type = initialValue.OutputType;
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				using (var aScope = WithScope ("Assign")) {
+					init = AssignVariableOp (handle, initialValue);
+					using (var rScope = WithScope ("Read")) {
+						value = ReadVariableOp (handle, type);
+						return handle;
+					}
+				}
+			}
+		}
 	}
 }

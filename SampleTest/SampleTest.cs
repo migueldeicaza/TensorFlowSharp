@@ -386,6 +386,40 @@ namespace SampleTest
 			}
 		}
 
+		//
+		// Shows the use of Variable
+		//
+		void TestVariable ()
+		{
+			Console.WriteLine ("Variables");
+			var status = new TFStatus ();
+			using (var g = new TFGraph ()) {
+				var initValue = g.Const (1.5);
+				var increment = g.Const (0.5);
+				TFOperation init;
+				TFOutput value;
+				var handle = g.Variable (initValue, out init, out value);
+
+				// Add 0.5 and assign to the variable.
+				// Perhaps using op.AssignAddVariable would be better,
+				// but demonstrating with Add and Assign for now.
+				var update = g.AssignVariableOp (handle, g.Add (value, increment));
+
+				var s = new TFSession (g);
+				// Must first initialize all the variables.
+				s.GetRunner ().AddTarget (init).Run (status);
+				Assert (status);
+				// Now print the value, run the update op and repeat
+				// Ignore errors.
+				for (int i = 0; i < 5; i++) {
+					// Read and update
+					var result = s.GetRunner ().Fetch (value).AddTarget (update).Run ();
+
+					Console.WriteLine ("Result of variable read {0} -> {1}", i, result [0].GetValue ());
+				}
+			}
+		}
+
 		void BasicMatrix ()
 		{
 			Console.WriteLine ("Basic matrix");
@@ -466,6 +500,7 @@ namespace SampleTest
 			t.TestImportGraphDef ();
 			t.TestSession ();
 			t.TestOperationOutputListSize ();
+			t.TestVariable ();
 
 			// Current failing test
 			t.TestOutputShape ();
