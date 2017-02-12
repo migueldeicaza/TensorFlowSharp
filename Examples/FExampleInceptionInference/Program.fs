@@ -91,7 +91,15 @@ let main argv =
         let tensor = createTensorFromImageFile file
 
         // Run the session
-        let sessionOutput = session.Run (inputs = [| graph.["input"].[0] |], inputValues= [| tensor |], outputs = [| graph.["output"].[0] |])   
+        let runner = session.GetRunner ();
+        runner.AddInput (graph.["input"].[0], tensor)
+        runner.Fetch (graph.["output"].[0]);
+        let sessionOutput = runner.Run ();
+
+        //
+        // Other style of invoking the runner:
+        // let sessionOutput = session.Run (inputs = [| graph.["input"].[0] |], inputValues= [| tensor |], outputs = [| graph.["output"].[0] |])   
+        //
         let resultTensor = sessionOutput.[0]
 
         // The GetValue method returns an 'object' type, we need to cast this

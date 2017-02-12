@@ -397,7 +397,7 @@ class OpGenerator
 	void Run ()
 	{
 		
-		output = File.CreateText ("../../../TensorFlowSharp/Operations.cs");
+		output = File.CreateText ("../../../TensorFlowSharp/Operations.g.cs");
 	     	var operations = Serializer.Deserialize<List<OpDef>> (GetOpsList ());
 		p ("using System;\n");
 

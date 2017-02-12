@@ -289,7 +289,7 @@ namespace SampleTest
 		void ExpectMeta (TFOperation op, string name, int expectedListSize, TFAttributeType expectedType, int expectedTotalSize)
 		{
 			var meta = op.GetAttributeMetadata (name);
-			Assert (meta.IsList == (expectedListSize >= 0 ? 1 : 0));
+			Assert (meta.IsList == (expectedListSize >= 0 ? true : false));
 			Assert (expectedListSize == meta.ListSize);
 			Assert (expectedTotalSize == expectedTotalSize);
 			Assert (expectedType == meta.Type);
