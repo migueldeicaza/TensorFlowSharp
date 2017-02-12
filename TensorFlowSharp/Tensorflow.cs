@@ -1947,6 +1947,13 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// The data type for a specific tensor.
+	/// </summary>
+	/// <remarks>
+	/// Tensors have uniform data types, all the elements of the tensor are of this
+	/// type and they dictate how TensorFlow will treat the data stored.   
+	/// </remarks>
 	public enum TFDataType : uint
 	{
 		Float = 1,
@@ -2129,14 +2136,15 @@ namespace TensorFlow
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFAttributeMetadata
 	{
-		public byte IsList;
+		byte isList;
+		public bool IsList => isList != 0;
 		public long ListSize;
 		public TFAttributeType Type;
 		public long TotalSize;
 
 		public override string ToString ()
 		{
-			return string.Format ($"[TFAttributeMetadata IsList={IsList != 0?true:false} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
+			return string.Format ($"[TFAttributeMetadata IsList={IsList} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
 		}
 	}
 
