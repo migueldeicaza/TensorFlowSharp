@@ -324,6 +324,15 @@ namespace TensorFlow
 	/// Represents a computation graph.  Graphs may be shared between sessions and are thread safe.
 	/// </summary>
 	/// <remarks>
+	/// Graphs consist of operations (represented by TFOperation objects), these can be named, or 
+	/// the runtime will automatically assign a name.
+	/// 
+	/// For debugging purposes, you might want to group operations together, for this, call the
+	/// WithScope method with your new scope, which will create a new namespace for your object names.
+	/// 
+	/// For example, if you call WithScope ("demo"), and add an operation named "add" inside the
+	/// scope, the full name of the operation will be "demo/add", if you create a new scope inside, say
+	/// "hot", and add a "sub" operation there the result will be "demo/hot/sub".
 	/// </remarks>
 	public partial class TFGraph : TFDisposable
 	{
@@ -1202,7 +1211,7 @@ namespace TensorFlow
 	}
 
 	/// <summary>
-	/// Tensorflow operations attached to a <see cref="T:Tensorflow.TFGraph"/>.
+	/// Represents a computation node in the graph.  Tensorflow operations are attached to a <see cref="T:Tensorflow.TFGraph"/>.
 	/// </summary>
 	/// <remarks>
 	/// TFOperations are usually created by  invoking one of the methods in 
