@@ -69,6 +69,10 @@ namespace TensorFlow
 		/// <param name="value">Returns the value of the variable.</param>
 		/// <param name="operName">Operation name, optional.</param>
 		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <remarks>
+		/// Variables need to be initialized before the main execution so you will typically want to
+		/// run the session on the variable
+		/// </remarks>
 		public TFOutput Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, string operName = null)
 		{
 			var scopeName = MakeName ("Variable", operName);

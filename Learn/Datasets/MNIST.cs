@@ -7,27 +7,86 @@ using System.IO;
 using System.IO.Compression;
 using Mono;
 using TensorFlow;
+using System.Linq;
 
 namespace Learn.Mnist
 {
+	// Stores the per-image MNIST information we loaded from disk 
+	//
+	// We store the data in two formats, byte array (as it came in from disk), and float array
+	// where each 0..255 value has been mapped to 0.0f..1.0f
 	public struct MnistImage
 	{
 		public int Cols, Rows;
 		public byte [] Data;
+		public float [] DataFloat;
 
 		public MnistImage (int cols, int rows, byte [] data)
 		{
 			Cols = cols;
 			Rows = rows;
 			Data = data;
+			DataFloat = new float [data.Length];
+			for (int i = 0; i < data.Length; i++) {
+				DataFloat [i] = Data [i] / 255f;
+			}
 		}
 	}
 
+	// Helper class used to load and work with the Mnist data set
 	public class Mnist 
 	{
+		// 
+		// The loaded results
+		//
 		public MnistImage [] TrainImages, TestImages, ValidationImages;
-		public byte [] TrainLabels, TestLabels, ValidationLabels;
+		public byte [] 	TrainLabels, TestLabels, ValidationLabels;
 		public byte [,] OneHotTrainLabels, OneHotTestLabels, OneHotValidationLabels;
+
+		// Simple batch reader to get pieces of data from the dataset
+		public BatchReader GetBatchReader (MnistImage [] source)
+		{
+			return new BatchReader (source);
+		}
+
+		public class BatchReader
+		{
+			int start = 0;
+			MnistImage [] source;
+
+			public BatchReader (MnistImage [] source)
+			{
+				this.source = source;
+			}
+
+			public MnistImage [] Read (int batchSize)
+			{
+				var result = new MnistImage [batchSize];
+				if (start + batchSize < source.Length) {
+					Array.Copy (source, start, result, 0, batchSize);
+					start += batchSize;
+				} else {
+					var firstLength = source.Length - start;
+					Array.Copy (source, start, result, 0, firstLength);
+					Array.Copy (source, 0, result, firstLength, batchSize-firstLength);
+					start = firstLength;
+				}
+				return result;
+			}
+
+			public TFTensor ReadAsTensor (int batchSize)
+			{
+				var result = new float [batchSize, 784];
+
+				var x = Read (batchSize);
+				int p = 0;
+				for (int i = 0; i < batchSize; i++) {
+					Buffer.BlockCopy (x [i].DataFloat, 0, result, p, 784);
+					p += 784;
+				}
+				return (TFTensor)result;
+			}
+		}
 
 		int Read32 (Stream s)
 		{
@@ -98,7 +157,7 @@ namespace Learn.Mnist
 		/// <param name="trainDir">Directory where the training data is downlaoded to.</param>
 		/// <param name="numClasses">Number classes to use for one-hot encoding, or zero if this is not desired</param>
 		/// <param name="validationSize">Validation size.</param>
-		public void ReadDataSets (string trainDir, int numClasses = 0, int validationSize = 5000)
+		public void ReadDataSets (string trainDir, int numClasses = 10, int validationSize = 5000)
 		{
 			const string SourceUrl = "http://yann.lecun.com/exdb/mnist/";
 			const string TrainImagesName = "train-images-idx3-ubyte.gz";
@@ -121,6 +180,13 @@ namespace Learn.Mnist
 				OneHotValidationLabels = OneHot (ValidationLabels, numClasses);
 				OneHotTestLabels = OneHot (TestLabels, numClasses);
 			}
+		}
+
+		public static Mnist Load ()
+		{
+			var x = new Mnist ();
+			x.ReadDataSets ("/tmp");
+			return x;
 		}
 	}
 }

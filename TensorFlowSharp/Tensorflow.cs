@@ -2038,6 +2038,15 @@ namespace TensorFlow
 	/// <summary>
 	/// Represents a specific output of an operation on a tensor.
 	/// </summary>
+	/// <remarks>
+	/// TFOutput objects represent one of the outputs of an operation in the graph
+	/// (TFGraph).  Outputs have a data type, and eventually a shape that you can 
+	/// retrieve by calling the <see cref="M:TensorFlow.TFGraph.GetShape"/> method.
+	/// 
+	/// These can be passed as an input argument to a function for adding operations 
+	/// to a graph, or to the TFSession's Run and GetRunner method as values to be
+	/// fetched.
+	/// </remarks>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput
 	{

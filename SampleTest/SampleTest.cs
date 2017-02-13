@@ -5,6 +5,7 @@ using TensorFlow;
 using System.IO;
 using System.Collections.Generic;
 using Learn.Mnist;
+using System.Linq;
 
 namespace SampleTest
 {
@@ -441,6 +442,67 @@ namespace SampleTest
 
 			};
 		}
+
+		int ArgMax (byte [,] array, int idx)
+		{
+			int max = -1;
+			int maxIdx = -1;
+			var l = array.GetLength (1);
+			for (int i = 0; i < l; i++)
+				if (array [idx, i] > max)
+					maxIdx = i;
+			return maxIdx;
+		}	
+
+		void NearestNeighbor ()
+		{
+			// Get the Mnist data
+
+			var mnist = Mnist.Load ();
+
+			// 5000 for training
+			const int trainCount = 5000;
+			const int testCount = 200;
+			var Xtr = mnist.GetBatchReader (mnist.TrainImages).ReadAsTensor (trainCount);
+			var Ytr = mnist.OneHotTrainLabels;
+			var Xte = mnist.GetBatchReader (mnist.TestImages).Read (testCount);
+			var Yte = mnist.OneHotTestLabels;
+
+
+
+			Console.WriteLine ("Nearest neighbor on Mnist images");
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g);
+
+				var xtr = g.Placeholder (TFDataType.Float, new TFShape (-1, 784));
+				var xte = g.Placeholder (TFDataType.Float, new TFShape (784));
+
+				// Nearest Neighbor calculation using L1 Distance
+				// Calculate L1 Distance
+				var distance = g.ReduceSum (g.Abs (g.Add (xtr, g.Neg (xte))), axis: g.Const (1));
+
+				// Prediction: Get min distance index (Nearest neighbor)
+				var pred = g.ArgMin (distance, g.Const (0));
+
+				var accuracy = 0f;
+				// Loop over the test data
+				for (int i = 0; i < testCount; i++) {
+					var runner = s.GetRunner ();
+
+					// Get nearest neighbor
+
+					var result = runner.Fetch (pred).AddInput (xtr, Xtr).AddInput (xte, Xte [i].DataFloat).Run ();
+					var nn_index = (int)(long) result [0].GetValue ();
+
+					// Get nearest neighbor class label and compare it to its true label
+					Console.WriteLine ($"Test {i}: Prediction: {nn_index} {ArgMax (Ytr, nn_index)} True class: {ArgMax (Yte, i)}");
+					if (ArgMax (Ytr, nn_index) == ArgMax (Yte, i))
+						accuracy += 1f/ Xte.Length;
+				}
+				Console.WriteLine ("Accuracy: " + accuracy);
+			}
+		}
+
 #if true
 		void LinearRegression ()
 		{
@@ -514,6 +576,7 @@ namespace SampleTest
 			t.BasicVariables ();
 			t.BasicMatrix ();
 
+			t.NearestNeighbor ();
 
 		}
 	}
