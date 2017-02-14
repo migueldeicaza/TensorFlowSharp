@@ -416,7 +416,7 @@ class OpGenerator
 				continue;
 			}
 
-			#if false
+			#if true
 			// Ignore reference types as well (per go's binding)
 			if (oper.input_arg.Any (ia => ia.is_ref)) {
 				var pars = String.Join (", ", oper.input_arg.Where (x => x.is_ref).Select (x => $"{x.type} {x.name}"));
