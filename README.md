@@ -43,7 +43,7 @@ NuGet packages that eliminate all the manual steps required here.
 You will want to install Tensorflow from sources, follow the instructions
 for your platform here:
 
-https://www.tensorflow.org/get_started/os_setup#installing_from_sources
+https://www.tensorflow.org/install/install_sources
 
 This includes checking out the Tensorflow sources, installing Bazel, 
 and building the core.
