@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TensorFlow
@@ -86,6 +87,81 @@ namespace TensorFlow
 						value = ReadVariableOp (handle, type);
 						return handle;
 					}
+				}
+			}
+		}
+
+		List<TFOperation> pending_init_variables;
+		public void AddInitVariable (TFOperation variable)
+		{
+			if (pending_init_variables == null)
+				pending_init_variables = new List<TFOperation> ();
+			pending_init_variables.Add (variable);
+		}
+
+		public TFOperation [] GetGlobalVariablesInitializer ()
+		{
+			var res = pending_init_variables.ToArray ();
+			pending_init_variables.Clear ();
+			return res;
+		}
+
+		/// <summary>
+		/// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
+		/// </summary>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <remarks>
+		/// Variables need to be initialized before the main execution so you will typically want to
+		/// run the session on the variable.
+		/// 
+		/// The init sequence for the variable is stored in the graph, you must manually initialize 
+		/// those by running the session on the global variables.
+		/// </remarks>
+		public TFOutput Variable (TFOutput initialValue, out TFOutput value, string operName = null)
+		{
+			var scopeName = MakeName ("Variable", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var type = initialValue.OutputType;
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				using (var aScope = WithScope ("Assign")) {
+					var init = AssignVariableOp (handle, initialValue);
+					AddInitVariable (init);
+					using (var rScope = WithScope ("Read")) {
+						value = ReadVariableOp (handle, type);
+						return handle;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
+		/// </summary>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <remarks>
+		/// Variables need to be initialized before the main execution so you will typically want to
+		/// run the session on the variable.
+		/// 
+		/// The init sequence for the variable is stored in the graph, you must manually initialize 
+		/// those by running the session on the global variables.
+		/// </remarks>
+		public TFOutput Variable (TFOutput initialValue, string operName = null)
+		{
+			var scopeName = MakeName ("Variable", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var type = initialValue.OutputType;
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				using (var aScope = WithScope ("Assign")) {
+					var init = AssignVariableOp (handle, initialValue);
+					AddInitVariable (init);
+					return handle;
 				}
 			}
 		}

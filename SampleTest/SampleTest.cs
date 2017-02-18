@@ -529,8 +529,8 @@ namespace SampleTest
 
 				var X = g.Placeholder (TFDataType.Float);
 				var Y = g.Placeholder (TFDataType.Float);
-				var W = g.Variable (new TFShape (rng.Next ()), TFDataType.Float, operName: "weight");
-				var b = g.Variable (new TFShape (rng.Next ()), TFDataType.Float, operName: "bias");
+				var W = g.Variable (g.Const (rng.Next ()), operName: "weight");
+				var b = g.Variable (g.Const (rng.Next ()), operName: "bias");
 
 				var pred = g.Add (g.Mul (X, W), b);
 
@@ -545,7 +545,7 @@ namespace SampleTest
 				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2))), g.Mul (g.Const (2), g.Const (n_samples)));
 
 			
-
+				// STuck here: need gradient support
 			}
 		}
 #endif
