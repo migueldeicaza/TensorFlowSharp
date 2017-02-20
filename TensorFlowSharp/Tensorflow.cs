@@ -1852,9 +1852,20 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SessionPRunSetup (TF_Session session, TFOutput [] inputs, int ninputs, TFOutput [] outputs, int noutputs, TF_Operation [] target_opers, int ntargets, out IntPtr returnHandle, TF_Status status);
 
-		public struct PartialRunToken
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_DeletePRunHandle (IntPtr partialRunHandle);
+
+		public class PartialRunToken : IDisposable
 		{
 			internal IntPtr token;
+
+			public void Dispose ()
+			{
+				if (token == IntPtr.Zero) {
+					TF_DeletePRunHandle (token);
+					token = IntPtr.Zero;
+				}
+			}
 		}
 
 		public PartialRunToken PartialRunSetup (TFOutput [] inputs, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)

@@ -20,7 +20,7 @@ namespace TensorFlow
 	/// <remarks>
 	/// You can create tensors with the various constructors in this class, or using
 	/// the implicit conversions from various data types into a TFTensor.
-	/// 
+	///
 	/// The implicit conversions for basic types produce tensors of one dimesion with
 	/// a single element, while the implicit conversion from an array, expects a multi-dimensional
 	/// array that is converted into a tensor of the right dimensions.
@@ -31,6 +31,9 @@ namespace TensorFlow
 	/// </remarks>
 	public class TFTensor : TFDisposable
 	{
+		/// <summary>
+		/// Signature that methods must conform to to be used to release memory that was passed to a manually allocated TFTensor
+		/// </summary>
 		public delegate void Deallocator (IntPtr data, IntPtr size, IntPtr deallocatorData);
 
 		// extern TF_Tensor * TF_NewTensor (TF_DataType, const int64_t *dims, int num_dims, void *data, size_t len, void (* deallocator)(void *, size_t, void *), void *deallocator_arg);
@@ -56,25 +59,173 @@ namespace TensorFlow
 		// QInt16, QUint16, Half, Resource
 		// TODO: not clear that this is very useful (the dims versions), perhaps to reduce the surface of
 		// construcors these rarer blobs should be "FromSpec" or something like that
-		public TFTensor (long [] dims, sbyte [] data, int start, int count) : base (SetupTensor (TFDataType.Int8, dims, data, start, count, size: 2)) { }
-		public TFTensor (long [] dims, byte [] data, int start, int count) : base (SetupTensor (TFDataType.UInt8, dims, data, start, count, size: 1)) { }
-		public TFTensor (long [] dims, short [] data, int start, int count) : base (SetupTensor (TFDataType.Int16, dims, data, start, count, size: 2)) { }
-		public TFTensor (long [] dims, ushort [] data, int start, int count) : base (SetupTensor (TFDataType.UInt16, dims, data, start, count, size: 2)) { }
-		public TFTensor (long [] dims, int [] data, int start, int count) : base (SetupTensor (TFDataType.Int32, dims, data, start, count, size: 4)) { }
-		public TFTensor (long [] dims, float [] data, int start, int count) : base (SetupTensor (TFDataType.Float, dims, data, start, count, size: 4)) { }
-		public TFTensor (long [] dims, double [] data, int start, int count) : base (SetupTensor (TFDataType.Double, dims, data, start, count, size: 8)) { }
-		public TFTensor (long [] dims, long [] data, int start, int count) : base (SetupTensor (TFDataType.Int64, dims, data, start, count, size: 8)) { }
-		public TFTensor (long [] dims, Complex [] data, int start, int count) : base (SetupTensor (TFDataType.Complex128, dims, data, start, count, size: 16)) { }
-		public TFTensor (long [] dims, sbyte [] data) : base (SetupTensor (TFDataType.Int8, dims, data, size: 2)) { }
-		public TFTensor (long [] dims, byte [] data) : base (SetupTensor (TFDataType.UInt8, dims, data, size: 1)) { }
-		public TFTensor (long [] dims, short [] data) : base (SetupTensor (TFDataType.Int16, dims, data, size: 2)) { }
-		public TFTensor (long [] dims, ushort [] data) : base (SetupTensor (TFDataType.UInt16, dims, data, size: 2)) { }
-		public TFTensor (long [] dims, int [] data) : base (SetupTensor (TFDataType.Int32, dims, data, size: 4)) { }
-		public TFTensor (long [] dims, float [] data) : base (SetupTensor (TFDataType.Float, dims, data, size: 4)) { }
-		public TFTensor (long [] dims, double [] data) : base (SetupTensor (TFDataType.Double, dims, data, size: 8)) { }
-		public TFTensor (long [] dims, long [] data) : base (SetupTensor (TFDataType.Int64, dims, data, size: 8)) { }
-		public TFTensor (long [] dims, Complex [] data) : base (SetupTensor (TFDataType.Complex128, dims, data, size: 16)) { }
 
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of sbytes
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, sbyte [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Int8, shape, data, start, count, size: 2));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of bytes
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, byte [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.UInt8, shape, data, start, count, size: 1));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of shorts
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, short [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Int16, shape, data, start, count, size: 2));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of ushorts
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, ushort [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.UInt16, shape, data, start, count, size: 2));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of ints
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, int [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Int32, shape, data, start, count, size: 4));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of floats
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, float [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Float, shape, data, start, count, size: 4));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of doubles
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, double [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Double, shape, data, start, count, size: 8));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of longs
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, long [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Int64, shape, data, start, count, size: 8));
+		}
+		
+		/// <summary>
+		/// Creates a new tensor from a portion of an array of Complex numbers
+		/// </summary>
+		/// <param name="shape">Represents the tensor shape.</param>
+		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+		/// <param name="start">The offset into the provided data array where the data resides.</param>
+		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
+		/// <remarks>
+		/// Use the FromBuffer method to create a tensor that has the specified dimensions
+		/// and is initialized with data from the data array.   The data is copied starting
+		/// at the start offset, for count bytes and is laid out into the tensor following the
+		/// specified dimensions.
+		/// </remarks>
+		public static TFTensor FromBuffer (TFShape shape, Complex [] data, int start, int count)
+		{
+			return new TFTensor (SetupTensor (TFDataType.Complex128, shape, data, start, count, size: 16));
+		}
+		
+
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from an integer value.
+		/// </summary>
 		public unsafe TFTensor (int value)
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (int));
@@ -82,6 +233,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from an sbyte value.
+		/// </summary>
 		public unsafe TFTensor (sbyte value)
 		{
 			var v = (sbyte*)Marshal.AllocHGlobal (sizeof (sbyte));
@@ -89,6 +243,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Int8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (sbyte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from a short value.
+		/// </summary>
 		public unsafe TFTensor (short value)
 		{
 			var v = (short*)Marshal.AllocHGlobal (sizeof (short));
@@ -96,6 +253,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (short), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from an ushort value.
+		/// </summary>
 		public unsafe TFTensor (ushort value)
 		{
 			var v = (ushort*)Marshal.AllocHGlobal (sizeof (ushort));
@@ -103,6 +263,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from an byte value.
+		/// </summary>
 		public unsafe TFTensor (byte value)
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
@@ -110,6 +273,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from a Complex value.
+		/// </summary>
 		public unsafe TFTensor (Complex value)
 		{
 			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
@@ -117,6 +283,9 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from a float value.
+		/// </summary>
 		public unsafe TFTensor (float value)
 		{
 			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
@@ -124,12 +293,19 @@ namespace TensorFlow
 			handle = TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
 
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from a double value.
+		/// </summary>
 		public unsafe TFTensor (double value)
 		{
 			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
 			*v = value;
 			handle = TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
 		}
+
+		/// <summary>
+		/// Creates a constant tensor with a single dimension from a long value.
+		/// </summary>
 		public unsafe TFTensor (long value)
 		{
 			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
@@ -148,6 +324,9 @@ namespace TensorFlow
 		public TFTensor (long [] data) : base (SetupTensor (TFDataType.Int64, data, size: 8)) { }
 		public TFTensor (Complex [] data) : base (SetupTensor (TFDataType.Complex128, data, size: 16)) { }
 
+		/// <summary>
+		/// Creates a single-dimension tensor from a byte buffer.  This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.
+		/// </summary>
 		public unsafe static TFTensor CreateString (byte [] buffer)
 		{
 			if (buffer == null)
@@ -190,6 +369,14 @@ namespace TensorFlow
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
+		// Use for single dimension arrays 
+		static IntPtr SetupTensor (TFDataType dt, TFShape shape, Array data, int start, int count, int size)
+		{
+			if (shape == null)
+				throw new ArgumentNullException (nameof (shape));
+			return SetupTensor (dt, shape.dims, data, start, count, size);
+		}
+		
 		// Use for single dimension arrays 
 		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int start, int count, int size)
 		{
