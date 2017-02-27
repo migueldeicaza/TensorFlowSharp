@@ -490,6 +490,7 @@ namespace TensorFlow
 					dt = TFDataType.Complex128;
 				} else
 					throw new ArgumentException ($"The data type {t} is not supported");
+				break;
 			}
 
 			var dims = new long [array.Rank];
