@@ -1,23 +1,20 @@
 ﻿//
-// TensorFlow.cs; Bindings to the TensorFlow C API for .NET
-// 
-// Authors:
-//   Miguel de Icaza (miguel@microsoft.com)
+// TensorFlow API for .NET languages
+// https://github.com/migueldeicaza/TensorFlowSharp
 //
+// Authors:
+//    Miguel de Icaza (miguel@microsoft.com)
+//    Gustavo J Knuppe (https://github.com/knuppe/)
+//
+
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using size_t = System.UIntPtr;
 
 namespace TensorFlow
 {
-	[StructLayout (LayoutKind.Sequential)]
-	internal struct LLBuffer
-	{
-		internal IntPtr data;
-		internal size_t length;
-		internal IntPtr data_deallocator;
-	}
+
+	using static NativeMethods;
 
 	/// <summary>
 	/// Holds a block of data.
@@ -39,18 +36,15 @@ namespace TensorFlow
 	// TODO: perhaps we should have an implicit byte [] conversion that just calls ToArray?
 	public class TFBuffer : TFDisposable
 	{
-		// extern TF_Buffer * TF_NewBufferFromString (const void *proto, size_t proto_len);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe LLBuffer* TF_NewBufferFromString (IntPtr proto, IntPtr proto_len);
 
-		// extern TF_Buffer * TF_NewBuffer ();
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe LLBuffer* TF_NewBuffer ();
-
-		internal TFBuffer (IntPtr handle) : base (handle) { }
-
-		unsafe public TFBuffer () : base ((IntPtr)TF_NewBuffer ())
+		internal TFBuffer (IntPtr handle) : base (handle)
 		{
+			
+		}
+
+		public unsafe TFBuffer () : base ((IntPtr)TF_NewBuffer ())
+		{
+			
 		}
 
 		/// <summary>
@@ -75,9 +69,10 @@ namespace TensorFlow
 		/// is no longer in use.   If the value is not null, the provided method will be invoked to release
 		/// the data when the TFBuffer is disposed, or the contents of the buffer replaced.
 		/// </remarks>
-		unsafe public TFBuffer (IntPtr buffer, long size, BufferReleaseFunc release) : base ((IntPtr)TF_NewBuffer ())
+		public unsafe TFBuffer (IntPtr buffer, long size, BufferReleaseFunc release) : base ((IntPtr)TF_NewBuffer ())
 		{
-			LLBuffer* buf = (LLBuffer*)handle;
+			var buf = (LLBuffer*)Handle;
+
 			buf->data = buffer;
 			buf->length = (size_t)size;
 			if (release == null)
@@ -91,7 +86,7 @@ namespace TensorFlow
 			Marshal.FreeHGlobal (data);
 		}
 
-		static IntPtr FreeBufferFunc;
+	    private static IntPtr FreeBufferFunc;
 
 		static TFBuffer ()
 		{
@@ -127,7 +122,7 @@ namespace TensorFlow
 				throw new ArgumentException ("count");
 			unsafe
 			{
-				LLBuffer* buf = LLBuffer;
+				var buf = LLBuffer;
 				buf->data = Marshal.AllocHGlobal (count);
 				Marshal.Copy (buffer, start, buf->data, count);
 				buf->length = (size_t)count;
@@ -135,20 +130,14 @@ namespace TensorFlow
 			}
 		}
 
-		unsafe internal LLBuffer* LLBuffer => (LLBuffer*)handle;
+		internal unsafe LLBuffer* LLBuffer => (LLBuffer*)Handle;
 
-		// extern void TF_DeleteBuffer (TF_Buffer *);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_DeleteBuffer (LLBuffer* buffer);
 
-		internal override void NativeDispose (IntPtr handle)
+
+		protected override void NativeDispose (IntPtr handle)
 		{
 			unsafe { TF_DeleteBuffer ((LLBuffer*)handle); }
 		}
-
-		// extern TF_Buffer TF_GetBuffer (TF_Buffer *buffer);
-		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe LLBuffer TF_GetBuffer (LLBuffer* buffer);
 
 		/// <summary>
 		/// Returns a byte array representing the data wrapped by this buffer.
@@ -156,12 +145,12 @@ namespace TensorFlow
 		/// <returns>The array.</returns>
 		public byte [] ToArray ()
 		{
-			if (handle == IntPtr.Zero)
+			if (Handle == IntPtr.Zero)
 				return null;
 
 			unsafe
 			{
-				var lb = (LLBuffer*)handle;
+				var lb = (LLBuffer*)Handle;
 
 				var result = new byte [(int)lb->length];
 				Marshal.Copy (lb->data, result, 0, (int)lb->length);

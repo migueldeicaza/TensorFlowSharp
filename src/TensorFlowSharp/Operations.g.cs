@@ -1,5 +1,3 @@
-using System;
-
 namespace TensorFlow {
 	public partial class TFGraph {
 		/// <summary>
@@ -5529,7 +5527,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -6634,7 +6632,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("offset");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -8987,17 +8985,17 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output_indices");
 			output_indices = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				output_indices [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("output_values");
 			output_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				output_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("output_shape");
 			output_shape = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				output_shape [i] = new TFOutput (op, _idx++);
 			
 			return op;
@@ -9439,7 +9437,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -9739,17 +9737,17 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("decoded_indices");
 			decoded_indices = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				decoded_indices [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("decoded_values");
 			decoded_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				decoded_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("decoded_shape");
 			decoded_shape = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				decoded_shape [i] = new TFOutput (op, _idx++);
 			
 			log_probability = new TFOutput (op, _idx++);
@@ -9828,22 +9826,22 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("sparse_indices");
 			sparse_indices = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				sparse_indices [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("sparse_values");
 			sparse_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				sparse_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("sparse_shapes");
 			sparse_shapes = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				sparse_shapes [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("dense_values");
 			dense_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				dense_values [i] = new TFOutput (op, _idx++);
 			
 			return op;
@@ -10304,7 +10302,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -11725,7 +11723,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -11846,7 +11844,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -12061,7 +12059,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("tensors");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -13420,7 +13418,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("values");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -14346,7 +14344,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("output");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -14967,7 +14965,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("outputs");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -15054,7 +15052,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("components");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -17303,7 +17301,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("components");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -18076,42 +18074,42 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("context_sparse_indices");
 			context_sparse_indices = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				context_sparse_indices [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("context_sparse_values");
 			context_sparse_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				context_sparse_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("context_sparse_shapes");
 			context_sparse_shapes = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				context_sparse_shapes [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("context_dense_values");
 			context_dense_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				context_dense_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("feature_list_sparse_indices");
 			feature_list_sparse_indices = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				feature_list_sparse_indices [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("feature_list_sparse_values");
 			feature_list_sparse_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				feature_list_sparse_values [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("feature_list_sparse_shapes");
 			feature_list_sparse_shapes = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				feature_list_sparse_shapes [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("feature_list_dense_values");
 			feature_list_dense_values = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				feature_list_dense_values [i] = new TFOutput (op, _idx++);
 			
 			return op;
@@ -18810,7 +18808,7 @@ namespace TensorFlow {
 			int _idx = 0, _n = 0;
 			_n = op.OutputListLength ("components");
 			var _ret = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
@@ -19140,12 +19138,12 @@ namespace TensorFlow {
 			out_example_state_data = new TFOutput (op, _idx++);
 			_n = op.OutputListLength ("out_delta_sparse_weights");
 			out_delta_sparse_weights = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				out_delta_sparse_weights [i] = new TFOutput (op, _idx++);
 			
 			_n = op.OutputListLength ("out_delta_dense_weights");
 			out_delta_dense_weights = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
+			for (var i = 0; i < _n; i++)
 				out_delta_dense_weights [i] = new TFOutput (op, _idx++);
 			
 			return op;
