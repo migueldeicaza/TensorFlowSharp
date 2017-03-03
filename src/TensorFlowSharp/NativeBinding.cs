@@ -67,7 +67,7 @@ namespace TensorFlow
 		internal static extern void TF_DeleteStatus (IntPtr status);
 
 		// extern void TF_SetStatus (TF_Status *s, TF_Code code, const char *msg);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetStatus (IntPtr s, TFCode code, string msg);
 
 		// extern TF_Code TF_GetCode (const TF_Status *s);
@@ -99,7 +99,7 @@ namespace TensorFlow
 		internal static extern void TF_DeleteSessionOptions (IntPtr options);
 
 		// extern void TF_SetTarget (TF_SessionOptions *options, const char *target);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetTarget (IntPtr options, string target);
 
 		// extern void TF_SetConfig (TF_SessionOptions *options, const void *proto, size_t proto_len, TF_Status *status);
@@ -138,7 +138,7 @@ namespace TensorFlow
 		internal static extern unsafe void TF_GraphImportGraphDef (IntPtr graph, LLBuffer* graph_def, IntPtr options, IntPtr status);
 
 		// extern TF_Operation * TF_GraphOperationByName (TF_Graph *graph, const char *oper_name);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern IntPtr TF_GraphOperationByName (IntPtr graph, string oper_name);
 
 
@@ -182,11 +182,11 @@ namespace TensorFlow
 
 
 		// extern TF_OperationDescription * TF_NewOperation (TF_Graph *graph, const char *op_type, const char *oper_name);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern IntPtr TF_NewOperation (IntPtr graph, string opType, string oper_name);
 
 		// extern void TF_SetDevice (TF_OperationDescription *desc, const char *device);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetDevice (IntPtr desc, string device);
 
 		// extern void TF_AddInput (TF_OperationDescription *desc, TF_Output input);
@@ -232,50 +232,50 @@ namespace TensorFlow
 		internal static extern void TF_SetAttrFloatList (IntPtr desc, string attr_name, float [] values, int num_values);
 
 		// extern void TF_SetAttrBool (TF_OperationDescription *desc, const char *attr_name, unsigned char value);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrBool (IntPtr desc, string attr_name, byte value);
 
 		// extern void TF_SetAttrBoolList (TF_OperationDescription *desc, const char *attr_name, const unsigned char *values, int num_values);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrBoolList (IntPtr desc, string attr_name, bool [] values, int num_values);
 
 		// extern void TF_SetAttrType (TF_OperationDescription *desc, const char *attr_name, TF_DataType value);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrType (IntPtr desc, string attr_name, TFDataType value);
 
 		// extern void TF_SetAttrTypeList (TF_OperationDescription *desc, const char *attr_name, const TF_DataType *values, int num_values);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrTypeList (IntPtr desc, string attr_name, TFDataType [] values, int num_values);
 
 		// extern void TF_SetAttrShape (TF_OperationDescription *desc, const char *attr_name, const int64_t *dims, int num_dims);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrShape (IntPtr desc, string attr_name, long [] dims, int num_dims);
 
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrShape (IntPtr desc, string attr_name, IntPtr dims, int num_dims);
 
 		// extern void TF_SetAttrShapeList (TF_OperationDescription *desc, const char *attr_name, const int64_t *const *dims, const int *num_dims, int num_shapes);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrShapeList (IntPtr desc, string attr_name, IntPtr dims, int [] num_dims, int num_shapes);
 
 		// extern void TF_SetAttrTensorShapeProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrTensorShapeProto (IntPtr desc, string attr_name, IntPtr proto, size_t proto_len, IntPtr status);
 
 		// extern void TF_SetAttrTensorShapeProtoList (TF_OperationDescription *desc, const char *attr_name, const void *const *protos, const size_t *proto_lens, int num_shapes, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_SetAttrTensorShapeProtoList (IntPtr desc, string attr_name, void** protos, size_t* proto_lens, int num_shapes, IntPtr status);
 
 		// extern void TF_SetAttrTensor (TF_OperationDescription *desc, const char *attr_name, TF_Tensor *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrTensor (IntPtr desc, string attr_name, IntPtr value, IntPtr status);
 
 		// extern void TF_SetAttrTensorList (TF_OperationDescription *desc, const char *attr_name, TF_Tensor *const *values, int num_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_SetAttrTensorList (IntPtr desc, string attr_name, IntPtr [] values, int num_values, IntPtr status);
 
 		// extern void TF_SetAttrValueProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_SetAttrValueProto (IntPtr desc, string attr_name, void* proto, size_t proto_len, IntPtr status);
 
 		// extern TF_Operation * TF_FinishOperation (TF_OperationDescription *desc, TF_Status *status);
@@ -299,14 +299,14 @@ namespace TensorFlow
 		internal static extern int TF_OperationNumOutputs (IntPtr oper);
 
 		// extern int TF_OperationOutputListLength (TF_Operation *oper, const char *arg_name, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern int TF_OperationOutputListLength (IntPtr oper, string arg_name, IntPtr status);
 
 		// extern int TF_OperationNumInputs (TF_Operation *oper);
 		[DllImport (TensorFlowLibrary)]
 		internal static extern int TF_OperationNumInputs (IntPtr oper);
 		// extern int TF_OperationInputListLength (TF_Operation *oper, const char *arg_name, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern int TF_OperationInputListLength (IntPtr oper, string arg_name, IntPtr status);
 
 		// extern int TF_OperationNumControlInputs (TF_Operation *oper);
@@ -326,75 +326,75 @@ namespace TensorFlow
 		internal static extern int TF_OperationGetControlOutputs (IntPtr oper, [Out] [MarshalAs (UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr [] control_outputs, int max_control_outputs);
 
 		// extern TF_AttrMetadata TF_OperationGetAttrMetadata (TF_Operation *oper, const char *attr_name, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern TFAttributeMetadata TF_OperationGetAttrMetadata (IntPtr oper, string attr_name, IntPtr status);
 
 		// extern void TF_OperationGetAttrString (TF_Operation *oper, const char *attr_name, void *value, size_t max_length, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrString (IntPtr oper, string attr_name, void* value, size_t max_length, IntPtr status);
 
 		// extern void TF_OperationGetAttrStringList (TF_Operation *oper, const char *attr_name, void **values, size_t *lengths, int max_values, void *storage, size_t storage_size, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrStringList (IntPtr oper, string attr_name, void** values, size_t* lengths, int max_values, void* storage, size_t storage_size, IntPtr status);
 
 		// extern void TF_OperationGetAttrInt (TF_Operation *oper, const char *attr_name, int64_t *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrInt (IntPtr oper, string attr_name, long* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrIntList (TF_Operation *oper, const char *attr_name, int64_t *values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrIntList (IntPtr oper, string attr_name, long* values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrFloat (TF_Operation *oper, const char *attr_name, float *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrFloat (IntPtr oper, string attr_name, float* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrFloatList (TF_Operation *oper, const char *attr_name, float *values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrFloatList (IntPtr oper, string attr_name, float* values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrBool (TF_Operation *oper, const char *attr_name, unsigned char *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrBool (IntPtr oper, string attr_name, byte* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrBoolList (TF_Operation *oper, const char *attr_name, unsigned char *values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrBoolList (IntPtr oper, string attr_name, byte* values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrType (TF_Operation *oper, const char *attr_name, TF_DataType *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrType (IntPtr oper, string attr_name, TFDataType* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrTypeList (TF_Operation *oper, const char *attr_name, TF_DataType *values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrTypeList (IntPtr oper, string attr_name, TFDataType* values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrShape (TF_Operation *oper, const char *attr_name, int64_t *value, int num_dims, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrShape (IntPtr oper, string attr_name, long* value, int num_dims, IntPtr status);
 
 		// extern void TF_OperationGetAttrShapeList (TF_Operation *oper, const char *attr_name, int64_t **dims, int *num_dims, int num_shapes, int64_t *storage, int storage_size, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrShapeList (IntPtr oper, string attr_name, long** dims, int* num_dims, int num_shapes, long* storage, int storage_size, IntPtr status);
 
 		// extern void TF_OperationGetAttrTensorShapeProto (TF_Operation *oper, const char *attr_name, TF_Buffer *value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrTensorShapeProto (IntPtr oper, string attr_name, LLBuffer* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrTensorShapeProtoList (TF_Operation *oper, const char *attr_name, TF_Buffer **values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrTensorShapeProtoList (IntPtr oper, string attr_name, LLBuffer** values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrTensor (TF_Operation *oper, const char *attr_name, TF_Tensor **value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrTensor (IntPtr oper, string attr_name, IntPtr* value, IntPtr status);
 
 		// extern void TF_OperationGetAttrTensorList (TF_Operation *oper, const char *attr_name, TF_Tensor **values, int max_values, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrTensorList (IntPtr oper, string attr_name, IntPtr* values, int max_values, IntPtr status);
 
 		// extern void TF_OperationGetAttrValueProto (TF_Operation *oper, const char *attr_name, TF_Buffer *output_attr_value, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe void TF_OperationGetAttrValueProto (IntPtr oper, string attr_name, LLBuffer* output_attr_value, IntPtr status);
 
 		// extern void TF_OperationToNodeDef (TF_Operation *oper, TF_Buffer *output_node_def, TF_Status *status);
@@ -410,17 +410,17 @@ namespace TensorFlow
 		internal static extern void TF_DeleteImportGraphDefOptions (IntPtr opts);
 
 		// extern void TF_ImportGraphDefOptionsSetPrefix (TF_ImportGraphDefOptions *opts, const char *prefix);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_ImportGraphDefOptionsSetPrefix (IntPtr opts, string prefix);
 
 		// extern void TF_ImportGraphDefOptionsAddInputMapping (TF_ImportGraphDefOptions *opts, const char* src_name, int src_index, TF_Output dst);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_ImportGraphDefOptionsAddInputMapping (IntPtr opts, string src_name, int src_index, TFOutput dst);
 
 		[DllImport (TensorFlowLibrary)]
 		internal static extern void TF_ImportGraphDefOptionsAddControlDependency (IntPtr opts, IntPtr oper);
 
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern void TF_ImportGraphDefOptionsAddReturnOutput (IntPtr opts, string oper_name, int index);
 
 		[DllImport (TensorFlowLibrary)]
@@ -456,7 +456,7 @@ namespace TensorFlow
 		internal static extern IntPtr TF_NewSession (IntPtr graph, IntPtr opts, IntPtr status);
 
 		// extern TF_Session * TF_LoadSessionFromSavedModel (const TF_SessionOptions *session_options, const TF_Buffer *run_options, const char *export_dir, const char *const *tags, int tags_len, TF_Graph *graph, TF_Buffer *meta_graph_def, TF_Status *status);
-		[DllImport (TensorFlowLibrary, CharSet = CharSet.Unicode)]
+		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
 		internal static extern unsafe IntPtr TF_LoadSessionFromSavedModel (IntPtr session_options, LLBuffer* run_options, string export_dir, string [] tags, int tags_len, IntPtr graph, LLBuffer* meta_graph_def, IntPtr status);
 
 		// extern void TF_CloseSession (TF_Session *, TF_Status *status);
