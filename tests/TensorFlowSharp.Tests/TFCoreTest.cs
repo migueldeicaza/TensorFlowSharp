@@ -8,15 +8,21 @@
 //
 using NUnit.Framework;
 
+using TensorFlow;
+
 namespace TensorFlowSharp.Tests
 {
 	[TestFixture]
-	public class TFGraphTest
+	public class TFCoreTest
 	{
 		[Test]
-		public void TestCase ()
+		public void VersionTest ()
 		{
-			
+			var version = TFCore.Version;
+
+			Assert.NotNull (version);
+			Assert.IsNotEmpty (version);
+
 		}
 	}
 }

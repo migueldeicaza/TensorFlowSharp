@@ -6,13 +6,19 @@
 //    Miguel de Icaza (miguel@microsoft.com)
 //    Gustavo J Knuppe (https://github.com/knuppe/)
 //
-using System;
+using NUnit.Framework;
+
+using TensorFlow;
+
 namespace TensorFlowSharp.Tests
 {
-	public class TemplateTest
+	[TestFixture]
+	public class TemlateTest
 	{
-		public TemplateTest ()
+		[Test]
+		public void MyTest ()
 		{
+
 		}
 	}
 }
