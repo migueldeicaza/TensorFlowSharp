@@ -56,7 +56,7 @@
     <Compile Include="TFSession.cs" />
     <Compile Include="TFLibrary.cs" />
     <Compile Include="TFDataType.cs" />
-    <Compile Include="TFCode.cs" />
+    <Compile Include="TFStatusCode.cs" />
     <Compile Include="TFInput.cs" />
     <Compile Include="TFOutput.cs" />
     <Compile Include="TFAttributeType.cs" />

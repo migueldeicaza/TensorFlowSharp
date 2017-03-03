@@ -348,7 +348,7 @@ namespace TensorFlow
 			fixed (byte* src = &buffer [0])
 			{
 				TF_StringEncode (src, (size_t)buffer.Length, (sbyte*)(dst + 8), size, status);
-				var ok = TF_GetCode (status) == TFCode.Ok;
+				var ok = TF_GetCode (status) == TFStatusCode.Ok;
 				TF_DeleteStatus (status);
 				if (!ok)
 					return null;

@@ -68,11 +68,11 @@ namespace TensorFlow
 
 		// extern void TF_SetStatus (TF_Status *s, TF_Code code, const char *msg);
 		[DllImport (TensorFlowLibrary, CharSet = CharSet.Ansi)]
-		internal static extern void TF_SetStatus (IntPtr s, TFCode code, string msg);
+		internal static extern void TF_SetStatus (IntPtr s, TFStatusCode code, string msg);
 
 		// extern TF_Code TF_GetCode (const TF_Status *s);
 		[DllImport (TensorFlowLibrary)]
-		internal static extern TFCode TF_GetCode (IntPtr s);
+		internal static extern TFStatusCode TF_GetCode (IntPtr s);
 
 		// extern const char * TF_Message (const TF_Status *s);
 		[DllImport (TensorFlowLibrary)]

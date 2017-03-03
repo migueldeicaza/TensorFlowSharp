@@ -20,8 +20,8 @@ namespace SampleTest
 
 		static public void Assert (TFStatus status, [CallerMemberName] string caller = null, string message = "")
 		{
-			if (status.StatusCode != TFCode.Ok) {
-				throw new Exception ($"{caller}: {status.StatusMessage} {message}");
+			if (status.Code != TFStatusCode.Ok) {
+				throw new Exception ($"{caller}: {status.Message} {message}");
 			}
 		}
 
@@ -39,7 +39,7 @@ namespace SampleTest
 		{
 			var desc = new TFOperationDesc (graph, "Const", "scalar");
 			desc.SetAttr ("value", v, status);
-			if (status.StatusCode != TFCode.Ok)
+			if (status.Code != TFStatusCode.Ok)
 				return null;
 			desc.SetAttrType ("dtype", TFDataType.Int32);
 			return desc.FinishOperation ();

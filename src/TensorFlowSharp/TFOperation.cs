@@ -129,7 +129,7 @@ namespace TensorFlow
 				TF_OperationToNodeDef (Handle, r.LLBuffer, cstatus.Handle);
 			}
 			// No need to raise, we can return null in that case.
-			if (!cstatus.Ok) {
+			if (!cstatus.IsOk) {
 				r.Dispose ();
 				return null;
 			}

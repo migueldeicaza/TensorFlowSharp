@@ -371,7 +371,7 @@ namespace TensorFlow
 			var cstatus = TFStatus.Setup (status);
 			var result = TF_NewWhile (Handle, inputs, inputs.Length, cstatus.Handle);
 
-			if (cstatus.Error)
+			if (cstatus.IsError)
 				return null;
 
 			try {

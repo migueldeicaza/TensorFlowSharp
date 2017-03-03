@@ -12,7 +12,7 @@ namespace TensorFlow
 	/// <summary>
 	/// Status code for invoking a tensorflow operation.
 	/// </summary>
-	public enum TFCode : uint
+	public enum TFStatusCode : uint
 	{
 		Ok = 0,
 		Cancelled = 1,
