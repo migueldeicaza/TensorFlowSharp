@@ -1,21 +1,23 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp", "TensorFlowSharp\TensorFlowSharp.csproj", "{0264C321-34F4-46AF-819E-168D1E597232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp", "src\TensorFlowSharp\TensorFlowSharp.csproj", "{0264C321-34F4-46AF-819E-168D1E597232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTest", "SampleTest\SampleTest.csproj", "{243E2C90-F465-4A6E-9063-8F2C138015C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTest", "src\SampleTest\SampleTest.csproj", "{243E2C90-F465-4A6E-9063-8F2C138015C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpGenerator", "OpGenerator\OpGenerator.csproj", "{700E5928-3D5D-4B54-AD4D-BC48E79E389E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpGenerator", "tools\OpGenerator\OpGenerator.csproj", "{700E5928-3D5D-4B54-AD4D-BC48E79E389E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn", "Learn\Learn.csproj", "{20567EDE-7C20-4734-B489-C6D303843105}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn", "tools\Learn\Learn.csproj", "{20567EDE-7C20-4734-B489-C6D303843105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleInceptionInference", "Examples\ExampleInceptionInference\ExampleInceptionInference.csproj", "{069A6736-7711-4805-8660-A267E713BC54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleInceptionInference", "examples\ExampleInceptionInference\ExampleInceptionInference.csproj", "{069A6736-7711-4805-8660-A267E713BC54}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "FSharpExampleInceptionInference", "Examples\FExampleInceptionInference\FSharpExampleInceptionInference.fsproj", "{03FB7F3A-6D24-4033-9B04-69AD8A198CCF}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "FSharpExampleInceptionInference", "examples\FExampleInceptionInference\FSharpExampleInceptionInference.fsproj", "{03FB7F3A-6D24-4033-9B04-69AD8A198CCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{674EC1D7-9649-462E-A7A8-93D0DE84FE64}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ImageCompression", "Examples\ImageCompression\ImageCompression.fsproj", "{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ImageCompression", "examples\ImageCompression\ImageCompression.fsproj", "{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp.Tests", "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.csproj", "{4B7E902B-4C5D-4DFC-8AF2-6BCB5568C185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +53,33 @@ Global
 		{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7E902B-4C5D-4DFC-8AF2-6BCB5568C185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B7E902B-4C5D-4DFC-8AF2-6BCB5568C185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B7E902B-4C5D-4DFC-8AF2-6BCB5568C185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B7E902B-4C5D-4DFC-8AF2-6BCB5568C185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{069A6736-7711-4805-8660-A267E713BC54} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
 		{03FB7F3A-6D24-4033-9B04-69AD8A198CCF} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
 		{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.TabsToSpaces = False
+		$2.EolMarker = Unix
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.StandardHeader = $4
+		$4.Text = @\nTensorFlow API for .NET languages\nhttps://github.com/migueldeicaza/TensorFlowSharp\n \nAuthors:\n   Miguel de Icaza (miguel@microsoft.com)\n   Gustavo J Knuppe (https://github.com/knuppe/)\n
+		$4.IncludeInNewFiles = True
 	EndGlobalSection
 EndGlobal
