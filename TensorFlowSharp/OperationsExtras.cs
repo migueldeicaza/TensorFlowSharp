@@ -166,5 +166,46 @@ namespace TensorFlow
 			}
 		}
 
+		//
+		// Converts a shape to a tensor
+		TFTensor ShapeTensor (TFShape shape)
+		{
+			Array a;
+
+			if (shape.IsLongArray)
+				a = shape.ToArray ();
+			else 
+				a = shape.ToIntArray ();
+
+			return (TFTensor)a;
+		}
+
+		/// <summary>
+		/// Outputs random values from a normal distribution
+		/// </summary>
+		/// <returns>A tensor of the specified shape filled with random normal values.</returns>
+		/// <param name="shape">Shape of the output tensor.</param>
+		/// <param name="mean">The mean of the standard distribution.</param>
+		/// <param name="stddev">The standard deviation of the normal distribution.</param>
+		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+		/// <param name="operName">>Operation name, optional.</param>
+		public TFOutput RandomNormal (TFShape shape, double mean = 0, double stddev = 1, int? seed = null, string operName = null)
+		{
+			var scopeName = MakeName ("RandomNormal", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var st = ShapeTensor (shape);
+				var tmean = Const (mean, "mean");
+				var tstddev = Const (stddev, "stddev");
+
+				//seed1, seed2 = random_seed.get_seed (seed)
+    				//rnd = gen_random_ops._random_standard_normal (
+				//shape_tensor, dtype, seed = seed1, seed2 = seed2)
+    				//mul = rnd * stddev_tensor
+    				//value = math_ops.add (mul, mean_tensor, name = name)
+    				// return value
+			}
+			throw new NotImplementedException ();
+		}
 	}
 }

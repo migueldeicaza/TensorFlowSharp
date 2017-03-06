@@ -2275,12 +2275,42 @@ namespace TensorFlow
 			return ret;
 		}
 
+		/// <summary>
+		/// Returns the shape as an array
+		/// </summary>
+		/// <returns>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</returns>
+		public int [] ToIntArray ()
+		{
+			if (dims == null)
+				return null;
+
+			var ret = new int [dims.Length];
+			for (int i = 0; i < dims.Length; i++) {
+				checked {
+					ret [i] = (int) dims [i];
+				}
+			}
+			return ret;
+		}
+
+		public bool IsLongArray {
+			get {
+				foreach (var l in dims)
+					if (l > Int32.MaxValue)
+						return true;
+
+				return false;
+			}
+		}
+
 		public override string ToString ()
 		{
 			if (dims == null)
 				return "unknown";
 			return "[" + String.Join (", ", dims.Select (x => x == -1 ? "?" : x.ToString ())) + "]";
 		}
+
+		public long this [int idx] => dims [idx];
 	}
 
 
