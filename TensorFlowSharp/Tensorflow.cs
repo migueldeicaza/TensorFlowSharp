@@ -618,6 +618,12 @@ namespace TensorFlow
 			return name + val;
 		}
 
+		internal int LastId;
+		internal int GetNextId ()
+		{
+			return LastId++;
+		}
+
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		unsafe extern static void TF_GraphImportGraphDefWithReturnOutputs (
 			TF_Graph graph, LLBuffer *graph_def,

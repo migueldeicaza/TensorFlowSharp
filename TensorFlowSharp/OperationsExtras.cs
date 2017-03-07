@@ -167,17 +167,16 @@ namespace TensorFlow
 		}
 
 		//
-		// Converts a shape to a tensor
-		TFTensor ShapeTensor (TFShape shape)
+		// Converts a shape to a tensor, to a TFOutput
+		//
+		TFOutput ShapeTensorOutput (TFShape shape)
 		{
 			Array a;
 
 			if (shape.IsLongArray)
-				a = shape.ToArray ();
-			else 
-				a = shape.ToIntArray ();
-
-			return (TFTensor)a;
+				return Const (shape.ToArray (), TFDataType.Int64);
+			else
+				return Const (shape.ToIntArray (), TFDataType.Int32);
 		}
 
 		/// <summary>
@@ -194,18 +193,69 @@ namespace TensorFlow
 			var scopeName = MakeName ("RandomNormal", operName);
 
 			using (var newScope = WithScope (scopeName)) {
-				var st = ShapeTensor (shape);
+				var shapeTensor = ShapeTensorOutput (shape);
+
 				var tmean = Const (mean, "mean");
 				var tstddev = Const (stddev, "stddev");
 
-				//seed1, seed2 = random_seed.get_seed (seed)
-    				//rnd = gen_random_ops._random_standard_normal (
-				//shape_tensor, dtype, seed = seed1, seed2 = seed2)
-    				//mul = rnd * stddev_tensor
-    				//value = math_ops.add (mul, mean_tensor, name = name)
-    				// return value
+				int graph, local;
+				GetRandomSeeds (seed, out graph, out local);
+
+				var rnd = RandomStandardNormal (shapeTensor, TFDataType.Double, graph, local);
+				var mul = Mul (rnd, tstddev);
+				return Add (mul, tmean);
 			}
-			throw new NotImplementedException ();
+		}
+
+		/// <summary>
+		/// Gets or sets the graph random seed, see remarks for details.
+		/// </summary>
+		/// <value>The seed.</value>
+		/// <remarks>
+		///  Operations that rely on a random seed actually derive it from two seeds:
+		///  the graph-level and operation-level seeds.This sets the graph-level seed.
+		///
+		/// Its interactions with operation-level seeds is as follows:
+		/// 1. If neither the graph-level nor the operation seed is set:
+		///    A random seed is used for this op.
+		/// 2. If the graph-level seed is set, but the operation seed is not:
+		///    The system deterministically picks an operation seed in conjunction
+		///    with the graph-level seed so that it gets a unique random sequence.
+		/// 3. If the graph-level seed is not set, but the operation seed is set:
+		///    A default graph-level seed and the specified operation seed are used to
+		///    determine the random sequence.
+		/// 4. If both the graph-level and the operation seed are set:
+		///    Both seeds are used in conjunction to determine the random sequence.
+		/// </remarks>
+		public int? Seed { get; set; }
+
+		/// <summary>
+		/// Returns the graph and local seeds based on an optionally set incoming seed value.
+		/// </summary>
+		/// <param name="operationSeed">The seed value that might be set.</param>
+		/// <param name="graphSeed">Returned graph seed.</param>
+		/// <param name="localSeed">Returned local seed.</param>
+		/// <remarks>
+		/// This helper function returns two seeds derived from graph-level and op-level seeds.
+		/// Many random operations internally use the two seeds to allow user to change 
+		/// the seed globally for a graph, or for only specific operations.
+		/// </remarks>
+		public void GetRandomSeeds (int? operationSeed, out int graphSeed, out int localSeed)
+		{
+			if (Seed.HasValue) {
+				graphSeed = Seed.Value;
+				if (operationSeed.HasValue)
+					localSeed = operationSeed.Value;
+				else
+					localSeed = LastId;
+			} else {
+				graphSeed = 87654321;
+				if (operationSeed.HasValue) {
+					localSeed = operationSeed.Value;
+				} else {
+					localSeed = 0;
+				}					
+			}
 		}
 	}
 }

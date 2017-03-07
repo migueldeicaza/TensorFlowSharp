@@ -531,7 +531,6 @@ namespace SampleTest
 				var Y = g.Placeholder (TFDataType.Float);
 				var W = g.Variable (g.Const (rng.Next ()), operName: "weight");
 				var b = g.Variable (g.Const (rng.Next ()), operName: "bias");
-
 				var pred = g.Add (g.Mul (X, W), b);
 
 		// Struggling with the following:
