@@ -48,8 +48,17 @@ https://www.tensorflow.org/install/install_sources
 This includes checking out the Tensorflow sources, installing Bazel, 
 and building the core.
 
-Once you do that, you will need to build the shared library, I believe
-this is the command I used:
+Once you do that, you will need to build the shared library.
+First, in the tensorflow directory, run:
+
+    ./configure    
+
+and answer the various prompts about your build. Important:
+building with CUDA support provides better runtime performance
+but has additional dependencies as discussed in the Tensorflow
+installation Web page.
+
+Once configured, run: 
 
     bazel build -c opt //tensorflow:libtensorflow.so
 
