@@ -824,18 +824,17 @@ namespace TensorFlow
 			for (int i = 0; i < shape.Length; i++) {
 				if (shape [i] > Int32.MaxValue)
 					throw new ArgumentOutOfRangeException ("Shape can not be longer than 32 bits");
-				idx [i] = (int)shape [i];
 			}
-			Copy (target, dt, shape, idx, shape.Length - 1, ref data);
+			Copy (target, dt, shape, idx, 0, ref data);
 		}
 
 		static unsafe void Copy (Array target, TFDataType dt, long [] shape, int [] idx, int level, ref IntPtr data)
 		{
-			if (level > 0) {
+			if (level < shape.Length - 1) {
 				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++)
-					Copy (target, dt, shape, idx, level - 1, ref data);
+					Copy (target, dt, shape, idx, level + 1, ref data);
 			} else {
-				for (idx [0] = 0; idx [0] < shape [0]; idx [0]++) {
+				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++) {
 					switch (dt) {
 					case TFDataType.Float:
 						target.SetValue ((*(float*)data), idx);

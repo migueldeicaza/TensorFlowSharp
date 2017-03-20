@@ -421,6 +421,29 @@ namespace SampleTest
 			}
 		}
 
+		void BasicMultidimensionalArray ()
+		{
+			Console.WriteLine ("Basic multidimensional array");
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g);
+
+				var var_a = g.Placeholder (TFDataType.Int32);
+				var mul = g.Mul (var_a, g.Const (2));
+
+				var a = new int[,,] { { { 0, 1 } , { 2, 3 } } , { { 4, 5 }, { 6, 7 } } };
+				var result = s.GetRunner ().AddInput (var_a, a).Fetch (mul).Run () [0];
+
+				var actual = (int[,,])result.GetValue ();
+				var expected = new int[,,] { { { 0, 2 } , { 4, 6 } } , { { 8, 10 }, { 12, 14 } } };
+
+				Console.WriteLine ("Actual:   " + RowOrderJoin (actual));
+				Console.WriteLine ("Expected: " + RowOrderJoin (expected));
+				Assert(expected.Cast<int> ().SequenceEqual (actual.Cast<int> ()));
+			};
+		}
+
+		private static string RowOrderJoin(int[,,] array) => string.Join (", ", array.Cast<int> ());
+
 		void BasicMatrix ()
 		{
 			Console.WriteLine ("Basic matrix");
@@ -573,6 +596,7 @@ namespace SampleTest
 
 			t.BasicConstantOps ();
 			t.BasicVariables ();
+			t.BasicMultidimensionalArray ();
 			t.BasicMatrix ();
 
 			t.NearestNeighbor ();
