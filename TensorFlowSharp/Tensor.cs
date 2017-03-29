@@ -803,7 +803,7 @@ namespace TensorFlow
 						target.SetValue (childArray, i);
 					}
 				} else {
-					for (int l = 0; l < top; l++) {
+					for (long l = 0; l < top; l++) {
 
 						var chidArray = FetchJaggedArray (t, dt, ref data, shape, level + 1);
 						if (target == null)

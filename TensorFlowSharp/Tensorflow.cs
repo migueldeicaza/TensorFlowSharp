@@ -2318,6 +2318,11 @@ namespace TensorFlow
 		}
 
 		public long this [int idx] => dims [idx];
+
+		public TFTensor AsTensor ()
+		{
+			return new TFTensor (ToIntArray ());
+		}
 	}
 
 
