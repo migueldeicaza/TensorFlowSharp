@@ -8,6 +8,9 @@ The API binding is pretty much done, and at this point, I am polishing the
 API to make it more pleasant to use from C# and F# and resolving some of the
 kinks and TODO-items that I left while I was doing the work.
 
+My work-in-progress API documentation [current API
+documentation](https://migueldeicaza.github.io/TensorFlowSharp/).
+
 # Getting Started
 
 You need to get yourself a copy of the TensorFlow runtime, you can either
