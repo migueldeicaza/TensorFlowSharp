@@ -6,5 +6,5 @@ install:
   - nuget restore TensorFlowSharp.sln
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release solution-name.sln
+  - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./TensorFlowSharp.Tests/bin/Release/TensorFlowSharp.Tests.dll
