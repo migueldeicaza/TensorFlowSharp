@@ -1,6 +1,8 @@
-PATH=$PREFIX/bin:$PATH
-git clone https://github.com/mono/mono.git
-cd mono
-CC='cc -m32' ./autogen.sh --prefix=$PREFIX --disable-nls
+PREFIX=/usr/local
+VERSION=4.8.0.524
+wget "https://download.mono-project.com/sources/mono/mono-$VERSION.tar.bz2"
+tar xvf mono-$VERSION.tar.bz2
+cd mono-$VERSION
+./configure --prefix=$PREFIX --disable-nls
 make
 make install
