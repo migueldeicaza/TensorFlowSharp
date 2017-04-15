@@ -74,6 +74,18 @@
     <None Include="xunit.console.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\HTML.xslt">
+      <Link>HTML.xslt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\NUnitXml.xslt">
+      <Link>NUnitXml.xslt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\xUnit1.xslt">
+      <Link>xUnit1.xslt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -106,6 +118,9 @@
     <Reference Include="xunit.execution.desktop">
       <HintPath>..\..\packages\xunit.extensibility.execution.2.2.0\lib\net452\xunit.execution.desktop.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.runner.reporters.net452">
+      <HintPath>..\..\packages\xunit.runner.console.2.2.0\tools\xunit.runner.reporters.net452.dll</HintPath>
     </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
