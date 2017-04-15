@@ -1,7 +1,7 @@
 language: csharp
 solution: TensorFlowSharp.sln
 before_install:
-  - chmod +x $TRAVIS_BUILD_DIR/monoinstall.sh
+  - sudo chmod +x $TRAVIS_BUILD_DIR/monoinstall.sh
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
