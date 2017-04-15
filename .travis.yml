@@ -6,6 +6,5 @@ install:
   - nuget restore TensorFlowSharp.sln
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
-before_script: cd tests/TensorFlowSharp.Tests/bin/Release
-script:
+  - build.sh
   - mono xunit.console.exe TensorFlowSharp.Tests.dll xunit.console.exe.config
