@@ -454,7 +454,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EluGrad'.
 		/// </param>
 		/// <returns>
-		///   The gradients: `gradients * (outputs + 1)` if outputs < 0,
+		///   The gradients: `gradients * (outputs + 1)` if outputs &amp;lt; 0,
 		///   `gradients` otherwise.
 		/// </returns>
 		public TFOutput EluGrad (TFOutput gradients, TFOutput outputs, string operName = null)
@@ -467,7 +467,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes exponential linear: `exp(features) - 1` if < 0, `features` otherwise.
+		///   Computes exponential linear: `exp(features) - 1` if &amp;lt; 0, `features` otherwise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Elu'.
@@ -516,7 +516,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReluGrad'.
 		/// </param>
 		/// <returns>
-		///   `gradients * (features > 0)`.
+		///   `gradients * (features &amp;gt; 0)`.
 		/// </returns>
 		public TFOutput ReluGrad (TFOutput gradients, TFOutput features, string operName = null)
 		{
@@ -621,7 +621,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="bias">
 		///   Optional argument
-		///   An offset (usually > 0 to avoid dividing by 0).
+		///   An offset (usually &amp;gt; 0 to avoid dividing by 0).
 		/// </param>
 		/// <param name="alpha">
 		///   Optional argument
@@ -1379,25 +1379,25 @@ namespace TensorFlow {
 		///   By default, this op performs an inclusive cumsum, which means that the first
 		///   element of the input is identical to the first element of the output:
 		///   ```prettyprint
-		///   tf.cumsum([a, b, c]) ==> [a, a + b, a + b + c]
+		///   tf.cumsum([a, b, c]) ==&amp;gt; [a, a + b, a + b + c]
 		///   ```
 		///   
 		///   By setting the `exclusive` kwarg to `True`, an exclusive cumsum is
 		///   performed instead:
 		///   ```prettyprint
-		///   tf.cumsum([a, b, c], exclusive=True) ==> [0, a, a + b]
+		///   tf.cumsum([a, b, c], exclusive=True) ==&amp;gt; [0, a, a + b]
 		///   ```
 		///   
 		///   By setting the `reverse` kwarg to `True`, the cumsum is performed in the
 		///   opposite direction:
 		///   ```prettyprint
-		///   tf.cumsum([a, b, c], reverse=True) ==> [a + b + c, b + c, c]
+		///   tf.cumsum([a, b, c], reverse=True) ==&amp;gt; [a + b + c, b + c, c]
 		///   ```
 		///   This is more efficient than using separate `tf.reverse` ops.
 		///   
 		///   The `reverse` and `exclusive` kwargs can also be combined:
 		///   ```prettyprint
-		///   tf.cumsum([a, b, c], exclusive=True, reverse=True) ==> [b + c, c, 0]
+		///   tf.cumsum([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b + c, c, 0]
 		///   ```
 		/// </remarks>
 		public TFOutput Cumsum (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
@@ -1628,7 +1628,7 @@ namespace TensorFlow {
 		///   
 		///   ```
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
-		///   tf.conj(input) ==> [-2.25 - 4.75j, 3.25 - 5.75j]
+		///   tf.conj(input) ==&amp;gt; [-2.25 - 4.75j, 3.25 - 5.75j]
 		///   ```
 		/// </remarks>
 		public TFOutput Conj (TFOutput input, string operName = null)
@@ -1657,7 +1657,7 @@ namespace TensorFlow {
 		///   
 		///   ```
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
-		///   tf.real(input) ==> [-2.25, 3.25]
+		///   tf.real(input) ==&amp;gt; [-2.25, 3.25]
 		///   ```
 		/// </remarks>
 		public TFOutput Real (TFOutput input, TFDataType? Tout = null, string operName = null)
@@ -1692,7 +1692,7 @@ namespace TensorFlow {
 		///   ```
 		///   # tensor 'real' is [2.25, 3.25]
 		///   # tensor `imag` is [4.75, 5.75]
-		///   tf.complex(real, imag) ==> [[2.25 + 4.75j], [3.25 + 5.75j]]
+		///   tf.complex(real, imag) ==&amp;gt; [[2.25 + 4.75j], [3.25 + 5.75j]]
 		///   ```
 		/// </remarks>
 		public TFOutput Complex (TFOutput real, TFOutput imag, TFDataType? Tout = null, string operName = null)
@@ -1735,7 +1735,7 @@ namespace TensorFlow {
 		///   # 'start' is 3
 		///   # 'limit' is 18
 		///   # 'delta' is 3
-		///   tf.range(start, limit, delta) ==> [3, 6, 9, 12, 15]
+		///   tf.range(start, limit, delta) ==&amp;gt; [3, 6, 9, 12, 15]
 		///   ```
 		/// </remarks>
 		public TFOutput Range (TFOutput start, TFOutput limit, TFOutput delta, string operName = null)
@@ -1850,16 +1850,16 @@ namespace TensorFlow {
 		///   
 		///   # Select two rows, one segment.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 0]))
-		///     ==> [[0 0 0 0]]
+		///     ==&amp;gt; [[0 0 0 0]]
 		///   
 		///   # Select two rows, two segment.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 1]))
-		///     ==> [[ 1  2  3  4]
+		///     ==&amp;gt; [[ 1  2  3  4]
 		///          [-1 -2 -3 -4]]
 		///   
 		///   # Select all rows, two segments.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1, 2]), tf.constant([0, 0, 1]))
-		///     ==> [[0 0 0 0]
+		///     ==&amp;gt; [[0 0 0 0]
 		///          [5 6 7 8]]
 		///   
 		///   # Which is equivalent to:
@@ -1905,9 +1905,9 @@ namespace TensorFlow {
 		///   
 		///   `num_segments` should equal the number of distinct segment IDs.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/UnsortedSegmentSum.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/UnsortedSegmentSum.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput UnsortedSegmentSum (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -1942,9 +1942,9 @@ namespace TensorFlow {
 		///   \\(output_i = \prod_j data_j\\) where the product is over `j` such
 		///   that `segment_ids[j] == i`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/SegmentProd.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/SegmentProd.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput SegmentProd (TFOutput data, TFOutput segment_ids, string operName = null)
 		{
@@ -1977,9 +1977,9 @@ namespace TensorFlow {
 		///   \\(output_i = \sum_j data_j\\) where sum is over `j` such
 		///   that `segment_ids[j] == i`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/SegmentSum.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/SegmentSum.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput SegmentSum (TFOutput data, TFOutput segment_ids, string operName = null)
 		{
@@ -1994,7 +1994,7 @@ namespace TensorFlow {
 		///   Returns the index with the smallest value across dimensions of a tensor.
 		/// </summary>
 		/// <param name="dimension">
-		///   int32, 0 <= dimension < rank(input).  Describes which dimension
+		///   int32, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes which dimension
 		///   of the input Tensor to reduce across. For vectors, use dimension = 0.
 		/// </param>
 		/// <param name="operName">
@@ -2256,7 +2256,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the truth value of (x >= y) element-wise.
+		///   Returns the truth value of (x &amp;gt;= y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GreaterEqual'.
@@ -2277,7 +2277,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the truth value of (x <= y) element-wise.
+		///   Returns the truth value of (x &amp;lt;= y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LessEqual'.
@@ -2408,7 +2408,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the min of x and y (i.e. x < y ? x : y) element-wise.
+		///   Returns the min of x and y (i.e. x &amp;lt; y ? x : y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Minimum'.
@@ -2429,7 +2429,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the max of x and y (i.e. x > y ? x : y) element-wise.
+		///   Returns the max of x and y (i.e. x &amp;gt; y ? x : y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Maximum'.
@@ -3218,15 +3218,15 @@ namespace TensorFlow {
 		/// <param name="backprops_wrt_input">
 		///   Backpropagated gradients w.r.t. inputs, shape same as
 		///   `inputs`:
-		///     `gradients * (inputs >= min && inputs <= max)`.
+		///     `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
 		/// </param>
 		/// <param name="backprop_wrt_min">
 		///   Backpropagated gradients w.r.t. min parameter, shape `[d]`:
-		///   `sum_per_d(gradients * (inputs < min))`.
+		///   `sum_per_d(gradients * (inputs &amp;lt; min))`.
 		/// </param>
 		/// <param name="backprop_wrt_max">
 		///   Backpropagated gradients w.r.t. max parameter, shape `[d]`:
-		///   `sum_per_d(gradients * (inputs > max))`.
+		///   `sum_per_d(gradients * (inputs &amp;gt; max))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsPerChannelGradient'.
@@ -3341,10 +3341,10 @@ namespace TensorFlow {
 		///   `Q`.
 		///   
 		///   `indices` must be integer tensor, containing indices into `shape`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 < K <= P`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
 		///   
 		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K < P`) along the `K`th
+		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
 		///   dimension of `shape`.
 		///   
 		///   `updates` is Tensor of rank `Q-1+P-K` with shape:
@@ -3357,9 +3357,9 @@ namespace TensorFlow {
 		///   index. For example, say we want to insert 4 scattered elements in a rank-1
 		///   tensor with 8 elements.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/ScatterNd1.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/ScatterNd1.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		///   
 		///   In Python, this scatter operation would look like this:
 		///   
@@ -3378,9 +3378,9 @@ namespace TensorFlow {
 		///   example, if we wanted to insert two slices in the first dimension of a
 		///   rank-3 tensor with two matrices of new values.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/ScatterNd2.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/ScatterNd2.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		///   
 		///   In Python, this scatter operation would look like this:
 		///   
@@ -3435,9 +3435,9 @@ namespace TensorFlow {
 		///   over `j` such that `segment_ids[j] == i` and `N` is the total number of
 		///   values summed.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/SegmentMean.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/SegmentMean.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput SegmentMean (TFOutput data, TFOutput segment_ids, string operName = null)
 		{
@@ -3774,14 +3774,6 @@ namespace TensorFlow {
 		/// <param name="input">
 		///   Tensor to quantize and then dequantize.
 		/// </param>
-		/// <param name="input_min">
-		///   If range_given, this is the min of the range, otherwise this input
-		///   will be ignored.
-		/// </param>
-		/// <param name="input_max">
-		///   If range_given, this is the max of the range, otherwise this input
-		///   will be ignored.
-		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizeAndDequantize'.
 		/// </param>
@@ -3796,6 +3788,14 @@ namespace TensorFlow {
 		/// <param name="range_given">
 		///   Optional argument
 		///   If the range is given or should be computed from the tensor.
+		/// </param>
+		/// <param name="input_min">
+		///   Optional argument
+		///   If range is given, this is the min of the range.
+		/// </param>
+		/// <param name="input_max">
+		///   Optional argument
+		///   If range is given, this is the max of the range.
 		/// </param>
 		/// <returns>
 		/// </returns>
@@ -3815,7 +3815,7 @@ namespace TensorFlow {
 		///   we use is always centered on 0, so we find m such that
 		///   
 		///   1. m = max(abs(input_min), abs(input_max)) if range_given is true,
-		///   2. m = max(abs(min_elem(input)), abs(max_elem(input))) otherwise.
+		///   2. m = max(max(abs(min_elem(input)), abs(max_elem(input))) otherwise.
 		///   
 		///   Our input tensor range is then [-m, m].
 		///   
@@ -3823,11 +3823,11 @@ namespace TensorFlow {
 		///   If signed_input is true, this is
 		///   
 		///     [min_fixed, max_fixed ] =
-		///         [-(1 << (num_bits - 1) - 1), (1 << (num_bits - 1)) - 1].
+		///         [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1].
 		///   
 		///   Otherwise, if signed_input is false, the fixed-point range is
 		///   
-		///     [min_fixed, max_fixed] = [0, (1 << num_bits) - 1].
+		///     [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1].
 		///   
 		///   From this we compute our scaling factor, s:
 		///   
@@ -3850,12 +3850,10 @@ namespace TensorFlow {
 		///   Given the vector {-1, -0.5, 0, 0.3}, this is quantized to
 		///   {-127, -63, 0, 38}, and dequantized to {-1, -63.0/127, 0, 38.0/127}.
 		/// </remarks>
-		public TFOutput QuantizeAndDequantize (TFOutput input, TFOutput input_min, TFOutput input_max, bool? signed_input = null, long? num_bits = null, bool? range_given = null, string operName = null)
+		public TFOutput QuantizeAndDequantize (TFOutput input, bool? signed_input = null, long? num_bits = null, bool? range_given = null, float? input_min = null, float? input_max = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "QuantizeAndDequantize", MakeName ("QuantizeAndDequantize", operName));
 			desc.AddInput (input);
-			desc.AddInput (input_min);
-			desc.AddInput (input_max);
 			if (signed_input.HasValue)
 				desc.SetAttr ("signed_input", signed_input.Value);
 			
@@ -3864,6 +3862,12 @@ namespace TensorFlow {
 			
 			if (range_given.HasValue)
 				desc.SetAttr ("range_given", range_given.Value);
+			
+			if (input_min.HasValue)
+				desc.SetAttr ("input_min", input_min.Value);
+			
+			if (input_max.HasValue)
+				desc.SetAttr ("input_max", input_max.Value);
 			
 			var op = desc.FinishOperation ();
 			return new TFOutput (op, 0);
@@ -4073,7 +4077,7 @@ namespace TensorFlow {
 		///   `[batch, height/block_size, width/block_size, depth*block_size*block_size]`
 		///   
 		///   This operation requires that the input tensor be of rank 4, and that
-		///   `block_size` be >=1 and a divisor of both the input `height` and `width`.
+		///   `block_size` be &amp;gt;=1 and a divisor of both the input `height` and `width`.
 		///   
 		///   This operation is useful for resizing the activations between convolutions
 		///   (but keeping all data), e.g. instead of pooling. It is also useful for training
@@ -4154,7 +4158,7 @@ namespace TensorFlow {
 		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
 		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
 		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 > y2, in
+		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
 		///   outside the `[0, 1]` range are allowed, in which case we use
@@ -4197,14 +4201,14 @@ namespace TensorFlow {
 		///   where spatial_shape has M dimensions.
 		/// </param>
 		/// <param name="block_shape">
-		///   1-D with shape `[M]`, all values must be >= 1.
+		///   1-D with shape `[M]`, all values must be &amp;gt;= 1.
 		/// </param>
 		/// <param name="crops">
-		///   2-D with shape `[M, 2]`, all values must be >= 0.
+		///   2-D with shape `[M, 2]`, all values must be &amp;gt;= 0.
 		///     `crops[i] = [crop_start, crop_end]` specifies the amount to crop from input
 		///     dimension `i + 1`, which corresponds to spatial dimension `i`.  It is
 		///     required that
-		///     `crop_start[i] + crop_end[i] <= block_shape[i] * input_shape[i + 1]`.
+		///     `crop_start[i] + crop_end[i] &amp;lt;= block_shape[i] * input_shape[i + 1]`.
 		///   
 		///   This operation is equivalent to the following steps:
 		///   
@@ -4490,10 +4494,10 @@ namespace TensorFlow {
 		///   where spatial_shape has `M` dimensions.
 		/// </param>
 		/// <param name="block_shape">
-		///   1-D with shape `[M]`, all values must be >= 1.
+		///   1-D with shape `[M]`, all values must be &amp;gt;= 1.
 		/// </param>
 		/// <param name="paddings">
-		///   2-D with shape `[M, 2]`, all values must be >= 0.
+		///   2-D with shape `[M, 2]`, all values must be &amp;gt;= 0.
 		///     `paddings[i] = [pad_start, pad_end]` specifies the padding for input dimension
 		///     `i + 1`, which corresponds to spatial dimension `i`.  It is required that
 		///     `block_shape[i]` divides `input_shape[i + 1] + pad_start + pad_end`.
@@ -4656,7 +4660,7 @@ namespace TensorFlow {
 		///                 [0, 0, 3, 0]
 		///                 [0, 0, 0, 4]]
 		///   
-		///   tf.diag_part(input) ==> [1, 2, 3, 4]
+		///   tf.diag_part(input) ==&amp;gt; [1, 2, 3, 4]
 		///   ```
 		/// </remarks>
 		public TFOutput DiagPart (TFOutput input, string operName = null)
@@ -4773,7 +4777,7 @@ namespace TensorFlow {
 		///   # 'paddings' is [[1, 1]], [2, 2]].
 		///   # 'mode' is SYMMETRIC.
 		///   # rank of 't' is 2.
-		///   pad(t, paddings) ==> [[2, 1, 1, 2, 3, 3, 2]
+		///   pad(t, paddings) ==&amp;gt; [[2, 1, 1, 2, 3, 3, 2]
 		///                         [2, 1, 1, 2, 3, 3, 2]
 		///                         [5, 4, 4, 5, 6, 6, 5]
 		///                         [5, 4, 4, 5, 6, 6, 5]]
@@ -4880,7 +4884,7 @@ namespace TensorFlow {
 		///   #                    [True, False]]
 		///   # 'input' has two true values, so output has two coordinates.
 		///   # 'input' has rank of 2, so coordinates have two indices.
-		///   where(input) ==> [[0, 0],
+		///   where(input) ==&amp;gt; [[0, 0],
 		///                     [1, 0]]
 		///   
 		///   # `input` tensor is [[[True, False]
@@ -4891,7 +4895,7 @@ namespace TensorFlow {
 		///   #                     [False, True]]]
 		///   # 'input' has 5 true values, so output has 5 coordinates.
 		///   # 'input' has rank of 3, so coordinates have three indices.
-		///   where(input) ==> [[0, 0, 0],
+		///   where(input) ==&amp;gt; [[0, 0, 0],
 		///                     [0, 1, 0],
 		///                     [1, 0, 1],
 		///                     [1, 1, 1],
@@ -4984,19 +4988,19 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # 't' is a tensor of shape [2]
-		///   shape(expand_dims(t, 0)) ==> [1, 2]
-		///   shape(expand_dims(t, 1)) ==> [2, 1]
-		///   shape(expand_dims(t, -1)) ==> [2, 1]
+		///   shape(expand_dims(t, 0)) ==&amp;gt; [1, 2]
+		///   shape(expand_dims(t, 1)) ==&amp;gt; [2, 1]
+		///   shape(expand_dims(t, -1)) ==&amp;gt; [2, 1]
 		///   
 		///   # 't2' is a tensor of shape [2, 3, 5]
-		///   shape(expand_dims(t2, 0)) ==> [1, 2, 3, 5]
-		///   shape(expand_dims(t2, 2)) ==> [2, 3, 1, 5]
-		///   shape(expand_dims(t2, 3)) ==> [2, 3, 5, 1]
+		///   shape(expand_dims(t2, 0)) ==&amp;gt; [1, 2, 3, 5]
+		///   shape(expand_dims(t2, 2)) ==&amp;gt; [2, 3, 1, 5]
+		///   shape(expand_dims(t2, 3)) ==&amp;gt; [2, 3, 5, 1]
 		///   ```
 		///   
 		///   This operation requires that:
 		///   
-		///   `-1-input.dims() <= dim <= input.dims()`
+		///   `-1-input.dims() &amp;lt;= dim &amp;lt;= input.dims()`
 		///   
 		///   This operation is related to `squeeze()`, which removes dimensions of
 		///   size 1.
@@ -5104,7 +5108,7 @@ namespace TensorFlow {
 		///   'begin'.
 		///   
 		///   *Requirements*:
-		///     0 <= begin[i] <= begin[i] + size[i] <= Di  for i in [0, n)
+		///     0 &amp;lt;= begin[i] &amp;lt;= begin[i] + size[i] &amp;lt;= Di  for i in [0, n)
 		/// </remarks>
 		public TFOutput Slice (TFOutput input, TFOutput begin, TFOutput size, string operName = null)
 		{
@@ -5184,7 +5188,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   The gradients:
-		///   `gradients * (features > 0) * (features < 6)`.
+		///   `gradients * (features &amp;gt; 0) * (features &amp;lt; 6)`.
 		/// </returns>
 		public TFOutput Relu6Grad (TFOutput gradients, TFOutput features, string operName = null)
 		{
@@ -5307,7 +5311,7 @@ namespace TensorFlow {
 		///   ```prettyprint
 		///   # 't' is [[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]
 		///   # shape of tensor 't' is [2, 2, 3]
-		///   rank(t) ==> 3
+		///   rank(t) ==&amp;gt; 3
 		///   ```
 		///   
 		///   **Note**: The rank of a tensor is not the same as the rank of a matrix. The rank
@@ -5372,7 +5376,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seq_lengths">
 		///   1-D with length `input.dims(batch_dim)` and
-		///   `max(seq_lengths) <= input.dims(seq_dim)`
+		///   `max(seq_lengths) &amp;lt;= input.dims(seq_dim)`
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReverseSequence'.
@@ -5389,7 +5393,7 @@ namespace TensorFlow {
 		///   slice `i`, reverses the first `seq_lengths[i]` elements along
 		///   the dimension `seq_dim`.
 		///   
-		///   The elements of `seq_lengths` must obey `seq_lengths[i] <= input.dims[seq_dim]`,
+		///   The elements of `seq_lengths` must obey `seq_lengths[i] &amp;lt;= input.dims[seq_dim]`,
 		///   and `seq_lengths` must be a vector of length `input.dims[batch_dim]`.
 		///   
 		///   The output slice `i` along dimension `batch_dim` is then given by input
@@ -5550,7 +5554,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # 't' is [[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]
-		///   shape(t) ==> [2, 2, 3]
+		///   shape(t) ==&amp;gt; [2, 2, 3]
 		///   ```
 		/// </remarks>
 		public TFOutput Shape (TFOutput input, TFDataType? out_type = null, string operName = null)
@@ -5592,8 +5596,8 @@ namespace TensorFlow {
 		///   ```prettyprint
 		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 		///   y, idx = unique(x)
-		///   y ==> [1, 2, 4, 7, 8]
-		///   idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
+		///   y ==&amp;gt; [1, 2, 4, 7, 8]
+		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
 		///   ```
 		/// </remarks>
 		public TFOperation Unique (TFOutput x, ref TFOutput y, ref TFOutput idx, TFDataType? out_idx = null, string operName = null)
@@ -5678,7 +5682,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # tensor `x` is [3, 4, 0, 2, 1]
-		///   invert_permutation(x) ==> [2, 4, 3, 0, 1]
+		///   invert_permutation(x) ==&amp;gt; [2, 4, 3, 0, 1]
 		///   ```
 		/// </remarks>
 		public TFOutput InvertPermutation (TFOutput x, string operName = null)
@@ -5722,15 +5726,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="backprops_wrt_input">
 		///   Backpropagated gradients w.r.t. inputs:
-		///   `gradients * (inputs >= min && inputs <= max)`.
+		///   `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
 		/// </param>
 		/// <param name="backprop_wrt_min">
 		///   Backpropagated gradients w.r.t. min parameter:
-		///   `sum(gradients * (inputs < min))`.
+		///   `sum(gradients * (inputs &amp;lt; min))`.
 		/// </param>
 		/// <param name="backprop_wrt_max">
 		///   Backpropagated gradients w.r.t. max parameter:
-		///   `sum(gradients * (inputs > max))`.
+		///   `sum(gradients * (inputs &amp;gt; max))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsGradient'.
@@ -5765,7 +5769,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # 't' is [[[1, 1,, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]]
-		///   size(t) ==> 12
+		///   size(t) ==&amp;gt; 12
 		///   ```
 		/// </remarks>
 		public TFOutput Size (TFOutput input, TFDataType? out_type = null, string operName = null)
@@ -5821,7 +5825,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # Output tensor has shape [2, 3].
-		///   fill([2, 3], 9) ==> [[9, 9, 9]
+		///   fill([2, 3], 9) ==&amp;gt; [[9, 9, 9]
 		///                        [9, 9, 9]]
 		///   ```
 		/// </remarks>
@@ -5962,7 +5966,7 @@ namespace TensorFlow {
 		///   # tensor 't' shape is [1, 2, 3, 4]
 		///   
 		///   # 'dims' is [False, False, False, True]
-		///   reverse(t, dims) ==> [[[[ 3,  2,  1,  0],
+		///   reverse(t, dims) ==&amp;gt; [[[[ 3,  2,  1,  0],
 		///                           [ 7,  6,  5,  4],
 		///                           [ 11, 10, 9, 8]],
 		///                          [[15, 14, 13, 12],
@@ -5970,7 +5974,7 @@ namespace TensorFlow {
 		///                           [23, 22, 21, 20]]]]
 		///   
 		///   # 'dims' is [False, True, False, False]
-		///   reverse(t, dims) ==> [[[[12, 13, 14, 15],
+		///   reverse(t, dims) ==&amp;gt; [[[[12, 13, 14, 15],
 		///                           [16, 17, 18, 19],
 		///                           [20, 21, 22, 23]
 		///                          [[ 0,  1,  2,  3],
@@ -5978,7 +5982,7 @@ namespace TensorFlow {
 		///                           [ 8,  9, 10, 11]]]]
 		///   
 		///   # 'dims' is [False, False, True, False]
-		///   reverse(t, dims) ==> [[[[8, 9, 10, 11],
+		///   reverse(t, dims) ==&amp;gt; [[[[8, 9, 10, 11],
 		///                           [4, 5, 6, 7],
 		///                           [0, 1, 2, 3]]
 		///                          [[20, 21, 22, 23],
@@ -5999,10 +6003,10 @@ namespace TensorFlow {
 		///   Returns a batched matrix tensor with new batched diagonal values.
 		/// </summary>
 		/// <param name="input">
-		///   Rank `k+1`, where `k >= 1`.
+		///   Rank `k+1`, where `k &amp;gt;= 1`.
 		/// </param>
 		/// <param name="diagonal">
-		///   Rank `k`, where `k >= 1`.
+		///   Rank `k`, where `k &amp;gt;= 1`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixSetDiag'.
@@ -6057,7 +6061,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # 'diagonal' is [1, 2, 3, 4]
-		///   tf.diag(diagonal) ==> [[1, 0, 0, 0]
+		///   tf.diag(diagonal) ==&amp;gt; [[1, 0, 0, 0]
 		///                          [0, 2, 0, 0]
 		///                          [0, 0, 3, 0]
 		///                          [0, 0, 0, 4]]
@@ -6162,7 +6166,7 @@ namespace TensorFlow {
 		///   # 'x' is [[1, 4]]
 		///   # 'y' is [[2, 5]]
 		///   # 'z' is [[3, 6]]
-		///   parallel_concat([x, y, z]) => [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
+		///   parallel_concat([x, y, z]) =&amp;gt; [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
 		///   ```
 		///   
 		///   The difference between concat and parallel_concat is that concat requires all
@@ -6259,7 +6263,7 @@ namespace TensorFlow {
 		///   # tensor 't' shape is [1, 2, 3, 4]
 		///   
 		///   # 'dims' is [3] or 'dims' is -1
-		///   reverse(t, dims) ==> [[[[ 3,  2,  1,  0],
+		///   reverse(t, dims) ==&amp;gt; [[[[ 3,  2,  1,  0],
 		///                           [ 7,  6,  5,  4],
 		///                           [ 11, 10, 9, 8]],
 		///                          [[15, 14, 13, 12],
@@ -6267,7 +6271,7 @@ namespace TensorFlow {
 		///                           [23, 22, 21, 20]]]]
 		///   
 		///   # 'dims' is '[1]' (or 'dims' is '[-3]')
-		///   reverse(t, dims) ==> [[[[12, 13, 14, 15],
+		///   reverse(t, dims) ==&amp;gt; [[[[12, 13, 14, 15],
 		///                           [16, 17, 18, 19],
 		///                           [20, 21, 22, 23]
 		///                          [[ 0,  1,  2,  3],
@@ -6275,7 +6279,7 @@ namespace TensorFlow {
 		///                           [ 8,  9, 10, 11]]]]
 		///   
 		///   # 'dims' is '[2]' (or 'dims' is '[-2]')
-		///   reverse(t, dims) ==> [[[[8, 9, 10, 11],
+		///   reverse(t, dims) ==&amp;gt; [[[[8, 9, 10, 11],
 		///                           [4, 5, 6, 7],
 		///                           [0, 1, 2, 3]]
 		///                          [[20, 21, 22, 23],
@@ -6446,9 +6450,9 @@ namespace TensorFlow {
 		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
 		///   
-		///   ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-		///   var <- var - mom
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
 		/// </remarks>
 		public TFOperation ResourceSparseApplyRMSProp (TFOutput var, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -6572,10 +6576,10 @@ namespace TensorFlow {
 		///   contention.
 		/// </param>
 		/// <remarks>
-		///   lr_t <- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-		///   m_t <- beta1 * m_{t-1} + (1 - beta1) * g_t
-		///   v_t <- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
-		///   variable <- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+		///   lr_t &amp;lt;- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
+		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g_t
+		///   v_t &amp;lt;- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
+		///   variable &amp;lt;- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
 		/// </remarks>
 		public TFOperation ResourceApplyAdam (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput beta2_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
 		{
@@ -6622,7 +6626,7 @@ namespace TensorFlow {
 		///   # 'x' is [2, 2, 7]
 		///   # 'y' is [2, 3, 7]
 		///   # 'z' is [2, 5, 7]
-		///   concat_offset(2, [x, y, z]) => [0, 0, 0], [0, 2, 0], [0, 5, 0]
+		///   concat_offset(2, [x, y, z]) =&amp;gt; [0, 0, 0], [0, 2, 0], [0, 5, 0]
 		///   ```
 		/// </remarks>
 		public TFOutput [] ConcatOffset (TFOutput concat_dim, TFOutput[] shape, string operName = null)
@@ -6956,7 +6960,7 @@ namespace TensorFlow {
 		///   accum_new = accum + grad * grad
 		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
-		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| > l1 else 0.0
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
 		/// </remarks>
 		public TFOperation ResourceApplyFtrl (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput lr_power, bool? use_locking = null, string operName = null)
@@ -7036,7 +7040,7 @@ namespace TensorFlow {
 		/// <returns>
 		/// </returns>
 		/// <remarks>
-		///   `y = sign(x) = -1` if `x < 0`; 0 if `x == 0`; 1 if `x > 0`.
+		///   `y = sign(x) = -1` if `x &amp;lt; 0`; 0 if `x == 0`; 1 if `x &amp;gt; 0`.
 		///   
 		///   For complex numbers, `y = sign(x) = x / |x|` if `x != 0`, otherwise `y = 0`.
 		/// </remarks>
@@ -7287,9 +7291,9 @@ namespace TensorFlow {
 		///   mean_grad = decay * mean_grad + (1-decay) * gradient
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
 		///   
-		///   ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-		///   var <- var - mom
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
 		/// </remarks>
 		public TFOperation ResourceSparseApplyCenteredRMSProp (TFOutput var, TFOutput mg, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -7942,7 +7946,7 @@ namespace TensorFlow {
 		///   accum_new = accum + grad * grad
 		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
-		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| > l1 else 0.0
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
 		/// </remarks>
 		public TFOperation ResourceSparseApplyFtrl (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput lr_power, bool? use_locking = null, string operName = null)
@@ -8051,7 +8055,7 @@ namespace TensorFlow {
 		/// <param name="precision">
 		///   Optional argument
 		///   The post-decimal precision to use for floating point numbers.
-		///   Only used if precision > -1.
+		///   Only used if precision &amp;gt; -1.
 		/// </param>
 		/// <param name="scientific">
 		///   Optional argument
@@ -8066,11 +8070,11 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Pad pre-decimal numbers to this width.
 		///   Applies to both floating point and integer numbers.
-		///   Only used if width > -1.
+		///   Only used if width &amp;gt; -1.
 		/// </param>
 		/// <param name="fill">
 		///   Optional argument
-		///   The value to pad if width > -1.  If empty, pads with spaces.
+		///   The value to pad if width &amp;gt; -1.  If empty, pads with spaces.
 		///   Another typical value is '0'.  String cannot be longer than 1 character.
 		/// </param>
 		/// <returns>
@@ -8284,16 +8288,16 @@ namespace TensorFlow {
 		///   
 		///   ```
 		///   # tensor `a` is [["a", "b"], ["c", "d"]]
-		///   tf.reduce_join(a, 0) ==> ["ac", "bd"]
-		///   tf.reduce_join(a, 1) ==> ["ab", "cd"]
-		///   tf.reduce_join(a, -2) = tf.reduce_join(a, 0) ==> ["ac", "bd"]
-		///   tf.reduce_join(a, -1) = tf.reduce_join(a, 1) ==> ["ab", "cd"]
-		///   tf.reduce_join(a, 0, keep_dims=True) ==> [["ac", "bd"]]
-		///   tf.reduce_join(a, 1, keep_dims=True) ==> [["ab"], ["cd"]]
-		///   tf.reduce_join(a, 0, separator=".") ==> ["a.c", "b.d"]
-		///   tf.reduce_join(a, [0, 1]) ==> ["acbd"]
-		///   tf.reduce_join(a, [1, 0]) ==> ["abcd"]
-		///   tf.reduce_join(a, []) ==> ["abcd"]
+		///   tf.reduce_join(a, 0) ==&amp;gt; ["ac", "bd"]
+		///   tf.reduce_join(a, 1) ==&amp;gt; ["ab", "cd"]
+		///   tf.reduce_join(a, -2) = tf.reduce_join(a, 0) ==&amp;gt; ["ac", "bd"]
+		///   tf.reduce_join(a, -1) = tf.reduce_join(a, 1) ==&amp;gt; ["ab", "cd"]
+		///   tf.reduce_join(a, 0, keep_dims=True) ==&amp;gt; [["ac", "bd"]]
+		///   tf.reduce_join(a, 1, keep_dims=True) ==&amp;gt; [["ab"], ["cd"]]
+		///   tf.reduce_join(a, 0, separator=".") ==&amp;gt; ["a.c", "b.d"]
+		///   tf.reduce_join(a, [0, 1]) ==&amp;gt; ["acbd"]
+		///   tf.reduce_join(a, [1, 0]) ==&amp;gt; ["abcd"]
+		///   tf.reduce_join(a, []) ==&amp;gt; ["abcd"]
 		///   ```
 		/// </remarks>
 		public TFOutput ReduceJoin (TFOutput inputs, TFOutput reduction_indices, bool? keep_dims = null, string separator = null, string operName = null)
@@ -8627,7 +8631,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   The inputs represent an N-D SparseTensor  with logical shape `[..., B, C]`
-		///   (where `N >= 2`), and with indices sorted in the canonical lexicographic order.
+		///   (where `N &amp;gt;= 2`), and with indices sorted in the canonical lexicographic order.
 		///   
 		///   This op is equivalent to applying the normal `tf.nn.softmax()` to each innermost
 		///   logical submatrix with shape `[B, C]`, but with the catch that *the implicitly
@@ -9029,7 +9033,7 @@ namespace TensorFlow {
 		///   # 't' is [[1, 1], [2, 2]]
 		///   # 'paddings' is [[1, 1], [2, 2]]
 		///   # rank of 't' is 2
-		///   pad(t, paddings) ==> [[0, 0, 0, 0, 0, 0]
+		///   pad(t, paddings) ==&amp;gt; [[0, 0, 0, 0, 0, 0]
 		///                         [0, 0, 1, 1, 0, 0]
 		///                         [0, 0, 2, 2, 0, 0]
 		///                         [0, 0, 0, 0, 0, 0]]
@@ -9251,9 +9255,9 @@ namespace TensorFlow {
 		///   
 		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/ScatterAdd.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/ScatterAdd.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOperation ResourceScatterAdd (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
 		{
@@ -9403,9 +9407,9 @@ namespace TensorFlow {
 		///   \\(output_i = \min_j(data_j)\\) where `min` is over `j` such
 		///   that `segment_ids[j] == i`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/SegmentMin.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/SegmentMin.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput SegmentMin (TFOutput data, TFOutput segment_ids, string operName = null)
 		{
@@ -9591,14 +9595,14 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   # 't' is a tensor of shape [1, 2, 1, 3, 1, 1]
-		///   shape(squeeze(t)) ==> [2, 3]
+		///   shape(squeeze(t)) ==&amp;gt; [2, 3]
 		///   ```
 		///   
 		///   Or, to remove specific size 1 dimensions:
 		///   
 		///   ```prettyprint
 		///   # 't' is a tensor of shape [1, 2, 1, 3, 1, 1]
-		///   shape(squeeze(t, [2, 4])) ==> [1, 2, 3, 1]
+		///   shape(squeeze(t, [2, 4])) ==&amp;gt; [1, 2, 3, 1]
 		///   ```
 		/// </remarks>
 		public TFOutput Squeeze (TFOutput input, long[] squeeze_dims = null, string operName = null)
@@ -9695,12 +9699,12 @@ namespace TensorFlow {
 		/// <param name="decoded_indices">
 		///   A list (length: top_paths) of indices matrices.  Matrix j,
 		///   size `(total_decoded_outputs[j] x 2)`, has indices of a
-		///   `SparseTensor<int64, 2>`.  The rows store: [batch, time].
+		///   `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The rows store: [batch, time].
 		/// </param>
 		/// <param name="decoded_values">
 		///   A list (length: top_paths) of values vectors.  Vector j,
 		///   size `(length total_decoded_outputs[j])`, has the values of a
-		///   `SparseTensor<int64, 2>`.  The vector stores the decoded classes for beam j.
+		///   `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The vector stores the decoded classes for beam j.
 		/// </param>
 		/// <param name="decoded_shape">
 		///   A list (length: top_paths) of shape vector.  Vector j,
@@ -10012,7 +10016,7 @@ namespace TensorFlow {
 		///   
 		///   1.  a[0] = 0 : the first value of the sequence is 0
 		///   2.  a[end] = input_row_length : the last value of the sequence is the size
-		///   3.  K <= (a[i+1] - a[i]) <= K+1 : all intervals are K or K+1 size
+		///   3.  K &amp;lt;= (a[i+1] - a[i]) &amp;lt;= K+1 : all intervals are K or K+1 size
 		///   4.  length(row_pooling_sequence) = output_row_length+1
 		///   
 		///   For more details on fractional max pooling, see this paper:
@@ -10086,9 +10090,9 @@ namespace TensorFlow {
 		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
 		///   
-		///   ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-		///   var <- var - mom
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
 		/// </remarks>
 		public TFOperation ResourceApplyRMSProp (TFOutput var, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
 		{
@@ -10308,6 +10312,107 @@ namespace TensorFlow {
 				_ret [i] = new TFOutput (op, _idx++);
 			
 			return _ret;
+		}
+
+		/// <summary>
+		///   Quantizes then dequantizes a tensor.
+		/// </summary>
+		/// <param name="input">
+		///   Tensor to quantize and then dequantize.
+		/// </param>
+		/// <param name="input_min">
+		///   If range_given, this is the min of the range, otherwise this input
+		///   will be ignored.
+		/// </param>
+		/// <param name="input_max">
+		///   If range_given, this is the max of the range, otherwise this input
+		///   will be ignored.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizeAndDequantizeV2'.
+		/// </param>
+		/// <param name="signed_input">
+		///   Optional argument
+		///   If the quantization is signed or unsigned.
+		/// </param>
+		/// <param name="num_bits">
+		///   Optional argument
+		///   The bitwidth of the quantization.
+		/// </param>
+		/// <param name="range_given">
+		///   Optional argument
+		///   If the range is given or should be computed from the tensor.
+		/// </param>
+		/// <returns>
+		/// </returns>
+		/// <remarks>
+		///   This op simulates the precision loss from the quantized forward pass by:
+		///   1. Quantizing the tensor to fixed point numbers, which should match the target
+		///      quantization method when it is used in inference.
+		///   2. Dequantizing it back to floating point numbers for the following ops, most
+		///      likely matmul.
+		///   
+		///   There are different ways to quantize. This version does not use the full range
+		///   of the output type, choosing to elide the lowest possible value for symmetry
+		///   (e.g., output range is -127 to 127, not -128 to 127 for signed 8 bit
+		///   quantization), so that 0.0 maps to 0.
+		///   
+		///   To perform this op, we first find the range of values in our tensor. The range
+		///   we use is always centered on 0, so we find m such that
+		///   
+		///   1. m = max(abs(input_min), abs(input_max)) if range_given is true,
+		///   2. m = max(abs(min_elem(input)), abs(max_elem(input))) otherwise.
+		///   
+		///   Our input tensor range is then [-m, m].
+		///   
+		///   Next, we choose our fixed-point quantization buckets, [min_fixed, max_fixed].
+		///   If signed_input is true, this is
+		///   
+		///     [min_fixed, max_fixed ] =
+		///         [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1].
+		///   
+		///   Otherwise, if signed_input is false, the fixed-point range is
+		///   
+		///     [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1].
+		///   
+		///   From this we compute our scaling factor, s:
+		///   
+		///     s = (max_fixed - min_fixed) / (2 * m).
+		///   
+		///   Now we can quantize and dequantize the elements of our tensor.  An element e
+		///   is transformed into e':
+		///   
+		///     e' = (e * s).round_to_nearest() / s.
+		///   
+		///   Note that we have a different number of buckets in the signed vs. unsigned
+		///   cases.  For example, if num_bits == 8, we get 254 buckets in the signed case
+		///   vs. 255 in the unsigned case.
+		///   
+		///   For example, suppose num_bits = 8 and m = 1.  Then
+		///   
+		///     [min_fixed, max_fixed] = [-127, 127], and
+		///     s = (127 + 127) / 2 = 127.
+		///   
+		///   Given the vector {-1, -0.5, 0, 0.3}, this is quantized to
+		///   {-127, -63, 0, 38}, and dequantized to {-1, -63.0/127, 0, 38.0/127}.
+		/// </remarks>
+		public TFOutput QuantizeAndDequantizeV2 (TFOutput input, TFOutput input_min, TFOutput input_max, bool? signed_input = null, long? num_bits = null, bool? range_given = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QuantizeAndDequantizeV2", MakeName ("QuantizeAndDequantizeV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_min);
+			desc.AddInput (input_max);
+			if (signed_input.HasValue)
+				desc.SetAttr ("signed_input", signed_input.Value);
+			
+			if (num_bits.HasValue)
+				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (range_given.HasValue)
+				desc.SetAttr ("range_given", range_given.Value);
+			
+			var op = desc.FinishOperation ();
+			return new TFOutput (op, 0);
 		}
 
 		/// <summary>
@@ -10829,8 +10934,8 @@ namespace TensorFlow {
 		///   # 'x' is [1, 4]
 		///   # 'y' is [2, 5]
 		///   # 'z' is [3, 6]
-		///   pack([x, y, z]) => [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
-		///   pack([x, y, z], axis=1) => [[1, 2, 3], [4, 5, 6]]
+		///   pack([x, y, z]) =&amp;gt; [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
+		///   pack([x, y, z], axis=1) =&amp;gt; [[1, 2, 3], [4, 5, 6]]
 		///   ```
 		///   
 		///   This is the opposite of `unpack`.
@@ -10977,7 +11082,7 @@ namespace TensorFlow {
 		///   Returns the index with the largest value across dimensions of a tensor.
 		/// </summary>
 		/// <param name="dimension">
-		///   int32, 0 <= dimension < rank(input).  Describes which dimension
+		///   int32, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes which dimension
 		///   of the input Tensor to reduce across. For vectors, use dimension = 0.
 		/// </param>
 		/// <param name="operName">
@@ -11178,7 +11283,7 @@ namespace TensorFlow {
 		///   rate.
 		/// </returns>
 		/// <remarks>
-		///   This op uses two algorithms, depending on rate. If rate >= 10, then
+		///   This op uses two algorithms, depending on rate. If rate &amp;gt;= 10, then
 		///   the algorithm by Hormann is used to acquire samples via
 		///   transformation-rejection.
 		///   See http://www.sciencedirect.com/science/article/pii/0167668793909974.
@@ -11936,8 +12041,8 @@ namespace TensorFlow {
 		///   
 		///   The indicator function
 		///   
-		///   `in_band(m, n) = (num_lower < 0 || (m-n) <= num_lower)) &&
-		///                    (num_upper < 0 || (n-m) <= num_upper)`.
+		///   `in_band(m, n) = (num_lower &amp;lt; 0 || (m-n) &amp;lt;= num_lower)) &amp;&amp;
+		///                    (num_upper &amp;lt; 0 || (n-m) &amp;lt;= num_upper)`.
 		///   
 		///   For example:
 		///   
@@ -11947,12 +12052,12 @@ namespace TensorFlow {
 		///                    [-2, -1,  0, 1]
 		///                    [-3, -2, -1, 0]],
 		///   
-		///   tf.matrix_band_part(input, 1, -1) ==> [[ 0,  1,  2, 3]
+		///   tf.matrix_band_part(input, 1, -1) ==&amp;gt; [[ 0,  1,  2, 3]
 		///                                          [-1,  0,  1, 2]
 		///                                          [ 0, -1,  0, 1]
 		///                                          [ 0,  0, -1, 0]],
 		///   
-		///   tf.matrix_band_part(input, 2, 1) ==> [[ 0,  1,  0, 0]
+		///   tf.matrix_band_part(input, 2, 1) ==&amp;gt; [[ 0,  1,  0, 0]
 		///                                         [-1,  0,  1, 0]
 		///                                         [-2, -1,  0, 1]
 		///                                         [ 0, -2, -1, 0]]
@@ -11961,9 +12066,9 @@ namespace TensorFlow {
 		///   Useful special cases:
 		///   
 		///   ```prettyprint
-		///    tf.matrix_band_part(input, 0, -1) ==> Upper triangular part.
-		///    tf.matrix_band_part(input, -1, 0) ==> Lower triangular part.
-		///    tf.matrix_band_part(input, 0, 0) ==> Diagonal.
+		///    tf.matrix_band_part(input, 0, -1) ==&amp;gt; Upper triangular part.
+		///    tf.matrix_band_part(input, -1, 0) ==&amp;gt; Lower triangular part.
+		///    tf.matrix_band_part(input, 0, 0) ==&amp;gt; Diagonal.
 		///   ```
 		/// </remarks>
 		public TFOutput MatrixBandPart (TFOutput input, TFOutput num_lower, TFOutput num_upper, string operName = null)
@@ -12112,7 +12217,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   A 1-D integer tensor of shape `[M]` representing the selected
-		///   indices from the boxes tensor, where `M <= max_output_size`.
+		///   indices from the boxes tensor, where `M &amp;lt;= max_output_size`.
 		/// </returns>
 		/// <remarks>
 		///   pruning away boxes that have high intersection-over-union (IOU) overlap
@@ -12319,7 +12424,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns element-wise remainder of division. When `x < 0` xor `y < 0` is
+		///   Returns element-wise remainder of division. When `x &amp;lt; 0` xor `y &amp;lt; 0` is
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FloorMod'.
@@ -12394,7 +12499,7 @@ namespace TensorFlow {
 		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
 		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
 		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 > y2, in
+		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
 		///   outside the `[0, 1]` range are allowed, in which case we use
@@ -12605,7 +12710,7 @@ namespace TensorFlow {
 		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
 		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
 		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 > y2, in
+		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
 		///   outside the `[0, 1]` range are allowed, in which case we use
@@ -12983,7 +13088,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Deprecated. Disallowed in GraphDef version >= 2.
+		///   Deprecated. Disallowed in GraphDef version &amp;gt;= 2.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AdjustContrast'.
@@ -13337,7 +13442,7 @@ namespace TensorFlow {
 		///   out[i] = (in[i] - min_range) * range(T) / (max_range - min_range)
 		///   if T == qint8, out[i] -= (range(T) + 1) / 2.0
 		///   ```
-		///   here `range(T) = numeric_limits<T>::max() - numeric_limits<T>::min()`
+		///   here `range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()`
 		///   
 		///   *MIN_COMBINED Mode Example*
 		///   
@@ -13353,14 +13458,14 @@ namespace TensorFlow {
 		///   If the mode is 'MIN_FIRST', then this approach is used:
 		///   
 		///   ```
-		///   number_of_steps = 1 << (# of bits in T)
+		///   number_of_steps = 1 &amp;lt;&amp;lt; (# of bits in T)
 		///   range_adjust = number_of_steps / (number_of_steps - 1)
 		///   range = (range_max - range_min) * range_adjust
 		///   range_scale = number_of_steps / range
 		///   quantized = round(input * range_scale) - round(range_min * range_scale) +
-		///     numeric_limits<T>::min()
-		///   quantized = max(quantized, numeric_limits<T>::min())
-		///   quantized = min(quantized, numeric_limits<T>::max())
+		///     numeric_limits&amp;lt;T&amp;gt;::min()
+		///   quantized = max(quantized, numeric_limits&amp;lt;T&amp;gt;::min())
+		///   quantized = min(quantized, numeric_limits&amp;lt;T&amp;gt;::max())
 		///   ```
 		///   
 		///   The biggest difference between this and MIN_COMBINED is that the minimum range
@@ -13447,7 +13552,7 @@ namespace TensorFlow {
 		///   Returns the batched diagonal part of a batched tensor.
 		/// </summary>
 		/// <param name="input">
-		///   Rank `k` tensor where `k >= 2`.
+		///   Rank `k` tensor where `k &amp;gt;= 2`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixDiagPart'.
@@ -13481,7 +13586,7 @@ namespace TensorFlow {
 		///   
 		///   and input.shape = (2, 4, 4)
 		///   
-		///   tf.matrix_diag_part(input) ==> [[1, 2, 3, 4], [5, 6, 7, 8]]
+		///   tf.matrix_diag_part(input) ==&amp;gt; [[1, 2, 3, 4], [5, 6, 7, 8]]
 		///   
 		///   which has shape (2, 4)
 		///   ```
@@ -13594,7 +13699,7 @@ namespace TensorFlow {
 		///   
 		///   ```
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
-		///   tf.imag(input) ==> [4.75, 5.75]
+		///   tf.imag(input) ==&amp;gt; [4.75, 5.75]
 		///   ```
 		/// </remarks>
 		public TFOutput Imag (TFOutput input, TFDataType? Tout = null, string operName = null)
@@ -13792,7 +13897,7 @@ namespace TensorFlow {
 		///       merged.shape = [max(indices)] + constant
 		///   
 		///   Values are merged in order, so if an index appears in both `indices[m][i]` and
-		///   `indices[n][j]` for `(m,i) < (n,j)` the slice `data[n][j]` will appear in the
+		///   `indices[n][j]` for `(m,i) &amp;lt; (n,j)` the slice `data[n][j]` will appear in the
 		///   merged result.
 		///   
 		///   For example:
@@ -13808,9 +13913,9 @@ namespace TensorFlow {
 		///                 [51, 52], [61, 62]]
 		///   ```
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/DynamicStitch.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/DynamicStitch.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput DynamicStitch (TFOutput[] indices, TFOutput[] data, string operName = null)
 		{
@@ -14384,9 +14489,9 @@ namespace TensorFlow {
 		///   ```prettyprint
 		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 		///   y, idx, count = unique_with_counts(x)
-		///   y ==> [1, 2, 4, 7, 8]
-		///   idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
-		///   count ==> [2, 1, 3, 1, 2]
+		///   y ==&amp;gt; [1, 2, 4, 7, 8]
+		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
+		///   count ==&amp;gt; [2, 1, 3, 1, 2]
 		///   ```
 		/// </remarks>
 		public TFOperation UniqueWithCounts (TFOutput x, ref TFOutput y, ref TFOutput idx, ref TFOutput count, TFDataType? out_idx = null, string operName = null)
@@ -14454,10 +14559,10 @@ namespace TensorFlow {
 		///   
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
 		///   
-		///   mg <- rho * mg_{t-1} + (1-rho) * grad
-		///   ms <- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom <- momentum * mom_{t-1} + lr * grad / sqrt(ms - mg * mg + epsilon)
-		///   var <- var - mom
+		///   mg &amp;lt;- rho * mg_{t-1} + (1-rho) * grad
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms - mg * mg + epsilon)
+		///   var &amp;lt;- var - mom
 		/// </remarks>
 		public TFOperation ResourceApplyCenteredRMSProp (TFOutput var, TFOutput mg, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
 		{
@@ -14774,7 +14879,7 @@ namespace TensorFlow {
 		///   if T == qint8, in[i] += (range(T) + 1)/ 2.0
 		///   out[i] = min_range + (in[i]* (max_range - min_range) / range(T))
 		///   ```
-		///   here `range(T) = numeric_limits<T>::max() - numeric_limits<T>::min()`
+		///   here `range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()`
 		///   
 		///   *MIN_COMBINED Mode Example*
 		///   
@@ -14789,12 +14894,12 @@ namespace TensorFlow {
 		///   If the mode is 'MIN_FIRST', then this approach is used:
 		///   
 		///   ```
-		///   number_of_steps = 1 << (# of bits in T)
+		///   number_of_steps = 1 &amp;lt;&amp;lt; (# of bits in T)
 		///   range_adjust = number_of_steps / (number_of_steps - 1)
 		///   range = (range_max - range_min) * range_adjust
 		///   range_scale = range / number_of_steps
-		///   const double offset_input = static_cast<double>(input) - lowest_quantized;
-		///   result = range_min + ((input - numeric_limits<T>::min()) * range_scale)
+		///   const double offset_input = static_cast&amp;lt;double&amp;gt;(input) - lowest_quantized;
+		///   result = range_min + ((input - numeric_limits&amp;lt;T&amp;gt;::min()) * range_scale)
 		///   ```
 		/// </remarks>
 		public TFOutput Dequantize (TFOutput input, TFOutput min_range, TFOutput max_range, string mode = null, string operName = null)
@@ -14953,9 +15058,9 @@ namespace TensorFlow {
 		///       outputs[1] = [30, 40]
 		///   ```
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/DynamicPartition.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/DynamicPartition.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput [] DynamicPartition (TFOutput data, TFOutput partitions, long num_partitions, string operName = null)
 		{
@@ -15000,11 +15105,11 @@ namespace TensorFlow {
 		///   that `segment_ids[j] == i`.
 		///   
 		///   If the maximum is empty for a given segment ID `i`, it outputs the smallest possible value for specific numeric type,
-		///    `output[i] = numeric_limits<T>::min()`.
+		///    `output[i] = numeric_limits&amp;lt;T&amp;gt;::min()`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/UnsortedSegmentSum.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/UnsortedSegmentSum.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput UnsortedSegmentMax (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -15509,8 +15614,8 @@ namespace TensorFlow {
 		///   This operation would return:
 		///   
 		///   ```prettyprint
-		///   out ==> [2, 4, 6]
-		///   idx ==> [1, 3, 5]
+		///   out ==&amp;gt; [2, 4, 6]
+		///   idx ==&amp;gt; [1, 3, 5]
 		///   ```
 		/// </remarks>
 		public TFOperation ListDiff (TFOutput x, TFOutput y, ref TFOutput output, ref TFOutput idx, TFDataType? out_idx = null, string operName = null)
@@ -15613,7 +15718,7 @@ namespace TensorFlow {
 		///   Returns a batched diagonal tensor with a given batched diagonal values.
 		/// </summary>
 		/// <param name="diagonal">
-		///   Rank `k`, where `k >= 1`.
+		///   Rank `k`, where `k &amp;gt;= 1`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixDiag'.
@@ -15637,7 +15742,7 @@ namespace TensorFlow {
 		///   
 		///   and diagonal.shape = (2, 4)
 		///   
-		///   tf.matrix_diag(diagonal) ==> [[[1, 0, 0, 0]
+		///   tf.matrix_diag(diagonal) ==&amp;gt; [[[1, 0, 0, 0]
 		///                                        [0, 2, 0, 0]
 		///                                        [0, 0, 3, 0]
 		///                                        [0, 0, 0, 4]],
@@ -15732,7 +15837,7 @@ namespace TensorFlow {
 		///   `strides[i]` specifies the increment in the `i`th specification
 		///   after extracting a given element. Negative indices will reverse
 		///   the original order. Out or range values are
-		///   clamped to `[0,dim[i]) if slice[i]>0` or `[-1,dim[i]-1] if slice[i] < 0`
+		///   clamped to `[0,dim[i]) if slice[i]&amp;gt;0` or `[-1,dim[i]-1] if slice[i] &amp;lt; 0`
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StridedSlice'.
@@ -15741,8 +15846,8 @@ namespace TensorFlow {
 		///   Optional argument
 		///   a bitmask where a bit i being 1 means to ignore the begin
 		///   value and instead use the largest interval possible. At runtime
-		///   begin[i] will be replaced with `[0, n-1) if `stride[i] > 0` or
-		///   `[-1, n-1]` if `stride[i] < 0`
+		///   begin[i] will be replaced with `[0, n-1) if `stride[i] &amp;gt; 0` or
+		///   `[-1, n-1]` if `stride[i] &amp;lt; 0`
 		/// </param>
 		/// <param name="end_mask">
 		///   Optional argument
@@ -15752,7 +15857,7 @@ namespace TensorFlow {
 		///   Optional argument
 		///   a bitmask where bit `i` being 1 means the `i`th
 		///   position is actually an ellipsis. One bit at most can be 1.
-		///   If `ellipsis_mask == 0`, then an implicit ellipsis mask of `1 << (m+1)`
+		///   If `ellipsis_mask == 0`, then an implicit ellipsis mask of `1 &amp;lt;&amp;lt; (m+1)`
 		///   is provided. This means that `foo[3:5] == foo[3:5, ...]`. An ellipsis
 		///   implicitly creates as many range specifications as necessary to fully
 		///   specify the sliced range for every dimension. For example for a 4-dimensional
@@ -15798,11 +15903,11 @@ namespace TensorFlow {
 		///     a given dimension. `stride` can be any integer but 0.  `begin` is an integer
 		///     which represents the index of the first value to select while `end` represents
 		///     the index of the last value to select. The number of values selected in each
-		///     dimension is `end - begin` if `stride > 0` and `begin - end` if `stride < 0`.
+		///     dimension is `end - begin` if `stride &amp;gt; 0` and `begin - end` if `stride &amp;lt; 0`.
 		///     `begin` and `end` can be negative where `-1` is the last element, `-2` is
 		///     the second to last. `begin_mask` controls whether to replace the explicitly
-		///     given `begin` with an implicit effective value of `0` if `stride > 0` and
-		///     `-1` if `stride < 0`. `end_mask` is analogous but produces the number
+		///     given `begin` with an implicit effective value of `0` if `stride &amp;gt; 0` and
+		///     `-1` if `stride &amp;lt; 0`. `end_mask` is analogous but produces the number
 		///     required to create the largest open interval. For example, given a shape
 		///     `(3,)` tensor `foo[:]`, the effective `begin` and `end` are `0` and `3`. Do
 		///     not assume this is equivalent to `foo[0:-1]` which has an effective `begin`
@@ -15824,11 +15929,11 @@ namespace TensorFlow {
 		///   begin = [1, 2, x, x, 0, x] # x denotes don't care (usually 0)
 		///   end = [2, 4, x, x, -3, x]
 		///   strides = [1, 1, x, x, -1, 1]
-		///   begin_mask = 1<<4 | 1 << 5 = 48
-		///   end_mask = 1<<5 = 32
-		///   ellipsis_mask = 1<<3 = 8
-		///   new_axis_mask = 1<<2 4
-		///   shrink_axis_mask = 1<<0
+		///   begin_mask = 1&amp;lt;&amp;lt;4 | 1 &amp;lt;&amp;lt; 5 = 48
+		///   end_mask = 1&amp;lt;&amp;lt;5 = 32
+		///   ellipsis_mask = 1&amp;lt;&amp;lt;3 = 8
+		///   new_axis_mask = 1&amp;lt;&amp;lt;2 4
+		///   shrink_axis_mask = 1&amp;lt;&amp;lt;0
 		///   ```
 		///   
 		///   In this case if `foo.shape` is (5, 5, 5, 5, 5, 5) the final shape of
@@ -16013,10 +16118,10 @@ namespace TensorFlow {
 		///   `params` is a Tensor of rank `P` and `indices` is a Tensor of rank `Q`.
 		///   
 		///   `indices` must be integer tensor, containing indices into `params`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 < K <= P`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
 		///   
 		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K < P`) along the `K`th
+		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
 		///   dimension of `params`.
 		///   
 		///   Produces an output tensor with shape
@@ -16293,9 +16398,9 @@ namespace TensorFlow {
 		///   If `indices` is a permutation and `len(indices) == params.shape[0]` then
 		///   this operation will permute `params` accordingly.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/Gather.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/Gather.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput Gather (TFOutput parameters, TFOutput indices, bool? validate_indices = null, string operName = null)
 		{
@@ -16617,7 +16722,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the truth value of (x < y) element-wise.
+		///   Returns the truth value of (x &amp;lt; y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Less'.
@@ -17159,25 +17264,25 @@ namespace TensorFlow {
 		///   By default, this op performs an inclusive cumprod, which means that the first
 		///   element of the input is identical to the first element of the output:
 		///   ```prettyprint
-		///   tf.cumprod([a, b, c]) ==> [a, a * b, a * b * c]
+		///   tf.cumprod([a, b, c]) ==&amp;gt; [a, a * b, a * b * c]
 		///   ```
 		///   
 		///   By setting the `exclusive` kwarg to `True`, an exclusive cumprod is
 		///   performed instead:
 		///   ```prettyprint
-		///   tf.cumprod([a, b, c], exclusive=True) ==> [1, a, a * b]
+		///   tf.cumprod([a, b, c], exclusive=True) ==&amp;gt; [1, a, a * b]
 		///   ```
 		///   
 		///   By setting the `reverse` kwarg to `True`, the cumprod is performed in the
 		///   opposite direction:
 		///   ```prettyprint
-		///   tf.cumprod([a, b, c], reverse=True) ==> [a * b * c, b * c, c]
+		///   tf.cumprod([a, b, c], reverse=True) ==&amp;gt; [a * b * c, b * c, c]
 		///   ```
 		///   This is more efficient than using separate `tf.reverse` ops.
 		///   
 		///   The `reverse` and `exclusive` kwargs can also be combined:
 		///   ```prettyprint
-		///   tf.cumprod([a, b, c], exclusive=True, reverse=True) ==> [b * c, c, 1]
+		///   tf.cumprod([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b * c, c, 1]
 		///   ```
 		/// </remarks>
 		public TFOutput Cumprod (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
@@ -17230,7 +17335,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the truth value of (x > y) element-wise.
+		///   Returns the truth value of (x &amp;gt; y) element-wise.
 		/// </summary>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Greater'.
@@ -17341,7 +17446,7 @@ namespace TensorFlow {
 		///   # 'paddings' is [[0, 1]], [0, 1]].
 		///   # 'mode' is SYMMETRIC.
 		///   # rank of 't' is 2.
-		///   pad(t, paddings) ==> [[ 1,  5]
+		///   pad(t, paddings) ==&amp;gt; [[ 1,  5]
 		///                         [11, 28]]
 		///   ```
 		/// </remarks>
@@ -17399,7 +17504,7 @@ namespace TensorFlow {
 		///   #         [3, 4]]
 		///   # 'e' is [[5, 6],
 		///   #         [7, 8]]
-		///   select(condition, t, e) ==> [[1, 6],
+		///   select(condition, t, e) ==&amp;gt; [[1, 6],
 		///                                [7, 4]]
 		///   
 		///   
@@ -17408,7 +17513,7 @@ namespace TensorFlow {
 		///   #         [3, 4]]
 		///   # 'e' is [[5, 6],
 		///   #         [7, 8]]
-		///   select(condition, t, e) ==> [[1, 2],
+		///   select(condition, t, e) ==&amp;gt; [[1, 2],
 		///                                [7, 8]]
 		///   
 		///   ```
@@ -17500,7 +17605,7 @@ namespace TensorFlow {
 		///   
 		///   ```prettyprint
 		///   [[1, 2],       [[5, 6],
-		///    [3, 4],  ==>   [1, 2],
+		///    [3, 4],  ==&amp;gt;   [1, 2],
 		///    [5, 6]]        [3, 4]]
 		///   ```
 		/// </remarks>
@@ -17532,9 +17637,9 @@ namespace TensorFlow {
 		///   For example:
 		///   
 		///   ```
-		///   rint(-1.5) ==> -2.0
-		///   rint(0.5000001) ==> 1.0
-		///   rint([-1.7, -1.5, -0.2, 0.2, 1.5, 1.7, 2.0]) ==> [-2., -2., -0., 0., 2., 2., 2.]
+		///   rint(-1.5) ==&amp;gt; -2.0
+		///   rint(0.5000001) ==&amp;gt; 1.0
+		///   rint([-1.7, -1.5, -0.2, 0.2, 1.5, 1.7, 2.0]) ==&amp;gt; [-2., -2., -0., 0., 2., 2., 2.]
 		///   ```
 		/// </remarks>
 		public TFOutput Rint (TFOutput x, string operName = null)
@@ -18276,7 +18381,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Backpropagated gradients below the FakeQuantWithMinMaxArgs operation:
-		///   `gradients * (inputs >= min && inputs <= max)`.
+		///   `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
 		/// </returns>
 		public TFOutput FakeQuantWithMinMaxArgsGradient (TFOutput gradients, TFOutput inputs, float? min = null, float? max = null, string operName = null)
 		{
@@ -18336,7 +18441,7 @@ namespace TensorFlow {
 		///   ```
 		///   # tensor 'x' is [[2, 2]], [3, 3]]
 		///   # tensor 'y' is [[8, 16], [2, 3]]
-		///   tf.pow(x, y) ==> [[256, 65536], [9, 27]]
+		///   tf.pow(x, y) ==&amp;gt; [[256, 65536], [9, 27]]
 		///   ```
 		/// </remarks>
 		public TFOutput Pow (TFOutput x, TFOutput y, string operName = null)
@@ -18484,7 +18589,7 @@ namespace TensorFlow {
 		///   `[batch, height*block_size, width*block_size, depth/(block_size*block_size)]`
 		///   
 		///   This operation requires that the input tensor be of rank 4, and that
-		///   `block_size` be >=1 and that `block_size * block_size` be a divisor of the
+		///   `block_size` be &amp;gt;=1 and that `block_size * block_size` be a divisor of the
 		///   input depth.
 		///   
 		///   This operation is useful for resizing the activations between convolutions
@@ -18910,11 +19015,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="decoded_indices">
 		///   Indices matrix, size `(total_decoded_outputs x 2)`,
-		///   of a `SparseTensor<int64, 2>`.  The rows store: [batch, time].
+		///   of a `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The rows store: [batch, time].
 		/// </param>
 		/// <param name="decoded_values">
 		///   Values vector, size: `(total_decoded_outputs)`,
-		///   of a `SparseTensor<int64, 2>`.  The vector stores the decoded classes.
+		///   of a `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The vector stores the decoded classes.
 		/// </param>
 		/// <param name="decoded_shape">
 		///   Shape vector, size `(2)`, of the decoded SparseTensor.
@@ -18986,14 +19091,14 @@ namespace TensorFlow {
 		///   ```prettyprint
 		///   # tensor 't' is [1, 2, 3, 4, 5, 6, 7, 8, 9]
 		///   # tensor 't' has shape [9]
-		///   reshape(t, [3, 3]) ==> [[1, 2, 3],
+		///   reshape(t, [3, 3]) ==&amp;gt; [[1, 2, 3],
 		///                           [4, 5, 6],
 		///                           [7, 8, 9]]
 		///   
 		///   # tensor 't' is [[[1, 1], [2, 2]],
 		///   #                [[3, 3], [4, 4]]]
 		///   # tensor 't' has shape [2, 2, 2]
-		///   reshape(t, [2, 4]) ==> [[1, 1, 2, 2],
+		///   reshape(t, [2, 4]) ==&amp;gt; [[1, 1, 2, 2],
 		///                           [3, 3, 4, 4]]
 		///   
 		///   # tensor 't' is [[[1, 1, 1],
@@ -19004,18 +19109,18 @@ namespace TensorFlow {
 		///   #                 [6, 6, 6]]]
 		///   # tensor 't' has shape [3, 2, 3]
 		///   # pass '[-1]' to flatten 't'
-		///   reshape(t, [-1]) ==> [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
+		///   reshape(t, [-1]) ==&amp;gt; [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
 		///   
 		///   # -1 can also be used to infer the shape
 		///   
 		///   # -1 is inferred to be 9:
-		///   reshape(t, [2, -1]) ==> [[1, 1, 1, 2, 2, 2, 3, 3, 3],
+		///   reshape(t, [2, -1]) ==&amp;gt; [[1, 1, 1, 2, 2, 2, 3, 3, 3],
 		///                            [4, 4, 4, 5, 5, 5, 6, 6, 6]]
 		///   # -1 is inferred to be 2:
-		///   reshape(t, [-1, 9]) ==> [[1, 1, 1, 2, 2, 2, 3, 3, 3],
+		///   reshape(t, [-1, 9]) ==&amp;gt; [[1, 1, 1, 2, 2, 2, 3, 3, 3],
 		///                            [4, 4, 4, 5, 5, 5, 6, 6, 6]]
 		///   # -1 is inferred to be 3:
-		///   reshape(t, [ 2, -1, 3]) ==> [[[1, 1, 1],
+		///   reshape(t, [ 2, -1, 3]) ==&amp;gt; [[[1, 1, 1],
 		///                                 [2, 2, 2],
 		///                                 [3, 3, 3]],
 		///                                [[4, 4, 4],
@@ -19024,7 +19129,7 @@ namespace TensorFlow {
 		///   
 		///   # tensor 't' is [7]
 		///   # shape `[]` reshapes to a scalar
-		///   reshape(t, []) ==> 7
+		///   reshape(t, []) ==&amp;gt; 7
 		///   ```
 		/// </remarks>
 		public TFOutput Reshape (TFOutput tensor, TFOutput shape, string operName = null)
@@ -19241,13 +19346,13 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   A sequence of `num` evenly-spaced values are generated beginning at `start`.
-		///   If `num > 1`, the values in the sequence increase by `stop - start / num - 1`,
+		///   If `num &amp;gt; 1`, the values in the sequence increase by `stop - start / num - 1`,
 		///   so that the last one is exactly `stop`.
 		///   
 		///   For example:
 		///   
 		///   ```
-		///   tf.linspace(10.0, 12.0, 3, name="linspace") => [ 10.0  11.0  12.0]
+		///   tf.linspace(10.0, 12.0, 3, name="linspace") =&amp;gt; [ 10.0  11.0  12.0]
 		///   ```
 		/// </remarks>
 		public TFOutput LinSpace (TFOutput start, TFOutput stop, TFOutput num, string operName = null)
@@ -19267,7 +19372,7 @@ namespace TensorFlow {
 		///   3-D, shape: `(max_time x batch_size x num_classes)`, the logits.
 		/// </param>
 		/// <param name="labels_indices">
-		///   The indices of a `SparseTensor<int32, 2>`.
+		///   The indices of a `SparseTensor&amp;lt;int32, 2&amp;gt;`.
 		///   `labels_indices(i, :) == [b, t]` means `labels_values(i)` stores the id for
 		///   `(batch b, time t)`.
 		/// </param>
@@ -19391,9 +19496,9 @@ namespace TensorFlow {
 		///   \\(output_i = \max_j(data_j)\\) where `max` is over `j` such
 		///   that `segment_ids[j] == i`.
 		///   
-		///   <div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;">
-		///   <img style="width:100%" src="../../images/SegmentMax.png" alt>
-		///   </div>
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="../../images/SegmentMax.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput SegmentMax (TFOutput data, TFOutput segment_ids, string operName = null)
 		{

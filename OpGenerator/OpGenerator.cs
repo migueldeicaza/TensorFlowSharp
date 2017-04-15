@@ -186,7 +186,8 @@ class OpGenerator
 			return;
 		var lines = text.Split ('\n');
 		foreach (var line in lines) {
-			p ($"///   {line}");
+			var line2 = line.Replace ("<", "&lt;").Replace (">", "&gt;").Replace ("&", "&amp;");
+			p ($"///   {line2}");
 		}
 	}
 
