@@ -68,9 +68,9 @@
       <Link>libtensorflow.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="App.config">
+    <Content Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
