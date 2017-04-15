@@ -1,0 +1,272 @@
+<Type Name="TFShape" FullName="TensorFlow.TFShape">
+  <TypeSignature Language="C#" Value="public class TFShape" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFShape extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Represents the shape of a tensor
+            </summary>
+    <remarks>
+            The shapes can be created by calling the constructor with the number of dimensions
+            in the shape.   The null value is used to specify that the shape is unknown,
+            an empty array is used to create a scalar, and other values are used to specify
+            the number of dimensions.
+            
+            For the Unknown case, you can use <see cref="P:TensorFlor.TFShape.Unknown" />, for
+            scalars, you can use the <see cref="P:TensorFlor.TFShape.Scalar" /> shape.
+            
+            To create a 2-element vector, use:
+            new TFShape (2)
+            
+            To create a 2x3 matrix, use:
+            new TFShape (2, 3)
+            
+            To create a shape with an unknown number of elements, you can pass the value
+            -1.  This is typically used to indicate the shape of tensors that represent a
+            variable-sized batch of values.
+            
+            
+            To create a matrix with 4 columns and an unknown number of rows:
+            var batch = new TFShape (-1, 4)
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFShape (long[] args);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int64[] args) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="args" Type="System.Int64[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="args">This is a params argument, so you can provide multiple values to it.  
+            A null value means that this is an unknown shape, a single value is used to create a vector,
+            two values are used to create a 2-D matrix and so on.
+            </param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFShape" /> class.
+            </summary>
+        <remarks />
+      </Docs>
+    </Member>
+    <Member MemberName="AsTensor">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor AsTensor ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor AsTensor() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetLength">
+      <MemberSignature Language="C#" Value="public int GetLength (int dimension);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetLength(int32 dimension) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dimension" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dimension">Dimension.</param>
+        <summary>
+            Gets the length of the specified dimension in the tensor
+            </summary>
+        <returns>The length, -1 for shapes that have an unknown dimension.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsFullySpecified">
+      <MemberSignature Language="C#" Value="public bool IsFullySpecified { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsFullySpecified" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets a value indicating whether all the dimensions in the <see cref="T:TensorFlow.TFShape" /> are fully specified.
+            </summary>
+        <value>
+          <c>true</c> if is fully specified; otherwise, <c>false</c>.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsLongArray">
+      <MemberSignature Language="C#" Value="public bool IsLongArray { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsLongArray" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public long this[int idx] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 Item(int32)" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="idx" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="idx">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NumDimensions">
+      <MemberSignature Language="C#" Value="public int NumDimensions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 NumDimensions" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Number of dimensions represented by this shape.
+            </summary>
+        <value>The number dimensions, -1 if the number of dimensions is unknown, 0 if the shape represent a scalar, 1 for a vector, 2 for a matrix and so on..</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Scalar">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFShape Scalar { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Scalar" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFShape</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            This shape is used to represent scalar values.
+            </summary>
+        <value>The scalar.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToArray">
+      <MemberSignature Language="C#" Value="public long[] ToArray ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64[] ToArray() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Returns the shape as an array
+            </summary>
+        <returns>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToIntArray">
+      <MemberSignature Language="C#" Value="public int[] ToIntArray ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32[] ToIntArray() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Returns the shape as an array
+            </summary>
+        <returns>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Unknown">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFShape Unknown { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Unknown" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFShape</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Represents an unknown number of dimensions in the tensor.
+            </summary>
+        <value>The unknown.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

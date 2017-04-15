@@ -1,0 +1,274 @@
+<Type Name="TFSession" FullName="TensorFlow.TFSession">
+  <TypeSignature Language="C#" Value="public class TFSession : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFSession extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Drives the execution of a graph
+            </summary>
+    <remarks>
+            This creates a new context to execute a TFGraph.   You can use the 
+            constructo to create an empty session, or you can load an existing
+            model using the FromSAvedModel static method in this class.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFSession (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="graph">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, class TensorFlow.TFSessionOptions sessionOptions, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="sessionOptions" Type="TensorFlow.TFSessionOptions" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="graph">To be added.</param>
+        <param name="sessionOptions">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloseSession">
+      <MemberSignature Language="C#" Value="public void CloseSession (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void CloseSession(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeleteSession">
+      <MemberSignature Language="C#" Value="public void DeleteSession (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DeleteSession(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromSavedModel">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession FromSavedModel(class TensorFlow.TFSessionOptions sessionOptions, class TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, class TensorFlow.TFGraph graph, class TensorFlow.TFBuffer metaGraphDef, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sessionOptions" Type="TensorFlow.TFSessionOptions" />
+        <Parameter Name="runOptions" Type="TensorFlow.TFBuffer" />
+        <Parameter Name="exportDir" Type="System.String" />
+        <Parameter Name="tags" Type="System.String[]" />
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="metaGraphDef" Type="TensorFlow.TFBuffer" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="sessionOptions">To be added.</param>
+        <param name="runOptions">To be added.</param>
+        <param name="exportDir">To be added.</param>
+        <param name="tags">To be added.</param>
+        <param name="graph">To be added.</param>
+        <param name="metaGraphDef">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetRunner">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner GetRunner ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner GetRunner() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Gets a new runner, this provides a simpler API to prepare the inputs to run on a session
+            </summary>
+        <returns>The runner.</returns>
+        <remarks>
+            The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+            to construct the parameters that will be passed to the TFSession.Run method.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Graph">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFGraph Graph { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.TFGraph Graph" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFGraph</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PartialRun">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] PartialRun (TensorFlow.TFSession.PartialRunToken token, TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] PartialRun(class TensorFlow.TFSession/PartialRunToken token, valuetype TensorFlow.TFOutput[] inputs, class TensorFlow.TFTensor[] inputValues, valuetype TensorFlow.TFOutput[] outputs, class TensorFlow.TFOperation[] targetOpers, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="token" Type="TensorFlow.TFSession+PartialRunToken" />
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="inputValues" Type="TensorFlow.TFTensor[]" />
+        <Parameter Name="outputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="targetOpers" Type="TensorFlow.TFOperation[]" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="token">To be added.</param>
+        <param name="inputs">To be added.</param>
+        <param name="inputValues">To be added.</param>
+        <param name="outputs">To be added.</param>
+        <param name="targetOpers">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PartialRunSetup">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.PartialRunToken PartialRunSetup (TensorFlow.TFOutput[] inputs, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/PartialRunToken PartialRunSetup(valuetype TensorFlow.TFOutput[] inputs, valuetype TensorFlow.TFOutput[] outputs, class TensorFlow.TFOperation[] targetOpers, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+PartialRunToken</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="outputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="targetOpers" Type="TensorFlow.TFOperation[]" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="inputs">To be added.</param>
+        <param name="outputs">To be added.</param>
+        <param name="targetOpers">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Run">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers = null, TensorFlow.TFBuffer runMetadata = null, TensorFlow.TFBuffer runOptions = null, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput[] inputs, class TensorFlow.TFTensor[] inputValues, valuetype TensorFlow.TFOutput[] outputs, class TensorFlow.TFOperation[] targetOpers, class TensorFlow.TFBuffer runMetadata, class TensorFlow.TFBuffer runOptions, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="inputValues" Type="TensorFlow.TFTensor[]" />
+        <Parameter Name="outputs" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="targetOpers" Type="TensorFlow.TFOperation[]" />
+        <Parameter Name="runMetadata" Type="TensorFlow.TFBuffer" />
+        <Parameter Name="runOptions" Type="TensorFlow.TFBuffer" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="inputs">To be added.</param>
+        <param name="inputValues">To be added.</param>
+        <param name="outputs">To be added.</param>
+        <param name="targetOpers">To be added.</param>
+        <param name="runMetadata">To be added.</param>
+        <param name="runOptions">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

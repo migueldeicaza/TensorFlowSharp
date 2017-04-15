@@ -1,0 +1,74 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="TensorFlowSharp" Version="1.0.6313.39838">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.Default | System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints | System.Diagnostics.DebuggableAttribute+DebuggingModes.EnableEditAndContinue)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCompany("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCopyright("miguel")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyDescription("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTitle("TensorFlowSharp")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="TensorFlow">
+      <Type Name="TFAttributeMetadata" Kind="Structure" />
+      <Type Name="TFAttributeType" Kind="Enumeration" />
+      <Type Name="TFBuffer" Kind="Class" />
+      <Type Name="TFBuffer+BufferReleaseFunc" Kind="Delegate" />
+      <Type Name="TFCode" Kind="Enumeration" />
+      <Type Name="TFCore" Kind="Class" />
+      <Type Name="TFDataType" Kind="Enumeration" />
+      <Type Name="TFDisposable" Kind="Class" />
+      <Type Name="TFException" Kind="Class" />
+      <Type Name="TFGraph" Kind="Class" />
+      <Type Name="TFGraph+WhileConstructor" Kind="Delegate" />
+      <Type Name="TFImportGraphDefOptions" Kind="Class" />
+      <Type Name="TFInput" Kind="Structure" />
+      <Type Name="TFLibrary" Kind="Class" />
+      <Type Name="TFOperation" Kind="Class" />
+      <Type Name="TFOperationDesc" Kind="Class" />
+      <Type Name="TFOutput" Kind="Structure" />
+      <Type Name="TFScope" Kind="Class" />
+      <Type Name="TFSession" Kind="Class" />
+      <Type Name="TFSession+PartialRunToken" Kind="Class" />
+      <Type Name="TFSession+Runner" Kind="Class" />
+      <Type Name="TFSessionOptions" Kind="Class" />
+      <Type Name="TFShape" Kind="Class" />
+      <Type Name="TFStatus" Kind="Class" />
+      <Type Name="TFTensor" Kind="Class" />
+      <Type Name="TFTensor+Deallocator" Kind="Delegate" />
+    </Namespace>
+  </Types>
+  <Title>TensorFlowSharp</Title>
+</Overview>

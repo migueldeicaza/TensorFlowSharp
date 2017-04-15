@@ -1,0 +1,178 @@
+<Type Name="TFOutput" FullName="TensorFlow.TFOutput">
+  <TypeSignature Language="C#" Value="public struct TFOutput" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit TFOutput extends System.ValueType" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Represents a specific output of an operation on a tensor.
+            </summary>
+    <remarks>
+            TFOutput objects represent one of the outputs of an operation in the graph
+            (TFGraph).  Outputs have a data type, and eventually a shape that you can 
+            retrieve by calling the <see cref="M:TensorFlow.TFGraph.GetShape" /> method.
+            
+            These can be passed as an input argument to a function for adding operations 
+            to a graph, or to the TFSession's Run and GetRunner method as values to be
+            fetched.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFOutput (TensorFlow.TFOperation operation, int index = 0);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFOperation operation, int32 index) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="operation" Type="TensorFlow.TFOperation" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="operation">The operation to which to attach the output.</param>
+        <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
+        <summary>
+            Initializes a new TFOutput instance.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFOutput (TensorFlow.TFOutput output, int index = 0);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype TensorFlow.TFOutput output, int32 index) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="output" Type="TensorFlow.TFOutput" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="output">To be added.</param>
+        <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
+        <summary>
+            Initializes a new TFOutput instance from another TFOutput
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Index">
+      <MemberSignature Language="C#" Value="public int Index;" />
+      <MemberSignature Language="ILAsm" Value=".field public int32 Index" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NumConsumers">
+      <MemberSignature Language="C#" Value="public int NumConsumers { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 NumConsumers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets the number consumers.
+            </summary>
+        <value>The number consumers.</value>
+        <remarks>
+            This number can change when new operations are added to the graph.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Operation">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation Operation { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.TFOperation Operation" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The associated operation.
+            </summary>
+        <value>The operation.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputConsumers">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFInput[] OutputConsumers { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFInput[] OutputConsumers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFInput[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Get list of all current consumers of a specific output of an operation
+            </summary>
+        <value>The output consumers.</value>
+        <remarks>
+            A concurrent modification of the graph can increase the number of consumers of
+            an operation.
+            This can return null if the TFOutput does not point to a valid object.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OutputType">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFDataType OutputType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFDataType OutputType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets the type of the output.
+            </summary>
+        <value>The type of the output.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

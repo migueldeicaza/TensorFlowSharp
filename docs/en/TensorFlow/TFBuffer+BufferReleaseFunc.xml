@@ -1,0 +1,30 @@
+<Type Name="TFBuffer+BufferReleaseFunc" FullName="TensorFlow.TFBuffer+BufferReleaseFunc">
+  <TypeSignature Language="C#" Value="public delegate void TFBuffer.BufferReleaseFunc(IntPtr data, IntPtr lenght);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed TFBuffer/BufferReleaseFunc extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="data" Type="System.IntPtr" />
+    <Parameter Name="lenght" Type="System.IntPtr" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="data">To be added.</param>
+    <param name="lenght">To be added.</param>
+    <summary>
+            Signature of the method that is invoked to release the data.  
+            </summary>
+    <remarks>
+            Methods of this signature are invoked with the data pointer and the
+            lenght pointer when then TFBuffer no longer needs to hold on to the
+            data.
+            </remarks>
+  </Docs>
+</Type>
