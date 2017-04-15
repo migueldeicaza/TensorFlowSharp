@@ -6,5 +6,5 @@ install:
   - nuget restore TensorFlowSharp.sln
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
-  - build.sh
+  - sh $TRAVIS_BUILD_DIR/build.sh
   - mono xunit.console.exe TensorFlowSharp.Tests.dll xunit.console.exe.config
