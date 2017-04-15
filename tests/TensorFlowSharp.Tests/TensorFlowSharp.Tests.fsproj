@@ -71,6 +71,9 @@
     <None Include="TensorFlowSharp.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="xunit.console.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -92,6 +95,9 @@
     <Reference Include="xunit.assert">
       <HintPath>..\..\packages\xunit.assert.2.2.0\lib\netstandard1.1\xunit.assert.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.console">
+      <HintPath>..\..\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe</HintPath>
     </Reference>
     <Reference Include="xunit.core">
       <HintPath>..\..\packages\xunit.extensibility.core.2.2.0\lib\netstandard1.1\xunit.core.dll</HintPath>
