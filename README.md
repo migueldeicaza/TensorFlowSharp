@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/travis-ci/travis-web.svg?branch=master)](https://travis-ci.org/travis-ci/travis-web)
+
 TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
 https://github.com/tensorflow/tensorflow
