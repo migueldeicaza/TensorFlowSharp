@@ -1,7 +1,6 @@
-PREFIX=/usr/local
-VERSION=4.8.1.0
-tar xvf mono-$VERSION.tar.bz2
-cd mono-$VERSION
-./configure --prefix=$PREFIX --disable-nls
+PATH=$PREFIX/bin:$PATH
+git clone https://github.com/mono/mono.git
+cd mono
+CC='cc -m32' ./autogen.sh --prefix=$PREFIX --disable-nls
 make
 make install
