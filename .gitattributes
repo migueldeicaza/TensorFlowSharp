@@ -1,1 +1,4 @@
 *.dylib filter=lfs diff=lfs merge=lfs -text
+release-artifacts\libs\libtensorflow.so filter=lfs diff=lfs merge=lfs -text
+*.so filter=lfs diff=lfs merge=lfs -text
+TensorFlowSharp\release-artifacts\libs\libtensorflow.so filter=lfs diff=lfs merge=lfs -text
