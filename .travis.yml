@@ -6,4 +6,8 @@ install:
   - nuget restore TensorFlowSharp.sln
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
+env:
+  matrix:
+  - MONO_LOG_LEVEL=debug
+script:
   - mono ./tests/TensorFlowSharp.Tests/bin/Release/xunit.console.exe ./tests/TensorFlowSharp.Tests/bin/Release/TensorFlowSharp.Tests.dll
