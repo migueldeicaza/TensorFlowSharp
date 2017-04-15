@@ -1,8 +1,5 @@
 language: csharp
 solution: TensorFlowSharp.sln
-env:
-  matrix:
-  - $MONO_LOG_LEVEL=debug
 mono:
   - latest
 install:
