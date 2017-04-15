@@ -1,9 +1,11 @@
 language: csharp
 solution: TensorFlowSharp.sln
+script:
+  - sh $TRAVIS_BUILD_DIR/monoinstall.sh
 install:
   - nuget restore TensorFlowSharp.sln
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
-mono: "latest"
+mono: "none"
 os: "osx"
