@@ -5,5 +5,5 @@ install:
 script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
-mono: "none"
+mono: "latest"
 os: "osx"
