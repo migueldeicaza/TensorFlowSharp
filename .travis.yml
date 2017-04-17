@@ -1,10 +1,7 @@
 language: csharp
 solution: TensorFlowSharp.sln
-before_install:
-  - sudo chmod +x $TRAVIS_BUILD_DIR/monoinstall.sh
-script:
-  - sh $TRAVIS_BUILD_DIR/monoinstall.sh
-  - nuget restore TensorFlowSharp.sln
+
+  - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
 mono: "none"
