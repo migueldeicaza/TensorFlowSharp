@@ -4,7 +4,7 @@ script:
   - wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz"
   - tar xjf libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
   - cd lib
-  - cp -R lib/libtensorflow.so $TRAVIS_BUILD_DIR/release-artifacts/libs/libtensorflow.dylib
+  - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/release-artifacts/libs/libtensorflow.dylib
   - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
