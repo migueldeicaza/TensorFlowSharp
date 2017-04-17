@@ -7,5 +7,5 @@ script:
   - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
-mono: "none"
+mono: "latest"
 os: "osx"
