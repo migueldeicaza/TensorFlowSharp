@@ -7,7 +7,7 @@ module ArithmeticOperationTests =
 
     [<Theory>]
     [<InlineData(1.0f, 2.0f, 2.0f)>]
-    [<InlineData(3.0f, 3.0f, 10.0f)>]
+    [<InlineData(3.0f, 3.0f, 9.0f)>]
     let Should_EvaluateMultiplyExpression_ForFloatDataType(aValue:float32 , bValue:float32, expected:float32) =
         use graph = new TFGraph()
         use session = new TFSession(graph)
