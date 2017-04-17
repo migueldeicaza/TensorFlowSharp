@@ -6,6 +6,7 @@ script:
   - cd lib
   - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/release-artifacts/libs/libtensorflow.dylib
   - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
+  - cd $TRAVIS_BUILD_DIR/
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - sh $TRAVIS_BUILD_DIR/build.sh
 mono: "latest"
