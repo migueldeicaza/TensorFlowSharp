@@ -6,3 +6,4 @@ cd mono-4.8.0
 ./configure --prefix=$PREFIX --disable-nls
 make
 make install
+cd $TRAVIS_BUILD_DIR
