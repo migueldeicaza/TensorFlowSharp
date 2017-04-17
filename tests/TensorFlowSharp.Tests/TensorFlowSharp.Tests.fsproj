@@ -64,10 +64,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="packages.config" />
-    <None Include="..\..\release-artifacts\libs\libtensorflow.so">
-      <Link>libtensorflow.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="TensorFlowSharp.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
