@@ -472,8 +472,10 @@ namespace SampleTest
 			int maxIdx = -1;
 			var l = array.GetLength (1);
 			for (int i = 0; i < l; i++)
-				if (array [idx, i] > max)
+				if (array [idx, i] > max) {
 					maxIdx = i;
+					max = array [idx, i];
+				}
 			return maxIdx;
 		}	
 
