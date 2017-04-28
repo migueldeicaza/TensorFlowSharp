@@ -38,8 +38,8 @@
       </Attributes>
     </Assembly>
   </Assemblies>
-  <Remarks>To be added.</Remarks>
-  <Copyright>To be added.</Copyright>
+  <Remarks>TensorFlowSharp - Bindings to the TensorFlow Library.</Remarks>
+  <Copyright>MIT Licensed</Copyright>
   <Types>
     <Namespace Name="TensorFlow">
       <Type Name="TFAttributeMetadata" Kind="Structure" />
