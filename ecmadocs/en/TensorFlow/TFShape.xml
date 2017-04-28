@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFShape extends System.Object" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
@@ -43,7 +44,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int64[] args) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="args" Type="System.Int64[]">
@@ -70,7 +72,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor AsTensor() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -87,7 +90,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetLength(int32 dimension) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -109,7 +113,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance bool IsFullySpecified" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
@@ -128,7 +133,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance bool IsLongArray" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
@@ -144,7 +150,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance int64 Item(int32)" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
@@ -164,7 +171,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance int32 NumDimensions" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -182,7 +190,8 @@
       <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Scalar" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFShape</ReturnType>
@@ -200,7 +209,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64[] ToArray() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64[]</ReturnType>
@@ -219,7 +229,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32[] ToIntArray() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32[]</ReturnType>
@@ -238,7 +249,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
@@ -255,7 +267,8 @@
       <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Unknown" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFShape</ReturnType>

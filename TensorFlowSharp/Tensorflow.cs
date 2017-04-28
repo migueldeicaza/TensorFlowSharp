@@ -47,31 +47,63 @@ namespace TensorFlow
 
 	}
 
+	/// <summary>
+	/// Contains TensorFlow fundamental methods and utility functions.
+	/// </summary>
 	public static class TFCore {
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
+		/// <summary>
+		/// Returns the version of the TensorFlow runtime in use.
+		/// </summary>
+		/// <value>The version.</value>
 		public static string Version => TF_Version ().GetStr ();
 
 		// extern size_t TF_DataTypeSize (TF_DataType dt);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern IntPtr TF_DataTypeSize (TFDataType dt);
 
+		/// <summary>
+		/// Gets the size in bytes of the specified TensorFlow data type.
+		/// </summary>
+		/// <returns>The data type size.</returns>
+		/// <param name="dt">Dt.</param>
 		public static long GetDataTypeSize (TFDataType dt) => (long)TF_DataTypeSize (dt);
 
 		// extern TF_Buffer * TF_GetAllOpList ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_GetAllOpList ();
 
+		/// <summary>
+		/// Retrieves the ProtocolBuffer describing all of the available operations in
+		/// the TensorFlow library in current use.
+		/// </summary>
+		/// <returns>The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</returns>
 		public static TFBuffer GetAllOpList ()
 		{
 			return new TFBuffer (TF_GetAllOpList ());
 		}
 	}
 
+	/// <summary>
+	/// Base class for many TensorFlow data types that provides a common idiom to dispose and
+	/// release resources associated with the native data types.   Generally, you do not need to use this.
+	/// </summary>
+	/// <remarks>
+	/// This implements the Dispose pattern in a reusable form for TensorFlow types.
+	/// 
+	/// Subclasses invoke the constructor with the handle that this will wrap, and must
+	/// override the NativeDispose method (internal) to release the associated resource.
+	/// </remarks>
 	public abstract class TFDisposable : IDisposable
 	{
 		internal IntPtr handle;
+
+		/// <summary>
+		/// Returns the opaque handle to the object that this TFDisposable owns.
+		/// </summary>
+		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
 		public TFDisposable ()
@@ -113,6 +145,9 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// TensorFlow Exception
+	/// </summary>
 	public class TFException : Exception {
 		public TFException (string message) : base (message) { }
 	}
@@ -1481,6 +1516,9 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Contains options that are used to control how graph importing works.
+	/// </summary>
 	public class TFImportGraphDefOptions : TFDisposable
 	{
 		// extern TF_ImportGraphDefOptions * TF_NewImportGraphDefOptions ();
@@ -1861,11 +1899,19 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeletePRunHandle (IntPtr partialRunHandle);
 
+		/// <summary>
+		/// Token returned from using one of the Partial Run Setup methods from <see cref="T:TensorFlow.TFSession"/>,
+		/// and use this token subsequently for other invocations.
+		/// </summary>
+		/// <remarks>
+		/// Calling Dispose on this object will release the resources associated with setting up 
+		/// a partial run.
+		/// </remarks>
 		public class PartialRunToken : IDisposable
 		{
 			internal IntPtr token;
 
-			public void Dispose ()
+			void IDisposable.Dispose ()
 			{
 				if (token == IntPtr.Zero) {
 					TF_DeletePRunHandle (token);
@@ -1961,8 +2007,18 @@ namespace TensorFlow
 
 		// extern TF_Buffer TF_GetOpList (TF_Library *lib_handle);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TFBuffer TF_GetOpList (TF_Library lib_handle);
-		// TODO:
+		static extern unsafe LLBuffer TF_GetOpList (TF_Library lib_handle);
+
+
+		/// <summary>
+		/// Retrieves the ProtocolBuffer describing the available operations in
+		/// the loaded TensorFlow library.
+		/// </summary>
+		/// <returns>The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</returns>
+		TFBuffer GetOpList ()
+		{
+			return new TFBuffer (TF_GetOpList (handle).data);
+		}
 
 		// extern void TF_DeleteLibraryHandle (TF_Library *lib_handle);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -2156,19 +2212,65 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Low-level: Enumeration describing the types of a metadata attribute
+	/// </summary>
 	public enum TFAttributeType : uint
 	{
+		/// <summary>
+		/// The type of the attribute is a string
+		/// </summary>
 		String = 0,
+
+		/// <summary>
+		/// The type of the attribute is an int.
+		/// </summary>
 		Int = 1,
+
+		/// <summary>
+		/// The type of the attribute is a float
+		/// </summary>
 		Float = 2,
+
+		/// <summary>
+		/// The type of the attribute is a bool.
+		/// </summary>
 		Bool = 3,
+
+		/// <summary>
+		/// The type of the attribute is a type.
+		/// </summary>
 		Type = 4,
+
+		/// <summary>
+		/// The type of the attribute is a tensor shape
+		/// </summary>
 		Shape = 5,
+
+		/// <summary>
+		/// The type of the attribute is a tensor
+		/// </summary>
 		Tensor = 6,
+
+		/// <summary>
+		/// The type of the attribute is a placeholder
+		/// </summary>
 		Placeholder = 7,
+
+		/// <summary>
+		/// The type of the attribute is a function
+		/// </summary>
 		Func = 8
 	}
 
+	/// <summary>
+	/// Low-level: this describes the tensorflow type information for an attribute in the low-level attributes used by operations.
+	/// </summary>
+	/// <remarks>
+	/// This is a low-level operation returned by the <see cref="M:TensorFlow.TFOperation.GetAttributeMetadata"/>.
+	/// This is included for completeness, but is not generally used from C#, as you have access to the high-level
+	/// bindings in the <see cref="T:TensorFlow.TFGraph"/> type.
+	/// </remarks>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFAttributeMetadata
 	{

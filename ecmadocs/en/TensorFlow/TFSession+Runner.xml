@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi beforefieldinit TFSession/Runner extends System.Object" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
@@ -26,7 +27,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddInput(valuetype TensorFlow.TFOutput input, class TensorFlow.TFTensor value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -50,7 +52,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddTarget(string[] targetNames) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -76,7 +79,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddTarget(class TensorFlow.TFOperation[] targets) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -104,7 +108,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(valuetype TensorFlow.TFOutput output) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -124,7 +129,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(valuetype TensorFlow.TFOutput[] outputs) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -150,7 +156,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(string operation, int32 index) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
@@ -172,7 +179,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor[]</ReturnType>
@@ -192,7 +200,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput operation, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor[]</ReturnType>
@@ -216,7 +225,8 @@
       <MemberSignature Language="ILAsm" Value=".field public class TensorFlow.TFBuffer RunMetadata" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFBuffer</ReturnType>
@@ -231,7 +241,8 @@
       <MemberSignature Language="ILAsm" Value=".field public class TensorFlow.TFBuffer RunOptions" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFBuffer</ReturnType>

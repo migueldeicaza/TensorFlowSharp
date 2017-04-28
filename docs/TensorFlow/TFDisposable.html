@@ -70,7 +70,7 @@
 
       span.NotEntered /* Documentation for this section has not yet been entered */ {
         font-style: italic;
-        color: red;	
+        color: lightgrey;
       }
 
       div.Header {
@@ -207,8 +207,9 @@
     </div>
     <h1 class="PageTitle" id="T:TensorFlow.TFDisposable">TFDisposable  Class</h1>
     <p class="Summary" id="T:TensorFlow.TFDisposable:Summary">
-      <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-    </p>
+            Base class for many TensorFlow data types that provides a common idiom to dispose and
+            release resources associated with the native data types.   Generally, you do not need to use this.
+            </p>
     <div>
       <h2>Syntax</h2>
       <div class="Signature" id="T:TensorFlow.TFDisposable:Signature">public abstract class  <b>TFDisposable</b> : <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IDisposable">IDisposable</a></div>
@@ -216,11 +217,14 @@
     <div class="Remarks" id="T:TensorFlow.TFDisposable:Docs">
       <h2 class="Section">Remarks</h2>
       <div class="SectionBox" id="T:TensorFlow.TFDisposable:Docs:Remarks">
-        <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-      </div>
+            This implements the Dispose pattern in a reusable form for TensorFlow types.
+            
+            Subclasses invoke the constructor with the handle that this will wrap, and must
+            override the NativeDispose method (internal) to release the associated resource.
+            </div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFDisposable:Docs:Version Information">
-        <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+        <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
       <h2 class="Section" id="Members">Members</h2>
       <div class="SectionBox" id="_Members">
         <p>
@@ -278,7 +282,9 @@
                 <td>
                   <i>
                     <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Returns the opaque handle to the object that this TFDisposable owns.
+            </td>
               </tr>
             </table>
           </div>
@@ -338,7 +344,7 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="C:TensorFlow.TFDisposable():Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="C:TensorFlow.TFDisposable(System.IntPtr)">TFDisposable Constructor</h3>
@@ -365,7 +371,7 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="C:TensorFlow.TFDisposable(System.IntPtr):Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="M:TensorFlow.TFDisposable.Dispose()">Dispose Method</h3>
@@ -381,7 +387,7 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFDisposable.Dispose():Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose Method</h3>
@@ -408,7 +414,7 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFDisposable.Dispose(System.Boolean):Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="M:TensorFlow.TFDisposable.Finalize()">Finalize Method</h3>
@@ -425,27 +431,25 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFDisposable.Finalize():Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="P:TensorFlow.TFDisposable.Handle">Handle Property</h3>
         <blockquote id="P:TensorFlow.TFDisposable.Handle:member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Returns the opaque handle to the object that this TFDisposable owns.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a> <b>Handle</b>  { get; }</div>
           <h4 class="Subsection">Value</h4>
-          <blockquote class="SubsectionBox" id="P:TensorFlow.TFDisposable.Handle:Value">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="P:TensorFlow.TFDisposable.Handle:Value">The handle.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="P:TensorFlow.TFDisposable.Handle:Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="P:TensorFlow.TFDisposable.Handle:Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
       </div>

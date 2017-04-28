@@ -3,14 +3,17 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFImportGraphDefOptions extends TensorFlow.TFDisposable" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>
+            Contains options that are used to control how graph importing works.
+            </summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -19,7 +22,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters />
       <Docs>
@@ -32,7 +36,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddControlDependency(class TensorFlow.TFOperation operation) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -53,7 +58,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddInputMapping(string srcName, int32 srcIndex, valuetype TensorFlow.TFOutput dst) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -82,7 +88,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddReturnOutput(string operName, int32 index) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -108,7 +115,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance int32 NumReturnOutputs" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -126,7 +134,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetPrefix(string prefix) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>

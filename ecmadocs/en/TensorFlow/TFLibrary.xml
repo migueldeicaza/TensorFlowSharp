@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFLibrary extends TensorFlow.TFDisposable" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -19,7 +20,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFLibrary FromFile(string libraryFile, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFLibrary</ReturnType>

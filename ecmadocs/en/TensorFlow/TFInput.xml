@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit TFInput extends System.ValueType" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.ValueType</BaseTypeName>
@@ -19,7 +20,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput GetOutput(valuetype TensorFlow.TFInput operIn) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -39,7 +41,8 @@
       <MemberSignature Language="ILAsm" Value=".field public int32 Index" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -54,7 +57,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFDataType InputType" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFDataType</ReturnType>
@@ -70,7 +74,8 @@
       <MemberSignature Language="ILAsm" Value=".field public native int Operation" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.IntPtr</ReturnType>

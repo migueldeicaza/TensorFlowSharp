@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed TFGraph/WhileConstructor extends System.MulticastDelegate" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Delegate</BaseTypeName>

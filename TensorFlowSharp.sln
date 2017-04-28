@@ -61,29 +61,15 @@ Global
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$1.ResourceNamePolicy = FileFormatDefault
 		$0.TextStylePolicy = $2
-		$2.FileWidth = 80
-		$2.TabWidth = 8
-		$2.IndentWidth = 8
 		$2.scope = text/x-csharp
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/plain
 		$0.CSharpFormattingPolicy = $3
-		$3.IndentSwitchSection = False
-		$3.NewLinesForBracesInProperties = False
-		$3.NewLinesForBracesInAccessors = False
-		$3.NewLinesForBracesInAnonymousMethods = False
-		$3.NewLinesForBracesInControlBlocks = False
-		$3.NewLinesForBracesInAnonymousTypes = False
-		$3.NewLinesForBracesInObjectCollectionArrayInitializers = False
-		$3.NewLinesForBracesInLambdaExpressionBody = False
-		$3.NewLineForElse = False
-		$3.NewLineForCatch = False
-		$3.NewLineForFinally = False
-		$3.NewLineForMembersInObjectInit = False
-		$3.NewLineForMembersInAnonymousTypes = False
-		$3.NewLineForClausesInQuery = False
-		$3.SpacingAfterMethodDeclarationName = True
-		$3.SpaceAfterMethodCallName = True
-		$3.SpaceBeforeOpenSquareBracket = True
 		$3.scope = text/x-csharp
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		version = 0.2
 	EndGlobalSection
 EndGlobal

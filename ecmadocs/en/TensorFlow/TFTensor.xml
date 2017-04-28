@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFTensor extends TensorFlow.TFDisposable" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -32,7 +33,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int8 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Byte" />
@@ -50,7 +52,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int8[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Byte[]" />
@@ -66,7 +69,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float64 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Double" />
@@ -84,7 +88,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float64[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Double[]" />
@@ -100,7 +105,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int16 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Int16" />
@@ -118,7 +124,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int16[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Int16[]" />
@@ -134,7 +141,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Int32" />
@@ -152,7 +160,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Int32[]" />
@@ -168,7 +177,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int64 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Int64" />
@@ -186,7 +196,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int64[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Int64[]" />
@@ -202,7 +213,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.Numerics.Complex value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Numerics.Complex" />
@@ -220,7 +232,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.Numerics.Complex[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Numerics.Complex[]" />
@@ -236,7 +249,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int8 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.SByte" />
@@ -254,7 +268,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int8[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.SByte[]" />
@@ -270,7 +285,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float32 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.Single" />
@@ -288,7 +304,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float32[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.Single[]" />
@@ -304,7 +321,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int16 value) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="value" Type="System.UInt16" />
@@ -322,7 +340,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int16[] data) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="data" Type="System.UInt16[]" />
@@ -338,7 +357,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype TensorFlow.TFDataType dataType, int64[] dims, int32 size) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="dataType" Type="TensorFlow.TFDataType" />
@@ -358,7 +378,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype TensorFlow.TFDataType dataType, int64[] dims, native int data, native unsigned int dataSize, class TensorFlow.TFTensor/Deallocator deallocator, native int deallocatorData) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="dataType" Type="TensorFlow.TFDataType" />
@@ -384,7 +405,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor CreateString(unsigned int8[] buffer) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -406,7 +428,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance native int Data" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.IntPtr</ReturnType>
@@ -428,7 +451,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, unsigned int8[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -461,7 +485,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, float64[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -494,7 +519,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, int16[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -527,7 +553,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, int32[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -560,7 +587,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, int64[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -593,7 +621,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, valuetype System.Numerics.Complex[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -626,7 +655,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, int8[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -659,7 +689,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, float32[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -692,7 +723,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor FromBuffer(class TensorFlow.TFShape shape, unsigned int16[] data, int32 start, int32 count) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -725,7 +757,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int64 GetTensorDimension(int32 dimIndex) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
@@ -751,7 +784,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object GetValue(bool jagged) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
@@ -781,7 +815,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance int32 NumDims" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -801,7 +836,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(class System.Array array) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -821,7 +857,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(unsigned int8 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -841,7 +878,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(float64 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -861,7 +899,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(int32 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -881,7 +920,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(int64 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -901,7 +941,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(valuetype System.Numerics.Complex value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -921,7 +962,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(float32 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor</ReturnType>
@@ -941,7 +983,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance int64[] Shape" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64[]</ReturnType>
@@ -963,7 +1006,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance native unsigned int TensorByteSize" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.UIntPtr</ReturnType>
@@ -979,7 +1023,8 @@
       <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFDataType TensorType" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFDataType</ReturnType>
@@ -995,7 +1040,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>

@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFOperationDesc extends TensorFlow.TFDisposable" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -29,7 +30,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, string opType, string operName) cil managed" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="graph" Type="TensorFlow.TFGraph" />
@@ -49,7 +51,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddControlInput(class TensorFlow.TFOperation input) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -68,7 +71,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddInput(valuetype TensorFlow.TFOutput input) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -87,7 +91,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddInputs(valuetype TensorFlow.TFOutput[] inputs) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -112,7 +117,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ColocateWith(class TensorFlow.TFOperation op) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -131,7 +137,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation FinishOperation(class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -151,7 +158,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, bool value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -172,7 +180,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, bool[] values) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -193,7 +202,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, int64 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -214,7 +224,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, int64[] values) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -235,7 +246,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, float32 value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -256,7 +268,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, float32[] values) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -277,7 +290,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, string value) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -298,7 +312,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, string[] values) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -319,7 +334,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, class TensorFlow.TFTensor tensor, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -342,7 +358,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttr(string attrName, class TensorFlow.TFTensor[] tensor, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -365,7 +382,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttrShape(string attrName, class TensorFlow.TFShape shape) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -386,7 +404,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttrShape(string attrName, class TensorFlow.TFShape[] shapeList) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -407,7 +426,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttrTensorShapeProto(string attrName, native int proto, native unsigned int protoLen, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -432,7 +452,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttrType(string attrName, valuetype TensorFlow.TFDataType dataType) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -453,7 +474,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetAttrType(string attrName, valuetype TensorFlow.TFDataType[] dataType) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -480,7 +502,8 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetDevice(string device) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>

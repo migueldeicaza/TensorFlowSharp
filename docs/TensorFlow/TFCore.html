@@ -70,7 +70,7 @@
 
       span.NotEntered /* Documentation for this section has not yet been entered */ {
         font-style: italic;
-        color: red;	
+        color: lightgrey;
       }
 
       div.Header {
@@ -207,8 +207,8 @@
     </div>
     <h1 class="PageTitle" id="T:TensorFlow.TFCore">TFCore  Class</h1>
     <p class="Summary" id="T:TensorFlow.TFCore:Summary">
-      <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-    </p>
+            Contains TensorFlow fundamental methods and utility functions.
+            </p>
     <div>
       <h2>Syntax</h2>
       <div class="Signature" id="T:TensorFlow.TFCore:Signature">public static class  <b>TFCore</b></div>
@@ -220,7 +220,7 @@
       </div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFCore:Docs:Version Information">
-        <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+        <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
       <h2 class="Section" id="Members">Members</h2>
       <div class="SectionBox" id="_Members">
         <p>
@@ -241,7 +241,9 @@
                 <td>
                   <i>
                     <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Returns the version of the TensorFlow runtime in use.
+            </td>
               </tr>
             </table>
           </div>
@@ -257,7 +259,10 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFCore.GetAllOpList()">GetAllOpList</a>
-                  </b>()<nobr> : <a href="../TensorFlow/TFBuffer.html">TFBuffer</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>()<nobr> : <a href="../TensorFlow/TFBuffer.html">TFBuffer</a></nobr><blockquote>
+            Retrieves the ProtocolBuffer describing all of the available operations in
+            the TensorFlow library in current use.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -266,7 +271,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)">GetDataTypeSize</a>
-                  </b>(<a href="../TensorFlow/TFDataType.html">TFDataType</a>)<nobr> : <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFDataType.html">TFDataType</a>)<nobr> : <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a></nobr><blockquote>
+            Gets the size in bytes of the specified TensorFlow data type.
+            </blockquote></td>
               </tr>
             </table>
           </div>
@@ -279,28 +286,27 @@
         <h3 id="M:TensorFlow.TFCore.GetAllOpList()">GetAllOpList Method</h3>
         <blockquote id="M:TensorFlow.TFCore.GetAllOpList():member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Retrieves the ProtocolBuffer describing all of the available operations in
+            the TensorFlow library in current use.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public static <a href="../TensorFlow/TFBuffer.html">TFBuffer</a> <b>GetAllOpList</b> ()</div>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFCore.GetAllOpList():Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFCore.GetAllOpList():Returns">The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFCore.GetAllOpList():Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFCore.GetAllOpList():Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)">GetDataTypeSize Method</h3>
         <blockquote id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Gets the size in bytes of the specified TensorFlow data type.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public static <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a> <b>GetDataTypeSize</b> (<a href="../TensorFlow/TFDataType.html">TFDataType</a> dt)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -309,42 +315,36 @@
               <dt>
                 <i>dt</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Dt.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType):Returns">The data type size.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType):Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
         <h3 id="P:TensorFlow.TFCore.Version">Version Property</h3>
         <blockquote id="P:TensorFlow.TFCore.Version:member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Returns the version of the TensorFlow runtime in use.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public static <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> <b>Version</b>  { get; }</div>
           <h4 class="Subsection">Value</h4>
-          <blockquote class="SubsectionBox" id="P:TensorFlow.TFCore.Version:Value">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="P:TensorFlow.TFCore.Version:Value">The version.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="P:TensorFlow.TFCore.Version:Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="P:TensorFlow.TFCore.Version:Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.6313.39838</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
       </div>

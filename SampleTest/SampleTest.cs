@@ -1,3 +1,8 @@
+﻿//
+// This is just a dumping ground to exercise different capabilities 
+// of the API.  Some idioms might be useful, some not, feel free to
+//
+// 
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

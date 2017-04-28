@@ -3,14 +3,17 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit TFCore extends System.Object" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>
+            Contains TensorFlow fundamental methods and utility functions.
+            </summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -19,15 +22,19 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFBuffer GetAllOpList() cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFBuffer</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Retrieves the ProtocolBuffer describing all of the available operations in
+            the TensorFlow library in current use.
+            </summary>
+        <returns>The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -36,7 +43,8 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 GetDataTypeSize(valuetype TensorFlow.TFDataType dt) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
@@ -45,9 +53,11 @@
         <Parameter Name="dt" Type="TensorFlow.TFDataType" />
       </Parameters>
       <Docs>
-        <param name="dt">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="dt">Dt.</param>
+        <summary>
+            Gets the size in bytes of the specified TensorFlow data type.
+            </summary>
+        <returns>The data type size.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -56,14 +66,17 @@
       <MemberSignature Language="ILAsm" Value=".property string Version" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>
+            Returns the version of the TensorFlow runtime in use.
+            </summary>
+        <value>The version.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

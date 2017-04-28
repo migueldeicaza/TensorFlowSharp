@@ -3,7 +3,8 @@
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed TFCode extends System.Enum" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
-    <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Enum</BaseTypeName>
@@ -20,7 +21,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Aborted = unsigned int32(10)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -34,7 +36,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode AlreadyExists = unsigned int32(6)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -48,7 +51,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Cancelled = unsigned int32(1)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -62,7 +66,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode DataLoss = unsigned int32(15)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -76,7 +81,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode DeadlineExceeded = unsigned int32(4)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -90,7 +96,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode FailedPrecondition = unsigned int32(9)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -104,7 +111,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Internal = unsigned int32(13)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -118,7 +126,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode InvalidArgument = unsigned int32(3)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -132,7 +141,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode NotFound = unsigned int32(5)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -146,7 +156,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Ok = unsigned int32(0)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -160,7 +171,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode OutOfRange = unsigned int32(11)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -174,7 +186,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode PermissionDenied = unsigned int32(7)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -188,7 +201,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode ResourceExhausted = unsigned int32(8)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -202,7 +216,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Unauthenticated = unsigned int32(16)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -216,7 +231,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Unavailable = unsigned int32(14)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -230,7 +246,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Unimplemented = unsigned int32(12)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
@@ -244,7 +261,8 @@
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFCode Unknown = unsigned int32(2)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>1.0.6313.39838</AssemblyVersion>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFCode</ReturnType>
