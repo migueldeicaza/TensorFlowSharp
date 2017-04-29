@@ -813,7 +813,55 @@ namespace TensorFlow
 			}
 		}
 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_AddGradients (TF_Graph graph, TFOutput* ys, int ny, TFOutput* xs, int nx, TFOutput* dx, TF_Status status, TFOutput* dy);
 
+		/// <summary>
+		/// Adds a gradient: the operations needed to compute the partial derivatives of sum of <paramref name="y"/>` wrt to <paramref name="x"/>.
+		/// </summary>
+		/// <returns>The partial derivatives, the size of the array is the same as the length of the <paramref name="y"/> array.</returns>
+		/// <param name="y">The y elements.</param>
+		/// <param name="x">The x elements.</param>
+		/// <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y"/> ).   
+		/// If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y"/></param>
+		/// <param name="status">Status.</param>
+		/// <remarks>
+		/// d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
+		/// </remarks>
+		public TFOutput [] AddGradients (TFOutput [] y, TFOutput [] x, TFOutput [] dx = null, TFStatus status = null)
+		{
+			if (y == null)
+				throw new ArgumentNullException (nameof (y));
+			if (x == null)
+				throw new ArgumentNullException (nameof (x));
+			if (dx != null) {
+				if (dx.Length != y.Length)
+					throw new ArgumentException ("If dx is not null, the size of the gradients must match the size of y", nameof (dx));
+			}
+
+			var cstatus = TFStatus.Setup (status);
+
+			var ret = new TFOutput [x.Length];
+			unsafe
+			{
+				fixed (TFOutput* pret = &ret [0]) {
+					fixed (TFOutput* py = &y [0]) {
+						fixed (TFOutput* px = &x [0]) {
+							if (dx == null) {
+								TF_AddGradients (handle, py, y.Length, px, x.Length, (TFOutput*)null, status.Handle, pret);
+							} else {
+								fixed (TFOutput* pdx = &dx [0]) {
+									TF_AddGradients (handle, py, y.Length, px, x.Length, pdx, status.Handle, pret);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			return ret;
+		}
 	}
 
 	//
@@ -1625,6 +1673,28 @@ namespace TensorFlow
 			}
 		}
 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsRemapControlDependency (TF_ImportGraphDefOptions opts, string srcName, TF_Operation dst);
+
+		/// <summary>
+		/// Sets any imported nodes with a given control input to have it replaced with an operation
+		/// </summary>
+		/// <param name="srcName">Node in the graph to be imported.</param>
+		/// <param name="destination">References an operation that already exists in the graph being imported.</param>
+		/// <remarks>
+		/// Set any imported nodes with control input <paramref name="srcName"/> to have that input
+		/// replaced with <paramref name="dst"/>. 
+		/// </remarks>
+		public void RemapControlDependency (string srcName, TFOperation destination)
+		{
+			if (srcName == null)
+				throw new ArgumentNullException (nameof (srcName));
+			if (destination == null)
+				throw new ArgumentNullException (nameof (destination));
+			if (destination.Handle == IntPtr.Zero)
+				throw new ObjectDisposedException (nameof (destination));
+			TF_ImportGraphDefOptionsRemapControlDependency (handle, srcName, destination.Handle);
+		}
 	}
 
 	/// <summary>
