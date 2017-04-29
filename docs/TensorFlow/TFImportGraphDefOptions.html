@@ -361,6 +361,18 @@
                 </td>
                 <td colspan="2">
                   <b>
+                    <a href="#M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)">RemapControlDependency</a>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFOperation.html">TFOperation</a>)<blockquote>
+            Sets any imported nodes with a given control input to have it replaced with an operation
+            </blockquote></td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
                     <a href="#M:TensorFlow.TFImportGraphDefOptions.SetPrefix(System.String)">SetPrefix</a>
                   </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
@@ -493,6 +505,36 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="P:TensorFlow.TFImportGraphDefOptions.NumReturnOutputs:Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)">RemapControlDependency Method</h3>
+        <blockquote id="M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation):member">
+          <div class="msummary">
+            Sets any imported nodes with a given control input to have it replaced with an operation
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>RemapControlDependency</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> srcName, <a href="../TensorFlow/TFOperation.html">TFOperation</a> destination)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation):Parameters">
+            <dl>
+              <dt>
+                <i>srcName</i>
+              </dt>
+              <dd>Node in the graph to be imported.</dd>
+              <dt>
+                <i>destination</i>
+              </dt>
+              <dd>References an operation that already exists in the graph being imported.</dd>
+            </dl>
+          </blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation):Remarks">
+            Set any imported nodes with control input <i>srcName</i> to have that input
+            replaced with <i>dst</i>. 
+            </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation):Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>

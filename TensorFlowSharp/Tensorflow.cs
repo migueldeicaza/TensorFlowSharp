@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 // TensorFlow.cs; Bindings to the TensorFlow C API for .NET
 // 
 // Authors:
@@ -469,6 +469,13 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
 
+		/// <summary>
+		/// Import a serialized graph into this graph, using the specified prefix.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="graphDef">A buffer containing the serialized graph.</param>
+		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (TFBuffer graphDef, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -484,6 +491,13 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Import a serialized graph into this graph, using the specified importing options.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="graphDef">A buffer containing the serialized graph.</param>
+		/// <param name="options">Importing graph options.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -501,6 +515,13 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 		}
 
+		/// <summary>
+		/// Import a serialized graph held in a byte array into this graph, using the specified prefix.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="buffer">A byte array containing the serialized graph.</param>
+		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (byte [] buffer, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -515,6 +536,13 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Import a serialized graph held in a byte array into this graph, using the specified import options.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="buffer">A byte array containing the serialized graph.</param>
+		/// <param name="options">Importing graph options.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -534,6 +562,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Operation TF_GraphOperationByName (TF_Graph graph, string oper_name);
 
+		/// <summary>
+		/// Gets the <see cref="T:TensorFlow.TFGraph"/> with the specified name, or null if the named operation does not exist in the graph.
+		/// </summary>
+		/// <param name="name">Name to lookup.</param>
 		public TFOperation this [string name] {
 			get {
 				if (handle == IntPtr.Zero)
@@ -549,6 +581,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Operation TF_GraphNextOperation (TF_Graph graph, ref IntPtr token);
 
+		/// <summary>
+		/// Returns the enumerator that returns all the TFOperations in a graph.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
 		public IEnumerable<TFOperation> GetEnumerator ()
 		{
 			if (handle == IntPtr.Zero)
@@ -2472,6 +2508,10 @@ namespace TensorFlow
 			return ret;
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether one of the dimensions <see cref="T:TensorFlow.TFShape"/> in the shape is larger than Int32.MaxValue.
+		/// </summary>
+		/// <value><c>true</c> if is long array; otherwise, <c>false</c>.</value>
 		public bool IsLongArray {
 			get {
 				foreach (var l in dims)
@@ -2489,8 +2529,16 @@ namespace TensorFlow
 			return "[" + String.Join (", ", dims.Select (x => x == -1 ? "?" : x.ToString ())) + "]";
 		}
 
+		/// <summary>
+		/// Gets the dimensions for the specified index.
+		/// </summary>
+		/// <param name="idx">Index.</param>
 		public long this [int idx] => dims [idx];
 
+		/// <summary>
+		/// Returns the shape as a 1-dimensional tensor with each element corresponding to the specified shape dimension.
+		/// </summary>
+		/// <returns>The tensor.</returns>
 		public TFTensor AsTensor ()
 		{
 			return new TFTensor (ToIntArray ());

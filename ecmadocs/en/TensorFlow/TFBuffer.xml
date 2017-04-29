@@ -4,7 +4,6 @@
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -35,7 +34,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters />
       <Docs>
@@ -49,7 +47,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="buffer" Type="System.Byte[]" />
@@ -71,7 +68,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="buffer" Type="System.Byte[]" />
@@ -97,7 +93,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="buffer" Type="System.IntPtr" />
@@ -125,7 +120,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Byte[]</ReturnType>

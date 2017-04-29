@@ -4,7 +4,6 @@
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.ValueType</BaseTypeName>
@@ -31,7 +30,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="operation" Type="TensorFlow.TFOperation" />
@@ -52,7 +50,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters>
         <Parameter Name="output" Type="TensorFlow.TFOutput" />
@@ -73,7 +70,6 @@
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -89,7 +85,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -110,7 +105,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -129,7 +123,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFInput[]</ReturnType>
@@ -152,7 +145,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFDataType</ReturnType>
@@ -171,7 +163,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>

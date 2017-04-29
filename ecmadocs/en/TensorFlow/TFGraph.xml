@@ -4,7 +4,6 @@
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -33,7 +32,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters />
       <Docs>
@@ -49,7 +47,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -83,7 +80,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -114,7 +110,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -141,7 +136,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -167,13 +161,43 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="AddGradients">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] AddGradients (TensorFlow.TFOutput[] y, TensorFlow.TFOutput[] x, TensorFlow.TFOutput[] dx = null, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] AddGradients(valuetype TensorFlow.TFOutput[] y, valuetype TensorFlow.TFOutput[] x, valuetype TensorFlow.TFOutput[] dx, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="y" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="x" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="dx" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="y">The y elements.</param>
+        <param name="x">The x elements.</param>
+        <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y" /> ).   
+            If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y" /></param>
+        <param name="status">Status.</param>
+        <summary>
+            Adds a gradient: the operations needed to compute the partial derivatives of sum of <paramref name="y" />` wrt to <paramref name="x" />.
+            </summary>
+        <returns>The partial derivatives, the size of the array is the same as the length of the <paramref name="y" /> array.</returns>
+        <remarks>
+            d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="AddInitVariable">
       <MemberSignature Language="C#" Value="public void AddInitVariable (TensorFlow.TFOperation variable);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddInitVariable(class TensorFlow.TFOperation variable) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -193,7 +217,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -269,7 +292,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -298,7 +320,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -364,7 +385,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -397,7 +417,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -442,7 +461,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -484,7 +502,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -526,7 +543,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -571,7 +587,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -647,7 +662,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -692,7 +706,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -724,7 +737,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -756,7 +768,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -783,7 +794,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -824,7 +834,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -863,7 +872,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -902,7 +910,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -938,7 +945,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -997,7 +1003,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1024,7 +1029,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1078,7 +1082,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1134,7 +1137,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1183,7 +1185,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1220,7 +1221,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1261,7 +1261,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1312,7 +1311,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1376,7 +1374,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1434,7 +1431,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -1511,7 +1507,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1629,7 +1624,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1782,7 +1776,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1827,7 +1820,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1876,7 +1868,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1922,7 +1913,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -1962,7 +1952,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2004,7 +1993,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2036,7 +2024,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -2071,7 +2058,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2100,7 +2086,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2127,7 +2112,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2159,7 +2143,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2195,7 +2178,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2237,7 +2219,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2283,7 +2264,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2317,7 +2297,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -2383,7 +2362,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2422,7 +2400,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -2469,7 +2446,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2508,7 +2484,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2549,7 +2524,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2577,7 +2551,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2606,7 +2579,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -2633,7 +2605,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2699,7 +2670,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2758,7 +2728,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2816,7 +2785,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2860,7 +2828,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2903,7 +2870,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2948,7 +2914,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -2991,7 +2956,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3036,7 +3000,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3078,7 +3041,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3118,7 +3080,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3145,7 +3106,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3222,7 +3182,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3282,7 +3241,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3345,7 +3303,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3384,7 +3341,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -3455,7 +3411,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -3523,7 +3478,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -3591,7 +3545,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3648,7 +3601,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3705,7 +3657,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
@@ -3724,7 +3675,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3768,7 +3718,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3812,7 +3761,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3873,7 +3821,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3907,7 +3854,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -3953,7 +3899,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -3989,7 +3934,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4073,7 +4017,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4113,7 +4056,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4164,7 +4106,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4206,7 +4147,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -4235,7 +4175,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -4296,7 +4235,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -4376,7 +4314,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4484,7 +4421,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4534,7 +4470,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4582,7 +4517,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4629,7 +4563,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4699,7 +4632,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -4779,7 +4711,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -4817,7 +4748,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4864,7 +4794,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4914,7 +4843,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -4943,7 +4871,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5008,7 +4935,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5053,7 +4979,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5098,7 +5023,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5130,7 +5054,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5179,7 +5102,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -5248,7 +5170,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5321,7 +5242,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5420,7 +5340,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5450,7 +5369,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5486,7 +5404,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5529,7 +5446,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5623,7 +5539,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5671,7 +5586,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5720,7 +5634,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5752,7 +5665,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5779,7 +5691,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5806,7 +5717,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5839,7 +5749,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5866,7 +5775,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5932,7 +5840,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -5961,7 +5868,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6045,7 +5951,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6086,7 +5991,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6111,7 +6015,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6148,7 +6051,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6188,7 +6090,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6227,7 +6128,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -6280,7 +6180,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6320,7 +6219,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -6376,7 +6274,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6410,7 +6307,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6448,7 +6344,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6486,7 +6381,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6541,7 +6435,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6588,7 +6481,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6633,7 +6525,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -6763,7 +6654,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6790,7 +6680,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6822,7 +6711,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -6857,7 +6745,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -6945,7 +6832,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7010,7 +6896,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -7122,7 +7007,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7185,7 +7069,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -7275,7 +7158,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -7363,7 +7245,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7420,7 +7301,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7488,7 +7368,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7540,7 +7419,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7668,7 +7546,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Attributes>
         <Attribute>
@@ -7680,8 +7557,10 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Returns the enumerator that returns all the TFOperations in a graph.
+            </summary>
+        <returns>The enumerator.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -7691,7 +7570,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation[]</ReturnType>
@@ -7709,7 +7587,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -7739,7 +7616,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7770,7 +7646,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7803,7 +7678,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64[]</ReturnType>
@@ -7828,7 +7702,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -7851,7 +7724,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int64[]</ReturnType>
@@ -7874,7 +7746,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7906,7 +7777,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7938,7 +7808,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -7979,7 +7848,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8016,7 +7884,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8043,7 +7910,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8085,7 +7951,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8119,7 +7984,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8157,7 +8021,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8195,7 +8058,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8238,7 +8100,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8281,7 +8142,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8322,7 +8182,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8402,7 +8261,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8435,7 +8293,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -8446,10 +8303,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="prefix">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="buffer">A byte array containing the serialized graph.</param>
+        <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef" /> when they are imported into the graph.</param>
+        <param name="status">Status buffer.</param>
+        <summary>
+            Import a serialized graph held in a byte array into this graph, using the specified prefix.
+            </summary>
+        <returns>The import.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -8459,7 +8319,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -8470,10 +8329,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="buffer">A byte array containing the serialized graph.</param>
+        <param name="options">Importing graph options.</param>
+        <param name="status">Status buffer.</param>
+        <summary>
+            Import a serialized graph held in a byte array into this graph, using the specified import options.
+            </summary>
+        <returns>The import.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -8483,7 +8345,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -8494,10 +8355,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="graphDef">To be added.</param>
-        <param name="prefix">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="graphDef">A buffer containing the serialized graph.</param>
+        <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef" /> when they are imported into the graph.</param>
+        <param name="status">Status buffer.</param>
+        <summary>
+            Import a serialized graph into this graph, using the specified prefix.
+            </summary>
+        <returns>The import.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -8507,7 +8371,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -8518,10 +8381,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="graphDef">To be added.</param>
-        <param name="options">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="graphDef">A buffer containing the serialized graph.</param>
+        <param name="options">Importing graph options.</param>
+        <param name="status">Status buffer.</param>
+        <summary>
+            Import a serialized graph into this graph, using the specified importing options.
+            </summary>
+        <returns>The import.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -8531,7 +8397,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -8559,7 +8424,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8611,7 +8475,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8640,7 +8503,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8687,7 +8549,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8719,7 +8580,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8750,7 +8610,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8781,7 +8640,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8812,7 +8670,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -8821,8 +8678,10 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="name">Name to lookup.</param>
+        <summary>
+            Gets the <see cref="T:TensorFlow.TFGraph" /> with the specified name, or null if the named operation does not exist in the graph.
+            </summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -8833,7 +8692,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8868,7 +8726,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -8946,7 +8803,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -8978,7 +8834,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9010,7 +8865,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9037,7 +8891,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9086,7 +8939,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -9151,7 +9003,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9180,7 +9031,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9209,7 +9059,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9241,7 +9090,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9268,7 +9116,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9300,7 +9147,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9335,7 +9181,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -9413,7 +9258,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9447,7 +9291,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9508,7 +9351,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9567,7 +9409,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9601,7 +9442,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9648,7 +9488,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9729,7 +9568,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9764,7 +9602,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9822,7 +9659,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9883,7 +9719,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9932,7 +9767,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -9980,7 +9814,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10028,7 +9861,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10105,7 +9937,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10172,7 +10003,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10217,7 +10047,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10249,7 +10078,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10295,7 +10123,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10332,7 +10159,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10375,7 +10201,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10429,7 +10254,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10475,7 +10299,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -10524,7 +10347,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10569,7 +10391,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -10612,7 +10433,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10652,7 +10472,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -10700,7 +10519,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10745,7 +10563,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10777,7 +10594,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10841,7 +10657,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10898,7 +10713,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10930,7 +10744,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -10962,7 +10775,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11010,7 +10822,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11039,7 +10850,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11070,7 +10880,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11137,7 +10946,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -11162,7 +10970,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11194,7 +11001,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11331,7 +11137,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11388,7 +11193,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11440,7 +11244,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11503,7 +11306,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11554,7 +11356,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11618,7 +11419,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -11691,7 +11491,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -11822,7 +11621,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11855,7 +11653,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11894,7 +11691,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11929,7 +11725,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11962,7 +11757,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -11998,7 +11792,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12036,7 +11829,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12081,7 +11873,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12133,7 +11924,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12191,7 +11981,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12236,7 +12025,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12294,7 +12082,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12398,7 +12185,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -12502,7 +12288,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12555,7 +12340,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12662,7 +12446,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12723,7 +12506,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12780,7 +12562,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12848,7 +12629,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -12924,7 +12704,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13006,7 +12785,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13059,7 +12837,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13119,7 +12896,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13189,7 +12965,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13238,7 +13013,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13287,7 +13061,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13338,7 +13111,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13389,7 +13161,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13490,7 +13261,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13531,7 +13301,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -13589,7 +13358,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -13651,7 +13419,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -13698,7 +13465,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13749,7 +13515,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -13795,7 +13560,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -13826,7 +13590,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -13880,7 +13643,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -13935,7 +13697,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -13966,7 +13727,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14028,7 +13788,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14082,7 +13841,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14155,7 +13913,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14202,7 +13959,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14250,7 +14006,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14309,7 +14064,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14360,7 +14114,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14401,7 +14154,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14433,7 +14185,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14462,7 +14213,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -14512,7 +14262,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -14557,7 +14306,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -14586,7 +14334,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -14623,7 +14370,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14655,7 +14401,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14682,7 +14427,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14720,7 +14464,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14761,7 +14504,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14795,7 +14537,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14824,7 +14565,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14856,7 +14596,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14911,7 +14650,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -14980,7 +14718,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15017,7 +14754,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15044,7 +14780,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15071,7 +14806,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15107,7 +14841,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15143,7 +14876,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -15178,7 +14910,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15225,7 +14956,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15287,7 +15017,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15375,7 +15104,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15421,7 +15149,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15467,7 +15194,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15513,7 +15239,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15558,7 +15283,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15602,7 +15326,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -15646,7 +15369,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15710,7 +15432,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15761,7 +15482,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15824,7 +15544,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15901,7 +15620,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -15986,7 +15704,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16056,7 +15773,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16099,7 +15815,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16163,7 +15878,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16222,7 +15936,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16276,7 +15989,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16349,7 +16061,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -16396,7 +16107,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16453,7 +16163,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16514,7 +16223,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16570,7 +16278,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16637,7 +16344,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16724,7 +16430,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16799,7 +16504,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16869,7 +16573,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16934,7 +16637,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -16993,7 +16695,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -17070,7 +16771,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17132,7 +16832,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17189,7 +16888,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -17246,7 +16944,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17326,7 +17023,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17424,7 +17120,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17506,7 +17201,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17545,7 +17239,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17582,7 +17275,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17612,7 +17304,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17641,7 +17332,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -17673,7 +17363,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -17807,7 +17496,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -17850,7 +17538,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -17915,7 +17602,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -17962,7 +17648,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18000,7 +17685,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18113,7 +17797,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18145,7 +17828,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -18265,7 +17947,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Nullable&lt;System.Int32&gt;</ReturnType>
@@ -18299,7 +17980,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18345,7 +18025,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18393,7 +18072,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18440,7 +18118,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18487,7 +18164,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18533,7 +18209,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18612,7 +18287,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18650,7 +18324,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -18704,7 +18377,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18749,7 +18421,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18786,7 +18457,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18836,7 +18506,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -18860,7 +18529,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18898,7 +18566,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -18929,7 +18596,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18962,7 +18628,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -18991,7 +18656,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19020,7 +18684,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19052,7 +18715,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19083,7 +18745,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19110,7 +18771,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19149,7 +18809,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -19223,7 +18882,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19269,7 +18927,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19304,7 +18961,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -19349,7 +19005,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19376,7 +19031,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19411,7 +19065,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19438,7 +19091,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19473,7 +19125,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19600,7 +19251,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19754,7 +19404,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -19855,7 +19504,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -19929,7 +19577,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -19987,7 +19634,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20080,7 +19726,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20133,7 +19778,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20180,7 +19824,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20231,7 +19874,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20273,7 +19915,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20335,7 +19976,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20401,7 +20041,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20457,7 +20096,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20522,7 +20160,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20567,7 +20204,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20611,7 +20247,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20655,7 +20290,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20699,7 +20333,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20767,7 +20400,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -20823,7 +20455,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20872,7 +20503,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20932,7 +20562,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -20992,7 +20621,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -21068,7 +20696,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21111,7 +20738,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21174,7 +20800,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21246,7 +20871,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -21345,7 +20969,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -21385,7 +21008,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -21431,7 +21053,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21460,7 +21081,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21492,7 +21112,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21521,7 +21140,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21553,7 +21171,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21610,7 +21227,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -21653,7 +21269,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21700,7 +21315,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21878,7 +21492,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21932,7 +21545,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -21970,7 +21582,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22038,7 +21649,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22076,7 +21686,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22116,7 +21725,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22162,7 +21770,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22199,7 +21806,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22231,7 +21837,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22344,7 +21949,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22389,7 +21993,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22461,7 +22064,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22507,7 +22109,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22612,7 +22213,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22639,7 +22239,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22666,7 +22265,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22698,7 +22296,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22725,7 +22322,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22756,7 +22352,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22793,7 +22388,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -22859,7 +22453,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22894,7 +22487,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22945,7 +22537,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -22976,7 +22567,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -23052,7 +22642,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23085,7 +22674,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23124,7 +22712,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23157,7 +22744,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23202,7 +22788,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23231,7 +22816,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23266,7 +22850,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23299,7 +22882,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23361,7 +22943,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23398,7 +22979,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -23466,7 +23046,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23499,7 +23078,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23542,7 +23120,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23586,7 +23163,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23630,7 +23206,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23671,7 +23246,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -23749,7 +23323,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23788,7 +23361,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23821,7 +23393,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -23843,7 +23414,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -23901,7 +23471,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -23960,7 +23529,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -23992,7 +23560,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24029,7 +23596,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24079,7 +23645,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24114,7 +23679,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -24192,7 +23756,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -24247,7 +23810,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -24308,7 +23870,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -24360,7 +23921,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24415,7 +23975,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24470,7 +24029,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -24504,7 +24062,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24543,7 +24100,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24574,7 +24130,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24607,7 +24162,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24639,7 +24193,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24671,7 +24224,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24730,7 +24282,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
@@ -24760,7 +24311,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24802,7 +24352,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFScope</ReturnType>
@@ -24843,7 +24392,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
@@ -24876,7 +24424,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
@@ -24907,7 +24454,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>

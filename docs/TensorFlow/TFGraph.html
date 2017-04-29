@@ -298,7 +298,9 @@
                 <td>
                   <i>
                     <a href="../TensorFlow/TFOperation.html">TFOperation</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Gets the <a href="../TensorFlow/TFGraph.html">TensorFlow.TFGraph</a> with the specified name, or null if the named operation does not exist in the graph.
+            </td>
               </tr>
               <tr valign="top">
                 <td>
@@ -370,6 +372,18 @@
                     <a href="#M:TensorFlow.TFGraph.Add(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)">Add</a>
                   </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>, <a href="../TensorFlow/TFOutput.html">TFOutput</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<nobr> : <a href="../TensorFlow/TFOutput.html">TFOutput</a></nobr><blockquote>
               Returns x + y element-wise.
+            </blockquote></td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
+                    <a href="#M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus)">AddGradients</a>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOutput.html">TFOutput</a>[]</nobr><blockquote>
+            Adds a gradient: the operations needed to compute the partial derivatives of sum of <i>y</i>` wrt to <i>x</i>.
             </blockquote></td>
               </tr>
               <tr valign="top">
@@ -2160,7 +2174,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFGraph.GetEnumerator()">GetEnumerator</a>
-                  </b>()<nobr> : <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Collections.Generic.IEnumerable`1">IEnumerable&lt;TFOperation&gt;</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>()<nobr> : <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Collections.Generic.IEnumerable`1">IEnumerable&lt;TFOperation&gt;</a></nobr><blockquote>
+            Returns the enumerator that returns all the TFOperations in a graph.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -2416,7 +2432,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFGraph.Import(System.Byte[],System.String,TensorFlow.TFStatus)">Import</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[], <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[], <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote>
+            Import a serialized graph held in a byte array into this graph, using the specified prefix.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -2426,7 +2444,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFGraph.Import(System.Byte[],TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus)">Import</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[], <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[], <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote>
+            Import a serialized graph held in a byte array into this graph, using the specified import options.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -2436,7 +2456,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,System.String,TensorFlow.TFStatus)">Import</a>
-                  </b>(<a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote>
+            Import a serialized graph into this graph, using the specified prefix.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -2446,7 +2468,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus)">Import</a>
-                  </b>(<a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote>
+            Import a serialized graph into this graph, using the specified importing options.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -6466,6 +6490,46 @@
             </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.Add(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus)">AddGradients Method</h3>
+        <blockquote id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus):member">
+          <div class="msummary">
+            Adds a gradient: the operations needed to compute the partial derivatives of sum of <i>y</i>` wrt to <i>x</i>.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] <b>AddGradients</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a>[] y, <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] x, <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] dx, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus):Parameters">
+            <dl>
+              <dt>
+                <i>y</i>
+              </dt>
+              <dd>The y elements.</dd>
+              <dt>
+                <i>x</i>
+              </dt>
+              <dd>The x elements.</dd>
+              <dt>
+                <i>dx</i>
+              </dt>
+              <dd>Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <i>y</i> ).   
+            If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <i>y</i></dd>
+              <dt>
+                <i>status</i>
+              </dt>
+              <dd>Status.</dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus):Returns">The partial derivatives, the size of the array is the same as the length of the <i>y</i> array.</blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus):Remarks">
+            d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
+            </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFGraph.AddGradients(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFStatus):Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
@@ -15908,14 +15972,12 @@
         <h3 id="M:TensorFlow.TFGraph.GetEnumerator()">GetEnumerator Method</h3>
         <blockquote id="M:TensorFlow.TFGraph.GetEnumerator():member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Returns the enumerator that returns all the TFOperations in a graph.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">[System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/&lt;GetEnumerator&gt;d__23))]<br />public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Collections.Generic.IEnumerable`1">IEnumerable&lt;TFOperation&gt;</a> <b>GetEnumerator</b> ()</div>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.GetEnumerator():Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.GetEnumerator():Returns">The enumerator.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.GetEnumerator():Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -16846,8 +16908,8 @@
         <h3 id="M:TensorFlow.TFGraph.Import(System.Byte[],System.String,TensorFlow.TFStatus)">Import Method</h3>
         <blockquote id="M:TensorFlow.TFGraph.Import(System.Byte[],System.String,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Import a serialized graph held in a byte array into this graph, using the specified prefix.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Import</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[] buffer, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> prefix, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -16856,23 +16918,19 @@
               <dt>
                 <i>buffer</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A byte array containing the serialized graph.</dd>
               <dt>
                 <i>prefix</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A prefix that will be prepended to names of nodes in the <i>graphDef</i> when they are imported into the graph.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status buffer.</dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.Import(System.Byte[],System.String,TensorFlow.TFStatus):Returns">The import.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.Import(System.Byte[],System.String,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -16885,8 +16943,8 @@
         <h3 id="M:TensorFlow.TFGraph.Import(System.Byte[],TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus)">Import Method</h3>
         <blockquote id="M:TensorFlow.TFGraph.Import(System.Byte[],TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Import a serialized graph held in a byte array into this graph, using the specified import options.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Import</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Byte">byte</a>[] buffer, <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a> options, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -16895,23 +16953,19 @@
               <dt>
                 <i>buffer</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A byte array containing the serialized graph.</dd>
               <dt>
                 <i>options</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Importing graph options.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status buffer.</dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.Import(System.Byte[],TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):Returns">The import.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.Import(System.Byte[],TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -16924,8 +16978,8 @@
         <h3 id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,System.String,TensorFlow.TFStatus)">Import Method</h3>
         <blockquote id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,System.String,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Import a serialized graph into this graph, using the specified prefix.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Import</b> (<a href="../TensorFlow/TFBuffer.html">TFBuffer</a> graphDef, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> prefix, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -16934,23 +16988,19 @@
               <dt>
                 <i>graphDef</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A buffer containing the serialized graph.</dd>
               <dt>
                 <i>prefix</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A prefix that will be prepended to names of nodes in the <i>graphDef</i> when they are imported into the graph.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status buffer.</dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,System.String,TensorFlow.TFStatus):Returns">The import.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,System.String,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -16963,8 +17013,8 @@
         <h3 id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus)">Import Method</h3>
         <blockquote id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Import a serialized graph into this graph, using the specified importing options.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Import</b> (<a href="../TensorFlow/TFBuffer.html">TFBuffer</a> graphDef, <a href="../TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a> options, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -16973,23 +17023,19 @@
               <dt>
                 <i>graphDef</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>A buffer containing the serialized graph.</dd>
               <dt>
                 <i>options</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Importing graph options.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status buffer.</dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):Returns">The import.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFGraph.Import(TensorFlow.TFBuffer,TensorFlow.TFImportGraphDefOptions,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -17345,8 +17391,8 @@
         <h3 id="P:TensorFlow.TFGraph.Item(System.String)">Item Property</h3>
         <blockquote id="P:TensorFlow.TFGraph.Item(System.String):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Gets the <a href="../TensorFlow/TFGraph.html">TensorFlow.TFGraph</a> with the specified name, or null if the named operation does not exist in the graph.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">
             <p>
@@ -17358,9 +17404,7 @@
               <dt>
                 <i>name</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Name to lookup.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Value</h4>

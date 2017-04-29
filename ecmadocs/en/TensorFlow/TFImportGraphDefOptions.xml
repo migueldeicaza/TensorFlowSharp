@@ -4,7 +4,6 @@
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    
   </AssemblyInfo>
   <Base>
     <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
@@ -23,7 +22,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <Parameters />
       <Docs>
@@ -37,7 +35,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -59,7 +56,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -89,7 +85,6 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
@@ -116,7 +111,6 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -129,13 +123,38 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="RemapControlDependency">
+      <MemberSignature Language="C#" Value="public void RemapControlDependency (string srcName, TensorFlow.TFOperation destination);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemapControlDependency(string srcName, class TensorFlow.TFOperation destination) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="srcName" Type="System.String" />
+        <Parameter Name="destination" Type="TensorFlow.TFOperation" />
+      </Parameters>
+      <Docs>
+        <param name="srcName">Node in the graph to be imported.</param>
+        <param name="destination">References an operation that already exists in the graph being imported.</param>
+        <summary>
+            Sets any imported nodes with a given control input to have it replaced with an operation
+            </summary>
+        <remarks>
+            Set any imported nodes with control input <paramref name="srcName" /> to have that input
+            replaced with <paramref name="dst" />. 
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SetPrefix">
       <MemberSignature Language="C#" Value="public void SetPrefix (string prefix);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetPrefix(string prefix) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
