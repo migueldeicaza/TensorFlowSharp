@@ -56,8 +56,10 @@
         <Parameter Name="data" Type="System.Byte[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of bytes.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -90,8 +92,10 @@
         <Parameter Name="data" Type="System.Double[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of doubles.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -124,8 +128,10 @@
         <Parameter Name="data" Type="System.Int16[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of shorts.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -158,8 +164,10 @@
         <Parameter Name="data" Type="System.Int32[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of ints.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -192,8 +200,10 @@
         <Parameter Name="data" Type="System.Int64[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of longs.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -226,8 +236,10 @@
         <Parameter Name="data" Type="System.Numerics.Complex[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of complex numbers.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -260,8 +272,10 @@
         <Parameter Name="data" Type="System.SByte[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of sbytes.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -294,8 +308,10 @@
         <Parameter Name="data" Type="System.Single[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of floats.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -328,8 +344,10 @@
         <Parameter Name="data" Type="System.UInt16[]" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">Data.</param>
+        <summary>
+            Creates a 1 dimensional tensor from an array of ushorts
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -346,11 +364,16 @@
         <Parameter Name="size" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="dataType">To be added.</param>
-        <param name="dims">To be added.</param>
-        <param name="size">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dataType">Data type.</param>
+        <param name="dims">Tensor shape.</param>
+        <param name="size">Size in bytes of the tensor, this will be the actual memory allocated.</param>
+        <summary>
+            Low-level: Creates an empty tensor of the specified type and shape, with the specified number of elements
+            </summary>
+        <remarks>
+            It is the responsibility of the caller to ensure that the size is correct given the data type size
+            and the tensor dimension specified in dims.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -369,13 +392,15 @@
         <Parameter Name="deallocatorData" Type="System.IntPtr" />
       </Parameters>
       <Docs>
-        <param name="dataType">To be added.</param>
-        <param name="dims">To be added.</param>
-        <param name="data">To be added.</param>
-        <param name="dataSize">To be added.</param>
-        <param name="deallocator">To be added.</param>
-        <param name="deallocatorData">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="dataType">Specifies the data type held by the tensor, as well as how to interpret the provided data.</param>
+        <param name="dims">Describes the tensor shape, an array that indicates .</param>
+        <param name="data">Pointer to the raw data that will be used to initialize the tensor.</param>
+        <param name="dataSize">The size of the data being passed in.</param>
+        <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data" />.</param>
+        <param name="deallocatorData">An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.</param>
+        <summary>
+            Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -810,10 +835,17 @@
         <Parameter Name="array" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">single dimension, or multi-dimensional array.</param>
+        <summary>
+            Converts a C# array into a tensor.
+            </summary>
+        <returns>The tensor containing the data.</returns>
+        <remarks>
+            This implicit conversion can convert single or multidimensional arrays of
+            booleans, sbytes, byte, shorts, ushorts, ints, longs, doubles, floats and
+            complex numbers into a tensor with the same dimensional shape as the provided
+            array.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Implicit">
@@ -830,9 +862,11 @@
         <Parameter Name="value" Type="System.Byte" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts a byte into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the byte value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -850,9 +884,11 @@
         <Parameter Name="value" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts a double into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the double value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -870,9 +906,11 @@
         <Parameter Name="value" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts an integer into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the integer value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -890,9 +928,11 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts a long into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the long value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -910,9 +950,11 @@
         <Parameter Name="value" Type="System.Numerics.Complex" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts a Complex number into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the complex value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -930,9 +972,11 @@
         <Parameter Name="value" Type="System.Single" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="value">Value to initialize the tensor with.</param>
+        <summary>
+            Converts a float into a 1-dimensional, 1-valued tensor.
+            </summary>
+        <returns>The tensor representing the float value.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -985,8 +1029,10 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>
+            Returns the data type for the tensor.
+            </summary>
+        <value>The type of the tensor.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
