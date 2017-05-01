@@ -14,8 +14,10 @@ documentation](https://migueldeicaza.github.io/TensorFlowSharp/).
 # Getting Started
 
 You need to get yourself a copy of the TensorFlow runtime, you can either
-build your own version (recommended, see the instructions below) or you can use a precompiled
-binary:
+build your own version (recommended, see the instructions below).
+
+If you want to use binaries, you can use the 1.0 ones, but *you will be limited* to 
+using the 1.0 features, which exclude TFGraph.While loops and gradient support:
 
 https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
 https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-darwin-x86_64-1.0.0-rc0.tar.gz
