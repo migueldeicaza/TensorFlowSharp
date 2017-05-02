@@ -6,10 +6,10 @@ script:
   - mkdir -p $TRAVIS_BUILD_DIR/release-artifacts/libs/
   - cd lib
   - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/release-artifacts/libs/libtensorflow.dylib
-  - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
   - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
+  - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
   - sh $TRAVIS_BUILD_DIR/build.sh
 mono: "latest"
 os: "osx"
