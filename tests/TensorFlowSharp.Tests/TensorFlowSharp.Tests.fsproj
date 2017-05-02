@@ -56,10 +56,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ArithmeticOperationTests.fs" />
     <Content Include="packages.config" />
-    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe">
-      <Link>xunit.console.exe</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
