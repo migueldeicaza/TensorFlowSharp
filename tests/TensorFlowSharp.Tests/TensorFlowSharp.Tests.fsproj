@@ -55,31 +55,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ArithmeticOperationTests.fs" />
-    <None Include="..\..\release-artifacts\libs\libtensorflow.dll">
-      <Link>libtensorflow.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\release-artifacts\libs\libtensorflow.dylib">
-      <Link>libtensorflow.dylib</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="packages.config" />
-    <None Include="TensorFlowSharp.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="xunit.console.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\HTML.xslt">
-      <Link>HTML.xslt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\NUnitXml.xslt">
-      <Link>NUnitXml.xslt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\xUnit1.xslt">
-      <Link>xUnit1.xslt</Link>
+    <None Include="..\..\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe">
+      <Link>xunit.console.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
