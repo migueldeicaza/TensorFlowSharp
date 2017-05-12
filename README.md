@@ -13,16 +13,14 @@ documentation](https://migueldeicaza.github.io/TensorFlowSharp/).
 
 # Getting Started
 
-You need to get yourself a copy of the TensorFlow runtime, you can either
-build your own version (recommended, see the instructions below).
+You can either use the TensorFlow C-library release binaries, or build your own
+from source.
 
-If you want to use binaries, you can use the 1.0 ones, but *you will be limited* to 
-using the 1.0 features, which exclude TFGraph.While loops and gradient support:
-
-https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
-https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-darwin-x86_64-1.0.0-rc0.tar.gz
-https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.0.0-rc0.tar.gz
-https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-1.0.0-rc0.tar.gz
+- Linux
+  - CPU-only: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.1.0.tar.gz
+  - GPU-enabled: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-1.1.0.tar.gz
+- Mac: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.1.0.tar.gz
+- Windows: (Should be ready when TensorFlow 1.2 is released, see also [#7258](https://github.com/tensorflow/tensorflow/issues/7258))
 
 Unpack the above .tar.gz suitable for your system on a prefix that your
 system's dynamic linker can use, for example, go to `/usr/local` and unpack there.
@@ -34,9 +32,6 @@ Once you do that, you need to open the solution file on the top
 level directory and build.   This will produce both the TensorFlowSharp
 library as well as compile the tests and samples.
 
-It is recommended that you build your own, because these bindings of TensorFlow surface some
-features in the latest version of TensorFlow that are not available on the 1.0.0-rc0 builds above.
-
 # Work in Progress
 
 These instructions reflect what you need to get up and running with the
@@ -45,34 +40,14 @@ NuGet packages that eliminate all the manual steps required here.
 
 ## Building your own version
 
-You will want to install Tensorflow from sources, follow the instructions
-for your platform here:
-
-https://www.tensorflow.org/install/install_sources
+To build the TensorFlow C library from source,
+[try this](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/go/README.md#building-the-tensorflow-c-library-from-source).
 
 This includes checking out the Tensorflow sources, installing Bazel, 
 and building the core.
 
-Once you do that, you will need to build the shared library.
-First, in the tensorflow directory, run:
-
-    ./configure    
-
-and answer the various prompts about your build. Important:
-building with CUDA support provides better runtime performance
-but has additional dependencies as discussed in the Tensorflow
-installation Web page.
-
-Once configured, run: 
-
-    bazel build -c opt //tensorflow:libtensorflow.so
-
-If you want debug symbols for Tensorflow, while debugging the binding:
-
-    bazel build -c dbg --strip=never //tensorflow:libtensorflow.so
-
-You will need this library to be installed in a system accessible location
-like `/usr/local/lib`
+You will need the generated library (`libtensorflow.so`) to be installed in a
+system accessible location like `/usr/local/lib`
 
 On Linux:
 
@@ -151,7 +126,7 @@ Look at:
 ./tensorflow/core/ops/nn_ops.cc for the C++ implementation with type definitions
 
 Docs on types:
-https://www.tensorflow.org/versions/r0.11/how_tos/adding_an_op/
+https://www.tensorflow.org/extend/adding_an_op
 
 ## Documentation
 
