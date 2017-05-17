@@ -1,0 +1,172 @@
+<Type Name="TFImportGraphDefOptions" FullName="TensorFlow.TFImportGraphDefOptions">
+  <TypeSignature Language="C#" Value="public class TFImportGraphDefOptions : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFImportGraphDefOptions extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Contains options that are used to control how graph importing works.
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFImportGraphDefOptions ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddControlDependency">
+      <MemberSignature Language="C#" Value="public void AddControlDependency (TensorFlow.TFOperation operation);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddControlDependency(class TensorFlow.TFOperation operation) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operation" Type="TensorFlow.TFOperation" />
+      </Parameters>
+      <Docs>
+        <param name="operation">This operation should exist in the graph being imported to.</param>
+        <summary>
+            Cause the imported graph to have a control dependency on the provided operation.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddInputMapping">
+      <MemberSignature Language="C#" Value="public void AddInputMapping (string srcName, int srcIndex, TensorFlow.TFOutput dst);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddInputMapping(string srcName, int32 srcIndex, valuetype TensorFlow.TFOutput dst) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="srcName" Type="System.String" />
+        <Parameter Name="srcIndex" Type="System.Int32" />
+        <Parameter Name="dst" Type="TensorFlow.TFOutput" />
+      </Parameters>
+      <Docs>
+        <param name="srcName">Source name.</param>
+        <param name="srcIndex">Source index (in the source).</param>
+        <param name="dst">Replacement value for the srcName:srcIndex.</param>
+        <summary>
+            Adds an input mapping from a source name and index to a destination output
+            </summary>
+        <remarks>
+            Set any imported nodes with input `src_name:src_index` to have that input
+            replaced with `dst`. `src_name` refers to a node in the graph to be imported,
+            `dst` references a node already existing in the graph being imported into.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddReturnOutput">
+      <MemberSignature Language="C#" Value="public void AddReturnOutput (string operName, int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddReturnOutput(string operName, int32 index) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operName" Type="System.String" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="operName">Operation name.</param>
+        <param name="index">Operation index.</param>
+        <summary>
+            Add an output in the graph definition to be returned via the return outputs parameter.
+            </summary>
+        <remarks>
+            If the output is remapped via an input
+            mapping, the corresponding existing tensor in graph will be returned.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NumReturnOutputs">
+      <MemberSignature Language="C#" Value="public int NumReturnOutputs { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 NumReturnOutputs" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets the number return outputs added via AddReturnOutput.
+            </summary>
+        <value>The number return outputs.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemapControlDependency">
+      <MemberSignature Language="C#" Value="public void RemapControlDependency (string srcName, TensorFlow.TFOperation destination);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RemapControlDependency(string srcName, class TensorFlow.TFOperation destination) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="srcName" Type="System.String" />
+        <Parameter Name="destination" Type="TensorFlow.TFOperation" />
+      </Parameters>
+      <Docs>
+        <param name="srcName">Node in the graph to be imported.</param>
+        <param name="destination">References an operation that already exists in the graph being imported.</param>
+        <summary>
+            Sets any imported nodes with a given control input to have it replaced with an operation
+            </summary>
+        <remarks>
+            Set any imported nodes with control input <paramref name="srcName" /> to have that input
+            replaced with <paramref name="dst" />. 
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetPrefix">
+      <MemberSignature Language="C#" Value="public void SetPrefix (string prefix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetPrefix(string prefix) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="prefix" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="prefix">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

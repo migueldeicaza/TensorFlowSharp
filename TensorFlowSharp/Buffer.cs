@@ -20,7 +20,7 @@ namespace TensorFlow
 	}
 
 	/// <summary>
-	/// Holds a block of data.
+	/// Holds a block of data, suitable to pass, or retrieve from TensorFlow.
 	/// </summary>
 	/// <remarks>
 	/// Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks

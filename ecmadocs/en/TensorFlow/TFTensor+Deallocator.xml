@@ -1,0 +1,28 @@
+<Type Name="TFTensor+Deallocator" FullName="TensorFlow.TFTensor+Deallocator">
+  <TypeSignature Language="C#" Value="public delegate void TFTensor.Deallocator(IntPtr data, IntPtr size, IntPtr deallocatorData);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed TFTensor/Deallocator extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="data" Type="System.IntPtr" />
+    <Parameter Name="size" Type="System.IntPtr" />
+    <Parameter Name="deallocatorData" Type="System.IntPtr" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="data">To be added.</param>
+    <param name="size">To be added.</param>
+    <param name="deallocatorData">To be added.</param>
+    <summary>
+            Signature that methods must conform to to be used to release memory that was passed to a manually allocated TFTensor
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

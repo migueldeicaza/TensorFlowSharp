@@ -1,0 +1,245 @@
+<Type Name="TFSession+Runner" FullName="TensorFlow.TFSession+Runner">
+  <TypeSignature Language="C#" Value="public class TFSession.Runner" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi beforefieldinit TFSession/Runner extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
+            </summary>
+    <remarks>
+            The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+            to construct the parameters that will be passed to the TFSession.Run method.
+            
+            Instances of this class are created by calling the GetRunner method on the TFSession.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="AddInput">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner AddInput (TensorFlow.TFOutput input, TensorFlow.TFTensor value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddInput(valuetype TensorFlow.TFOutput input, class TensorFlow.TFTensor value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="input" Type="TensorFlow.TFOutput" />
+        <Parameter Name="value" Type="TensorFlow.TFTensor" />
+      </Parameters>
+      <Docs>
+        <param name="input">Incoming port.</param>
+        <param name="value">Value to assing to the incoming port.</param>
+        <summary>
+            Adds an input to the session
+            </summary>
+        <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddTarget">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner AddTarget (string[] targetNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddTarget(string[] targetNames) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="targetNames" Type="System.String[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="targetNames">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddTarget">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner AddTarget (TensorFlow.TFOperation[] targets);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddTarget(class TensorFlow.TFOperation[] targets) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="targets" Type="TensorFlow.TFOperation[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="targets">One or more targets.</param>
+        <summary>
+            Adds the specified operations as the ones to be retrieved.
+            </summary>
+        <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fetch">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (TensorFlow.TFOutput output);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(valuetype TensorFlow.TFOutput output) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="output" Type="TensorFlow.TFOutput" />
+      </Parameters>
+      <Docs>
+        <param name="output">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fetch">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (TensorFlow.TFOutput[] outputs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(valuetype TensorFlow.TFOutput[] outputs) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="outputs" Type="TensorFlow.TFOutput[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="outputs">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fetch">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (string operation, int index = 0);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(string operation, int32 index) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operation" Type="System.String" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="operation">To be added.</param>
+        <param name="index">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Run">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Run">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput operation, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput operation, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operation" Type="TensorFlow.TFOutput" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="operation">The output of the operation.</param>
+        <param name="status">Optional, status.</param>
+        <summary>
+            Run the specified operation, by adding it implicity to the output, single return value
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RunMetadata">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFBuffer RunMetadata;" />
+      <MemberSignature Language="ILAsm" Value=".field public class TensorFlow.TFBuffer RunMetadata" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFBuffer</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RunOptions">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFBuffer RunOptions;" />
+      <MemberSignature Language="ILAsm" Value=".field public class TensorFlow.TFBuffer RunOptions" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFBuffer</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

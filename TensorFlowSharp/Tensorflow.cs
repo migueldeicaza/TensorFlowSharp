@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 // TensorFlow.cs; Bindings to the TensorFlow C API for .NET
 // 
 // Authors:
@@ -47,41 +47,87 @@ namespace TensorFlow
 
 	}
 
+	/// <summary>
+	/// Contains TensorFlow fundamental methods and utility functions.
+	/// </summary>
 	public static class TFCore {
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
+		/// <summary>
+		/// Returns the version of the TensorFlow runtime in use.
+		/// </summary>
+		/// <value>The version.</value>
 		public static string Version => TF_Version ().GetStr ();
 
 		// extern size_t TF_DataTypeSize (TF_DataType dt);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern IntPtr TF_DataTypeSize (TFDataType dt);
 
+		/// <summary>
+		/// Gets the size in bytes of the specified TensorFlow data type.
+		/// </summary>
+		/// <returns>The data type size.</returns>
+		/// <param name="dt">Dt.</param>
 		public static long GetDataTypeSize (TFDataType dt) => (long)TF_DataTypeSize (dt);
 
 		// extern TF_Buffer * TF_GetAllOpList ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_GetAllOpList ();
 
+		/// <summary>
+		/// Retrieves the ProtocolBuffer describing all of the available operations in
+		/// the TensorFlow library in current use.
+		/// </summary>
+		/// <returns>The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</returns>
 		public static TFBuffer GetAllOpList ()
 		{
 			return new TFBuffer (TF_GetAllOpList ());
 		}
 	}
 
+	/// <summary>
+	/// Base class for many TensorFlow data types that provides a common idiom to dispose and
+	/// release resources associated with the native data types.   Generally, you do not need to use this.
+	/// </summary>
+	/// <remarks>
+	/// This implements the Dispose pattern in a reusable form for TensorFlow types.
+	/// 
+	/// Subclasses invoke the constructor with the handle that this will wrap, and must
+	/// override the NativeDispose method (internal) to release the associated resource.
+	/// </remarks>
 	public abstract class TFDisposable : IDisposable
 	{
 		internal IntPtr handle;
+
+		/// <summary>
+		/// Returns the opaque handle to the object that this TFDisposable owns.
+		/// </summary>
+		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class.
+		/// </summary>
 		public TFDisposable ()
 		{ }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class
+		/// from the handle that it will wrap.   
+		/// </summary>
 		public TFDisposable (IntPtr handle)
 		{
 			this.handle = handle;
 		}
 
+		/// <summary>
+		/// Releases all resource used by the <see cref="T:TensorFlow.TFDisposable"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
+		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
+		/// the garbage collector can reclaim the memory that the <see cref="T:TensorFlow.TFDisposable"/> was occupying.</remarks>
 		public void Dispose ()
 		{
 			Dispose (true);
@@ -98,6 +144,10 @@ namespace TensorFlow
 		// method inherited from TFDisposable
 		internal abstract void NativeDispose (IntPtr handle);
 
+		/// <summary>
+		/// Dispose the specified object
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> it means that this method was called from Dispose, otherwise from the finalizer.</param>
 		public virtual void Dispose (bool disposing)
 		{
 			if (disposing) {
@@ -113,6 +163,9 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// TensorFlow Exception
+	/// </summary>
 	public class TFException : Exception {
 		public TFException (string message) : base (message) { }
 	}
@@ -434,6 +487,13 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphImportGraphDef (TF_Graph graph, LLBuffer* graph_def, TF_ImportGraphDefOptions options, TF_Status status);
 
+		/// <summary>
+		/// Import a serialized graph into this graph, using the specified prefix.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="graphDef">A buffer containing the serialized graph.</param>
+		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (TFBuffer graphDef, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -449,6 +509,13 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Import a serialized graph into this graph, using the specified importing options.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="graphDef">A buffer containing the serialized graph.</param>
+		/// <param name="options">Importing graph options.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -466,6 +533,13 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 		}
 
+		/// <summary>
+		/// Import a serialized graph held in a byte array into this graph, using the specified prefix.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="buffer">A byte array containing the serialized graph.</param>
+		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (byte [] buffer, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -480,6 +554,13 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Import a serialized graph held in a byte array into this graph, using the specified import options.
+		/// </summary>
+		/// <returns>The import.</returns>
+		/// <param name="buffer">A byte array containing the serialized graph.</param>
+		/// <param name="options">Importing graph options.</param>
+		/// <param name="status">Status buffer.</param>
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -499,6 +580,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Operation TF_GraphOperationByName (TF_Graph graph, string oper_name);
 
+		/// <summary>
+		/// Gets the <see cref="T:TensorFlow.TFGraph"/> with the specified name, or null if the named operation does not exist in the graph.
+		/// </summary>
+		/// <param name="name">Name to lookup.</param>
 		public TFOperation this [string name] {
 			get {
 				if (handle == IntPtr.Zero)
@@ -514,6 +599,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Operation TF_GraphNextOperation (TF_Graph graph, ref IntPtr token);
 
+		/// <summary>
+		/// Returns the enumerator that returns all the TFOperations in a graph.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
 		public IEnumerable<TFOperation> GetEnumerator ()
 		{
 			if (handle == IntPtr.Zero)
@@ -739,7 +828,6 @@ namespace TensorFlow
 				// Wrap the various TF_graphs (with owns=false)
 				// Marshal the condInputs, bodyInputs
 				//
-				TFOutput condOutput;
 				string name;
 
 				int n = result.ninputs;
@@ -778,7 +866,55 @@ namespace TensorFlow
 			}
 		}
 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_AddGradients (TF_Graph graph, TFOutput* ys, int ny, TFOutput* xs, int nx, TFOutput* dx, TF_Status status, TFOutput* dy);
 
+		/// <summary>
+		/// Adds a gradient: the operations needed to compute the partial derivatives of sum of <paramref name="y"/>` wrt to <paramref name="x"/>.
+		/// </summary>
+		/// <returns>The partial derivatives, the size of the array is the same as the length of the <paramref name="y"/> array.</returns>
+		/// <param name="y">The y elements.</param>
+		/// <param name="x">The x elements.</param>
+		/// <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y"/> ).   
+		/// If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y"/></param>
+		/// <param name="status">Status.</param>
+		/// <remarks>
+		/// d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
+		/// </remarks>
+		public TFOutput [] AddGradients (TFOutput [] y, TFOutput [] x, TFOutput [] dx = null, TFStatus status = null)
+		{
+			if (y == null)
+				throw new ArgumentNullException (nameof (y));
+			if (x == null)
+				throw new ArgumentNullException (nameof (x));
+			if (dx != null) {
+				if (dx.Length != y.Length)
+					throw new ArgumentException ("If dx is not null, the size of the gradients must match the size of y", nameof (dx));
+			}
+
+			var cstatus = TFStatus.Setup (status);
+
+			var ret = new TFOutput [x.Length];
+			unsafe
+			{
+				fixed (TFOutput* pret = &ret [0]) {
+					fixed (TFOutput* py = &y [0]) {
+						fixed (TFOutput* px = &x [0]) {
+							if (dx == null) {
+								TF_AddGradients (handle, py, y.Length, px, x.Length, (TFOutput*)null, status.Handle, pret);
+							} else {
+								fixed (TFOutput* pdx = &dx [0]) {
+									TF_AddGradients (handle, py, y.Length, px, x.Length, pdx, status.Handle, pret);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			return ret;
+		}
 	}
 
 	//
@@ -1481,6 +1617,9 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Contains options that are used to control how graph importing works.
+	/// </summary>
 	public class TFImportGraphDefOptions : TFDisposable
 	{
 		// extern TF_ImportGraphDefOptions * TF_NewImportGraphDefOptions ();
@@ -1587,6 +1726,28 @@ namespace TensorFlow
 			}
 		}
 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsRemapControlDependency (TF_ImportGraphDefOptions opts, string srcName, TF_Operation dst);
+
+		/// <summary>
+		/// Sets any imported nodes with a given control input to have it replaced with an operation
+		/// </summary>
+		/// <param name="srcName">Node in the graph to be imported.</param>
+		/// <param name="destination">References an operation that already exists in the graph being imported.</param>
+		/// <remarks>
+		/// Set any imported nodes with control input <paramref name="srcName"/> to have that input
+		/// replaced with <paramref name="dst"/>. 
+		/// </remarks>
+		public void RemapControlDependency (string srcName, TFOperation destination)
+		{
+			if (srcName == null)
+				throw new ArgumentNullException (nameof (srcName));
+			if (destination == null)
+				throw new ArgumentNullException (nameof (destination));
+			if (destination.Handle == IntPtr.Zero)
+				throw new ObjectDisposedException (nameof (destination));
+			TF_ImportGraphDefOptionsRemapControlDependency (handle, srcName, destination.Handle);
+		}
 	}
 
 	/// <summary>
@@ -1861,11 +2022,19 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeletePRunHandle (IntPtr partialRunHandle);
 
+		/// <summary>
+		/// Token returned from using one of the Partial Run Setup methods from <see cref="T:TensorFlow.TFSession"/>,
+		/// and use this token subsequently for other invocations.
+		/// </summary>
+		/// <remarks>
+		/// Calling Dispose on this object will release the resources associated with setting up 
+		/// a partial run.
+		/// </remarks>
 		public class PartialRunToken : IDisposable
 		{
 			internal IntPtr token;
 
-			public void Dispose ()
+			void IDisposable.Dispose ()
 			{
 				if (token == IntPtr.Zero) {
 					TF_DeletePRunHandle (token);
@@ -1961,8 +2130,18 @@ namespace TensorFlow
 
 		// extern TF_Buffer TF_GetOpList (TF_Library *lib_handle);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe TFBuffer TF_GetOpList (TF_Library lib_handle);
-		// TODO:
+		static extern unsafe LLBuffer TF_GetOpList (TF_Library lib_handle);
+
+
+		/// <summary>
+		/// Retrieves the ProtocolBuffer describing the available operations in
+		/// the loaded TensorFlow library.
+		/// </summary>
+		/// <returns>The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.</returns>
+		TFBuffer GetOpList ()
+		{
+			return new TFBuffer (TF_GetOpList (handle).data);
+		}
 
 		// extern void TF_DeleteLibraryHandle (TF_Library *lib_handle);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -2156,19 +2335,65 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Low-level: Enumeration describing the types of a metadata attribute
+	/// </summary>
 	public enum TFAttributeType : uint
 	{
+		/// <summary>
+		/// The type of the attribute is a string
+		/// </summary>
 		String = 0,
+
+		/// <summary>
+		/// The type of the attribute is an int.
+		/// </summary>
 		Int = 1,
+
+		/// <summary>
+		/// The type of the attribute is a float
+		/// </summary>
 		Float = 2,
+
+		/// <summary>
+		/// The type of the attribute is a bool.
+		/// </summary>
 		Bool = 3,
+
+		/// <summary>
+		/// The type of the attribute is a type.
+		/// </summary>
 		Type = 4,
+
+		/// <summary>
+		/// The type of the attribute is a tensor shape
+		/// </summary>
 		Shape = 5,
+
+		/// <summary>
+		/// The type of the attribute is a tensor
+		/// </summary>
 		Tensor = 6,
+
+		/// <summary>
+		/// The type of the attribute is a placeholder
+		/// </summary>
 		Placeholder = 7,
+
+		/// <summary>
+		/// The type of the attribute is a function
+		/// </summary>
 		Func = 8
 	}
 
+	/// <summary>
+	/// Low-level: this describes the tensorflow type information for an attribute in the low-level attributes used by operations.
+	/// </summary>
+	/// <remarks>
+	/// This is a low-level operation returned by the <see cref="M:TensorFlow.TFOperation.GetAttributeMetadata"/>.
+	/// This is included for completeness, but is not generally used from C#, as you have access to the high-level
+	/// bindings in the <see cref="T:TensorFlow.TFGraph"/> type.
+	/// </remarks>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFAttributeMetadata
 	{
@@ -2300,6 +2525,10 @@ namespace TensorFlow
 			return ret;
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether one of the dimensions <see cref="T:TensorFlow.TFShape"/> in the shape is larger than Int32.MaxValue.
+		/// </summary>
+		/// <value><c>true</c> if is long array; otherwise, <c>false</c>.</value>
 		public bool IsLongArray {
 			get {
 				foreach (var l in dims)
@@ -2317,8 +2546,16 @@ namespace TensorFlow
 			return "[" + String.Join (", ", dims.Select (x => x == -1 ? "?" : x.ToString ())) + "]";
 		}
 
+		/// <summary>
+		/// Gets the dimensions for the specified index.
+		/// </summary>
+		/// <param name="idx">Index.</param>
 		public long this [int idx] => dims [idx];
 
+		/// <summary>
+		/// Returns the shape as a 1-dimensional tensor with each element corresponding to the specified shape dimension.
+		/// </summary>
+		/// <returns>The tensor.</returns>
 		public TFTensor AsTensor ()
 		{
 			return new TFTensor (ToIntArray ());

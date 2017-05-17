@@ -1,0 +1,10 @@
+<Namespace Name="TensorFlow">
+  <Docs>
+    <summary>.NET Bindings for TensorFlow.</summary>
+    <remarks>
+      <para>
+	This is the API documentation for the TensorFlowSharp project.
+      </para>
+    </remarks>
+  </Docs>
+</Namespace>

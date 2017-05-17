@@ -1,0 +1,203 @@
+<Type Name="TFStatus" FullName="TensorFlow.TFStatus">
+  <TypeSignature Language="C#" Value="public class TFStatus : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFStatus extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Used to track the result of TensorFlow operations.
+            </summary>
+    <remarks>
+            TFStatus is used to track the status of a call to some TensorFlow
+            operations.   Instances of this object are passed to various
+            TensorFlow operations and you can use the <see cref="P:TensorFlow.TFStatus.Ok" />
+            to quickly check if the operation succeeded, or get more detail from the
+            <see cref="P:TensorFlow.TFStatus.StatusCode" /> and a human-readable text
+            using the <see cref="P:TensorFlow.TFStatus.StatusMessage" /> property.
+            
+            The convenience <see cref="M:TensorFlow.TFStatus.Raise" /> can be used
+            to raise a <see cref="P:TensorFlow.TFException" /> if the status of the
+            operation did not succeed.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFStatus ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFStatus" /> class.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Default">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFStatus Default;" />
+      <MemberSignature Language="ILAsm" Value=".field public static class TensorFlow.TFStatus Default" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ThreadStatic</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFStatus</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Error">
+      <MemberSignature Language="C#" Value="public bool Error { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Error" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets a value indicating whether this <see cref="T:TensorFlow.TFStatus" /> state has been set to an error.
+            </summary>
+        <value>
+          <c>true</c> if error; otherwise, <c>false</c>.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Ok">
+      <MemberSignature Language="C#" Value="public bool Ok { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Ok" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets a value indicating whether this <see cref="T:TensorFlow.TFStatus" /> state has been set to ok.
+            </summary>
+        <value>
+          <c>true</c> if ok; otherwise, <c>false</c>.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Raise">
+      <MemberSignature Language="C#" Value="public void Raise ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Raise() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Convenience method that raises an exception if the current status is an error.
+            </summary>
+        <remarks>
+            You can use this method as a convenience to raise an exception after you
+            invoke an operation if the operation did not succeed.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetStatusCode">
+      <MemberSignature Language="C#" Value="public void SetStatusCode (TensorFlow.TFCode code, string msg);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetStatusCode(valuetype TensorFlow.TFCode code, string msg) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="code" Type="TensorFlow.TFCode" />
+        <Parameter Name="msg" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="code">Code.</param>
+        <param name="msg">Message.</param>
+        <summary>
+            Sets the status code on this TFStatus.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusCode">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFCode StatusCode { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFCode StatusCode" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFCode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets the status code for the status code.
+            </summary>
+        <value>The status code as an enumeration.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StatusMessage">
+      <MemberSignature Language="C#" Value="public string StatusMessage { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string StatusMessage" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets a human-readable status message.
+            </summary>
+        <value>The status message.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFStatus" />.
+            </summary>
+        <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFStatus" />.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

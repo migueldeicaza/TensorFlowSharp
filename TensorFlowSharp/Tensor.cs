@@ -314,14 +314,51 @@ namespace TensorFlow
 		}
 
 		// Convenience, should I add T[,] and T[,,] as more convenience ones?
+
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of sbytes.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (sbyte [] data) : base (SetupTensor (TFDataType.Int8, data, size: 2)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of bytes.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (byte [] data) : base (SetupTensor (TFDataType.UInt8, data, size: 1)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of shorts.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (short [] data) : base (SetupTensor (TFDataType.Int16, data, size: 2)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of ushorts
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (ushort [] data) : base (SetupTensor (TFDataType.UInt16, data, size: 2)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of ints.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (int [] data) : base (SetupTensor (TFDataType.Int32, data, size: 4)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of floats.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (float [] data) : base (SetupTensor (TFDataType.Float, data, size: 4)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of doubles.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (double [] data) : base (SetupTensor (TFDataType.Double, data, size: 8)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of longs.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (long [] data) : base (SetupTensor (TFDataType.Int64, data, size: 8)) { }
+		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of complex numbers.
+		/// </summary>
+		/// <param name="data">Data.</param>
 		public TFTensor (Complex [] data) : base (SetupTensor (TFDataType.Complex128, data, size: 16)) { }
 
 		/// <summary>
@@ -405,38 +442,78 @@ namespace TensorFlow
 		// 
 		// Factory methods to create tensors from a constant
 		//
-		// TODO: add more data types
 
+		/// <summary>
+		/// Converts an integer into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the integer value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		public static implicit operator TFTensor (int value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a long into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the long value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		public static implicit operator TFTensor (long value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a double into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the double value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		unsafe public static implicit operator TFTensor (double value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a float into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the float value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		unsafe public static implicit operator TFTensor (float value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a Complex number into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the complex value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		unsafe public static implicit operator TFTensor (Complex value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a byte into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the byte value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
 		unsafe public static implicit operator TFTensor (byte value)
 		{
 			return new TFTensor (value);
 		}
 
+		/// <summary>
+		/// Converts a C# array into a tensor.
+		/// </summary>
+		/// <returns>The tensor containing the data.</returns>
+		/// <param name="array">single dimension, or multi-dimensional array.</param>
+		/// <remarks>
+		/// This implicit conversion can convert single or multidimensional arrays of
+		/// booleans, sbytes, byte, shorts, ushorts, ints, longs, doubles, floats and
+		/// complex numbers into a tensor with the same dimensional shape as the provided
+		/// array.
+		/// </remarks>
 		unsafe public static implicit operator TFTensor (Array array)
 		{
 			if (array == null)
@@ -485,7 +562,7 @@ namespace TensorFlow
 				break;
 			default:
 				// Check types that are not handled by the typecode
-				if (t is Complex) {
+				if (t.IsAssignableFrom (typeof (Complex))){
 					size = 16;
 					dt = TFDataType.Complex128;
 				} else
@@ -504,6 +581,15 @@ namespace TensorFlow
 
 		// General purpose constructor, specifies data type and gets pointer to buffer
 		// Is the default good, one where we let the user provide their own deallocator, or should we make a copy in that case?
+		/// <summary>
+		/// Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.
+		/// </summary>
+		/// <param name="dataType">Specifies the data type held by the tensor, as well as how to interpret the provided data.</param>
+		/// <param name="dims">Describes the tensor shape, an array that indicates .</param>
+		/// <param name="data">Pointer to the raw data that will be used to initialize the tensor.</param>
+		/// <param name="dataSize">The size of the data being passed in.</param>
+		/// <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data"/>.</param>
+		/// <param name="deallocatorData">An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.</param>
 		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, Deallocator deallocator, IntPtr deallocatorData) : base (IntPtr.Zero)
 		{
 			if (dims == null)
@@ -524,6 +610,16 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Tensor TF_AllocateTensor (TFDataType dataType, IntPtr zeroDim, int num_dims, size_t len);
 
+		/// <summary>
+		/// Low-level: Creates an empty tensor of the specified type and shape, with the specified number of elements
+		/// </summary>
+		/// <param name="dataType">Data type.</param>
+		/// <param name="dims">Tensor shape.</param>
+		/// <param name="size">Size in bytes of the tensor, this will be the actual memory allocated.</param>
+		/// <remarks>
+		/// It is the responsibility of the caller to ensure that the size is correct given the data type size
+		/// and the tensor dimension specified in dims.
+		/// </remarks>
 		public TFTensor (TFDataType dataType, long [] dims, int size) : base (IntPtr.Zero)
 		{
 			if (dims == null)
@@ -539,6 +635,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TFDataType TF_TensorType (TF_Tensor tensor);
 
+		/// <summary>
+		/// Returns the data type for the tensor.
+		/// </summary>
+		/// <value>The type of the tensor.</value>
 		public TFDataType TensorType => TF_TensorType (handle);
 
 		// extern int TF_NumDims (const TF_Tensor *);

@@ -1,0 +1,163 @@
+<Type Name="TFAttributeType" FullName="TensorFlow.TFAttributeType">
+  <TypeSignature Language="C#" Value="public enum TFAttributeType" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed TFAttributeType extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>
+            Low-level: Enumeration describing the types of a metadata attribute
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Bool">
+      <MemberSignature Language="C#" Value="Bool" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Bool = unsigned int32(3)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a bool.
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Float">
+      <MemberSignature Language="C#" Value="Float" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Float = unsigned int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a float
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Func">
+      <MemberSignature Language="C#" Value="Func" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Func = unsigned int32(8)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a function
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Int">
+      <MemberSignature Language="C#" Value="Int" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Int = unsigned int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is an int.
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Placeholder">
+      <MemberSignature Language="C#" Value="Placeholder" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Placeholder = unsigned int32(7)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a placeholder
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Shape">
+      <MemberSignature Language="C#" Value="Shape" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Shape = unsigned int32(5)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a tensor shape
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="String">
+      <MemberSignature Language="C#" Value="String" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType String = unsigned int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a string
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Tensor">
+      <MemberSignature Language="C#" Value="Tensor" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Tensor = unsigned int32(6)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a tensor
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Type">
+      <MemberSignature Language="C#" Value="Type" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFAttributeType Type = unsigned int32(4)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFAttributeType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The type of the attribute is a type.
+            </summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

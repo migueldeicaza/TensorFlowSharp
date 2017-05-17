@@ -8,6 +8,7 @@
     <RootNamespace>ImageCompression</RootNamespace>
     <AssemblyName>ImageCompression</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,18 +43,16 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImageCompression.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="example.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj">
       <Project>{0264C321-34F4-46AF-819E-168D1E597232}</Project>
       <Name>TensorFlowSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImageCompression.fs" />
+    <Content Include="example.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
 </Project>

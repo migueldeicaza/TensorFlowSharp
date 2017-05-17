@@ -1,3 +1,8 @@
+﻿//
+// This is just a dumping ground to exercise different capabilities 
+// of the API.  Some idioms might be useful, some not, feel free to
+//
+// 
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -472,8 +477,10 @@ namespace SampleTest
 			int maxIdx = -1;
 			var l = array.GetLength (1);
 			for (int i = 0; i < l; i++)
-				if (array [idx, i] > max)
+				if (array [idx, i] > max) {
 					maxIdx = i;
+					max = array [idx, i];
+				}
 			return maxIdx;
 		}	
 
@@ -527,6 +534,9 @@ namespace SampleTest
 		}
 
 #if true
+		// 
+		// Port of https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/2_BasicModels/linear_regression.py
+		//
 		void LinearRegression ()
 		{
 			Console.WriteLine ("Linear regression");
@@ -556,18 +566,12 @@ namespace SampleTest
 				var b = g.Variable (g.Const (rng.Next ()), operName: "bias");
 				var pred = g.Add (g.Mul (X, W), b);
 
-		// Struggling with the following:
-		// The call to g.Pow returns a TFOutput, but g.ReduceSum expects a TFTensor
-		// Python seems to return operation definitions, and somehow those can be p
-		//passed as tensors:
-		// tensorflow/python/framework/op_def_library.py
-		//  (apply_op)
-		//
-		//https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/2_BasicModels/linear_regression.py
 				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2))), g.Mul (g.Const (2), g.Const (n_samples)));
 
 			
-				// STuck here: need gradient support
+				// STuck here: TensorFlow bindings need to surface gradient support
+				// waiting on Google for this
+				// https://github.com/migueldeicaza/TensorFlowSharp/issues/25
 			}
 		}
 #endif

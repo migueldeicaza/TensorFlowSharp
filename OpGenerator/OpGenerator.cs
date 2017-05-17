@@ -94,7 +94,7 @@ class OpGenerator
 	//
 	Dictionary<string, bool> inferred_input_args;
 	List<OpDef.AttrDef> required_attrs, optional_attrs;
-	bool return_is_tfoutput;
+	bool have_return_value;
 
 	void SetupArguments (OpDef def)
 	{
@@ -120,22 +120,7 @@ class OpGenerator
 			else
 				optional_attrs.Add (attr);
 		}
-		// API: currently, if we have a single ref TFOutput result, we make the signature of the 
-		// function return that TFOutput instead of the TFOperation (as you can get the TFOperation
-		// from the TFOutput anyways.
-		//
-		// When we move to tuples, we could probably put everything in a Tuple result, but for now
-		// mult-return functions will just return all outputs on ref variables, instead of the first
-		// as a ref, and the rest as TFOutputs.
-		//
-		// This means that we generate methods like this:
-		//    TFOutput Constant (....)
-		// when there is a single output
-		//
-		//    TFOperation Foo (..)
-		// When there is no result or more than one result.
-		return_is_tfoutput = def.output_arg.Count == 1;
-
+		have_return_value = def.output_arg.Count > 0;
 	}
 
 	// Generates arguments:
@@ -157,6 +142,7 @@ class OpGenerator
 			comma = ", ";
 		}
 
+#if false
 		if (!return_is_tfoutput) {
 			foreach (var arg in def.output_arg) {
 				string type = "TFOutput" + (IsListArg (arg) ? "[]" : "");
@@ -165,7 +151,7 @@ class OpGenerator
 				comma = ", ";
 			}
 		}
-
+#endif
 		int n = 0;
 		foreach (var attr in optional_attrs) {
 			bool reftype = IsReferenceType (attr.type);
@@ -186,7 +172,8 @@ class OpGenerator
 			return;
 		var lines = text.Split ('\n');
 		foreach (var line in lines) {
-			p ($"///   {line}");
+			var line2 = line.Replace ("<", "&lt;").Replace (">", "&gt;").Replace ("&", "&amp;");
+			p ($"///   {line2}");
 		}
 	}
 
@@ -198,12 +185,11 @@ class OpGenerator
 		Comment (oper.summary);
 		p ("/// </summary>");
 		foreach (var input in oper.input_arg) {
-			if (String.IsNullOrEmpty (input.description))
-				continue;
-			p ($"/// <param name=\"{ParamMap(input.name)}\">");
+			p ($"/// <param name=\"{ParamMap (input.name)}\">");
 			Comment (input.description);
 			p ($"/// </param>");
 		}
+#if DOCS
 		if (!return_is_tfoutput) {
 			foreach (var attr in oper.output_arg) {
 				if (String.IsNullOrEmpty (attr.description))
@@ -213,23 +199,39 @@ class OpGenerator
 				p ($"/// </param>");
 			}
 		}
+#endif
 		p ("/// <param name=\"operName\">");
 		p ($"///   If specified, the created operation in the graph will be this one, otherwise it will be named '{oper.name}'.");
 		p ("/// </param>");
 		foreach (var attr in optional_attrs) {
-			if (String.IsNullOrEmpty (attr.description))
-				continue;
 			p ($"/// <param name=\"{ParamMap (attr.name)}\">");
 			Comment ("Optional argument");
 			Comment (attr.description);
 			p ($"/// </param>");
 		}
-
-		if (return_is_tfoutput) {
-			p ($"/// <returns>");
-			Comment (oper.output_arg.First ().description);
-			p ($"/// </returns>");
+		foreach (var attr in required_attrs) {
+			p ($"/// <param name=\"{ParamMap (attr.name)}\">");
+			Comment (attr.description);
+			p ($"/// </param>");
 		}
+		p ($"/// <returns>");
+		if (have_return_value) {
+			if (oper.output_arg.Count == 1) {
+				Comment (oper.output_arg.First ().description);
+				Comment ("The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.");
+			} else {
+				Comment ("Returns a tuple with multiple values, as follows:");
+				foreach (var arg in oper.output_arg) {
+					Comment (ParamMap (arg.name) + ": " + arg.description);
+				}
+
+				Comment ("The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.");
+			}
+		} else {
+			Comment ("Returns the description of the operation");
+		}
+		p ($"/// </returns>");
+
 		if (!String.IsNullOrEmpty (oper.description)) {
 			p ("/// <remarks>");
 			Comment (oper.description);
@@ -290,15 +292,20 @@ class OpGenerator
 		var name = oper.name;
 		string retType;
 
-		if (return_is_tfoutput) {
-			if (oper.output_arg.Any (x => IsListArg (x)))
-				retType = "TFOutput []";
-			else
-				retType = "TFOutput";
+		if (have_return_value) {
+			if (oper.output_arg.Count > 1) {
+				var rb = new StringBuilder ("(");
+				foreach (var arg in oper.output_arg) {
+					rb.AppendFormat ("TFOutput{0} {1}, ", IsListArg (arg) ? "[]" : "", ParamMap (arg.name));
+				}
+				rb.Remove (rb.Length - 2, 2);
+				rb.Append (")");
+				retType = rb.ToString ();
+			} else 
+				retType = "TFOutput" + (IsListArg (oper.output_arg.First ()) ? "[]" : "");
 		} else
 			retType = "TFOperation";
 		
-
 		p ($"public {retType} {name} ({FillArguments(oper)}string operName = null)");
 		pi ("{");
 		bool needStatus = required_attrs.Concat (optional_attrs).Any (attr => attr.type.Contains ("TFTensor"));
@@ -330,45 +337,33 @@ class OpGenerator
 		}
 
 		p ("var op = desc.FinishOperation ();");
-		if (oper.output_arg.Any (x => IsListArg (x))) {
-			p ("int _idx = 0, _n = 0;");
-			foreach (var arg in oper.output_arg) {
-				string retDecl = "", retOutput;
-
-				if (return_is_tfoutput){
-					retDecl = "var ";
-					retOutput = "_ret";
-				} else
-					retOutput = ParamMap (arg.name);
-
-				if (IsListArg (arg)) {
-					var outputs = new StringBuilder ();
-					p ($"_n = op.OutputListLength (\"{arg.name}\");");
-					p ($"{retDecl}{retOutput} = new TFOutput [_n];");
-					pi ("for (int i = 0; i < _n; i++)");
-					p ($"{retOutput} [i] = new TFOutput (op, _idx++);");
-					pd ("");
-					if (return_is_tfoutput)
-						p ($"return {retOutput};");
-				} else {
-					if (return_is_tfoutput) {
-						p ($"return  new TFOutput (op, _idx++);");
-					} else {
-						p ($"{retOutput} = new TFOutput (op, _idx++);");
-					}
-				}
-			}
-		} else {
-			int idx = 0;
-			foreach (var arg in oper.output_arg) {
-				if (return_is_tfoutput)
-					p ($"return new TFOutput (op, 0);");
-				else
-					p ($"{ParamMap (arg.name)} = new TFOutput (op, {idx++});");
+		if (oper.output_arg.Count () > 0)
+			p ("int _idx = 0;");
+		if (oper.output_arg.Any (x => IsListArg (x)))
+			p ("int _n = 0;");
+		foreach (var arg in oper.output_arg) {
+			if (IsListArg (arg)) {
+				var outputs = new StringBuilder ();
+				p ($"_n = op.OutputListLength (\"{ParamMap (arg.name)}\");");
+				p ($"var {ParamMap (arg.name)} = new TFOutput [_n];");
+				pi ("for (int i = 0; i < _n; i++)");
+				p ($"{ParamMap (arg.name)} [i] = new TFOutput (op, _idx++);");
+				pd ("");
+			} else {
+				p ($"var {ParamMap (arg.name)} = new TFOutput (op, _idx++);");
 			}
 		}
-		if (!return_is_tfoutput)
+
+		if (have_return_value) {
+			if (oper.output_arg.Count == 1) {
+				p ($"return {ParamMap (oper.output_arg.First ().name)};");
+			} else {
+				;
+				p ("return (" + oper.output_arg.Select (x => ParamMap (x.name)).Aggregate ((i, j) => (i + ", " + j)) + ");");
+			}
+		} else {
 			p ("return op;");
+		}
 		pd ("}\n");
 	}
 
@@ -416,7 +411,7 @@ class OpGenerator
 				continue;
 			}
 
-			#if true
+#if true
 			// Ignore reference types as well (per go's binding)
 			if (oper.input_arg.Any (ia => ia.is_ref)) {
 				var pars = String.Join (", ", oper.input_arg.Where (x => x.is_ref).Select (x => $"{x.type} {x.name}"));
@@ -431,7 +426,7 @@ class OpGenerator
 
 				continue;
 			}
-			#endif
+#endif
 
 			// Undocumented operation, perhaps we should not surface
 			if (oper.summary == "")
@@ -474,6 +469,8 @@ class OpGenerator
 
 	public static void Main (string [] args)
 	{
+		if (Marshal.SizeOf (typeof (IntPtr)) != 8)
+			throw new Exception ("Need to run in 64");
 		new OpGenerator ().Run ();
 	}
 }

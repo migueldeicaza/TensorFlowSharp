@@ -1,0 +1,49 @@
+<Type Name="TFGraph+WhileConstructor" FullName="TensorFlow.TFGraph+WhileConstructor">
+  <TypeSignature Language="C#" Value="public delegate void TFGraph.WhileConstructor(TFGraph conditionGraph, TFOutput[] condInputs, out TFOutput condOutput, TFGraph bodyGraph, TFOutput[] bodyInputs, TFOutput[] bodyOutputs, out string name);" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed TFGraph/WhileConstructor extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="conditionGraph" Type="TensorFlow.TFGraph" />
+    <Parameter Name="condInputs" Type="TensorFlow.TFOutput[]" />
+    <Parameter Name="condOutput" Type="TensorFlow.TFOutput&amp;" RefType="out" />
+    <Parameter Name="bodyGraph" Type="TensorFlow.TFGraph" />
+    <Parameter Name="bodyInputs" Type="TensorFlow.TFOutput[]" />
+    <Parameter Name="bodyOutputs" Type="TensorFlow.TFOutput[]" />
+    <Parameter Name="name" Type="System.String&amp;" RefType="out" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="conditionGraph">To be added.</param>
+    <param name="condInputs">To be added.</param>
+    <param name="condOutput">To be added.</param>
+    <param name="bodyGraph">To be added.</param>
+    <param name="bodyInputs">To be added.</param>
+    <param name="bodyOutputs">To be added.</param>
+    <param name="name">To be added.</param>
+    <summary>
+            Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
+            </summary>
+    <remarks>
+            The method should build up the condition on the conditionGraph and the body of the while 
+            loop in the provided bodyGraph.   It should set the condOutput to the value used as the
+            condition output and the array of values in bodyOutputs to the final outputs as well as the
+            name to be used, if not set, one will be assigned.
+            
+            The conditionGraph represents the while condition and the inputs are the current values of the
+            input variables (condInputs).   The output should be a scalar boolean.
+            
+            The loop body graph is in bodyGraph, The inputs are the current values of the loop
+            variables. The outputs are the updated values of the loop variables.
+            
+            You can use the passed status record problems with it.
+            </remarks>
+  </Docs>
+</Type>

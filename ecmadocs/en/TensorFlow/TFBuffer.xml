@@ -1,0 +1,137 @@
+<Type Name="TFBuffer" FullName="TensorFlow.TFBuffer">
+  <TypeSignature Language="C#" Value="public class TFBuffer : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi TFBuffer extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Holds a block of data, suitable to pass, or retrieve from TensorFlow.
+            </summary>
+    <remarks>
+            Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks
+            of data out of TensorFlow.
+            
+            There are two constructors to wrap existing data, one to wrap blocks that are 
+            pointed to by an IntPtr and one that takes a byte array that we want to wrap.
+            
+            The empty constructor can be used to create a new TFBuffer that can be populated
+            by the TensorFlow library and returned to user code.
+            
+            Typically, the data consists of a serialized protocol buffer, but other data
+            may also be held in a buffer.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFBuffer ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFBuffer (byte[] buffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int8[] buffer) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Byte[]" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">Buffer of data that will be wrapped.</param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer" /> by making a copy of the provided byte array.
+            </summary>
+        <remarks>
+            This constructor makes a copy of the data into an unmanaged buffer, 
+            so the byte array is not pinned.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFBuffer (byte[] buffer, int start, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(unsigned int8[] buffer, int32 start, int32 count) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Byte[]" />
+        <Parameter Name="start" Type="System.Int32" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">Buffer of data that will be wrapped.</param>
+        <param name="start">Starting offset into the buffer to wrap.</param>
+        <param name="count">Number of bytes from the buffer to keep.</param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer" /> by making a copy of the provided byte array.
+            </summary>
+        <remarks>
+            This constructor makes a copy of the data into an unmanaged buffer, 
+            so the byte array is not pinned.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFBuffer (IntPtr buffer, long size, TensorFlow.TFBuffer.BufferReleaseFunc release);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int buffer, int64 size, class TensorFlow.TFBuffer/BufferReleaseFunc release) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.IntPtr" />
+        <Parameter Name="size" Type="System.Int64" />
+        <Parameter Name="release" Type="TensorFlow.TFBuffer+BufferReleaseFunc" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">Pointer to the data that will be wrapped.</param>
+        <param name="size">The size of the buffer to wrap.</param>
+        <param name="release">Optional, if not null, this method will be invoked to release the block.</param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer" /> by wrapping the unmanaged resource pointed by the buffer.
+            </summary>
+        <remarks>
+            This constructor wraps the buffer as a the data to be held by the <see cref="T:TensorFlow.TFBuffer" />,
+            if the release parameter is null, then you must ensure that the data is not released before the TFBuffer
+            is no longer in use.   If the value is not null, the provided method will be invoked to release
+            the data when the TFBuffer is disposed, or the contents of the buffer replaced.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToArray">
+      <MemberSignature Language="C#" Value="public byte[] ToArray ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance unsigned int8[] ToArray() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Returns a byte array representing the data wrapped by this buffer.
+            </summary>
+        <returns>The array.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
