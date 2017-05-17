@@ -11,5 +11,5 @@ script:
   - xbuild /p:Configuration=Release TensorFlowSharp.sln
   - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
   - sh $TRAVIS_BUILD_DIR/build.sh
-mono: "5.0.0.100"
+mono: "5.0.0"
 os: "osx"
