@@ -562,7 +562,7 @@ namespace TensorFlow
 				break;
 			default:
 				// Check types that are not handled by the typecode
-				if (t is Complex) {
+				if (t.IsAssignableFrom (typeof (Complex))){
 					size = 16;
 					dt = TFDataType.Complex128;
 				} else

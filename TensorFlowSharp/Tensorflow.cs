@@ -106,14 +106,28 @@ namespace TensorFlow
 		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class.
+		/// </summary>
 		public TFDisposable ()
 		{ }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class
+		/// from the handle that it will wrap.   
+		/// </summary>
 		public TFDisposable (IntPtr handle)
 		{
 			this.handle = handle;
 		}
 
+		/// <summary>
+		/// Releases all resource used by the <see cref="T:TensorFlow.TFDisposable"/> object.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
+		/// <see cref="Dispose"/> method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
+		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
+		/// the garbage collector can reclaim the memory that the <see cref="T:TensorFlow.TFDisposable"/> was occupying.</remarks>
 		public void Dispose ()
 		{
 			Dispose (true);
@@ -130,6 +144,10 @@ namespace TensorFlow
 		// method inherited from TFDisposable
 		internal abstract void NativeDispose (IntPtr handle);
 
+		/// <summary>
+		/// Dispose the specified object
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> it means that this method was called from Dispose, otherwise from the finalizer.</param>
 		public virtual void Dispose (bool disposing)
 		{
 			if (disposing) {
@@ -810,7 +828,6 @@ namespace TensorFlow
 				// Wrap the various TF_graphs (with owns=false)
 				// Marshal the condInputs, bodyInputs
 				//
-				TFOutput condOutput;
 				string name;
 
 				int n = result.ninputs;
