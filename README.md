@@ -22,7 +22,7 @@ from source.
   - CPU-only: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.1.0.tar.gz
   - GPU-enabled: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-1.1.0.tar.gz
 - Mac: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.1.0.tar.gz
-- Windows: (Should be ready when TensorFlow 1.2 is released, see also [#7258](https://github.com/tensorflow/tensorflow/issues/7258))
+- Windows: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-windows-x86_64-1.2.0-rc0.zip
 
 Unpack the above .tar.gz suitable for your system on a prefix that your
 system's dynamic linker can use, for example, go to `/usr/local` and unpack there.
