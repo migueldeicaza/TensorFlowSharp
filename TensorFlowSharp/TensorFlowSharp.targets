@@ -1,0 +1,11 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+      <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+      <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow.so"    Condition="'$(IsLinux)' == 'true'" CopyToOutputDirectory="PreserveNewest"/>
+      <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow.dylib" Condition="'$(IsOSX)' == 'true'" CopyToOutputDirectory="PreserveNewest"/>
+      <None Include="$(MSBuildThisFileDirectory)..\native\tensorflow.dll"      Condition="'$(OS)' != 'Unix'" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+</Project>
