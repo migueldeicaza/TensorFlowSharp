@@ -2560,6 +2560,25 @@ namespace TensorFlow
 		{
 			return new TFTensor (ToIntArray ());
 		}
+
+		/// <summary>
+		/// Adds a <see cref="TensorFlow.TFShape"/> to a <see cref="TensorFlow.TFShape"/>, yielding a shape made up of the concatenation of the first and the second shapes.
+		/// </summary>
+		/// <param name="left">The first <see cref="TensorFlow.TFShape"/> to add.</param>
+		/// <param name="right">The second <see cref="TensorFlow.TFShape"/> to add.</param>
+		/// <returns>The <see cref="T:TensorFlow.TFShape"/> that is the sum of the values of <c>left</c> and <c>right</c>.</returns>
+		public static TFShape operator + (TFShape left, TFShape right)
+		{
+			if (left == null)
+				return right;
+			if (right == null)
+				return left;
+
+			var full = new long [left.dims.Length + right.dims.Length];
+			Array.Copy (left.dims, full, left.dims.Length);
+			Array.Copy (right.dims, 0, full, left.dims.Length, right.dims.Length);
+			return new TFShape (full);
+		}
 	}
 
 
