@@ -1,15 +1,20 @@
 language: csharp
 solution: TensorFlowSharp.sln
 script:
-  - wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz"
-  - tar xjf libtensorflow-cpu-darwin-x86_64-1.0.0-rc0.tar.gz
-  - mkdir -p $TRAVIS_BUILD_DIR/release-artifacts/libs/
-  - cd lib
-  - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/release-artifacts/libs/libtensorflow.dylib
-  - nuget restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
+  - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow-windows/lastSuccessfulBuild/artifact/lib_package/libtensorflow-cpu-windows-x86_64.zip"
+  - unzip -d PAYLOAD libtensorflow-cpu-windows-x86_64.zip tensorflow.dll
+  - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow/TYPE=mac-slave/82/artifact/lib_package/libtensorflow-cpu-darwin-x86_64.tar.gz"
+  - tar xzvf libtensorflow-cpu-darwin-x86_64.tar.gz lib/libtensorflow.so
+  - mv lib/libtensorflow.so PAYLOAD/libtensorflow.dylib
+  - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow/TYPE=cpu-slave/82/artifact/lib_package/libtensorflow-cpu-linux-x86_64.tar.gz"
+  - tar xzvf libtensorflow-cpu-darwin-x86_64.tar.gz lib/libtensorflow.so
+  - mv lib/libtensorflow.so PAYLOAD/
+  - mkdir -p $TRAVIS_BUILD_DIR/native
+  - cp PAYLOAD/* $TRAVIS_BUILD_DIR/native
+  - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
-  - xbuild /p:Configuration=Release TensorFlowSharp.sln
-  - cp -R $TRAVIS_BUILD_DIR/lib/libtensorflow.so $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
+  - msbuild /p:Configuration=Release TensorFlowSharp.sln
+  - cp -R $TRAVIS_BUILD_DIR/native/libtensorflow.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
   - sh $TRAVIS_BUILD_DIR/build.sh
 mono: "5.0.0"
 os: "osx"
