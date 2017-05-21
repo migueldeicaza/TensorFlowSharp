@@ -23,7 +23,7 @@ native libraries for 64-bit Linux, Mac and Windows using the CPU backend.
 
 You can install using NuGet like this:
 
-```
+```cmd
 nuget install TensorFlowSharp
 ```
 
@@ -45,40 +45,45 @@ runner to setup inputs and outputs and execute the pipeline.
 
 Something like this:
 
-```
-var graph = new TFGraph ();
-graph.Import (File.ReadAllBytes ("MySavedModel");
-var session = new TFSession (graph);
-var runner = session.GetRunner ();
-runner.AddInput (graph ["input"] [0], tensor);
-runner.Fetch (graph ["output"] [0]);
+```csharp
+using(var graph = new TFGraph ())
+{
+    graph.Import (File.ReadAllBytes ("MySavedModel");
+    var session = new TFSession (graph);
+    var runner = session.GetRunner ();
+    runner.AddInput (graph ["input"] [0], tensor);
+    runner.Fetch (graph ["output"] [0]);
 
-var output = runner.Run ();
+    var output = runner.Run ();
 
-// Fethc the results from output:
-TFTensor result = output [0];
+    // Fethc the results from output:
+    TFTensor result = output [0];
+}
 ```
 
 In scenarios where you do not need to setup the graph independently,
 the session will create one for you.  The following example shows how
 to abuse TensorFlow to compute the addition of two numbers:
 
-```
-var s = new TFSession ();
-var g = s.Graph;
+```csharp
+using (var session = new TFSession())
+{
+    var graph = session.Graph;
 
-var a = g.Const (2);
-var b = g.Const (3);
-Console.WriteLine ("a=2 b=3");
+    var a = graph.Const(2);
+    var b = graph.Const(3);
+    Console.WriteLine("a=2 b=3");
 
-// Add two constants
-var results = s.GetRunner ().Run (g.Add (a, b));
-var val = results [0].GetValue ();
-Console.WriteLine ("a+b={0}", val);
+    // Add two constants
+    var addingResults = session.GetRunner().Run(graph.Add(a, b));
+    var addingResultValue = addingResults[0].GetValue();
+    Console.WriteLine("a+b={0}", addingResultValue);
 
-// Multiply two constants
-results = s.GetRunner ().Run (g.Mul (a, b));
-Console.WriteLine ("a*b={0}", results [0].GetValue ());
+    // Multiply two constants
+    var multiplyResults = session.GetRunner().Run(graph.Mul(a, b));
+    var multiplyResultValue = multiplyResults[0].GetValue();
+    Console.WriteLine("a*b={0}", multiplyResultValue);
+}
 ```
 
 # Working on TensorFlowSharp 
@@ -116,7 +121,9 @@ and building the core.
 Once you do that, you will need to build the shared library.
 First, in the tensorflow directory, run:
 
-    ./configure    
+```bash
+./configure    
+```
 
 and answer the various prompts about your build. Important:
 building with CUDA support provides better runtime performance
@@ -125,24 +132,28 @@ installation Web page.
 
 Once configured, run: 
 
-    bazel build -c opt //tensorflow:libtensorflow.so
+```bash
+bazel build -c opt //tensorflow:libtensorflow.so
+```
 
 If you want debug symbols for Tensorflow, while debugging the binding:
 
-    bazel build -c dbg --strip=never //tensorflow:libtensorflow.so
+```bash
+bazel build -c dbg --strip=never //tensorflow:libtensorflow.so
+```
 
 You will need the generated library (`libtensorflow.so`) to be installed in a
 system accessible location like `/usr/local/lib`
 
 On Linux:
 
-```
+```bash
 sudo cp bazel-bin/tensorflow/libtensorflow.so /usr/local/lib/
 ```
 
 On MacOS:
 
-```
+```bash
 sudo cp bazel-bin/tensorflow/libtensorflow.so /usr/local/lib/libtensorflow.dylib
 ```
 
