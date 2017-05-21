@@ -440,7 +440,7 @@ namespace TensorFlow
 
 		// extern void TF_GraphSetTensorShape (TF_Graph *graph, TF_Output output, const int64_t *dims, const int num_dims, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, ref long [] dims, int num_dims, TF_Status status);
+		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, long [] dims, int num_dims, TF_Status status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, IntPtr dims, int num_dims, TF_Status status);
 
@@ -453,7 +453,7 @@ namespace TensorFlow
 			if (dims == null)
 				TF_GraphSetTensorShape (handle, output, IntPtr.Zero, 0, cstatus.handle);
 			else
-				TF_GraphSetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
+				TF_GraphSetTensorShape (handle, output, dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 		}
 
@@ -473,7 +473,7 @@ namespace TensorFlow
 
 		// extern void TF_GraphGetTensorShape (TF_Graph *graph, TF_Output output, int64_t *dims, int num_dims, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, ref long [] dims, int num_dims, TF_Status status);
+		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, long [] dims, int num_dims, TF_Status status);
 
 		public long [] GetTensorShape (TFOutput output, TFStatus status = null)
 		{
@@ -485,7 +485,7 @@ namespace TensorFlow
 				return null;
 			
 			var dims = new long [n];
-			TF_GraphGetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
+			TF_GraphGetTensorShape (handle, output, dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 			return dims;
 		}
@@ -658,7 +658,7 @@ namespace TensorFlow
 			if (ndims == 0)
 				return null;
 			var ret = new long [ndims];
-			TF_GraphGetTensorShape (handle, output, ref ret, ndims, cstatus.handle);
+			TF_GraphGetTensorShape (handle, output, ret, ndims, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 			return ret;
 		}
