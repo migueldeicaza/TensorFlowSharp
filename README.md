@@ -13,10 +13,81 @@ kinks and TODO-items that I left while I was doing the work.
 My work-in-progress API documentation [current API
 documentation](https://migueldeicaza.github.io/TensorFlowSharp/).
 
-# Getting Started
+# Using TensorFlowSharp
 
-You can either use the TensorFlow C-library release binaries, or build your own
-from source.
+## Installation 
+
+The easiest way to get started is to use the NuGet package for 
+TensorFlowSharp which contains both the .NET API as well as the 
+native libraries for 64-bit Linux, Mac and Windows using the CPU backend.
+
+You can install using NuGet like this:
+
+```
+nuget install TensorFlowSharp
+```
+
+Or select it from the NuGet packages UI on Visual Studio.
+
+Alternatively, you can [download it](https://www.nuget.org/api/v2/package/TensorFlowSharp/0.96.0) directly.
+
+## Using TensorFlowSharp
+
+Your best source of information right now are the SampleTest that
+exercises various APIs of TensorFlowSharp, or the stand-alone samples
+located in "Examples".
+
+This API binding is closer design-wise to the Java and Go bindings
+which use explicit TensorFlow graphs and sessions.  Your application
+will typically create a graph (TFGraph) and setup the operations
+there, then create a session from it (TFSession), then use the session
+runner to setup inputs and outputs and execute the pipeline.
+
+Something like this:
+
+```
+var graph = new TFGraph ();
+graph.Import (File.ReadAllBytes ("MySavedModel");
+var session = new TFSession (graph);
+var runner = session.GetRunner ();
+runner.AddInput (graph ["input"] [0], tensor);
+runner.Fetch (graph ["output"] [0]);
+
+var output = runner.Run ();
+
+// Fethc the results from output:
+TFTensor result = output [0];
+```
+
+In scenarios where you do not need to setup the graph independently,
+the session will create one for you.  The following example shows how
+to abuse TensorFlow to compute the addition of two numbers:
+
+```
+var s = new TFSession ();
+var g = s.Graph;
+
+var a = g.Const (2);
+var b = g.Const (3);
+Console.WriteLine ("a=2 b=3");
+
+// Add two constants
+var results = s.GetRunner ().Run (g.Add (a, b));
+var val = results [0].GetValue ();
+Console.WriteLine ("a+b={0}", val);
+
+// Multiply two constants
+results = s.GetRunner ().Run (g.Mul (a, b));
+Console.WriteLine ("a*b={0}", results [0].GetValue ());
+```
+
+# Working on TensorFlowSharp 
+
+TensorFlowSharp are bindings to the native TensorFlow library.
+
+You can either use the TensorFlow C-library release binaries, or build
+your own from source.  Here are some pre-built TensorFlow binaries you
+can use for each platform:
 
 - Linux
   - CPU-only: https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.1.0.tar.gz
@@ -34,16 +105,10 @@ Once you do that, you need to open the solution file on the top
 level directory and build.   This will produce both the TensorFlowSharp
 library as well as compile the tests and samples.
 
-# Work in Progress
-
-These instructions reflect what you need to get up and running with the
-current code as I am working on it.   In the long-term, we will just have
-NuGet packages that eliminate all the manual steps required here.
-
-## Building your own version
+## Building your own native TensorFlow library
 
 To build the TensorFlow C library from source,
-[try this](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/go/README.md#building-the-tensorflow-c-library-from-source).
+[follow these instructions](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/go/README.md#building-the-tensorflow-c-library-from-source).
 
 This includes checking out the Tensorflow sources, installing Bazel, 
 and building the core.
@@ -83,9 +148,8 @@ sudo cp bazel-bin/tensorflow/libtensorflow.so /usr/local/lib/libtensorflow.dylib
 
 ## Running the test
 
-I am currently using Xamarin Studio on a Mac to do the development, but this
-should work on Windows with VS and Linux with MonoDevelop, there is nothing
-Xamarin specific here.
+I am currently using Visual Studio for Mac to do the development, but this
+should work on Windows with VS and Linux with MonoDevelop.
 
 Before the solution will run you will need the shared library generated to
 be on a location accessibly by the Mono runtime (for example /usr/local/lib).
@@ -98,9 +162,7 @@ Tensorflow is a 64-bit library, so you will need to use a 64-bit Mono to run,
 at home (where I am doing this work), I have a copy of 64-bit Mono on /mono,
 so you will want to set that in your project configuration, to do this:
 
-Open the project options (double click on the "SampleTest" project), then
-select Run/Default, go to the "Advanced" tab, and select "Execute in .NET runtime"
-and make sure that you select one that is 64-bit enabled.
+Ensure that your Build/Compiler settings set "Platform Target" to "x64".
 
 Open the solution file in the top directory, and when you hit run, this will
 run the API test.   
@@ -122,16 +184,12 @@ https://github.com/tensorflow/models
 
 ### Packaging
 
-x86: It is not clear to me how to distribute the native libtensorflow to users, as
-it is designed to be compiled for your host system.  I would like to figure out
-how we can distribute packages that have been compiled with the optimal set of
-optimizations for users to consume.
-
 Mobile: we need to package the library for consumption on Android and iOS.
 
-### NuGet Package
+### Documentation Styling
 
-Would love to have a NuGet package for all platforms.
+The API documentation has not been styled, I am using the barebones template
+for documentation, and it can use some work.
 
 ### Issues
 

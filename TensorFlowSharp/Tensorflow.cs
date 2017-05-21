@@ -54,6 +54,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
+		static TFCore ()
+		{
+			CheckSize ();
+		}
+
 		/// <summary>
 		/// Returns the version of the TensorFlow runtime in use.
 		/// </summary>
@@ -84,6 +89,22 @@ namespace TensorFlow
 		{
 			return new TFBuffer (TF_GetAllOpList ());
 		}
+
+		internal static void CheckSize ()
+		{
+			unsafe
+			{
+				if (sizeof (IntPtr) == 4) {
+					Console.Error.WriteLine (
+						"The TensorFlow native libraries were compiled in 64 bit mode, you must run in 64 bit mode\n" +
+						"With Mono, do that with mono --arch=64 executable.exe, if using an IDE like MonoDevelop,\n" +
+						"Xamarin Studio or Visual Studio for Mac, Build/Compiler settings, make sure that " +
+						"\"Platform Target\" has x64 selected.");
+					throw new Exception ();
+
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -106,6 +127,11 @@ namespace TensorFlow
 		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
+		static TFDisposable ()
+		{
+			TFCore.CheckSize ();
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class.
 		/// </summary>
@@ -124,9 +150,9 @@ namespace TensorFlow
 		/// <summary>
 		/// Releases all resource used by the <see cref="T:TensorFlow.TFDisposable"/> object.
 		/// </summary>
-		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
+		/// <remarks>Call Dispose when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
+		/// Dispose method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
+		/// calling Dispose, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
 		/// the garbage collector can reclaim the memory that the <see cref="T:TensorFlow.TFDisposable"/> was occupying.</remarks>
 		public void Dispose ()
 		{

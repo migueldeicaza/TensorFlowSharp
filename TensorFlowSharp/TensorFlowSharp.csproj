@@ -9,15 +9,17 @@
     <RootNamespace>TensorFlowSharp</RootNamespace>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <ReleaseVersion>0.2.3</ReleaseVersion>
+    <ReleaseVersion>0.2</ReleaseVersion>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>$(ReleaseVersion)</PackageVersion>
+    <PackageVersion>0.96</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
     <PackageTags>machine-learning, tensorflow, xamarin, c#, f#</PackageTags>
     <Description>.NET Bindings for TensorFlow</Description>
+    <Owners>Miguel de Icaza</Owners>
+    <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
   </PropertyGroup>
   <ItemGroup>
     <_NativeFiles Include="..\native\*.*">
