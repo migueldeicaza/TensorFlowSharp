@@ -56,7 +56,7 @@ using(var graph = new TFGraph ())
 
     var output = runner.Run ();
 
-    // Fethc the results from output:
+    // Fetch the results from output:
     TFTensor result = output [0];
 }
 ```
