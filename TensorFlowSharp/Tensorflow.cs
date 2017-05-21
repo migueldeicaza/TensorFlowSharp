@@ -54,6 +54,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
+		static TFCore ()
+		{
+			CheckSize ();
+		}
+
 		/// <summary>
 		/// Returns the version of the TensorFlow runtime in use.
 		/// </summary>
@@ -84,6 +89,22 @@ namespace TensorFlow
 		{
 			return new TFBuffer (TF_GetAllOpList ());
 		}
+
+		internal static void CheckSize ()
+		{
+			unsafe
+			{
+				if (sizeof (IntPtr) == 4) {
+					Console.Error.WriteLine (
+						"The TensorFlow native libraries were compiled in 64 bit mode, you must run in 64 bit mode\n" +
+						"With Mono, do that with mono --arch=64 executable.exe, if using an IDE like MonoDevelop,\n" +
+						"Xamarin Studio or Visual Studio for Mac, Build/Compiler settings, make sure that " +
+						"\"Platform Target\" has x64 selected.");
+					throw new Exception ();
+
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -106,6 +127,11 @@ namespace TensorFlow
 		/// <value>The handle.</value>
 		public IntPtr Handle => handle;
 
+		static TFDisposable ()
+		{
+			TFCore.CheckSize ();
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class.
 		/// </summary>
@@ -124,9 +150,9 @@ namespace TensorFlow
 		/// <summary>
 		/// Releases all resource used by the <see cref="T:TensorFlow.TFDisposable"/> object.
 		/// </summary>
-		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
+		/// <remarks>Call Dispose when you are finished using the <see cref="T:TensorFlow.TFDisposable"/>. The
+		/// Dispose method leaves the <see cref="T:TensorFlow.TFDisposable"/> in an unusable state. After
+		/// calling Dispose, you must release all references to the <see cref="T:TensorFlow.TFDisposable"/> so
 		/// the garbage collector can reclaim the memory that the <see cref="T:TensorFlow.TFDisposable"/> was occupying.</remarks>
 		public void Dispose ()
 		{
@@ -414,7 +440,7 @@ namespace TensorFlow
 
 		// extern void TF_GraphSetTensorShape (TF_Graph *graph, TF_Output output, const int64_t *dims, const int num_dims, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, ref long [] dims, int num_dims, TF_Status status);
+		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, long [] dims, int num_dims, TF_Status status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, IntPtr dims, int num_dims, TF_Status status);
 
@@ -427,7 +453,7 @@ namespace TensorFlow
 			if (dims == null)
 				TF_GraphSetTensorShape (handle, output, IntPtr.Zero, 0, cstatus.handle);
 			else
-				TF_GraphSetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
+				TF_GraphSetTensorShape (handle, output, dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 		}
 
@@ -447,7 +473,7 @@ namespace TensorFlow
 
 		// extern void TF_GraphGetTensorShape (TF_Graph *graph, TF_Output output, int64_t *dims, int num_dims, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, ref long [] dims, int num_dims, TF_Status status);
+		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, long [] dims, int num_dims, TF_Status status);
 
 		public long [] GetTensorShape (TFOutput output, TFStatus status = null)
 		{
@@ -459,7 +485,7 @@ namespace TensorFlow
 				return null;
 			
 			var dims = new long [n];
-			TF_GraphGetTensorShape (handle, output, ref dims, dims.Length, cstatus.handle);
+			TF_GraphGetTensorShape (handle, output, dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 			return dims;
 		}
@@ -632,7 +658,7 @@ namespace TensorFlow
 			if (ndims == 0)
 				return null;
 			var ret = new long [ndims];
-			TF_GraphGetTensorShape (handle, output, ref ret, ndims, cstatus.handle);
+			TF_GraphGetTensorShape (handle, output, ret, ndims, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
 			return ret;
 		}
@@ -2559,6 +2585,25 @@ namespace TensorFlow
 		public TFTensor AsTensor ()
 		{
 			return new TFTensor (ToIntArray ());
+		}
+
+		/// <summary>
+		/// Adds a <see cref="TensorFlow.TFShape"/> to a <see cref="TensorFlow.TFShape"/>, yielding a shape made up of the concatenation of the first and the second shapes.
+		/// </summary>
+		/// <param name="left">The first <see cref="TensorFlow.TFShape"/> to add.</param>
+		/// <param name="right">The second <see cref="TensorFlow.TFShape"/> to add.</param>
+		/// <returns>The <see cref="T:TensorFlow.TFShape"/> that is the sum of the values of <c>left</c> and <c>right</c>.</returns>
+		public static TFShape operator + (TFShape left, TFShape right)
+		{
+			if (left == null)
+				return right;
+			if (right == null)
+				return left;
+
+			var full = new long [left.dims.Length + right.dims.Length];
+			Array.Copy (left.dims, full, left.dims.Length);
+			Array.Copy (right.dims, 0, full, left.dims.Length, right.dims.Length);
+			return new TFShape (full);
 		}
 	}
 

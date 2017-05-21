@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,13 +10,35 @@
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <ReleaseVersion>0.2</ReleaseVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>TensorFlowSharp</PackageId>
+    <PackageVersion>0.96</PackageVersion>
+    <Authors>Miguel de Icaza</Authors>
+    <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
+    <PackageTags>machine-learning, tensorflow, xamarin, c#, f#</PackageTags>
+    <Description>.NET Bindings for TensorFlow</Description>
+    <Owners>Miguel de Icaza</Owners>
+    <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
   </PropertyGroup>
+  <ItemGroup>
+    <_NativeFiles Include="..\native\*.*">
+      <InProject>false</InProject>
+    </_NativeFiles>
+    <PackageFile Include="@(_NativeFiles)">
+      <Kind>None</Kind>
+      <PackagePath>native\%(Filename)%(Extension)</PackagePath>
+    </PackageFile>
+    <PackageFile Include="TensorFlowSharp.targets">
+      <PackagePath>build\TensorFlowSharp.targets</PackagePath>
+    </PackageFile>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
@@ -48,7 +71,13 @@
     <Compile Include="Tensor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="NuGet.Build.Packaging">
+      <Version>*</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
