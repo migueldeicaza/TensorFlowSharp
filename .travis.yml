@@ -3,10 +3,9 @@ solution: TensorFlowSharp.sln
 script:
   - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow/TYPE=mac-slave/82/artifact/lib_package/libtensorflow-cpu-darwin-x86_64.tar.gz"
   - tar xzvf libtensorflow-cpu-darwin-x86_64.tar.gz lib/libtensorflow.so
-  - mv lib/libtensorflow.so PAYLOAD/libtensorflow.dylib
-  - mv lib/libtensorflow.so PAYLOAD/
-  - mkdir -p $TRAVIS_BUILD_DIR/native
-  - cp PAYLOAD/* $TRAVIS_BUILD_DIR/native
+  - mkdir -p native
+  - cp lib/libtensorflow.so native/libtensorflow.dylib
+  - cp lib/libtensorflow.so native/
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
