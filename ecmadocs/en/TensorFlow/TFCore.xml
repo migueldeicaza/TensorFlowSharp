@@ -1,6 +1,6 @@
 <Type Name="TFCore" FullName="TensorFlow.TFCore">
   <TypeSignature Language="C#" Value="public static class TFCore" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit TFCore extends System.Object" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed TFCore extends System.Object" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>

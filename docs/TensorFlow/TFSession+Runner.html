@@ -220,7 +220,22 @@
             to construct the parameters that will be passed to the TFSession.Run method.
             
             Instances of this class are created by calling the GetRunner method on the TFSession.
-            </div>
+            
+            The various methods in this class return an instance to the Runner itsel, to allow
+            to easily construct chains of execution like this:
+            
+            <table class="CodeExampleTable"><tr><td><b><font size="-1"> Example</font></b></td></tr><tr><td><pre class="">
+            var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
+            </pre></td></tr></table>
+            
+            You do not need to chain the operations, this works just the same:
+            
+            <table class="CodeExampleTable"><tr><td><b><font size="-1"> Example</font></b></td></tr><tr><td><pre class="">
+            runner = session.GetRunner ();
+            runner.AddInput(myInput);
+            runner.Fetch(myOutput);
+            var results = runner.Run();
+            </pre></td></tr></table></div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFSession.Runner:Docs:Version Information">
         <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
@@ -247,7 +262,9 @@
                 <td>
                   <i>
                     <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Protocol buffer encoded block containing the metadata passed to the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.Run">TFSession.Run</a> method.
+            </td>
               </tr>
               <tr valign="top">
                 <td>
@@ -262,7 +279,9 @@
                 <td>
                   <i>
                     <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Protocol buffer encoded block containing the run options passed to the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.Run">TFSession.Run</a> method.
+            </td>
               </tr>
             </table>
           </div>
@@ -271,6 +290,18 @@
         <div class="SectionBox" id="Public Methods">
           <div class="SubsectionBox">
             <table class="TypeMembers">
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
+                    <a href="#M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor)">AddInput</a>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFTensor.html">TFTensor</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Adds an input to the session specified by name, with an optional index in the operation (separated by a colon).
+            </blockquote></td>
+              </tr>
               <tr valign="top">
                 <td>
                   <div>
@@ -291,7 +322,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.Runner.AddTarget(System.String[])">AddTarget</a>
-                  </b>(<b>params</b> <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[])<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<b>params</b> <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[])<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Adds the specified operation names as the ones to be retrieved.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -312,8 +345,34 @@
                 </td>
                 <td colspan="2">
                   <b>
+                    <a href="#M:TensorFlow.TFSession.Runner.Fetch(System.String)">Fetch</a>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Makes the Run method return the output of the tensor referenced by operation, the operation string can contain the output index.
+            </blockquote></td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
+                    <a href="#M:TensorFlow.TFSession.Runner.Fetch(System.String[])">Fetch</a>
+                  </b>(<b>params</b> <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[])<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </blockquote></td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
                     <a href="#M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput)">Fetch</a>
-                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Makes the Run method return the output of the tensor referenced by output
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -323,7 +382,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[])">Fetch</a>
-                  </b>(<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[])<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[])<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -333,7 +394,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32)">Fetch</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a>)<nobr> : <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a></nobr><blockquote>
+            Makes the Run method return the index-th output of the tensor referenced by operation.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -343,7 +406,21 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus)">Run</a>
-                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFTensor.html">TFTensor</a>[]</nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFTensor.html">TFTensor</a>[]</nobr><blockquote>
+             Execute the graph fragments necessary to compute all requested fetches.
+            </blockquote></td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td colspan="2">
+                  <b>
+                    <a href="#M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus)">Run</a>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFTensor.html">TFTensor</a></nobr><blockquote>
+            Run the specified operation, by adding it implicity to the output, single return value
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -365,6 +442,37 @@
     <div class="Members" id="T:TensorFlow.TFSession.Runner:Members">
       <h2 class="Section" id="MemberDetails">Member Details</h2>
       <div class="SectionBox" id="_MemberDetails">
+        <h3 id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor)">AddInput Method</h3>
+        <blockquote id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor):member">
+          <div class="msummary">
+            Adds an input to the session specified by name, with an optional index in the operation (separated by a colon).
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>AddInput</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> input, <a href="../TensorFlow/TFTensor.html">TFTensor</a> value)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor):Parameters">
+            <dl>
+              <dt>
+                <i>input</i>
+              </dt>
+              <dd>Incoming port, with an optional index separated by a colon.</dd>
+              <dt>
+                <i>value</i>
+              </dt>
+              <dd>Value to assing to the incoming port.</dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor):Returns">An instance to the runner, so you can easily chain the operations together.</blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
         <h3 id="M:TensorFlow.TFSession.Runner.AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor)">AddInput Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor):member">
           <div class="msummary">
@@ -399,8 +507,8 @@
         <h3 id="M:TensorFlow.TFSession.Runner.AddTarget(System.String[])">AddTarget Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.AddTarget(System.String[]):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Adds the specified operation names as the ones to be retrieved.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>AddTarget</b> (<b>params</b> <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[] targetNames)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -415,9 +523,7 @@
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.AddTarget(System.String[]):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.AddTarget(System.String[]):Returns">An instance to the runner, so you can easily chain the operations together.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.AddTarget(System.String[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -454,11 +560,68 @@
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
+        <h3 id="M:TensorFlow.TFSession.Runner.Fetch(System.String)">Fetch Method</h3>
+        <blockquote id="M:TensorFlow.TFSession.Runner.Fetch(System.String):member">
+          <div class="msummary">
+            Makes the Run method return the output of the tensor referenced by operation, the operation string can contain the output index.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>Fetch</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> operation)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String):Parameters">
+            <dl>
+              <dt>
+                <i>operation</i>
+              </dt>
+              <dd>The name of the operation in the graph, which might be a simple name, or it might be name:index, 
+            where the index is the .</dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String):Returns">The instance of runner, to allow chaining operations.</blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="M:TensorFlow.TFSession.Runner.Fetch(System.String[])">Fetch Method</h3>
+        <blockquote id="M:TensorFlow.TFSession.Runner.Fetch(System.String[]):member">
+          <div class="msummary">
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>Fetch</b> (<b>params</b> <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[] outputs)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String[]):Parameters">
+            <dl>
+              <dt>
+                <i>outputs</i>
+              </dt>
+              <dd>
+                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+              </dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String[]):Returns">The instance of runner, to allow chaining operations.</blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String[]):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String[]):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
         <h3 id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput)">Fetch Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Makes the Run method return the output of the tensor referenced by output
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>Fetch</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a> output)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -467,15 +630,11 @@
               <dt>
                 <i>output</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>The output referencing a specified tensor.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput):Returns">The instance of runner, to allow chaining operations.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -488,8 +647,8 @@
         <h3 id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[])">Fetch Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[]):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>Fetch</b> (<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] outputs)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -504,9 +663,7 @@
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[]):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[]):Returns">The instance of runner, to allow chaining operations.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -519,8 +676,8 @@
         <h3 id="M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32)">Fetch Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Makes the Run method return the index-th output of the tensor referenced by operation.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFSession+Runner.html">TFSession.Runner</a> <b>Fetch</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> operation, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a> index)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -529,21 +686,15 @@
               <dt>
                 <i>operation</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>The name of the operation in the graph.</dd>
               <dt>
                 <i>index</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>The index of the output in the operation.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32):Returns">The instance of runner, to allow chaining operations.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -556,8 +707,8 @@
         <h3 id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus)">Run Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+             Execute the graph fragments necessary to compute all requested fetches.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFTensor.html">TFTensor</a>[] <b>Run</b> (<a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -566,21 +717,52 @@
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus):Returns">One TFTensor for each call to Fetch that you made, in the order that you made them.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus)">Run Method</h3>
+        <blockquote id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):member">
+          <div class="msummary">
+            Run the specified operation, by adding it implicity to the output, single return value
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public <a href="../TensorFlow/TFTensor.html">TFTensor</a> <b>Run</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a> operation, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):Parameters">
+            <dl>
+              <dt>
+                <i>operation</i>
+              </dt>
+              <dd>The output of the operation.</dd>
+              <dt>
+                <i>status</i>
+              </dt>
+              <dd>Optional, status.</dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):Remarks">
+            This method is a convenience method, and when you call it, it will clear any 
+            calls that you might have done to Fetch() and use the specified operation to Fetch
+            instead.
+            </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>
@@ -614,14 +796,14 @@
           </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus):Version Information">
-            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)</div>
           <hr size="1" />
         </blockquote>
         <h3 id="F:TensorFlow.TFSession.Runner.RunMetadata">RunMetadata Field</h3>
         <blockquote id="F:TensorFlow.TFSession.Runner.RunMetadata:member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Protocol buffer encoded block containing the metadata passed to the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.Run">TFSession.Run</a> method.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFBuffer.html">TFBuffer</a> <b>RunMetadata</b> </div>
           <h2 class="Section">Remarks</h2>
@@ -636,8 +818,8 @@
         <h3 id="F:TensorFlow.TFSession.Runner.RunOptions">RunOptions Field</h3>
         <blockquote id="F:TensorFlow.TFSession.Runner.RunOptions:member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Protocol buffer encoded block containing the run options passed to the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.Run">TFSession.Run</a> method.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFBuffer.html">TFBuffer</a> <b>RunOptions</b> </div>
           <h2 class="Section">Remarks</h2>

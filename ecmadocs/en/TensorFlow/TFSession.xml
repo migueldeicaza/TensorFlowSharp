@@ -163,6 +163,8 @@
         <remarks>
             The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
             to construct the parameters that will be passed to the TFSession.Run method.
+            
+            The Run method will return an array of TFTensor values, one for each invocation to the Fetch method.
             </remarks>
       </Docs>
     </Member>
@@ -258,15 +260,19 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="inputs">To be added.</param>
-        <param name="inputValues">To be added.</param>
-        <param name="outputs">To be added.</param>
-        <param name="targetOpers">To be added.</param>
-        <param name="runMetadata">To be added.</param>
-        <param name="runOptions">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="inputs">Inputs nodes.</param>
+        <param name="inputValues">Input values.</param>
+        <param name="outputs">Output nodes.</param>
+        <param name="targetOpers">Target operations to execute.</param>
+        <param name="runMetadata">Run metadata.</param>
+        <param name="runOptions">Run options.</param>
+        <param name="status">Status code.</param>
+        <summary>
+            Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
+            A simpler API is available by calling the <see cref="M:GetRunner" /> method which performs all the bookkeeping
+            necessary.
+            </summary>
+        <returns>An array of tensors fetched from the requested outputs.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

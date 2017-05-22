@@ -184,6 +184,30 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="op_Addition">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFShape op_Addition (TensorFlow.TFShape left, TensorFlow.TFShape right);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFShape op_Addition(class TensorFlow.TFShape left, class TensorFlow.TFShape right) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFShape</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="left" Type="TensorFlow.TFShape" />
+        <Parameter Name="right" Type="TensorFlow.TFShape" />
+      </Parameters>
+      <Docs>
+        <param name="left">The first <see cref="T:TensorFlow.TFShape" /> to add.</param>
+        <param name="right">The second <see cref="T:TensorFlow.TFShape" /> to add.</param>
+        <summary>
+            Adds a <see cref="T:TensorFlow.TFShape" /> to a <see cref="T:TensorFlow.TFShape" />, yielding a shape made up of the concatenation of the first and the second shapes.
+            </summary>
+        <returns>The <see cref="T:TensorFlow.TFShape" /> that is the sum of the values of <c>left</c> and <c>right</c>.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Scalar">
       <MemberSignature Language="C#" Value="public static TensorFlow.TFShape Scalar { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Scalar" />

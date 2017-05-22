@@ -346,7 +346,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose()">Dispose</a>
-                  </b>()<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>()<blockquote>
+            Releases all resource used by the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> object.
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -356,7 +358,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote>
+            Dispose the specified object
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -418,7 +422,11 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)">Run</a>
-                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFTensor.html">TFTensor</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOperation.html">TFOperation</a>[], <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFTensor.html">TFTensor</a>[]</nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFTensor.html">TFTensor</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOperation.html">TFOperation</a>[], <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFBuffer.html">TFBuffer</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFTensor.html">TFTensor</a>[]</nobr><blockquote>
+            Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
+            A simpler API is available by calling the <a href="javascript:alert(&quot;Documentation not found.&quot;)">.</a> method which performs all the bookkeeping
+            necessary.
+            </blockquote></td>
               </tr>
             </table>
           </div>
@@ -661,6 +669,8 @@
           <div class="SectionBox" id="M:TensorFlow.TFSession.GetRunner():Remarks">
             The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
             to construct the parameters that will be passed to the TFSession.Run method.
+            
+            The Run method will return an array of TFTensor values, one for each invocation to the Fetch method.
             </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.GetRunner():Version Information">
@@ -800,8 +810,10 @@
         <h3 id="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)">Run Method</h3>
         <blockquote id="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
+            A simpler API is available by calling the <a href="javascript:alert(&quot;Documentation not found.&quot;)">.</a> method which performs all the bookkeeping
+            necessary.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFTensor.html">TFTensor</a>[] <b>Run</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a>[] inputs, <a href="../TensorFlow/TFTensor.html">TFTensor</a>[] inputValues, <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] outputs, <a href="../TensorFlow/TFOperation.html">TFOperation</a>[] targetOpers, <a href="../TensorFlow/TFBuffer.html">TFBuffer</a> runMetadata, <a href="../TensorFlow/TFBuffer.html">TFBuffer</a> runOptions, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -810,51 +822,35 @@
               <dt>
                 <i>inputs</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Inputs nodes.</dd>
               <dt>
                 <i>inputValues</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Input values.</dd>
               <dt>
                 <i>outputs</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Output nodes.</dd>
               <dt>
                 <i>targetOpers</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Target operations to execute.</dd>
               <dt>
                 <i>runMetadata</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Run metadata.</dd>
               <dt>
                 <i>runOptions</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Run options.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status code.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus):Returns">An array of tensors fetched from the requested outputs.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>

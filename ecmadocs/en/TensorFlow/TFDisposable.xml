@@ -1,6 +1,6 @@
 <Type Name="TFDisposable" FullName="TensorFlow.TFDisposable">
   <TypeSignature Language="C#" Value="public abstract class TFDisposable : IDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TFDisposable extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract TFDisposable extends System.Object implements class System.IDisposable" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -35,7 +35,9 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable" /> class.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -51,7 +53,10 @@
       </Parameters>
       <Docs>
         <param name="handle">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable" /> class
+            from the handle that it will wrap.   
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -67,8 +72,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>
+            Releases all resource used by the <see cref="T:TensorFlow.TFDisposable" /> object.
+            </summary>
+        <remarks>Call Dispose when you are finished using the <see cref="T:TensorFlow.TFDisposable" />. The
+            Dispose method leaves the <see cref="T:TensorFlow.TFDisposable" /> in an unusable state. After
+            calling Dispose, you must release all references to the <see cref="T:TensorFlow.TFDisposable" /> so
+            the garbage collector can reclaim the memory that the <see cref="T:TensorFlow.TFDisposable" /> was occupying.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -85,8 +95,10 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">If set to <c>true</c> it means that this method was called from Dispose, otherwise from the finalizer.</param>
+        <summary>
+            Dispose the specified object
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
