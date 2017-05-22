@@ -398,7 +398,7 @@ class OpGenerator
 
 		pi ("namespace TensorFlow {");
 		pi ("public partial class TFGraph {");
-		foreach (var oper in operations){
+		foreach (var oper in (from o in operations orderby o.name select o)){
 			// Skip internal operations
 			if (oper.name.StartsWith ("_"))
 				continue;
