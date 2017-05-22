@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 // Low-level tests
 // 
 using System;
@@ -24,9 +24,9 @@ namespace SampleTest
 			return j;
 		}
 
-		TFOperation ScalarConst (int v, TFGraph graph, TFStatus status)
+		TFOperation ScalarConst (TFTensor v, TFGraph graph, TFStatus status, string name = null)
 		{
-			var desc = new TFOperationDesc (graph, "Const", "scalar");
+			var desc = new TFOperationDesc (graph, "Const", name == null ? "scalar" : name);
 			desc.SetAttr ("value", v, status);
 			if (status.StatusCode != TFCode.Ok)
 				return null;
@@ -295,7 +295,78 @@ namespace SampleTest
 				var op = desc.FinishOperation ();
 				ExpectMeta (op, "v", 2, TFAttributeType.Shape, 5);
 			}
+		}
 
+		public void AddControlInput ()
+		{
+			Console.WriteLine ("Testing AddControlInput for assertions");
+			var status = new TFStatus ();
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g, status);
+
+				TFTensor yes = true;
+				TFTensor no = false;
+				var placeholder = g.Placeholder (TFDataType.Bool, operName: "boolean");
+
+				var check = new TFOperationDesc (g, "Assert", "assert")
+					.AddInput (placeholder)
+					.AddInputs (placeholder)
+					.FinishOperation ();
+
+				var noop = new TFOperationDesc (g, "NoOp", "noop")
+					.AddControlInput (check)
+					.FinishOperation ();
+
+				var runner = s.GetRunner ();
+				runner.AddInput (placeholder, yes);
+				runner.AddTarget (noop);
+
+				// No problems when the Assert check succeeds
+				runner.Run ();
+
+				// Exception thrown by the execution of the Assert node
+				try {
+					runner = s.GetRunner ();
+					runner.AddInput (placeholder, no);
+					runner.AddTarget (noop);
+					runner.Run ();
+					throw new Exception ("This should have thrown an exception");
+				} catch (Exception e) {
+					Console.WriteLine ("Success, got the expected exception when using tensorflow control inputs to assert");
+				}
+			}
+		}
+
+		public void TestParametersWithIndexes ()
+		{
+			Console.WriteLine ("Testing Parameters with indexes");
+			var status = new TFStatus ();
+			using (var g = new TFGraph ()) {
+				var s = new TFSession (g, status);
+
+				var split = new TFOperationDesc (g,"Split", "Split")
+					.AddInput (ScalarConst (0, g, status) [0])
+					.AddInput (ScalarConst (new TFTensor (new int [] { 1, 2, 3, 4 }), g, status, "array") [0])
+					.SetAttr ("num_split", 2)
+					.FinishOperation ();
+				var add = new TFOperationDesc (g, "Add", "Add")
+					.AddInput (split [0]).AddInput (split [1]).FinishOperation () [0];
+
+				// fetch using colon separated names
+				var fetched = s.GetRunner ().Fetch ("Split:1").Run () [0];
+				var vals = fetched.GetValue () as int [];
+				if (vals [0] != 3 || vals [1] != 4)
+					throw new Exception ("Expected the values 3 and 4");
+
+				// Add inputs using colon separated names.
+				var t = new TFTensor (new int [] { 4, 3, 2, 1 });
+				var ret = (s.GetRunner ().AddInput ("Split:0", t).AddInput ("Split:1", t).Fetch ("Add").Run ()).GetValue (0) as TFTensor;
+				var val = ret.GetValue () as int [];
+
+				if (val [0] != 8 || val [1] != 6 || val [2] != 4 || val [3] != 2)
+					throw new Exception ("Expected 8, 6, 4, 2");
+			}
+			Console.WriteLine ("success");
 		}
 	}
 }
