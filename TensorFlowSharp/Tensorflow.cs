@@ -995,6 +995,9 @@ namespace TensorFlow
 	/// Generally, you will instead be using the methods surfaced in <see cref="T:TensorFlow.TFGraph"/> 
 	/// that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
 	/// nodes.
+	/// 
+	/// You create instances bound to a graph, add inputs, attributes and so on, and when you are done
+	/// you can call the FinishOperation method that will turn this TFOperationDesc into a <see cref="T:TensorFlow.TFOperation"/>.
 	/// </remarks>
 	public class TFOperationDesc : TFDisposable
 	{
@@ -1026,72 +1029,98 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetDevice (TF_OperationDescription desc, string device);
 
-		public void SetDevice (string device)
+		public TFOperationDesc SetDevice (string device)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (device == null)
 				throw new ArgumentNullException ("device");
 			TF_SetDevice (handle, device);
+			return this;
 		}
 
 		// extern void TF_AddInput (TF_OperationDescription *desc, TF_Output input);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_AddInput (TF_OperationDescription desc, TFOutput input);
 
-		public void AddInput (TFOutput input)
+		/// <summary>
+		/// Adds the specified input to the operation
+		/// </summary>
+		/// <returns>The input.</returns>
+		/// <param name="input">Input.</param>
+		public TFOperationDesc AddInput (TFOutput input)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			TF_AddInput (handle, input);
+			return this;
 		}
 
 		// extern void TF_AddInputList (TF_OperationDescription *desc, const TF_Output *inputs, int num_inputs);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_AddInputList (TF_OperationDescription desc, TFOutput [] inputs, int num_inputs);
 
-		public void AddInputs (params TFOutput [] inputs)
+		/// <summary>
+		/// Adds a series of inputs to the operation.
+		/// </summary>
+		/// <param name="inputs">Inputs, this is a params array for your convenience.</param>
+		public TFOperationDesc AddInputs (params TFOutput [] inputs)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (inputs == null || inputs.Length == 0)
-				return;
+				return this;
 
 			TF_AddInputList (handle, inputs, inputs.Length);
+			return this;
 		}
 
 		// extern void TF_AddControlInput (TF_OperationDescription *desc, TF_Operation *input);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_AddControlInput (TF_OperationDescription desc, TF_Operation input);
 
-		public void AddControlInput (TFOperation input)
+		/// <summary>
+		/// Ensure that the operation does not execute before the control operation does.
+		/// </summary>
+		/// <param name="control">Operation that must be executed before running this operation.</param>
+		/// <remarks>
+		/// A control input is an Operation that must be executed before running the operation 
+		/// currently being built.  
+		/// 
+		/// For example, an Assert operation may be added as a control input for this operation. 
+		/// The Assert now behaves as a pre-condition that will always verify itself before
+		/// running the operation.
+		/// </remarks>
+		public TFOperationDesc AddControlInput (TFOperation control)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
-			if (input == null)
+			if (control == null)
 				throw new ArgumentNullException ("input");
 
-			TF_AddControlInput (handle, input.handle);
+			TF_AddControlInput (handle, control.handle);
+			return this;
 		}
 
 		// extern void TF_ColocateWith (TF_OperationDescription *desc, TF_Operation *op);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_ColocateWith (TF_OperationDescription desc, TF_Operation op);
 
-		public void ColocateWith (TFOperation op)
+		public TFOperationDesc ColocateWith (TFOperation op)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (op == null)
 				throw new ArgumentNullException ("op");
 			TF_ColocateWith (handle, op.handle);
+			return this;
 		}
 
 		// extern void TF_SetAttrString (TF_OperationDescription *desc, const char *attr_name, const void *value, size_t length);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrString (TF_OperationDescription desc, string attr_name, IntPtr value, size_t length);
 
-		public void SetAttr (string attrName, string value)
+		public TFOperationDesc SetAttr (string attrName, string value)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1102,12 +1131,13 @@ namespace TensorFlow
 			Marshal.Copy (bytes, 0, buf, bytes.Length);
 
 			TF_SetAttrString (handle, attrName, buf, (UIntPtr)bytes.Length);
+			return this;
 		}
 
 		// extern void TF_SetAttrStringList (TF_OperationDescription *desc, const char *attr_name, const void *const *values, const size_t *lengths, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrStringList (TF_OperationDescription desc, string attr_name, IntPtr [] values, UIntPtr [] lengths, int num_values);
-		public void SetAttr (string attrName, string [] values)
+		public TFOperationDesc SetAttr (string attrName, string [] values)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1129,6 +1159,7 @@ namespace TensorFlow
 				lenghts [i] = (size_t)bc;
 			}
 			TF_SetAttrStringList (handle, attrName, unmanaged, lenghts, n);
+			return this;
 		}
 
 
@@ -1136,20 +1167,21 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrInt (TF_OperationDescription desc, string attr_name, long value);
 
-		public void SetAttr (string attrName, long value)
+		public TFOperationDesc SetAttr (string attrName, long value)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrInt (handle, attrName, value);
+			return this;
 		}
 
 		// extern void TF_SetAttrIntList (TF_OperationDescription *desc, const char *attr_name, const int64_t *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrIntList (TF_OperationDescription desc, string attr_name, long [] values, int num_values);
 
-		public void SetAttr (string attrName, long [] values)
+		public TFOperationDesc SetAttr (string attrName, long [] values)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1159,6 +1191,7 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (values));
 
 			TF_SetAttrIntList (handle, attrName, values, values.Length);
+			return this;
 		}
 
 
@@ -1166,20 +1199,21 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrFloat (TF_OperationDescription desc, string attr_name, float value);
 
-		public void SetAttr (string attrName, float value)
+		public TFOperationDesc SetAttr (string attrName, float value)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrFloat (handle, attrName, value);
+			return this;
 		}
 
 		// extern void TF_SetAttrFloatList (TF_OperationDescription *desc, const char *attr_name, const float *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrFloatList (TF_OperationDescription desc, string attr_name, float [] values, int num_values);
 
-		public void SetAttr (string attrName, float [] values)
+		public TFOperationDesc SetAttr (string attrName, float [] values)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1189,26 +1223,28 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (values));
 
 			TF_SetAttrFloatList (handle, attrName, values, values.Length);
+			return this;
 		}
 
 		// extern void TF_SetAttrBool (TF_OperationDescription *desc, const char *attr_name, unsigned char value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrBool (TF_OperationDescription desc, string attr_name, byte value);
 
-		public void SetAttr (string attrName, bool value)
+		public TFOperationDesc SetAttr (string attrName, bool value)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrBool (handle, attrName, (byte)(value ? 1 : 0));
+			return this;
 		}
 
 		// extern void TF_SetAttrBoolList (TF_OperationDescription *desc, const char *attr_name, const unsigned char *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrBoolList (TF_OperationDescription desc, string attr_name, bool [] values, int num_values);
 
-		public void SetAttr (string attrName, bool [] values)
+		public TFOperationDesc SetAttr (string attrName, bool [] values)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1218,26 +1254,28 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (values));
 
 			TF_SetAttrBoolList (handle, attrName, values, values.Length);
+			return this;
 		}
 
 		// extern void TF_SetAttrType (TF_OperationDescription *desc, const char *attr_name, TF_DataType value);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrType (TF_OperationDescription desc, string attr_name, TFDataType value);
 
-		public void SetAttrType (string attrName, TFDataType dataType)
+		public TFOperationDesc SetAttrType (string attrName, TFDataType dataType)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			if (attrName == null)
 				throw new ArgumentNullException (nameof (attrName));
 			TF_SetAttrType (handle, attrName, dataType);
+			return this;
 		}
 
 		// extern void TF_SetAttrTypeList (TF_OperationDescription *desc, const char *attr_name, const TF_DataType *values, int num_values);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrTypeList (TF_OperationDescription desc, string attr_name, TFDataType [] values, int num_values);
 
-		public void SetAttrType (string attrName, params TFDataType [] dataType)
+		public TFOperationDesc SetAttrType (string attrName, params TFDataType [] dataType)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1246,6 +1284,7 @@ namespace TensorFlow
 			if (dataType == null)
 				throw new ArgumentNullException (nameof (dataType));
 			TF_SetAttrTypeList (handle, attrName, dataType, dataType.Length);
+			return this;
 		}
 
 		// extern void TF_SetAttrShape (TF_OperationDescription *desc, const char *attr_name, const int64_t *dims, int num_dims);
@@ -1254,7 +1293,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrShape (TF_OperationDescription desc, string attr_name, IntPtr dims, int num_dims);
 
-		public void SetAttrShape (string attrName, TFShape shape)
+		public TFOperationDesc SetAttrShape (string attrName, TFShape shape)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1264,13 +1303,14 @@ namespace TensorFlow
 				TF_SetAttrShape (handle, attrName, null, -1);
 			else
 				TF_SetAttrShape (handle, attrName, shape.dims, shape.dims.Length);
+			return this;
 		}
 
 		// extern void TF_SetAttrShapeList (TF_OperationDescription *desc, const char *attr_name, const int64_t *const *dims, const int *num_dims, int num_shapes);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrShapeList (TF_OperationDescription desc, string attr_name, IntPtr dims, int [] num_dims, int num_shapes);
 
-		public void SetAttrShape (string attrName, TFShape [] shapeList)
+		public TFOperationDesc SetAttrShape (string attrName, TFShape [] shapeList)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1299,18 +1339,20 @@ namespace TensorFlow
 				}
 				Marshal.FreeHGlobal (unmanaged);
 			}
+			return this;
 		}
 
 		// extern void TF_SetAttrTensorShapeProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrTensorShapeProto (TF_OperationDescription desc, string attr_name, IntPtr proto, size_t proto_len, TF_Status status);
-		public void SetAttrTensorShapeProto (string attrName, IntPtr proto, size_t protoLen, TFStatus status = null)
+		public TFOperationDesc SetAttrTensorShapeProto (string attrName, IntPtr proto, size_t protoLen, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			TF_SetAttrTensorShapeProto (handle, attrName, proto, protoLen, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
+			return this;
 		}
 
 		// extern void TF_SetAttrTensorShapeProtoList (TF_OperationDescription *desc, const char *attr_name, const void *const *protos, const size_t *proto_lens, int num_shapes, TF_Status *status);
@@ -1322,7 +1364,7 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrTensor (TF_OperationDescription desc, string attr_name, TF_Tensor value, TF_Status status);
 
-		public void SetAttr (string attrName, TFTensor tensor, TFStatus status = null)
+		public TFOperationDesc SetAttr (string attrName, TFTensor tensor, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1334,12 +1376,13 @@ namespace TensorFlow
 
 			TF_SetAttrTensor (handle, attrName, tensor.handle, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
+			return this;
 		}
 
 		// extern void TF_SetAttrTensorList (TF_OperationDescription *desc, const char *attr_name, TF_Tensor *const *values, int num_values, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetAttrTensorList (TF_OperationDescription desc, string attr_name, IntPtr [] values, int num_values, TF_Status status);
-		public void SetAttr (string attrName, TFTensor [] tensor, TFStatus status = null)
+		public TFOperationDesc SetAttr (string attrName, TFTensor [] tensor, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
@@ -1353,6 +1396,7 @@ namespace TensorFlow
 				unmanaged [i] = tensor [i].handle;
 			TF_SetAttrTensorList (handle, attrName, unmanaged, unmanaged.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
+			return this;
 		}
 
 		// extern void TF_SetAttrValueProto (TF_OperationDescription *desc, const char *attr_name, const void *proto, size_t proto_len, TF_Status *status);
@@ -1636,6 +1680,10 @@ namespace TensorFlow
 			return r;
 		}
 
+		/// <summary>
+		/// Returns the handle to the idx-th output of the operation.
+		/// </summary>
+		/// <param name="idx">Index of the output in the operation.</param>
 		public TFOutput this [int idx] {
 			get {
 				return new TFOutput (this, idx);
@@ -1895,6 +1943,22 @@ namespace TensorFlow
 		/// to construct the parameters that will be passed to the TFSession.Run method.
 		/// 
 		/// Instances of this class are created by calling the GetRunner method on the TFSession.
+		/// 
+		/// The various methods in this class return an instance to the Runner itsel, to allow
+		/// to easily construct chains of execution like this:
+		/// 
+		/// <code>
+		/// var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
+		/// </code>
+		/// 
+		/// You do not need to chain the operations, this works just the same:
+		/// 
+		/// <code>
+		/// runner = session.GetRunner ();
+		/// runner.AddInput(myInput);
+		/// runner.Fetch(myOutput);
+		/// var results = runner.Run();
+		/// </code>
 		/// </remarks>
 		public class Runner
 		{
@@ -1924,6 +1988,21 @@ namespace TensorFlow
 			}
 
 			/// <summary>
+			/// Adds an input to the session specified by name, with an optional index in the operation (separated by a colon).
+			/// </summary>
+			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+			/// <param name="input">Incoming port, with an optional index separated by a colon.</param>
+			/// <param name="value">Value to assing to the incoming port.</param>
+			public Runner AddInput (string input, TFTensor value)
+			{
+				if (value == null)
+					throw new ArgumentNullException (nameof (value));
+				inputs.Add (ParseOutput (input));
+				inputValues.Add (value);
+				return this;
+			}
+
+			/// <summary>
 			/// Adds the specified operations as the ones to be retrieved.
 			/// </summary>
 			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
@@ -1935,6 +2014,25 @@ namespace TensorFlow
 				return this;
 			}
 
+
+			// Parses user strings that contain both the operation name and an index.
+			TFOutput ParseOutput (string operation)
+			{
+				var p = operation.IndexOf (':');
+				if (p != -1 && p != operation.Length - 1){
+					var op = operation.Substring (0, p);
+					if (int.TryParse (operation.Substring (p + 1), out var idx)){
+						return session.Graph [op] [idx];
+					}
+				}
+				return session.Graph [operation] [0];
+			}
+
+			/// <summary>
+			/// Adds the specified operation names as the ones to be retrieved.
+			/// </summary>
+			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+			/// <param name="targets">One or more target names.</param>
 			public Runner AddTarget (params string [] targetNames)
 			{
 				foreach (var tn in targetNames)
@@ -1942,19 +2040,49 @@ namespace TensorFlow
 				return this;
 			}
 
-			public Runner Fetch (string operation, int index = 0)
+			/// <summary>
+			/// Makes the Run method return the index-th output of the tensor referenced by operation.
+			/// </summary>
+			/// <returns>The instance of runner, to allow chaining operations.</returns>
+			/// <param name="operation">The name of the operation in the graph.</param>
+			/// <param name="index">The index of the output in the operation.</param>
+			public Runner Fetch (string operation, int index)
 			{
 				var op = session.Graph [operation];
 				outputs.Add (op [index]);
 				return this;
 			}
 
+			/// <summary>
+			/// Makes the Run method return the output of the tensor referenced by operation, the operation string can contain the output index.
+			/// </summary>
+			/// <returns>The instance of runner, to allow chaining operations.</returns>
+			/// <param name="operation">The name of the operation in the graph, which might be a simple name, or it might be name:index, 
+			/// where the index is the .</param>
+			/// <param name="index">The index of the output in the operation.</param>
+			public Runner Fetch (string operation)
+			{
+				var op = ParseOutput (operation);
+				outputs.Add (op);
+				return this;
+			}
+
+			/// <summary>
+			/// Makes the Run method return the output of the tensor referenced by output
+			/// </summary>
+			/// <returns>The instance of runner, to allow chaining operations.</returns>
+			/// <param name="output">The output referencing a specified tensor.</param>
 			public Runner Fetch (TFOutput output)
 			{
 				outputs.Add (output);
 				return this;
 			}
 
+			/// <summary>
+			/// Makes the Run method return the output of all the tensor referenced by outputs.
+			/// </summary>
+			/// <returns>The instance of runner, to allow chaining operations.</returns>
+			/// <param name="output">The outputs referencing a specified tensor.</param>
 			public Runner Fetch (params TFOutput [] outputs)
 			{
 				foreach (var output in outputs)
@@ -1962,8 +2090,33 @@ namespace TensorFlow
 				return this;
 			}
 
-			public TFBuffer RunMetadata, RunOptions;
+			/// <summary>
+			/// Makes the Run method return the output of all the tensor referenced by outputs.
+			/// </summary>
+			/// <returns>The instance of runner, to allow chaining operations.</returns>
+			/// <param name="output">The output sreferencing a specified tensor.</param>
+			public Runner Fetch (params string [] outputs)
+			{
+				foreach (var output in outputs)
+					this.outputs.Add (ParseOutput (output));
+				return this;
+			}
 
+			/// <summary>
+			/// Protocol buffer encoded block containing the metadata passed to the <see cref="M:TensorFlow.TFSession.Run"/> method.
+			/// </summary>
+			public TFBuffer RunMetadata;
+
+			/// <summary>
+			/// Protocol buffer encoded block containing the run options passed to the <see cref="M:TensorFlow.TFSession.Run"/> method.
+			/// </summary>
+			public TFBuffer RunOptions;
+
+			/// <summary>
+			///  Execute the graph fragments necessary to compute all requested fetches.
+			/// </summary>
+			/// <returns>One TFTensor for each call to Fetch that you made, in the order that you made them.</returns>
+			/// <param name="status">Status.</param>
 			public TFTensor [] Run (TFStatus status = null)
 			{
 				return session.Run (inputs.ToArray (), inputValues.ToArray (), outputs.ToArray (), targets.ToArray (), RunMetadata, RunOptions, status);
@@ -1974,10 +2127,16 @@ namespace TensorFlow
 			/// </summary>
 			/// <param name="operation">The output of the operation.</param>
 			/// <param name="status">Optional, status.</param>
-			public TFTensor [] Run (TFOutput operation, TFStatus status = null)
+			/// <remarks>
+			/// This method is a convenience method, and when you call it, it will clear any 
+			/// calls that you might have done to Fetch() and use the specified operation to Fetch
+			/// instead.
+			/// </remarks>
+			public TFTensor  Run (TFOutput operation, TFStatus status = null)
 			{
+				outputs.Clear ();
 				Fetch (operation);
-				return Run (status);
+				return Run (status) [0];
 			}
 
 		}
@@ -1989,12 +2148,27 @@ namespace TensorFlow
 		/// <remarks>
 		/// The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
 		/// to construct the parameters that will be passed to the TFSession.Run method.
+		/// 
+		/// The Run method will return an array of TFTensor values, one for each invocation to the Fetch method.
 		/// </remarks>
 		public Runner GetRunner ()
 		{
 			return new Runner (this);
 		}
 
+		/// <summary>
+		/// Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
+		/// A simpler API is available by calling the <see cref="M:GetRunner"/> method which performs all the bookkeeping
+		/// necessary.
+		/// </summary>
+		/// <returns>An array of tensors fetched from the requested outputs.</returns>
+		/// <param name="inputs">Inputs nodes.</param>
+		/// <param name="inputValues">Input values.</param>
+		/// <param name="outputs">Output nodes.</param>
+		/// <param name="targetOpers">Target operations to execute.</param>
+		/// <param name="runMetadata">Run metadata.</param>
+		/// <param name="runOptions">Run options.</param>
+		/// <param name="status">Status code.</param>
 		public TFTensor [] Run (TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)

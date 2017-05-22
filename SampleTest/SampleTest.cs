@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 // This is just a dumping ground to exercise different capabilities 
 // of the API.  Some idioms might be useful, some not, feel free to
 //
@@ -58,12 +58,12 @@ namespace SampleTest
 
 				// Add two constants
 				var results = s.GetRunner ().Run (g.Add (a, b));
-				var val = results [0].GetValue ();
+				var val = results.GetValue ();
 				Console.WriteLine ("a+b={0}", val);
 
 				// Multiply two constants
 				results = s.GetRunner ().Run (g.Mul (a, b));
-				Console.WriteLine ("a*b={0}", results [0].GetValue ());
+				Console.WriteLine ("a*b={0}", results.GetValue ());
 
 				// TODO: API-wise, perhaps session.Run () can have a simple
 				// overload where we only care about the fetched values, 
@@ -92,13 +92,13 @@ namespace SampleTest
 				var runner = s.GetRunner ();
 				runner.AddInput (var_a, new TFTensor ((short)3));
 				runner.AddInput (var_b, new TFTensor ((short)2));
-				Console.WriteLine ("a+b={0}", runner.Run (add) [0].GetValue ());
+				Console.WriteLine ("a+b={0}", runner.Run (add).GetValue ());
 
 				runner = s.GetRunner ();
 				runner.AddInput (var_a, new TFTensor ((short)3));
 				runner.AddInput (var_b, new TFTensor ((short)2));
 
-				Console.WriteLine ("a*b={0}", runner.Run (mul) [0].GetValue ());
+				Console.WriteLine ("a*b={0}", runner.Run (mul).GetValue ());
 
 				// TODO
 				// Would be nice to have an API that allows me to pass the values at Run time, easily:
@@ -180,7 +180,7 @@ namespace SampleTest
 				var product = g.MatMul (matrix1, matrix2);
 
 
-				var result = s.GetRunner ().Run (product) [0];
+				var result = s.GetRunner ().Run (product);
 				Console.WriteLine ("Tensor ToString=" + result);
 				Console.WriteLine ("Value [0,0]=" + ((double[,])result.GetValue ())[0,0]);
 
@@ -200,6 +200,8 @@ namespace SampleTest
 			return maxIdx;
 		}	
 
+		// This sample has a bug, I suspect the data loaded is incorrect, because the returned
+		// values in distance is wrong, and so is the prediction computed from it.
 		void NearestNeighbor ()
 		{
 			// Get the Mnist data
@@ -220,15 +222,17 @@ namespace SampleTest
 			using (var g = new TFGraph ()) {
 				var s = new TFSession (g);
 
-				var xtr = g.Placeholder (TFDataType.Float, new TFShape (-1, 784));
-				var xte = g.Placeholder (TFDataType.Float, new TFShape (784));
+
+				TFOutput xtr = g.Placeholder (TFDataType.Float, new TFShape (-1, 784));
+
+				TFOutput xte = g.Placeholder (TFDataType.Float, new TFShape (784));
 
 				// Nearest Neighbor calculation using L1 Distance
 				// Calculate L1 Distance
-				var distance = g.ReduceSum (g.Abs (g.Add (xtr, g.Neg (xte))), axis: g.Const (1));
+				TFOutput distance = g.ReduceSum (g.Abs (g.Add (xtr, g.Neg (xte))), axis: g.Const (1));
 
 				// Prediction: Get min distance index (Nearest neighbor)
-				var pred = g.ArgMin (distance, g.Const (0));
+				TFOutput pred = g.ArgMin (distance, g.Const (0));
 
 				var accuracy = 0f;
 				// Loop over the test data
@@ -237,11 +241,13 @@ namespace SampleTest
 
 					// Get nearest neighbor
 
-					var result = runner.Fetch (pred).AddInput (xtr, Xtr).AddInput (xte, Xte [i].DataFloat).Run ();
+					var result = runner.Fetch (pred).Fetch (distance).AddInput (xtr, Xtr).AddInput (xte, Xte [i].DataFloat).Run ();
+					var r = result [0].GetValue ();
+					var tr = result [1].GetValue ();
 					var nn_index = (int)(long) result [0].GetValue ();
 
 					// Get nearest neighbor class label and compare it to its true label
-					Console.WriteLine ($"Test {i}: Prediction: {nn_index} {ArgMax (Ytr, nn_index)} True class: {ArgMax (Yte, i)}");
+					Console.WriteLine ($"Test {i}: Prediction: {ArgMax (Ytr, nn_index)} True class: {ArgMax (Yte, i)} (nn_index={nn_index})");
 					if (ArgMax (Ytr, nn_index) == ArgMax (Yte, i))
 						accuracy += 1f/ Xte.Length;
 				}
@@ -300,6 +306,8 @@ namespace SampleTest
 
 
 			var t = new MainClass ();
+			t.TestParametersWithIndexes ();
+			t.AddControlInput ();
 			t.TestImportGraphDef ();
 			t.TestSession ();
 			t.TestOperationOutputListSize ();
