@@ -41,6 +41,10 @@
 
   <xsl:template name="create-default-style">
     <style>
+      body {
+         font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+      }
+
       a { text-decoration: none }
 
       div.SideBar {
@@ -53,15 +57,36 @@
       }
     
       .CollectionTitle { font-weight: bold }
-      .PageTitle { font-size: 150%; font-weight: bold }
+      .PageTitle { 
+      	font-family: segoe-ui_light,Segoe UI Light,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+	font-size: 2.5rem;
+	margin-bottom: 0;
+	margin-top: 10px;
+	font-weight: 300;
+	font-style: normal;
+	line-height: 1.3;
+	text-rendering: optimizeLegibility;
+      }
 
-      .Summary { }
-      .Signature { }          
+      .Summary { 
+        margin-top: 0;
+      }
+      .Signature { 
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	 line-height: 1.25;
+	 -webkit-font-smoothing: auto;
+	 -moz-osx-font-smoothing: auto;
+      }
       .Remarks { }
       .Members { }
       .Copyright { }
       
-      .Section { font-size: 125%; font-weight: bold }
+      .Section { 
+	color: #4c668b;
+	font-size: 1.875rem;
+	font-family: segoe-ui_semibold;
+	word-break: break-all;
+      }
       p.Summary {
         margin-left: 1em;
       }

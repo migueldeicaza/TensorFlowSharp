@@ -1,6 +1,6 @@
 
 rebuild-docs: docs/template
-	mdoc export-html -o docs --template=docs/template ecmadocs/en/
+	mdoc export-html --force-update -o docs --template=docs/template ecmadocs/en/
 
 # Used to fetch XML doc updates from the C# compiler into the ECMA docs
 doc-update:
