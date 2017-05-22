@@ -234,6 +234,16 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Creates a constant tensor with a single dimension from a boolean value.
+		/// </summary>
+		public unsafe TFTensor (bool value)
+		{
+			var v = (bool*)Marshal.AllocHGlobal (sizeof (bool));
+			*v = value;
+			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+		}
+
+		/// <summary>
 		/// Creates a constant tensor with a single dimension from an sbyte value.
 		/// </summary>
 		public unsafe TFTensor (sbyte value)
@@ -316,10 +326,15 @@ namespace TensorFlow
 		// Convenience, should I add T[,] and T[,,] as more convenience ones?
 
 		/// <summary>
+		/// Creates a 1 dimensional tensor from an array of booleans.
+		/// </summary>
+		/// <param name="data">Data.</param>
+		public TFTensor (bool [] data) : base (SetupTensor (TFDataType.Bool, data, size: 1)) { }
+		/// <summary>
 		/// Creates a 1 dimensional tensor from an array of sbytes.
 		/// </summary>
 		/// <param name="data">Data.</param>
-		public TFTensor (sbyte [] data) : base (SetupTensor (TFDataType.Int8, data, size: 2)) { }
+		public TFTensor (sbyte [] data) : base (SetupTensor (TFDataType.Int8, data, size: 1)) { }
 		/// <summary>
 		/// Creates a 1 dimensional tensor from an array of bytes.
 		/// </summary>
@@ -449,6 +464,16 @@ namespace TensorFlow
 		/// <returns>The tensor representing the integer value.</returns>
 		/// <param name="value">Value to initialize the tensor with.</param>
 		public static implicit operator TFTensor (int value)
+		{
+			return new TFTensor (value);
+		}
+
+		/// <summary>
+		/// Converts a boolean into a 1-dimensional, 1-valued tensor.
+		/// </summary>
+		/// <returns>The tensor representing the integer value.</returns>
+		/// <param name="value">Value to initialize the tensor with.</param>
+		public static implicit operator TFTensor (bool value)
 		{
 			return new TFTensor (value);
 		}
