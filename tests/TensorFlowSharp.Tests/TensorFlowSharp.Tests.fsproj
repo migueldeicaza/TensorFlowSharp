@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.props" Condition="Exists('..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -93,6 +94,18 @@
       <HintPath>..\..\packages\xunit.runner.console.2.2.0\tools\xunit.runner.reporters.net452.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <Import Project="..\..\packages\Microsoft.Packaging.Tools.1.0.0-preview1-25301-01\build\Microsoft.Packaging.Tools.targets" Condition="Exists('..\..\packages\Microsoft.Packaging.Tools.1.0.0-preview1-25301-01\build\Microsoft.Packaging.Tools.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Packaging.Tools.1.0.0-preview1-25301-01\build\Microsoft.Packaging.Tools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Packaging.Tools.1.0.0-preview1-25301-01\build\Microsoft.Packaging.Tools.targets'))" />
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.0-preview1-25301-01\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.0-preview1-25301-01\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\NETStandard.Library.2.0.0-preview1-25301-01\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.0-preview1-25301-01\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.targets" Condition="Exists('..\..\packages\NETStandard.Library.NETFramework.2.0.0-preview1-25305-02\build\net461\NETStandard.Library.NETFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
