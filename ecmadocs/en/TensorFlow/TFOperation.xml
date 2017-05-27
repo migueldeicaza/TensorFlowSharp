@@ -96,8 +96,10 @@
         <Parameter Name="idx" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="idx">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="idx">Index of the output in the operation.</param>
+        <summary>
+            Returns the handle to the idx-th output of the operation.
+            </summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>

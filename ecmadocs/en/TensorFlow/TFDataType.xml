@@ -29,7 +29,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Float32 truncated to 16 bits.  Only for cast operations.
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Bool">
@@ -57,7 +59,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            32-bit float based complex numbers
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Complex128">
@@ -71,7 +75,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Double precission complex numbers (32-bit floats)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Complex64">
@@ -85,7 +91,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Single precission complex numbers (32-bit floats)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Double">
@@ -99,7 +107,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Double precission floatint point, 64-bits (C# double)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Float">
@@ -113,7 +123,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Single precission floatint point, 32-bits (C# float)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Half">
@@ -141,7 +153,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            16-bit signed integers (C# short)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Int32">
@@ -155,7 +169,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            32-bit signed integers (C# int)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Int64">
@@ -169,7 +185,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            64-bit signed integers (C# long)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Int8">
@@ -183,7 +201,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            8-bit signed integers (C# sbyte)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="QInt16">
@@ -197,7 +217,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Quantized 16-bit signed integer
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="QInt32">
@@ -211,7 +233,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Quantized 32-bit signed integer
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="QInt8">
@@ -225,7 +249,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Quantized 8-bit signed integer
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="QUInt16">
@@ -239,7 +265,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Quantized 16-bit unsigned integer
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="QUInt8">
@@ -253,7 +281,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Quantized 8-bit unsigned integer
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Resource">
@@ -281,7 +311,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Binary blob
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="UInt16">
@@ -295,7 +327,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            16-bit unsigned integers (C# long)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="UInt8">
@@ -309,7 +343,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            8 bit unsigned integers (C# byte)
+            </summary>
       </Docs>
     </Member>
   </Members>

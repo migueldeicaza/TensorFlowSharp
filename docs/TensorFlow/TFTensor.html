@@ -3,6 +3,21 @@
     <title>TensorFlow.TFTensor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
+      @media (min-width:1200px) {
+         body {
+	     max-width: 100ch;
+	     padding: 0 5%;
+	     margin-left: auto;
+	     margin-right: auto;         
+	 }
+      }
+      @media (min-width:1200px) {
+      }
+
+      body {
+         font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+      }
+
       a { text-decoration: none }
 
       div.SideBar {
@@ -12,27 +27,65 @@
         float: right;
         border: thin solid black;
         background-color: #f2f2f2;
+	visibility: hidden;
       }
-    
-      .CollectionTitle { font-weight: bold }
-      .PageTitle { font-size: 150%; font-weight: bold }
 
-      .Summary { }
-      .Signature { }          
+      .CollectionTitle { font-weight: bold }
+      .PageTitle { 
+      	font-family: segoe-ui_light,Segoe UI Light,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+	font-size: 2.5rem;
+	margin-bottom: 0;
+	margin-top: 10px;
+	font-weight: 300;
+	font-style: normal;
+	line-height: 1.3;
+	text-rendering: optimizeLegibility;
+      }
+
+      .Summary { 
+        margin-top: 0;
+      }
+      .Signature { 
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	 line-height: 1.25;
+	 -webkit-font-smoothing: auto;
+	 -moz-osx-font-smoothing: auto;
+      }
       .Remarks { }
       .Members { }
       .Copyright { }
       
-      .Section { font-size: 125%; font-weight: bold }
+      .Section, h2 { 
+	color: #4c668b;
+	font-size: 1.875rem;
+	font-family: segoe-ui_semibold;
+	word-break: break-all;
+      }
       p.Summary {
         margin-left: 1em;
       }
-      .SectionBox { margin-left: 2em }
+      .SectionBox { 
+      }
+
+      .SectionBox b a {
+          font-size: .875rem;
+          font-weight: normal;
+      }
+      
+      a:hover {
+          text-decoration: underline;
+      }
+
       .NamespaceName { font-size: 105%; font-weight: bold }
       .NamespaceSumary { }
       .MemberName { font-size: 115%; font-weight: bold; margin-top: 1em }
-      .Subsection { font-size: 105%; font-weight: bold }
-      .SubsectionBox { margin-left: 2em; margin-bottom: 1em }
+      .Subsection { 
+          margin-bottom: 2px;
+	  margin-top: 24px;
+      }
+      .SubsectionBox dl dt i { 
+          font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;      
+      }
 
       .CodeExampleTable { background-color: #f5f5dd; border: thin solid black; padding: .25em; }
       
@@ -113,6 +166,7 @@
       table.Documentation, table.Enumeration, table.TypeDocumentation {
         border-collapse: collapse;
         width: 100%;
+	font-size: 0.875rem;
       }
 
       table.Documentation tr th, table.TypeMembers tr th, table.Enumeration tr th, table.TypeDocumentation tr th {
@@ -124,20 +178,33 @@
       }
 
       table.Documentation tr td, table.TypeMembers tr td, table.Enumeration tr td, table.TypeDocumentation tr td {
-        padding: 0.5em;
-        border: 1px solid gray;
+        border-width: 1px 0 0;
+	border-style: solid;
+	border-color: #e0e0e0;
         text-align: left;
         vertical-align: top;
       }
 
+      table.Documentation tr td:nth-last-child(2), table.TypeMembers tr td:nth-last-child(2), table.Enumeration tr td:nth-last-child(2), table.TypeDocumentation tr td:nth-last-child(2) {
+         float: none;
+	 padding: 14px 28px 14px 0;
+//	 width: 30%;
+	 border-top-width: 1px;
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+      }
+
+      table.Documentation tr td:nth-last-child(1), table.TypeMembers tr td:nth-last-child(1), table.Enumeration tr td:nth-last-child(1), table.TypeDocumentation tr td:nth-last-child(1) {
+         float: none;
+	 padding: 14px 0;
+//	 width: 70%;
+	 border-top-width: 1px;
+      }
+
       table.TypeMembers {
-        border: 1px solid #C0C0C0;
         width: 100%;
       }
 
       table.TypeMembers tr td {
-        background: #F8F8F8;
-        border: white;
       }
 
       table.Documentation {
@@ -163,6 +230,7 @@
 
       h4 {
         margin-bottom: 0;
+	font-weight: 500;
       }
 
       div.Signature {
@@ -240,6 +308,51 @@
         <div class="SectionBox" id="Public Constructors">
           <div class="SubsectionBox">
             <table class="TypeMembers">
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <b>
+                      <a href="#C:TensorFlow.TFTensor(System.Array)">TFTensor</a>
+                    </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Array">Array</a>)</div>
+                </td>
+                <td>
+            Creates a constant tensor from an array, the shape reflects the shape of the C# array and the underlying type reflects the C# type.
+            </td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <b>
+                      <a href="#C:TensorFlow.TFTensor(System.Boolean)">TFTensor</a>
+                    </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)</div>
+                </td>
+                <td>
+            Creates a constant tensor with a single dimension from a boolean value.
+            </td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <b>
+                      <a href="#C:TensorFlow.TFTensor(System.Boolean[])">TFTensor</a>
+                    </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[])</div>
+                </td>
+                <td>
+            Creates a 1 dimensional tensor from an array of booleans.
+            </td>
+              </tr>
               <tr valign="top">
                 <td>
                   <div>
@@ -654,7 +767,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose()">Dispose</a>
-                  </b>()<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>()<blockquote>
+            Releases all resource used by the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> object.
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -664,7 +779,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote>
+            Dispose the specified object
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -833,6 +950,18 @@
                 </td>
                 <td>
                   <b>
+                    <a href="#M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor">Conversion to TensorFlow.TFTensor</a>
+                  </b>(Implicit)</td>
+                <td>
+            Converts a boolean into a 1-dimensional, 1-valued tensor.
+            </td>
+              </tr>
+              <tr valign="top">
+                <td>
+                  <div>static </div>
+                </td>
+                <td>
+                  <b>
                     <a href="#M:TensorFlow.TFTensor.op_Implicit(System.Byte)~TensorFlow.TFTensor">Conversion to TensorFlow.TFTensor</a>
                   </b>(Implicit)</td>
                 <td>
@@ -907,6 +1036,85 @@
     <div class="Members" id="T:TensorFlow.TFTensor:Members">
       <h2 class="Section" id="MemberDetails">Member Details</h2>
       <div class="SectionBox" id="_MemberDetails">
+        <h3 id="C:TensorFlow.TFTensor(System.Array)">TFTensor Constructor</h3>
+        <blockquote id="C:TensorFlow.TFTensor(System.Array):member">
+          <div class="msummary">
+            Creates a constant tensor from an array, the shape reflects the shape of the C# array and the underlying type reflects the C# type.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public  <b>TFTensor</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Array">Array</a> array)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="C:TensorFlow.TFTensor(System.Array):Parameters">
+            <dl>
+              <dt>
+                <i>array</i>
+              </dt>
+              <dd>
+                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+              </dd>
+            </dl>
+          </blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Array):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Array):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="C:TensorFlow.TFTensor(System.Boolean)">TFTensor Constructor</h3>
+        <blockquote id="C:TensorFlow.TFTensor(System.Boolean):member">
+          <div class="msummary">
+            Creates a constant tensor with a single dimension from a boolean value.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public  <b>TFTensor</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a> value)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="C:TensorFlow.TFTensor(System.Boolean):Parameters">
+            <dl>
+              <dt>
+                <i>value</i>
+              </dt>
+              <dd>
+                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+              </dd>
+            </dl>
+          </blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Boolean):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Boolean):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="C:TensorFlow.TFTensor(System.Boolean[])">TFTensor Constructor</h3>
+        <blockquote id="C:TensorFlow.TFTensor(System.Boolean[]):member">
+          <div class="msummary">
+            Creates a 1 dimensional tensor from an array of booleans.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public  <b>TFTensor</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[] data)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="C:TensorFlow.TFTensor(System.Boolean[]):Parameters">
+            <dl>
+              <dt>
+                <i>data</i>
+              </dt>
+              <dd>Data.</dd>
+            </dl>
+          </blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Boolean[]):Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="C:TensorFlow.TFTensor(System.Boolean[]):Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
         <h3 id="C:TensorFlow.TFTensor(System.Byte)">TFTensor Constructor</h3>
         <blockquote id="C:TensorFlow.TFTensor(System.Byte):member">
           <div class="msummary">
@@ -2012,6 +2220,33 @@
             </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFTensor.op_Implicit(System.Array)~TensorFlow.TFTensor:Version Information">
+            <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
+          <hr size="1" />
+        </blockquote>
+        <h3 id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor">Conversion Method</h3>
+        <blockquote id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor:member">
+          <div class="msummary">
+            Converts a boolean into a 1-dimensional, 1-valued tensor.
+            </div>
+          <h2>Syntax</h2>
+          <div class="Signature">public static implicit operator <a href="../TensorFlow/TFTensor.html">TFTensor</a> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a> value)</div>
+          <h4 class="Subsection">Parameters</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor:Parameters">
+            <dl>
+              <dt>
+                <i>value</i>
+              </dt>
+              <dd>Value to initialize the tensor with.</dd>
+            </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor:Returns">The tensor representing the integer value.</blockquote>
+          <h2 class="Section">Remarks</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor:Remarks">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </div>
+          <h2 class="Section">Requirements</h2>
+          <div class="SectionBox" id="M:TensorFlow.TFTensor.op_Implicit(System.Boolean)~TensorFlow.TFTensor:Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
           <hr size="1" />
         </blockquote>

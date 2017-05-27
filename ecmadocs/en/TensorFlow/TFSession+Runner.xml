@@ -18,9 +18,48 @@
             to construct the parameters that will be passed to the TFSession.Run method.
             
             Instances of this class are created by calling the GetRunner method on the TFSession.
-            </remarks>
+            
+            The various methods in this class return an instance to the Runner itsel, to allow
+            to easily construct chains of execution like this:
+            
+            <code>
+            var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
+            </code>
+            
+            You do not need to chain the operations, this works just the same:
+            
+            <code>
+            runner = session.GetRunner ();
+            runner.AddInput(myInput);
+            runner.Fetch(myOutput);
+            var results = runner.Run();
+            </code></remarks>
   </Docs>
   <Members>
+    <Member MemberName="AddInput">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner AddInput (string input, TensorFlow.TFTensor value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddInput(string input, class TensorFlow.TFTensor value) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="input" Type="System.String" />
+        <Parameter Name="value" Type="TensorFlow.TFTensor" />
+      </Parameters>
+      <Docs>
+        <param name="input">Incoming port, with an optional index separated by a colon.</param>
+        <param name="value">Value to assing to the incoming port.</param>
+        <summary>
+            Adds an input to the session specified by name, with an optional index in the operation (separated by a colon).
+            </summary>
+        <returns>An instance to the runner, so you can easily chain the operations together.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="AddInput">
       <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner AddInput (TensorFlow.TFOutput input, TensorFlow.TFTensor value);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner AddInput(valuetype TensorFlow.TFOutput input, class TensorFlow.TFTensor value) cil managed" />
@@ -66,8 +105,10 @@
       </Parameters>
       <Docs>
         <param name="targetNames">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Adds the specified operation names as the ones to be retrieved.
+            </summary>
+        <returns>An instance to the runner, so you can easily chain the operations together.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -100,6 +141,57 @@
       </Docs>
     </Member>
     <Member MemberName="Fetch">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (string operation);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(string operation) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operation" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="operation">The name of the operation in the graph, which might be a simple name, or it might be name:index, 
+            where the index is the .</param>
+        <summary>
+            Makes the Run method return the output of the tensor referenced by operation, the operation string can contain the output index.
+            </summary>
+        <returns>The instance of runner, to allow chaining operations.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fetch">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (string[] outputs);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(string[] outputs) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession+Runner</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="outputs" Type="System.String[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="outputs">The output sreferencing a specified tensor.</param>
+        <summary>
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </summary>
+        <returns>The instance of runner, to allow chaining operations.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Fetch">
       <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (TensorFlow.TFOutput output);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(valuetype TensorFlow.TFOutput output) cil managed" />
       <MemberType>Method</MemberType>
@@ -113,9 +205,11 @@
         <Parameter Name="output" Type="TensorFlow.TFOutput" />
       </Parameters>
       <Docs>
-        <param name="output">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="output">The output referencing a specified tensor.</param>
+        <summary>
+            Makes the Run method return the output of the tensor referenced by output
+            </summary>
+        <returns>The instance of runner, to allow chaining operations.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -139,14 +233,16 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="outputs">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="outputs">The outputs referencing a specified tensor.</param>
+        <summary>
+            Makes the Run method return the output of all the tensor referenced by outputs.
+            </summary>
+        <returns>The instance of runner, to allow chaining operations.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Fetch">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (string operation, int index = 0);" />
+      <MemberSignature Language="C#" Value="public TensorFlow.TFSession.Runner Fetch (string operation, int index);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession/Runner Fetch(string operation, int32 index) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
@@ -160,10 +256,12 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="operation">To be added.</param>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="operation">The name of the operation in the graph.</param>
+        <param name="index">The index of the output in the operation.</param>
+        <summary>
+            Makes the Run method return the index-th output of the tensor referenced by operation.
+            </summary>
+        <returns>The instance of runner, to allow chaining operations.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -181,19 +279,46 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="status">Status.</param>
+        <summary>
+             Execute the graph fragments necessary to compute all requested fetches.
+            </summary>
+        <returns>One TFTensor for each call to Fetch that you made, in the order that you made them.</returns>
         <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Run">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor Run (TensorFlow.TFOutput operation, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor Run(valuetype TensorFlow.TFOutput operation, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operation" Type="TensorFlow.TFOutput" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="operation">The output of the operation.</param>
+        <param name="status">Optional, status.</param>
+        <summary>
+            Run the specified operation, by adding it implicity to the output, single return value
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>
+            This method is a convenience method, and when you call it, it will clear any 
+            calls that you might have done to Fetch() and use the specified operation to Fetch
+            instead.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="Run">
       <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput operation, TensorFlow.TFStatus status = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput operation, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFTensor[]</ReturnType>
       </ReturnValue>
@@ -222,7 +347,9 @@
         <ReturnType>TensorFlow.TFBuffer</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Protocol buffer encoded block containing the metadata passed to the <see cref="M:TensorFlow.TFSession.Run" /> method.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -237,7 +364,9 @@
         <ReturnType>TensorFlow.TFBuffer</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Protocol buffer encoded block containing the run options passed to the <see cref="M:TensorFlow.TFSession.Run" /> method.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

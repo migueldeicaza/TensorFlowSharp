@@ -35,8 +35,12 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>
+            Pops the name space to the previous namescope in use.
+            </summary>
+        <remarks>Call <see cref="M:TensorFlow.TFScope.Dispose" /> when you are finished using the <see cref="T:TensorFlow.TFScope" />
+            to restore the previous name scope in use in the <see cref="T:TensorFlow.TFGraph" />.
+            </remarks>
       </Docs>
     </Member>
   </Members>

@@ -3,6 +3,21 @@
     <title>TensorFlow.TFOperationDesc</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
+      @media (min-width:1200px) {
+         body {
+	     max-width: 100ch;
+	     padding: 0 5%;
+	     margin-left: auto;
+	     margin-right: auto;         
+	 }
+      }
+      @media (min-width:1200px) {
+      }
+
+      body {
+         font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+      }
+
       a { text-decoration: none }
 
       div.SideBar {
@@ -12,27 +27,65 @@
         float: right;
         border: thin solid black;
         background-color: #f2f2f2;
+	visibility: hidden;
       }
-    
-      .CollectionTitle { font-weight: bold }
-      .PageTitle { font-size: 150%; font-weight: bold }
 
-      .Summary { }
-      .Signature { }          
+      .CollectionTitle { font-weight: bold }
+      .PageTitle { 
+      	font-family: segoe-ui_light,Segoe UI Light,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+	font-size: 2.5rem;
+	margin-bottom: 0;
+	margin-top: 10px;
+	font-weight: 300;
+	font-style: normal;
+	line-height: 1.3;
+	text-rendering: optimizeLegibility;
+      }
+
+      .Summary { 
+        margin-top: 0;
+      }
+      .Signature { 
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	 line-height: 1.25;
+	 -webkit-font-smoothing: auto;
+	 -moz-osx-font-smoothing: auto;
+      }
       .Remarks { }
       .Members { }
       .Copyright { }
       
-      .Section { font-size: 125%; font-weight: bold }
+      .Section, h2 { 
+	color: #4c668b;
+	font-size: 1.875rem;
+	font-family: segoe-ui_semibold;
+	word-break: break-all;
+      }
       p.Summary {
         margin-left: 1em;
       }
-      .SectionBox { margin-left: 2em }
+      .SectionBox { 
+      }
+
+      .SectionBox b a {
+          font-size: .875rem;
+          font-weight: normal;
+      }
+      
+      a:hover {
+          text-decoration: underline;
+      }
+
       .NamespaceName { font-size: 105%; font-weight: bold }
       .NamespaceSumary { }
       .MemberName { font-size: 115%; font-weight: bold; margin-top: 1em }
-      .Subsection { font-size: 105%; font-weight: bold }
-      .SubsectionBox { margin-left: 2em; margin-bottom: 1em }
+      .Subsection { 
+          margin-bottom: 2px;
+	  margin-top: 24px;
+      }
+      .SubsectionBox dl dt i { 
+          font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;      
+      }
 
       .CodeExampleTable { background-color: #f5f5dd; border: thin solid black; padding: .25em; }
       
@@ -113,6 +166,7 @@
       table.Documentation, table.Enumeration, table.TypeDocumentation {
         border-collapse: collapse;
         width: 100%;
+	font-size: 0.875rem;
       }
 
       table.Documentation tr th, table.TypeMembers tr th, table.Enumeration tr th, table.TypeDocumentation tr th {
@@ -124,20 +178,33 @@
       }
 
       table.Documentation tr td, table.TypeMembers tr td, table.Enumeration tr td, table.TypeDocumentation tr td {
-        padding: 0.5em;
-        border: 1px solid gray;
+        border-width: 1px 0 0;
+	border-style: solid;
+	border-color: #e0e0e0;
         text-align: left;
         vertical-align: top;
       }
 
+      table.Documentation tr td:nth-last-child(2), table.TypeMembers tr td:nth-last-child(2), table.Enumeration tr td:nth-last-child(2), table.TypeDocumentation tr td:nth-last-child(2) {
+         float: none;
+	 padding: 14px 28px 14px 0;
+//	 width: 30%;
+	 border-top-width: 1px;
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+      }
+
+      table.Documentation tr td:nth-last-child(1), table.TypeMembers tr td:nth-last-child(1), table.Enumeration tr td:nth-last-child(1), table.TypeDocumentation tr td:nth-last-child(1) {
+         float: none;
+	 padding: 14px 0;
+//	 width: 70%;
+	 border-top-width: 1px;
+      }
+
       table.TypeMembers {
-        border: 1px solid #C0C0C0;
         width: 100%;
       }
 
       table.TypeMembers tr td {
-        background: #F8F8F8;
-        border: white;
       }
 
       table.Documentation {
@@ -163,6 +230,7 @@
 
       h4 {
         margin-bottom: 0;
+	font-weight: 500;
       }
 
       div.Signature {
@@ -223,6 +291,10 @@
             Generally, you will instead be using the methods surfaced in <a href="../TensorFlow/TFGraph.html">TensorFlow.TFGraph</a> 
             that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
             nodes.
+            
+            You create instances bound to a graph, add inputs, attributes and so on, and when you are done
+            you can call the <a href="../TensorFlow/TFOperationDesc.html#M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">TFOperationDesc.FinishOperation(TFStatus)</a> method that will turn this TFOperationDesc 
+            into a <a href="../TensorFlow/TFOperation.html">TensorFlow.TFOperation</a>.
             </div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFOperationDesc:Docs:Version Information">
@@ -288,7 +360,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)">AddControlInput</a>
-                  </b>(<a href="../TensorFlow/TFOperation.html">TFOperation</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOperation.html">TFOperation</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote>
+            Ensure that the operation does not execute before the control operation does.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -298,7 +372,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)">AddInput</a>
-                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote>
+            Adds the specified input to the operation
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -308,7 +384,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])">AddInputs</a>
-                  </b>(<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote>
+            Adds a series of inputs to the operation.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -318,7 +396,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation)">ColocateWith</a>
-                  </b>(<a href="../TensorFlow/TFOperation.html">TFOperation</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOperation.html">TFOperation</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -328,7 +406,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose()">Dispose</a>
-                  </b>()<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>()<blockquote>
+            Releases all resource used by the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> object.
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -338,7 +418,9 @@
                 <td colspan="2">
                   <b>
                     <a href="../TensorFlow/TFDisposable.html#M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span> (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote>
+            Dispose the specified object
+             (<i>Inherited from <a href="../TensorFlow/TFDisposable.html">TFDisposable</a>.</i>)</blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -358,7 +440,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">FinishOperation</a>
-                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperation.html">TFOperation</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperation.html">TFOperation</a></nobr><blockquote>
+            Turns the operation description into an actual operation in the graph.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -368,7 +452,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -378,7 +462,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[])">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -388,7 +472,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -398,7 +482,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[])">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -408,7 +492,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -418,7 +502,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[])">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -428,7 +512,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -438,7 +522,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[])">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -448,7 +532,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFTensor.html">TFTensor</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFTensor.html">TFTensor</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -458,7 +542,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)">SetAttr</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFTensor.html">TFTensor</a>[], <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFTensor.html">TFTensor</a>[], <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -468,7 +552,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape)">SetAttrShape</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFShape.html">TFShape</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFShape.html">TFShape</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -478,7 +562,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[])">SetAttrShape</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFShape.html">TFShape</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFShape.html">TFShape</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -488,7 +572,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)">SetAttrTensorShapeProto</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.UIntPtr">UIntPtr</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.UIntPtr">UIntPtr</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -498,7 +582,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType)">SetAttrType</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFDataType.html">TFDataType</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <a href="../TensorFlow/TFDataType.html">TFDataType</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -508,7 +592,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[])">SetAttrType</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <b>params</b> <a href="../TensorFlow/TFDataType.html">TFDataType</a>[])<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>, <b>params</b> <a href="../TensorFlow/TFDataType.html">TFDataType</a>[])<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -518,7 +602,7 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.SetDevice(System.String)">SetDevice</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<nobr> : <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
               </tr>
             </table>
           </div>
@@ -570,25 +654,32 @@
         <h3 id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)">AddControlInput Method</h3>
         <blockquote id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Ensure that the operation does not execute before the control operation does.
+            </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>AddControlInput</b> (<a href="../TensorFlow/TFOperation.html">TFOperation</a> input)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>AddControlInput</b> (<a href="../TensorFlow/TFOperation.html">TFOperation</a> control)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation):Parameters">
             <dl>
               <dt>
-                <i>input</i>
+                <i>control</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Operation that must be executed before running this operation.</dd>
             </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation):Remarks">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            A control input is an Operation that must be executed before running the operation 
+            currently being built.  
+            
+            For example, an Assert operation may be added as a control input for this operation. 
+            The Assert now behaves as a pre-condition that will always verify itself before
+            running the operation.
+            </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation):Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
@@ -597,21 +688,21 @@
         <h3 id="M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)">AddInput Method</h3>
         <blockquote id="M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Adds the specified input to the operation
+            </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>AddInput</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a> input)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>AddInput</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a> input)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput):Parameters">
             <dl>
               <dt>
                 <i>input</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Input.</dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput):Returns">The input.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -624,20 +715,22 @@
         <h3 id="M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])">AddInputs Method</h3>
         <blockquote id="M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[]):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Adds a series of inputs to the operation.
+            </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>AddInputs</b> (<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] inputs)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>AddInputs</b> (<b>params</b> <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] inputs)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[]):Parameters">
             <dl>
               <dt>
                 <i>inputs</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Inputs, this is a params array for your convenience.</dd>
             </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[]):Remarks">
@@ -654,7 +747,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>ColocateWith</b> (<a href="../TensorFlow/TFOperation.html">TFOperation</a> op)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>ColocateWith</b> (<a href="../TensorFlow/TFOperation.html">TFOperation</a> op)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation):Parameters">
             <dl>
@@ -665,6 +758,10 @@
                 <span class="NotEntered">Documentation for this section has not yet been entered.</span>
               </dd>
             </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation):Remarks">
@@ -678,8 +775,8 @@
         <h3 id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">FinishOperation Method</h3>
         <blockquote id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Turns the operation description into an actual operation in the graph.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFOperation.html">TFOperation</a> <b>FinishOperation</b> (<a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -688,15 +785,11 @@
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Returns">The operation on success, or null on error.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -712,7 +805,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a> value)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a> value)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean):Parameters">
             <dl>
@@ -730,6 +823,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -745,7 +842,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[] values)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>[] values)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[]):Parameters">
             <dl>
@@ -763,6 +860,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -778,7 +879,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a> value)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a> value)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64):Parameters">
             <dl>
@@ -796,6 +897,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -811,7 +916,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>[] values)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int64">long</a>[] values)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[]):Parameters">
             <dl>
@@ -829,6 +934,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -844,7 +953,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a> value)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a> value)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single):Parameters">
             <dl>
@@ -862,6 +971,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -877,7 +990,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>[] values)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Single">float</a>[] values)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[]):Parameters">
             <dl>
@@ -895,6 +1008,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -910,7 +1027,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> value)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> value)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String):Parameters">
             <dl>
@@ -928,6 +1045,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -943,7 +1064,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[] values)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>[] values)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[]):Parameters">
             <dl>
@@ -961,6 +1082,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -976,7 +1101,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFTensor.html">TFTensor</a> tensor, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFTensor.html">TFTensor</a> tensor, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus):Parameters">
             <dl>
@@ -1000,6 +1125,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1015,7 +1144,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFTensor.html">TFTensor</a>[] tensor, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttr</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFTensor.html">TFTensor</a>[] tensor, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus):Parameters">
             <dl>
@@ -1039,6 +1168,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1054,7 +1187,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttrShape</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFShape.html">TFShape</a> shape)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttrShape</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFShape.html">TFShape</a> shape)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape):Parameters">
             <dl>
@@ -1072,6 +1205,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1087,7 +1224,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttrShape</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFShape.html">TFShape</a>[] shapeList)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttrShape</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFShape.html">TFShape</a>[] shapeList)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[]):Parameters">
             <dl>
@@ -1105,6 +1242,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1120,7 +1261,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttrTensorShapeProto</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a> proto, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.UIntPtr">UIntPtr</a> protoLen, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttrTensorShapeProto</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a> proto, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.UIntPtr">UIntPtr</a> protoLen, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus):Parameters">
             <dl>
@@ -1150,6 +1291,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1165,7 +1310,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttrType</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFDataType.html">TFDataType</a> dataType)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttrType</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <a href="../TensorFlow/TFDataType.html">TFDataType</a> dataType)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType):Parameters">
             <dl>
@@ -1183,6 +1328,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1198,7 +1347,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetAttrType</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <b>params</b> <a href="../TensorFlow/TFDataType.html">TFDataType</a>[] dataType)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetAttrType</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> attrName, <b>params</b> <a href="../TensorFlow/TFDataType.html">TFDataType</a>[] dataType)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[]):Parameters">
             <dl>
@@ -1216,6 +1365,10 @@
               </dd>
             </dl>
           </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[]):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
+          </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[]):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
@@ -1231,7 +1384,7 @@
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </div>
           <h2>Syntax</h2>
-          <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetDevice</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> device)</div>
+          <div class="Signature">public <a href="../TensorFlow/TFOperationDesc.html">TFOperationDesc</a> <b>SetDevice</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> device)</div>
           <h4 class="Subsection">Parameters</h4>
           <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetDevice(System.String):Parameters">
             <dl>
@@ -1242,6 +1395,10 @@
                 <span class="NotEntered">Documentation for this section has not yet been entered.</span>
               </dd>
             </dl>
+          </blockquote>
+          <h4 class="Subsection">Returns</h4>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.SetDevice(System.String):Returns">
+            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
           </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.SetDevice(System.String):Remarks">

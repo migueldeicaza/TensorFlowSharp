@@ -27,8 +27,10 @@
         <Parameter Name="message" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="message">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="message">Message.</param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFException" /> class with a message.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

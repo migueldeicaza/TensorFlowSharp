@@ -17,7 +17,5 @@ namespace Learn
 			}
 			return File.OpenRead (target);
 		}
-
-
 	}
 }

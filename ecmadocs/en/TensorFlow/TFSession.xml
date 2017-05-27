@@ -15,8 +15,17 @@
             </summary>
     <remarks>
             This creates a new context to execute a TFGraph.   You can use the 
-            constructo to create an empty session, or you can load an existing
-            model using the FromSAvedModel static method in this class.
+            constructor to create an empty session, or you can load an existing
+            model using the <see cref="M:TensorFlow.TFSession.FromSavedModel(TensorFlow.TFSessionOptions,TensorFlow.TFBuffer,System.String,System.String[],TensorFlow.TFGraph,TensorFlow.TFBuffer,TensorFlow.TFStatus)" /> static method in this class.
+            
+            To execute operations with the graph, call the <see cref="M:TensorFlow.TFSession.GetRunner" />  method
+            which returns an object that you can use to build the operation by providing
+            the inputs, requesting the operations that you want to execute and the desired outputs.
+            
+            The <see cref="M:TensorFlow.TFSession.GetRunner" /> method is a high-level helper function that wraps a
+            call to the <see cref="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)" /> method which just takes too many parameters that must
+            be kept in sync.
+            
             </remarks>
   </Docs>
   <Members>
@@ -163,6 +172,8 @@
         <remarks>
             The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
             to construct the parameters that will be passed to the TFSession.Run method.
+            
+            The Run method will return an array of TFTensor values, one for each invocation to the Fetch method.
             </remarks>
       </Docs>
     </Member>
@@ -229,12 +240,14 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="inputs">To be added.</param>
-        <param name="outputs">To be added.</param>
-        <param name="targetOpers">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="inputs">Inputs.</param>
+        <param name="outputs">Outputs.</param>
+        <param name="targetOpers">Target operations to run.</param>
+        <param name="status">Status.</param>
+        <summary>
+            Prepares the session for a partial run.
+            </summary>
+        <returns>A token that can be used to call <see cref="M:TensorFlow.TFSession.PartialRun(TensorFlow.TFSession.PartialRunToken,TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)" /> repeatedly.   To complete your partial run, you should call Dispose on the resulting method.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -258,15 +271,19 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="inputs">To be added.</param>
-        <param name="inputValues">To be added.</param>
-        <param name="outputs">To be added.</param>
-        <param name="targetOpers">To be added.</param>
-        <param name="runMetadata">To be added.</param>
-        <param name="runOptions">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="inputs">Inputs nodes.</param>
+        <param name="inputValues">Input values.</param>
+        <param name="outputs">Output nodes.</param>
+        <param name="targetOpers">Target operations to execute.</param>
+        <param name="runMetadata">Run metadata.</param>
+        <param name="runOptions">Run options.</param>
+        <param name="status">Status code.</param>
+        <summary>
+            Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
+            A simpler API is available by calling the <see cref="M:GetRunner" /> method which performs all the bookkeeping
+            necessary.
+            </summary>
+        <returns>An array of tensors fetched from the requested outputs.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

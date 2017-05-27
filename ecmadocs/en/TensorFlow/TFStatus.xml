@@ -58,8 +58,15 @@
         <ReturnType>TensorFlow.TFStatus</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>
+            Per-thread global status that you can use if you do not need to create a new instance of this object.
+            </summary>
+        <remarks>
+            This is provided as a convenience for APIs that take a TFStatus.   While the TFStatus is usually an
+            optional parameter, when it is made optional, API calls that fail raise an exception.   Use this 
+            property to pass a TFStatus without having to allocate a new one.   The problem with this of course
+            is that you risk having multiple parts of your code override this thread-global variable.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="Error">

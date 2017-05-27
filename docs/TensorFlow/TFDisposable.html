@@ -3,6 +3,21 @@
     <title>TensorFlow.TFDisposable</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
+      @media (min-width:1200px) {
+         body {
+	     max-width: 100ch;
+	     padding: 0 5%;
+	     margin-left: auto;
+	     margin-right: auto;         
+	 }
+      }
+      @media (min-width:1200px) {
+      }
+
+      body {
+         font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+      }
+
       a { text-decoration: none }
 
       div.SideBar {
@@ -12,27 +27,65 @@
         float: right;
         border: thin solid black;
         background-color: #f2f2f2;
+	visibility: hidden;
       }
-    
-      .CollectionTitle { font-weight: bold }
-      .PageTitle { font-size: 150%; font-weight: bold }
 
-      .Summary { }
-      .Signature { }          
+      .CollectionTitle { font-weight: bold }
+      .PageTitle { 
+      	font-family: segoe-ui_light,Segoe UI Light,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
+	font-size: 2.5rem;
+	margin-bottom: 0;
+	margin-top: 10px;
+	font-weight: 300;
+	font-style: normal;
+	line-height: 1.3;
+	text-rendering: optimizeLegibility;
+      }
+
+      .Summary { 
+        margin-top: 0;
+      }
+      .Signature { 
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	 line-height: 1.25;
+	 -webkit-font-smoothing: auto;
+	 -moz-osx-font-smoothing: auto;
+      }
       .Remarks { }
       .Members { }
       .Copyright { }
       
-      .Section { font-size: 125%; font-weight: bold }
+      .Section, h2 { 
+	color: #4c668b;
+	font-size: 1.875rem;
+	font-family: segoe-ui_semibold;
+	word-break: break-all;
+      }
       p.Summary {
         margin-left: 1em;
       }
-      .SectionBox { margin-left: 2em }
+      .SectionBox { 
+      }
+
+      .SectionBox b a {
+          font-size: .875rem;
+          font-weight: normal;
+      }
+      
+      a:hover {
+          text-decoration: underline;
+      }
+
       .NamespaceName { font-size: 105%; font-weight: bold }
       .NamespaceSumary { }
       .MemberName { font-size: 115%; font-weight: bold; margin-top: 1em }
-      .Subsection { font-size: 105%; font-weight: bold }
-      .SubsectionBox { margin-left: 2em; margin-bottom: 1em }
+      .Subsection { 
+          margin-bottom: 2px;
+	  margin-top: 24px;
+      }
+      .SubsectionBox dl dt i { 
+          font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;      
+      }
 
       .CodeExampleTable { background-color: #f5f5dd; border: thin solid black; padding: .25em; }
       
@@ -113,6 +166,7 @@
       table.Documentation, table.Enumeration, table.TypeDocumentation {
         border-collapse: collapse;
         width: 100%;
+	font-size: 0.875rem;
       }
 
       table.Documentation tr th, table.TypeMembers tr th, table.Enumeration tr th, table.TypeDocumentation tr th {
@@ -124,20 +178,33 @@
       }
 
       table.Documentation tr td, table.TypeMembers tr td, table.Enumeration tr td, table.TypeDocumentation tr td {
-        padding: 0.5em;
-        border: 1px solid gray;
+        border-width: 1px 0 0;
+	border-style: solid;
+	border-color: #e0e0e0;
         text-align: left;
         vertical-align: top;
       }
 
+      table.Documentation tr td:nth-last-child(2), table.TypeMembers tr td:nth-last-child(2), table.Enumeration tr td:nth-last-child(2), table.TypeDocumentation tr td:nth-last-child(2) {
+         float: none;
+	 padding: 14px 28px 14px 0;
+//	 width: 30%;
+	 border-top-width: 1px;
+         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+      }
+
+      table.Documentation tr td:nth-last-child(1), table.TypeMembers tr td:nth-last-child(1), table.Enumeration tr td:nth-last-child(1), table.TypeDocumentation tr td:nth-last-child(1) {
+         float: none;
+	 padding: 14px 0;
+//	 width: 70%;
+	 border-top-width: 1px;
+      }
+
       table.TypeMembers {
-        border: 1px solid #C0C0C0;
         width: 100%;
       }
 
       table.TypeMembers tr td {
-        background: #F8F8F8;
-        border: white;
       }
 
       table.Documentation {
@@ -163,6 +230,7 @@
 
       h4 {
         margin-bottom: 0;
+	font-weight: 500;
       }
 
       div.Signature {
@@ -247,8 +315,8 @@
                     </b>()</div>
                 </td>
                 <td>
-                  <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-                </td>
+            Initializes a new instance of the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> class.
+            </td>
               </tr>
               <tr valign="top">
                 <td>
@@ -262,8 +330,9 @@
                     </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>)</div>
                 </td>
                 <td>
-                  <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-                </td>
+            Initializes a new instance of the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> class
+            from the handle that it will wrap.   
+            </td>
               </tr>
             </table>
           </div>
@@ -301,7 +370,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFDisposable.Dispose()">Dispose</a>
-                  </b>()<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>()<blockquote>
+            Releases all resource used by the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> object.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -311,7 +382,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a>)<blockquote>
+            Dispose the specified object
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -334,8 +407,8 @@
         <h3 id="C:TensorFlow.TFDisposable()">TFDisposable Constructor</h3>
         <blockquote id="C:TensorFlow.TFDisposable():member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Initializes a new instance of the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> class.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public  <b>TFDisposable</b> ()</div>
           <h2 class="Section">Remarks</h2>
@@ -350,8 +423,9 @@
         <h3 id="C:TensorFlow.TFDisposable(System.IntPtr)">TFDisposable Constructor</h3>
         <blockquote id="C:TensorFlow.TFDisposable(System.IntPtr):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Initializes a new instance of the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> class
+            from the handle that it will wrap.   
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public  <b>TFDisposable</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a> handle)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -377,14 +451,15 @@
         <h3 id="M:TensorFlow.TFDisposable.Dispose()">Dispose Method</h3>
         <blockquote id="M:TensorFlow.TFDisposable.Dispose():member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Releases all resource used by the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> object.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Dispose</b> ()</div>
           <h2 class="Section">Remarks</h2>
-          <div class="SectionBox" id="M:TensorFlow.TFDisposable.Dispose():Remarks">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+          <div class="SectionBox" id="M:TensorFlow.TFDisposable.Dispose():Remarks">Call Dispose when you are finished using the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a>. The
+            Dispose method leaves the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> in an unusable state. After
+            calling Dispose, you must release all references to the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> so
+            the garbage collector can reclaim the memory that the <a href="../TensorFlow/TFDisposable.html">TensorFlow.TFDisposable</a> was occupying.</div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFDisposable.Dispose():Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
@@ -393,8 +468,8 @@
         <h3 id="M:TensorFlow.TFDisposable.Dispose(System.Boolean)">Dispose Method</h3>
         <blockquote id="M:TensorFlow.TFDisposable.Dispose(System.Boolean):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Dispose the specified object
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public virtual <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>Dispose</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Boolean">bool</a> disposing)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -403,9 +478,7 @@
               <dt>
                 <i>disposing</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>If set to <tt>true</tt> it means that this method was called from Dispose, otherwise from the finalizer.</dd>
             </dl>
           </blockquote>
           <h2 class="Section">Remarks</h2>
