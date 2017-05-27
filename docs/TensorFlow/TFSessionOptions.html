@@ -275,8 +275,8 @@
     </div>
     <h1 class="PageTitle" id="T:TensorFlow.TFSessionOptions">TFSessionOptions  Class</h1>
     <p class="Summary" id="T:TensorFlow.TFSessionOptions:Summary">
-      <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-    </p>
+            The session options object holds configuration options that you want to use during your session, like the TensorFlow target or the configuration.
+            </p>
     <div>
       <h2>Syntax</h2>
       <div class="Signature" id="T:TensorFlow.TFSessionOptions:Signature">public class  <b>TFSessionOptions</b> : <a href="../TensorFlow/TFDisposable.html">TFDisposable</a></div>
@@ -384,7 +384,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)">SetConfig</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a>, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a>, <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<blockquote>
+            Sets the configuration information for the session.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -394,7 +396,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSessionOptions.SetTarget(System.String)">SetTarget</a>
-                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a>)<blockquote>
+            Sets the target in options.
+            </blockquote></td>
               </tr>
             </table>
           </div>
@@ -423,8 +427,8 @@
         <h3 id="M:TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)">SetConfig Method</h3>
         <blockquote id="M:TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Sets the configuration information for the session.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetConfig</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.IntPtr">IntPtr</a> protoData, <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Int32">int</a> length, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -433,27 +437,21 @@
               <dt>
                 <i>protoData</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Serialized protocol buffer for the tensorflow.ConfigProto message.</dd>
               <dt>
                 <i>length</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Length of the buffer.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>If config was not parsed successfully as a ConfigProto, the error is recorded here.</dd>
             </dl>
           </blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus):Remarks">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            The configuration option is a Protocol Buffer representing the tensorflow.ConfigProto
+            </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus):Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>
@@ -462,8 +460,8 @@
         <h3 id="M:TensorFlow.TFSessionOptions.SetTarget(System.String)">SetTarget Method</h3>
         <blockquote id="M:TensorFlow.TFSessionOptions.SetTarget(System.String):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Sets the target in options.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.Void">void</a> <b>SetTarget</b> (<a href="http://www.go-mono.com/docs/monodoc.ashx?link=T:System.String">string</a> target)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -472,9 +470,8 @@
               <dt>
                 <i>target</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>target can be empty, a single entry, or a comma separated list of entries.
+            Each entry is in one of the following formats: "local", ip:port, host:port.</dd>
             </dl>
           </blockquote>
           <h2 class="Section">Remarks</h2>

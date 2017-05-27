@@ -23,7 +23,8 @@
             nodes.
             
             You create instances bound to a graph, add inputs, attributes and so on, and when you are done
-            you can call the FinishOperation method that will turn this TFOperationDesc into a <see cref="T:TensorFlow.TFOperation" />.
+            you can call the <see cref="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)" /> method that will turn this TFOperationDesc 
+            into a <see cref="T:TensorFlow.TFOperation" />.
             </remarks>
   </Docs>
   <Members>
@@ -160,9 +161,11 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="status">Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.</param>
+        <summary>
+            Turns the operation description into an actual operation in the graph.
+            </summary>
+        <returns>The operation on success, or null on error.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

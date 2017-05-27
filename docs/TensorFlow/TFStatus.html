@@ -342,7 +342,9 @@
                 <td>
                   <i>
                     <a href="../TensorFlow/TFStatus.html">TFStatus</a>
-                  </i>. <span class="NotEntered">Documentation for this section has not yet been entered.</span></td>
+                  </i>. 
+            Per-thread global status that you can use if you do not need to create a new instance of this object.
+            </td>
               </tr>
             </table>
           </div>
@@ -524,14 +526,17 @@
         <h3 id="F:TensorFlow.TFStatus.Default">Default Field</h3>
         <blockquote id="F:TensorFlow.TFStatus.Default:member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Per-thread global status that you can use if you do not need to create a new instance of this object.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">[System.ThreadStatic]<br />public static <a href="../TensorFlow/TFStatus.html">TFStatus</a> <b>Default</b> </div>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="F:TensorFlow.TFStatus.Default:Remarks">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            This is provided as a convenience for APIs that take a TFStatus.   While the TFStatus is usually an
+            optional parameter, when it is made optional, API calls that fail raise an exception.   Use this 
+            property to pass a TFStatus without having to allocate a new one.   The problem with this of course
+            is that you risk having multiple parts of your code override this thread-global variable.
+            </div>
           <h2 class="Section">Requirements</h2>
           <div class="SectionBox" id="F:TensorFlow.TFStatus.Default:Version Information">
             <b>Namespace: </b>TensorFlow<br /><b>Assembly: </b>TensorFlowSharp (in TensorFlowSharp.dll)<br /><b>Assembly Versions: </b>1.0.0.0</div>

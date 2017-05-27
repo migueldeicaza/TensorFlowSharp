@@ -183,7 +183,7 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="outputs">To be added.</param>
+        <param name="outputs">The output sreferencing a specified tensor.</param>
         <summary>
             Makes the Run method return the output of all the tensor referenced by outputs.
             </summary>
@@ -233,7 +233,7 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="outputs">To be added.</param>
+        <param name="outputs">The outputs referencing a specified tensor.</param>
         <summary>
             Makes the Run method return the output of all the tensor referenced by outputs.
             </summary>

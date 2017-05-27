@@ -145,7 +145,7 @@
             </summary>
         <remarks>
             Set any imported nodes with control input <paramref name="srcName" /> to have that input
-            replaced with <paramref name="dst" />. 
+            replaced with <paramref name="destination" />. 
             </remarks>
       </Docs>
     </Member>

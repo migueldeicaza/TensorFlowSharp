@@ -293,7 +293,8 @@
             nodes.
             
             You create instances bound to a graph, add inputs, attributes and so on, and when you are done
-            you can call the FinishOperation method that will turn this TFOperationDesc into a <a href="../TensorFlow/TFOperation.html">TensorFlow.TFOperation</a>.
+            you can call the <a href="../TensorFlow/TFOperationDesc.html#M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">TFOperationDesc.FinishOperation(TFStatus)</a> method that will turn this TFOperationDesc 
+            into a <a href="../TensorFlow/TFOperation.html">TensorFlow.TFOperation</a>.
             </div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFOperationDesc:Docs:Version Information">
@@ -439,7 +440,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">FinishOperation</a>
-                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperation.html">TFOperation</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFOperation.html">TFOperation</a></nobr><blockquote>
+            Turns the operation description into an actual operation in the graph.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -772,8 +775,8 @@
         <h3 id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">FinishOperation Method</h3>
         <blockquote id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Turns the operation description into an actual operation in the graph.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFOperation.html">TFOperation</a> <b>FinishOperation</b> (<a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -782,15 +785,11 @@
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Returns">The operation on success, or null on error.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>

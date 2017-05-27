@@ -10,7 +10,9 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>
+            The session options object holds configuration options that you want to use during your session, like the TensorFlow target or the configuration.
+            </summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -43,11 +45,15 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="protoData">To be added.</param>
-        <param name="length">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="protoData">Serialized protocol buffer for the tensorflow.ConfigProto message.</param>
+        <param name="length">Length of the buffer.</param>
+        <param name="status">If config was not parsed successfully as a ConfigProto, the error is recorded here.</param>
+        <summary>
+            Sets the configuration information for the session.
+            </summary>
+        <remarks>
+            The configuration option is a Protocol Buffer representing the tensorflow.ConfigProto
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="SetTarget">
@@ -64,8 +70,11 @@
         <Parameter Name="target" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="target">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="target">target can be empty, a single entry, or a comma separated list of entries.
+            Each entry is in one of the following formats: "local", ip:port, host:port.</param>
+        <summary>
+            Sets the target in options.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

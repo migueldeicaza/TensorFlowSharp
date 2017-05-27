@@ -285,8 +285,17 @@
       <h2 class="Section">Remarks</h2>
       <div class="SectionBox" id="T:TensorFlow.TFSession:Docs:Remarks">
             This creates a new context to execute a TFGraph.   You can use the 
-            constructo to create an empty session, or you can load an existing
-            model using the FromSAvedModel static method in this class.
+            constructor to create an empty session, or you can load an existing
+            model using the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.FromSavedModel(TensorFlow.TFSessionOptions,TensorFlow.TFBuffer,System.String,System.String[],TensorFlow.TFGraph,TensorFlow.TFBuffer,TensorFlow.TFStatus)">TFSession.FromSavedModel(TFSessionOptions, TFBuffer, string, String[], TFGraph, TFBuffer, TFStatus)</a> static method in this class.
+            
+            To execute operations with the graph, call the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.GetRunner">TFSession.GetRunner</a>  method
+            which returns an object that you can use to build the operation by providing
+            the inputs, requesting the operations that you want to execute and the desired outputs.
+            
+            The <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.GetRunner">TFSession.GetRunner</a> method is a high-level helper function that wraps a
+            call to the <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)">TFSession.Run(TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFBuffer, TFBuffer, TFStatus)</a> method which just takes too many parameters that must
+            be kept in sync.
+            
             </div>
       <h2 class="Section">Requirements</h2>
       <div class="SectionBox" id="T:TensorFlow.TFSession:Docs:Version Information">
@@ -480,7 +489,9 @@
                 <td colspan="2">
                   <b>
                     <a href="#M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)">PartialRunSetup</a>
-                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOperation.html">TFOperation</a>[], <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFSession+PartialRunToken.html">TFSession.PartialRunToken</a></nobr><blockquote><span class="NotEntered">Documentation for this section has not yet been entered.</span></blockquote></td>
+                  </b>(<a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOutput.html">TFOutput</a>[], <a href="../TensorFlow/TFOperation.html">TFOperation</a>[], <a href="../TensorFlow/TFStatus.html">TFStatus</a>)<nobr> : <a href="../TensorFlow/TFSession+PartialRunToken.html">TFSession.PartialRunToken</a></nobr><blockquote>
+            Prepares the session for a partial run.
+            </blockquote></td>
               </tr>
               <tr valign="top">
                 <td>
@@ -829,8 +840,8 @@
         <h3 id="M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)">PartialRunSetup Method</h3>
         <blockquote id="M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus):member">
           <div class="msummary">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </div>
+            Prepares the session for a partial run.
+            </div>
           <h2>Syntax</h2>
           <div class="Signature">public <a href="../TensorFlow/TFSession+PartialRunToken.html">TFSession.PartialRunToken</a> <b>PartialRunSetup</b> (<a href="../TensorFlow/TFOutput.html">TFOutput</a>[] inputs, <a href="../TensorFlow/TFOutput.html">TFOutput</a>[] outputs, <a href="../TensorFlow/TFOperation.html">TFOperation</a>[] targetOpers, <a href="../TensorFlow/TFStatus.html">TFStatus</a> status)</div>
           <h4 class="Subsection">Parameters</h4>
@@ -839,33 +850,23 @@
               <dt>
                 <i>inputs</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Inputs.</dd>
               <dt>
                 <i>outputs</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Outputs.</dd>
               <dt>
                 <i>targetOpers</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Target operations to run.</dd>
               <dt>
                 <i>status</i>
               </dt>
-              <dd>
-                <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-              </dd>
+              <dd>Status.</dd>
             </dl>
           </blockquote>
           <h4 class="Subsection">Returns</h4>
-          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus):Returns">
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </blockquote>
+          <blockquote class="SubsectionBox" id="M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus):Returns">A token that can be used to call <a href="../TensorFlow/TFSession.html#M:TensorFlow.TFSession.PartialRun(TensorFlow.TFSession.PartialRunToken,TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)">TFSession.PartialRun(TensorFlow.TFSession.PartialRunToken, TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFStatus)</a> repeatedly.   To complete your partial run, you should call Dispose on the resulting method.</blockquote>
           <h2 class="Section">Remarks</h2>
           <div class="SectionBox" id="M:TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus):Remarks">
             <span class="NotEntered">Documentation for this section has not yet been entered.</span>
