@@ -1460,7 +1460,7 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 			handle = IntPtr.Zero;
 			GC.SuppressFinalize (this);
-			if (status.Error)
+			if (status != null && status.Error)
 				return null;
 
 			return new TFOperation (graph, h);
