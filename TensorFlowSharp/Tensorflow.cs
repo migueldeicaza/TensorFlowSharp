@@ -193,6 +193,10 @@ namespace TensorFlow
 	/// TensorFlow Exception
 	/// </summary>
 	public class TFException : Exception {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFException"/> class with a message.
+		/// </summary>
+		/// <param name="message">Message.</param>
 		public TFException (string message) : base (message) { }
 	}
 
@@ -217,6 +221,15 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		internal static extern unsafe TF_Status TF_NewStatus ();
 
+		/// <summary>
+		/// Per-thread global status that you can use if you do not need to create a new instance of this object.
+		/// </summary>
+		/// <remarks>
+		/// This is provided as a convenience for APIs that take a TFStatus.   While the TFStatus is usually an
+		/// optional parameter, when it is made optional, API calls that fail raise an exception.   Use this 
+		/// property to pass a TFStatus without having to allocate a new one.   The problem with this of course
+		/// is that you risk having multiple parts of your code override this thread-global variable.
+		/// </remarks>
 		[ThreadStatic] public static TFStatus Default = new TFStatus ();
 
 		/// <summary>
@@ -354,6 +367,9 @@ namespace TensorFlow
 		internal static extern size_t TF_StringEncodedSize (size_t len);
 	}
 
+	/// <summary>
+	/// The session options object holds configuration options that you want to use during your session, like the TensorFlow target or the configuration.
+	/// </summary>
 	public class TFSessionOptions : TFDisposable
 	{
 		// extern TF_SessionOptions * TF_NewSessionOptions ();
@@ -373,6 +389,13 @@ namespace TensorFlow
 		// extern void TF_SetTarget (TF_SessionOptions *options, const char *target);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetTarget (TF_SessionOptions options, string target);
+
+		/// <summary>
+		/// Sets the target in options.
+		/// </summary>
+		/// <param name="target">target can be empty, a single entry, or a comma separated list of entries.
+		/// Each entry is in one of the following formats: "local", ip:port, host:port.</param>
+		/// 
 		public void SetTarget (string target)
 		{
 			if (handle == IntPtr.Zero)
@@ -385,7 +408,15 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetConfig (TF_SessionOptions options, IntPtr proto, size_t proto_len, TF_Status status);
 
-
+		/// <summary>
+		/// Sets the configuration information for the session.
+		/// </summary>
+		/// <param name="protoData">Serialized protocol buffer for the tensorflow.ConfigProto message.</param>
+		/// <param name="length">Length of the buffer.</param>
+		/// <param name="status">If config was not parsed successfully as a ConfigProto, the error is recorded here.</param>
+		/// <remarks>
+		/// The configuration option is a Protocol Buffer representing the tensorflow.ConfigProto
+		/// </remarks>
 		public void SetConfig (IntPtr protoData, int length, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -978,6 +1009,12 @@ namespace TensorFlow
 			name = container.CurrentNameScope;
 		}
 
+		/// <summary>
+		/// Pops the name space to the previous namescope in use.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFScope"/>
+		/// to restore the previous name scope in use in the <see cref="T:TensorFlow.TFGraph"/>.
+		/// </remarks>
 		public void Dispose ()
 		{
 			container.CurrentNameScope = name;
@@ -997,7 +1034,8 @@ namespace TensorFlow
 	/// nodes.
 	/// 
 	/// You create instances bound to a graph, add inputs, attributes and so on, and when you are done
-	/// you can call the FinishOperation method that will turn this TFOperationDesc into a <see cref="T:TensorFlow.TFOperation"/>.
+	/// you can call the <see cref="FinishOperation"/> method that will turn this TFOperationDesc 
+	/// into a <see cref="T:TensorFlow.TFOperation"/>.
 	/// </remarks>
 	public class TFOperationDesc : TFDisposable
 	{
@@ -1408,6 +1446,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Operation TF_FinishOperation (TF_OperationDescription desc, TF_Status status);
 
+		/// <summary>
+		/// Turns the operation description into an actual operation in the graph.
+		/// </summary>
+		/// <returns>The operation on success, or null on error.</returns>
+		/// <param name="status">Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.</param>
 		public TFOperation FinishOperation (TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -1417,6 +1460,8 @@ namespace TensorFlow
 			cstatus.CheckMaybeRaise (status);
 			handle = IntPtr.Zero;
 			GC.SuppressFinalize (this);
+			if (status.Error)
+				return null;
 
 			return new TFOperation (graph, h);
 		}
@@ -1810,7 +1855,7 @@ namespace TensorFlow
 		/// <param name="destination">References an operation that already exists in the graph being imported.</param>
 		/// <remarks>
 		/// Set any imported nodes with control input <paramref name="srcName"/> to have that input
-		/// replaced with <paramref name="dst"/>. 
+		/// replaced with <paramref name="destination"/>. 
 		/// </remarks>
 		public void RemapControlDependency (string srcName, TFOperation destination)
 		{
@@ -1829,8 +1874,17 @@ namespace TensorFlow
 	/// </summary>
 	/// <remarks>
 	/// This creates a new context to execute a TFGraph.   You can use the 
-	/// constructo to create an empty session, or you can load an existing
-	/// model using the FromSAvedModel static method in this class.
+	/// constructor to create an empty session, or you can load an existing
+	/// model using the <see cref="FromSavedModel"/> static method in this class.
+	/// 
+	/// To execute operations with the graph, call the <see cref="GetRunner"/>  method
+	/// which returns an object that you can use to build the operation by providing
+	/// the inputs, requesting the operations that you want to execute and the desired outputs.
+	/// 
+	/// The <see cref="GetRunner"/> method is a high-level helper function that wraps a
+	/// call to the <see cref="Run"/> method which just takes too many parameters that must
+	/// be kept in sync.
+	/// 
 	/// </remarks>
 	public class TFSession : TFDisposable
 	{
@@ -2082,7 +2136,7 @@ namespace TensorFlow
 			/// Makes the Run method return the output of all the tensor referenced by outputs.
 			/// </summary>
 			/// <returns>The instance of runner, to allow chaining operations.</returns>
-			/// <param name="output">The outputs referencing a specified tensor.</param>
+			/// <param name="outputs">The outputs referencing a specified tensor.</param>
 			public Runner Fetch (params TFOutput [] outputs)
 			{
 				foreach (var output in outputs)
@@ -2094,7 +2148,7 @@ namespace TensorFlow
 			/// Makes the Run method return the output of all the tensor referenced by outputs.
 			/// </summary>
 			/// <returns>The instance of runner, to allow chaining operations.</returns>
-			/// <param name="output">The output sreferencing a specified tensor.</param>
+			/// <param name="outputs">The output sreferencing a specified tensor.</param>
 			public Runner Fetch (params string [] outputs)
 			{
 				foreach (var output in outputs)
@@ -2243,6 +2297,14 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Prepares the session for a partial run.
+		/// </summary>
+		/// <returns>A token that can be used to call <see cref="PartialRun"/> repeatedly.   To complete your partial run, you should call Dispose on the resulting method.</returns>
+		/// <param name="inputs">Inputs.</param>
+		/// <param name="outputs">Outputs.</param>
+		/// <param name="targetOpers">Target operations to run.</param>
+		/// <param name="status">Status.</param>
 		public PartialRunToken PartialRunSetup (TFOutput [] inputs, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2362,24 +2424,78 @@ namespace TensorFlow
 	/// </remarks>
 	public enum TFDataType : uint
 	{
+		/// <summary>
+		/// Single precission floatint point, 32-bits (C# float)
+		/// </summary>
 		Float = 1,
+		/// <summary>
+		/// Double precission floatint point, 64-bits (C# double)
+		/// </summary>
 		Double = 2,
+		/// <summary>
+		/// 32-bit signed integers (C# int)
+		/// </summary>
 		Int32 = 3,
+		/// <summary>
+		/// 8 bit unsigned integers (C# byte)
+		/// </summary>
 		UInt8 = 4,
+		/// <summary>
+		/// 16-bit signed integers (C# short)
+		/// </summary>
 		Int16 = 5,
+		/// <summary>
+		/// 8-bit signed integers (C# sbyte)
+		/// </summary>
 		Int8 = 6,
+		/// <summary>
+		/// Binary blob
+		/// </summary>
 		String = 7,
+		/// <summary>
+		/// Single precission complex numbers (32-bit floats)
+		/// </summary>
 		Complex64 = 8,
+		/// <summary>
+		/// 32-bit float based complex numbers
+		/// </summary>
 		Complex = 8,
+		/// <summary>
+		/// 64-bit signed integers (C# long)
+		/// </summary>
 		Int64 = 9,
 		Bool = 10,
+		/// <summary>
+		/// Quantized 8-bit signed integer
+		/// </summary>
 		QInt8 = 11,
+		/// <summary>
+		/// Quantized 8-bit unsigned integer
+		/// </summary>
 		QUInt8 = 12,
+		/// <summary>
+		/// Quantized 32-bit signed integer
+		/// </summary>
 		QInt32 = 13,
+		/// <summary>
+		/// Float32 truncated to 16 bits.  Only for cast operations.
+		/// </summary>
 		BFloat16 = 14,
+		/// <summary>
+		/// Quantized 16-bit signed integer
+		/// </summary>
 		QInt16 = 15,
+		/// <summary>
+		/// Quantized 16-bit unsigned integer
+		/// </summary>
 		QUInt16 = 16,
+		/// <summary>
+		/// 16-bit unsigned integers (C# long)
+		/// </summary>
 		UInt16 = 17,
+		/// <summary>
+		/// Double precission complex numbers (32-bit floats)
+		/// </summary>
 		Complex128 = 18,
 		Half = 19,
 		Resource = 20
