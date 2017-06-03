@@ -1,0 +1,26 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFGraph.WhileConstructor
+  id: TFGraph.WhileConstructor
+  langs:
+  - csharp
+  name: TFGraph.WhileConstructor
+  nameWithType: TFGraph.WhileConstructor
+  fullName: TensorFlow.TFGraph.WhileConstructor
+  type: Delegate
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
+  remarks: "<p>\n            The method should build up the condition on the conditionGraph and the body of the while \n            loop in the provided bodyGraph.   It should set the condOutput to the value used as the\n            condition output and the array of values in bodyOutputs to the final outputs as well as the\n            name to be used, if not set, one will be assigned.\n            </p>\n    <p>\n            The conditionGraph represents the while condition and the inputs are the current values of the\n            input variables (condInputs).   The output should be a scalar boolean.\n            </p>\n    <p>\n            The loop body graph is in bodyGraph, The inputs are the current values of the loop\n            variables. The outputs are the updated values of the loop variables.\n            </p>\n    <p>\n            You can use the passed status record problems with it.\n            </p>"
+  syntax:
+    content: public delegate void TFGraph.WhileConstructor(TFGraph conditionGraph, TFOutput[] condInputs, out TFOutput condOutput, TFGraph bodyGraph, TFOutput[] bodyInputs, TFOutput[] bodyOutputs, out string name);
+  inheritance:
+  - System.Delegate
+references:
+- uid: System.Delegate
+  parent: System
+  isExternal: true
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate

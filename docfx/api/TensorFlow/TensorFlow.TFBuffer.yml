@@ -1,0 +1,260 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFBuffer
+  id: TFBuffer
+  children:
+  - TensorFlow.TFBuffer.#ctor
+  - TensorFlow.TFBuffer.#ctor(System.Byte[])
+  - TensorFlow.TFBuffer.#ctor(System.Byte[],System.Int32,System.Int32)
+  - TensorFlow.TFBuffer.#ctor(System.IntPtr,System.Int64,TensorFlow.TFBuffer.BufferReleaseFunc)
+  - TensorFlow.TFBuffer.ToArray
+  langs:
+  - csharp
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Holds a block of data, suitable to pass, or retrieve from TensorFlow.
+  remarks: "<p>\n            Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks\n            of data out of TensorFlow.\n            </p>\n    <p>\n            There are two constructors to wrap existing data, one to wrap blocks that are \n            pointed to by an IntPtr and one that takes a byte array that we want to wrap.\n            </p>\n    <p>\n            The empty constructor can be used to create a new TFBuffer that can be populated\n            by the TensorFlow library and returned to user code.\n            </p>\n    <p>\n            Typically, the data consists of a serialized protocol buffer, but other data\n            may also be held in a buffer.\n            </p>"
+  syntax:
+    content: 'public class TFBuffer : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFBuffer.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFBuffer
+  langs:
+  - csharp
+  name: TFBuffer()
+  nameWithType: TFBuffer.TFBuffer()
+  fullName: TFBuffer.TFBuffer()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TFBuffer ();
+    parameters: []
+  overload: TensorFlow.TFBuffer.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFBuffer.#ctor(System.Byte[])
+  id: '#ctor(System.Byte[])'
+  parent: TensorFlow.TFBuffer
+  langs:
+  - csharp
+  name: TFBuffer(Byte[])
+  nameWithType: TFBuffer.TFBuffer(Byte[])
+  fullName: TFBuffer.TFBuffer(Byte[])
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFBuffer"></xref> by making a copy of the provided byte array.
+  remarks: "This constructor makes a copy of the data into an unmanaged buffer, \n            so the byte array is not pinned."
+  syntax:
+    content: public TFBuffer (byte[] buffer);
+    parameters:
+    - id: buffer
+      type: System.Byte[]
+      description: Buffer of data that will be wrapped.
+  overload: TensorFlow.TFBuffer.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFBuffer.#ctor(System.Byte[],System.Int32,System.Int32)
+  id: '#ctor(System.Byte[],System.Int32,System.Int32)'
+  parent: TensorFlow.TFBuffer
+  langs:
+  - csharp
+  name: TFBuffer(Byte[], Int32, Int32)
+  nameWithType: TFBuffer.TFBuffer(Byte[], Int32, Int32)
+  fullName: TFBuffer.TFBuffer(Byte[], Int32, Int32)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFBuffer"></xref> by making a copy of the provided byte array.
+  remarks: "This constructor makes a copy of the data into an unmanaged buffer, \n            so the byte array is not pinned."
+  syntax:
+    content: public TFBuffer (byte[] buffer, int start, int count);
+    parameters:
+    - id: buffer
+      type: System.Byte[]
+      description: Buffer of data that will be wrapped.
+    - id: start
+      type: System.Int32
+      description: Starting offset into the buffer to wrap.
+    - id: count
+      type: System.Int32
+      description: Number of bytes from the buffer to keep.
+  overload: TensorFlow.TFBuffer.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFBuffer.#ctor(System.IntPtr,System.Int64,TensorFlow.TFBuffer.BufferReleaseFunc)
+  id: '#ctor(System.IntPtr,System.Int64,TensorFlow.TFBuffer.BufferReleaseFunc)'
+  parent: TensorFlow.TFBuffer
+  langs:
+  - csharp
+  name: TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+  nameWithType: TFBuffer.TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+  fullName: TFBuffer.TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFBuffer"></xref> by wrapping the unmanaged resource pointed by the buffer.
+  remarks: >-
+    This constructor wraps the buffer as a the data to be held by the <xref href="TensorFlow.TFBuffer"></xref>,
+                if the release parameter is null, then you must ensure that the data is not released before the TFBuffer
+                is no longer in use.   If the value is not null, the provided method will be invoked to release
+                the data when the TFBuffer is disposed, or the contents of the buffer replaced.
+  syntax:
+    content: public TFBuffer (IntPtr buffer, long size, TensorFlow.TFBuffer.BufferReleaseFunc release);
+    parameters:
+    - id: buffer
+      type: System.IntPtr
+      description: Pointer to the data that will be wrapped.
+    - id: size
+      type: System.Int64
+      description: The size of the buffer to wrap.
+    - id: release
+      type: TensorFlow.TFBuffer+BufferReleaseFunc
+      description: Optional, if not null, this method will be invoked to release the block.
+  overload: TensorFlow.TFBuffer.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFBuffer.ToArray
+  id: ToArray
+  parent: TensorFlow.TFBuffer
+  langs:
+  - csharp
+  name: ToArray()
+  nameWithType: TFBuffer.ToArray()
+  fullName: TFBuffer.ToArray()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns a byte array representing the data wrapped by this buffer.
+  syntax:
+    content: public byte[] ToArray ();
+    parameters: []
+    return:
+      type: System.Byte[]
+      description: The array.
+  overload: TensorFlow.TFBuffer.ToArray*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFBuffer.#ctor
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: TFBuffer()
+  nameWithType: TFBuffer.TFBuffer()
+  fullName: TFBuffer.TFBuffer()
+- uid: TensorFlow.TFBuffer.#ctor(System.Byte[])
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: TFBuffer(Byte[])
+  nameWithType: TFBuffer.TFBuffer(Byte[])
+  fullName: TFBuffer.TFBuffer(Byte[])
+- uid: System.Byte
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte
+- uid: System.Byte[]
+  parent: System
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFBuffer.#ctor(System.Byte[],System.Int32,System.Int32)
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: TFBuffer(Byte[], Int32, Int32)
+  nameWithType: TFBuffer.TFBuffer(Byte[], Int32, Int32)
+  fullName: TFBuffer.TFBuffer(Byte[], Int32, Int32)
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFBuffer.#ctor(System.IntPtr,System.Int64,TensorFlow.TFBuffer.BufferReleaseFunc)
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+  nameWithType: TFBuffer.TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+  fullName: TFBuffer.TFBuffer(IntPtr, Int64, TFBuffer+BufferReleaseFunc)
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: TensorFlow.TFBuffer
+  parent: TensorFlow
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer+BufferReleaseFunc
+- uid: TensorFlow.TFBuffer.ToArray
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: ToArray()
+  nameWithType: TFBuffer.ToArray()
+  fullName: TFBuffer.ToArray()
+- uid: TensorFlow.TFBuffer.#ctor*
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer.TFBuffer
+  fullName: TFBuffer.TFBuffer
+- uid: TensorFlow.TFBuffer.ToArray*
+  parent: TensorFlow.TFBuffer
+  isExternal: false
+  name: ToArray
+  nameWithType: TFBuffer.ToArray
+  fullName: TFBuffer.ToArray
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle
