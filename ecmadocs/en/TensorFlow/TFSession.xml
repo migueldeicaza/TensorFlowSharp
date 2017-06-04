@@ -14,19 +14,22 @@
             Drives the execution of a graph
             </summary>
     <remarks>
+      <para>
             This creates a new context to execute a TFGraph.   You can use the 
             constructor to create an empty session, or you can load an existing
             model using the <see cref="M:TensorFlow.TFSession.FromSavedModel(TensorFlow.TFSessionOptions,TensorFlow.TFBuffer,System.String,System.String[],TensorFlow.TFGraph,TensorFlow.TFBuffer,TensorFlow.TFStatus)" /> static method in this class.
-            
+            </para>
+      <para>
             To execute operations with the graph, call the <see cref="M:TensorFlow.TFSession.GetRunner" />  method
             which returns an object that you can use to build the operation by providing
             the inputs, requesting the operations that you want to execute and the desired outputs.
-            
+            </para>
+      <para>
             The <see cref="M:TensorFlow.TFSession.GetRunner" /> method is a high-level helper function that wraps a
             call to the <see cref="M:TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)" /> method which just takes too many parameters that must
             be kept in sync.
-            
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">

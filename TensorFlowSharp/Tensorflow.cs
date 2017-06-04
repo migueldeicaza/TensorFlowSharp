@@ -112,10 +112,13 @@ namespace TensorFlow
 	/// release resources associated with the native data types.   Generally, you do not need to use this.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// This implements the Dispose pattern in a reusable form for TensorFlow types.
-	/// 
+	/// </para>
+	/// <para>
 	/// Subclasses invoke the constructor with the handle that this will wrap, and must
 	/// override the NativeDispose method (internal) to release the associated resource.
+	/// </para>
 	/// </remarks>
 	public abstract class TFDisposable : IDisposable
 	{
@@ -204,16 +207,19 @@ namespace TensorFlow
 	/// Used to track the result of TensorFlow operations.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// TFStatus is used to track the status of a call to some TensorFlow
 	/// operations.   Instances of this object are passed to various
 	/// TensorFlow operations and you can use the <see cref="P:TensorFlow.TFStatus.Ok"/>
 	/// to quickly check if the operation succeeded, or get more detail from the
 	/// <see cref="P:TensorFlow.TFStatus.StatusCode"/> and a human-readable text
 	/// using the <see cref="P:TensorFlow.TFStatus.StatusMessage"/> property.
-	/// 
+	/// </para>
+	/// <para>
 	/// The convenience <see cref="M:TensorFlow.TFStatus.Raise"/> can be used
 	/// to raise a <see cref="P:TensorFlow.TFException"/> if the status of the
 	/// operation did not succeed.
+	/// </para>
 	/// </remarks>
 	public class TFStatus : TFDisposable
 	{
@@ -434,15 +440,19 @@ namespace TensorFlow
 	/// Represents a computation graph.  Graphs may be shared between sessions and are thread safe.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// Graphs consist of operations (represented by TFOperation objects), these can be named, or 
 	/// the runtime will automatically assign a name.
-	/// 
+	/// </para> 
+	/// <para>
 	/// For debugging purposes, you might want to group operations together, for this, call the
 	/// WithScope method with your new scope, which will create a new namespace for your object names.
-	/// 
+	/// </para>
+	/// <para>
 	/// For example, if you call WithScope ("demo"), and add an operation named "add" inside the
 	/// scope, the full name of the operation will be "demo/add", if you create a new scope inside, say
 	/// "hot", and add a "sub" operation there the result will be "demo/hot/sub".
+	/// </para>
 	/// </remarks>
 	public partial class TFGraph : TFDisposable
 	{
@@ -707,14 +717,16 @@ namespace TensorFlow
 		/// <param name="nameScopeDesc">The namescope description, if the value is null, this
 		/// will reset the toplevel namescope to be the empty value. </param>
 		/// <remarks>
+		/// <para>
 		/// To more easily name your operations and group then, you can use the
 		/// WithScope method to set a current name scope that alter the complete name
 		/// of an operation added to the graph.
-		/// 
+		/// </para>
+		/// <para>
 		/// The graph starts with a scope set to the empty string, you can introduce new
 		/// scopes by calling WithScope, and can be conveniently used with the C# using
 		/// statement, like this:
-		/// 
+		/// </para>
 		/// <code>
 		/// Assert (graph.CurrentNamescope, "");
 		/// using (var nested = graph.WithScope ("nested")){
@@ -841,18 +853,23 @@ namespace TensorFlow
 		/// Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
 		/// </summary>
 		/// <remarks>
+		/// <para>
 		/// The method should build up the condition on the conditionGraph and the body of the while 
 		/// loop in the provided bodyGraph.   It should set the condOutput to the value used as the
 		/// condition output and the array of values in bodyOutputs to the final outputs as well as the
 		/// name to be used, if not set, one will be assigned.
-		/// 
+		/// </para>
+		/// <para>
 		/// The conditionGraph represents the while condition and the inputs are the current values of the
 		/// input variables (condInputs).   The output should be a scalar boolean.
-		/// 
+		/// </para>
+		/// <para>
 		/// The loop body graph is in bodyGraph, The inputs are the current values of the loop
 		/// variables. The outputs are the updated values of the loop variables.
-		/// 
+		/// </para>
+		/// <para>
 		/// You can use the passed status record problems with it.
+		/// </para>
 		/// </remarks>
 		public delegate void WhileConstructor (TFGraph conditionGraph, TFOutput [] condInputs, out TFOutput condOutput, TFGraph bodyGraph, TFOutput [] bodyInputs, TFOutput [] bodyOutputs, out string name);
 
@@ -1025,17 +1042,20 @@ namespace TensorFlow
 	/// Low-level TensorFlow operation builder
 	/// </summary>
 	/// <remarks>
-	/// This is the low-level API that is used to create operations by manually specificying all
+	/// <para>This is the low-level API that is used to create operations by manually specificying all
 	/// the parameters of an operation (inputs, outputs, attribute descriptions) that can then
 	/// be attached into a graph.
-	/// 
+	/// </para>
+	/// <para>
 	/// Generally, you will instead be using the methods surfaced in <see cref="T:TensorFlow.TFGraph"/> 
 	/// that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
 	/// nodes.
-	/// 
+	/// </para>
+	/// <para>
 	/// You create instances bound to a graph, add inputs, attributes and so on, and when you are done
 	/// you can call the <see cref="FinishOperation"/> method that will turn this TFOperationDesc 
 	/// into a <see cref="T:TensorFlow.TFOperation"/>.
+	/// </para>
 	/// </remarks>
 	public class TFOperationDesc : TFDisposable
 	{
@@ -1122,12 +1142,15 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="control">Operation that must be executed before running this operation.</param>
 		/// <remarks>
+		/// <para>
 		/// A control input is an Operation that must be executed before running the operation 
 		/// currently being built.  
-		/// 
+		/// </para>
+		/// <para>
 		/// For example, an Assert operation may be added as a control input for this operation. 
 		/// The Assert now behaves as a pre-condition that will always verify itself before
 		/// running the operation.
+		/// </para>
 		/// </remarks>
 		public TFOperationDesc AddControlInput (TFOperation control)
 		{
@@ -1873,18 +1896,21 @@ namespace TensorFlow
 	/// Drives the execution of a graph
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// This creates a new context to execute a TFGraph.   You can use the 
 	/// constructor to create an empty session, or you can load an existing
 	/// model using the <see cref="FromSavedModel"/> static method in this class.
-	/// 
+	/// </para>
+	/// <para>
 	/// To execute operations with the graph, call the <see cref="GetRunner"/>  method
 	/// which returns an object that you can use to build the operation by providing
 	/// the inputs, requesting the operations that you want to execute and the desired outputs.
-	/// 
+	/// </para>
+	/// <para>
 	/// The <see cref="GetRunner"/> method is a high-level helper function that wraps a
 	/// call to the <see cref="Run"/> method which just takes too many parameters that must
 	/// be kept in sync.
-	/// 
+	/// </para>
 	/// </remarks>
 	public class TFSession : TFDisposable
 	{
@@ -1993,20 +2019,23 @@ namespace TensorFlow
 		/// Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
 		/// </summary>
 		/// <remarks>
+		/// <para>
 		/// The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
 		/// to construct the parameters that will be passed to the TFSession.Run method.
-		/// 
+		/// </para>
+		/// <para>
 		/// Instances of this class are created by calling the GetRunner method on the TFSession.
-		/// 
+		/// </para>
+		/// <para>
 		/// The various methods in this class return an instance to the Runner itsel, to allow
 		/// to easily construct chains of execution like this:
-		/// 
+		/// </para>
 		/// <code>
 		/// var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
 		/// </code>
-		/// 
+		/// <para>
 		/// You do not need to chain the operations, this works just the same:
-		/// 
+		/// </para>
 		/// <code>
 		/// runner = session.GetRunner ();
 		/// runner.AddInput(myInput);
@@ -2552,13 +2581,16 @@ namespace TensorFlow
 	/// Represents a specific output of an operation on a tensor.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// TFOutput objects represent one of the outputs of an operation in the graph
 	/// (TFGraph).  Outputs have a data type, and eventually a shape that you can 
 	/// retrieve by calling the <see cref="M:TensorFlow.TFGraph.GetShape"/> method.
-	/// 
+	/// </para>
+	/// <para>
 	/// These can be passed as an input argument to a function for adding operations 
 	/// to a graph, or to the TFSession's Run and GetRunner method as values to be
 	/// fetched.
+	/// </para>
 	/// </remarks>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFOutput
@@ -2729,27 +2761,33 @@ namespace TensorFlow
 	/// Represents the shape of a tensor
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// The shapes can be created by calling the constructor with the number of dimensions
 	/// in the shape.   The null value is used to specify that the shape is unknown,
 	/// an empty array is used to create a scalar, and other values are used to specify
 	/// the number of dimensions.
-	/// 
+	/// </para>
+	/// <para>
 	/// For the Unknown case, you can use <see cref="P:TensorFlor.TFShape.Unknown"/>, for
 	/// scalars, you can use the <see cref="P:TensorFlor.TFShape.Scalar"/> shape.
-	/// 
+	/// </para>
+	/// <para>
 	/// To create a 2-element vector, use:
 	/// new TFShape (2)
-	/// 
+	/// </para>
+	/// <para>
 	/// To create a 2x3 matrix, use:
 	/// new TFShape (2, 3)
-	/// 
+	/// </para>
+	/// <para>
 	/// To create a shape with an unknown number of elements, you can pass the value
 	/// -1.  This is typically used to indicate the shape of tensors that represent a
 	/// variable-sized batch of values.
-	/// 
-	/// 
+	/// </para>
+	/// <para>
 	/// To create a matrix with 4 columns and an unknown number of rows:
 	/// var batch = new TFShape (-1, 4)
+	/// </para>
 	/// </remarks>
 	public class TFShape
 	{

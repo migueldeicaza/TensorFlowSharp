@@ -19,11 +19,14 @@
             release resources associated with the native data types.   Generally, you do not need to use this.
             </summary>
     <remarks>
+      <para>
             This implements the Dispose pattern in a reusable form for TensorFlow types.
-            
+            </para>
+      <para>
             Subclasses invoke the constructor with the handle that this will wrap, and must
             override the NativeDispose method (internal) to release the associated resource.
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">

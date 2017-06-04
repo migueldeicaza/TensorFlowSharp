@@ -18,16 +18,20 @@ namespace TensorFlow
 	/// TFTensor holds a multi-dimensional array of elements of a single data type.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// You can create tensors with the various constructors in this class, or using
 	/// the implicit conversions from various data types into a TFTensor.
-	///
+	///</para>
+	/// <para>
 	/// The implicit conversions for basic types produce tensors of one dimesion with
 	/// a single element, while the implicit conversion from an array, expects a multi-dimensional
 	/// array that is converted into a tensor of the right dimensions.
-	/// 
+	/// </para>
+	/// <para>
 	/// The special "String" tensor data type that you will find in TensorFlow documentation
 	/// really represents a byte array.   You can create string tensors by using the <see cref="M:TensorFlow.TFTensor.CreateString"/> 
 	/// method that takes a byte array buffer as input.
+	/// </para>
 	/// </remarks>
 	public class TFTensor : TFDisposable
 	{

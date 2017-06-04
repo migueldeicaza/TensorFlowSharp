@@ -23,17 +23,22 @@ namespace TensorFlow
 	/// Holds a block of data, suitable to pass, or retrieve from TensorFlow.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks
 	/// of data out of TensorFlow.
-	/// 
+	/// </para>
+	/// <para>
 	/// There are two constructors to wrap existing data, one to wrap blocks that are 
 	/// pointed to by an IntPtr and one that takes a byte array that we want to wrap.
-	/// 
+	/// </para>
+	/// <para>
 	/// The empty constructor can be used to create a new TFBuffer that can be populated
 	/// by the TensorFlow library and returned to user code.
-	/// 
+	/// </para>
+	/// <para>
 	/// Typically, the data consists of a serialized protocol buffer, but other data
 	/// may also be held in a buffer.
+	/// </para>
 	/// </remarks>
 	// TODO: the string ctor
 	// TODO: perhaps we should have an implicit byte [] conversion that just calls ToArray?
