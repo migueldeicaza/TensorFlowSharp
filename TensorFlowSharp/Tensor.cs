@@ -746,7 +746,7 @@ namespace TensorFlow
 			}
 		}
 
-		static Type TypeFromTensorType (TFDataType type)
+		internal static Type TypeFromTensorType (TFDataType type)
 		{
 			switch (type) {
 			case TFDataType.Float:
@@ -776,7 +776,95 @@ namespace TensorFlow
 			}
 		}
 
-		static unsafe object FetchSimple (TFDataType dt, IntPtr data)
+        internal static (TFDataType dt, long size) TensorTypeFromType(Type t)
+        {
+            var tc = Type.GetTypeCode(t);
+            TFDataType dt;
+            long size = 0;
+            switch (tc)
+            {
+                case TypeCode.Boolean:
+                    dt = TFDataType.Bool;
+                    size = 1;
+                    break;
+                case TypeCode.SByte:
+                    dt = TFDataType.Int8;
+                    size = 1;
+                    break;
+                case TypeCode.Byte:
+                    dt = TFDataType.UInt8;
+                    size = 1;
+                    break;
+                case TypeCode.Int16:
+                    dt = TFDataType.Int16;
+                    size = 2;
+                    break;
+                case TypeCode.UInt16:
+                    dt = TFDataType.UInt16;
+                    size = 2;
+                    break;
+                case TypeCode.Int32:
+                    dt = TFDataType.Int32;
+                    size = 4;
+                    break;
+                case TypeCode.Int64:
+                    dt = TFDataType.Int64;
+                    size = 8;
+                    break;
+                case TypeCode.Single:
+                    dt = TFDataType.Float;
+                    size = 4;
+                    break;
+                case TypeCode.Double:
+                    dt = TFDataType.Double;
+                    size = 8;
+                    break;
+                default:
+                    // Check types that are not handled by the typecode
+                    if (t.IsAssignableFrom(typeof(Complex)))
+                    {
+                        size = 16;
+                        dt = TFDataType.Complex128;
+                    }
+                    else
+                        throw new ArgumentException($"The data type {t} is not supported");
+                    break;
+            }
+            return (dt, size);
+        }
+
+        internal static unsafe object FetchSimple(TFDataType dt, object data)
+        {
+            switch (dt)
+            {
+                case TFDataType.Float:
+                    return Convert.ToSingle(data);
+                case TFDataType.Double:
+                    return Convert.ToDouble(data);
+                case TFDataType.Int32:
+                    return Convert.ToInt32(data);
+                case TFDataType.UInt8:
+                    return Convert.ToByte(data);
+                case TFDataType.Int16:
+                    return Convert.ToInt16(data);
+                case TFDataType.Int8:
+                    return Convert.ToSByte(data);
+                case TFDataType.String:
+                    throw new NotImplementedException();
+                case TFDataType.Int64:
+                    return Convert.ToInt64(data);
+                case TFDataType.Bool:
+                    return Convert.ToBoolean(data);
+                case TFDataType.UInt16:
+                    return Convert.ToUInt16(data);
+                case TFDataType.Complex128:
+                    return (Complex)data;
+                default:
+                    return null;
+            }
+        }
+
+        static unsafe object FetchSimple (TFDataType dt, IntPtr data)
 		{
 			switch (dt) {
 			case TFDataType.Float:
@@ -1017,21 +1105,56 @@ namespace TensorFlow
 			}
 		}
 
-		/// <summary>
-		/// Returns the value of the Tensor as a C# type if possible, or null if the data type can not be represented in C#
-		/// </summary>
-		/// <param name="jagged">
-		/// The default is set to false, which returns .NET multi-dimensional arrays for multi-dimensional
-		/// tensors.    This is useful to feed the data back as a TFTensor created from an array.   Set to
-		/// true if you want to get arrays pointing to arrays, which are slightly more convenient to work
-		/// with from C#
-		/// </param>
-		/// <remarks>
-		/// Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
-		/// efficient memory-wise.
-		/// </remarks>
-		/// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</returns>
-		public object GetValue (bool jagged = false)
+        //used to create multidementional arrays / tensor with a constant value
+        internal static unsafe void Set(Array target, TFDataType dt, long[] shape, int[] idx, int level, object value)
+        {
+            if (level < shape.Length - 1)
+            {
+                for (idx[level] = 0; idx[level] < shape[level]; idx[level]++)
+                    Set(target, dt, shape, idx, level + 1, value);
+            }
+            else
+            {
+                for (idx[level] = 0; idx[level] < shape[level]; idx[level]++)
+                {
+                    switch (dt)
+                    {
+                        case TFDataType.Float:
+                        case TFDataType.Double:
+                        case TFDataType.Int32:
+                        case TFDataType.UInt8:
+                        case TFDataType.Int16:
+                        case TFDataType.Int8:
+                        case TFDataType.Int64:
+                        case TFDataType.Bool:
+                        case TFDataType.Complex128:
+                            target.SetValue(value, idx);
+                            break;
+                        case TFDataType.String:
+                            throw new NotImplementedException("String decoding not implemented for tensor vecotrs yet");
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Returns the value of the Tensor as a C# type if possible, or null if the data type can not be represented in C#
+        /// </summary>
+        /// <param name="jagged">
+        /// The default is set to false, which returns .NET multi-dimensional arrays for multi-dimensional
+        /// tensors.    This is useful to feed the data back as a TFTensor created from an array.   Set to
+        /// true if you want to get arrays pointing to arrays, which are slightly more convenient to work
+        /// with from C#
+        /// </param>
+        /// <remarks>
+        /// Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
+        /// efficient memory-wise.
+        /// </remarks>
+        /// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</returns>
+        public object GetValue (bool jagged = false)
 		{
 			var dims = NumDims;
 			if (dims == 0)
