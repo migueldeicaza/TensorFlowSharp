@@ -64,13 +64,36 @@ namespace SampleTest
 				// Multiply two constants
 				results = s.GetRunner ().Run (g.Mul (a, b));
 				Console.WriteLine ("a*b={0}", results.GetValue ());
+                
+                // Test Zeros, Ones
+                var o = g.Ones(new TFShape(4, 4));
+                var r = g.RandomNormal(new TFShape(4, 4));
+                var z = g.Zeros(new TFShape(4, 4));
+                var m = g.Mul(o, r);
+                var res1 = s.GetRunner().Run(m);
+                var res2 = s.GetRunner().Run(g.Mul(g.Mul(o, r), z));
+                
+                //Test Constants
+                var co = g.Constant(1.0, new TFShape(4, 4), TFDataType.Double);
+                var cz = g.Constant(0.0, new TFShape(4, 4), TFDataType.Double);
+                var cr = g.RandomNormal(new TFShape(4, 4));
+                var cm = g.Mul(co, cr);
+                var cres1 = s.GetRunner().Run(cm);
+                var cres2 = s.GetRunner().Run(g.Mul(g.Mul(co, cr), cz));
 
-				// TODO: API-wise, perhaps session.Run () can have a simple
-				// overload where we only care about the fetched values, 
-				// making the above:
-				// s.Run (g.Mul (a, b));
-			}
-		}
+                var so = g.Ones(new TFShape(4, 3));
+                var sr = g.RandomNormal(new TFShape(3, 5));
+                var sz = g.Zeros(new TFShape(5, 6));
+                var sm = g.MatMul(so, sr);
+                var sres1 = s.GetRunner().Run(sm);
+                var sres2 = s.GetRunner().Run(g.MatMul(g.MatMul(so, sr), sz));
+
+                // TODO: API-wise, perhaps session.Run () can have a simple
+                // overload where we only care about the fetched values, 
+                // making the above:
+                // s.Run (g.Mul (a, b));
+            }
+        }
 
 		// 
 		// Shows how to use placeholders to pass values
@@ -305,14 +328,26 @@ namespace SampleTest
 		#endregion
 		public static void Main (string [] args)
 		{
-			Console.WriteLine (Environment.CurrentDirectory);
+            //need TF# on Windows with GPU support?
+            //find _pywrap_tensorflow_internal.pyd in the tensorflow_gpu-1.1.0-cp36-cp36m-win_amd64.whl
+            //the location in the whl is here: \tensorflow_gpu-1.1.0.data\purelib\tensorflow\python\
+            //extract, copy and rename _pywrap_tensorflow_internal.pyd to libtensorflow.dll
+            //copy to you TF# folder
+            //if running with libtensorflow.dll where Python 3.5 environment is needed - append the py35 environment to the path            
+            //see https://github.com/larcai/cognibooks/blob/master/tensorflow/1_tf_setup.workbook 
+            var envpaths = new List<string> { @"C:\ProgramData\Anaconda3\envs\py35" }
+                .Union(Environment.GetEnvironmentVariable("PATH").Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+            Environment.SetEnvironmentVariable("PATH", string.Join(";", envpaths));
+            
+            Console.WriteLine (Environment.CurrentDirectory);
 			Console.WriteLine ("TensorFlow version: " + TFCore.Version);
 
 			//var b = TFCore.GetAllOpList ();
-
-
+            
 			var t = new MainClass ();
-			t.TestParametersWithIndexes ();
+            t.BasicConstantOps();
+
+            t.TestParametersWithIndexes ();
 			t.AddControlInput ();
 			t.TestImportGraphDef ();
 			t.TestSession ();

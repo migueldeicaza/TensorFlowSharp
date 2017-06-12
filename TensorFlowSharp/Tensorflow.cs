@@ -2222,7 +2222,14 @@ namespace TensorFlow
 				return Run (status) [0];
 			}
 
-		}
+            public TFTensor[] Run(TFOutput[] operations, TFStatus status = null)
+            {
+                outputs.Clear();
+                Fetch(operations);
+                return Run(status);
+            }
+
+        }
 
 		/// <summary>
 		/// Gets a new runner, this provides a simpler API to prepare the inputs to run on a session
