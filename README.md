@@ -4,7 +4,7 @@ TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
 https://github.com/tensorflow/tensorflow
 
-This surfaces the C API as a strongly-typed C# API.
+This surfaces the C API as a strongly-typed .NET API for use from C# and F#.
 
 The API binding is pretty much done, and at this point, I am polishing the
 API to make it more pleasant to use from C# and F# and resolving some of the
