@@ -29,7 +29,13 @@ nuget install TensorFlowSharp
 
 Or select it from the NuGet packages UI on Visual Studio.
 
-Alternatively, you can [download it](https://www.nuget.org/api/v2/package/TensorFlowSharp/0.96.0) directly.
+
+On Visual Studio, make sure that you are targeting .NET 4.6.1 or
+later, as this package uses some features of newer .NETs.  Otherwise,
+the package will not be added. Once you do this, you can just use the
+TensorFlowSharp nuget
+
+Alternatively, you can [download it](https://www.nuget.org/api/v2/package/TensorFlowSharp/1.2.2) directly.
 
 ## Using TensorFlowSharp
 
