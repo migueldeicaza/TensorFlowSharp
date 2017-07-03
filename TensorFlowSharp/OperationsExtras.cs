@@ -92,6 +92,23 @@ namespace TensorFlow
 		}
 
 		List<TFOperation> pending_init_variables;
+
+		/// <summary>
+		/// Registers a specified variable as an initialization variable.
+		/// </summary>
+		/// <param name="variable">Variable to register.</param>
+		/// <remarks>
+		/// <para>
+		/// This is a convenience method to track the variables that need to be initialized in the graph,
+		/// you can retrieve the list of all those variables by calling the <see cref="M:TensorFlow.TFGraph.GetGlobalVariablesInitializer"/>
+		/// which will return this list and clear the state at that point.
+		/// </para>
+		/// <para>
+		/// You typically use this method from helper methods to register all the variables that you want
+		/// initialized, and a higher level method will retrieve all these variables and initialize them
+		/// at their convenience.
+		/// </para>
+		/// </remarks>
 		public void AddInitVariable (TFOperation variable)
 		{
 			if (pending_init_variables == null)
@@ -99,6 +116,14 @@ namespace TensorFlow
 			pending_init_variables.Add (variable);
 		}
 
+		/// <summary>
+		/// Gets the list of all registered global variables.
+		/// </summary>
+		/// <returns>The array of variables that should be initialized.</returns>
+		/// <remarks>
+		/// After this method is invoked the list of pending initialization variables
+		/// is cleared.
+		/// </remarks>
 		public TFOperation [] GetGlobalVariablesInitializer ()
 		{
 			var res = pending_init_variables.ToArray ();
@@ -171,8 +196,6 @@ namespace TensorFlow
 		//
 		TFOutput ShapeTensorOutput (TFShape shape)
 		{
-			Array a;
-
 			if (shape.IsLongArray)
 				return Const (shape.ToArray (), TFDataType.Int64);
 			else

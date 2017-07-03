@@ -382,6 +382,9 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		internal static extern unsafe TF_SessionOptions TF_NewSessionOptions ();
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFSessionOptions"/> class.
+		/// </summary>
 		public TFSessionOptions () : base (TF_NewSessionOptions ()) { }
 
 		// extern void TF_DeleteSessionOptions (TF_SessionOptions *);
@@ -485,6 +488,12 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphSetTensorShape (TF_Graph graph, TFOutput output, IntPtr dims, int num_dims, TF_Status status);
 
+		/// <summary>
+		/// Sets the tensor shape of the tensor referenced by <paramref name="output"/> to the shape described by <paramref name="dims"/>.
+		/// </summary>
+		/// <param name="output">The tensor on which this method will operate in the graph.</param>
+		/// <param name="dims">The tensor shape, specified as an array of dimensions.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void SetTensorShape (TFOutput output, long [] dims, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -516,6 +525,13 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphGetTensorShape (TF_Graph graph, TFOutput output, long [] dims, int num_dims, TF_Status status);
 
+		/// <summary>
+		/// Returns the shape of a tensor specified in <paramref name="output"/>.
+		/// </summary>
+		///
+		/// <returns>The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.</returns>
+		/// <param name="output">The tensor that you want to look up.  </param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public long [] GetTensorShape (TFOutput output, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -535,6 +551,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphToGraphDef (TF_Graph graph, LLBuffer* output_graph_def, TF_Status status);
 
+		/// <summary>
+		/// Write out a serialized representation of the graph (as a GraphDef protocol buffer message) into <paramref name="outputGraphDef"/>.
+		/// </summary>
+		/// <param name="outputGraphDef">Target buffer where the graphs is serialized into.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void ToGraphDef (TFBuffer outputGraphDef, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -560,7 +581,7 @@ namespace TensorFlow
 		/// <returns>The import.</returns>
 		/// <param name="graphDef">A buffer containing the serialized graph.</param>
 		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
-		/// <param name="status">Status buffer.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void Import (TFBuffer graphDef, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -582,7 +603,7 @@ namespace TensorFlow
 		/// <returns>The import.</returns>
 		/// <param name="graphDef">A buffer containing the serialized graph.</param>
 		/// <param name="options">Importing graph options.</param>
-		/// <param name="status">Status buffer.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void Import (TFBuffer graphDef, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -605,8 +626,8 @@ namespace TensorFlow
 		/// </summary>
 		/// <returns>The import.</returns>
 		/// <param name="buffer">A byte array containing the serialized graph.</param>
-		/// <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef"/> when they are imported into the graph.</param>
-		/// <param name="status">Status buffer.</param>
+		/// <param name="prefix">A prefix that will be prepended to names of nodes in the graph when they are imported into the graph.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>		
 		public void Import (byte [] buffer, string prefix = "", TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -627,7 +648,7 @@ namespace TensorFlow
 		/// <returns>The import.</returns>
 		/// <param name="buffer">A byte array containing the serialized graph.</param>
 		/// <param name="options">Importing graph options.</param>
-		/// <param name="status">Status buffer.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -686,7 +707,7 @@ namespace TensorFlow
 		/// </summary>
 		/// <returns>null for single dimension, .</returns>
 		/// <param name="output">The output operation to probe.</param>
-		/// <param name="status">Status.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public long [] GetShape (TFOutput output, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -794,7 +815,7 @@ namespace TensorFlow
 		/// <param name="graphDef">Serialized graph definition (in protocol buffer format).</param>
 		/// <param name="options">Import options.</param>
 		/// <param name="returnOutputs">Array large enough to contain all the return options.</param>
-		/// <param name="status">Status, optional.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public void ImportGraphDef (TFBuffer graphDef, TFImportGraphDefOptions options, TFOutput [] returnOutputs, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -878,6 +899,7 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="inputs">Inputs.</param>
 		/// <param name="constructor">Callback method that fills out the various while loop parameters.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		/// <returns>
 		/// An array of TFOutputs from creating the While loop, or null if there is an error creating the 
 		/// while loop, or if the constructor raised an exception when it was invoked.
@@ -951,7 +973,7 @@ namespace TensorFlow
 		/// <param name="x">The x elements.</param>
 		/// <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y"/> ).   
 		/// If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y"/></param>
-		/// <param name="status">Status.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		/// <remarks>
 		/// d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
 		/// </remarks>
@@ -1727,7 +1749,7 @@ namespace TensorFlow
 		/// Encodes the TFOperation as a protocol buffer payload
 		/// </summary>
 		/// <returns>The buffer with the encoded operation in the protocol buffer format.</returns>
-		/// <param name="status">Status.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		/// <remarks>
 		/// </remarks>
 		public TFBuffer ToNodeDef (TFStatus status = null)
@@ -1918,6 +1940,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Session TF_NewSession (TF_Graph graph, TF_SessionOptions opts, TF_Status status);
 
+		/// <summary>
+		/// Gets the graph associated with this TensorFlow session.
+		/// </summary>
+		/// <value>The graph.</value>
 		public TFGraph Graph { get; private set; }
 
 		TFSession (IntPtr handle, TFGraph graph) : base (handle) 
@@ -2115,7 +2141,7 @@ namespace TensorFlow
 			/// Adds the specified operation names as the ones to be retrieved.
 			/// </summary>
 			/// <returns>An instance to the runner, so you can easily chain the operations together.</returns>
-			/// <param name="targets">One or more target names.</param>
+			/// <param name="targetNames">One or more target names.</param>
 			public Runner AddTarget (params string [] targetNames)
 			{
 				foreach (var tn in targetNames)
@@ -2142,7 +2168,6 @@ namespace TensorFlow
 			/// <returns>The instance of runner, to allow chaining operations.</returns>
 			/// <param name="operation">The name of the operation in the graph, which might be a simple name, or it might be name:index, 
 			/// where the index is the .</param>
-			/// <param name="index">The index of the output in the operation.</param>
 			public Runner Fetch (string operation)
 			{
 				var op = ParseOutput (operation);
@@ -2199,7 +2224,7 @@ namespace TensorFlow
 			///  Execute the graph fragments necessary to compute all requested fetches.
 			/// </summary>
 			/// <returns>One TFTensor for each call to Fetch that you made, in the order that you made them.</returns>
-			/// <param name="status">Status.</param>
+			/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 			public TFTensor [] Run (TFStatus status = null)
 			{
 				return session.Run (inputs.ToArray (), inputValues.ToArray (), outputs.ToArray (), targets.ToArray (), RunMetadata, RunOptions, status);
@@ -2209,7 +2234,7 @@ namespace TensorFlow
 			/// Run the specified operation, by adding it implicity to the output, single return value
 			/// </summary>
 			/// <param name="operation">The output of the operation.</param>
-			/// <param name="status">Optional, status.</param>
+			/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 			/// <remarks>
 			/// This method is a convenience method, and when you call it, it will clear any 
 			/// calls that you might have done to Fetch() and use the specified operation to Fetch
@@ -2251,7 +2276,7 @@ namespace TensorFlow
 		/// <param name="targetOpers">Target operations to execute.</param>
 		/// <param name="runMetadata">Run metadata.</param>
 		/// <param name="runOptions">Run options.</param>
-		/// <param name="status">Status code.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public TFTensor [] Run (TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2333,7 +2358,7 @@ namespace TensorFlow
 		/// <param name="inputs">Inputs.</param>
 		/// <param name="outputs">Outputs.</param>
 		/// <param name="targetOpers">Target operations to run.</param>
-		/// <param name="status">Status.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public PartialRunToken PartialRunSetup (TFOutput [] inputs, TFOutput [] outputs, TFOperation [] targetOpers, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
