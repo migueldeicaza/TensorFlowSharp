@@ -1,494 +1,107 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
 <html>
+  
   <head>
-    <title>TensorFlowSharp</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style>
-      @media (min-width:1200px) {
-         body {
-	     max-width: 100ch;
-	     padding: 0 5%;
-	     margin-left: auto;
-	     margin-right: auto;         
-	 }
-      }
-      @media (min-width:1200px) {
-      }
-
-      body {
-         font-family: segoe-ui_normal,Segoe UI,Segoe,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
-      }
-
-      a { text-decoration: none }
-
-      div.SideBar {
-        padding-left: 1em;
-        padding-right: 1em;
-        right: 0;
-        float: right;
-        border: thin solid black;
-        background-color: #f2f2f2;
-	visibility: hidden;
-      }
-
-      .CollectionTitle { font-weight: bold }
-      .PageTitle { 
-      	font-family: segoe-ui_light,Segoe UI Light,Segoe WP,Helvetica Neue,Helvetica,sans-serif;
-	font-size: 2.5rem;
-	margin-bottom: 0;
-	margin-top: 10px;
-	font-weight: 300;
-	font-style: normal;
-	line-height: 1.3;
-	text-rendering: optimizeLegibility;
-      }
-
-      .Summary { 
-        margin-top: 0;
-      }
-      .Signature { 
-         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
-	 line-height: 1.25;
-	 -webkit-font-smoothing: auto;
-	 -moz-osx-font-smoothing: auto;
-      }
-      .Remarks { }
-      .Members { }
-      .Copyright { }
-      
-      .Section, h2 { 
-	color: #4c668b;
-	font-size: 1.875rem;
-	font-family: segoe-ui_semibold;
-	word-break: break-all;
-      }
-      p.Summary {
-        margin-left: 1em;
-      }
-      .SectionBox { 
-      }
-
-      .SectionBox b a {
-          font-size: .875rem;
-          font-weight: normal;
-      }
-      
-      a:hover {
-          text-decoration: underline;
-      }
-
-      .NamespaceName { font-size: 105%; font-weight: bold }
-      .NamespaceSumary { }
-      .MemberName { font-size: 115%; font-weight: bold; margin-top: 1em }
-      .Subsection { 
-          margin-bottom: 2px;
-	  margin-top: 24px;
-      }
-      .SubsectionBox dl dt i { 
-          font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;      
-      }
-
-      .CodeExampleTable { background-color: #f5f5dd; border: thin solid black; padding: .25em; }
-      
-      .TypesListing {
-        border-collapse: collapse;
-      }
-
-      td {
-        vertical-align: top;
-      }
-      th {
-        text-align: left;
-      }
-
-      .TypesListing td { 
-        margin: 0px;  
-        padding: .25em;
-        border: solid gray 1px;
-      }
-
-      .TypesListing th { 
-        margin: 0px;  
-        padding: .25em;
-        background-color: #f2f2f2;
-        border: solid gray 1px;
-      }
-
-      div.Footer {
-        border-top: 1px solid gray;
-        margin-top: 1.5em;
-        padding-top: 0.6em;
-        text-align: center;
-        color: gray;
-      }
-
-      span.NotEntered /* Documentation for this section has not yet been entered */ {
-        font-style: italic;
-        color: lightgrey;
-      }
-
-      div.Header {
-        background: #B0C4DE;
-        border: double;
-        border-color: white;
-        border-width: 7px;
-        padding: 0.5em;
-      }
-
-      div.Header * {
-        font-size: smaller;
-      }
-
-      div.Note {
-      }
-
-      i.ParamRef {
-      }
-
-      i.subtitle {
-      }
-
-      ul.TypeMembersIndex {
-        text-align: left;
-        background: #F8F8F8;
-      }
-
-      ul.TypeMembersIndex li {
-        display: inline;
-        margin:  0.5em;
-      }
-
-      table.HeaderTable {
-      }
-
-      table.SignatureTable {
-      }
-
-      table.Documentation, table.Enumeration, table.TypeDocumentation {
-        border-collapse: collapse;
-        width: 100%;
-	font-size: 0.875rem;
-      }
-
-      table.Documentation tr th, table.TypeMembers tr th, table.Enumeration tr th, table.TypeDocumentation tr th {
-        background: whitesmoke;
-        padding: 0.8em;
-        border: 1px solid gray;
-        text-align: left;
-        vertical-align: bottom;
-      }
-
-      table.Documentation tr td, table.TypeMembers tr td, table.Enumeration tr td, table.TypeDocumentation tr td {
-        border-width: 1px 0 0;
-	border-style: solid;
-	border-color: #e0e0e0;
-        text-align: left;
-        vertical-align: top;
-      }
-
-      table.Documentation tr td:nth-last-child(2), table.TypeMembers tr td:nth-last-child(2), table.Enumeration tr td:nth-last-child(2), table.TypeDocumentation tr td:nth-last-child(2) {
-         float: none;
-	 padding: 14px 28px 14px 0;
-//	 width: 30%;
-	 border-top-width: 1px;
-         font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
-      }
-
-      table.Documentation tr td:nth-last-child(1), table.TypeMembers tr td:nth-last-child(1), table.Enumeration tr td:nth-last-child(1), table.TypeDocumentation tr td:nth-last-child(1) {
-         float: none;
-	 padding: 14px 0;
-//	 width: 70%;
-	 border-top-width: 1px;
-      }
-
-      table.TypeMembers {
-        width: 100%;
-      }
-
-      table.TypeMembers tr td {
-      }
-
-      table.Documentation {
-      }
-
-      table.TypeMembers {
-      }
-
-      div.CodeExample {
-        width: 100%;
-        border: 1px solid #DDDDDD;
-        background-color: #F8F8F8;
-      }
-
-      div.CodeExample p {
-        margin: 0.5em;
-        border-bottom: 1px solid #DDDDDD;
-      }
-
-      div.CodeExample div {
-        margin: 0.5em;
-      }
-
-      h4 {
-        margin-bottom: 0;
-	font-weight: 500;
-      }
-
-      div.Signature {
-        border: 1px solid #C0C0C0;
-        background: #F2F2F2;
-        padding: 1em;
-      }
-    </style>
-    <script type="text/JavaScript">
-      function toggle_display (block) {
-        var w = document.getElementById (block);
-        var t = document.getElementById (block + ":toggle");
-        if (w.style.display == "none") {
-          w.style.display = "block";
-          t.innerHTML = "⊟";
-        } else {
-          w.style.display = "none";
-          t.innerHTML = "⊞";
-        }
-      }
-    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>This is the HOMEPAGE. </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="This is the HOMEPAGE. ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
   </head>
-  <body>
-    <div class="CollectionTitle">
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="this-is-the-homepage">This is the <strong>HOMEPAGE</strong>.</h1>
+
+<p>Refer to <a href="http://daringfireball.net/projects/markdown/">Markdown</a> for how to write markdown files.</p>
+<h2 id="quick-start-notes">Quick Start Notes:</h2>
+<ol>
+<li>Add images to the <em>images</em> folder if the file is referencing an image.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/migueldeicaza/TensorFlowSharp/blob/master/docfx/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
     </div>
-    <h1 class="PageTitle">TensorFlowSharp</h1>
-    <p class="Summary">
-      <div class="AssemblyRemarks" style="margin-top: 1em; margin-bottom: 1em">TensorFlowSharp - Bindings to the TensorFlow Library.</div>
-    </p>
-    <div>
-    </div>
-    <div class="Remarks">
-      <h2 class="Section">
-        <a href="TensorFlow/index.html">TensorFlow Namespace</a>
-      </h2>
-      <p>
-	This is the API documentation for the TensorFlowSharp project.
-      </p>
-      <table class="TypesListing" style="margin-top: 1em">
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFAttributeMetadata.html">TFAttributeMetadata</a>
-          </td>
-          <td>
-            Low-level: this describes the tensorflow type information for an attribute in the low-level attributes used by operations.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFAttributeType.html">TFAttributeType</a>
-          </td>
-          <td>
-            Low-level: Enumeration describing the types of a metadata attribute
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFBuffer.html">TFBuffer</a>
-          </td>
-          <td>
-            Holds a block of data, suitable to pass, or retrieve from TensorFlow.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFBuffer+BufferReleaseFunc.html">TFBuffer.BufferReleaseFunc</a>
-          </td>
-          <td>
-            Signature of the method that is invoked to release the data.  
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFCode.html">TFCode</a>
-          </td>
-          <td>
-            Status code for invoking a tensorflow operation.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFCore.html">TFCore</a>
-          </td>
-          <td>
-            Contains TensorFlow fundamental methods and utility functions.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFDataType.html">TFDataType</a>
-          </td>
-          <td>
-            The data type for a specific tensor.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFDisposable.html">TFDisposable</a>
-          </td>
-          <td>
-            Base class for many TensorFlow data types that provides a common idiom to dispose and
-            release resources associated with the native data types.   Generally, you do not need to use this.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFException.html">TFException</a>
-          </td>
-          <td>
-            TensorFlow Exception
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFGraph.html">TFGraph</a>
-          </td>
-          <td>
-            Represents a computation graph.  Graphs may be shared between sessions and are thread safe.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFGraph+WhileConstructor.html">TFGraph.WhileConstructor</a>
-          </td>
-          <td>
-            Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFImportGraphDefOptions.html">TFImportGraphDefOptions</a>
-          </td>
-          <td>
-            Contains options that are used to control how graph importing works.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFInput.html">TFInput</a>
-          </td>
-          <td>
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFLibrary.html">TFLibrary</a>
-          </td>
-          <td>
-            <span class="NotEntered">Documentation for this section has not yet been entered.</span>
-          </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFOperation.html">TFOperation</a>
-          </td>
-          <td>
-            Represents a computation node in the graph.  Tensorflow operations are attached to a <a href="javascript:alert(&quot;Documentation not found.&quot;)">Tensorflow.TFGraph</a>.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFOperationDesc.html">TFOperationDesc</a>
-          </td>
-          <td>
-            Low-level TensorFlow operation builder
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFOutput.html">TFOutput</a>
-          </td>
-          <td>
-            Represents a specific output of an operation on a tensor.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFScope.html">TFScope</a>
-          </td>
-          <td>
-            TFGraph name scope handle
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFSession.html">TFSession</a>
-          </td>
-          <td>
-            Drives the execution of a graph
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFSession+PartialRunToken.html">TFSession.PartialRunToken</a>
-          </td>
-          <td>
-            Token returned from using one of the Partial Run Setup methods from <a href="./TensorFlow/TFSession.html">TensorFlow.TFSession</a>,
-            and use this token subsequently for other invocations.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFSession+Runner.html">TFSession.Runner</a>
-          </td>
-          <td>
-            Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFSessionOptions.html">TFSessionOptions</a>
-          </td>
-          <td>
-            The session options object holds configuration options that you want to use during your session, like the TensorFlow target or the configuration.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFShape.html">TFShape</a>
-          </td>
-          <td>
-            Represents the shape of a tensor
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFStatus.html">TFStatus</a>
-          </td>
-          <td>
-            Used to track the result of TensorFlow operations.
-            </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFTensor.html">TFTensor</a>
-          </td>
-          <td>
-             TFTensor holds a multi-dimensional array of elements of a single data type.
-             </td>
-        </tr>
-        <tr valign="top">
-          <td>
-            <a href="TensorFlow/TFTensor+Deallocator.html">TFTensor.Deallocator</a>
-          </td>
-          <td>
-            Signature that methods must conform to to be used to release memory that was passed to a manually allocated TFTensor
-            </td>
-        </tr>
-      </table>
-    </div>
-    <div class="Members">
-    </div>
-    <hr size="1" />
-    <div class="Copyright">MIT Licensed</div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
   </body>
 </html>

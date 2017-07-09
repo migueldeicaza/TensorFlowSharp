@@ -18,16 +18,20 @@ namespace TensorFlow
 	/// TFTensor holds a multi-dimensional array of elements of a single data type.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// You can create tensors with the various constructors in this class, or using
 	/// the implicit conversions from various data types into a TFTensor.
-	///
+	///</para>
+	/// <para>
 	/// The implicit conversions for basic types produce tensors of one dimesion with
 	/// a single element, while the implicit conversion from an array, expects a multi-dimensional
 	/// array that is converted into a tensor of the right dimensions.
-	/// 
+	/// </para>
+	/// <para>
 	/// The special "String" tensor data type that you will find in TensorFlow documentation
 	/// really represents a byte array.   You can create string tensors by using the <see cref="M:TensorFlow.TFTensor.CreateString"/> 
 	/// method that takes a byte array buffer as input.
+	/// </para>
 	/// </remarks>
 	public class TFTensor : TFDisposable
 	{
@@ -44,6 +48,8 @@ namespace TensorFlow
 		static extern unsafe TF_Tensor TF_NewTensor (TFDataType dataType, IntPtr zeroDims, int num_dims, IntPtr data, size_t len, Deallocator deallocator, IntPtr deallocator_arg);
 
 		internal TFTensor (IntPtr handle) : base (handle) { }
+
+		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
 		{
 			Marshal.FreeHGlobal (data);
@@ -620,7 +626,7 @@ namespace TensorFlow
 		/// <param name="dims">Describes the tensor shape, an array that indicates .</param>
 		/// <param name="data">Pointer to the raw data that will be used to initialize the tensor.</param>
 		/// <param name="dataSize">The size of the data being passed in.</param>
-		/// <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data"/>.</param>
+		/// <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data"/>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <see cref="T:TensorFlow.MonoPInvokeCallbackAttribute"/>.</param>
 		/// <param name="deallocatorData">An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.</param>
 		public TFTensor (TFDataType dataType, long [] dims, IntPtr data, size_t dataSize, Deallocator deallocator, IntPtr deallocatorData) : base (IntPtr.Zero)
 		{

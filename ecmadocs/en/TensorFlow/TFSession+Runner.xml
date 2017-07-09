@@ -14,26 +14,30 @@
             Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
             </summary>
     <remarks>
+      <para>
             The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
             to construct the parameters that will be passed to the TFSession.Run method.
-            
+            </para>
+      <para>
             Instances of this class are created by calling the GetRunner method on the TFSession.
-            
+            </para>
+      <para>
             The various methods in this class return an instance to the Runner itsel, to allow
             to easily construct chains of execution like this:
-            
-            <code>
+            </para>
+      <code>
             var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
             </code>
-            
+      <para>
             You do not need to chain the operations, this works just the same:
-            
-            <code>
+            </para>
+      <code>
             runner = session.GetRunner ();
             runner.AddInput(myInput);
             runner.Fetch(myOutput);
             var results = runner.Run();
-            </code></remarks>
+            </code>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddInput">
@@ -313,27 +317,6 @@
             calls that you might have done to Fetch() and use the specified operation to Fetch
             instead.
             </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Run">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput operation, TensorFlow.TFStatus status = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput operation, class TensorFlow.TFStatus status) cil managed" />
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="operation" Type="TensorFlow.TFOutput" />
-        <Parameter Name="status" Type="TensorFlow.TFStatus" />
-      </Parameters>
-      <Docs>
-        <param name="operation">The output of the operation.</param>
-        <param name="status">Optional, status.</param>
-        <summary>
-            Run the specified operation, by adding it implicity to the output, single return value
-            </summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="RunMetadata">

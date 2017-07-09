@@ -1,0 +1,255 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFDisposable
+  id: TFDisposable
+  children:
+  - TensorFlow.TFDisposable.#ctor
+  - TensorFlow.TFDisposable.#ctor(System.IntPtr)
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Finalize
+  - TensorFlow.TFDisposable.Handle
+  langs:
+  - csharp
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Base class for many TensorFlow data types that provides a common idiom to dispose and
+                release resources associated with the native data types.   Generally, you do not need to use this.
+  remarks: >-
+    <p>
+                This implements the Dispose pattern in a reusable form for TensorFlow types.
+                </p>
+        <p>
+                Subclasses invoke the constructor with the handle that this will wrap, and must
+                override the NativeDispose method (internal) to release the associated resource.
+                </p>
+  syntax:
+    content: 'public abstract class TFDisposable : IDisposable'
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - TensorFlow.TFBuffer
+  - TensorFlow.TFGraph
+  - TensorFlow.TFImportGraphDefOptions
+  - TensorFlow.TFLibrary
+  - TensorFlow.TFOperationDesc
+  - TensorFlow.TFSession
+  - TensorFlow.TFSessionOptions
+  - TensorFlow.TFStatus
+  - TensorFlow.TFTensor
+  implements:
+  - System.IDisposable
+  inheritedMembers: []
+- uid: TensorFlow.TFDisposable.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: TFDisposable()
+  nameWithType: TFDisposable.TFDisposable()
+  fullName: TFDisposable.TFDisposable()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFDisposable"></xref> class.
+  syntax:
+    content: public TFDisposable ();
+    parameters: []
+  overload: TensorFlow.TFDisposable.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFDisposable.#ctor(System.IntPtr)
+  id: '#ctor(System.IntPtr)'
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: TFDisposable(IntPtr)
+  nameWithType: TFDisposable.TFDisposable(IntPtr)
+  fullName: TFDisposable.TFDisposable(IntPtr)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Initializes a new instance of the <xref href="TensorFlow.TFDisposable"></xref> class
+                from the handle that it will wrap.
+  syntax:
+    content: public TFDisposable (IntPtr handle);
+    parameters:
+    - id: handle
+      type: System.IntPtr
+      description: To be added.
+  overload: TensorFlow.TFDisposable.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFDisposable.Dispose
+  id: Dispose
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Releases all resource used by the <xref href="TensorFlow.TFDisposable"></xref> object.
+  remarks: >-
+    Call Dispose when you are finished using the <xref href="TensorFlow.TFDisposable"></xref>. The
+                Dispose method leaves the <xref href="TensorFlow.TFDisposable"></xref> in an unusable state. After
+                calling Dispose, you must release all references to the <xref href="TensorFlow.TFDisposable"></xref> so
+                the garbage collector can reclaim the memory that the <xref href="TensorFlow.TFDisposable"></xref> was occupying.
+  syntax:
+    content: public void Dispose ();
+    parameters: []
+  overload: TensorFlow.TFDisposable.Dispose*
+  exceptions: []
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  id: Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Dispose the specified object
+  syntax:
+    content: public virtual void Dispose (bool disposing);
+    parameters:
+    - id: disposing
+      type: System.Boolean
+      description: If set to <code>true</code> it means that this method was called from Dispose, otherwise from the finalizer.
+  overload: TensorFlow.TFDisposable.Dispose*
+  exceptions: []
+- uid: TensorFlow.TFDisposable.Finalize
+  id: Finalize
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: Finalize()
+  nameWithType: TFDisposable.Finalize()
+  fullName: TFDisposable.Finalize()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: ~TFDisposable ();
+    parameters: []
+  overload: TensorFlow.TFDisposable.Finalize*
+  exceptions: []
+- uid: TensorFlow.TFDisposable.Handle
+  id: Handle
+  parent: TensorFlow.TFDisposable
+  langs:
+  - csharp
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the opaque handle to the object that this TFDisposable owns.
+  syntax:
+    content: public IntPtr Handle { get; }
+    return:
+      type: System.IntPtr
+      description: The handle.
+  overload: TensorFlow.TFDisposable.Handle*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFDisposable.#ctor
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: TFDisposable()
+  nameWithType: TFDisposable.TFDisposable()
+  fullName: TFDisposable.TFDisposable()
+- uid: TensorFlow.TFDisposable.#ctor(System.IntPtr)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: TFDisposable(IntPtr)
+  nameWithType: TFDisposable.TFDisposable(IntPtr)
+  fullName: TFDisposable.TFDisposable(IntPtr)
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFDisposable.Finalize
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Finalize()
+  nameWithType: TFDisposable.Finalize()
+  fullName: TFDisposable.Finalize()
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle
+- uid: TensorFlow.TFDisposable.#ctor*
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable.TFDisposable
+  fullName: TFDisposable.TFDisposable
+- uid: TensorFlow.TFDisposable.Dispose*
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose
+  nameWithType: TFDisposable.Dispose
+  fullName: TFDisposable.Dispose
+- uid: TensorFlow.TFDisposable.Finalize*
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Finalize
+  nameWithType: TFDisposable.Finalize
+  fullName: TFDisposable.Finalize
+- uid: TensorFlow.TFDisposable.Handle*
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle
+- uid: System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable

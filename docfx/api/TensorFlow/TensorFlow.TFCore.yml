@@ -1,0 +1,158 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFCore
+  id: TFCore
+  children:
+  - TensorFlow.TFCore.GetAllOpList
+  - TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
+  - TensorFlow.TFCore.Version
+  langs:
+  - csharp
+  name: TFCore
+  nameWithType: TFCore
+  fullName: TensorFlow.TFCore
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Contains TensorFlow fundamental methods and utility functions.
+  syntax:
+    content: public static class TFCore
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.TFCore.GetAllOpList
+  id: GetAllOpList
+  parent: TensorFlow.TFCore
+  langs:
+  - csharp
+  name: GetAllOpList()
+  nameWithType: TFCore.GetAllOpList()
+  fullName: TFCore.GetAllOpList()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Retrieves the ProtocolBuffer describing all of the available operations in
+                the TensorFlow library in current use.
+  syntax:
+    content: public static TensorFlow.TFBuffer GetAllOpList ();
+    parameters: []
+    return:
+      type: TensorFlow.TFBuffer
+      description: The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.
+  overload: TensorFlow.TFCore.GetAllOpList*
+  exceptions: []
+- uid: TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
+  id: GetDataTypeSize(TensorFlow.TFDataType)
+  parent: TensorFlow.TFCore
+  langs:
+  - csharp
+  name: GetDataTypeSize(TFDataType)
+  nameWithType: TFCore.GetDataTypeSize(TFDataType)
+  fullName: TFCore.GetDataTypeSize(TFDataType)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the size in bytes of the specified TensorFlow data type.
+  syntax:
+    content: public static long GetDataTypeSize (TensorFlow.TFDataType dt);
+    parameters:
+    - id: dt
+      type: TensorFlow.TFDataType
+      description: Dt.
+    return:
+      type: System.Int64
+      description: The data type size.
+  overload: TensorFlow.TFCore.GetDataTypeSize*
+  exceptions: []
+- uid: TensorFlow.TFCore.Version
+  id: Version
+  parent: TensorFlow.TFCore
+  langs:
+  - csharp
+  name: Version
+  nameWithType: TFCore.Version
+  fullName: TFCore.Version
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the version of the TensorFlow runtime in use.
+  syntax:
+    content: public static string Version { get; }
+    return:
+      type: System.String
+      description: The version.
+  overload: TensorFlow.TFCore.Version*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFCore.GetAllOpList
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetAllOpList()
+  nameWithType: TFCore.GetAllOpList()
+  fullName: TFCore.GetAllOpList()
+- uid: TensorFlow.TFBuffer
+  parent: TensorFlow
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetDataTypeSize(TFDataType)
+  nameWithType: TFCore.GetDataTypeSize(TFDataType)
+  fullName: TFCore.GetDataTypeSize(TFDataType)
+- uid: System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFCore.Version
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: Version
+  nameWithType: TFCore.Version
+  fullName: TFCore.Version
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFCore.GetAllOpList*
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetAllOpList
+  nameWithType: TFCore.GetAllOpList
+  fullName: TFCore.GetAllOpList
+- uid: TensorFlow.TFCore.GetDataTypeSize*
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetDataTypeSize
+  nameWithType: TFCore.GetDataTypeSize
+  fullName: TFCore.GetDataTypeSize
+- uid: TensorFlow.TFCore.Version*
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: Version
+  nameWithType: TFCore.Version
+  fullName: TFCore.Version

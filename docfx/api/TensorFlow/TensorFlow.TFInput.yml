@@ -1,0 +1,174 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFInput
+  id: TFInput
+  children:
+  - TensorFlow.TFInput.GetOutput(TensorFlow.TFInput)
+  - TensorFlow.TFInput.Index
+  - TensorFlow.TFInput.InputType
+  - TensorFlow.TFInput.Operation
+  langs:
+  - csharp
+  name: TFInput
+  nameWithType: TFInput
+  fullName: TensorFlow.TFInput
+  type: Struct
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public struct TFInput
+  inheritance:
+  - System.ValueType
+  implements: []
+- uid: TensorFlow.TFInput.GetOutput(TensorFlow.TFInput)
+  id: GetOutput(TensorFlow.TFInput)
+  parent: TensorFlow.TFInput
+  langs:
+  - csharp
+  name: GetOutput(TFInput)
+  nameWithType: TFInput.GetOutput(TFInput)
+  fullName: TFInput.GetOutput(TFInput)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOutput GetOutput (TensorFlow.TFInput operIn);
+    parameters:
+    - id: operIn
+      type: TensorFlow.TFInput
+      description: To be added.
+    return:
+      type: TensorFlow.TFOutput
+      description: To be added.
+  overload: TensorFlow.TFInput.GetOutput*
+  exceptions: []
+- uid: TensorFlow.TFInput.Index
+  id: Index
+  parent: TensorFlow.TFInput
+  langs:
+  - csharp
+  name: Index
+  nameWithType: TFInput.Index
+  fullName: TFInput.Index
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int Index;
+    return:
+      type: System.Int32
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFInput.InputType
+  id: InputType
+  parent: TensorFlow.TFInput
+  langs:
+  - csharp
+  name: InputType
+  nameWithType: TFInput.InputType
+  fullName: TFInput.InputType
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFDataType InputType { get; }
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  overload: TensorFlow.TFInput.InputType*
+  exceptions: []
+- uid: TensorFlow.TFInput.Operation
+  id: Operation
+  parent: TensorFlow.TFInput
+  langs:
+  - csharp
+  name: Operation
+  nameWithType: TFInput.Operation
+  fullName: TFInput.Operation
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public IntPtr Operation;
+    return:
+      type: System.IntPtr
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: TensorFlow.TFInput.GetOutput(TensorFlow.TFInput)
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: GetOutput(TFInput)
+  nameWithType: TFInput.GetOutput(TFInput)
+  fullName: TFInput.GetOutput(TFInput)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFInput
+  parent: TensorFlow
+  isExternal: false
+  name: TFInput
+  nameWithType: TFInput
+  fullName: TensorFlow.TFInput
+- uid: TensorFlow.TFInput.Index
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: Index
+  nameWithType: TFInput.Index
+  fullName: TFInput.Index
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFInput.InputType
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: InputType
+  nameWithType: TFInput.InputType
+  fullName: TFInput.InputType
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFInput.Operation
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: Operation
+  nameWithType: TFInput.Operation
+  fullName: TFInput.Operation
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: TensorFlow.TFInput.GetOutput*
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: GetOutput
+  nameWithType: TFInput.GetOutput
+  fullName: TFInput.GetOutput
+- uid: TensorFlow.TFInput.InputType*
+  parent: TensorFlow.TFInput
+  isExternal: false
+  name: InputType
+  nameWithType: TFInput.InputType
+  fullName: TFInput.InputType

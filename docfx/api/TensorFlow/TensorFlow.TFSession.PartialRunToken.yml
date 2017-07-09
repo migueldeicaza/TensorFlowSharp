@@ -1,0 +1,99 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFSession.PartialRunToken
+  id: TFSession.PartialRunToken
+  children:
+  - TensorFlow.TFSession.PartialRunToken.#ctor
+  - TensorFlow.TFSession.PartialRunToken.System#IDisposable#Dispose
+  langs:
+  - csharp
+  name: TFSession.PartialRunToken
+  nameWithType: TFSession.PartialRunToken
+  fullName: TensorFlow.TFSession.PartialRunToken
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Token returned from using one of the Partial Run Setup methods from <xref href="TensorFlow.TFSession"></xref>,
+                and use this token subsequently for other invocations.
+  remarks: "Calling Dispose on this object will release the resources associated with setting up \n            a partial run."
+  syntax:
+    content: 'public class TFSession.PartialRunToken : IDisposable'
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers: []
+- uid: TensorFlow.TFSession.PartialRunToken.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFSession.PartialRunToken
+  langs:
+  - csharp
+  name: TFSession.PartialRunToken()
+  nameWithType: TFSession.PartialRunToken.TFSession.PartialRunToken()
+  fullName: TFSession.PartialRunToken.TFSession.PartialRunToken()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public PartialRunToken ();
+    parameters: []
+  overload: TensorFlow.TFSession.PartialRunToken.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFSession.PartialRunToken.System#IDisposable#Dispose
+  id: System#IDisposable#Dispose
+  isEii: true
+  parent: TensorFlow.TFSession.PartialRunToken
+  langs:
+  - csharp
+  name: IDisposable.Dispose()
+  nameWithType: TFSession.PartialRunToken.IDisposable.Dispose()
+  fullName: TFSession.PartialRunToken.IDisposable.Dispose()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: void IDisposable.Dispose ();
+    parameters: []
+  overload: TensorFlow.TFSession.PartialRunToken.System#IDisposable#Dispose*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFSession.PartialRunToken.#ctor
+  parent: TensorFlow.TFSession.PartialRunToken
+  isExternal: false
+  name: TFSession.PartialRunToken()
+  nameWithType: TFSession.PartialRunToken.TFSession.PartialRunToken()
+  fullName: TFSession.PartialRunToken.TFSession.PartialRunToken()
+- uid: TensorFlow.TFSession.PartialRunToken.System#IDisposable#Dispose
+  parent: TensorFlow.TFSession.PartialRunToken
+  isExternal: false
+  name: IDisposable.Dispose()
+  nameWithType: TFSession.PartialRunToken.IDisposable.Dispose()
+  fullName: TFSession.PartialRunToken.IDisposable.Dispose()
+- uid: TensorFlow.TFSession.PartialRunToken.#ctor*
+  parent: TensorFlow.TFSession.PartialRunToken
+  isExternal: false
+  name: TFSession.PartialRunToken
+  nameWithType: TFSession.PartialRunToken.TFSession.PartialRunToken
+  fullName: TFSession.PartialRunToken.TFSession.PartialRunToken
+- uid: TensorFlow.TFSession.PartialRunToken.System#IDisposable#Dispose*
+  parent: TensorFlow.TFSession.PartialRunToken
+  isExternal: false
+  name: System.IDisposable.Dispose
+  nameWithType: TFSession.PartialRunToken.System.IDisposable.Dispose
+  fullName: TFSession.PartialRunToken.System.IDisposable.Dispose
+- uid: System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable

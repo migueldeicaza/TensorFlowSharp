@@ -1,0 +1,195 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFAttributeMetadata
+  id: TFAttributeMetadata
+  children:
+  - TensorFlow.TFAttributeMetadata.IsList
+  - TensorFlow.TFAttributeMetadata.ListSize
+  - TensorFlow.TFAttributeMetadata.ToString
+  - TensorFlow.TFAttributeMetadata.TotalSize
+  - TensorFlow.TFAttributeMetadata.Type
+  langs:
+  - csharp
+  name: TFAttributeMetadata
+  nameWithType: TFAttributeMetadata
+  fullName: TensorFlow.TFAttributeMetadata
+  type: Struct
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 'Low-level: this describes the tensorflow type information for an attribute in the low-level attributes used by operations.'
+  remarks: >-
+    This is a low-level operation returned by the <xref href="TensorFlow.TFOperation.GetAttributeMetadata"></xref>.
+                This is included for completeness, but is not generally used from C#, as you have access to the high-level
+                bindings in the <xref href="TensorFlow.TFGraph"></xref> type.
+  syntax:
+    content: public struct TFAttributeMetadata
+  inheritance:
+  - System.ValueType
+  implements: []
+- uid: TensorFlow.TFAttributeMetadata.IsList
+  id: IsList
+  parent: TensorFlow.TFAttributeMetadata
+  langs:
+  - csharp
+  name: IsList
+  nameWithType: TFAttributeMetadata.IsList
+  fullName: TFAttributeMetadata.IsList
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public bool IsList { get; }
+    return:
+      type: System.Boolean
+      description: To be added.
+  overload: TensorFlow.TFAttributeMetadata.IsList*
+  exceptions: []
+- uid: TensorFlow.TFAttributeMetadata.ListSize
+  id: ListSize
+  parent: TensorFlow.TFAttributeMetadata
+  langs:
+  - csharp
+  name: ListSize
+  nameWithType: TFAttributeMetadata.ListSize
+  fullName: TFAttributeMetadata.ListSize
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public long ListSize;
+    return:
+      type: System.Int64
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeMetadata.ToString
+  id: ToString
+  parent: TensorFlow.TFAttributeMetadata
+  langs:
+  - csharp
+  name: ToString()
+  nameWithType: TFAttributeMetadata.ToString()
+  fullName: TFAttributeMetadata.ToString()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public override string ToString ();
+    parameters: []
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFAttributeMetadata.ToString*
+  exceptions: []
+- uid: TensorFlow.TFAttributeMetadata.TotalSize
+  id: TotalSize
+  parent: TensorFlow.TFAttributeMetadata
+  langs:
+  - csharp
+  name: TotalSize
+  nameWithType: TFAttributeMetadata.TotalSize
+  fullName: TFAttributeMetadata.TotalSize
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public long TotalSize;
+    return:
+      type: System.Int64
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeMetadata.Type
+  id: Type
+  parent: TensorFlow.TFAttributeMetadata
+  langs:
+  - csharp
+  name: Type
+  nameWithType: TFAttributeMetadata.Type
+  fullName: TFAttributeMetadata.Type
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFAttributeType Type;
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: TensorFlow.TFAttributeMetadata.IsList
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: IsList
+  nameWithType: TFAttributeMetadata.IsList
+  fullName: TFAttributeMetadata.IsList
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFAttributeMetadata.ListSize
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: ListSize
+  nameWithType: TFAttributeMetadata.ListSize
+  fullName: TFAttributeMetadata.ListSize
+- uid: System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: TensorFlow.TFAttributeMetadata.ToString
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: ToString()
+  nameWithType: TFAttributeMetadata.ToString()
+  fullName: TFAttributeMetadata.ToString()
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFAttributeMetadata.TotalSize
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: TotalSize
+  nameWithType: TFAttributeMetadata.TotalSize
+  fullName: TFAttributeMetadata.TotalSize
+- uid: TensorFlow.TFAttributeMetadata.Type
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: Type
+  nameWithType: TFAttributeMetadata.Type
+  fullName: TFAttributeMetadata.Type
+- uid: TensorFlow.TFAttributeType
+  parent: TensorFlow
+  isExternal: false
+  name: TFAttributeType
+  nameWithType: TFAttributeType
+  fullName: TensorFlow.TFAttributeType
+- uid: TensorFlow.TFAttributeMetadata.IsList*
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: IsList
+  nameWithType: TFAttributeMetadata.IsList
+  fullName: TFAttributeMetadata.IsList
+- uid: TensorFlow.TFAttributeMetadata.ToString*
+  parent: TensorFlow.TFAttributeMetadata
+  isExternal: false
+  name: ToString
+  nameWithType: TFAttributeMetadata.ToString
+  fullName: TFAttributeMetadata.ToString

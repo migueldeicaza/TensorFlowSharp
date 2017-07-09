@@ -1,0 +1,68 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFException
+  id: TFException
+  children:
+  - TensorFlow.TFException.#ctor(System.String)
+  langs:
+  - csharp
+  name: TFException
+  nameWithType: TFException
+  fullName: TensorFlow.TFException
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: TensorFlow Exception
+  syntax:
+    content: 'public class TFException : Exception'
+  inheritance:
+  - System.Exception
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.TFException.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: TensorFlow.TFException
+  langs:
+  - csharp
+  name: TFException(String)
+  nameWithType: TFException.TFException(String)
+  fullName: TFException.TFException(String)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFException"></xref> class with a message.
+  syntax:
+    content: public TFException (string message);
+    parameters:
+    - id: message
+      type: System.String
+      description: Message.
+  overload: TensorFlow.TFException.#ctor*
+  exceptions: []
+references:
+- uid: System.Exception
+  parent: System
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: TensorFlow.TFException.#ctor(System.String)
+  parent: TensorFlow.TFException
+  isExternal: false
+  name: TFException(String)
+  nameWithType: TFException.TFException(String)
+  fullName: TFException.TFException(String)
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFException.#ctor*
+  parent: TensorFlow.TFException
+  isExternal: false
+  name: TFException
+  nameWithType: TFException.TFException
+  fullName: TFException.TFException

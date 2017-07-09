@@ -1,0 +1,339 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFOutput
+  id: TFOutput
+  children:
+  - TensorFlow.TFOutput.#ctor(TensorFlow.TFOperation,System.Int32)
+  - TensorFlow.TFOutput.#ctor(TensorFlow.TFOutput,System.Int32)
+  - TensorFlow.TFOutput.Index
+  - TensorFlow.TFOutput.NumConsumers
+  - TensorFlow.TFOutput.Operation
+  - TensorFlow.TFOutput.OutputConsumers
+  - TensorFlow.TFOutput.OutputType
+  - TensorFlow.TFOutput.ToString
+  langs:
+  - csharp
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+  type: Struct
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Represents a specific output of an operation on a tensor.
+  remarks: "<p>\n            TFOutput objects represent one of the outputs of an operation in the graph\n            (TFGraph).  Outputs have a data type, and eventually a shape that you can \n            retrieve by calling the <xref href=\"TensorFlow.TFGraph.GetShape\"></xref> method.\n            </p>\n    <p>\n            These can be passed as an input argument to a function for adding operations \n            to a graph, or to the TFSession's Run and GetRunner method as values to be\n            fetched.\n            </p>"
+  syntax:
+    content: public struct TFOutput
+  inheritance:
+  - System.ValueType
+  implements: []
+- uid: TensorFlow.TFOutput.#ctor(TensorFlow.TFOperation,System.Int32)
+  id: '#ctor(TensorFlow.TFOperation,System.Int32)'
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: TFOutput(TFOperation, Int32)
+  nameWithType: TFOutput.TFOutput(TFOperation, Int32)
+  fullName: TFOutput.TFOutput(TFOperation, Int32)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new TFOutput instance.
+  syntax:
+    content: public TFOutput (TensorFlow.TFOperation operation, int index = 0);
+    parameters:
+    - id: operation
+      type: TensorFlow.TFOperation
+      description: The operation to which to attach the output.
+    - id: index
+      type: System.Int32
+      description: The index of the output within the operation, if not specified, it defaults to zero.
+  overload: TensorFlow.TFOutput.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFOutput.#ctor(TensorFlow.TFOutput,System.Int32)
+  id: '#ctor(TensorFlow.TFOutput,System.Int32)'
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: TFOutput(TFOutput, Int32)
+  nameWithType: TFOutput.TFOutput(TFOutput, Int32)
+  fullName: TFOutput.TFOutput(TFOutput, Int32)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new TFOutput instance from another TFOutput
+  syntax:
+    content: public TFOutput (TensorFlow.TFOutput output, int index = 0);
+    parameters:
+    - id: output
+      type: TensorFlow.TFOutput
+      description: To be added.
+    - id: index
+      type: System.Int32
+      description: The index of the output within the operation, if not specified, it defaults to zero.
+  overload: TensorFlow.TFOutput.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFOutput.Index
+  id: Index
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: Index
+  nameWithType: TFOutput.Index
+  fullName: TFOutput.Index
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int Index;
+    return:
+      type: System.Int32
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFOutput.NumConsumers
+  id: NumConsumers
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: NumConsumers
+  nameWithType: TFOutput.NumConsumers
+  fullName: TFOutput.NumConsumers
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the number consumers.
+  remarks: This number can change when new operations are added to the graph.
+  syntax:
+    content: public int NumConsumers { get; }
+    return:
+      type: System.Int32
+      description: The number consumers.
+  overload: TensorFlow.TFOutput.NumConsumers*
+  exceptions: []
+- uid: TensorFlow.TFOutput.Operation
+  id: Operation
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: Operation
+  nameWithType: TFOutput.Operation
+  fullName: TFOutput.Operation
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The associated operation.
+  syntax:
+    content: public TensorFlow.TFOperation Operation { get; }
+    return:
+      type: TensorFlow.TFOperation
+      description: The operation.
+  overload: TensorFlow.TFOutput.Operation*
+  exceptions: []
+- uid: TensorFlow.TFOutput.OutputConsumers
+  id: OutputConsumers
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: OutputConsumers
+  nameWithType: TFOutput.OutputConsumers
+  fullName: TFOutput.OutputConsumers
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Get list of all current consumers of a specific output of an operation
+  remarks: >-
+    A concurrent modification of the graph can increase the number of consumers of
+                an operation.
+                This can return null if the TFOutput does not point to a valid object.
+  syntax:
+    content: public TensorFlow.TFInput[] OutputConsumers { get; }
+    return:
+      type: TensorFlow.TFInput[]
+      description: The output consumers.
+  overload: TensorFlow.TFOutput.OutputConsumers*
+  exceptions: []
+- uid: TensorFlow.TFOutput.OutputType
+  id: OutputType
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: OutputType
+  nameWithType: TFOutput.OutputType
+  fullName: TFOutput.OutputType
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the type of the output.
+  syntax:
+    content: public TensorFlow.TFDataType OutputType { get; }
+    return:
+      type: TensorFlow.TFDataType
+      description: The type of the output.
+  overload: TensorFlow.TFOutput.OutputType*
+  exceptions: []
+- uid: TensorFlow.TFOutput.ToString
+  id: ToString
+  parent: TensorFlow.TFOutput
+  langs:
+  - csharp
+  name: ToString()
+  nameWithType: TFOutput.ToString()
+  fullName: TFOutput.ToString()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public override string ToString ();
+    parameters: []
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFOutput.ToString*
+  exceptions: []
+references:
+- uid: System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: TensorFlow.TFOutput.#ctor(TensorFlow.TFOperation,System.Int32)
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: TFOutput(TFOperation, Int32)
+  nameWithType: TFOutput.TFOutput(TFOperation, Int32)
+  fullName: TFOutput.TFOutput(TFOperation, Int32)
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFOutput.#ctor(TensorFlow.TFOutput,System.Int32)
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: TFOutput(TFOutput, Int32)
+  nameWithType: TFOutput.TFOutput(TFOutput, Int32)
+  fullName: TFOutput.TFOutput(TFOutput, Int32)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFOutput.Index
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: Index
+  nameWithType: TFOutput.Index
+  fullName: TFOutput.Index
+- uid: TensorFlow.TFOutput.NumConsumers
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: NumConsumers
+  nameWithType: TFOutput.NumConsumers
+  fullName: TFOutput.NumConsumers
+- uid: TensorFlow.TFOutput.Operation
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: Operation
+  nameWithType: TFOutput.Operation
+  fullName: TFOutput.Operation
+- uid: TensorFlow.TFOutput.OutputConsumers
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: OutputConsumers
+  nameWithType: TFOutput.OutputConsumers
+  fullName: TFOutput.OutputConsumers
+- uid: TensorFlow.TFInput
+  name: TFInput
+  nameWithType: TFInput
+  fullName: TensorFlow.TFInput
+- uid: TensorFlow.TFInput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFInput[]
+  nameWithType: TFInput[]
+  fullName: TensorFlow.TFInput[]
+  spec.csharp:
+  - uid: TensorFlow.TFInput
+    name: TFInput
+    nameWithType: TFInput
+    fullName: TensorFlow.TFInput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOutput.OutputType
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: OutputType
+  nameWithType: TFOutput.OutputType
+  fullName: TFOutput.OutputType
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFOutput.ToString
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: ToString()
+  nameWithType: TFOutput.ToString()
+  fullName: TFOutput.ToString()
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFOutput.#ctor*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput.TFOutput
+  fullName: TFOutput.TFOutput
+- uid: TensorFlow.TFOutput.NumConsumers*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: NumConsumers
+  nameWithType: TFOutput.NumConsumers
+  fullName: TFOutput.NumConsumers
+- uid: TensorFlow.TFOutput.Operation*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: Operation
+  nameWithType: TFOutput.Operation
+  fullName: TFOutput.Operation
+- uid: TensorFlow.TFOutput.OutputConsumers*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: OutputConsumers
+  nameWithType: TFOutput.OutputConsumers
+  fullName: TFOutput.OutputConsumers
+- uid: TensorFlow.TFOutput.OutputType*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: OutputType
+  nameWithType: TFOutput.OutputType
+  fullName: TFOutput.OutputType
+- uid: TensorFlow.TFOutput.ToString*
+  parent: TensorFlow.TFOutput
+  isExternal: false
+  name: ToString
+  nameWithType: TFOutput.ToString
+  fullName: TFOutput.ToString

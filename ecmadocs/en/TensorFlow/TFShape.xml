@@ -14,28 +14,34 @@
             Represents the shape of a tensor
             </summary>
     <remarks>
+      <para>
             The shapes can be created by calling the constructor with the number of dimensions
             in the shape.   The null value is used to specify that the shape is unknown,
             an empty array is used to create a scalar, and other values are used to specify
             the number of dimensions.
-            
+            </para>
+      <para>
             For the Unknown case, you can use <see cref="P:TensorFlor.TFShape.Unknown" />, for
             scalars, you can use the <see cref="P:TensorFlor.TFShape.Scalar" /> shape.
-            
+            </para>
+      <para>
             To create a 2-element vector, use:
             new TFShape (2)
-            
+            </para>
+      <para>
             To create a 2x3 matrix, use:
             new TFShape (2, 3)
-            
+            </para>
+      <para>
             To create a shape with an unknown number of elements, you can pass the value
             -1.  This is typically used to indicate the shape of tensors that represent a
             variable-sized batch of values.
-            
-            
+            </para>
+      <para>
             To create a matrix with 4 columns and an unknown number of rows:
             var batch = new TFShape (-1, 4)
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">

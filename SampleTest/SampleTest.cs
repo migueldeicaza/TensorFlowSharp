@@ -187,9 +187,9 @@ namespace SampleTest
 			};
 		}
 
-		int ArgMax (byte [,] array, int idx)
+		int ArgMax (float [,] array, int idx)
 		{
-			int max = -1;
+			float max = -1;
 			int maxIdx = -1;
 			var l = array.GetLength (1);
 			for (int i = 0; i < l; i++)
@@ -198,7 +198,17 @@ namespace SampleTest
 					max = array [idx, i];
 				}
 			return maxIdx;
-		}	
+		}
+
+		public float [] Extract (float [,] array, int index)
+		{
+			var n = array.GetLength (1);
+			var ret = new float [n];
+
+			for (int i = 0; i < n; i++)
+				ret [i] = array [index,i];
+			return ret;
+		}
 
 		// This sample has a bug, I suspect the data loaded is incorrect, because the returned
 		// values in distance is wrong, and so is the prediction computed from it.
@@ -211,25 +221,21 @@ namespace SampleTest
 			// 5000 for training
 			const int trainCount = 5000;
 			const int testCount = 200;
-			var Xtr = mnist.GetBatchReader (mnist.TrainImages).ReadAsTensor (trainCount);
-			var Ytr = mnist.OneHotTrainLabels;
-			var Xte = mnist.GetBatchReader (mnist.TestImages).Read (testCount);
-			var Yte = mnist.OneHotTestLabels;
-
-
+			(var trainingImages, var trainingLabels) = mnist.GetTrainReader ().NextBatch (trainCount);
+			(var testImages, var testLabels) = mnist.GetTestReader ().NextBatch (testCount);
 
 			Console.WriteLine ("Nearest neighbor on Mnist images");
 			using (var g = new TFGraph ()) {
 				var s = new TFSession (g);
 
 
-				TFOutput xtr = g.Placeholder (TFDataType.Float, new TFShape (-1, 784));
+				TFOutput trainingInput = g.Placeholder (TFDataType.Float, new TFShape (-1, 784));
 
 				TFOutput xte = g.Placeholder (TFDataType.Float, new TFShape (784));
 
 				// Nearest Neighbor calculation using L1 Distance
 				// Calculate L1 Distance
-				TFOutput distance = g.ReduceSum (g.Abs (g.Add (xtr, g.Neg (xte))), axis: g.Const (1));
+				TFOutput distance = g.ReduceSum (g.Abs (g.Add (trainingInput, g.Neg (xte))), axis: g.Const (1));
 
 				// Prediction: Get min distance index (Nearest neighbor)
 				TFOutput pred = g.ArgMin (distance, g.Const (0));
@@ -241,15 +247,15 @@ namespace SampleTest
 
 					// Get nearest neighbor
 
-					var result = runner.Fetch (pred).Fetch (distance).AddInput (xtr, Xtr).AddInput (xte, Xte [i].DataFloat).Run ();
+					var result = runner.Fetch (pred).Fetch (distance).AddInput (trainingInput, trainingImages).AddInput (xte, Extract (testImages, i)).Run ();
 					var r = result [0].GetValue ();
 					var tr = result [1].GetValue ();
 					var nn_index = (int)(long) result [0].GetValue ();
 
 					// Get nearest neighbor class label and compare it to its true label
-					Console.WriteLine ($"Test {i}: Prediction: {ArgMax (Ytr, nn_index)} True class: {ArgMax (Yte, i)} (nn_index={nn_index})");
-					if (ArgMax (Ytr, nn_index) == ArgMax (Yte, i))
-						accuracy += 1f/ Xte.Length;
+					Console.WriteLine ($"Test {i}: Prediction: {ArgMax (trainingLabels, nn_index)} True class: {ArgMax (testLabels, i)} (nn_index={nn_index})");
+					if (ArgMax (trainingLabels, nn_index) == ArgMax (testLabels, i))
+						accuracy += 1f/ testImages.Length;
 				}
 				Console.WriteLine ("Accuracy: " + accuracy);
 			}
