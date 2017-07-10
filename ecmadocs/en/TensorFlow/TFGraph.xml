@@ -203,7 +203,7 @@
         <param name="x">The x elements.</param>
         <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y" /> ).   
             If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y" /></param>
-        <param name="status">Status.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Adds a gradient: the operations needed to compute the partial derivatives of sum of <paramref name="y" />` wrt to <paramref name="x" />.
             </summary>
@@ -227,9 +227,22 @@
         <Parameter Name="variable" Type="TensorFlow.TFOperation" />
       </Parameters>
       <Docs>
-        <param name="variable">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="variable">Variable to register.</param>
+        <summary>
+            Registers a specified variable as an initialization variable.
+            </summary>
+        <remarks>
+          <para>
+            This is a convenience method to track the variables that need to be initialized in the graph,
+            you can retrieve the list of all those variables by calling the <see cref="M:TensorFlow.TFGraph.GetGlobalVariablesInitializer" />
+            which will return this list and clear the state at that point.
+            </para>
+          <para>
+            You typically use this method from helper methods to register all the variables that you want
+            initialized, and a higher level method will retrieve all these variables and initialize them
+            at their convenience.
+            </para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddManySparseToTensorsMap">
@@ -740,6 +753,60 @@
               `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
               `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
               retained with length 1.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplyDelayCompensatedGradientDescent">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation ApplyDelayCompensatedGradientDescent (TensorFlow.TFOutput var, TensorFlow.TFOutput alpha, TensorFlow.TFOutput delta, TensorFlow.TFOutput lambda, TensorFlow.TFOutput shadow, Nullable&lt;bool&gt; use_locking = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation ApplyDelayCompensatedGradientDescent(valuetype TensorFlow.TFOutput var, valuetype TensorFlow.TFOutput alpha, valuetype TensorFlow.TFOutput delta, valuetype TensorFlow.TFOutput lambda, valuetype TensorFlow.TFOutput shadow, valuetype System.Nullable`1&lt;bool&gt; use_locking, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="var" Type="TensorFlow.TFOutput" />
+        <Parameter Name="alpha" Type="TensorFlow.TFOutput" />
+        <Parameter Name="delta" Type="TensorFlow.TFOutput" />
+        <Parameter Name="lambda" Type="TensorFlow.TFOutput" />
+        <Parameter Name="shadow" Type="TensorFlow.TFOutput" />
+        <Parameter Name="use_locking" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="var">
+              Should be from a Variable().
+            </param>
+        <param name="alpha">
+              Scaling factor. Must be a scalar.
+            </param>
+        <param name="delta">
+              The change.
+            </param>
+        <param name="lambda">
+              The variance parameter.
+            </param>
+        <param name="shadow">
+              Same as "var".
+            </param>
+        <param name="use_locking">
+              Optional argument
+              If `True`, the subtraction will be protected by a lock;
+              otherwise the behavior is undefined, but may exhibit less contention.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyDelayCompensatedGradientDescent'.
+            </param>
+        <summary>
+              var -= alpha * (delta + lambda * delta * (var - shadow))
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>
+              Update '*shadow' by changing it to the new value of 'var'
             </remarks>
       </Docs>
     </Member>
@@ -2369,6 +2436,111 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="BitwiseAnd">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput BitwiseAnd (TensorFlow.TFOutput x, TensorFlow.TFOutput y, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput BitwiseAnd(valuetype TensorFlow.TFOutput x, valuetype TensorFlow.TFOutput y, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="y">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseAnd'.
+            </param>
+        <summary>
+              Elementwise computes the bitwise AND of `x` and `y`.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              The result will have those bits set, that are set in both `x` and `y`. The
+              computation is performed on the underlying representations of `x` and `y`.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BitwiseOr">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput BitwiseOr (TensorFlow.TFOutput x, TensorFlow.TFOutput y, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput BitwiseOr(valuetype TensorFlow.TFOutput x, valuetype TensorFlow.TFOutput y, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="y">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseOr'.
+            </param>
+        <summary>
+              Elementwise computes the bitwise OR of `x` and `y`.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              The result will have those bits set, that are set in `x`, `y` or both. The
+              computation is performed on the underlying representations of `x` and `y`.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BitwiseXor">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput BitwiseXor (TensorFlow.TFOutput x, TensorFlow.TFOutput y, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput BitwiseXor(valuetype TensorFlow.TFOutput x, valuetype TensorFlow.TFOutput y, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="y">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseXor'.
+            </param>
+        <summary>
+              Elementwise computes the bitwise XOR of `x` and `y`.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              The result will have those bits set, that are different in `x` and `y`. The
+              computation is performed on the underlying representations of `x` and `y`.
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="BroadcastArgs">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput BroadcastArgs (TensorFlow.TFOutput s0, TensorFlow.TFOutput s1, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput BroadcastArgs(valuetype TensorFlow.TFOutput s0, valuetype TensorFlow.TFOutput s1, string operName) cil managed" />
@@ -2493,6 +2665,51 @@
                   output = [[0, 3]
                             [3, 2]
                             [1, 3]]
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CacheDataset">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput CacheDataset (TensorFlow.TFOutput input_dataset, TensorFlow.TFOutput filename, TensorFlow.TFDataType[] output_types, TensorFlow.TFShape[] output_shapes, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput CacheDataset(valuetype TensorFlow.TFOutput input_dataset, valuetype TensorFlow.TFOutput filename, valuetype TensorFlow.TFDataType[] output_types, class TensorFlow.TFShape[] output_shapes, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="input_dataset" Type="TensorFlow.TFOutput" />
+        <Parameter Name="filename" Type="TensorFlow.TFOutput" />
+        <Parameter Name="output_types" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="output_shapes" Type="TensorFlow.TFShape[]" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="input_dataset">
+        </param>
+        <param name="filename">
+              A path on the filesystem where we should cache the dataset. Note: this
+              will be a directory.
+            </param>
+        <param name="output_types">
+        </param>
+        <param name="output_shapes">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'CacheDataset'.
+            </param>
+        <summary>
+              Creates a dataset that caches elements from `input_dataset`.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              A CacheDataset will iterate over the input_dataset, and store tensors. If the
+              cache already exists, the cache will be used. If the cache is inappropriate
+              (e.g. cannot be opened, contains tensors of the wrong shape / size), an error
+              will the returned when used.
             </remarks>
       </Docs>
     </Member>
@@ -2623,9 +2840,18 @@
             </returns>
         <remarks>
               The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
-              form square matrices, with the same constraints as the single matrix Cholesky
-              decomposition above. The output is a tensor of the same shape as the input
+              form square matrices.
+              
+              The input has to be symmetric and positive definite. Only the lower-triangular
+              part of the input will be used for this operation. The upper-triangular part
+              will not be read.
+              
+              The output is a tensor of the same shape as the input
               containing the Cholesky decompositions for all input submatrices `[..., :, :]`.
+              
+              **Note**: The gradient computation on GPU is faster for large matrices but
+              not for large batch dimensions when the submatrices are small. In this
+              case it might be faster to use the CPU.
             </remarks>
       </Docs>
     </Member>
@@ -3604,6 +3830,35 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="Cosh">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Cosh (TensorFlow.TFOutput x, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Cosh(valuetype TensorFlow.TFOutput x, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'Cosh'.
+            </param>
+        <summary>
+              Computes hyperbolic cosine of x element-wise.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="CropAndResize">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput CropAndResize (TensorFlow.TFOutput image, TensorFlow.TFOutput boxes, TensorFlow.TFOutput box_ind, TensorFlow.TFOutput crop_size, string method = null, Nullable&lt;float&gt; extrapolation_value = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput CropAndResize(valuetype TensorFlow.TFOutput image, valuetype TensorFlow.TFOutput boxes, valuetype TensorFlow.TFOutput box_ind, valuetype TensorFlow.TFOutput crop_size, string method, valuetype System.Nullable`1&lt;float32&gt; extrapolation_value, string operName) cil managed" />
@@ -3634,7 +3889,7 @@
               in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
               `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
               `[0, 1]` interval of normalized image height is mapped to
-              `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
+              `[0, image_height - 1]` in image height coordinates. We do allow `y1` &amp;gt; `y2`, in
               which case the sampled crop is an up-down flipped version of the original
               image. The width dimension is treated similarly. Normalized coordinates
               outside the `[0, 1]` range are allowed, in which case we use
@@ -4031,8 +4286,8 @@
         <param name="ignore_longer_outputs_than_inputs">
               Optional argument
               Scalar. If set to true, during CTC
-              calculation items have longer input sequences than output sequences
-              are ignored by returning zero-gradient for those items.
+              calculation, items that have longer output sequences than input sequences
+              are skipped: they don't contribute to the loss term and have zero-gradient.
             </param>
         <param name="operName">
               If specified, the created operation in the graph will be this one, otherwise it will be named 'CTCLoss'.
@@ -4093,26 +4348,31 @@
         <remarks>
               By default, this op performs an inclusive cumprod, which means that the first
               element of the input is identical to the first element of the output:
-              ```prettyprint
-              tf.cumprod([a, b, c]) ==&amp;gt; [a, a * b, a * b * c]
+              
+              ```python
+              tf.cumprod([a, b, c])  # =&amp;gt; [a, a * b, a * b * c]
               ```
               
               By setting the `exclusive` kwarg to `True`, an exclusive cumprod is
               performed instead:
-              ```prettyprint
-              tf.cumprod([a, b, c], exclusive=True) ==&amp;gt; [1, a, a * b]
+              
+              ```python
+              tf.cumprod([a, b, c], exclusive=True)  # =&amp;gt; [1, a, a * b]
               ```
               
               By setting the `reverse` kwarg to `True`, the cumprod is performed in the
               opposite direction:
-              ```prettyprint
-              tf.cumprod([a, b, c], reverse=True) ==&amp;gt; [a * b * c, b * c, c]
+              
+              ```python
+              tf.cumprod([a, b, c], reverse=True)  # =&amp;gt; [a * b * c, b * c, c]
               ```
+              
               This is more efficient than using separate `tf.reverse` ops.
               
               The `reverse` and `exclusive` kwargs can also be combined:
-              ```prettyprint
-              tf.cumprod([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b * c, c, 1]
+              
+              ```python
+              tf.cumprod([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b * c, c, 1]
               ```
             </remarks>
       </Docs>
@@ -4157,26 +4417,31 @@
         <remarks>
               By default, this op performs an inclusive cumsum, which means that the first
               element of the input is identical to the first element of the output:
-              ```prettyprint
-              tf.cumsum([a, b, c]) ==&amp;gt; [a, a + b, a + b + c]
+              
+              ```python
+              tf.cumsum([a, b, c])  # =&amp;gt; [a, a + b, a + b + c]
               ```
               
               By setting the `exclusive` kwarg to `True`, an exclusive cumsum is
               performed instead:
-              ```prettyprint
-              tf.cumsum([a, b, c], exclusive=True) ==&amp;gt; [0, a, a + b]
+              
+              ```python
+              tf.cumsum([a, b, c], exclusive=True)  # =&amp;gt; [0, a, a + b]
               ```
               
               By setting the `reverse` kwarg to `True`, the cumsum is performed in the
               opposite direction:
-              ```prettyprint
-              tf.cumsum([a, b, c], reverse=True) ==&amp;gt; [a + b + c, b + c, c]
+              
+              ```python
+              tf.cumsum([a, b, c], reverse=True)  # =&amp;gt; [a + b + c, b + c, c]
               ```
+              
               This is more efficient than using separate `tf.reverse` ops.
               
               The `reverse` and `exclusive` kwargs can also be combined:
-              ```prettyprint
-              tf.cumsum([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b + c, c, 0]
+              
+              ```python
+              tf.cumsum([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b + c, c, 0]
               ```
             </remarks>
       </Docs>
@@ -4281,9 +4546,6 @@
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] DecodeCSV (TensorFlow.TFOutput records, TensorFlow.TFOutput[] record_defaults, string field_delim = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] DecodeCSV(valuetype TensorFlow.TFOutput records, valuetype TensorFlow.TFOutput[] record_defaults, string field_delim, string operName) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
       </ReturnValue>
@@ -4305,6 +4567,59 @@
         <param name="field_delim">
               Optional argument
               delimiter to separate fields in a record.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeCSV'.
+            </param>
+        <summary>
+              Convert CSV records to tensors. Each column maps to one tensor.
+            </summary>
+        <returns>
+              Each tensor will have the same shape as records.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              RFC 4180 format is expected for the CSV records.
+              (https://tools.ietf.org/html/rfc4180)
+              Note that we allow leading and trailing spaces with int or float field.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodeCSV">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] DecodeCSV (TensorFlow.TFOutput records, TensorFlow.TFOutput[] record_defaults, string field_delim = null, Nullable&lt;bool&gt; use_quote_delim = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] DecodeCSV(valuetype TensorFlow.TFOutput records, valuetype TensorFlow.TFOutput[] record_defaults, string field_delim, valuetype System.Nullable`1&lt;bool&gt; use_quote_delim, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="records" Type="TensorFlow.TFOutput" />
+        <Parameter Name="record_defaults" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="field_delim" Type="System.String" />
+        <Parameter Name="use_quote_delim" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="records">
+              Each string is a record/row in the csv and all records should have
+              the same format.
+            </param>
+        <param name="record_defaults">
+              One tensor per column of the input record, with either a
+              scalar default value for that column or empty if the column is required.
+            </param>
+        <param name="field_delim">
+              Optional argument
+              char delimiter to separate fields in a record.
+            </param>
+        <param name="use_quote_delim">
+              Optional argument
+              If false, treats double quotation marks as regular
+              characters inside of the string fields (ignoring RFC 4180, Section 2,
+              Bullet 5).
             </param>
         <param name="operName">
               If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeCSV'.
@@ -5038,11 +5353,13 @@
               `channel_multiplier` channels for each), then concatenates the results
               together. Thus, the output has `in_channels * channel_multiplier` channels.
               
+              ```
               for k in 0..in_channels-1
                 for q in 0..channel_multiplier-1
                   output[b, i, j, k * channel_multiplier + q] =
                     sum_{di, dj} input[b, strides[1] * i + di, strides[2] * j + dj, k] *
                                       filter[di, dj, k, q]
+              ```
               
               Must have `strides[0] = strides[3] = 1`.  For the most common case of the same
               horizontal and vertices strides, `strides = [1, stride, stride, 1]`.
@@ -5769,6 +6086,72 @@
               bounding box will be `(10, 40)` to `(50, 180)`.
               
               Parts of the bounding box may fall outside the image.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dropout">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Dropout (TensorFlow.TFOutput x, double keep_prob, TensorFlow.TFShape noise_shape = null, Nullable&lt;int&gt; seed = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Dropout(valuetype TensorFlow.TFOutput x, float64 keep_prob, class TensorFlow.TFShape noise_shape, valuetype System.Nullable`1&lt;int32&gt; seed, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="keep_prob" Type="System.Double" />
+        <Parameter Name="noise_shape" Type="TensorFlow.TFShape" />
+        <Parameter Name="seed" Type="System.Nullable&lt;System.Int32&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">A tensor.</param>
+        <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+        <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+        <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+        <param name="operName">Operation name, optional.</param>
+        <summary>
+            Computes dropout. 
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>
+            With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+            otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dropout">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Dropout (TensorFlow.TFOutput x, TensorFlow.TFOutput keep_prob, TensorFlow.TFShape noise_shape = null, Nullable&lt;int&gt; seed = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Dropout(valuetype TensorFlow.TFOutput x, valuetype TensorFlow.TFOutput keep_prob, class TensorFlow.TFShape noise_shape, valuetype System.Nullable`1&lt;int32&gt; seed, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="keep_prob" Type="TensorFlow.TFOutput" />
+        <Parameter Name="noise_shape" Type="TensorFlow.TFShape" />
+        <Parameter Name="seed" Type="System.Nullable&lt;System.Int32&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">A tensor.</param>
+        <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+        <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+        <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+        <param name="operName">Operation name, optional.</param>
+        <summary>
+            Computes dropout. 
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>
+            With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+            otherwise outputs 0. The scaling is so that the expected sum is unchanged.
             </remarks>
       </Docs>
     </Member>
@@ -6790,9 +7173,6 @@
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Fact (string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Fact(string operName) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
       </ReturnValue>
@@ -6816,9 +7196,6 @@
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxArgs (TensorFlow.TFOutput inputs, Nullable&lt;float&gt; min = null, Nullable&lt;float&gt; max = null, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxArgs(valuetype TensorFlow.TFOutput inputs, valuetype System.Nullable`1&lt;float32&gt; min, valuetype System.Nullable`1&lt;float32&gt; max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
       </ReturnValue>
@@ -6860,13 +7237,63 @@
             </remarks>
       </Docs>
     </Member>
-    <Member MemberName="FakeQuantWithMinMaxArgsGradient">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, Nullable&lt;float&gt; min = null, Nullable&lt;float&gt; max = null, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype System.Nullable`1&lt;float32&gt; min, valuetype System.Nullable`1&lt;float32&gt; max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+    <Member MemberName="FakeQuantWithMinMaxArgs">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxArgs (TensorFlow.TFOutput inputs, Nullable&lt;float&gt; min = null, Nullable&lt;float&gt; max = null, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxArgs(valuetype TensorFlow.TFOutput inputs, valuetype System.Nullable`1&lt;float32&gt; min, valuetype System.Nullable`1&lt;float32&gt; max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="System.Nullable&lt;System.Single&gt;" />
+        <Parameter Name="max" Type="System.Nullable&lt;System.Single&gt;" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="inputs">
+        </param>
+        <param name="min">
+              Optional argument
+            </param>
+        <param name="max">
+              Optional argument
+            </param>
+        <param name="num_bits">
+              Optional argument
+            </param>
+        <param name="narrow_range">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxArgs'.
+            </param>
+        <summary>
+              Fake-quantize the 'inputs' tensor, type float to 'outputs' tensor of same type.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              Attributes `[min; max]` define the clamping range for the `inputs` data.
+              `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+              when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+              then de-quantized and output as floats in `[min; max]` interval.
+              `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+              
+              Quantization is called fake since the output is still in floating point.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxArgsGradient">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, Nullable&lt;float&gt; min = null, Nullable&lt;float&gt; max = null, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype System.Nullable`1&lt;float32&gt; min, valuetype System.Nullable`1&lt;float32&gt; max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+      <MemberType>Method</MemberType>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
       </ReturnValue>
@@ -6908,13 +7335,62 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="FakeQuantWithMinMaxVars">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVars (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVars(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+    <Member MemberName="FakeQuantWithMinMaxArgsGradient">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, Nullable&lt;float&gt; min = null, Nullable&lt;float&gt; max = null, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxArgsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype System.Nullable`1&lt;float32&gt; min, valuetype System.Nullable`1&lt;float32&gt; max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradients" Type="TensorFlow.TFOutput" />
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="System.Nullable&lt;System.Single&gt;" />
+        <Parameter Name="max" Type="System.Nullable&lt;System.Single&gt;" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="gradients">
+              Backpropagated gradients above the FakeQuantWithMinMaxArgs operation.
+            </param>
+        <param name="inputs">
+              Values passed as inputs to the FakeQuantWithMinMaxArgs operation.
+            </param>
+        <param name="min">
+              Optional argument
+            </param>
+        <param name="max">
+              Optional argument
+            </param>
+        <param name="num_bits">
+              Optional argument
+            </param>
+        <param name="narrow_range">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxArgsGradient'.
+            </param>
+        <summary>
+              Compute gradients for a FakeQuantWithMinMaxArgs operation.
+            </summary>
+        <returns>
+              Backpropagated gradients below the FakeQuantWithMinMaxArgs operation:
+              `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxVars">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVars (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVars(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+      <MemberType>Method</MemberType>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
       </ReturnValue>
@@ -6956,13 +7432,64 @@
             </remarks>
       </Docs>
     </Member>
-    <Member MemberName="FakeQuantWithMinMaxVarsGradient">
-      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+    <Member MemberName="FakeQuantWithMinMaxVars">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVars (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVars(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max" Type="TensorFlow.TFOutput" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="inputs">
+        </param>
+        <param name="min">
+        </param>
+        <param name="max">
+        </param>
+        <param name="num_bits">
+              Optional argument
+            </param>
+        <param name="narrow_range">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVars'.
+            </param>
+        <summary>
+              Fake-quantize the 'inputs' tensor of type float via global float scalars `min`
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              and `max` to 'outputs' tensor of same shape as `inputs`.
+              
+              `[min; max]` define the clamping range for the `inputs` data.
+              `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+              when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+              then de-quantized and output as floats in `[min; max]` interval.
+              `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+              
+              This operation has a gradient and thus allows for training `min` and `max`
+              values.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxVarsGradient">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+      <MemberType>Method</MemberType>
       <ReturnValue>
         <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
         <Attributes>
@@ -7014,13 +7541,73 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="FakeQuantWithMinMaxVarsPerChannel">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+    <Member MemberName="FakeQuantWithMinMaxVarsGradient">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradients" Type="TensorFlow.TFOutput" />
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max" Type="TensorFlow.TFOutput" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="gradients">
+              Backpropagated gradients above the FakeQuantWithMinMaxVars operation.
+            </param>
+        <param name="inputs">
+              Values passed as inputs to the FakeQuantWithMinMaxVars operation.
+              min, max: Quantization interval, scalar floats.
+            </param>
+        <param name="min">
+        </param>
+        <param name="max">
+        </param>
+        <param name="num_bits">
+              Optional argument
+              The bitwidth of the quantization; between 2 and 8, inclusive.
+            </param>
+        <param name="narrow_range">
+              Optional argument
+              Whether to quantize into 2^num_bits - 1 distinct values.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsGradient'.
+            </param>
+        <summary>
+              Compute gradients for a FakeQuantWithMinMaxVars operation.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              backprops_wrt_input: Backpropagated gradients w.r.t. inputs:
+              `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
+              backprop_wrt_min: Backpropagated gradients w.r.t. min parameter:
+              `sum(gradients * (inputs &amp;lt; min))`.
+              backprop_wrt_max: Backpropagated gradients w.r.t. max parameter:
+              `sum(gradients * (inputs &amp;gt; max))`.
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxVarsPerChannel">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+      <MemberType>Method</MemberType>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput</ReturnType>
       </ReturnValue>
@@ -7063,13 +7650,65 @@
             </remarks>
       </Docs>
     </Member>
-    <Member MemberName="FakeQuantWithMinMaxVarsPerChannelGradient">
-      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+    <Member MemberName="FakeQuantWithMinMaxVarsPerChannel">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel (TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput FakeQuantWithMinMaxVarsPerChannel(valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max" Type="TensorFlow.TFOutput" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="inputs">
+        </param>
+        <param name="min">
+        </param>
+        <param name="max">
+        </param>
+        <param name="num_bits">
+              Optional argument
+            </param>
+        <param name="narrow_range">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsPerChannel'.
+            </param>
+        <summary>
+              Fake-quantize the 'inputs' tensor of type float and one of the shapes: `[d]`,
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              `[b, d]` `[b, h, w, d]` via per-channel floats `min` and `max` of shape `[d]`
+              to 'outputs' tensor of same shape as `inputs`.
+              
+              `[min; max]` define the clamping range for the `inputs` data.
+              `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+              when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+              then de-quantized and output as floats in `[min; max]` interval.
+              `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+              
+              This operation has a gradient and thus allows for training `min` and `max`
+              values.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxVarsPerChannelGradient">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, string operName) cil managed" />
+      <MemberType>Method</MemberType>
       <ReturnValue>
         <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
         <Attributes>
@@ -7103,6 +7742,72 @@
         <param name="num_bits">
               Optional argument
               The bitwidth of the quantization; between 2 and 8, inclusive.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsPerChannelGradient'.
+            </param>
+        <summary>
+              Compute gradients for a FakeQuantWithMinMaxVarsPerChannel operation.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              backprops_wrt_input: Backpropagated gradients w.r.t. inputs, shape same as
+              `inputs`:
+                `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
+              backprop_wrt_min: Backpropagated gradients w.r.t. min parameter, shape `[d]`:
+              `sum_per_d(gradients * (inputs &amp;lt; min))`.
+              backprop_wrt_max: Backpropagated gradients w.r.t. max parameter, shape `[d]`:
+              `sum_per_d(gradients * (inputs &amp;gt; max))`.
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FakeQuantWithMinMaxVarsPerChannelGradient">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient (TensorFlow.TFOutput gradients, TensorFlow.TFOutput inputs, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;long&gt; num_bits = null, Nullable&lt;bool&gt; narrow_range = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; FakeQuantWithMinMaxVarsPerChannelGradient(valuetype TensorFlow.TFOutput gradients, valuetype TensorFlow.TFOutput inputs, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;int64&gt; num_bits, valuetype System.Nullable`1&lt;bool&gt; narrow_range, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradients" Type="TensorFlow.TFOutput" />
+        <Parameter Name="inputs" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max" Type="TensorFlow.TFOutput" />
+        <Parameter Name="num_bits" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="narrow_range" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="gradients">
+              Backpropagated gradients above the FakeQuantWithMinMaxVars operation,
+              shape one of: `[d]`, `[b, d]`,  `[b, h, w, d]`.
+            </param>
+        <param name="inputs">
+              Values passed as inputs to the FakeQuantWithMinMaxVars operation, shape
+                same as `gradients`.
+              min, max: Quantization interval, floats of shape `[d]`.
+            </param>
+        <param name="min">
+        </param>
+        <param name="max">
+        </param>
+        <param name="num_bits">
+              Optional argument
+              The bitwidth of the quantization; between 2 and 8, inclusive.
+            </param>
+        <param name="narrow_range">
+              Optional argument
+              Whether to quantize into 2^num_bits - 1 distinct values.
             </param>
         <param name="operName">
               If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQuantWithMinMaxVarsPerChannelGradient'.
@@ -8552,9 +9257,14 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>
+            Gets the list of all registered global variables.
+            </summary>
+        <returns>The array of variables that should be initialized.</returns>
+        <remarks>
+            After this method is invoked the list of pending initialization variables
+            is cleared.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRandomSeeds">
@@ -8701,7 +9411,7 @@
       </Parameters>
       <Docs>
         <param name="output">The output operation to probe.</param>
-        <param name="status">Status.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
              Returns the tensor shape for the specific output pparameters as an array of longs.
             </summary>
@@ -8746,10 +9456,12 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="output">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="output">The tensor that you want to look up.  </param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+             Returns the shape of a tensor specified in <paramref name="output" />.
+             </summary>
+        <returns>The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -9420,8 +10132,8 @@
       </Parameters>
       <Docs>
         <param name="buffer">A byte array containing the serialized graph.</param>
-        <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef" /> when they are imported into the graph.</param>
-        <param name="status">Status buffer.</param>
+        <param name="prefix">A prefix that will be prepended to names of nodes in the graph when they are imported into the graph.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Import a serialized graph held in a byte array into this graph, using the specified prefix.
             </summary>
@@ -9447,7 +10159,7 @@
       <Docs>
         <param name="buffer">A byte array containing the serialized graph.</param>
         <param name="options">Importing graph options.</param>
-        <param name="status">Status buffer.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Import a serialized graph held in a byte array into this graph, using the specified import options.
             </summary>
@@ -9473,7 +10185,7 @@
       <Docs>
         <param name="graphDef">A buffer containing the serialized graph.</param>
         <param name="prefix">A prefix that will be prepended to names of nodes in the <paramref name="graphDef" /> when they are imported into the graph.</param>
-        <param name="status">Status buffer.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Import a serialized graph into this graph, using the specified prefix.
             </summary>
@@ -9499,7 +10211,7 @@
       <Docs>
         <param name="graphDef">A buffer containing the serialized graph.</param>
         <param name="options">Importing graph options.</param>
-        <param name="status">Status buffer.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Import a serialized graph into this graph, using the specified importing options.
             </summary>
@@ -9527,7 +10239,7 @@
         <param name="graphDef">Serialized graph definition (in protocol buffer format).</param>
         <param name="options">Import options.</param>
         <param name="returnOutputs">Array large enough to contain all the return options.</param>
-        <param name="status">Status, optional.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Imports a graph serialized into the graph
             </summary>
@@ -9721,6 +10433,38 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="Invert">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Invert (TensorFlow.TFOutput x, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Invert(valuetype TensorFlow.TFOutput x, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'Invert'.
+            </param>
+        <summary>
+              Flips all bits elementwise.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              The result will have exactly those bits set, that are not set in `x`. The
+              computation is performed on the underlying representation of x.
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="InvertPermutation">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput InvertPermutation (TensorFlow.TFOutput x, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput InvertPermutation(valuetype TensorFlow.TFOutput x, string operName) cil managed" />
@@ -9851,6 +10595,10 @@
               dimension of `input` (`fft_length = 2 * (inner - 1)`). If the FFT length used to
               compute `input` is odd, it should be provided since it cannot be inferred
               properly.
+              
+              Along the axis `IRFFT` is computed on, if `fft_length / 2 + 1` is smaller
+              than the corresponding dimension of `input`, the dimension is cropped. If it is
+              larger, the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -9902,6 +10650,11 @@
               from the size of the inner-most 2 dimensions of `input`. If the FFT length used
               to compute `input` is odd, it should be provided since it cannot be inferred
               properly.
+              
+              Along each axis `IRFFT2D` is computed on, if `fft_length` (or
+              `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
+              corresponding dimension of `input`, the dimension is cropped. If it is larger,
+              the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -9953,6 +10706,11 @@
               from the size of the inner-most 3 dimensions of `input`. If the FFT length used
               to compute `input` is odd, it should be provided since it cannot be inferred
               properly.
+              
+              Along each axis `IRFFT3D` is computed on, if `fft_length` (or
+              `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
+              corresponding dimension of `input`, the dimension is cropped. If it is larger,
+              the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -11192,6 +11950,370 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="MapClear">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation MapClear (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation MapClear(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapClear'.
+            </param>
+        <summary>
+              Op removes all elements in the underlying container.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapIncompleteSize">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput MapIncompleteSize (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput MapIncompleteSize(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapIncompleteSize'.
+            </param>
+        <summary>
+              Op returns the number of incomplete elements in the underlying container.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapPeek">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] MapPeek (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] MapPeek(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+        </param>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapPeek'.
+            </param>
+        <summary>
+              Op peeks at the values at the specified key.  If the
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              underlying container does not contain this key
+              this op will block until it does.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapSize">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput MapSize (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput MapSize(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapSize'.
+            </param>
+        <summary>
+              Op returns the number of elements in the underlying container.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapStage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation MapStage (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFOutput[] values, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation MapStage(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFOutput[] values, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="values" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+              int64
+            </param>
+        <param name="indices">
+        </param>
+        <param name="values">
+              a list of tensors
+              dtypes A list of data types that inserted values should adhere to.
+            </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+              Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+              on the container will block when the capacity is reached.
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+              If non-empty, this queue is placed in the given container. Otherwise,
+              a default container is used.
+            </param>
+        <param name="shared_name">
+              Optional argument
+              It is necessary to match this name to the matching Unstage Op.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapStage'.
+            </param>
+        <summary>
+              Stage (key, values) in the underlying container which behaves like a hashtable.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapUnstage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] MapUnstage (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] MapUnstage(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+        </param>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapUnstage'.
+            </param>
+        <summary>
+              Op removes and returns the values associated with the key
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              from the underlying container.   If the underlying container
+              does not contain this key, the op will block until it does.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MapUnstageNoKey">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput[]&gt; MapUnstageNoKey (TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput[]&gt; MapUnstageNoKey(valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput[]&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'MapUnstageNoKey'.
+            </param>
+        <summary>
+              Op removes and returns a random (key, value)
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              key: 
+              values: 
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              from the underlying container.   If the underlying container
+              does not contain elements, the op will block until it does.
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="MatchingFiles">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput MatchingFiles (TensorFlow.TFOutput pattern, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput MatchingFiles(valuetype TensorFlow.TFOutput pattern, string operName) cil managed" />
@@ -12398,6 +13520,11 @@
               The indices in `argmax` are flattened, so that a maximum value at position
               `[b, y, x, c]` becomes flattened index
               `((b * height + y) * width + x) * channels + c`.
+              
+              The indices returned are always in `[0, height) x [0, width)` before flattening,
+              even if padding is involved and the mathematically correct answer is outside
+              (either negative or too large).  This is a bug, but fixing it is difficult to do
+              in a safe backwards compatible way, especially due to flattening.
             </remarks>
       </Docs>
     </Member>
@@ -13587,6 +14714,373 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="OrderedMapClear">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation OrderedMapClear (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation OrderedMapClear(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapClear'.
+            </param>
+        <summary>
+              Op removes all elements in the underlying container.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapIncompleteSize">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput OrderedMapIncompleteSize (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput OrderedMapIncompleteSize(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapIncompleteSize'.
+            </param>
+        <summary>
+              Op returns the number of incomplete elements in the underlying container.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapPeek">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] OrderedMapPeek (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] OrderedMapPeek(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+        </param>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapPeek'.
+            </param>
+        <summary>
+              Op peeks at the values at the specified key.  If the
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              underlying container does not contain this key
+              this op will block until it does.   This Op is optimized for
+              performance.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapSize">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput OrderedMapSize (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput OrderedMapSize(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapSize'.
+            </param>
+        <summary>
+              Op returns the number of elements in the underlying container.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapStage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation OrderedMapStage (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFOutput[] values, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation OrderedMapStage(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFOutput[] values, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="values" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+              int64
+            </param>
+        <param name="indices">
+        </param>
+        <param name="values">
+              a list of tensors
+              dtypes A list of data types that inserted values should adhere to.
+            </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+              Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+              on the container will block when the capacity is reached.
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+              If non-empty, this queue is placed in the given container. Otherwise,
+              a default container is used.
+            </param>
+        <param name="shared_name">
+              Optional argument
+              It is necessary to match this name to the matching Unstage Op.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapStage'.
+            </param>
+        <summary>
+              Stage (key, values) in the underlying container which behaves like a ordered
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>
+              associative container.   Elements are ordered by key.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapUnstage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] OrderedMapUnstage (TensorFlow.TFOutput key, TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] OrderedMapUnstage(valuetype TensorFlow.TFOutput key, valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="TensorFlow.TFOutput" />
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+        </param>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapUnstage'.
+            </param>
+        <summary>
+              Op removes and returns the values associated with the key
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              from the underlying container.   If the underlying container
+              does not contain this key, the op will block until it does.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OrderedMapUnstageNoKey">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput[]&gt; OrderedMapUnstageNoKey (TensorFlow.TFOutput indices, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput[]&gt; OrderedMapUnstageNoKey(valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput[]&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="indices">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapUnstageNoKey'.
+            </param>
+        <summary>
+              Op removes and returns the (key, value) element with the smallest
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              key: 
+              values: 
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              key from the underlying container.   If the underlying container
+              does not contain elements, the op will block until it does.
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Pack">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Pack (TensorFlow.TFOutput[] values, Nullable&lt;long&gt; axis = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Pack(valuetype TensorFlow.TFOutput[] values, valuetype System.Nullable`1&lt;int64&gt; axis, string operName) cil managed" />
@@ -14645,7 +16139,7 @@
               Computes the QR decomposition of each inner matrix in `tensor` such that
               `tensor[..., :, :] = q[..., :, :] * r[..., :,:])`
               
-              ```prettyprint
+              ```python
               # a is a tensor.
               # q is a tensor of orthonormal matrices.
               # r is a tensor of upper triangular matrices.
@@ -14857,6 +16351,70 @@
               Given the vector {-1, -0.5, 0, 0.3}, this is quantized to
               {-127, -63, 0, 38}, and dequantized to {-1, -63.0/127, 0, 38.0/127}.
             </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuantizedAdd">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; QuantizedAdd (TensorFlow.TFOutput x, TensorFlow.TFOutput y, TensorFlow.TFOutput min_x, TensorFlow.TFOutput max_x, TensorFlow.TFOutput min_y, TensorFlow.TFOutput max_y, Nullable&lt;TensorFlow.TFDataType&gt; Toutput = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; QuantizedAdd(valuetype TensorFlow.TFOutput x, valuetype TensorFlow.TFOutput y, valuetype TensorFlow.TFOutput min_x, valuetype TensorFlow.TFOutput max_x, valuetype TensorFlow.TFOutput min_y, valuetype TensorFlow.TFOutput max_y, valuetype System.Nullable`1&lt;valuetype TensorFlow.TFDataType&gt; Toutput, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min_x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max_x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min_y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max_y" Type="TensorFlow.TFOutput" />
+        <Parameter Name="Toutput" Type="System.Nullable&lt;TensorFlow.TFDataType&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="y">
+        </param>
+        <param name="min_x">
+              The float value that the lowest quantized `x` value represents.
+            </param>
+        <param name="max_x">
+              The float value that the highest quantized `x` value represents.
+            </param>
+        <param name="min_y">
+              The float value that the lowest quantized `y` value represents.
+            </param>
+        <param name="max_y">
+              The float value that the highest quantized `y` value represents.
+            </param>
+        <param name="Toutput">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedAdd'.
+            </param>
+        <summary>
+              Returns x + y element-wise, working on quantized buffers.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              z: 
+              min_z: The float value that the lowest quantized output value represents.
+              max_z: The float value that the highest quantized output value represents.
+              
+              *NOTE*: `QuantizedAdd` supports limited forms of broadcasting. More about
+              broadcasting [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="QuantizedAvgPool">
@@ -15792,6 +17350,66 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="QuantizedResizeBilinear">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; QuantizedResizeBilinear (TensorFlow.TFOutput images, TensorFlow.TFOutput size, TensorFlow.TFOutput min, TensorFlow.TFOutput max, Nullable&lt;bool&gt; align_corners = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; QuantizedResizeBilinear(valuetype TensorFlow.TFOutput images, valuetype TensorFlow.TFOutput size, valuetype TensorFlow.TFOutput min, valuetype TensorFlow.TFOutput max, valuetype System.Nullable`1&lt;bool&gt; align_corners, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="images" Type="TensorFlow.TFOutput" />
+        <Parameter Name="size" Type="TensorFlow.TFOutput" />
+        <Parameter Name="min" Type="TensorFlow.TFOutput" />
+        <Parameter Name="max" Type="TensorFlow.TFOutput" />
+        <Parameter Name="align_corners" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="images">
+              4-D with shape `[batch, height, width, channels]`.
+            </param>
+        <param name="size">
+              = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+              new size for the images.
+            </param>
+        <param name="min">
+        </param>
+        <param name="max">
+        </param>
+        <param name="align_corners">
+              Optional argument
+              If true, rescale input by (new_height - 1) / (height - 1), which
+              exactly aligns the 4 corners of images and resized images. If false, rescale
+              by new_height / height. Treat similarly the width dimension.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedResizeBilinear'.
+            </param>
+        <summary>
+              Resize quantized `images` to `size` using quantized bilinear interpolation.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              resized_images: 4-D with shape
+              `[batch, new_height, new_width, channels]`.
+              out_min: 
+              out_max: 
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              Input images and output images must be quantized types.
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="QuantizeV2">
       <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; QuantizeV2 (TensorFlow.TFOutput input, TensorFlow.TFOutput min_range, TensorFlow.TFOutput max_range, TensorFlow.TFDataType T, string mode = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; QuantizeV2(valuetype TensorFlow.TFOutput input, valuetype TensorFlow.TFOutput min_range, valuetype TensorFlow.TFOutput max_range, valuetype TensorFlow.TFDataType T, string mode, string operName) cil managed" />
@@ -15917,7 +17535,7 @@
         <param name="cancel_pending_enqueues">
               Optional argument
               If true, all pending enqueue requests that are
-              blocked on the given queue will be cancelled.
+              blocked on the given queue will be canceled.
             </param>
         <param name="operName">
               If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueCloseV2'.
@@ -16371,7 +17989,7 @@
         <param name="mean">The mean of the standard distribution.</param>
         <param name="stddev">The standard deviation of the normal distribution.</param>
         <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
-        <param name="operName">&gt;Operation name, optional.</param>
+        <param name="operName">Operation name, optional.</param>
         <summary>
             Outputs random values from a normal distribution
             </summary>
@@ -16487,7 +18105,7 @@
                 to one and only one `output[i]`. For example, a mapping that might occur for a
                 3x2 tensor is:
               
-              ```prettyprint
+              ```
               [[1, 2],       [[5, 6],
                [3, 4],  ==&amp;gt;   [1, 2],
                [5, 6]]        [3, 4]]
@@ -17655,24 +19273,32 @@
       </Parameters>
       <Docs>
         <param name="inputs">
-        </param>
+              Arbitrary number of tensors with arbitrary data types
+            </param>
         <param name="Toutputs">
         </param>
         <param name="serialized_remote_fused_graph_execute_info">
-        </param>
+              Serialized protocol buffer
+              of RemoteFusedGraphExecuteInfo which contains graph specifications.
+            </param>
         <param name="operName">
               If specified, the created operation in the graph will be this one, otherwise it will be named 'RemoteFusedGraphExecute'.
             </param>
         <summary>
-              Execute a sub graph on a remote processor transferred by GraphTransferer.
+              Execute a sub graph on a remote processor.
             </summary>
         <returns>
+              Arbitrary number of tensors with arbitrary data types
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              The graph specifications are serialized by protobuf as graph_transfer_info.
-              The implementation / limitations may differ for each platform
-              and each available peripheral.
+              The graph specifications(such as graph itself, input tensors and output names)
+              are stored as a serialized protocol buffer of RemoteFusedGraphExecuteInfo
+              as serialized_remote_fused_graph_execute_info.
+              The specifications will be passed to a dedicated registered
+              remote fused graph executor.  The executor will send the graph specifications
+              to a remote processor and execute that graph.  The execution results
+              will be passed to consumer nodes as outputs of this node.
             </remarks>
       </Docs>
     </Member>
@@ -18606,7 +20232,7 @@
             </returns>
         <remarks>
               accum_new = accum + grad * grad
-              linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+              linear += grad - (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
               quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
               var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
               accum = accum_new
@@ -20210,6 +21836,10 @@
               Since the DFT of a real signal is Hermitian-symmetric, `RFFT` only returns the
               `fft_length / 2 + 1` unique components of the FFT: the zero-frequency term,
               followed by the `fft_length / 2` positive-frequency terms.
+              
+              Along the axis `RFFT` is computed on, if `fft_length` is smaller than the
+              corresponding dimension of `input`, the dimension is cropped. If it is larger,
+              the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -20260,6 +21890,10 @@
               `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
               of `output`: the zero-frequency term, followed by the `fft_length / 2`
               positive-frequency terms.
+              
+              Along each axis `RFFT2D` is computed on, if `fft_length` is smaller than the
+              corresponding dimension of `input`, the dimension is cropped. If it is larger,
+              the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -20310,6 +21944,10 @@
               `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
               of `output`: the zero-frequency term, followed by the `fft_length / 2`
               positive-frequency terms.
+              
+              Along each axis `RFFT3D` is computed on, if `fft_length` is smaller than the
+              corresponding dimension of `input`, the dimension is cropped. If it is larger,
+              the dimension is padded with zeros.
             </remarks>
       </Docs>
     </Member>
@@ -21426,15 +23064,14 @@
               
               For example:
               
-              ```prettyprint
+              ```python
               # 'condition' tensor is [[True,  False]
               #                        [False, True]]
               # 't' is [[1, 2],
               #         [3, 4]]
               # 'e' is [[5, 6],
               #         [7, 8]]
-              select(condition, t, e) ==&amp;gt; [[1, 6],
-                                           [7, 4]]
+              select(condition, t, e)  # =&amp;gt; [[1, 6], [7, 4]]
               
               
               # 'condition' tensor is [True, False]
@@ -21532,7 +23169,7 @@
               Computes the eigenvalues and (optionally) eigenvectors of each inner matrix in
               `input` such that `input[..., :, :] = v[..., :, :] * diag(e[..., :])`.
               
-              ```prettyprint
+              ```python
               # a is a tensor.
               # e is a tensor of eigenvalues.
               # v is a tensor of eigenvectors.
@@ -21694,10 +23331,12 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="output">To be added.</param>
-        <param name="dims">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="output">The tensor on which this method will operate in the graph.</param>
+        <param name="dims">The tensor shape, specified as an array of dimensions.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Sets the tensor shape of the tensor referenced by <paramref name="output" /> to the shape described by <paramref name="dims" />.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -22019,6 +23658,35 @@
             </param>
         <summary>
               Computes sin of x element-wise.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Sinh">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Sinh (TensorFlow.TFOutput x, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Sinh(valuetype TensorFlow.TFOutput x, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="x">
+        </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'Sinh'.
+            </param>
+        <summary>
+              Computes hyperbolic sine of x element-wise.
             </summary>
         <returns>
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -23311,6 +24979,149 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="SparseFillEmptyRows">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; SparseFillEmptyRows (TensorFlow.TFOutput indices, TensorFlow.TFOutput values, TensorFlow.TFOutput dense_shape, TensorFlow.TFOutput default_value, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`4&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; SparseFillEmptyRows(valuetype TensorFlow.TFOutput indices, valuetype TensorFlow.TFOutput values, valuetype TensorFlow.TFOutput dense_shape, valuetype TensorFlow.TFOutput default_value, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="values" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dense_shape" Type="TensorFlow.TFOutput" />
+        <Parameter Name="default_value" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="indices">
+              2-D. the indices of the sparse tensor.
+            </param>
+        <param name="values">
+              1-D. the values of the sparse tensor.
+            </param>
+        <param name="dense_shape">
+              1-D. the shape of the sparse tensor.
+            </param>
+        <param name="default_value">
+              0-D. default value to insert into location `[row, 0, ..., 0]`
+                for rows missing from the input sparse tensor.
+              output indices: 2-D. the indices of the filled sparse tensor.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseFillEmptyRows'.
+            </param>
+        <summary>
+              Fills empty rows in the input 2-D `SparseTensor` with a default value.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              output_indices: 
+              output_values: 1-D. the values of the filled sparse tensor.
+              empty_row_indicator: 1-D. whether the dense row was missing in the
+              input sparse tensor.
+              reverse_index_map: 1-D. a map from the input indices to the output indices.
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              The input `SparseTensor` is represented via the tuple of inputs
+              (`indices`, `values`, `dense_shape`).  The output `SparseTensor` has the
+              same `dense_shape` but with indices `output_indices` and values
+              `output_values`.
+              
+              This op inserts a single entry for every row that doesn't have any values.
+              The index is created as `[row, 0, ..., 0]` and the inserted value
+              is `default_value`.
+              
+              For example, suppose `sp_input` has shape `[5, 6]` and non-empty values:
+              
+                  [0, 1]: a
+                  [0, 3]: b
+                  [2, 0]: c
+                  [3, 1]: d
+              
+              Rows 1 and 4 are empty, so the output will be of shape `[5, 6]` with values:
+              
+                  [0, 1]: a
+                  [0, 3]: b
+                  [1, 0]: default_value
+                  [2, 0]: c
+                  [3, 1]: d
+                  [4, 0]: default_value
+              
+              The output `SparseTensor` will be in row-major order and will have the
+              same shape as the input.
+              
+              This op also returns an indicator vector shaped `[dense_shape[0]]` such that
+              
+                  empty_row_indicator[i] = True iff row i was an empty row.
+              
+              And a reverse index map vector shaped `[indices.shape[0]]` that is used during
+              backpropagation,
+              
+                  reverse_index_map[j] = out_j s.t. indices[j, :] == output_indices[out_j, :]
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SparseFillEmptyRowsGrad">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput&gt; SparseFillEmptyRowsGrad (TensorFlow.TFOutput reverse_index_map, TensorFlow.TFOutput grad_values, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; SparseFillEmptyRowsGrad(valuetype TensorFlow.TFOutput reverse_index_map, valuetype TensorFlow.TFOutput grad_values, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="reverse_index_map" Type="TensorFlow.TFOutput" />
+        <Parameter Name="grad_values" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="reverse_index_map">
+              1-D.  The reverse index map from SparseFillEmptyRows.
+            </param>
+        <param name="grad_values">
+              1-D.  The gradients from backprop.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseFillEmptyRowsGrad'.
+            </param>
+        <summary>
+              The gradient of SparseFillEmptyRows.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              d_values: 1-D.  The backprop into values.
+              d_default_value: 0-D.  The backprop into default_value.
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              Takes vectors reverse_index_map, shaped `[N]`, and grad_values,
+              shaped `[N_full]`, where `N_full &amp;gt;= N` and copies data into either
+              `d_values` or `d_default_value`.  Here `d_values` is shaped `[N]` and
+              `d_default_value` is a scalar.
+              
+                d_values[j] = grad_values[reverse_index_map[j]]
+                d_default_value = sum_{k : 0 .. N_full - 1} (
+                   grad_values[k] * 1{k not in reverse_index_map})
+            </remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SparseMatMul">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput SparseMatMul (TensorFlow.TFOutput a, TensorFlow.TFOutput b, Nullable&lt;bool&gt; transpose_a = null, Nullable&lt;bool&gt; transpose_b = null, Nullable&lt;bool&gt; a_is_sparse = null, Nullable&lt;bool&gt; b_is_sparse = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput SparseMatMul(valuetype TensorFlow.TFOutput a, valuetype TensorFlow.TFOutput b, valuetype System.Nullable`1&lt;bool&gt; transpose_a, valuetype System.Nullable`1&lt;bool&gt; transpose_b, valuetype System.Nullable`1&lt;bool&gt; a_is_sparse, valuetype System.Nullable`1&lt;bool&gt; b_is_sparse, string operName) cil managed" />
@@ -23361,6 +25172,141 @@
               match the outer dimension of "b". This op is optimized for the case where at
               least one of "a" or "b" is sparse. The breakeven for using this versus a dense
               matrix multiply on one platform was 30% zero values in the sparse matrix.
+              
+              The gradient computation of this operation will only take advantage of sparsity
+              in the input gradient when that gradient comes from a Relu.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SparseReduceMax">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput SparseReduceMax (TensorFlow.TFOutput input_indices, TensorFlow.TFOutput input_values, TensorFlow.TFOutput input_shape, TensorFlow.TFOutput reduction_axes, Nullable&lt;bool&gt; keep_dims = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput SparseReduceMax(valuetype TensorFlow.TFOutput input_indices, valuetype TensorFlow.TFOutput input_values, valuetype TensorFlow.TFOutput input_shape, valuetype TensorFlow.TFOutput reduction_axes, valuetype System.Nullable`1&lt;bool&gt; keep_dims, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="input_indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="input_values" Type="TensorFlow.TFOutput" />
+        <Parameter Name="input_shape" Type="TensorFlow.TFOutput" />
+        <Parameter Name="reduction_axes" Type="TensorFlow.TFOutput" />
+        <Parameter Name="keep_dims" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="input_indices">
+              2-D.  `N x R` matrix with the indices of non-empty values in a
+              SparseTensor, possibly not in canonical ordering.
+            </param>
+        <param name="input_values">
+              1-D.  `N` non-empty values corresponding to `input_indices`.
+            </param>
+        <param name="input_shape">
+              1-D.  Shape of the input SparseTensor.
+            </param>
+        <param name="reduction_axes">
+              1-D.  Length-`K` vector containing the reduction axes.
+            </param>
+        <param name="keep_dims">
+              Optional argument
+              If true, retain reduced dimensions with length 1.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMax'.
+            </param>
+        <summary>
+              Computes the max of elements across dimensions of a SparseTensor.
+            </summary>
+        <returns>
+              `R-K`-D.  The reduced Tensor.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              This Op takes a SparseTensor and is the sparse counterpart to
+              `tf.reduce_max()`.  In particular, this Op also returns a dense `Tensor`
+              instead of a sparse one.
+              
+              Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
+              `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
+              `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+              with length 1.
+              
+              If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+              with a single element is returned.  Additionally, the axes can be negative,
+              which are interpreted according to the indexing rules in Python.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SparseReduceMaxSparse">
+      <MemberSignature Language="C#" Value="public ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt; SparseReduceMaxSparse (TensorFlow.TFOutput input_indices, TensorFlow.TFOutput input_values, TensorFlow.TFOutput input_shape, TensorFlow.TFOutput reduction_axes, Nullable&lt;bool&gt; keep_dims = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.ValueTuple`3&lt;valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput, valuetype TensorFlow.TFOutput&gt; SparseReduceMaxSparse(valuetype TensorFlow.TFOutput input_indices, valuetype TensorFlow.TFOutput input_values, valuetype TensorFlow.TFOutput input_shape, valuetype TensorFlow.TFOutput reduction_axes, valuetype System.Nullable`1&lt;bool&gt; keep_dims, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput&gt;</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="input_indices" Type="TensorFlow.TFOutput" />
+        <Parameter Name="input_values" Type="TensorFlow.TFOutput" />
+        <Parameter Name="input_shape" Type="TensorFlow.TFOutput" />
+        <Parameter Name="reduction_axes" Type="TensorFlow.TFOutput" />
+        <Parameter Name="keep_dims" Type="System.Nullable&lt;System.Boolean&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="input_indices">
+              2-D.  `N x R` matrix with the indices of non-empty values in a
+              SparseTensor, possibly not in canonical ordering.
+            </param>
+        <param name="input_values">
+              1-D.  `N` non-empty values corresponding to `input_indices`.
+            </param>
+        <param name="input_shape">
+              1-D.  Shape of the input SparseTensor.
+            </param>
+        <param name="reduction_axes">
+              1-D.  Length-`K` vector containing the reduction axes.
+            </param>
+        <param name="keep_dims">
+              Optional argument
+              If true, retain reduced dimensions with length 1.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMaxSparse'.
+            </param>
+        <summary>
+              Computes the max of elements across dimensions of a SparseTensor.
+            </summary>
+        <returns>
+              Returns a tuple with multiple values, as follows:
+              output_indices: 
+              output_values: 
+              output_shape: 
+              The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+            </returns>
+        <remarks>
+              This Op takes a SparseTensor and is the sparse counterpart to
+              `tf.reduce_max()`.  In contrast to SparseReduceMax, this Op returns a
+              SparseTensor.
+              
+              Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
+              `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
+              `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+              with length 1.
+              
+              If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+              with a single element is returned.  Additionally, the axes can be negative,
+              which are interpreted according to the indexing rules in Python.
             </remarks>
       </Docs>
     </Member>
@@ -23843,22 +25789,22 @@
               
               For example:
               
-              ```prettyprint
+              ```python
               c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])
               
               # Select two rows, one segment.
               tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 0]))
-                ==&amp;gt; [[0 0 0 0]]
+              # =&amp;gt; [[0 0 0 0]]
               
               # Select two rows, two segment.
               tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 1]))
-                ==&amp;gt; [[ 1  2  3  4]
-                     [-1 -2 -3 -4]]
+              # =&amp;gt; [[ 1  2  3  4]
+              #     [-1 -2 -3 -4]]
               
               # Select all rows, two segments.
               tf.sparse_segment_sum(c, tf.constant([0, 1, 2]), tf.constant([0, 0, 1]))
-                ==&amp;gt; [[0 0 0 0]
-                     [5 6 7 8]]
+              # =&amp;gt; [[0 0 0 0]
+              #     [5 6 7 8]]
               
               # Which is equivalent to:
               tf.segment_sum(c, tf.constant([0, 0, 1]))
@@ -24367,7 +26313,7 @@
         <remarks>
               Builds an array `dense` with shape `output_shape` such that
               
-              ```prettyprint
+              ```
               # If sparse_indices is scalar
               dense[i] = (i == sparse_indices ? sparse_values : default_value)
               
@@ -24506,7 +26452,7 @@
       <Docs>
         <param name="split_dim">
               0-D.  The dimension along which to split.  Must be in the range
-              `[0, rank(value))`.
+              `[-rank(value), rank(value))`.
             </param>
         <param name="value">
               The tensor to split.
@@ -24558,7 +26504,7 @@
             </param>
         <param name="split_dim">
               0-D.  The dimension along which to split.  Must be in the range
-              `[0, rank(value))`.
+              `[-rank(value), rank(value))`.
             </param>
         <param name="num_split">
         </param>
@@ -24770,9 +26716,6 @@
       <MemberSignature Language="C#" Value="public TensorFlow.TFOperation Stage (TensorFlow.TFOutput[] values, string container = null, string shared_name = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation Stage(valuetype TensorFlow.TFOutput[] values, string container, string shared_name, string operName) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOperation</ReturnType>
       </ReturnValue>
@@ -24808,6 +26751,205 @@
               The basic functionality of this Op is similar to a queue with many
               fewer capabilities and options.  This Op is optimized for performance.
             </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Stage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation Stage (TensorFlow.TFOutput[] values, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation Stage(valuetype TensorFlow.TFOutput[] values, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="values" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="values">
+              a list of tensors
+              dtypes A list of data types that inserted values should adhere to.
+            </param>
+        <param name="capacity">
+              Optional argument
+              Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+              on the container will block when the capacity is reached.
+            </param>
+        <param name="memory_limit">
+              Optional argument
+              The maximum number of bytes allowed for Tensors in the Staging Area.
+              If &amp;gt; 0, inserts will block until sufficient space is available.
+            </param>
+        <param name="container">
+              Optional argument
+              If non-empty, this queue is placed in the given container. Otherwise,
+              a default container is used.
+            </param>
+        <param name="shared_name">
+              Optional argument
+              It is necessary to match this name to the matching Unstage Op.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'Stage'.
+            </param>
+        <summary>
+              Stage values similar to a lightweight Enqueue.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>
+              The basic functionality of this Op is similar to a queue with many
+              fewer capabilities and options.  This Op is optimized for performance.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StageClear">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation StageClear (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFOperation StageClear(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'StageClear'.
+            </param>
+        <summary>
+              Op removes all elements in the underlying container.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StagePeek">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] StagePeek (TensorFlow.TFOutput index, TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] StagePeek(valuetype TensorFlow.TFOutput index, valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="TensorFlow.TFOutput" />
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+        </param>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'StagePeek'.
+            </param>
+        <summary>
+              Op peeks at the values at the specified index.  If the
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              underlying container does not contain sufficient elements
+              this op will block until it does.   This Op is optimized for
+              performance.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StageSize">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput StageSize (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput StageSize(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'StageSize'.
+            </param>
+        <summary>
+              Op returns the number of elements in the underlying container.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="StatelessRandomNormal">
@@ -25773,7 +27915,7 @@
               Computes the SVD of each inner matrix in `input` such that
               `input[..., :, :] = u[..., :, :] * diag(s[..., :, :]) * transpose(v[..., :, :])`
               
-              ```prettyprint
+              ```python
               # a is a tensor containing a batch of matrices.
               # s is a tensor of singular values for each matrix.
               # u is the tensor containing of left singular vectors for each matrix.
@@ -26448,7 +28590,7 @@
               
               TensorArray gradient calls use an accumulator TensorArray object.  If
               multiple gradients are calculated and run in the same session, the multiple
-              gradient nodes may accidentally flow throuth the same accumulator TensorArray.
+              gradient nodes may accidentally flow through the same accumulator TensorArray.
               This double counts and generally breaks the TensorArray gradient flow.
               
               The solution is to identify which gradient call this particular
@@ -27099,6 +29241,49 @@
         <returns>
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
+        <remarks>
+              This op is being phased out in favor of TensorSummaryV2, which lets callers pass
+              a tag as well as a serialized SummaryMetadata proto string that contains
+              plugin-specific data. We will keep this op to maintain backwards compatibility.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TensorSummaryV2">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput TensorSummaryV2 (TensorFlow.TFOutput tag, TensorFlow.TFOutput tensor, TensorFlow.TFOutput serialized_summary_metadata, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput TensorSummaryV2(valuetype TensorFlow.TFOutput tag, valuetype TensorFlow.TFOutput tensor, valuetype TensorFlow.TFOutput serialized_summary_metadata, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="tag" Type="TensorFlow.TFOutput" />
+        <Parameter Name="tensor" Type="TensorFlow.TFOutput" />
+        <Parameter Name="serialized_summary_metadata" Type="TensorFlow.TFOutput" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="tag">
+              A string attached to this summary. Used for organization in TensorBoard.
+            </param>
+        <param name="tensor">
+              A tensor to serialize.
+            </param>
+        <param name="serialized_summary_metadata">
+              A serialized SummaryMetadata proto. Contains plugin
+              data.
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorSummaryV2'.
+            </param>
+        <summary>
+              Outputs a `Summary` protocol buffer with a tensor and per-plugin data.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -27433,9 +29618,11 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="outputGraphDef">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="outputGraphDef">Target buffer where the graphs is serialized into.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Write out a serialized representation of the graph (as a GraphDef protocol buffer message) into <paramref name="outputGraphDef" />.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -28100,9 +30287,6 @@
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] Unstage (TensorFlow.TFDataType[] dtypes, string container = null, string shared_name = null, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] Unstage(valuetype TensorFlow.TFDataType[] dtypes, string container, string shared_name, string operName) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>TensorFlow.TFOutput[]</ReturnType>
       </ReturnValue>
@@ -28132,6 +30316,54 @@
             </returns>
         <remarks>
               The basic funtionality is similar to dequeue with many fewer
+              capabilities and options.  This Op is optimized for performance.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Unstage">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput[] Unstage (TensorFlow.TFDataType[] dtypes, Nullable&lt;long&gt; capacity = null, Nullable&lt;long&gt; memory_limit = null, string container = null, string shared_name = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput[] Unstage(valuetype TensorFlow.TFDataType[] dtypes, valuetype System.Nullable`1&lt;int64&gt; capacity, valuetype System.Nullable`1&lt;int64&gt; memory_limit, string container, string shared_name, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dtypes" Type="TensorFlow.TFDataType[]" />
+        <Parameter Name="capacity" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="memory_limit" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="container" Type="System.String" />
+        <Parameter Name="shared_name" Type="System.String" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="dtypes">
+        </param>
+        <param name="capacity">
+              Optional argument
+            </param>
+        <param name="memory_limit">
+              Optional argument
+            </param>
+        <param name="container">
+              Optional argument
+            </param>
+        <param name="shared_name">
+              Optional argument
+            </param>
+        <param name="operName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'Unstage'.
+            </param>
+        <summary>
+              Op is similar to a lightweight Dequeue.
+            </summary>
+        <returns>
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              The basic functionality is similar to dequeue with many fewer
               capabilities and options.  This Op is optimized for performance.
             </remarks>
       </Docs>
@@ -28385,7 +30617,7 @@
       <Docs>
         <param name="inputs">Inputs.</param>
         <param name="constructor">Callback method that fills out the various while loop parameters.</param>
-        <param name="status">To be added.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Constructs a while loop with the specified inputs and a callback that composes the while loop
             </summary>

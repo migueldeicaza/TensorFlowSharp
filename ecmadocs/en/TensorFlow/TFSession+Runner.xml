@@ -108,7 +108,7 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="targetNames">To be added.</param>
+        <param name="targetNames">One or more target names.</param>
         <summary>
             Adds the specified operation names as the ones to be retrieved.
             </summary>
@@ -283,7 +283,7 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">Status.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
              Execute the graph fragments necessary to compute all requested fetches.
             </summary>
@@ -307,7 +307,7 @@
       </Parameters>
       <Docs>
         <param name="operation">The output of the operation.</param>
-        <param name="status">Optional, status.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Run the specified operation, by adding it implicity to the output, single return value
             </summary>

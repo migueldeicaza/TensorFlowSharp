@@ -818,7 +818,7 @@
       <tr>
         <td></td>
         <td><span class="parametername">deallocator</span></td>
-        <td><p>Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.</p>
+        <td><p>Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <a class="xref" href="TensorFlow.MonoPInvokeCallbackAttribute.html">MonoPInvokeCallbackAttribute</a>.</p>
 </td>
       </tr>
       <tr>

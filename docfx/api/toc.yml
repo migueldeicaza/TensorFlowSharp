@@ -2,6 +2,8 @@
 - uid: TensorFlow
   name: TensorFlow
   items:
+  - uid: TensorFlow.MonoPInvokeCallbackAttribute
+    name: MonoPInvokeCallbackAttribute
   - uid: TensorFlow.TFAttributeMetadata
     name: TFAttributeMetadata
   - uid: TensorFlow.TFAttributeType

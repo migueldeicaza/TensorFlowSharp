@@ -574,7 +574,7 @@ items:
       description: The size of the data being passed in.
     - id: deallocator
       type: TensorFlow.TFTensor+Deallocator
-      description: Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.
+      description: Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <xref href="TensorFlow.MonoPInvokeCallbackAttribute"></xref>.
     - id: deallocatorData
       type: System.IntPtr
       description: An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.

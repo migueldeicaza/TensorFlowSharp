@@ -3,6 +3,7 @@ items:
 - uid: TensorFlow
   id: TensorFlow
   children:
+  - TensorFlow.MonoPInvokeCallbackAttribute
   - TensorFlow.TFAttributeMetadata
   - TensorFlow.TFAttributeType
   - TensorFlow.TFBuffer
@@ -41,6 +42,12 @@ items:
     	This is the API documentation for the TensorFlowSharp project.
           </p>
 references:
+- uid: TensorFlow.MonoPInvokeCallbackAttribute
+  parent: TensorFlow
+  isExternal: false
+  name: MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute
+  fullName: TensorFlow.MonoPInvokeCallbackAttribute
 - uid: TensorFlow.TFAttributeMetadata
   parent: TensorFlow
   isExternal: false

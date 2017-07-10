@@ -191,8 +191,10 @@
         <ReturnType>TensorFlow.TFGraph</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>
+            Gets the graph associated with this TensorFlow session.
+            </summary>
+        <value>The graph.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -246,7 +248,7 @@
         <param name="inputs">Inputs.</param>
         <param name="outputs">Outputs.</param>
         <param name="targetOpers">Target operations to run.</param>
-        <param name="status">Status.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Prepares the session for a partial run.
             </summary>
@@ -280,7 +282,7 @@
         <param name="targetOpers">Target operations to execute.</param>
         <param name="runMetadata">Run metadata.</param>
         <param name="runOptions">Run options.</param>
-        <param name="status">Status code.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
             A simpler API is available by calling the <see cref="M:GetRunner" /> method which performs all the bookkeeping

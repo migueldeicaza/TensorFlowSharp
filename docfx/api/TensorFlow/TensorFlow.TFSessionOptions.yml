@@ -38,6 +38,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFSessionOptions"></xref> class.
   syntax:
     content: public TFSessionOptions ();
     parameters: []

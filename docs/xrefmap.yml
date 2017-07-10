@@ -6,6 +6,21 @@ references:
   href: api/TensorFlow.html
   fullName: TensorFlow
   nameWithType: TensorFlow
+- uid: TensorFlow.MonoPInvokeCallbackAttribute
+  name: MonoPInvokeCallbackAttribute
+  href: api/TensorFlow/TensorFlow.MonoPInvokeCallbackAttribute.html
+  fullName: TensorFlow.MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute
+- uid: TensorFlow.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+  name: MonoPInvokeCallbackAttribute(Type)
+  href: api/TensorFlow/TensorFlow.MonoPInvokeCallbackAttribute.html#TensorFlow_MonoPInvokeCallbackAttribute__ctor_System_Type_
+  fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+  nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+- uid: TensorFlow.MonoPInvokeCallbackAttribute.#ctor*
+  name: MonoPInvokeCallbackAttribute
+  href: api/TensorFlow/TensorFlow.MonoPInvokeCallbackAttribute.html#TensorFlow_MonoPInvokeCallbackAttribute__ctor_
+  fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute
 - uid: TensorFlow.TFAttributeMetadata
   name: TFAttributeMetadata
   href: api/TensorFlow/TensorFlow.TFAttributeMetadata.html
@@ -621,6 +636,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Any_
   fullName: TFGraph.Any
   nameWithType: TFGraph.Any
+- uid: TensorFlow.TFGraph.ApplyDelayCompensatedGradientDescent(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
+  name: ApplyDelayCompensatedGradientDescent(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_ApplyDelayCompensatedGradientDescent_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.ApplyDelayCompensatedGradientDescent(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  nameWithType: TFGraph.ApplyDelayCompensatedGradientDescent(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+- uid: TensorFlow.TFGraph.ApplyDelayCompensatedGradientDescent*
+  name: ApplyDelayCompensatedGradientDescent
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_ApplyDelayCompensatedGradientDescent_
+  fullName: TFGraph.ApplyDelayCompensatedGradientDescent
+  nameWithType: TFGraph.ApplyDelayCompensatedGradientDescent
 - uid: TensorFlow.TFGraph.ApproximateEqual(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Single},System.String)
   name: ApproximateEqual(TFOutput, TFOutput, Nullable<Single>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_ApproximateEqual_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Single__System_String_
@@ -921,6 +946,36 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Bitcast_
   fullName: TFGraph.Bitcast
   nameWithType: TFGraph.Bitcast
+- uid: TensorFlow.TFGraph.BitwiseAnd(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: BitwiseAnd(TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseAnd_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.BitwiseAnd(TFOutput, TFOutput, String)
+  nameWithType: TFGraph.BitwiseAnd(TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.BitwiseAnd*
+  name: BitwiseAnd
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseAnd_
+  fullName: TFGraph.BitwiseAnd
+  nameWithType: TFGraph.BitwiseAnd
+- uid: TensorFlow.TFGraph.BitwiseOr(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: BitwiseOr(TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseOr_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.BitwiseOr(TFOutput, TFOutput, String)
+  nameWithType: TFGraph.BitwiseOr(TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.BitwiseOr*
+  name: BitwiseOr
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseOr_
+  fullName: TFGraph.BitwiseOr
+  nameWithType: TFGraph.BitwiseOr
+- uid: TensorFlow.TFGraph.BitwiseXor(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: BitwiseXor(TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseXor_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.BitwiseXor(TFOutput, TFOutput, String)
+  nameWithType: TFGraph.BitwiseXor(TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.BitwiseXor*
+  name: BitwiseXor
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BitwiseXor_
+  fullName: TFGraph.BitwiseXor
+  nameWithType: TFGraph.BitwiseXor
 - uid: TensorFlow.TFGraph.BroadcastArgs(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   name: BroadcastArgs(TFOutput, TFOutput, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_BroadcastArgs_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
@@ -951,6 +1006,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Bucketize_
   fullName: TFGraph.Bucketize
   nameWithType: TFGraph.Bucketize
+- uid: TensorFlow.TFGraph.CacheDataset(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.String)
+  name: CacheDataset(TFOutput, TFOutput, TFDataType[], TFShape[], String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_CacheDataset_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType___TensorFlow_TFShape___System_String_
+  fullName: TFGraph.CacheDataset(TFOutput, TFOutput, TFDataType[], TFShape[], String)
+  nameWithType: TFGraph.CacheDataset(TFOutput, TFOutput, TFDataType[], TFShape[], String)
+- uid: TensorFlow.TFGraph.CacheDataset*
+  name: CacheDataset
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_CacheDataset_
+  fullName: TFGraph.CacheDataset
+  nameWithType: TFGraph.CacheDataset
 - uid: TensorFlow.TFGraph.Cast(TensorFlow.TFOutput,TensorFlow.TFDataType,System.String)
   name: Cast(TFOutput, TFDataType, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Cast_TensorFlow_TFOutput_TensorFlow_TFDataType_System_String_
@@ -1186,6 +1251,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Cos_
   fullName: TFGraph.Cos
   nameWithType: TFGraph.Cos
+- uid: TensorFlow.TFGraph.Cosh(TensorFlow.TFOutput,System.String)
+  name: Cosh(TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Cosh_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.Cosh(TFOutput, String)
+  nameWithType: TFGraph.Cosh(TFOutput, String)
+- uid: TensorFlow.TFGraph.Cosh*
+  name: Cosh
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Cosh_
+  fullName: TFGraph.Cosh
+  nameWithType: TFGraph.Cosh
 - uid: TensorFlow.TFGraph.CropAndResize(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.String,System.Nullable{System.Single},System.String)
   name: CropAndResize(TFOutput, TFOutput, TFOutput, TFOutput, String, Nullable<Single>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_CropAndResize_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_System_Nullable_System_Single__System_String_
@@ -1306,6 +1381,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DecodeBmp_
   fullName: TFGraph.DecodeBmp
   nameWithType: TFGraph.DecodeBmp
+- uid: TensorFlow.TFGraph.DecodeCSV(TensorFlow.TFOutput,TensorFlow.TFOutput[],System.String,System.Nullable{System.Boolean},System.String)
+  name: DecodeCSV(TFOutput, TFOutput[], String, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DecodeCSV_TensorFlow_TFOutput_TensorFlow_TFOutput___System_String_System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.DecodeCSV(TFOutput, TFOutput[], String, Nullable<Boolean>, String)
+  nameWithType: TFGraph.DecodeCSV(TFOutput, TFOutput[], String, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.DecodeCSV(TensorFlow.TFOutput,TensorFlow.TFOutput[],System.String,System.String)
   name: DecodeCSV(TFOutput, TFOutput[], String, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DecodeCSV_TensorFlow_TFOutput_TensorFlow_TFOutput___System_String_System_String_
@@ -1566,6 +1646,21 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DrawBoundingBoxes_
   fullName: TFGraph.DrawBoundingBoxes
   nameWithType: TFGraph.DrawBoundingBoxes
+- uid: TensorFlow.TFGraph.Dropout(TensorFlow.TFOutput,System.Double,TensorFlow.TFShape,System.Nullable{System.Int32},System.String)
+  name: Dropout(TFOutput, Double, TFShape, Nullable<Int32>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Dropout_TensorFlow_TFOutput_System_Double_TensorFlow_TFShape_System_Nullable_System_Int32__System_String_
+  fullName: TFGraph.Dropout(TFOutput, Double, TFShape, Nullable<Int32>, String)
+  nameWithType: TFGraph.Dropout(TFOutput, Double, TFShape, Nullable<Int32>, String)
+- uid: TensorFlow.TFGraph.Dropout(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFShape,System.Nullable{System.Int32},System.String)
+  name: Dropout(TFOutput, TFOutput, TFShape, Nullable<Int32>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Dropout_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFShape_System_Nullable_System_Int32__System_String_
+  fullName: TFGraph.Dropout(TFOutput, TFOutput, TFShape, Nullable<Int32>, String)
+  nameWithType: TFGraph.Dropout(TFOutput, TFOutput, TFShape, Nullable<Int32>, String)
+- uid: TensorFlow.TFGraph.Dropout*
+  name: Dropout
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Dropout_
+  fullName: TFGraph.Dropout
+  nameWithType: TFGraph.Dropout
 - uid: TensorFlow.TFGraph.DynamicPartition(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Int64,System.String)
   name: DynamicPartition(TFOutput, TFOutput, Int64, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DynamicPartition_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Int64_System_String_
@@ -1766,6 +1861,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Fact_
   fullName: TFGraph.Fact
   nameWithType: TFGraph.Fact
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxArgs(TensorFlow.TFOutput,System.Nullable{System.Single},System.Nullable{System.Single},System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxArgs(TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgs_TensorFlow_TFOutput_System_Nullable_System_Single__System_Nullable_System_Single__System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxArgs(TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxArgs(TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxArgs(TensorFlow.TFOutput,System.Nullable{System.Single},System.Nullable{System.Single},System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxArgs(TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgs_TensorFlow_TFOutput_System_Nullable_System_Single__System_Nullable_System_Single__System_Nullable_System_Int64__System_String_
@@ -1776,6 +1876,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgs_
   fullName: TFGraph.FakeQuantWithMinMaxArgs
   nameWithType: TFGraph.FakeQuantWithMinMaxArgs
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxArgsGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Single},System.Nullable{System.Single},System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxArgsGradient(TFOutput, TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgsGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Single__System_Nullable_System_Single__System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxArgsGradient(TFOutput, TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxArgsGradient(TFOutput, TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxArgsGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Single},System.Nullable{System.Single},System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxArgsGradient(TFOutput, TFOutput, Nullable<Single>, Nullable<Single>, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgsGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Single__System_Nullable_System_Single__System_Nullable_System_Int64__System_String_
@@ -1786,6 +1891,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxArgsGradient_
   fullName: TFGraph.FakeQuantWithMinMaxArgsGradient
   nameWithType: TFGraph.FakeQuantWithMinMaxArgsGradient
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVars(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxVars(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVars_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxVars(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxVars(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVars(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxVars(TFOutput, TFOutput, TFOutput, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVars_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_String_
@@ -1796,6 +1906,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVars_
   fullName: TFGraph.FakeQuantWithMinMaxVars
   nameWithType: TFGraph.FakeQuantWithMinMaxVars
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxVarsGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxVarsGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxVarsGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxVarsGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_String_
@@ -1806,6 +1921,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsGradient_
   fullName: TFGraph.FakeQuantWithMinMaxVarsGradient
   nameWithType: TFGraph.FakeQuantWithMinMaxVarsGradient
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsPerChannel(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxVarsPerChannel(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsPerChannel_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxVarsPerChannel(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxVarsPerChannel(TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsPerChannel(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxVarsPerChannel(TFOutput, TFOutput, TFOutput, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsPerChannel_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_String_
@@ -1816,6 +1936,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsPerChannel_
   fullName: TFGraph.FakeQuantWithMinMaxVarsPerChannel
   nameWithType: TFGraph.FakeQuantWithMinMaxVarsPerChannel
+- uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsPerChannelGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Boolean},System.String)
+  name: FakeQuantWithMinMaxVarsPerChannelGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsPerChannelGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.FakeQuantWithMinMaxVarsPerChannelGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
+  nameWithType: TFGraph.FakeQuantWithMinMaxVarsPerChannelGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, Nullable<Boolean>, String)
 - uid: TensorFlow.TFGraph.FakeQuantWithMinMaxVarsPerChannelGradient(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.String)
   name: FakeQuantWithMinMaxVarsPerChannelGradient(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_FakeQuantWithMinMaxVarsPerChannelGradient_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_String_
@@ -2351,6 +2476,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Inv_
   fullName: TFGraph.Inv
   nameWithType: TFGraph.Inv
+- uid: TensorFlow.TFGraph.Invert(TensorFlow.TFOutput,System.String)
+  name: Invert(TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Invert_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.Invert(TFOutput, String)
+  nameWithType: TFGraph.Invert(TFOutput, String)
+- uid: TensorFlow.TFGraph.Invert*
+  name: Invert
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Invert_
+  fullName: TFGraph.Invert
+  nameWithType: TFGraph.Invert
 - uid: TensorFlow.TFGraph.InvertPermutation(TensorFlow.TFOutput,System.String)
   name: InvertPermutation(TFOutput, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_InvertPermutation_TensorFlow_TFOutput_System_String_
@@ -2701,6 +2836,76 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MakeIterator_
   fullName: TFGraph.MakeIterator
   nameWithType: TFGraph.MakeIterator
+- uid: TensorFlow.TFGraph.MapClear(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapClear_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapClear*
+  name: MapClear
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapClear_
+  fullName: TFGraph.MapClear
+  nameWithType: TFGraph.MapClear
+- uid: TensorFlow.TFGraph.MapIncompleteSize(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapIncompleteSize_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapIncompleteSize*
+  name: MapIncompleteSize
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapIncompleteSize_
+  fullName: TFGraph.MapIncompleteSize
+  nameWithType: TFGraph.MapIncompleteSize
+- uid: TensorFlow.TFGraph.MapPeek(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapPeek_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapPeek*
+  name: MapPeek
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapPeek_
+  fullName: TFGraph.MapPeek
+  nameWithType: TFGraph.MapPeek
+- uid: TensorFlow.TFGraph.MapSize(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapSize_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapSize*
+  name: MapSize
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapSize_
+  fullName: TFGraph.MapSize
+  nameWithType: TFGraph.MapSize
+- uid: TensorFlow.TFGraph.MapStage(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput[],TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapStage_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput___TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapStage*
+  name: MapStage
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapStage_
+  fullName: TFGraph.MapStage
+  nameWithType: TFGraph.MapStage
+- uid: TensorFlow.TFGraph.MapUnstage(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapUnstage_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapUnstage*
+  name: MapUnstage
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapUnstage_
+  fullName: TFGraph.MapUnstage
+  nameWithType: TFGraph.MapUnstage
+- uid: TensorFlow.TFGraph.MapUnstageNoKey(TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: MapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapUnstageNoKey_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.MapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.MapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.MapUnstageNoKey*
+  name: MapUnstageNoKey
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MapUnstageNoKey_
+  fullName: TFGraph.MapUnstageNoKey
+  nameWithType: TFGraph.MapUnstageNoKey
 - uid: TensorFlow.TFGraph.MatchingFiles(TensorFlow.TFOutput,System.String)
   name: MatchingFiles(TFOutput, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_MatchingFiles_TensorFlow_TFOutput_System_String_
@@ -3151,6 +3356,76 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OnesLike_
   fullName: TFGraph.OnesLike
   nameWithType: TFGraph.OnesLike
+- uid: TensorFlow.TFGraph.OrderedMapClear(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapClear_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapClear*
+  name: OrderedMapClear
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapClear_
+  fullName: TFGraph.OrderedMapClear
+  nameWithType: TFGraph.OrderedMapClear
+- uid: TensorFlow.TFGraph.OrderedMapIncompleteSize(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapIncompleteSize_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapIncompleteSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapIncompleteSize*
+  name: OrderedMapIncompleteSize
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapIncompleteSize_
+  fullName: TFGraph.OrderedMapIncompleteSize
+  nameWithType: TFGraph.OrderedMapIncompleteSize
+- uid: TensorFlow.TFGraph.OrderedMapPeek(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapPeek_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapPeek(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapPeek*
+  name: OrderedMapPeek
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapPeek_
+  fullName: TFGraph.OrderedMapPeek
+  nameWithType: TFGraph.OrderedMapPeek
+- uid: TensorFlow.TFGraph.OrderedMapSize(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapSize_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapSize*
+  name: OrderedMapSize
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapSize_
+  fullName: TFGraph.OrderedMapSize
+  nameWithType: TFGraph.OrderedMapSize
+- uid: TensorFlow.TFGraph.OrderedMapStage(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput[],TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapStage_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput___TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapStage(TFOutput, TFOutput, TFOutput[], TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapStage*
+  name: OrderedMapStage
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapStage_
+  fullName: TFGraph.OrderedMapStage
+  nameWithType: TFGraph.OrderedMapStage
+- uid: TensorFlow.TFGraph.OrderedMapUnstage(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapUnstage_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapUnstage(TFOutput, TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapUnstage*
+  name: OrderedMapUnstage
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapUnstage_
+  fullName: TFGraph.OrderedMapUnstage
+  nameWithType: TFGraph.OrderedMapUnstage
+- uid: TensorFlow.TFGraph.OrderedMapUnstageNoKey(TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: OrderedMapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapUnstageNoKey_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.OrderedMapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.OrderedMapUnstageNoKey(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.OrderedMapUnstageNoKey*
+  name: OrderedMapUnstageNoKey
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_OrderedMapUnstageNoKey_
+  fullName: TFGraph.OrderedMapUnstageNoKey
+  nameWithType: TFGraph.OrderedMapUnstageNoKey
 - uid: TensorFlow.TFGraph.Pack(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
   name: Pack(TFOutput[], Nullable<Int64>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Pack_TensorFlow_TFOutput___System_Nullable_System_Int64__System_String_
@@ -3361,6 +3636,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizeAndDequantizeV2_
   fullName: TFGraph.QuantizeAndDequantizeV2
   nameWithType: TFGraph.QuantizeAndDequantizeV2
+- uid: TensorFlow.TFGraph.QuantizedAdd(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{TensorFlow.TFDataType},System.String)
+  name: QuantizedAdd(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<TFDataType>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedAdd_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_TensorFlow_TFDataType__System_String_
+  fullName: TFGraph.QuantizedAdd(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<TFDataType>, String)
+  nameWithType: TFGraph.QuantizedAdd(TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, TFOutput, Nullable<TFDataType>, String)
+- uid: TensorFlow.TFGraph.QuantizedAdd*
+  name: QuantizedAdd
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedAdd_
+  fullName: TFGraph.QuantizedAdd
+  nameWithType: TFGraph.QuantizedAdd
 - uid: TensorFlow.TFGraph.QuantizedAvgPool(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Int64[],System.Int64[],System.String,System.String)
   name: QuantizedAvgPool(TFOutput, TFOutput, TFOutput, Int64[], Int64[], String, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedAvgPool_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Int64___System_Int64___System_String_System_String_
@@ -3501,6 +3786,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedReshape_
   fullName: TFGraph.QuantizedReshape
   nameWithType: TFGraph.QuantizedReshape
+- uid: TensorFlow.TFGraph.QuantizedResizeBilinear(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
+  name: QuantizedResizeBilinear(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedResizeBilinear_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.QuantizedResizeBilinear(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  nameWithType: TFGraph.QuantizedResizeBilinear(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+- uid: TensorFlow.TFGraph.QuantizedResizeBilinear*
+  name: QuantizedResizeBilinear
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizedResizeBilinear_
+  fullName: TFGraph.QuantizedResizeBilinear
+  nameWithType: TFGraph.QuantizedResizeBilinear
 - uid: TensorFlow.TFGraph.QuantizeV2(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType,System.String,System.String)
   name: QuantizeV2(TFOutput, TFOutput, TFOutput, TFDataType, String, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_QuantizeV2_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFDataType_System_String_System_String_
@@ -4681,6 +4976,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Sin_
   fullName: TFGraph.Sin
   nameWithType: TFGraph.Sin
+- uid: TensorFlow.TFGraph.Sinh(TensorFlow.TFOutput,System.String)
+  name: Sinh(TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Sinh_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.Sinh(TFOutput, String)
+  nameWithType: TFGraph.Sinh(TFOutput, String)
+- uid: TensorFlow.TFGraph.Sinh*
+  name: Sinh
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Sinh_
+  fullName: TFGraph.Sinh
+  nameWithType: TFGraph.Sinh
 - uid: TensorFlow.TFGraph.Size(TensorFlow.TFOutput,System.Nullable{TensorFlow.TFDataType},System.String)
   name: Size(TFOutput, Nullable<TFDataType>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Size_TensorFlow_TFOutput_System_Nullable_TensorFlow_TFDataType__System_String_
@@ -4881,6 +5186,26 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseDenseCwiseMul_
   fullName: TFGraph.SparseDenseCwiseMul
   nameWithType: TFGraph.SparseDenseCwiseMul
+- uid: TensorFlow.TFGraph.SparseFillEmptyRows(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: SparseFillEmptyRows(TFOutput, TFOutput, TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseFillEmptyRows_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.SparseFillEmptyRows(TFOutput, TFOutput, TFOutput, TFOutput, String)
+  nameWithType: TFGraph.SparseFillEmptyRows(TFOutput, TFOutput, TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.SparseFillEmptyRows*
+  name: SparseFillEmptyRows
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseFillEmptyRows_
+  fullName: TFGraph.SparseFillEmptyRows
+  nameWithType: TFGraph.SparseFillEmptyRows
+- uid: TensorFlow.TFGraph.SparseFillEmptyRowsGrad(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: SparseFillEmptyRowsGrad(TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseFillEmptyRowsGrad_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.SparseFillEmptyRowsGrad(TFOutput, TFOutput, String)
+  nameWithType: TFGraph.SparseFillEmptyRowsGrad(TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.SparseFillEmptyRowsGrad*
+  name: SparseFillEmptyRowsGrad
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseFillEmptyRowsGrad_
+  fullName: TFGraph.SparseFillEmptyRowsGrad
+  nameWithType: TFGraph.SparseFillEmptyRowsGrad
 - uid: TensorFlow.TFGraph.SparseMatMul(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String)
   name: SparseMatMul(TFOutput, TFOutput, Nullable<Boolean>, Nullable<Boolean>, Nullable<Boolean>, Nullable<Boolean>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseMatMul_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_Nullable_System_Boolean__System_Nullable_System_Boolean__System_Nullable_System_Boolean__System_String_
@@ -4891,6 +5216,26 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseMatMul_
   fullName: TFGraph.SparseMatMul
   nameWithType: TFGraph.SparseMatMul
+- uid: TensorFlow.TFGraph.SparseReduceMax(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
+  name: SparseReduceMax(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseReduceMax_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.SparseReduceMax(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  nameWithType: TFGraph.SparseReduceMax(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+- uid: TensorFlow.TFGraph.SparseReduceMax*
+  name: SparseReduceMax
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseReduceMax_
+  fullName: TFGraph.SparseReduceMax
+  nameWithType: TFGraph.SparseReduceMax
+- uid: TensorFlow.TFGraph.SparseReduceMaxSparse(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
+  name: SparseReduceMaxSparse(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseReduceMaxSparse_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String_
+  fullName: TFGraph.SparseReduceMaxSparse(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+  nameWithType: TFGraph.SparseReduceMaxSparse(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
+- uid: TensorFlow.TFGraph.SparseReduceMaxSparse*
+  name: SparseReduceMaxSparse
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseReduceMaxSparse_
+  fullName: TFGraph.SparseReduceMaxSparse
+  nameWithType: TFGraph.SparseReduceMaxSparse
 - uid: TensorFlow.TFGraph.SparseReduceSum(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
   name: SparseReduceSum(TFOutput, TFOutput, TFOutput, TFOutput, Nullable<Boolean>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_SparseReduceSum_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String_
@@ -5151,6 +5496,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Squeeze_
   fullName: TFGraph.Squeeze
   nameWithType: TFGraph.Squeeze
+- uid: TensorFlow.TFGraph.Stage(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: Stage(TFOutput[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Stage_TensorFlow_TFOutput___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.Stage(TFOutput[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.Stage(TFOutput[], Nullable<Int64>, Nullable<Int64>, String, String, String)
 - uid: TensorFlow.TFGraph.Stage(TensorFlow.TFOutput[],System.String,System.String,System.String)
   name: Stage(TFOutput[], String, String, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Stage_TensorFlow_TFOutput___System_String_System_String_System_String_
@@ -5161,6 +5511,36 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Stage_
   fullName: TFGraph.Stage
   nameWithType: TFGraph.Stage
+- uid: TensorFlow.TFGraph.StageClear(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: StageClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StageClear_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.StageClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.StageClear(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.StageClear*
+  name: StageClear
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StageClear_
+  fullName: TFGraph.StageClear
+  nameWithType: TFGraph.StageClear
+- uid: TensorFlow.TFGraph.StagePeek(TensorFlow.TFOutput,TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: StagePeek(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StagePeek_TensorFlow_TFOutput_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.StagePeek(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.StagePeek(TFOutput, TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.StagePeek*
+  name: StagePeek
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StagePeek_
+  fullName: TFGraph.StagePeek
+  nameWithType: TFGraph.StagePeek
+- uid: TensorFlow.TFGraph.StageSize(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: StageSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StageSize_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.StageSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.StageSize(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+- uid: TensorFlow.TFGraph.StageSize*
+  name: StageSize
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StageSize_
+  fullName: TFGraph.StageSize
+  nameWithType: TFGraph.StageSize
 - uid: TensorFlow.TFGraph.StatelessRandomNormal(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{TensorFlow.TFDataType},System.String)
   name: StatelessRandomNormal(TFOutput, TFOutput, Nullable<TFDataType>, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_StatelessRandomNormal_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_TensorFlow_TFDataType__System_String_
@@ -5611,6 +5991,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_TensorSummary_
   fullName: TFGraph.TensorSummary
   nameWithType: TFGraph.TensorSummary
+- uid: TensorFlow.TFGraph.TensorSummaryV2(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  name: TensorSummaryV2(TFOutput, TFOutput, TFOutput, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_TensorSummaryV2_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_
+  fullName: TFGraph.TensorSummaryV2(TFOutput, TFOutput, TFOutput, String)
+  nameWithType: TFGraph.TensorSummaryV2(TFOutput, TFOutput, TFOutput, String)
+- uid: TensorFlow.TFGraph.TensorSummaryV2*
+  name: TensorSummaryV2
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_TensorSummaryV2_
+  fullName: TFGraph.TensorSummaryV2
+  nameWithType: TFGraph.TensorSummaryV2
 - uid: TensorFlow.TFGraph.TextLineDataset(TensorFlow.TFOutput,System.String)
   name: TextLineDataset(TFOutput, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_TextLineDataset_TensorFlow_TFOutput_System_String_
@@ -5811,6 +6201,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_UnsortedSegmentSum_
   fullName: TFGraph.UnsortedSegmentSum
   nameWithType: TFGraph.UnsortedSegmentSum
+- uid: TensorFlow.TFGraph.Unstage(TensorFlow.TFDataType[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String,System.String,System.String)
+  name: Unstage(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Unstage_TensorFlow_TFDataType___System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_System_String_System_String_
+  fullName: TFGraph.Unstage(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
+  nameWithType: TFGraph.Unstage(TFDataType[], Nullable<Int64>, Nullable<Int64>, String, String, String)
 - uid: TensorFlow.TFGraph.Unstage(TensorFlow.TFDataType[],System.String,System.String,System.String)
   name: Unstage(TFDataType[], String, String, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Unstage_TensorFlow_TFDataType___System_String_System_String_System_String_
