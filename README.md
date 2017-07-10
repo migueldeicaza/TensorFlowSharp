@@ -54,7 +54,7 @@ Something like this:
 ```csharp
 using(var graph = new TFGraph ())
 {
-    graph.Import (File.ReadAllBytes ("MySavedModel");
+    graph.Import (File.ReadAllBytes ("MySavedModel"));
     var session = new TFSession (graph);
     var runner = session.GetRunner ();
     runner.AddInput (graph ["input"] [0], tensor);
