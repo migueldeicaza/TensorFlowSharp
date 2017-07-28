@@ -125,24 +125,23 @@ namespace TensorFlow
 		}
 
 		static IntPtr FreeBufferFunc;
-		static BufferReleaseFunc FreeBlockDelegate;
-		
-		static TFBuffer ()
-		{
-			FreeBlockDelegate = FreeBlock;
-			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc> (FreeBlockDelegate);
-		}
 
+        static TFBuffer()
+        {
+            BufferReleaseFunc del = (data, length) => FreeBlock(data, length);
+            GCHandle.Alloc(del);
+            FreeBufferFunc = Marshal.GetFunctionPointerForDelegate(del);
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.
-		/// </summary>
-		/// <param name="buffer">Buffer of data that will be wrapped.</param>
-		/// <remarks>
-		/// This constructor makes a copy of the data into an unmanaged buffer, 
-		/// so the byte array is not pinned.
-		/// </remarks>
-		public TFBuffer (byte [] buffer) : this (buffer, 0, buffer.Length) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.
+        /// </summary>
+        /// <param name="buffer">Buffer of data that will be wrapped.</param>
+        /// <remarks>
+        /// This constructor makes a copy of the data into an unmanaged buffer, 
+        /// so the byte array is not pinned.
+        /// </remarks>
+        public TFBuffer (byte [] buffer) : this (buffer, 0, buffer.Length) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.

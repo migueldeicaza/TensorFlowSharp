@@ -49,8 +49,6 @@ namespace TensorFlow
 
 		internal TFTensor (IntPtr handle) : base (handle) { }
 
-		static Deallocator FreeTensorDataDelegate = FreeTensorData;
-		
 		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
 		{
@@ -63,25 +61,35 @@ namespace TensorFlow
 			gch.Free ();
 		}
 
-		// TODO: Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
-		// QInt16, QUint16, Half, Resource
-		// TODO: not clear that this is very useful (the dims versions), perhaps to reduce the surface of
-		// construcors these rarer blobs should be "FromSpec" or something like that
+        static Deallocator FreeTensorHandleDelegate;
+        static Deallocator FreeTensorDataDelegate;
+        static TFTensor()
+        {
+            FreeTensorHandleDelegate = (data, size, deallocatorData) => FreeTensorHandle(data, size, deallocatorData);
+            GCHandle.Alloc(FreeTensorHandleDelegate);
+            FreeTensorDataDelegate = (data, len, closure) => FreeTensorData(data, len, closure);
+            GCHandle.Alloc(FreeTensorDataDelegate);
+        }
 
-		/// <summary>
-		/// Creates a new tensor from a portion of an array of sbytes
-		/// </summary>
-		/// <param name="shape">Represents the tensor shape.</param>
-		/// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
-		/// <param name="start">The offset into the provided data array where the data resides.</param>
-		/// <param name="count">The number of bytes to copy from count into the tensor.</param>
-		/// <remarks>
-		/// Use the FromBuffer method to create a tensor that has the specified dimensions
-		/// and is initialized with data from the data array.   The data is copied starting
-		/// at the start offset, for count bytes and is laid out into the tensor following the
-		/// specified dimensions.
-		/// </remarks>
-		public static TFTensor FromBuffer (TFShape shape, sbyte [] data, int start, int count)
+        // TODO: Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
+        // QInt16, QUint16, Half, Resource
+        // TODO: not clear that this is very useful (the dims versions), perhaps to reduce the surface of
+        // construcors these rarer blobs should be "FromSpec" or something like that
+
+        /// <summary>
+        /// Creates a new tensor from a portion of an array of sbytes
+        /// </summary>
+        /// <param name="shape">Represents the tensor shape.</param>
+        /// <param name="data">The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</param>
+        /// <param name="start">The offset into the provided data array where the data resides.</param>
+        /// <param name="count">The number of bytes to copy from count into the tensor.</param>
+        /// <remarks>
+        /// Use the FromBuffer method to create a tensor that has the specified dimensions
+        /// and is initialized with data from the data array.   The data is copied starting
+        /// at the start offset, for count bytes and is laid out into the tensor following the
+        /// specified dimensions.
+        /// </remarks>
+        public static TFTensor FromBuffer (TFShape shape, sbyte [] data, int start, int count)
 		{
 			return new TFTensor (SetupTensor (TFDataType.Int8, shape, data, start, count, size: 2));
 		}
@@ -512,9 +520,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// Use for multiple dimension arrays 
@@ -523,9 +531,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// 
