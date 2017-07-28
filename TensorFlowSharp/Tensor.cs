@@ -61,15 +61,8 @@ namespace TensorFlow
 			gch.Free ();
 		}
 
-        static Deallocator FreeTensorHandleDelegate;
-        static Deallocator FreeTensorDataDelegate;
-        static TFTensor()
-        {
-            FreeTensorHandleDelegate = (data, size, deallocatorData) => FreeTensorHandle(data, size, deallocatorData);
-            GCHandle.Alloc(FreeTensorHandleDelegate);
-            FreeTensorDataDelegate = (data, len, closure) => FreeTensorData(data, len, closure);
-            GCHandle.Alloc(FreeTensorDataDelegate);
-        }
+        static Deallocator FreeTensorHandleDelegate = (data, size, deallocatorData) => FreeTensorHandle(data, size, deallocatorData);
+        static Deallocator FreeTensorDataDelegate = (data, len, closure) => FreeTensorData(data, len, closure);
 
         // TODO: Other overloads we could add: String, Complex (float), Bool, QInt8, QUInt8, QInt32, Bfloat16,
         // QInt16, QUint16, Half, Resource

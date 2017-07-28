@@ -124,14 +124,15 @@ namespace TensorFlow
 			Marshal.FreeHGlobal (data);
 		}
 
-		static IntPtr FreeBufferFunc;
+        static IntPtr FreeBufferFunc;
+        static BufferReleaseFunc FreeBlockDelegate;
 
         static TFBuffer()
         {
-            BufferReleaseFunc del = (data, length) => FreeBlock(data, length);
-            GCHandle.Alloc(del);
-            FreeBufferFunc = Marshal.GetFunctionPointerForDelegate(del);
+            FreeBlockDelegate = FreeBlock;
+            FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc>(FreeBlockDelegate);
         }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> by making a copy of the provided byte array.
