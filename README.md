@@ -87,7 +87,7 @@ using (var session = new TFSession())
 
     // Multiply two constants
     var multiplyResults = session.GetRunner().Run(graph.Mul(a, b));
-    var multiplyResultValue = multiplyResults[0].GetValue();
+    var multiplyResultValue = multiplyResults.GetValue();
     Console.WriteLine("a*b={0}", multiplyResultValue);
 }
 ```
