@@ -50,6 +50,7 @@ namespace TensorFlow
 		internal TFTensor (IntPtr handle) : base (handle) { }
 
 		static Deallocator FreeTensorDataDelegate = FreeTensorData;
+		static Deallocator FreeTensorHandleDelegate = FreeTensorHandle;
 		
 		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
@@ -512,9 +513,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// Use for multiple dimension arrays 
@@ -523,9 +524,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// 
