@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.DotNet.InternalAbstractions, Version=1.0.500.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.DotNet.InternalAbstractions.1.0.500-preview2-1-003177\lib\net451\Microsoft.DotNet.InternalAbstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -61,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitwiseOperationTests.cs" />
+    <Compile Include="PaddingFIFOQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj">
-      <Project>{0264C321-34F4-46AF-819E-168D1E597232}</Project>
+      <Project>{0264c321-34f4-46af-819e-168d1e597232}</Project>
       <Name>TensorFlowSharp</Name>
     </ProjectReference>
   </ItemGroup>
