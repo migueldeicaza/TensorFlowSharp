@@ -63,6 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GradientDescentOptimizer.cs" />
+    <Compile Include="Optimizer.cs" />
     <Compile Include="Queue.cs" />
     <Compile Include="Tensorflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
