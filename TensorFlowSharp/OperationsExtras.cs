@@ -348,22 +348,23 @@ namespace TensorFlow
 		/// Clips tensor values to a specified min and max.
 		/// </summary>
 		/// <remarks>
-		/// Given a tensor <paramref name="t"/>, this operation returns a tensor of the same type and shape
-		/// as <paramref name="t"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
+		/// Given a tensor <paramref name="x"/>, this operation returns a tensor of the same type and shape
+		/// as <paramref name="x"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
 		/// Any values less than <paramref name="clib_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
 		/// <paramref name="clip_value_max"/> are set to <paramref name="clip_value_max"/>.
 		/// </remarks>
-		/// <param name="t">The tensor.</param>
-		/// <param name="clip_value_min">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
-		/// <param name="clip_value_max">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="x">The tensor.</param>
+		/// <param name="clip_value_min">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="clip_value_max">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
 		/// <param name="operName">Operation name, optional.</param>
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
-		public TFOutput ClipByValue (TFOutput t, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
+		public TFOutput ClipByValue (TFOutput x, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
 		{
-			var scopeName = MakeName ("ClipByValue", operName);
+            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L33
+            var scopeName = MakeName ("ClipByValue", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Go through list of tensors, for each value in each tensor clip
-				var t_min = Minimum (t, clip_value_max);
+				var t_min = Minimum (x, clip_value_max);
 				var t_max = Maximum (t_min, clip_value_min, operName: operName);
 				return t_max;
 			}
@@ -374,25 +375,26 @@ namespace TensorFlow
 		/// </summary>
 		/// <remarks>
 		/// <para>
-		/// Given a tensor <paramref name="t"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation normalizes 
-		/// <paramref name="t"/> so that its L2-norm is less than or equal to <paramref name="clip_norm"/>, along the dimensions 
+		/// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation normalizes 
+		/// <paramref name="x"/> so that its L2-norm is less than or equal to <paramref name="clip_norm"/>, along the dimensions 
 		/// given in <paramref name="axes"/>. Specifically, in the default case where all dimensions are used for calculation, if
-		/// the L2-norm of <paramref name="t"/> is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="t"/>
+		/// the L2-norm of <paramref name="x"/> is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
 		/// is not modified. If the L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of 
-		/// the same type and shape as <paramref name="t"/> with its values set to: <c>t* clip_norm / l2norm(t)</c></para>
+		/// the same type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm(t)</c></para>
 		/// </remarks>
-		/// <param name="t">The tensor.</param>
-		/// <param name="clip_norm">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
-		/// <param name="axes">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="x">The tensor.</param>
+		/// <param name="clip_norm">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="axes">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
 		/// <param name="operName">Operation name, optional.</param>
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
-		public TFOutput ClipByNorm (TFOutput t, TFOutput clip_norm, TFOutput? axes = null, string operName = null)
+		public TFOutput ClipByNorm (TFOutput x, TFOutput clip_norm, TFOutput? axes = null, string operName = null)
 		{
-			var scopeName = MakeName ("ClipByNorm", operName);
+            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L73
+            var scopeName = MakeName ("ClipByNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Calculate L2-norm, clip elements by ratio of clip_norm to L2-norm
-				var l2norm_inv = Rsqrt (ReduceSum (Mul (t, t), axes, keep_dims: true));
-				var intermediate = Mul (t, clip_norm);
+				var l2norm_inv = Rsqrt (ReduceSum (Mul (x, x), axes, keep_dims: true));
+				var intermediate = Mul (x, clip_norm);
 
 				var tclip = Identity (Mul (intermediate, Minimum (l2norm_inv, Div (Const (new TFTensor (1.0)), clip_norm), operName: operName)));
 
@@ -405,21 +407,22 @@ namespace TensorFlow
 		/// </summary>
 		/// <remarks>
 		/// <para>
-		///  Given a tuple or list of tensors <paramref name="t_list"/>, this operation returns the global norm of the elements in all tensors 
-		///  in <paramref name="t_list"/>. The global norm is computed as: <c>global_norm = sqrt(sum([l2norm(t)**2 for t in t_list]))</c>. Any 
-		///  entries in <paramref name="t_list"/> that are of type None are ignored.</para>
+		///  Given a tuple or list of tensors <paramref name="tensors"/>, this operation returns the global norm of the elements in all tensors 
+		///  in <paramref name="tensors"/>. The global norm is computed as: <c>global_norm = sqrt(sum([l2norm(t)**2 for t in t_list]))</c>. Any 
+		///  entries in <paramref name="tensors"/> that are of type None are ignored.</para>
 		/// </remarks>
-		/// <param name="t_list">The input tensors.</param>
+		/// <param name="tensors">The input tensors.</param>
 		/// <param name="operName">Operation name, optional.</param>
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
-		public TFOutput GlobalNorm (TFOutput [] t_list, string operName = null)
+		public TFOutput GlobalNorm (TFOutput [] tensors, string operName = null)
 		{
-			var scopeName = MakeName ("GlobalNorm", operName);
+            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L122
+            var scopeName = MakeName ("GlobalNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
-				TFOutput [] half_squared_norms = new TFOutput [t_list.Length];
+				TFOutput [] half_squared_norms = new TFOutput [tensors.Length];
 
 				for (int i = 0; i < half_squared_norms.Length; i++)
-					half_squared_norms [i] = L2Loss (t_list [i]);
+					half_squared_norms [i] = L2Loss (tensors [i]);
 
 				TFOutput half_squared_norm = ReduceSum (Stack (half_squared_norms));
 				TFOutput norm = Sqrt (Mul (half_squared_norm, Const (2.0)), operName: "global_norm");
@@ -427,28 +430,34 @@ namespace TensorFlow
 			}
 		}
 
-		/// <summary>
-		///   Clips tensor values to a maximum average L2-norm.
-		/// </summary>
-		/// <param name="t">The t.</param>
-		/// <param name="clip_norm">The clip norm.</param>
-		/// <param name="operName">Name of the oper.</param>
-		public TFOutput ClipByAverageNorm (TFOutput t, TFOutput clip_norm, string operName = null)
+        /// <summary>
+        /// Clips tensor values to a maximum average L2-norm.
+        /// </summary>
+        /// <remarks>
+        /// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation 
+        /// normalizes <paramref name="x"/> so that its its average L2-norm is less than or equal to <paramref name="clip_norm"/>.
+        /// Specifically, if the average L2-norm is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
+        /// is not modified. If the average L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of the same
+        /// type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm_avg(t)</c>. In this case, 
+        /// the average L2-norm of the output tensor is <paramref name="clip_norm"/>.
+        /// </remarks>
+        /// <param name="x">The input tensor.</param>
+        /// <param name="clip_norm">A maximum clipping value.</param>
+        /// <param name="operName">Name of the oper.</param>
+        public TFOutput ClipByAverageNorm (TFOutput x, TFOutput clip_norm, string operName = null)
 		{
-			var scopeName = MakeName ("ClipByAverageNorm", operName);
+            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L251
+            var scopeName = MakeName ("ClipByAverageNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Calculate L2-norm per element, clip elements by ratio of clip_norm to
 				// L2-norm per element
-				TFOutput n_element = Cast (Size (t), TFDataType.Float);
-				TFOutput l2norm_inv = Rsqrt (ReduceSum (Mul (t, t), Range (Rank (t))));
-				TFOutput tclip = Identity (Mul (Mul (t, clip_norm), Minimum (Mul (l2norm_inv, n_element), Div (Const (new TFTensor (1.0)), clip_norm)), operName: operName));
+				TFOutput n_element = Cast (Size (x), TFDataType.Float);
+				TFOutput l2norm_inv = Rsqrt (ReduceSum (Mul (x, x), Range (Rank (x))));
+				TFOutput tclip = Identity (Mul (Mul (x, clip_norm), Minimum (Mul (l2norm_inv, n_element), Div (Const (new TFTensor (1.0)), clip_norm)), operName: operName));
 
 				return tclip;
 			}
-		}
-
-
-
+        }
 
 
 
@@ -462,6 +471,13 @@ namespace TensorFlow
         /// <summary>
         /// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
         /// </summary>
+        /// <remarks>
+        ///  Packs the list of tensors in <paramref name="values"/> into a tensor with rank one higher than
+        ///  each tensor in <paramref name="values"/>, by packing them along the <paramref name="axis"/> dimension.
+        ///  Given a list of length <c>N</c> of tensors of shape </c>(A, B, C)</c>: if <c>axis == 0</c> then the 
+        ///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1<c> then the <c>output<c>
+        ///  tensor will have the shape <c>(A, N, B, C)<c>; etc.
+        /// </remarks>
         /// 
         public TFOutput Stack(TFOutput[] values, int? axis = 0, string operName = "stack")
         {
@@ -494,11 +510,11 @@ namespace TensorFlow
 
 			if (limit == null) {
 				limit = start;
-				start = Const (new TFTensor (0.0));
-			}
+				start = Cast(Const (new TFTensor (0.0)), start.OutputType); // TODO: Maybe add dataType as convenience in Const?
+            }
 
 			if (delta == null)
-				delta = Const (new TFTensor (1.0));
+				delta = Cast(Const (new TFTensor (1.0)), start.OutputType);
 
 			using (var newScope = WithScope (MakeName ("Range", operName))) {
 				// infer dtype if not explicitly provided
@@ -518,7 +534,7 @@ namespace TensorFlow
 					delta = Cast (delta.Value, inferred_dtype);
 				}
 
-				return Range (start, limit, delta, operName: operName);
+				return Range (start, limit.Value, delta.Value, operName: operName);
 			}
 		}
 

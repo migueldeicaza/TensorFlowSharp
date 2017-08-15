@@ -153,7 +153,7 @@ namespace TensorFlowSharp.Tests.CSharp
                     TFTensor[] result = session.Run(new[] { matrix, clip_norm }, new TFTensor[] { m, norm }, new[] { y });
 
                     double[,] actual = (double[,])result[0].GetValue();
-                    MatrixEqual(expected, actual, precision: 10);
+                    TestUtils.MatrixEqual(expected, actual, precision: 10);
                 }
                 else
                 {
@@ -256,7 +256,7 @@ namespace TensorFlowSharp.Tests.CSharp
                     TFTensor[] result = session.Run(new[] { matrix, clip_norm }, new TFTensor[] { m, norm }, new[] { y });
 
                     double[,] actual = (double[,])result[0].GetValue();
-                    MatrixEqual(expected, actual, precision: 10);
+                    TestUtils.MatrixEqual(expected, actual, precision: 10);
                 }
                 else
                 {
@@ -265,13 +265,5 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-
-
-        public static void MatrixEqual(double[,] expected, double[,] actual, int precision)
-        {
-            for (int i = 0; i < expected.GetLength(0); i++)
-                for (int j = 0; j < expected.GetLength(1); j++)
-                    Assert.Equal(expected[i, j], actual[i, j], precision: precision);
-        }
     }
 }
