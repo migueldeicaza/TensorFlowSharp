@@ -360,8 +360,8 @@ namespace TensorFlow
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
 		public TFOutput ClipByValue (TFOutput x, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
 		{
-            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L33
-            var scopeName = MakeName ("ClipByValue", operName);
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L33
+			var scopeName = MakeName ("ClipByValue", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Go through list of tensors, for each value in each tensor clip
 				var t_min = Minimum (x, clip_value_max);
@@ -389,8 +389,8 @@ namespace TensorFlow
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
 		public TFOutput ClipByNorm (TFOutput x, TFOutput clip_norm, TFOutput? axes = null, string operName = null)
 		{
-            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L73
-            var scopeName = MakeName ("ClipByNorm", operName);
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L73
+			var scopeName = MakeName ("ClipByNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Calculate L2-norm, clip elements by ratio of clip_norm to L2-norm
 				var l2norm_inv = Rsqrt (ReduceSum (Mul (x, x), axes, keep_dims: true));
@@ -416,8 +416,8 @@ namespace TensorFlow
 		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
 		public TFOutput GlobalNorm (TFOutput [] tensors, string operName = null)
 		{
-            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L122
-            var scopeName = MakeName ("GlobalNorm", operName);
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L122
+			var scopeName = MakeName ("GlobalNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
 				TFOutput [] half_squared_norms = new TFOutput [tensors.Length];
 
@@ -430,24 +430,24 @@ namespace TensorFlow
 			}
 		}
 
-        /// <summary>
-        /// Clips tensor values to a maximum average L2-norm.
-        /// </summary>
-        /// <remarks>
-        /// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation 
-        /// normalizes <paramref name="x"/> so that its its average L2-norm is less than or equal to <paramref name="clip_norm"/>.
-        /// Specifically, if the average L2-norm is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
-        /// is not modified. If the average L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of the same
-        /// type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm_avg(t)</c>. In this case, 
-        /// the average L2-norm of the output tensor is <paramref name="clip_norm"/>.
-        /// </remarks>
-        /// <param name="x">The input tensor.</param>
-        /// <param name="clip_norm">A maximum clipping value.</param>
-        /// <param name="operName">Name of the oper.</param>
-        public TFOutput ClipByAverageNorm (TFOutput x, TFOutput clip_norm, string operName = null)
+		/// <summary>
+		/// Clips tensor values to a maximum average L2-norm.
+		/// </summary>
+		/// <remarks>
+		/// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation 
+		/// normalizes <paramref name="x"/> so that its its average L2-norm is less than or equal to <paramref name="clip_norm"/>.
+		/// Specifically, if the average L2-norm is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
+		/// is not modified. If the average L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of the same
+		/// type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm_avg(t)</c>. In this case, 
+		/// the average L2-norm of the output tensor is <paramref name="clip_norm"/>.
+		/// </remarks>
+		/// <param name="x">The input tensor.</param>
+		/// <param name="clip_norm">A maximum clipping value.</param>
+		/// <param name="operName">Name of the oper.</param>
+		public TFOutput ClipByAverageNorm (TFOutput x, TFOutput clip_norm, string operName = null)
 		{
-            // https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L251
-            var scopeName = MakeName ("ClipByAverageNorm", operName);
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L251
+			var scopeName = MakeName ("ClipByAverageNorm", operName);
 			using (var newScope = WithScope (scopeName)) {
 				// Calculate L2-norm per element, clip elements by ratio of clip_norm to
 				// L2-norm per element
@@ -457,7 +457,7 @@ namespace TensorFlow
 
 				return tclip;
 			}
-        }
+		}
 
 
 
@@ -468,53 +468,53 @@ namespace TensorFlow
 
 
 
-        /// <summary>
-        /// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
-        /// </summary>
-        /// <remarks>
-        ///  Packs the list of tensors in <paramref name="values"/> into a tensor with rank one higher than
-        ///  each tensor in <paramref name="values"/>, by packing them along the <paramref name="axis"/> dimension.
-        ///  Given a list of length <c>N</c> of tensors of shape </c>(A, B, C)</c>: if <c>axis == 0</c> then the 
-        ///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1<c> then the <c>output<c>
-        ///  tensor will have the shape <c>(A, N, B, C)<c>; etc.
-        /// </remarks>
-        /// 
-        public TFOutput Stack(TFOutput[] values, int? axis = 0, string operName = "stack")
-        {
-            // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/array_ops.py#L804
+		/// <summary>
+		/// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
+		/// </summary>
+		/// <remarks>
+		///  Packs the list of tensors in <paramref name="values"/> into a tensor with rank one higher than
+		///  each tensor in <paramref name="values"/>, by packing them along the <paramref name="axis"/> dimension.
+		///  Given a list of length <c>N</c> of tensors of shape </c>(A, B, C)</c>: if <c>axis == 0</c> then the 
+		///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1<c> then the <c>output<c>
+		///  tensor will have the shape <c>(A, N, B, C)<c>; etc.
+		/// </remarks>
+		/// 
+		public TFOutput Stack (TFOutput [] values, int? axis = 0, string operName = "stack")
+		{
+			// https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/array_ops.py#L804
 
-            int ndims = GetTensorNumDims(values[0]);
+			int ndims = GetTensorNumDims (values [0]);
 
-            int expanded_num_dims = ndims + 1;
-            if (axis < -expanded_num_dims || axis >= expanded_num_dims)
-                throw new InvalidOperationException($"axis = {axis} not in [{-expanded_num_dims}, {expanded_num_dims}]");
+			int expanded_num_dims = ndims + 1;
+			if (axis < -expanded_num_dims || axis >= expanded_num_dims)
+				throw new InvalidOperationException ($"axis = {axis} not in [{-expanded_num_dims}, {expanded_num_dims}]");
 
-            return Pack(values, axis: axis, operName: operName);
-        }
+			return Pack (values, axis: axis, operName: operName);
+		}
 
-        /// <summary>
-        /// Creates a sequence of numbers.
-        /// </summary>
-        /// <remarks>
-        /// Creates a sequence of numbers that begins at `start` and extends by increments of `delta` up to but not including 
-        /// `limit`. The dtype of the resulting tensor is inferred from the inputs unless it is provided explicitly.
-        /// </remarks>
-        /// <param name="start">A 0 - D `Tensor` (scalar).Acts as first entry in the range if `limit` is not None; otherwise, acts as range limit and first entry defaults to 0.</param>
-        /// <param name="limit">A 0 - D `Tensor` (scalar).Upper limit of sequence, exclusive. If None, defaults to the value of `start` while the first entry of the range defaults to 0.</param>
-        /// <param name="delta">A 0 - D `Tensor` (scalar).Number that increments `start`. Defaults to 1.</param>
-        /// <param name="dataType">The type of the elements of the resulting tensor.</param>
-        /// <param name="operName">A name for the operation.Defaults to "range".</param>
-        public TFOutput Range (TFOutput start, TFOutput? limit = null, TFOutput? delta = null, TFDataType? dataType = null, string operName = "range")
+		/// <summary>
+		/// Creates a sequence of numbers.
+		/// </summary>
+		/// <remarks>
+		/// Creates a sequence of numbers that begins at `start` and extends by increments of `delta` up to but not including 
+		/// `limit`. The dtype of the resulting tensor is inferred from the inputs unless it is provided explicitly.
+		/// </remarks>
+		/// <param name="start">A 0 - D `Tensor` (scalar).Acts as first entry in the range if `limit` is not None; otherwise, acts as range limit and first entry defaults to 0.</param>
+		/// <param name="limit">A 0 - D `Tensor` (scalar).Upper limit of sequence, exclusive. If None, defaults to the value of `start` while the first entry of the range defaults to 0.</param>
+		/// <param name="delta">A 0 - D `Tensor` (scalar).Number that increments `start`. Defaults to 1.</param>
+		/// <param name="dataType">The type of the elements of the resulting tensor.</param>
+		/// <param name="operName">A name for the operation.Defaults to "range".</param>
+		public TFOutput Range (TFOutput start, TFOutput? limit = null, TFOutput? delta = null, TFDataType? dataType = null, string operName = "range")
 		{
 			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/math_ops.py#L1156
 
 			if (limit == null) {
 				limit = start;
-				start = Cast(Const (new TFTensor (0.0)), start.OutputType); // TODO: Maybe add dataType as convenience in Const?
-            }
+				start = Cast (Const (new TFTensor (0.0)), start.OutputType); // TODO: Maybe add dataType as convenience in Const?
+			}
 
 			if (delta == null)
-				delta = Cast(Const (new TFTensor (1.0)), start.OutputType);
+				delta = Cast (Const (new TFTensor (1.0)), start.OutputType);
 
 			using (var newScope = WithScope (MakeName ("Range", operName))) {
 				// infer dtype if not explicitly provided
