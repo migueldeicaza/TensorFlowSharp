@@ -35,7 +35,7 @@ namespace TensorFlow
 				for (int i = 0; i < array.Length; i++)
 					array [i] = i;
 
-				return this.Const (array, TFDataType.Int32);                   
+				return this.Const (array, TFDataType.Int32);
 			}
 			return Range (Const (0), Const (shape.Length), Const (1));
 		}
@@ -277,70 +277,250 @@ namespace TensorFlow
 					localSeed = operationSeed.Value;
 				} else {
 					localSeed = 0;
-				}					
+				}
 			}
 		}
 
+		/// <summary>
+		/// Computes dropout. 
+		/// </summary>
+		/// <param name="x">A tensor.</param>
+		/// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+		/// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <remarks>
+		/// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+		/// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+		/// </remarks>
+		public TFOutput Dropout (TFOutput x, TFOutput keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
+		{
+			var scopeName = MakeName ("dropout", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				if (noise_shape == null)
+					noise_shape = new TFShape (GetShape (x));
+
+				TFOutput shapeTensor = ShapeTensorOutput (noise_shape);
+
+				// uniform [keep_prob, 1.0 + keep_prob)
+				TFOutput random_tensor = keep_prob;
+				random_tensor = Add (random_tensor, RandomUniform (shapeTensor, seed: seed, dtype: x.OutputType));
+
+				// 0. if [keep_prob, 1.0) and 1. if [1.0, 1.0 + keep_prob)
+				TFOutput binary_tensor = Floor (random_tensor);
+				TFOutput ret = Mul (Div (x, keep_prob), binary_tensor);
+				SetTensorShape (ret, GetShape (x));
+				return ret;
+			}
+		}
+
+		/// <summary>
+		/// Computes dropout. 
+		/// </summary>
+		/// <param name="x">A tensor.</param>
+		/// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+		/// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <remarks>
+		/// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+		/// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+		/// </remarks>
+		public TFOutput Dropout (TFOutput x, double keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
+		{
+			if (keep_prob < 0 || keep_prob >= 1)
+				throw new ArgumentOutOfRangeException ("keep_prob must be a scalar tensor or a float in the range (0, 1], got " + keep_prob);
+
+			if (keep_prob == 1)
+				return x;
+
+			var scopeName = MakeName ("dropout", operName);
+			using (var newScope = WithScope (scopeName)) {
+				var tkeep_prob = Const (keep_prob);
+				return Dropout (x, tkeep_prob, noise_shape, seed, operName);
+			}
+		}
+
+
+
+		/// <summary>
+		/// Clips tensor values to a specified min and max.
+		/// </summary>
+		/// <remarks>
+		/// Given a tensor <paramref name="t"/>, this operation returns a tensor of the same type and shape
+		/// as <paramref name="t"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
+		/// Any values less than <paramref name="clib_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
+		/// <paramref name="clip_value_max"/> are set to <paramref name="clip_value_max"/>.
+		/// </remarks>
+		/// <param name="t">The tensor.</param>
+		/// <param name="clip_value_min">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="clip_value_max">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput ClipByValue (TFOutput t, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
+		{
+			var scopeName = MakeName ("ClipByValue", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Go through list of tensors, for each value in each tensor clip
+				var t_min = Minimum (t, clip_value_max);
+				var t_max = Maximum (t_min, clip_value_min, operName: operName);
+				return t_max;
+			}
+		}
+
+		/// <summary>
+		/// Clips tensor values to a maximum L2-norm.
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// Given a tensor <paramref name="t"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation normalizes 
+		/// <paramref name="t"/> so that its L2-norm is less than or equal to <paramref name="clip_norm"/>, along the dimensions 
+		/// given in <paramref name="axes"/>. Specifically, in the default case where all dimensions are used for calculation, if
+		/// the L2-norm of <paramref name="t"/> is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="t"/>
+		/// is not modified. If the L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of 
+		/// the same type and shape as <paramref name="t"/> with its values set to: <c>t* clip_norm / l2norm(t)</c></para>
+		/// </remarks>
+		/// <param name="t">The tensor.</param>
+		/// <param name="clip_norm">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="axes">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="t"/>.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput ClipByNorm (TFOutput t, TFOutput clip_norm, TFOutput? axes = null, string operName = null)
+		{
+			var scopeName = MakeName ("ClipByNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Calculate L2-norm, clip elements by ratio of clip_norm to L2-norm
+				var l2norm_inv = Rsqrt (ReduceSum (Mul (t, t), axes, keep_dims: true));
+				var intermediate = Mul (t, clip_norm);
+
+				var tclip = Identity (Mul (intermediate, Minimum (l2norm_inv, Div (Const (new TFTensor (1.0)), clip_norm), operName: operName)));
+
+				return tclip;
+			}
+		}
+
+		/// <summary>
+		/// Computes the global norm of multiple tensors.
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		///  Given a tuple or list of tensors <paramref name="t_list"/>, this operation returns the global norm of the elements in all tensors 
+		///  in <paramref name="t_list"/>. The global norm is computed as: <c>global_norm = sqrt(sum([l2norm(t)**2 for t in t_list]))</c>. Any 
+		///  entries in <paramref name="t_list"/> that are of type None are ignored.</para>
+		/// </remarks>
+		/// <param name="t_list">The input tensors.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput GlobalNorm (TFOutput [] t_list, string operName = null)
+		{
+			var scopeName = MakeName ("GlobalNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				TFOutput [] half_squared_norms = new TFOutput [t_list.Length];
+
+				for (int i = 0; i < half_squared_norms.Length; i++)
+					half_squared_norms [i] = L2Loss (t_list [i]);
+
+				TFOutput half_squared_norm = ReduceSum (Stack (half_squared_norms));
+				TFOutput norm = Sqrt (Mul (half_squared_norm, Const (2.0)), operName: "global_norm");
+				return norm;
+			}
+		}
+
+		/// <summary>
+		///   Clips tensor values to a maximum average L2-norm.
+		/// </summary>
+		/// <param name="t">The t.</param>
+		/// <param name="clip_norm">The clip norm.</param>
+		/// <param name="operName">Name of the oper.</param>
+		public TFOutput ClipByAverageNorm (TFOutput t, TFOutput clip_norm, string operName = null)
+		{
+			var scopeName = MakeName ("ClipByAverageNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Calculate L2-norm per element, clip elements by ratio of clip_norm to
+				// L2-norm per element
+				TFOutput n_element = Cast (Size (t), TFDataType.Float);
+				TFOutput l2norm_inv = Rsqrt (ReduceSum (Mul (t, t), Range (Rank (t))));
+				TFOutput tclip = Identity (Mul (Mul (t, clip_norm), Minimum (Mul (l2norm_inv, n_element), Div (Const (new TFTensor (1.0)), clip_norm)), operName: operName));
+
+				return tclip;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
-        /// Computes dropout. 
+        /// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
         /// </summary>
-        /// <param name="x">A tensor.</param>
-        /// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
-        /// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
-        /// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
-        /// <param name="operName">Operation name, optional.</param>
-        /// <remarks>
-        /// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
-        /// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
-        /// </remarks>
-        public TFOutput Dropout (TFOutput x, TFOutput keep_prob, TFShape noise_shape = null, int? seed= null, string operName= null)
+        /// 
+        public TFOutput Stack(TFOutput[] values, int? axis = 0, string operName = "stack")
         {
-            var scopeName = MakeName("dropout", operName);
+            // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/array_ops.py#L804
 
-            using (var newScope = WithScope(scopeName)) {
-                if (noise_shape == null)
-                    noise_shape = new TFShape(GetShape(x));
+            int ndims = GetTensorNumDims(values[0]);
 
-                TFOutput shapeTensor = ShapeTensorOutput(noise_shape);
+            int expanded_num_dims = ndims + 1;
+            if (axis < -expanded_num_dims || axis >= expanded_num_dims)
+                throw new InvalidOperationException($"axis = {axis} not in [{-expanded_num_dims}, {expanded_num_dims}]");
 
-                // uniform [keep_prob, 1.0 + keep_prob)
-                TFOutput random_tensor = keep_prob;
-                random_tensor = Add(random_tensor, RandomUniform(shapeTensor, seed: seed, dtype: x.OutputType));
-
-                // 0. if [keep_prob, 1.0) and 1. if [1.0, 1.0 + keep_prob)
-                TFOutput binary_tensor = Floor(random_tensor);
-                TFOutput ret = Mul(Div(x, keep_prob) , binary_tensor);
-                SetTensorShape(ret, GetShape(x));
-                return ret;
-            }
+            return Pack(values, axis: axis, operName: operName);
         }
 
         /// <summary>
-        /// Computes dropout. 
+        /// Creates a sequence of numbers.
         /// </summary>
-        /// <param name="x">A tensor.</param>
-        /// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
-        /// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
-        /// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
-        /// <param name="operName">Operation name, optional.</param>
         /// <remarks>
-        /// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
-        /// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+        /// Creates a sequence of numbers that begins at `start` and extends by increments of `delta` up to but not including 
+        /// `limit`. The dtype of the resulting tensor is inferred from the inputs unless it is provided explicitly.
         /// </remarks>
-        public TFOutput Dropout (TFOutput x, double keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
-        {
-            if (keep_prob < 0 || keep_prob >= 1)
-                throw new ArgumentOutOfRangeException("keep_prob must be a scalar tensor or a float in the range (0, 1], got " + keep_prob);
+        /// <param name="start">A 0 - D `Tensor` (scalar).Acts as first entry in the range if `limit` is not None; otherwise, acts as range limit and first entry defaults to 0.</param>
+        /// <param name="limit">A 0 - D `Tensor` (scalar).Upper limit of sequence, exclusive. If None, defaults to the value of `start` while the first entry of the range defaults to 0.</param>
+        /// <param name="delta">A 0 - D `Tensor` (scalar).Number that increments `start`. Defaults to 1.</param>
+        /// <param name="dataType">The type of the elements of the resulting tensor.</param>
+        /// <param name="operName">A name for the operation.Defaults to "range".</param>
+        public TFOutput Range (TFOutput start, TFOutput? limit = null, TFOutput? delta = null, TFDataType? dataType = null, string operName = "range")
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/math_ops.py#L1156
 
-            if (keep_prob == 1)
-                return x;
+			if (limit == null) {
+				limit = start;
+				start = Const (new TFTensor (0.0));
+			}
 
-            var scopeName = MakeName("dropout", operName);
-            using (var newScope = WithScope(scopeName)) {
-                var tkeep_prob = Const(keep_prob);
-                return Dropout(x, tkeep_prob, noise_shape, seed, operName);
-            }
-        }
-    }
+			if (delta == null)
+				delta = Const (new TFTensor (1.0));
 
+			using (var newScope = WithScope (MakeName ("Range", operName))) {
+				// infer dtype if not explicitly provided
+				if (dataType == null) {
+					var dtype_hierarchy = new [] { TFDataType.Int32, TFDataType.Int64, TFDataType.Float, TFDataType.Double };
+					if (!dtype_hierarchy.Contains (start.OutputType)
+					 || !dtype_hierarchy.Contains (limit.Value.OutputType)
+					 || !dtype_hierarchy.Contains (delta.Value.OutputType))
+						throw new ArgumentException ("Unexpected type");
+
+					TFDataType [] dtypes = new [] { start.OutputType, limit.Value.OutputType, delta.Value.OutputType };
+					int imax = dtypes.Select (x => Array.IndexOf (dtype_hierarchy, x)).Max ();
+					TFDataType inferred_dtype = dtype_hierarchy [imax];
+
+					start = Cast (start, inferred_dtype);
+					limit = Cast (limit.Value, inferred_dtype);
+					delta = Cast (delta.Value, inferred_dtype);
+				}
+
+				return Range (start, limit, delta, operName: operName);
+			}
+		}
+
+	}
 }
