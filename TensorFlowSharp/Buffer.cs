@@ -11,6 +11,26 @@ using size_t = System.UIntPtr;
 
 namespace TensorFlow
 {
+	/// <summary>
+	/// This attribute can be applied to callback functions that will be invoked
+	/// from unmanaged code to managed code.
+	/// </summary>
+	/// <remarks>
+	/// <code>
+	/// [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+	/// internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+	/// </code>
+	/// </remarks>
+	public sealed class MonoPInvokeCallbackAttribute : Attribute
+	{
+		/// <summary>
+		/// Use this constructor to annotate the type of the callback function that 
+		/// will be invoked from unmanaged code.
+		/// </summary>
+		/// <param name="t">T.</param>
+		public MonoPInvokeCallbackAttribute (Type t) { }
+	}
+
 	[StructLayout (LayoutKind.Sequential)]
 	internal struct LLBuffer
 	{
@@ -23,17 +43,22 @@ namespace TensorFlow
 	/// Holds a block of data, suitable to pass, or retrieve from TensorFlow.
 	/// </summary>
 	/// <remarks>
+	/// <para>
 	/// Use the TFBuffer to blobs of data into TensorFlow, or to retrieve blocks
 	/// of data out of TensorFlow.
-	/// 
+	/// </para>
+	/// <para>
 	/// There are two constructors to wrap existing data, one to wrap blocks that are 
 	/// pointed to by an IntPtr and one that takes a byte array that we want to wrap.
-	/// 
+	/// </para>
+	/// <para>
 	/// The empty constructor can be used to create a new TFBuffer that can be populated
 	/// by the TensorFlow library and returned to user code.
-	/// 
+	/// </para>
+	/// <para>
 	/// Typically, the data consists of a serialized protocol buffer, but other data
 	/// may also be held in a buffer.
+	/// </para>
 	/// </remarks>
 	// TODO: the string ctor
 	// TODO: perhaps we should have an implicit byte [] conversion that just calls ToArray?
@@ -59,7 +84,14 @@ namespace TensorFlow
 		/// <remarks>
 		/// Methods of this signature are invoked with the data pointer and the
 		/// lenght pointer when then TFBuffer no longer needs to hold on to the
-		/// data.
+		/// data.  If you are using this on platforms with static compilation
+		/// like iOS, you need to annotate your callback with the MonoPInvokeCallbackAttribute,
+		/// like this:
+		/// 
+		/// <code>
+		/// [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+		/// internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+		/// </code>
 		/// </remarks>
 		public delegate void BufferReleaseFunc (IntPtr data, IntPtr lenght);
 
@@ -86,16 +118,19 @@ namespace TensorFlow
 				buf->data_deallocator = Marshal.GetFunctionPointerForDelegate (release);
 		}
 
-		internal static void FreeBlock (IntPtr data, IntPtr lenght)
+		[MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+		internal static void FreeBlock (IntPtr data, IntPtr length)
 		{
 			Marshal.FreeHGlobal (data);
 		}
 
 		static IntPtr FreeBufferFunc;
-
+		static BufferReleaseFunc FreeBlockDelegate;
+		
 		static TFBuffer ()
 		{
-			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc> (FreeBlock);
+			FreeBlockDelegate = FreeBlock;
+			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc> (FreeBlockDelegate);
 		}
 
 

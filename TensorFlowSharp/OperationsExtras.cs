@@ -92,6 +92,23 @@ namespace TensorFlow
 		}
 
 		List<TFOperation> pending_init_variables;
+
+		/// <summary>
+		/// Registers a specified variable as an initialization variable.
+		/// </summary>
+		/// <param name="variable">Variable to register.</param>
+		/// <remarks>
+		/// <para>
+		/// This is a convenience method to track the variables that need to be initialized in the graph,
+		/// you can retrieve the list of all those variables by calling the <see cref="M:TensorFlow.TFGraph.GetGlobalVariablesInitializer"/>
+		/// which will return this list and clear the state at that point.
+		/// </para>
+		/// <para>
+		/// You typically use this method from helper methods to register all the variables that you want
+		/// initialized, and a higher level method will retrieve all these variables and initialize them
+		/// at their convenience.
+		/// </para>
+		/// </remarks>
 		public void AddInitVariable (TFOperation variable)
 		{
 			if (pending_init_variables == null)
@@ -99,6 +116,14 @@ namespace TensorFlow
 			pending_init_variables.Add (variable);
 		}
 
+		/// <summary>
+		/// Gets the list of all registered global variables.
+		/// </summary>
+		/// <returns>The array of variables that should be initialized.</returns>
+		/// <remarks>
+		/// After this method is invoked the list of pending initialization variables
+		/// is cleared.
+		/// </remarks>
 		public TFOperation [] GetGlobalVariablesInitializer ()
 		{
 			var res = pending_init_variables.ToArray ();
@@ -171,8 +196,6 @@ namespace TensorFlow
 		//
 		TFOutput ShapeTensorOutput (TFShape shape)
 		{
-			Array a;
-
 			if (shape.IsLongArray)
 				return Const (shape.ToArray (), TFDataType.Int64);
 			else
@@ -187,7 +210,7 @@ namespace TensorFlow
 		/// <param name="mean">The mean of the standard distribution.</param>
 		/// <param name="stddev">The standard deviation of the normal distribution.</param>
 		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
-		/// <param name="operName">>Operation name, optional.</param>
+		/// <param name="operName">Operation name, optional.</param>
 		public TFOutput RandomNormal (TFShape shape, double mean = 0, double stddev = 1, int? seed = null, string operName = null)
 		{
 			var scopeName = MakeName ("RandomNormal", operName);
@@ -257,5 +280,67 @@ namespace TensorFlow
 				}					
 			}
 		}
-	}
+
+        /// <summary>
+        /// Computes dropout. 
+        /// </summary>
+        /// <param name="x">A tensor.</param>
+        /// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+        /// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+        /// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+        /// <param name="operName">Operation name, optional.</param>
+        /// <remarks>
+        /// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+        /// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+        /// </remarks>
+        public TFOutput Dropout (TFOutput x, TFOutput keep_prob, TFShape noise_shape = null, int? seed= null, string operName= null)
+        {
+            var scopeName = MakeName("dropout", operName);
+
+            using (var newScope = WithScope(scopeName)) {
+                if (noise_shape == null)
+                    noise_shape = new TFShape(GetShape(x));
+
+                TFOutput shapeTensor = ShapeTensorOutput(noise_shape);
+
+                // uniform [keep_prob, 1.0 + keep_prob)
+                TFOutput random_tensor = keep_prob;
+                random_tensor = Add(random_tensor, RandomUniform(shapeTensor, seed: seed, dtype: x.OutputType));
+
+                // 0. if [keep_prob, 1.0) and 1. if [1.0, 1.0 + keep_prob)
+                TFOutput binary_tensor = Floor(random_tensor);
+                TFOutput ret = Mul(Div(x, keep_prob) , binary_tensor);
+                SetTensorShape(ret, GetShape(x));
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// Computes dropout. 
+        /// </summary>
+        /// <param name="x">A tensor.</param>
+        /// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+        /// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+        /// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+        /// <param name="operName">Operation name, optional.</param>
+        /// <remarks>
+        /// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+        /// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+        /// </remarks>
+        public TFOutput Dropout (TFOutput x, double keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
+        {
+            if (keep_prob < 0 || keep_prob >= 1)
+                throw new ArgumentOutOfRangeException("keep_prob must be a scalar tensor or a float in the range (0, 1], got " + keep_prob);
+
+            if (keep_prob == 1)
+                return x;
+
+            var scopeName = MakeName("dropout", operName);
+            using (var newScope = WithScope(scopeName)) {
+                var tkeep_prob = Const(keep_prob);
+                return Dropout(x, tkeep_prob, noise_shape, seed, operName);
+            }
+        }
+    }
+
 }

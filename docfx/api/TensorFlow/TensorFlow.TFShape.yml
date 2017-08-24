@@ -1,0 +1,566 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFShape
+  id: TFShape
+  children:
+  - TensorFlow.TFShape.#ctor(System.Int64[])
+  - TensorFlow.TFShape.AsTensor
+  - TensorFlow.TFShape.GetLength(System.Int32)
+  - TensorFlow.TFShape.IsFullySpecified
+  - TensorFlow.TFShape.IsLongArray
+  - TensorFlow.TFShape.Item(System.Int32)
+  - TensorFlow.TFShape.NumDimensions
+  - TensorFlow.TFShape.op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)
+  - TensorFlow.TFShape.Scalar
+  - TensorFlow.TFShape.ToArray
+  - TensorFlow.TFShape.ToIntArray
+  - TensorFlow.TFShape.ToString
+  - TensorFlow.TFShape.Unknown
+  langs:
+  - csharp
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Represents the shape of a tensor
+  remarks: >-
+    <p>
+                The shapes can be created by calling the constructor with the number of dimensions
+                in the shape.   The null value is used to specify that the shape is unknown,
+                an empty array is used to create a scalar, and other values are used to specify
+                the number of dimensions.
+                </p>
+        <p>
+                For the Unknown case, you can use <xref href="TensorFlor.TFShape.Unknown"></xref>, for
+                scalars, you can use the <xref href="TensorFlor.TFShape.Scalar"></xref> shape.
+                </p>
+        <p>
+                To create a 2-element vector, use:
+                new TFShape (2)
+                </p>
+        <p>
+                To create a 2x3 matrix, use:
+                new TFShape (2, 3)
+                </p>
+        <p>
+                To create a shape with an unknown number of elements, you can pass the value
+                -1.  This is typically used to indicate the shape of tensors that represent a
+                variable-sized batch of values.
+                </p>
+        <p>
+                To create a matrix with 4 columns and an unknown number of rows:
+                var batch = new TFShape (-1, 4)
+                </p>
+  syntax:
+    content: public class TFShape
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.TFShape.#ctor(System.Int64[])
+  id: '#ctor(System.Int64[])'
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: TFShape(Int64[])
+  nameWithType: TFShape.TFShape(Int64[])
+  fullName: TFShape.TFShape(Int64[])
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFShape"></xref> class.
+  syntax:
+    content: public TFShape (long[] args);
+    parameters:
+    - id: args
+      type: System.Int64[]
+      description: "This is a params argument, so you can provide multiple values to it.  \n            A null value means that this is an unknown shape, a single value is used to create a vector,\n            two values are used to create a 2-D matrix and so on."
+  overload: TensorFlow.TFShape.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFShape.AsTensor
+  id: AsTensor
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: AsTensor()
+  nameWithType: TFShape.AsTensor()
+  fullName: TFShape.AsTensor()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the shape as a 1-dimensional tensor with each element corresponding to the specified shape dimension.
+  syntax:
+    content: public TensorFlow.TFTensor AsTensor ();
+    parameters: []
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor.
+  overload: TensorFlow.TFShape.AsTensor*
+  exceptions: []
+- uid: TensorFlow.TFShape.GetLength(System.Int32)
+  id: GetLength(System.Int32)
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: GetLength(Int32)
+  nameWithType: TFShape.GetLength(Int32)
+  fullName: TFShape.GetLength(Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the length of the specified dimension in the tensor
+  syntax:
+    content: public int GetLength (int dimension);
+    parameters:
+    - id: dimension
+      type: System.Int32
+      description: Dimension.
+    return:
+      type: System.Int32
+      description: The length, -1 for shapes that have an unknown dimension.
+  overload: TensorFlow.TFShape.GetLength*
+  exceptions: []
+- uid: TensorFlow.TFShape.IsFullySpecified
+  id: IsFullySpecified
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: IsFullySpecified
+  nameWithType: TFShape.IsFullySpecified
+  fullName: TFShape.IsFullySpecified
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets a value indicating whether all the dimensions in the <xref href="TensorFlow.TFShape"></xref> are fully specified.
+  syntax:
+    content: public bool IsFullySpecified { get; }
+    return:
+      type: System.Boolean
+      description: <code>true</code> if is fully specified; otherwise, <code>false</code>.
+  overload: TensorFlow.TFShape.IsFullySpecified*
+  exceptions: []
+- uid: TensorFlow.TFShape.IsLongArray
+  id: IsLongArray
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: IsLongArray
+  nameWithType: TFShape.IsLongArray
+  fullName: TFShape.IsLongArray
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets a value indicating whether one of the dimensions <xref href="TensorFlow.TFShape"></xref> in the shape is larger than Int32.MaxValue.
+  syntax:
+    content: public bool IsLongArray { get; }
+    return:
+      type: System.Boolean
+      description: <code>true</code> if is long array; otherwise, <code>false</code>.
+  overload: TensorFlow.TFShape.IsLongArray*
+  exceptions: []
+- uid: TensorFlow.TFShape.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: Item(Int32)
+  nameWithType: TFShape.Item(Int32)
+  fullName: TFShape.Item(Int32)
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the dimensions for the specified index.
+  syntax:
+    content: public long this[int idx] { get; }
+    parameters:
+    - id: idx
+      type: System.Int32
+      description: Index.
+    return:
+      type: System.Int64
+      description: To be added.
+  overload: TensorFlow.TFShape.Item*
+  exceptions: []
+- uid: TensorFlow.TFShape.NumDimensions
+  id: NumDimensions
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: NumDimensions
+  nameWithType: TFShape.NumDimensions
+  fullName: TFShape.NumDimensions
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Number of dimensions represented by this shape.
+  syntax:
+    content: public int NumDimensions { get; }
+    return:
+      type: System.Int32
+      description: The number dimensions, -1 if the number of dimensions is unknown, 0 if the shape represent a scalar, 1 for a vector, 2 for a matrix and so on..
+  overload: TensorFlow.TFShape.NumDimensions*
+  exceptions: []
+- uid: TensorFlow.TFShape.op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)
+  id: op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: op_Addition(TFShape, TFShape)
+  nameWithType: TFShape.op_Addition(TFShape, TFShape)
+  fullName: TFShape.op_Addition(TFShape, TFShape)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds a <xref href="TensorFlow.TFShape"></xref> to a <xref href="TensorFlow.TFShape"></xref>, yielding a shape made up of the concatenation of the first and the second shapes.
+  syntax:
+    content: public static TensorFlow.TFShape op_Addition (TensorFlow.TFShape left, TensorFlow.TFShape right);
+    parameters:
+    - id: left
+      type: TensorFlow.TFShape
+      description: The first <xref href="TensorFlow.TFShape"></xref> to add.
+    - id: right
+      type: TensorFlow.TFShape
+      description: The second <xref href="TensorFlow.TFShape"></xref> to add.
+    return:
+      type: TensorFlow.TFShape
+      description: The <xref href="TensorFlow.TFShape"></xref> that is the sum of the values of <code>left</code> and <code>right</code>.
+  overload: TensorFlow.TFShape.op_Addition*
+  exceptions: []
+- uid: TensorFlow.TFShape.Scalar
+  id: Scalar
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: Scalar
+  nameWithType: TFShape.Scalar
+  fullName: TFShape.Scalar
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: This shape is used to represent scalar values.
+  syntax:
+    content: public static TensorFlow.TFShape Scalar { get; }
+    return:
+      type: TensorFlow.TFShape
+      description: The scalar.
+  overload: TensorFlow.TFShape.Scalar*
+  exceptions: []
+- uid: TensorFlow.TFShape.ToArray
+  id: ToArray
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: ToArray()
+  nameWithType: TFShape.ToArray()
+  fullName: TFShape.ToArray()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the shape as an array
+  syntax:
+    content: public long[] ToArray ();
+    parameters: []
+    return:
+      type: System.Int64[]
+      description: null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.
+  overload: TensorFlow.TFShape.ToArray*
+  exceptions: []
+- uid: TensorFlow.TFShape.ToIntArray
+  id: ToIntArray
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: ToIntArray()
+  nameWithType: TFShape.ToIntArray()
+  fullName: TFShape.ToIntArray()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the shape as an array
+  syntax:
+    content: public int[] ToIntArray ();
+    parameters: []
+    return:
+      type: System.Int32[]
+      description: null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.
+  overload: TensorFlow.TFShape.ToIntArray*
+  exceptions: []
+- uid: TensorFlow.TFShape.ToString
+  id: ToString
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: ToString()
+  nameWithType: TFShape.ToString()
+  fullName: TFShape.ToString()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public override string ToString ();
+    parameters: []
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFShape.ToString*
+  exceptions: []
+- uid: TensorFlow.TFShape.Unknown
+  id: Unknown
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: Unknown
+  nameWithType: TFShape.Unknown
+  fullName: TFShape.Unknown
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Represents an unknown number of dimensions in the tensor.
+  syntax:
+    content: public static TensorFlow.TFShape Unknown { get; }
+    return:
+      type: TensorFlow.TFShape
+      description: The unknown.
+  overload: TensorFlow.TFShape.Unknown*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFShape.#ctor(System.Int64[])
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: TFShape(Int64[])
+  nameWithType: TFShape.TFShape(Int64[])
+  fullName: TFShape.TFShape(Int64[])
+- uid: System.Int64
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: System.Int64[]
+  parent: System
+  isExternal: true
+  name: Int64[]
+  nameWithType: Int64[]
+  fullName: System.Int64[]
+  spec.csharp:
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFShape.AsTensor
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: AsTensor()
+  nameWithType: TFShape.AsTensor()
+  fullName: TFShape.AsTensor()
+- uid: TensorFlow.TFTensor
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor
+  nameWithType: TFTensor
+  fullName: TensorFlow.TFTensor
+- uid: TensorFlow.TFShape.GetLength(System.Int32)
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: GetLength(Int32)
+  nameWithType: TFShape.GetLength(Int32)
+  fullName: TFShape.GetLength(Int32)
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFShape.IsFullySpecified
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: IsFullySpecified
+  nameWithType: TFShape.IsFullySpecified
+  fullName: TFShape.IsFullySpecified
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFShape.IsLongArray
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: IsLongArray
+  nameWithType: TFShape.IsLongArray
+  fullName: TFShape.IsLongArray
+- uid: TensorFlow.TFShape.Item(System.Int32)
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Item(Int32)
+  nameWithType: TFShape.Item(Int32)
+  fullName: TFShape.Item(Int32)
+- uid: TensorFlow.TFShape.NumDimensions
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: NumDimensions
+  nameWithType: TFShape.NumDimensions
+  fullName: TFShape.NumDimensions
+- uid: TensorFlow.TFShape.op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: op_Addition(TFShape, TFShape)
+  nameWithType: TFShape.op_Addition(TFShape, TFShape)
+  fullName: TFShape.op_Addition(TFShape, TFShape)
+- uid: TensorFlow.TFShape
+  parent: TensorFlow
+  isExternal: false
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
+- uid: TensorFlow.TFShape.Scalar
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Scalar
+  nameWithType: TFShape.Scalar
+  fullName: TFShape.Scalar
+- uid: TensorFlow.TFShape.ToArray
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToArray()
+  nameWithType: TFShape.ToArray()
+  fullName: TFShape.ToArray()
+- uid: TensorFlow.TFShape.ToIntArray
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToIntArray()
+  nameWithType: TFShape.ToIntArray()
+  fullName: TFShape.ToIntArray()
+- uid: System.Int32[]
+  parent: System
+  isExternal: true
+  name: Int32[]
+  nameWithType: Int32[]
+  fullName: System.Int32[]
+  spec.csharp:
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFShape.ToString
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToString()
+  nameWithType: TFShape.ToString()
+  fullName: TFShape.ToString()
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFShape.Unknown
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Unknown
+  nameWithType: TFShape.Unknown
+  fullName: TFShape.Unknown
+- uid: TensorFlow.TFShape.#ctor*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: TFShape
+  nameWithType: TFShape.TFShape
+  fullName: TFShape.TFShape
+- uid: TensorFlow.TFShape.AsTensor*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: AsTensor
+  nameWithType: TFShape.AsTensor
+  fullName: TFShape.AsTensor
+- uid: TensorFlow.TFShape.GetLength*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: GetLength
+  nameWithType: TFShape.GetLength
+  fullName: TFShape.GetLength
+- uid: TensorFlow.TFShape.IsFullySpecified*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: IsFullySpecified
+  nameWithType: TFShape.IsFullySpecified
+  fullName: TFShape.IsFullySpecified
+- uid: TensorFlow.TFShape.IsLongArray*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: IsLongArray
+  nameWithType: TFShape.IsLongArray
+  fullName: TFShape.IsLongArray
+- uid: TensorFlow.TFShape.Item*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Item
+  nameWithType: TFShape.Item
+  fullName: TFShape.Item
+- uid: TensorFlow.TFShape.NumDimensions*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: NumDimensions
+  nameWithType: TFShape.NumDimensions
+  fullName: TFShape.NumDimensions
+- uid: TensorFlow.TFShape.op_Addition*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: op_Addition
+  nameWithType: TFShape.op_Addition
+  fullName: TFShape.op_Addition
+- uid: TensorFlow.TFShape.Scalar*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Scalar
+  nameWithType: TFShape.Scalar
+  fullName: TFShape.Scalar
+- uid: TensorFlow.TFShape.ToArray*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToArray
+  nameWithType: TFShape.ToArray
+  fullName: TFShape.ToArray
+- uid: TensorFlow.TFShape.ToIntArray*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToIntArray
+  nameWithType: TFShape.ToIntArray
+  fullName: TFShape.ToIntArray
+- uid: TensorFlow.TFShape.ToString*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: ToString
+  nameWithType: TFShape.ToString
+  fullName: TFShape.ToString
+- uid: TensorFlow.TFShape.Unknown*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: Unknown
+  nameWithType: TFShape.Unknown
+  fullName: TFShape.Unknown

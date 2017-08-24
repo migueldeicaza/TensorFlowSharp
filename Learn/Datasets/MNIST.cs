@@ -43,48 +43,39 @@ namespace Learn.Mnist
 		public byte [] 	TrainLabels, TestLabels, ValidationLabels;
 		public byte [,] OneHotTrainLabels, OneHotTestLabels, OneHotValidationLabels;
 
-		// Simple batch reader to get pieces of data from the dataset
-		public BatchReader GetBatchReader (MnistImage [] source)
-		{
-			return new BatchReader (source);
-		}
+		public BatchReader GetTrainReader () => new BatchReader (TrainImages, TrainLabels, OneHotTrainLabels);
+		public BatchReader GetTestReader () => new BatchReader (TestImages, TestLabels, OneHotTestLabels);
+		public BatchReader GetValidationReader () => new BatchReader (ValidationImages, ValidationLabels, OneHotValidationLabels);
 
 		public class BatchReader
 		{
 			int start = 0;
 			MnistImage [] source;
+			byte [] labels;
+			byte [,] oneHotLabels;
 
-			public BatchReader (MnistImage [] source)
+			internal BatchReader (MnistImage [] source, byte [] labels, byte [,] oneHotLabels)
 			{
 				this.source = source;
+				this.labels = labels;
+				this.oneHotLabels = oneHotLabels;
 			}
 
-			public MnistImage [] Read (int batchSize)
+			public (float[,],float [,]) NextBatch (int batchSize)
 			{
-				var result = new MnistImage [batchSize];
-				if (start + batchSize < source.Length) {
-					Array.Copy (source, start, result, 0, batchSize);
-					start += batchSize;
-				} else {
-					var firstLength = source.Length - start;
-					Array.Copy (source, start, result, 0, firstLength);
-					Array.Copy (source, 0, result, firstLength, batchSize-firstLength);
-					start = firstLength;
-				}
-				return result;
-			}
+				var imageData = new float [batchSize, 784];
+				var labelData = new float [batchSize, 10];
 
-			public TFTensor ReadAsTensor (int batchSize)
-			{
-				var result = new float [batchSize, 784];
-
-				var x = Read (batchSize);
 				int p = 0;
-				for (int i = 0; i < batchSize; i++) {
-					Buffer.BlockCopy (x [i].DataFloat, 0, result, p, 784);
+				for (int item = 0; item < batchSize; item++) {
+					Buffer.BlockCopy (source [start+item].DataFloat, 0, imageData, p, 784);
 					p += 784;
+					for (var j = 0; j < 10; j++)
+						labelData [item, j] = oneHotLabels [item + start, j];
 				}
-				return (TFTensor)result;
+
+				start += batchSize;
+				return (imageData, labelData);
 			}
 		}
 

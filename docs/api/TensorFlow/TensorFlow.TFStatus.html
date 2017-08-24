@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TFStatus
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TFStatus
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFStatus">
+  
+  
+  <h1 id="TensorFlow_TFStatus" data-uid="TensorFlow.TFStatus">Class TFStatus
+  </h1>
+  <div class="markdown level0 summary"><p>Used to track the result of TensorFlow operations.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.TFDisposable.html">TFDisposable</a></div>
+    <div class="level2"><span class="xref">TFStatus</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose">TFDisposable.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose_System_Boolean_">TFDisposable.Dispose(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Handle">TFDisposable.Handle</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFStatus_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TFStatus : TensorFlow.TFDisposable</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFStatus_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+            TFStatus is used to track the status of a call to some TensorFlow
+            operations.   Instances of this object are passed to various
+            TensorFlow operations and you can use the <a class="xref" href="TensorFlow.TFStatus.html#TensorFlow_TFStatus_Ok">Ok</a>
+            to quickly check if the operation succeeded, or get more detail from the
+            <a class="xref" href="TensorFlow.TFStatus.html#TensorFlow_TFStatus_StatusCode">StatusCode</a> and a human-readable text
+            using the <a class="xref" href="TensorFlow.TFStatus.html#TensorFlow_TFStatus_StatusMessage">StatusMessage</a> property.
+            </p>
+    <p>
+            The convenience <a class="xref" href="TensorFlow.TFStatus.html#TensorFlow_TFStatus_Raise">Raise()</a> can be used
+            to raise a <a class="xref" href="TensorFlow.TFException.html">TFException</a> if the status of the
+            operation did not succeed.
+            </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFStatus__ctor_" data-uid="TensorFlow.TFStatus.#ctor*"></a>
+  <h4 id="TensorFlow_TFStatus__ctor" data-uid="TensorFlow.TFStatus.#ctor">TFStatus()</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFStatus ();</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="TensorFlow_TFStatus_Default" data-uid="TensorFlow.TFStatus.Default">Default</h4>
+  <div class="markdown level1 summary"><p>Per-thread global status that you can use if you do not need to create a new instance of this object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[System.ThreadStatic]
+public static TensorFlow.TFStatus Default;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFStatus_Default_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This is provided as a convenience for APIs that take a TFStatus.   While the TFStatus is usually an
+            optional parameter, when it is made optional, API calls that fail raise an exception.   Use this 
+            property to pass a TFStatus without having to allocate a new one.   The problem with this of course
+            is that you risk having multiple parts of your code override this thread-global variable.</p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_TFStatus_Error_" data-uid="TensorFlow.TFStatus.Error*"></a>
+  <h4 id="TensorFlow_TFStatus_Error" data-uid="TensorFlow.TFStatus.Error">Error</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether this <a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a> state has been set to an error.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Error { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><code>true</code> if error; otherwise, <code>false</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFStatus_Ok_" data-uid="TensorFlow.TFStatus.Ok*"></a>
+  <h4 id="TensorFlow_TFStatus_Ok" data-uid="TensorFlow.TFStatus.Ok">Ok</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether this <a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a> state has been set to ok.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Ok { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><code>true</code> if ok; otherwise, <code>false</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFStatus_StatusCode_" data-uid="TensorFlow.TFStatus.StatusCode*"></a>
+  <h4 id="TensorFlow_TFStatus_StatusCode" data-uid="TensorFlow.TFStatus.StatusCode">StatusCode</h4>
+  <div class="markdown level1 summary"><p>Gets the status code for the status code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFCode StatusCode { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFCode.html">TFCode</a></td>
+        <td><p>The status code as an enumeration.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFStatus_StatusMessage_" data-uid="TensorFlow.TFStatus.StatusMessage*"></a>
+  <h4 id="TensorFlow_TFStatus_StatusMessage" data-uid="TensorFlow.TFStatus.StatusMessage">StatusMessage</h4>
+  <div class="markdown level1 summary"><p>Gets a human-readable status message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string StatusMessage { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The status message.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFStatus_Raise_" data-uid="TensorFlow.TFStatus.Raise*"></a>
+  <h4 id="TensorFlow_TFStatus_Raise" data-uid="TensorFlow.TFStatus.Raise">Raise()</h4>
+  <div class="markdown level1 summary"><p>Convenience method that raises an exception if the current status is an error.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Raise ();</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFStatus_Raise_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>You can use this method as a convenience to raise an exception after you
+            invoke an operation if the operation did not succeed.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFStatus_SetStatusCode_" data-uid="TensorFlow.TFStatus.SetStatusCode*"></a>
+  <h4 id="TensorFlow_TFStatus_SetStatusCode_TensorFlow_TFCode_System_String_" data-uid="TensorFlow.TFStatus.SetStatusCode(TensorFlow.TFCode,System.String)">SetStatusCode(TFCode, String)</h4>
+  <div class="markdown level1 summary"><p>Sets the status code on this TFStatus.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetStatusCode (TensorFlow.TFCode code, string msg);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFCode.html">TFCode</a></td>
+        <td><span class="parametername">code</span></td>
+        <td><p>Code.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">msg</span></td>
+        <td><p>Message.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFStatus_ToString_" data-uid="TensorFlow.TFStatus.ToString*"></a>
+  <h4 id="TensorFlow_TFStatus_ToString" data-uid="TensorFlow.TFStatus.ToString">ToString()</h4>
+  <div class="markdown level1 summary"><p>Returns a <span class="xref">System.String</span> that represents the current <a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>A <span class="xref">System.String</span> that represents the current <a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

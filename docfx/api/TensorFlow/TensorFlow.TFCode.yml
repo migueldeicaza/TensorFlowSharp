@@ -1,0 +1,457 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFCode
+  id: TFCode
+  children:
+  - TensorFlow.TFCode.Aborted
+  - TensorFlow.TFCode.AlreadyExists
+  - TensorFlow.TFCode.Cancelled
+  - TensorFlow.TFCode.DataLoss
+  - TensorFlow.TFCode.DeadlineExceeded
+  - TensorFlow.TFCode.FailedPrecondition
+  - TensorFlow.TFCode.Internal
+  - TensorFlow.TFCode.InvalidArgument
+  - TensorFlow.TFCode.NotFound
+  - TensorFlow.TFCode.Ok
+  - TensorFlow.TFCode.OutOfRange
+  - TensorFlow.TFCode.PermissionDenied
+  - TensorFlow.TFCode.ResourceExhausted
+  - TensorFlow.TFCode.Unauthenticated
+  - TensorFlow.TFCode.Unavailable
+  - TensorFlow.TFCode.Unimplemented
+  - TensorFlow.TFCode.Unknown
+  langs:
+  - csharp
+  name: TFCode
+  nameWithType: TFCode
+  fullName: TensorFlow.TFCode
+  type: Enum
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Status code for invoking a tensorflow operation.
+  syntax:
+    content: public enum TFCode
+  inheritance:
+  - System.Enum
+- uid: TensorFlow.TFCode.Aborted
+  id: Aborted
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Aborted
+  nameWithType: TFCode.Aborted
+  fullName: TFCode.Aborted
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Aborted
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.AlreadyExists
+  id: AlreadyExists
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: AlreadyExists
+  nameWithType: TFCode.AlreadyExists
+  fullName: TFCode.AlreadyExists
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: AlreadyExists
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Cancelled
+  id: Cancelled
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Cancelled
+  nameWithType: TFCode.Cancelled
+  fullName: TFCode.Cancelled
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Cancelled
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.DataLoss
+  id: DataLoss
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: DataLoss
+  nameWithType: TFCode.DataLoss
+  fullName: TFCode.DataLoss
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: DataLoss
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.DeadlineExceeded
+  id: DeadlineExceeded
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: DeadlineExceeded
+  nameWithType: TFCode.DeadlineExceeded
+  fullName: TFCode.DeadlineExceeded
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: DeadlineExceeded
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.FailedPrecondition
+  id: FailedPrecondition
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: FailedPrecondition
+  nameWithType: TFCode.FailedPrecondition
+  fullName: TFCode.FailedPrecondition
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: FailedPrecondition
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Internal
+  id: Internal
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Internal
+  nameWithType: TFCode.Internal
+  fullName: TFCode.Internal
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Internal
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.InvalidArgument
+  id: InvalidArgument
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: InvalidArgument
+  nameWithType: TFCode.InvalidArgument
+  fullName: TFCode.InvalidArgument
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: InvalidArgument
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.NotFound
+  id: NotFound
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: NotFound
+  nameWithType: TFCode.NotFound
+  fullName: TFCode.NotFound
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: NotFound
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Ok
+  id: Ok
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Ok
+  nameWithType: TFCode.Ok
+  fullName: TFCode.Ok
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Ok
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.OutOfRange
+  id: OutOfRange
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: OutOfRange
+  nameWithType: TFCode.OutOfRange
+  fullName: TFCode.OutOfRange
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: OutOfRange
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.PermissionDenied
+  id: PermissionDenied
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: PermissionDenied
+  nameWithType: TFCode.PermissionDenied
+  fullName: TFCode.PermissionDenied
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: PermissionDenied
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.ResourceExhausted
+  id: ResourceExhausted
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: ResourceExhausted
+  nameWithType: TFCode.ResourceExhausted
+  fullName: TFCode.ResourceExhausted
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: ResourceExhausted
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Unauthenticated
+  id: Unauthenticated
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Unauthenticated
+  nameWithType: TFCode.Unauthenticated
+  fullName: TFCode.Unauthenticated
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Unauthenticated
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Unavailable
+  id: Unavailable
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Unavailable
+  nameWithType: TFCode.Unavailable
+  fullName: TFCode.Unavailable
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Unavailable
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Unimplemented
+  id: Unimplemented
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Unimplemented
+  nameWithType: TFCode.Unimplemented
+  fullName: TFCode.Unimplemented
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Unimplemented
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFCode.Unknown
+  id: Unknown
+  parent: TensorFlow.TFCode
+  langs:
+  - csharp
+  name: Unknown
+  nameWithType: TFCode.Unknown
+  fullName: TFCode.Unknown
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Unknown
+    return:
+      type: TensorFlow.TFCode
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.Enum
+  parent: System
+  isExternal: true
+  name: Enum
+  nameWithType: Enum
+  fullName: System.Enum
+- uid: TensorFlow.TFCode.Aborted
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Aborted
+  nameWithType: TFCode.Aborted
+  fullName: TFCode.Aborted
+- uid: TensorFlow.TFCode
+  parent: TensorFlow
+  isExternal: false
+  name: TFCode
+  nameWithType: TFCode
+  fullName: TensorFlow.TFCode
+- uid: TensorFlow.TFCode.AlreadyExists
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: AlreadyExists
+  nameWithType: TFCode.AlreadyExists
+  fullName: TFCode.AlreadyExists
+- uid: TensorFlow.TFCode.Cancelled
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Cancelled
+  nameWithType: TFCode.Cancelled
+  fullName: TFCode.Cancelled
+- uid: TensorFlow.TFCode.DataLoss
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: DataLoss
+  nameWithType: TFCode.DataLoss
+  fullName: TFCode.DataLoss
+- uid: TensorFlow.TFCode.DeadlineExceeded
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: DeadlineExceeded
+  nameWithType: TFCode.DeadlineExceeded
+  fullName: TFCode.DeadlineExceeded
+- uid: TensorFlow.TFCode.FailedPrecondition
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: FailedPrecondition
+  nameWithType: TFCode.FailedPrecondition
+  fullName: TFCode.FailedPrecondition
+- uid: TensorFlow.TFCode.Internal
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Internal
+  nameWithType: TFCode.Internal
+  fullName: TFCode.Internal
+- uid: TensorFlow.TFCode.InvalidArgument
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: InvalidArgument
+  nameWithType: TFCode.InvalidArgument
+  fullName: TFCode.InvalidArgument
+- uid: TensorFlow.TFCode.NotFound
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: NotFound
+  nameWithType: TFCode.NotFound
+  fullName: TFCode.NotFound
+- uid: TensorFlow.TFCode.Ok
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Ok
+  nameWithType: TFCode.Ok
+  fullName: TFCode.Ok
+- uid: TensorFlow.TFCode.OutOfRange
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: OutOfRange
+  nameWithType: TFCode.OutOfRange
+  fullName: TFCode.OutOfRange
+- uid: TensorFlow.TFCode.PermissionDenied
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: PermissionDenied
+  nameWithType: TFCode.PermissionDenied
+  fullName: TFCode.PermissionDenied
+- uid: TensorFlow.TFCode.ResourceExhausted
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: ResourceExhausted
+  nameWithType: TFCode.ResourceExhausted
+  fullName: TFCode.ResourceExhausted
+- uid: TensorFlow.TFCode.Unauthenticated
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Unauthenticated
+  nameWithType: TFCode.Unauthenticated
+  fullName: TFCode.Unauthenticated
+- uid: TensorFlow.TFCode.Unavailable
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Unavailable
+  nameWithType: TFCode.Unavailable
+  fullName: TFCode.Unavailable
+- uid: TensorFlow.TFCode.Unimplemented
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Unimplemented
+  nameWithType: TFCode.Unimplemented
+  fullName: TFCode.Unimplemented
+- uid: TensorFlow.TFCode.Unknown
+  parent: TensorFlow.TFCode
+  isExternal: false
+  name: Unknown
+  nameWithType: TFCode.Unknown
+  fullName: TFCode.Unknown
