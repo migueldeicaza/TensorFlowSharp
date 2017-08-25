@@ -63,6 +63,7 @@
     <Compile Include="ArrayTests.cs" />
     <Compile Include="ClipTests.cs" />
     <Compile Include="BitwiseOperationTests.cs" />
+    <Compile Include="PartialRunTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtils.cs" />
   </ItemGroup>
