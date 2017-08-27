@@ -477,16 +477,19 @@ namespace TensorFlow
 
 			var scopeName = this.MakeName ("logistic_loss", operName);
 			using (var newScope = this.WithScope (scopeName)) {
-				//logits = ops.convert_to_tensor(logits, name: "logits");
-				//labels = ops.convert_to_tensor(labels, name: "labels");
-				//try
-				//{
-				//    labels.get_shape().merge_with(logits.get_shape())
-				//}
-				//catch
-				//{
-				//    throw new ArgumentException("logits and labels must have the same shape ({logits.get_shape()} vs {labels.get_shape()})");
-				//}
+				// Note: The following lines have not been ported from the original TF implementation since 
+				// TensorFlowSharp API should guarantee that logits and labels are of type TFOutput by design:
+				//
+				//   logits = ops.convert_to_tensor(logits, name: "logits");
+				//   labels = ops.convert_to_tensor(labels, name: "labels");
+				//   try
+				//   {
+				//       labels.get_shape().merge_with(logits.get_shape())
+				//   }
+				//   catch
+				//   {
+				//       throw new ArgumentException("logits and labels must have the same shape ({logits.get_shape()} vs {labels.get_shape()})");
+				//   }
 
 				// The logistic loss formula from above is
 				// x - x * z + log(1 + exp(-x))
