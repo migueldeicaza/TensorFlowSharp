@@ -460,7 +460,73 @@ namespace TensorFlow
 		}
 
 
+		/// <summary>
+		///   Computes sigmoid cross entropy given `logits`.
+		/// </summary>
+		/// 
+		/// <remarks>
+		///    Measures the probability error in discrete classification tasks in which each
+		///    class is independent and not mutually exclusive.For instance, one could
+		///    perform multilabel classification where a picture can contain both an elephant
+		///    and a dog at the same time.
+		/// </remarks>
+		/// 
+		public TFOutput sigmoid_cross_entropy_with_logits (TFOutput labels, TFOutput logits, string operName = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/nn_impl.py#L100
 
+			var scopeName = this.MakeName ("logistic_loss", operName);
+			using (var newScope = this.WithScope (scopeName)) {
+				//logits = ops.convert_to_tensor(logits, name: "logits");
+				//labels = ops.convert_to_tensor(labels, name: "labels");
+				//try
+				//{
+				//    labels.get_shape().merge_with(logits.get_shape())
+				//}
+				//catch
+				//{
+				//    throw new ArgumentException("logits and labels must have the same shape ({logits.get_shape()} vs {labels.get_shape()})");
+				//}
+
+				// The logistic loss formula from above is
+				// x - x * z + log(1 + exp(-x))
+				// For x < 0, a more numerically stable formula is
+				//   -x * z + log(1 + exp(x))
+				// Note that these two expressions can be combined into the following:
+				// max(x, 0) - x * z + log(1 + exp(-abs(x)))
+				// To allow computing gradients at zero, we define custom versions of max and
+				// abs functions.
+				TFOutput zeros = this.ZerosLike (logits);
+				TFOutput cond = this.GreaterEqual (logits, zeros);
+				TFOutput relu_logits = this.Where (cond, logits, zeros);
+				TFOutput neg_abs_logits = this.Where (cond, this.Neg (logits), logits);
+				return this.Add (
+					this.Sub (relu_logits, this.Mul (logits, labels)),
+					this.Log1p (this.Exp (neg_abs_logits)),
+					operName: operName);
+			}
+		}
+
+		/// <summary>
+		///   Return elements from x or y depending on condition.
+		/// </summary>
+		/// 
+		/// <param name="condition">LabeledTensor of type `bool`.</param>
+		/// <param name="x">LabeledTensor for values where condition is true.</param>
+		/// <param name="y">LabeledTensor for values where condition is false.</param>
+		/// <param name="name">Optional op name.</param>
+		/// 
+		/// <returns>The labeled tensor with values according to condition.</returns>
+		/// 
+		public TFOutput Where (TFOutput condition, TFOutput? x, TFOutput? y, string name = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/d4ce3b4681b3a550c095b2cd18a79494d1cc4039/tensorflow/python/ops/array_ops.py#L2342
+			if (x == null && y == null)
+				return this.Where (input: condition, operName: name);
+			else if (x != null && y != null)
+				return this.Select (condition: condition, t: x.Value, e: y.Value, operName: name);
+			throw new ArgumentException ("x and y must both be non-None or both be None.");
+		}
 
 
 
