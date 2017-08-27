@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayTests.cs" />
+    <Compile Include="TensorTests.cs" />
     <Compile Include="ClipTests.cs" />
     <Compile Include="BitwiseOperationTests.cs" />
     <Compile Include="PartialRunTests.cs" />
