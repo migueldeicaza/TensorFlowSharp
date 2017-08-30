@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Struct TFOutput
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Struct TFOutput
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFOutput">
+  
+  
+  <h1 id="TensorFlow_TFOutput" data-uid="TensorFlow.TFOutput">Struct TFOutput
+  </h1>
+  <div class="markdown level0 summary"><p>Represents a specific output of an operation on a tensor.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFOutput_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct TFOutput</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFOutput_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+            TFOutput objects represent one of the outputs of an operation in the graph
+            (TFGraph).  Outputs have a data type, and eventually a shape that you can 
+            retrieve by calling the <span class="xref">TensorFlow.TFGraph.GetShape</span> method.
+            </p>
+    <p>
+            These can be passed as an input argument to a function for adding operations 
+            to a graph, or to the TFSession&#39;s Run and GetRunner method as values to be
+            fetched.
+            </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFOutput__ctor_" data-uid="TensorFlow.TFOutput.#ctor*"></a>
+  <h4 id="TensorFlow_TFOutput__ctor_TensorFlow_TFOperation_System_Int32_" data-uid="TensorFlow.TFOutput.#ctor(TensorFlow.TFOperation,System.Int32)">TFOutput(TFOperation, Int32)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new TFOutput instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFOutput (TensorFlow.TFOperation operation, int index = 0);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><span class="parametername">operation</span></td>
+        <td><p>The operation to which to attach the output.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td><p>The index of the output within the operation, if not specified, it defaults to zero.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOutput__ctor_" data-uid="TensorFlow.TFOutput.#ctor*"></a>
+  <h4 id="TensorFlow_TFOutput__ctor_TensorFlow_TFOutput_System_Int32_" data-uid="TensorFlow.TFOutput.#ctor(TensorFlow.TFOutput,System.Int32)">TFOutput(TFOutput, Int32)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new TFOutput instance from another TFOutput</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFOutput (TensorFlow.TFOutput output, int index = 0);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">output</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td><p>The index of the output within the operation, if not specified, it defaults to zero.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="TensorFlow_TFOutput_Index" data-uid="TensorFlow.TFOutput.Index">Index</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Index;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_TFOutput_NumConsumers_" data-uid="TensorFlow.TFOutput.NumConsumers*"></a>
+  <h4 id="TensorFlow_TFOutput_NumConsumers" data-uid="TensorFlow.TFOutput.NumConsumers">NumConsumers</h4>
+  <div class="markdown level1 summary"><p>Gets the number consumers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int NumConsumers { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The number consumers.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFOutput_NumConsumers_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This number can change when new operations are added to the graph.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFOutput_Operation_" data-uid="TensorFlow.TFOutput.Operation*"></a>
+  <h4 id="TensorFlow_TFOutput_Operation" data-uid="TensorFlow.TFOutput.Operation">Operation</h4>
+  <div class="markdown level1 summary"><p>The associated operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperation Operation { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><p>The operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOutput_OutputConsumers_" data-uid="TensorFlow.TFOutput.OutputConsumers*"></a>
+  <h4 id="TensorFlow_TFOutput_OutputConsumers" data-uid="TensorFlow.TFOutput.OutputConsumers">OutputConsumers</h4>
+  <div class="markdown level1 summary"><p>Get list of all current consumers of a specific output of an operation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFInput[] OutputConsumers { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFInput.html">TFInput</a>[]</td>
+        <td><p>The output consumers.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFOutput_OutputConsumers_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>A concurrent modification of the graph can increase the number of consumers of
+            an operation.
+            This can return null if the TFOutput does not point to a valid object.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFOutput_OutputType_" data-uid="TensorFlow.TFOutput.OutputType*"></a>
+  <h4 id="TensorFlow_TFOutput_OutputType" data-uid="TensorFlow.TFOutput.OutputType">OutputType</h4>
+  <div class="markdown level1 summary"><p>Gets the type of the output.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFDataType OutputType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a></td>
+        <td><p>The type of the output.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFOutput_ToString_" data-uid="TensorFlow.TFOutput.ToString*"></a>
+  <h4 id="TensorFlow_TFOutput_ToString" data-uid="TensorFlow.TFOutput.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

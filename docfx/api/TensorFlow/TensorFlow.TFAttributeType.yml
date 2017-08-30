@@ -1,0 +1,266 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFAttributeType
+  id: TFAttributeType
+  children:
+  - TensorFlow.TFAttributeType.Bool
+  - TensorFlow.TFAttributeType.Float
+  - TensorFlow.TFAttributeType.Func
+  - TensorFlow.TFAttributeType.Int
+  - TensorFlow.TFAttributeType.Placeholder
+  - TensorFlow.TFAttributeType.Shape
+  - TensorFlow.TFAttributeType.String
+  - TensorFlow.TFAttributeType.Tensor
+  - TensorFlow.TFAttributeType.Type
+  langs:
+  - csharp
+  name: TFAttributeType
+  nameWithType: TFAttributeType
+  fullName: TensorFlow.TFAttributeType
+  type: Enum
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 'Low-level: Enumeration describing the types of a metadata attribute'
+  syntax:
+    content: public enum TFAttributeType
+  inheritance:
+  - System.Enum
+- uid: TensorFlow.TFAttributeType.Bool
+  id: Bool
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Bool
+  nameWithType: TFAttributeType.Bool
+  fullName: TFAttributeType.Bool
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a bool.
+  syntax:
+    content: Bool
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Float
+  id: Float
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Float
+  nameWithType: TFAttributeType.Float
+  fullName: TFAttributeType.Float
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a float
+  syntax:
+    content: Float
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Func
+  id: Func
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Func
+  nameWithType: TFAttributeType.Func
+  fullName: TFAttributeType.Func
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a function
+  syntax:
+    content: Func
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Int
+  id: Int
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Int
+  nameWithType: TFAttributeType.Int
+  fullName: TFAttributeType.Int
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is an int.
+  syntax:
+    content: Int
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Placeholder
+  id: Placeholder
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Placeholder
+  nameWithType: TFAttributeType.Placeholder
+  fullName: TFAttributeType.Placeholder
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a placeholder
+  syntax:
+    content: Placeholder
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Shape
+  id: Shape
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Shape
+  nameWithType: TFAttributeType.Shape
+  fullName: TFAttributeType.Shape
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a tensor shape
+  syntax:
+    content: Shape
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.String
+  id: String
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: String
+  nameWithType: TFAttributeType.String
+  fullName: TFAttributeType.String
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a string
+  syntax:
+    content: String
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Tensor
+  id: Tensor
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Tensor
+  nameWithType: TFAttributeType.Tensor
+  fullName: TFAttributeType.Tensor
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a tensor
+  syntax:
+    content: Tensor
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFAttributeType.Type
+  id: Type
+  parent: TensorFlow.TFAttributeType
+  langs:
+  - csharp
+  name: Type
+  nameWithType: TFAttributeType.Type
+  fullName: TFAttributeType.Type
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The type of the attribute is a type.
+  syntax:
+    content: Type
+    return:
+      type: TensorFlow.TFAttributeType
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.Enum
+  parent: System
+  isExternal: true
+  name: Enum
+  nameWithType: Enum
+  fullName: System.Enum
+- uid: TensorFlow.TFAttributeType.Bool
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Bool
+  nameWithType: TFAttributeType.Bool
+  fullName: TFAttributeType.Bool
+- uid: TensorFlow.TFAttributeType
+  parent: TensorFlow
+  isExternal: false
+  name: TFAttributeType
+  nameWithType: TFAttributeType
+  fullName: TensorFlow.TFAttributeType
+- uid: TensorFlow.TFAttributeType.Float
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Float
+  nameWithType: TFAttributeType.Float
+  fullName: TFAttributeType.Float
+- uid: TensorFlow.TFAttributeType.Func
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Func
+  nameWithType: TFAttributeType.Func
+  fullName: TFAttributeType.Func
+- uid: TensorFlow.TFAttributeType.Int
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Int
+  nameWithType: TFAttributeType.Int
+  fullName: TFAttributeType.Int
+- uid: TensorFlow.TFAttributeType.Placeholder
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Placeholder
+  nameWithType: TFAttributeType.Placeholder
+  fullName: TFAttributeType.Placeholder
+- uid: TensorFlow.TFAttributeType.Shape
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Shape
+  nameWithType: TFAttributeType.Shape
+  fullName: TFAttributeType.Shape
+- uid: TensorFlow.TFAttributeType.String
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: String
+  nameWithType: TFAttributeType.String
+  fullName: TFAttributeType.String
+- uid: TensorFlow.TFAttributeType.Tensor
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Tensor
+  nameWithType: TFAttributeType.Tensor
+  fullName: TFAttributeType.Tensor
+- uid: TensorFlow.TFAttributeType.Type
+  parent: TensorFlow.TFAttributeType
+  isExternal: false
+  name: Type
+  nameWithType: TFAttributeType.Type
+  fullName: TFAttributeType.Type

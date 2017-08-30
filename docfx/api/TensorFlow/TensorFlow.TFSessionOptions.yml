@@ -1,0 +1,182 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFSessionOptions
+  id: TFSessionOptions
+  children:
+  - TensorFlow.TFSessionOptions.#ctor
+  - TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)
+  - TensorFlow.TFSessionOptions.SetTarget(System.String)
+  langs:
+  - csharp
+  name: TFSessionOptions
+  nameWithType: TFSessionOptions
+  fullName: TensorFlow.TFSessionOptions
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The session options object holds configuration options that you want to use during your session, like the TensorFlow target or the configuration.
+  syntax:
+    content: 'public class TFSessionOptions : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFSessionOptions.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFSessionOptions
+  langs:
+  - csharp
+  name: TFSessionOptions()
+  nameWithType: TFSessionOptions.TFSessionOptions()
+  fullName: TFSessionOptions.TFSessionOptions()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFSessionOptions"></xref> class.
+  syntax:
+    content: public TFSessionOptions ();
+    parameters: []
+  overload: TensorFlow.TFSessionOptions.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)
+  id: SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)
+  parent: TensorFlow.TFSessionOptions
+  langs:
+  - csharp
+  name: SetConfig(IntPtr, Int32, TFStatus)
+  nameWithType: TFSessionOptions.SetConfig(IntPtr, Int32, TFStatus)
+  fullName: TFSessionOptions.SetConfig(IntPtr, Int32, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Sets the configuration information for the session.
+  remarks: The configuration option is a Protocol Buffer representing the tensorflow.ConfigProto
+  syntax:
+    content: public void SetConfig (IntPtr protoData, int length, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: protoData
+      type: System.IntPtr
+      description: Serialized protocol buffer for the tensorflow.ConfigProto message.
+    - id: length
+      type: System.Int32
+      description: Length of the buffer.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: If config was not parsed successfully as a ConfigProto, the error is recorded here.
+  overload: TensorFlow.TFSessionOptions.SetConfig*
+  exceptions: []
+- uid: TensorFlow.TFSessionOptions.SetTarget(System.String)
+  id: SetTarget(System.String)
+  parent: TensorFlow.TFSessionOptions
+  langs:
+  - csharp
+  name: SetTarget(String)
+  nameWithType: TFSessionOptions.SetTarget(String)
+  fullName: TFSessionOptions.SetTarget(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Sets the target in options.
+  syntax:
+    content: public void SetTarget (string target);
+    parameters:
+    - id: target
+      type: System.String
+      description: >-
+        target can be empty, a single entry, or a comma separated list of entries.
+                    Each entry is in one of the following formats: "local", ip:port, host:port.
+  overload: TensorFlow.TFSessionOptions.SetTarget*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFSessionOptions.#ctor
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: TFSessionOptions()
+  nameWithType: TFSessionOptions.TFSessionOptions()
+  fullName: TFSessionOptions.TFSessionOptions()
+- uid: TensorFlow.TFSessionOptions.SetConfig(System.IntPtr,System.Int32,TensorFlow.TFStatus)
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: SetConfig(IntPtr, Int32, TFStatus)
+  nameWithType: TFSessionOptions.SetConfig(IntPtr, Int32, TFStatus)
+  fullName: TFSessionOptions.SetConfig(IntPtr, Int32, TFStatus)
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFSessionOptions.SetTarget(System.String)
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: SetTarget(String)
+  nameWithType: TFSessionOptions.SetTarget(String)
+  fullName: TFSessionOptions.SetTarget(String)
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFSessionOptions.#ctor*
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: TFSessionOptions
+  nameWithType: TFSessionOptions.TFSessionOptions
+  fullName: TFSessionOptions.TFSessionOptions
+- uid: TensorFlow.TFSessionOptions.SetConfig*
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: SetConfig
+  nameWithType: TFSessionOptions.SetConfig
+  fullName: TFSessionOptions.SetConfig
+- uid: TensorFlow.TFSessionOptions.SetTarget*
+  parent: TensorFlow.TFSessionOptions
+  isExternal: false
+  name: SetTarget
+  nameWithType: TFSessionOptions.SetTarget
+  fullName: TFSessionOptions.SetTarget
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

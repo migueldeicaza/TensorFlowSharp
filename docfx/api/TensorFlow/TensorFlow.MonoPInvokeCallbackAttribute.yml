@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.MonoPInvokeCallbackAttribute
+  id: MonoPInvokeCallbackAttribute
+  children:
+  - TensorFlow.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+  langs:
+  - csharp
+  name: MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute
+  fullName: TensorFlow.MonoPInvokeCallbackAttribute
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    This attribute can be applied to callback functions that will be invoked
+                from unmanaged code to managed code.
+  remarks: >-
+    <pre><code>
+                [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+                internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+                </code></pre>
+  syntax:
+    content: 'public sealed class MonoPInvokeCallbackAttribute : Attribute'
+  inheritance:
+  - System.Attribute
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+  id: '#ctor(System.Type)'
+  parent: TensorFlow.MonoPInvokeCallbackAttribute
+  langs:
+  - csharp
+  name: MonoPInvokeCallbackAttribute(Type)
+  nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+  fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: "Use this constructor to annotate the type of the callback function that \n            will be invoked from unmanaged code."
+  syntax:
+    content: public MonoPInvokeCallbackAttribute (Type t);
+    parameters:
+    - id: t
+      type: System.Type
+      description: T.
+  overload: TensorFlow.MonoPInvokeCallbackAttribute.#ctor*
+  exceptions: []
+references:
+- uid: System.Attribute
+  parent: System
+  isExternal: true
+  name: Attribute
+  nameWithType: Attribute
+  fullName: System.Attribute
+- uid: TensorFlow.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+  parent: TensorFlow.MonoPInvokeCallbackAttribute
+  isExternal: false
+  name: MonoPInvokeCallbackAttribute(Type)
+  nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+  fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute(Type)
+- uid: System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: TensorFlow.MonoPInvokeCallbackAttribute.#ctor*
+  parent: TensorFlow.MonoPInvokeCallbackAttribute
+  isExternal: false
+  name: MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute
+  fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute

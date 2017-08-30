@@ -1,0 +1,1247 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TFOperationDesc
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TFOperationDesc
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFOperationDesc">
+  
+  
+  <h1 id="TensorFlow_TFOperationDesc" data-uid="TensorFlow.TFOperationDesc">Class TFOperationDesc
+  </h1>
+  <div class="markdown level0 summary"><p>Low-level TensorFlow operation builder</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.TFDisposable.html">TFDisposable</a></div>
+    <div class="level2"><span class="xref">TFOperationDesc</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose">TFDisposable.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose_System_Boolean_">TFDisposable.Dispose(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Handle">TFDisposable.Handle</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFOperationDesc_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TFOperationDesc : TensorFlow.TFDisposable</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFOperationDesc_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>This is the low-level API that is used to create operations by manually specificying all
+            the parameters of an operation (inputs, outputs, attribute descriptions) that can then
+            be attached into a graph.
+            </p>
+    <p>
+            Generally, you will instead be using the methods surfaced in <a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a> 
+            that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
+            nodes.
+            </p>
+    <p>
+            You create instances bound to a graph, add inputs, attributes and so on, and when you are done
+            you can call the <a class="xref" href="TensorFlow.TFOperationDesc.html#TensorFlow_TFOperationDesc_FinishOperation_TensorFlow_TFStatus_">FinishOperation(TFStatus)</a> method that will turn this TFOperationDesc 
+            into a <a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>.
+            </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFOperationDesc__ctor_" data-uid="TensorFlow.TFOperationDesc.#ctor*"></a>
+  <h4 id="TensorFlow_TFOperationDesc__ctor_TensorFlow_TFGraph_System_String_System_String_" data-uid="TensorFlow.TFOperationDesc.#ctor(TensorFlow.TFGraph,System.String,System.String)">TFOperationDesc(TFGraph, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFOperationDesc (TensorFlow.TFGraph graph, string opType, string operName);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">opType</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_AddControlInput_" data-uid="TensorFlow.TFOperationDesc.AddControlInput*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_AddControlInput_TensorFlow_TFOperation_" data-uid="TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)">AddControlInput(TFOperation)</h4>
+  <div class="markdown level1 summary"><p>Ensure that the operation does not execute before the control operation does.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc AddControlInput (TensorFlow.TFOperation control);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><span class="parametername">control</span></td>
+        <td><p>Operation that must be executed before running this operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFOperationDesc_AddControlInput_TensorFlow_TFOperation__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+            A control input is an Operation that must be executed before running the operation 
+            currently being built.<br>            </p>
+    <p>
+            For example, an Assert operation may be added as a control input for this operation. 
+            The Assert now behaves as a pre-condition that will always verify itself before
+            running the operation.
+            </p></div>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_AddInput_" data-uid="TensorFlow.TFOperationDesc.AddInput*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_AddInput_TensorFlow_TFOutput_" data-uid="TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)">AddInput(TFOutput)</h4>
+  <div class="markdown level1 summary"><p>Adds the specified input to the operation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc AddInput (TensorFlow.TFOutput input);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">input</span></td>
+        <td><p>Input.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>The input.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_AddInputs_" data-uid="TensorFlow.TFOperationDesc.AddInputs*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_AddInputs_TensorFlow_TFOutput___" data-uid="TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])">AddInputs(TFOutput[])</h4>
+  <div class="markdown level1 summary"><p>Adds a series of inputs to the operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc AddInputs (TensorFlow.TFOutput[] inputs);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">inputs</span></td>
+        <td><p>Inputs, this is a params array for your convenience.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_ColocateWith_" data-uid="TensorFlow.TFOperationDesc.ColocateWith*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_ColocateWith_TensorFlow_TFOperation_" data-uid="TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation)">ColocateWith(TFOperation)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc ColocateWith (TensorFlow.TFOperation op);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><span class="parametername">op</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_FinishOperation_" data-uid="TensorFlow.TFOperationDesc.FinishOperation*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_FinishOperation_TensorFlow_TFStatus_" data-uid="TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)">FinishOperation(TFStatus)</h4>
+  <div class="markdown level1 summary"><p>Turns the operation description into an actual operation in the graph.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperation FinishOperation (TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><p>The operation on success, or null on error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_TensorFlow_TFTensor___TensorFlow_TFStatus_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)">SetAttr(String, TFTensor[], TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, TensorFlow.TFTensor[] tensor, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><span class="parametername">tensor</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_TensorFlow_TFTensor_TensorFlow_TFStatus_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)">SetAttr(String, TFTensor, TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, TensorFlow.TFTensor tensor, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><span class="parametername">tensor</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_String___" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[])">SetAttr(String, String[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, string[] values);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">values</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_String_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.String)">SetAttr(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, string value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Single___" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[])">SetAttr(String, Single[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, float[] values);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">values</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Single_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single)">SetAttr(String, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, float value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Int64___" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[])">SetAttr(String, Int64[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, long[] values);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">values</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Int64_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64)">SetAttr(String, Int64)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, long value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Boolean___" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[])">SetAttr(String, Boolean[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, bool[] values);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span>[]</td>
+        <td><span class="parametername">values</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttr_" data-uid="TensorFlow.TFOperationDesc.SetAttr*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttr_System_String_System_Boolean_" data-uid="TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean)">SetAttr(String, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttr (string attrName, bool value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttrShape_" data-uid="TensorFlow.TFOperationDesc.SetAttrShape*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttrShape_System_String_TensorFlow_TFShape_" data-uid="TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape)">SetAttrShape(String, TFShape)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttrShape (string attrName, TensorFlow.TFShape shape);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttrShape_" data-uid="TensorFlow.TFOperationDesc.SetAttrShape*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttrShape_System_String_TensorFlow_TFShape___" data-uid="TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[])">SetAttrShape(String, TFShape[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttrShape (string attrName, TensorFlow.TFShape[] shapeList);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a>[]</td>
+        <td><span class="parametername">shapeList</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttrTensorShapeProto_" data-uid="TensorFlow.TFOperationDesc.SetAttrTensorShapeProto*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttrTensorShapeProto_System_String_System_IntPtr_System_UIntPtr_TensorFlow_TFStatus_" data-uid="TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)">SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttrTensorShapeProto (string attrName, IntPtr proto, UIntPtr protoLen, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">proto</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UIntPtr</span></td>
+        <td><span class="parametername">protoLen</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttrType_" data-uid="TensorFlow.TFOperationDesc.SetAttrType*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttrType_System_String_TensorFlow_TFDataType_" data-uid="TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType)">SetAttrType(String, TFDataType)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttrType (string attrName, TensorFlow.TFDataType dataType);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetAttrType_" data-uid="TensorFlow.TFOperationDesc.SetAttrType*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetAttrType_System_String_TensorFlow_TFDataType___" data-uid="TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[])">SetAttrType(String, TFDataType[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetAttrType (string attrName, TensorFlow.TFDataType[] dataType);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">attrName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a>[]</td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFOperationDesc_SetDevice_" data-uid="TensorFlow.TFOperationDesc.SetDevice*"></a>
+  <h4 id="TensorFlow_TFOperationDesc_SetDevice_System_String_" data-uid="TensorFlow.TFOperationDesc.SetDevice(System.String)">SetDevice(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOperationDesc SetDevice (string device);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">device</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperationDesc.html">TFOperationDesc</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
