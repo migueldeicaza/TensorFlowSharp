@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace TensorFlowSharp
 {
-    public class GradientDescentOptimizer : Optimizer
-    {
-    }
+    /// <summary>
+    /// WIP: Requires some basic things implemented to get this done
+    /// </summary>
+    //public class GradientDescentOptimizer : Optimizer
+    //{
+    //    public GradientDescentOptimizer(bool useLocking, string name) : base(useLocking, name)
+    //    {
+    //    }
+    //}
 }

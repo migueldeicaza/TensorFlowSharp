@@ -18,7 +18,7 @@ namespace TensorFlowSharp.Tests.CSharp
                 TFOutput a = graph.Placeholder(TFDataType.Int32);
                 TFOutput b = graph.Placeholder(TFDataType.Int32);
                 TFOutput c = graph.Placeholder(TFDataType.Int32);
-                var queue = new PaddingFIFOQueue(session, new[] { TFDataType.Int32}, new[] { TFShape.Scalar });
+                var queue = new PaddingFIFOQueue(session, new[] { TFDataType.Int32 }, new[] { TFShape.Scalar });
                 queue.EnqueueExecute(new[] { a }, new[] { (TFTensor)numbersToEnqueue[0] });
                 queue.EnqueueExecute(new[] { b }, new[] { (TFTensor)numbersToEnqueue[1] });
                 queue.EnqueueExecute(new[] { c }, new[] { (TFTensor)numbersToEnqueue[2] });
@@ -32,6 +32,23 @@ namespace TensorFlowSharp.Tests.CSharp
 
                 Assert.Equal(numbersToEnqueue, dequeuedNumbers.ToArray());
             }
+        }
+    }
+
+    public class OptimizerTests
+    {
+        [Fact]
+        public void Should_Basic()
+        {
+            //var dTypes = new[] { TFDataType.Float, TFDataType.BFloat16 };
+            //foreach (var dtype in dTypes)
+            //{
+            //    using (var graph = new TFGraph())
+            //    using (var session = new TFSession(graph))
+            //    {
+            //        graph.Variable();
+            //    }
+            //}
         }
     }
 }
