@@ -1954,6 +1954,12 @@ namespace TensorFlow
 			Graph = graph;
 		}
 
+		/// <summary>
+		/// Creates a new execution session associated with the specified session graph with some configuration options.
+		/// </summary>
+		/// <param name="graph">The Graph to which this session is associated.</param>
+		/// <param name="sessionOptions">Session options.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public TFSession (TFGraph graph, TFSessionOptions sessionOptions, TFStatus status = null) : base (IntPtr.Zero)
 		{
 			Graph = graph;
@@ -1963,6 +1969,11 @@ namespace TensorFlow
 			handle = h;
 		}
 
+		/// <summary>
+		/// Creates a new execution session associated with the specified session graph.
+		/// </summary>
+		/// <param name="graph">The Graph to which this session is associated.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public TFSession (TFGraph graph, TFStatus status = null) : base (IntPtr.Zero)
 		{
 			Graph = graph;
@@ -1974,6 +1985,13 @@ namespace TensorFlow
 			handle = h;
 		}
 
+		/// <summary>
+		/// Creates a new execution session with an empty graph
+		/// </summary>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// The created graph can be retrieved using the Graph property on the session.
+		/// </remarks>
 		public TFSession (TFStatus status = null) : this (new TFGraph (), status)
 		{
 		}
@@ -1982,6 +2000,21 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Session TF_LoadSessionFromSavedModel (TF_SessionOptions session_options, LLBuffer* run_options, string export_dir, string [] tags, int tags_len, TF_Graph graph, LLBuffer* meta_graph_def, TF_Status status);
 
+		/// <summary>
+		/// Creates a session and graph from a saved session model
+		/// </summary>
+		/// <returns>On success, this populates the provided <paramref name="graph"/> with the contents of the graph stored in the specified model and <paramref name="metaGraphDef"/> with the MetaGraphDef of the loaded model.</returns>
+		/// <param name="sessionOptions">Session options to use for the new session.</param>
+		/// <param name="runOptions">Options to use to initialize the state (can be null).</param>
+		/// <param name="exportDir">must be set to the path of the exported SavedModel.</param>
+		/// <param name="tags">must include the set of tags used to identify one MetaGraphDef in the SavedModel.</param>
+		/// <param name="graph">This must be a newly created graph.</param>
+		/// <param name="metaGraphDef">On success, this will be populated on return with the contents of the MetaGraphDef (can be null).</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// This function creates a new session using the specified <paramref name="sessionOptions"/> and then initializes
+		/// the state (restoring tensors and other assets) using <paramref name="runOptions"/>
+		/// </remarks>
 		public TFSession FromSavedModel (TFSessionOptions sessionOptions, TFBuffer runOptions, string exportDir, string [] tags, TFGraph graph, TFBuffer metaGraphDef, TFStatus status = null)
 		{
 			if (graph == null)
@@ -1990,14 +2023,12 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (tags));
 			if (exportDir == null)
 				throw new ArgumentNullException (nameof (exportDir));
-			if (runOptions == null)
-				throw new ArgumentNullException (nameof (runOptions));
 			if (metaGraphDef == null)
 				throw new ArgumentNullException (nameof (metaGraphDef));
 			var cstatus = TFStatus.Setup (status);
 			unsafe
 			{
-				var h = TF_LoadSessionFromSavedModel (sessionOptions.handle, runOptions.LLBuffer, exportDir, tags, tags.Length, graph.handle, metaGraphDef.LLBuffer, cstatus.handle);
+				var h = TF_LoadSessionFromSavedModel (sessionOptions.handle, runOptions == null ? null : runOptions.LLBuffer, exportDir, tags, tags.Length, graph.handle, metaGraphDef == null ? null : metaGraphDef.LLBuffer, cstatus.handle);
 
 				if (cstatus.CheckMaybeRaise (status)) {
 					return new TFSession (h, graph);
@@ -2010,6 +2041,13 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_CloseSession (TF_Session session, TF_Status status);
 
+		/// <summary>
+		/// Closes the session.  Contacts any other processes associated with the session, if applicable.
+		/// </summary>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// Can not be called after calling DeleteSession.
+		/// </remarks>
 		public void CloseSession (TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2432,6 +2470,13 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// Represents a dynamically loaded library of TensorFlow operations, use to load and consume TensorFlow operations from an external library.
+	/// </summary>
+	/// <remarks>
+	/// Use the static method <see cref="M:Tensorflow.TFLibrary.FromFile"/> to load a dynamic library.
+	/// Once that function returns
+	/// </remarks>
 	public class TFLibrary : TFDisposable {
 		// extern TF_Library * TF_LoadLibrary (const char *library_filename, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -2439,6 +2484,17 @@ namespace TensorFlow
 
 		TFLibrary (IntPtr handle) : base (handle) { }
 
+		/// <summary>
+		/// Load the library specified by and register the operations and
+		/// kernels present in that library.
+		/// </summary>
+		/// <returns>Handle to the loaded library.</returns>
+		/// <param name="libraryFile">Name of the library to load, this is a platform specific name.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// The provided <paramref name="libraryFile"/> is passed to the operating system dynamic loader
+		/// and it will load the library using the operating system defined search paths and rules to load this.
+		/// </remarks>
 		public static TFLibrary FromFile (string libraryFile, TFStatus status = null)
 		{
 			var cstatus = TFStatus.Setup (status);
@@ -2555,8 +2611,20 @@ namespace TensorFlow
 		/// Double precission complex numbers (32-bit floats)
 		/// </summary>
 		Complex128 = 18,
+
+		/// <summary>
+		/// Half floats - 16-bit half precision floating point.
+		/// </summary>
 		Half = 19,
-		Resource = 20
+
+		/// <summary>
+		/// Handle to a mutable resource.
+		/// </summary>
+		Resource = 20,
+
+		/// <summary>
+		/// Variant data type
+		/// </summary>
 	}
 
 	/// <summary>

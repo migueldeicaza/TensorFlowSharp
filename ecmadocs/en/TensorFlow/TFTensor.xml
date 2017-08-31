@@ -454,7 +454,7 @@
         <param name="dims">Describes the tensor shape, an array that indicates .</param>
         <param name="data">Pointer to the raw data that will be used to initialize the tensor.</param>
         <param name="dataSize">The size of the data being passed in.</param>
-        <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data" />.</param>
+        <param name="deallocator">Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <paramref name="data" />.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <see cref="T:TensorFlow.MonoPInvokeCallbackAttribute" />.</param>
         <param name="deallocatorData">An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.</param>
         <summary>
             Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.

@@ -49,6 +49,9 @@ namespace TensorFlow
 
 		internal TFTensor (IntPtr handle) : base (handle) { }
 
+		static Deallocator FreeTensorDataDelegate = FreeTensorData;
+		static Deallocator FreeTensorHandleDelegate = FreeTensorHandle;
+		
 		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
 		{
@@ -302,7 +305,7 @@ namespace TensorFlow
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (int));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Int32, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -312,7 +315,7 @@ namespace TensorFlow
 		{
 			var v = (bool*)Marshal.AllocHGlobal (sizeof (bool));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -322,7 +325,7 @@ namespace TensorFlow
 		{
 			var v = (sbyte*)Marshal.AllocHGlobal (sizeof (sbyte));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (sbyte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Int8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (sbyte), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -332,7 +335,7 @@ namespace TensorFlow
 		{
 			var v = (short*)Marshal.AllocHGlobal (sizeof (short));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (short), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (short), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -342,7 +345,7 @@ namespace TensorFlow
 		{
 			var v = (ushort*)Marshal.AllocHGlobal (sizeof (ushort));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -352,7 +355,7 @@ namespace TensorFlow
 		{
 			var v = (int*)Marshal.AllocHGlobal (sizeof (byte));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (byte), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.UInt8, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (byte), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -362,7 +365,7 @@ namespace TensorFlow
 		{
 			var v = (Complex*)Marshal.AllocHGlobal (sizeof (Complex));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Complex128, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (Complex), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -372,7 +375,7 @@ namespace TensorFlow
 		{
 			var v = (float*)Marshal.AllocHGlobal (sizeof (float));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Float, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (float), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -382,7 +385,7 @@ namespace TensorFlow
 		{
 			var v = (double*)Marshal.AllocHGlobal (sizeof (double));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Double, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (double), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -392,7 +395,7 @@ namespace TensorFlow
 		{
 			var v = (long*)Marshal.AllocHGlobal (sizeof (long));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorData, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Int64, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (long), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		// Convenience, should I add T[,] and T[,,] as more convenience ones?
@@ -510,9 +513,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject () + start * size, (UIntPtr)(count * size), FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// Use for multiple dimension arrays 
@@ -521,9 +524,9 @@ namespace TensorFlow
 			var dataHandle = GCHandle.Alloc (data, GCHandleType.Pinned);
 
 			if (dims == null)
-				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, IntPtr.Zero, 0, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 			else
-				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandle, GCHandle.ToIntPtr (dataHandle));
+				return TF_NewTensor (dt, dims, dims.Length, dataHandle.AddrOfPinnedObject (), (UIntPtr)bytes, FreeTensorHandleDelegate, GCHandle.ToIntPtr (dataHandle));
 		}
 
 		// 

@@ -84,8 +84,14 @@
   <h5 id="TensorFlow_TFBuffer_BufferReleaseFunc_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><p>Methods of this signature are invoked with the data pointer and the
             lenght pointer when then TFBuffer no longer needs to hold on to the
-            data.</p>
-</div>
+            data.  If you are using this on platforms with static compilation
+            like iOS, you need to annotate your callback with the MonoPInvokeCallbackAttribute,
+            like this:</p>
+<pre><code>        &lt;pre&gt;&lt;code&gt;
+        [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+        internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+        &lt;/code&gt;&lt;/pre&gt;
+</code></pre></div>
 </article>
           </div>
           

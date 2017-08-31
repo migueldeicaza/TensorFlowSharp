@@ -54,7 +54,7 @@ Something like this:
 ```csharp
 using(var graph = new TFGraph ())
 {
-    graph.Import (File.ReadAllBytes ("MySavedModel");
+    graph.Import (File.ReadAllBytes ("MySavedModel"));
     var session = new TFSession (graph);
     var runner = session.GetRunner ();
     runner.AddInput (graph ["input"] [0], tensor);
@@ -87,10 +87,41 @@ using (var session = new TFSession())
 
     // Multiply two constants
     var multiplyResults = session.GetRunner().Run(graph.Mul(a, b));
-    var multiplyResultValue = multiplyResults[0].GetValue();
+    var multiplyResultValue = multiplyResults.GetValue();
     Console.WriteLine("a*b={0}", multiplyResultValue);
 }
 ```
+Here is an F# scripting version of the same example, you can use this in F# Interactive:
+```
+#r @"packages\TensorFlowSharp.1.2.2\lib\net461\TensorFlowSharp.dll"
+
+open System
+open System.IO
+open TensorFlow
+
+// set the path to find the native DLL
+Environment.SetEnvironmentVariable("Path", 
+    Environment.GetEnvironmentVariable("Path") + ";" + __SOURCE_DIRECTORY__ + @"/packages/TensorFlowSharp.1.2.2/native")
+
+module AddTwoNumbers = 
+    let session = new TFSession()
+    let graph = session.Graph
+
+    let a = graph.Const(new TFTensor(2))
+    let b = graph.Const(new TFTensor(3))
+    Console.WriteLine("a=2 b=3")
+
+    // Add two constants
+    let addingResults = session.GetRunner().Run(graph.Add(a, b))
+    let addingResultValue = addingResults.GetValue()
+    Console.WriteLine("a+b={0}", addingResultValue)
+
+    // Multiply two constants
+    let multiplyResults = session.GetRunner().Run(graph.Mul(a, b))
+    let multiplyResultValue = multiplyResults.GetValue()
+    Console.WriteLine("a*b={0}", multiplyResultValue)
+```
+
 
 # Working on TensorFlowSharp 
 

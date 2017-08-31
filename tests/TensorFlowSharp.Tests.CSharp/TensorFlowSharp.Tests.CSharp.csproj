@@ -63,9 +63,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayTests.cs" />
+    <Compile Include="ClipTests.cs" />
     <Compile Include="BitwiseOperationTests.cs" />
     <Compile Include="PaddingFIFOQueueTests.cs" />
+    <Compile Include="PartialRunTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
