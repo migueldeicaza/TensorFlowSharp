@@ -205,9 +205,10 @@ namespace TensorFlow
 		public TFOutput Variable (TFOutput initialValue, string operName = null)
 		{
 			var scopeName = MakeName ("Variable", operName);
-
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
+
+				// This should be VariableV2, but requires Ref support in the C API.
 				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
 					var init = AssignVariableOp (handle, initialValue);
