@@ -290,8 +290,14 @@ namespace SampleTest
 
 				var X = g.Placeholder (TFDataType.Float);
 				var Y = g.Placeholder (TFDataType.Float);
-				var W = g.Variable (g.Const (rng.Next ()), operName: "weight");
-				var b = g.Variable (g.Const (rng.Next ()), operName: "bias");
+
+				// For now, use constants which are not as nice as variables, which can retain
+				// values across invocations to Run().
+
+				// var W = g.Variable (g.Const (rng.Next ()), operName: "weight");
+				// var b = g.Variable (g.Const (rng.Next ()), operName: "bias");
+				var W = g.Const ((float) rng.Next (), operName: "weight");
+				var b = g.Const ((float) rng.Next (), operName: "bias");
 				var pred = g.Add (g.Mul (X, W), b);
 
 				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2))), g.Mul (g.Const (2), g.Const (n_samples)));
@@ -312,6 +318,7 @@ namespace SampleTest
 
 
 			var t = new MainClass ();
+			t.LinearRegression ();
 			t.TestParametersWithIndexes ();
 			t.AddControlInput ();
 			t.TestImportGraphDef ();
