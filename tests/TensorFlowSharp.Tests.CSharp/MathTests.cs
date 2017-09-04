@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TensorFlow;
 using Xunit;
 
@@ -7,6 +10,25 @@ namespace TensorFlowSharp.Tests.CSharp
 {
 	public class MathTests
 	{
+		[Fact]
+		public void Should_CalculateTanhGrad_Correctly ()
+		{
+			using (TFGraph graph = new TFGraph ())
+			using (TFSession session = new TFSession (graph)) 
+			{
+
+				TFOutput x = graph.Const (new TFTensor (0.7));
+				TFOutput y = graph.Tanh (x);
+				TFOutput dy = graph.Const (new TFTensor (new [] { 1.0 }));
+				TFOutput grad = graph.TanhGrad (y, dy);
+
+				TFTensor [] result = session.Run (new TFOutput [] { }, new TFTensor [] { }, new [] { grad });
+
+				double value = (double)result [0].GetValue ();
+				Assert.Equal (0.634739589982459, value, 15);
+			}
+		}
+
 		private static IEnumerable<object []> reduceMeanData ()
 		{
 			// Example from https://www.tensorflow.org/api_docs/python/tf/reduce_mean
@@ -50,8 +72,6 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
-
-
 		private static IEnumerable<object []> sigmoidCrossEntropyData ()
 		{
 			yield return new object [] { new [] { 1.0, 0.0, 1.0, 1.0 }, new [] { 1.0, 0.0, 1.0, 1.0 }, new [] { 0.31326168751822281, 0.69314718055994529, 0.31326168751822281, 0.31326168751822281 } };
@@ -80,5 +100,6 @@ namespace TensorFlowSharp.Tests.CSharp
 				}
 			}
 		}
+
 	}
 }
