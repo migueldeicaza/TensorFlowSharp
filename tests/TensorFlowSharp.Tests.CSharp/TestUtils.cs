@@ -43,5 +43,22 @@ namespace TensorFlowSharp.Tests.CSharp
                     Assert.True(Object.Equals(ei.Current, ai.Current));
             }
         }
-    }
+
+		public static void MatrixEqual (object expected, object actual, int precision)
+		{
+			if (expected is Array) {
+				MatrixEqual (expected as Array, actual as Array, precision);
+				return;
+			}
+			var expectedType = expected.GetType ();
+
+			if (expectedType == typeof (double)) {
+				Assert.Equal ((double)expected, (double)actual, precision: precision);
+			} else if (expectedType == typeof (float)) {
+				Assert.Equal ((float)expected, (float)actual, precision: precision);
+			} else {
+				Assert.True (Object.Equals (expected, actual));
+			}
+		}
+	}
 }

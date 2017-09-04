@@ -63,6 +63,32 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Computes the mean of elements across dimensions of a tensor.
+		/// </summary>
+		/// <returns>The reduced tensor.</returns>
+		/// <param name="input">The tensor to reduce. Should have numeric type.</param>
+		/// <param name="axis">The dimensions to reduce. If not set (the default), reduces all dimensions.</param>
+		/// <param name="keep_dims">If set to <c>true</c> retains reduced dimensions with length 1.</param>
+		/// <param name="operName">A name for the operation, optional.</param>
+		/// <remarks>
+		/// <para>
+		///   Reduces input_tensor along the dimensions given in axis.
+		/// Unless keep_dims is true, the rank of the tensor is reduced by 1 for each
+		/// entry in axis. If keep_dims is true, the reduced dimensions
+		/// are retained with length 1.</para>
+		/// 
+		/// <para>
+		/// If axis has no entries, all dimensions are reduced, and a
+		/// tensor with a single element is returned.</para>
+		/// </remarks>
+		public TFOutput ReduceMean (TFOutput input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
+		{
+			if (input.OutputType == TFDataType.Bool)
+				input = this.Cast (input, TFDataType.Int8);
+			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
+		}
+
+		/// <summary>
 		/// Variable node, with a starting initial value.
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
@@ -179,9 +205,10 @@ namespace TensorFlow
 		public TFOutput Variable (TFOutput initialValue, string operName = null)
 		{
 			var scopeName = MakeName ("Variable", operName);
-
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
+
+				// This should be VariableV2, but requires Ref support in the C API.
 				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
 					var init = AssignVariableOp (handle, initialValue);
@@ -471,7 +498,7 @@ namespace TensorFlow
 		///    and a dog at the same time.
 		/// </remarks>
 		/// 
-		public TFOutput sigmoid_cross_entropy_with_logits (TFOutput labels, TFOutput logits, string operName = null)
+		public TFOutput SigmoidCrossEntropyWithLogits (TFOutput labels, TFOutput logits, string operName = null)
 		{
 			// https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/nn_impl.py#L100
 
