@@ -751,7 +751,12 @@ namespace TensorFlow
 			}
 		}
 
-		static Type TypeFromTensorType (TFDataType type)
+		/// <summary>
+		/// Converts a <see cref="TFDataType"/> to a system type.
+		/// </summary>
+		/// <param name="type">The <see cref="TFDataType"/> to be converted.</param>
+		/// <returns>The system type corresponding to the given <paramref name="type"/>.</returns>
+		public static Type TypeFromTensorType (TFDataType type)
 		{
 			switch (type) {
 			case TFDataType.Float:
@@ -779,6 +784,39 @@ namespace TensorFlow
 			default:
 				return null;
 			}
+		}
+
+		/// <summary>
+		/// Converts a system type to a <see cref="TFDataType"/>.
+		/// </summary>
+		/// <param name="type">The system type to be converted.</param>
+		/// <returns>The <see cref="TFDataType"/> corresponding to the given type.</returns>
+		public static TFDataType TensorTypeFromType (Type type)
+		{
+			if (type == typeof (float))
+				return TFDataType.Float;
+			if (type == typeof (double))
+				return TFDataType.Double;
+			if (type == typeof (int))
+				return TFDataType.Int32;
+			if (type == typeof (byte))
+				return TFDataType.UInt8;
+			if (type == typeof (short))
+				return TFDataType.Int16;
+			if (type == typeof (sbyte))
+				return TFDataType.Int8;
+			if (type == typeof (string))
+				return TFDataType.String;
+			if (type == typeof (long))
+				return TFDataType.Int64;
+			if (type == typeof (bool))
+				return TFDataType.Bool;
+			if (type == typeof (ushort))
+				return TFDataType.UInt16;
+			if (type == typeof (Complex))
+				return TFDataType.Complex128;
+
+			throw new ArgumentOutOfRangeException (nameof(type), $"The given type could not be mapped to an existing {nameof(TFDataType)}.");
 		}
 
 		static unsafe object FetchSimple (TFDataType dt, IntPtr data)

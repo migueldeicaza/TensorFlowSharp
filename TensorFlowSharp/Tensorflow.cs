@@ -279,6 +279,8 @@ namespace TensorFlow
 		/// <value>The status code as an enumeration.</value>
 		public TFCode StatusCode {
 			get {
+				if (handle == IntPtr.Zero)
+					throw new ObjectDisposedException ("TFStatus");
 				return TF_GetCode (handle);
 			}
 		}
@@ -299,6 +301,9 @@ namespace TensorFlow
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFStatus"/>.</returns>
 		public override string ToString ()
 		{
+			if (handle == IntPtr.Zero)
+				throw new ObjectDisposedException ("TFStatus");
+			
 			return string.Format ("[TFStatus: StatusCode={0}, StatusMessage={1}]", StatusCode, StatusMessage);
 		}
 
@@ -342,7 +347,8 @@ namespace TensorFlow
 					Console.WriteLine ("oops");
 				if (StatusCode != TFCode.Ok) {
 					var e = new TFException (StatusMessage);
-					Dispose ();
+					if (last)
+						Dispose ();
 					throw e;
 				}
 				if (last)
