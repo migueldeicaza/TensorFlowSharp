@@ -66,6 +66,7 @@
     <Compile Include="ArrayTests.cs" />
     <Compile Include="ClipTests.cs" />
     <Compile Include="BitwiseOperationTests.cs" />
+    <Compile Include="MathTests.cs" />
     <Compile Include="PaddingFIFOQueueTests.cs" />
     <Compile Include="PartialRunTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
