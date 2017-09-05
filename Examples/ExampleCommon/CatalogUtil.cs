@@ -8,6 +8,11 @@ namespace ExampleCommon
 	{
 		private static string CATALOG_ITEM_PATTERN = @"item {\r\n  name: ""(?<name>.*)""\r\n  id: (?<id>\d+)\r\n  display_name: ""(?<displayName>.*)""\r\n}";
 
+		/// <summary>
+		/// Reads catalog of well-known objects from text file.
+		/// </summary>
+		/// <param name="file">path to the text file</param>
+		/// <returns>collection of items</returns>
 		public static IEnumerable<CatalogItem> ReadCatalogItems (string file)
 		{
 			using (FileStream stream = File.OpenRead (file))

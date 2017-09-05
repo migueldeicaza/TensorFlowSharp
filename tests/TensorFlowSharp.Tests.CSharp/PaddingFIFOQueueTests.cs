@@ -34,21 +34,4 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
     }
-
-    public class OptimizerTests
-    {
-        [Fact]
-        public void Should_Basic()
-        {
-            //var dTypes = new[] { TFDataType.Float, TFDataType.BFloat16 };
-            //foreach (var dtype in dTypes)
-            //{
-            //    using (var graph = new TFGraph())
-            //    using (var session = new TFSession(graph))
-            //    {
-            //        graph.Variable();
-            //    }
-            //}
-        }
-    }
 }
