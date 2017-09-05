@@ -1,0 +1,388 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFStatus
+  id: TFStatus
+  children:
+  - TensorFlow.TFStatus.#ctor
+  - TensorFlow.TFStatus.Default
+  - TensorFlow.TFStatus.Error
+  - TensorFlow.TFStatus.Ok
+  - TensorFlow.TFStatus.Raise
+  - TensorFlow.TFStatus.SetStatusCode(TensorFlow.TFCode,System.String)
+  - TensorFlow.TFStatus.StatusCode
+  - TensorFlow.TFStatus.StatusMessage
+  - TensorFlow.TFStatus.ToString
+  langs:
+  - csharp
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Used to track the result of TensorFlow operations.
+  remarks: >-
+    <p>
+                TFStatus is used to track the status of a call to some TensorFlow
+                operations.   Instances of this object are passed to various
+                TensorFlow operations and you can use the <xref href="TensorFlow.TFStatus.Ok"></xref>
+                to quickly check if the operation succeeded, or get more detail from the
+                <xref href="TensorFlow.TFStatus.StatusCode"></xref> and a human-readable text
+                using the <xref href="TensorFlow.TFStatus.StatusMessage"></xref> property.
+                </p>
+        <p>
+                The convenience <xref href="TensorFlow.TFStatus.Raise"></xref> can be used
+                to raise a <xref href="TensorFlow.TFException"></xref> if the status of the
+                operation did not succeed.
+                </p>
+  syntax:
+    content: 'public class TFStatus : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFStatus.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: TFStatus()
+  nameWithType: TFStatus.TFStatus()
+  fullName: TFStatus.TFStatus()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFStatus"></xref> class.
+  syntax:
+    content: public TFStatus ();
+    parameters: []
+  overload: TensorFlow.TFStatus.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFStatus.Default
+  id: Default
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: Default
+  nameWithType: TFStatus.Default
+  fullName: TFStatus.Default
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Per-thread global status that you can use if you do not need to create a new instance of this object.
+  remarks: "This is provided as a convenience for APIs that take a TFStatus.   While the TFStatus is usually an\n            optional parameter, when it is made optional, API calls that fail raise an exception.   Use this \n            property to pass a TFStatus without having to allocate a new one.   The problem with this of course\n            is that you risk having multiple parts of your code override this thread-global variable."
+  syntax:
+    content: >-
+      [System.ThreadStatic]
+
+      public static TensorFlow.TFStatus Default;
+    return:
+      type: TensorFlow.TFStatus
+      description: To be added.
+  exceptions: []
+  attributes:
+  - type: System.ThreadStatic
+- uid: TensorFlow.TFStatus.Error
+  id: Error
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: Error
+  nameWithType: TFStatus.Error
+  fullName: TFStatus.Error
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets a value indicating whether this <xref href="TensorFlow.TFStatus"></xref> state has been set to an error.
+  syntax:
+    content: public bool Error { get; }
+    return:
+      type: System.Boolean
+      description: <code>true</code> if error; otherwise, <code>false</code>.
+  overload: TensorFlow.TFStatus.Error*
+  exceptions: []
+- uid: TensorFlow.TFStatus.Ok
+  id: Ok
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: Ok
+  nameWithType: TFStatus.Ok
+  fullName: TFStatus.Ok
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets a value indicating whether this <xref href="TensorFlow.TFStatus"></xref> state has been set to ok.
+  syntax:
+    content: public bool Ok { get; }
+    return:
+      type: System.Boolean
+      description: <code>true</code> if ok; otherwise, <code>false</code>.
+  overload: TensorFlow.TFStatus.Ok*
+  exceptions: []
+- uid: TensorFlow.TFStatus.Raise
+  id: Raise
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: Raise()
+  nameWithType: TFStatus.Raise()
+  fullName: TFStatus.Raise()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Convenience method that raises an exception if the current status is an error.
+  remarks: >-
+    You can use this method as a convenience to raise an exception after you
+                invoke an operation if the operation did not succeed.
+  syntax:
+    content: public void Raise ();
+    parameters: []
+  overload: TensorFlow.TFStatus.Raise*
+  exceptions: []
+- uid: TensorFlow.TFStatus.SetStatusCode(TensorFlow.TFCode,System.String)
+  id: SetStatusCode(TensorFlow.TFCode,System.String)
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: SetStatusCode(TFCode, String)
+  nameWithType: TFStatus.SetStatusCode(TFCode, String)
+  fullName: TFStatus.SetStatusCode(TFCode, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Sets the status code on this TFStatus.
+  syntax:
+    content: public void SetStatusCode (TensorFlow.TFCode code, string msg);
+    parameters:
+    - id: code
+      type: TensorFlow.TFCode
+      description: Code.
+    - id: msg
+      type: System.String
+      description: Message.
+  overload: TensorFlow.TFStatus.SetStatusCode*
+  exceptions: []
+- uid: TensorFlow.TFStatus.StatusCode
+  id: StatusCode
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: StatusCode
+  nameWithType: TFStatus.StatusCode
+  fullName: TFStatus.StatusCode
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the status code for the status code.
+  syntax:
+    content: public TensorFlow.TFCode StatusCode { get; }
+    return:
+      type: TensorFlow.TFCode
+      description: The status code as an enumeration.
+  overload: TensorFlow.TFStatus.StatusCode*
+  exceptions: []
+- uid: TensorFlow.TFStatus.StatusMessage
+  id: StatusMessage
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: StatusMessage
+  nameWithType: TFStatus.StatusMessage
+  fullName: TFStatus.StatusMessage
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets a human-readable status message.
+  syntax:
+    content: public string StatusMessage { get; }
+    return:
+      type: System.String
+      description: The status message.
+  overload: TensorFlow.TFStatus.StatusMessage*
+  exceptions: []
+- uid: TensorFlow.TFStatus.ToString
+  id: ToString
+  parent: TensorFlow.TFStatus
+  langs:
+  - csharp
+  name: ToString()
+  nameWithType: TFStatus.ToString()
+  fullName: TFStatus.ToString()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns a <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFStatus"></xref>.
+  syntax:
+    content: public override string ToString ();
+    parameters: []
+    return:
+      type: System.String
+      description: A <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFStatus"></xref>.
+  overload: TensorFlow.TFStatus.ToString*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFStatus.#ctor
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: TFStatus()
+  nameWithType: TFStatus.TFStatus()
+  fullName: TFStatus.TFStatus()
+- uid: TensorFlow.TFStatus.Default
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Default
+  nameWithType: TFStatus.Default
+  fullName: TFStatus.Default
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFStatus.Error
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Error
+  nameWithType: TFStatus.Error
+  fullName: TFStatus.Error
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFStatus.Ok
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Ok
+  nameWithType: TFStatus.Ok
+  fullName: TFStatus.Ok
+- uid: TensorFlow.TFStatus.Raise
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Raise()
+  nameWithType: TFStatus.Raise()
+  fullName: TFStatus.Raise()
+- uid: TensorFlow.TFStatus.SetStatusCode(TensorFlow.TFCode,System.String)
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: SetStatusCode(TFCode, String)
+  nameWithType: TFStatus.SetStatusCode(TFCode, String)
+  fullName: TFStatus.SetStatusCode(TFCode, String)
+- uid: TensorFlow.TFCode
+  parent: TensorFlow
+  isExternal: false
+  name: TFCode
+  nameWithType: TFCode
+  fullName: TensorFlow.TFCode
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFStatus.StatusCode
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: StatusCode
+  nameWithType: TFStatus.StatusCode
+  fullName: TFStatus.StatusCode
+- uid: TensorFlow.TFStatus.StatusMessage
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: StatusMessage
+  nameWithType: TFStatus.StatusMessage
+  fullName: TFStatus.StatusMessage
+- uid: TensorFlow.TFStatus.ToString
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: ToString()
+  nameWithType: TFStatus.ToString()
+  fullName: TFStatus.ToString()
+- uid: TensorFlow.TFStatus.#ctor*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus.TFStatus
+  fullName: TFStatus.TFStatus
+- uid: TensorFlow.TFStatus.Error*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Error
+  nameWithType: TFStatus.Error
+  fullName: TFStatus.Error
+- uid: TensorFlow.TFStatus.Ok*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Ok
+  nameWithType: TFStatus.Ok
+  fullName: TFStatus.Ok
+- uid: TensorFlow.TFStatus.Raise*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: Raise
+  nameWithType: TFStatus.Raise
+  fullName: TFStatus.Raise
+- uid: TensorFlow.TFStatus.SetStatusCode*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: SetStatusCode
+  nameWithType: TFStatus.SetStatusCode
+  fullName: TFStatus.SetStatusCode
+- uid: TensorFlow.TFStatus.StatusCode*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: StatusCode
+  nameWithType: TFStatus.StatusCode
+  fullName: TFStatus.StatusCode
+- uid: TensorFlow.TFStatus.StatusMessage*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: StatusMessage
+  nameWithType: TFStatus.StatusMessage
+  fullName: TFStatus.StatusMessage
+- uid: TensorFlow.TFStatus.ToString*
+  parent: TensorFlow.TFStatus
+  isExternal: false
+  name: ToString
+  nameWithType: TFStatus.ToString
+  fullName: TFStatus.ToString
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

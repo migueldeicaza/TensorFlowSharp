@@ -1,0 +1,25 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFTensor.Deallocator
+  id: TFTensor.Deallocator
+  langs:
+  - csharp
+  name: TFTensor.Deallocator
+  nameWithType: TFTensor.Deallocator
+  fullName: TensorFlow.TFTensor.Deallocator
+  type: Delegate
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Signature that methods must conform to to be used to release memory that was passed to a manually allocated TFTensor
+  syntax:
+    content: public delegate void TFTensor.Deallocator(IntPtr data, IntPtr size, IntPtr deallocatorData);
+  inheritance:
+  - System.Delegate
+references:
+- uid: System.Delegate
+  parent: System
+  isExternal: true
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate

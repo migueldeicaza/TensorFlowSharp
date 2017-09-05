@@ -1,0 +1,1030 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFOperationDesc
+  id: TFOperationDesc
+  children:
+  - TensorFlow.TFOperationDesc.#ctor(TensorFlow.TFGraph,System.String,System.String)
+  - TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)
+  - TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)
+  - TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])
+  - TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation)
+  - TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[])
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.String)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[])
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[])
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64)
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[])
+  - TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean)
+  - TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape)
+  - TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[])
+  - TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)
+  - TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType)
+  - TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[])
+  - TensorFlow.TFOperationDesc.SetDevice(System.String)
+  langs:
+  - csharp
+  name: TFOperationDesc
+  nameWithType: TFOperationDesc
+  fullName: TensorFlow.TFOperationDesc
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Low-level TensorFlow operation builder
+  remarks: "<p>This is the low-level API that is used to create operations by manually specificying all\n            the parameters of an operation (inputs, outputs, attribute descriptions) that can then\n            be attached into a graph.\n            </p>\n    <p>\n            Generally, you will instead be using the methods surfaced in <xref href=\"TensorFlow.TFGraph\"></xref> \n            that surfaces a C# high-level API that has already been bound to the built-in TensorFlow\n            nodes.\n            </p>\n    <p>\n            You create instances bound to a graph, add inputs, attributes and so on, and when you are done\n            you can call the <xref href=\"TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)\"></xref> method that will turn this TFOperationDesc \n            into a <xref href=\"TensorFlow.TFOperation\"></xref>.\n            </p>"
+  syntax:
+    content: 'public class TFOperationDesc : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFOperationDesc.#ctor(TensorFlow.TFGraph,System.String,System.String)
+  id: '#ctor(TensorFlow.TFGraph,System.String,System.String)'
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: TFOperationDesc(TFGraph, String, String)
+  nameWithType: TFOperationDesc.TFOperationDesc(TFGraph, String, String)
+  fullName: TFOperationDesc.TFOperationDesc(TFGraph, String, String)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TFOperationDesc (TensorFlow.TFGraph graph, string opType, string operName);
+    parameters:
+    - id: graph
+      type: TensorFlow.TFGraph
+      description: To be added.
+    - id: opType
+      type: System.String
+      description: To be added.
+    - id: operName
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)
+  id: AddControlInput(TensorFlow.TFOperation)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: AddControlInput(TFOperation)
+  nameWithType: TFOperationDesc.AddControlInput(TFOperation)
+  fullName: TFOperationDesc.AddControlInput(TFOperation)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Ensure that the operation does not execute before the control operation does.
+  remarks: "<p>\n            A control input is an Operation that must be executed before running the operation \n            currently being built.  \n            </p>\n    <p>\n            For example, an Assert operation may be added as a control input for this operation. \n            The Assert now behaves as a pre-condition that will always verify itself before\n            running the operation.\n            </p>"
+  syntax:
+    content: public TensorFlow.TFOperationDesc AddControlInput (TensorFlow.TFOperation control);
+    parameters:
+    - id: control
+      type: TensorFlow.TFOperation
+      description: Operation that must be executed before running this operation.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.AddControlInput*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)
+  id: AddInput(TensorFlow.TFOutput)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: AddInput(TFOutput)
+  nameWithType: TFOperationDesc.AddInput(TFOutput)
+  fullName: TFOperationDesc.AddInput(TFOutput)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds the specified input to the operation
+  syntax:
+    content: public TensorFlow.TFOperationDesc AddInput (TensorFlow.TFOutput input);
+    parameters:
+    - id: input
+      type: TensorFlow.TFOutput
+      description: Input.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: The input.
+  overload: TensorFlow.TFOperationDesc.AddInput*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])
+  id: AddInputs(TensorFlow.TFOutput[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: AddInputs(TFOutput[])
+  nameWithType: TFOperationDesc.AddInputs(TFOutput[])
+  fullName: TFOperationDesc.AddInputs(TFOutput[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds a series of inputs to the operation.
+  syntax:
+    content: public TensorFlow.TFOperationDesc AddInputs (TensorFlow.TFOutput[] inputs);
+    parameters:
+    - id: inputs
+      type: TensorFlow.TFOutput[]
+      description: Inputs, this is a params array for your convenience.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.AddInputs*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation)
+  id: ColocateWith(TensorFlow.TFOperation)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: ColocateWith(TFOperation)
+  nameWithType: TFOperationDesc.ColocateWith(TFOperation)
+  fullName: TFOperationDesc.ColocateWith(TFOperation)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc ColocateWith (TensorFlow.TFOperation op);
+    parameters:
+    - id: op
+      type: TensorFlow.TFOperation
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.ColocateWith*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)
+  id: FinishOperation(TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: FinishOperation(TFStatus)
+  nameWithType: TFOperationDesc.FinishOperation(TFStatus)
+  fullName: TFOperationDesc.FinishOperation(TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Turns the operation description into an actual operation in the graph.
+  syntax:
+    content: public TensorFlow.TFOperation FinishOperation (TensorFlow.TFStatus status = null);
+    parameters:
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Optional status, on failure the operation is not added to the graph.  If you pass null (the default), this operation throws on error conditions.
+    return:
+      type: TensorFlow.TFOperation
+      description: The operation on success, or null on error.
+  overload: TensorFlow.TFOperationDesc.FinishOperation*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)
+  id: SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, TFTensor[], TFStatus)
+  nameWithType: TFOperationDesc.SetAttr(String, TFTensor[], TFStatus)
+  fullName: TFOperationDesc.SetAttr(String, TFTensor[], TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, TensorFlow.TFTensor[] tensor, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: tensor
+      type: TensorFlow.TFTensor[]
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)
+  id: SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, TFTensor, TFStatus)
+  nameWithType: TFOperationDesc.SetAttr(String, TFTensor, TFStatus)
+  fullName: TFOperationDesc.SetAttr(String, TFTensor, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, TensorFlow.TFTensor tensor, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: tensor
+      type: TensorFlow.TFTensor
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[])
+  id: SetAttr(System.String,System.String[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, String[])
+  nameWithType: TFOperationDesc.SetAttr(String, String[])
+  fullName: TFOperationDesc.SetAttr(String, String[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, string[] values);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: values
+      type: System.String[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.String)
+  id: SetAttr(System.String,System.String)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, String)
+  nameWithType: TFOperationDesc.SetAttr(String, String)
+  fullName: TFOperationDesc.SetAttr(String, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, string value);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: value
+      type: System.String
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[])
+  id: SetAttr(System.String,System.Single[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Single[])
+  nameWithType: TFOperationDesc.SetAttr(String, Single[])
+  fullName: TFOperationDesc.SetAttr(String, Single[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, float[] values);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: values
+      type: System.Single[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single)
+  id: SetAttr(System.String,System.Single)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Single)
+  nameWithType: TFOperationDesc.SetAttr(String, Single)
+  fullName: TFOperationDesc.SetAttr(String, Single)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, float value);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: value
+      type: System.Single
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[])
+  id: SetAttr(System.String,System.Int64[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Int64[])
+  nameWithType: TFOperationDesc.SetAttr(String, Int64[])
+  fullName: TFOperationDesc.SetAttr(String, Int64[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, long[] values);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: values
+      type: System.Int64[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64)
+  id: SetAttr(System.String,System.Int64)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Int64)
+  nameWithType: TFOperationDesc.SetAttr(String, Int64)
+  fullName: TFOperationDesc.SetAttr(String, Int64)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, long value);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: value
+      type: System.Int64
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[])
+  id: SetAttr(System.String,System.Boolean[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Boolean[])
+  nameWithType: TFOperationDesc.SetAttr(String, Boolean[])
+  fullName: TFOperationDesc.SetAttr(String, Boolean[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, bool[] values);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: values
+      type: System.Boolean[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean)
+  id: SetAttr(System.String,System.Boolean)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttr(String, Boolean)
+  nameWithType: TFOperationDesc.SetAttr(String, Boolean)
+  fullName: TFOperationDesc.SetAttr(String, Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttr (string attrName, bool value);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: value
+      type: System.Boolean
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttr*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape)
+  id: SetAttrShape(System.String,TensorFlow.TFShape)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttrShape(String, TFShape)
+  nameWithType: TFOperationDesc.SetAttrShape(String, TFShape)
+  fullName: TFOperationDesc.SetAttrShape(String, TFShape)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttrShape (string attrName, TensorFlow.TFShape shape);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: shape
+      type: TensorFlow.TFShape
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttrShape*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[])
+  id: SetAttrShape(System.String,TensorFlow.TFShape[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttrShape(String, TFShape[])
+  nameWithType: TFOperationDesc.SetAttrShape(String, TFShape[])
+  fullName: TFOperationDesc.SetAttrShape(String, TFShape[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttrShape (string attrName, TensorFlow.TFShape[] shapeList);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: shapeList
+      type: TensorFlow.TFShape[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttrShape*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)
+  id: SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+  nameWithType: TFOperationDesc.SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+  fullName: TFOperationDesc.SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttrTensorShapeProto (string attrName, IntPtr proto, UIntPtr protoLen, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: proto
+      type: System.IntPtr
+      description: To be added.
+    - id: protoLen
+      type: System.UIntPtr
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttrTensorShapeProto*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType)
+  id: SetAttrType(System.String,TensorFlow.TFDataType)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttrType(String, TFDataType)
+  nameWithType: TFOperationDesc.SetAttrType(String, TFDataType)
+  fullName: TFOperationDesc.SetAttrType(String, TFDataType)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttrType (string attrName, TensorFlow.TFDataType dataType);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: dataType
+      type: TensorFlow.TFDataType
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttrType*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[])
+  id: SetAttrType(System.String,TensorFlow.TFDataType[])
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetAttrType(String, TFDataType[])
+  nameWithType: TFOperationDesc.SetAttrType(String, TFDataType[])
+  fullName: TFOperationDesc.SetAttrType(String, TFDataType[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetAttrType (string attrName, TensorFlow.TFDataType[] dataType);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: dataType
+      type: TensorFlow.TFDataType[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetAttrType*
+  exceptions: []
+- uid: TensorFlow.TFOperationDesc.SetDevice(System.String)
+  id: SetDevice(System.String)
+  parent: TensorFlow.TFOperationDesc
+  langs:
+  - csharp
+  name: SetDevice(String)
+  nameWithType: TFOperationDesc.SetDevice(String)
+  fullName: TFOperationDesc.SetDevice(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFOperationDesc SetDevice (string device);
+    parameters:
+    - id: device
+      type: System.String
+      description: To be added.
+    return:
+      type: TensorFlow.TFOperationDesc
+      description: To be added.
+  overload: TensorFlow.TFOperationDesc.SetDevice*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFOperationDesc.#ctor(TensorFlow.TFGraph,System.String,System.String)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: TFOperationDesc(TFGraph, String, String)
+  nameWithType: TFOperationDesc.TFOperationDesc(TFGraph, String, String)
+  fullName: TFOperationDesc.TFOperationDesc(TFGraph, String, String)
+- uid: TensorFlow.TFGraph
+  parent: TensorFlow
+  isExternal: false
+  name: TFGraph
+  nameWithType: TFGraph
+  fullName: TensorFlow.TFGraph
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFOperationDesc.AddControlInput(TensorFlow.TFOperation)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddControlInput(TFOperation)
+  nameWithType: TFOperationDesc.AddControlInput(TFOperation)
+  fullName: TFOperationDesc.AddControlInput(TFOperation)
+- uid: TensorFlow.TFOperationDesc
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperationDesc
+  nameWithType: TFOperationDesc
+  fullName: TensorFlow.TFOperationDesc
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.TFOperationDesc.AddInput(TensorFlow.TFOutput)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddInput(TFOutput)
+  nameWithType: TFOperationDesc.AddInput(TFOutput)
+  fullName: TFOperationDesc.AddInput(TFOutput)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFOperationDesc.AddInputs(TensorFlow.TFOutput[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddInputs(TFOutput[])
+  nameWithType: TFOperationDesc.AddInputs(TFOutput[])
+  fullName: TFOperationDesc.AddInputs(TFOutput[])
+- uid: TensorFlow.TFOutput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput[]
+  nameWithType: TFOutput[]
+  fullName: TensorFlow.TFOutput[]
+  spec.csharp:
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.ColocateWith(TensorFlow.TFOperation)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: ColocateWith(TFOperation)
+  nameWithType: TFOperationDesc.ColocateWith(TFOperation)
+  fullName: TFOperationDesc.ColocateWith(TFOperation)
+- uid: TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: FinishOperation(TFStatus)
+  nameWithType: TFOperationDesc.FinishOperation(TFStatus)
+  fullName: TFOperationDesc.FinishOperation(TFStatus)
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor[],TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, TFTensor[], TFStatus)
+  nameWithType: TFOperationDesc.SetAttr(String, TFTensor[], TFStatus)
+  fullName: TFOperationDesc.SetAttr(String, TFTensor[], TFStatus)
+- uid: TensorFlow.TFTensor
+  name: TFTensor
+  nameWithType: TFTensor
+  fullName: TensorFlow.TFTensor
+- uid: TensorFlow.TFTensor[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor[]
+  nameWithType: TFTensor[]
+  fullName: TensorFlow.TFTensor[]
+  spec.csharp:
+  - uid: TensorFlow.TFTensor
+    name: TFTensor
+    nameWithType: TFTensor
+    fullName: TensorFlow.TFTensor
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,TensorFlow.TFTensor,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, TFTensor, TFStatus)
+  nameWithType: TFOperationDesc.SetAttr(String, TFTensor, TFStatus)
+  fullName: TFOperationDesc.SetAttr(String, TFTensor, TFStatus)
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.String[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, String[])
+  nameWithType: TFOperationDesc.SetAttr(String, String[])
+  fullName: TFOperationDesc.SetAttr(String, String[])
+- uid: System.String[]
+  parent: System
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.String)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, String)
+  nameWithType: TFOperationDesc.SetAttr(String, String)
+  fullName: TFOperationDesc.SetAttr(String, String)
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Single[])
+  nameWithType: TFOperationDesc.SetAttr(String, Single[])
+  fullName: TFOperationDesc.SetAttr(String, Single[])
+- uid: System.Single
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: System.Single[]
+  parent: System
+  isExternal: true
+  name: Single[]
+  nameWithType: Single[]
+  fullName: System.Single[]
+  spec.csharp:
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Single)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Single)
+  nameWithType: TFOperationDesc.SetAttr(String, Single)
+  fullName: TFOperationDesc.SetAttr(String, Single)
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Int64[])
+  nameWithType: TFOperationDesc.SetAttr(String, Int64[])
+  fullName: TFOperationDesc.SetAttr(String, Int64[])
+- uid: System.Int64
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: System.Int64[]
+  parent: System
+  isExternal: true
+  name: Int64[]
+  nameWithType: Int64[]
+  fullName: System.Int64[]
+  spec.csharp:
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Int64)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Int64)
+  nameWithType: TFOperationDesc.SetAttr(String, Int64)
+  fullName: TFOperationDesc.SetAttr(String, Int64)
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Boolean[])
+  nameWithType: TFOperationDesc.SetAttr(String, Boolean[])
+  fullName: TFOperationDesc.SetAttr(String, Boolean[])
+- uid: System.Boolean
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Boolean[]
+  parent: System
+  isExternal: true
+  name: Boolean[]
+  nameWithType: Boolean[]
+  fullName: System.Boolean[]
+  spec.csharp:
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttr(System.String,System.Boolean)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr(String, Boolean)
+  nameWithType: TFOperationDesc.SetAttr(String, Boolean)
+  fullName: TFOperationDesc.SetAttr(String, Boolean)
+- uid: TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrShape(String, TFShape)
+  nameWithType: TFOperationDesc.SetAttrShape(String, TFShape)
+  fullName: TFOperationDesc.SetAttrShape(String, TFShape)
+- uid: TensorFlow.TFShape
+  parent: TensorFlow
+  isExternal: false
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
+- uid: TensorFlow.TFOperationDesc.SetAttrShape(System.String,TensorFlow.TFShape[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrShape(String, TFShape[])
+  nameWithType: TFOperationDesc.SetAttrShape(String, TFShape[])
+  fullName: TFOperationDesc.SetAttrShape(String, TFShape[])
+- uid: TensorFlow.TFShape[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFShape[]
+  nameWithType: TFShape[]
+  fullName: TensorFlow.TFShape[]
+  spec.csharp:
+  - uid: TensorFlow.TFShape
+    name: TFShape
+    nameWithType: TFShape
+    fullName: TensorFlow.TFShape
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetAttrTensorShapeProto(System.String,System.IntPtr,System.UIntPtr,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+  nameWithType: TFOperationDesc.SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+  fullName: TFOperationDesc.SetAttrTensorShapeProto(String, IntPtr, UIntPtr, TFStatus)
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: System.UIntPtr
+  parent: System
+  isExternal: true
+  name: UIntPtr
+  nameWithType: UIntPtr
+  fullName: System.UIntPtr
+- uid: TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrType(String, TFDataType)
+  nameWithType: TFOperationDesc.SetAttrType(String, TFDataType)
+  fullName: TFOperationDesc.SetAttrType(String, TFDataType)
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFOperationDesc.SetAttrType(System.String,TensorFlow.TFDataType[])
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrType(String, TFDataType[])
+  nameWithType: TFOperationDesc.SetAttrType(String, TFDataType[])
+  fullName: TFOperationDesc.SetAttrType(String, TFDataType[])
+- uid: TensorFlow.TFDataType[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType[]
+  nameWithType: TFDataType[]
+  fullName: TensorFlow.TFDataType[]
+  spec.csharp:
+  - uid: TensorFlow.TFDataType
+    name: TFDataType
+    nameWithType: TFDataType
+    fullName: TensorFlow.TFDataType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFOperationDesc.SetDevice(System.String)
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetDevice(String)
+  nameWithType: TFOperationDesc.SetDevice(String)
+  fullName: TFOperationDesc.SetDevice(String)
+- uid: TensorFlow.TFOperationDesc.#ctor*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: TFOperationDesc
+  nameWithType: TFOperationDesc.TFOperationDesc
+  fullName: TFOperationDesc.TFOperationDesc
+- uid: TensorFlow.TFOperationDesc.AddControlInput*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddControlInput
+  nameWithType: TFOperationDesc.AddControlInput
+  fullName: TFOperationDesc.AddControlInput
+- uid: TensorFlow.TFOperationDesc.AddInput*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddInput
+  nameWithType: TFOperationDesc.AddInput
+  fullName: TFOperationDesc.AddInput
+- uid: TensorFlow.TFOperationDesc.AddInputs*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: AddInputs
+  nameWithType: TFOperationDesc.AddInputs
+  fullName: TFOperationDesc.AddInputs
+- uid: TensorFlow.TFOperationDesc.ColocateWith*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: ColocateWith
+  nameWithType: TFOperationDesc.ColocateWith
+  fullName: TFOperationDesc.ColocateWith
+- uid: TensorFlow.TFOperationDesc.FinishOperation*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: FinishOperation
+  nameWithType: TFOperationDesc.FinishOperation
+  fullName: TFOperationDesc.FinishOperation
+- uid: TensorFlow.TFOperationDesc.SetAttr*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttr
+  nameWithType: TFOperationDesc.SetAttr
+  fullName: TFOperationDesc.SetAttr
+- uid: TensorFlow.TFOperationDesc.SetAttrShape*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrShape
+  nameWithType: TFOperationDesc.SetAttrShape
+  fullName: TFOperationDesc.SetAttrShape
+- uid: TensorFlow.TFOperationDesc.SetAttrTensorShapeProto*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrTensorShapeProto
+  nameWithType: TFOperationDesc.SetAttrTensorShapeProto
+  fullName: TFOperationDesc.SetAttrTensorShapeProto
+- uid: TensorFlow.TFOperationDesc.SetAttrType*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetAttrType
+  nameWithType: TFOperationDesc.SetAttrType
+  fullName: TFOperationDesc.SetAttrType
+- uid: TensorFlow.TFOperationDesc.SetDevice*
+  parent: TensorFlow.TFOperationDesc
+  isExternal: false
+  name: SetDevice
+  nameWithType: TFOperationDesc.SetDevice
+  fullName: TFOperationDesc.SetDevice
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

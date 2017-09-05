@@ -14,18 +14,21 @@
             Low-level TensorFlow operation builder
             </summary>
     <remarks>
-            This is the low-level API that is used to create operations by manually specificying all
+      <para>This is the low-level API that is used to create operations by manually specificying all
             the parameters of an operation (inputs, outputs, attribute descriptions) that can then
             be attached into a graph.
-            
+            </para>
+      <para>
             Generally, you will instead be using the methods surfaced in <see cref="T:TensorFlow.TFGraph" /> 
             that surfaces a C# high-level API that has already been bound to the built-in TensorFlow
             nodes.
-            
+            </para>
+      <para>
             You create instances bound to a graph, add inputs, attributes and so on, and when you are done
             you can call the <see cref="M:TensorFlow.TFOperationDesc.FinishOperation(TensorFlow.TFStatus)" /> method that will turn this TFOperationDesc 
             into a <see cref="T:TensorFlow.TFOperation" />.
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -68,13 +71,16 @@
             </summary>
         <returns>To be added.</returns>
         <remarks>
+          <para>
             A control input is an Operation that must be executed before running the operation 
             currently being built.  
-            
+            </para>
+          <para>
             For example, an Assert operation may be added as a control input for this operation. 
             The Assert now behaves as a pre-condition that will always verify itself before
             running the operation.
-            </remarks>
+            </para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AddInput">

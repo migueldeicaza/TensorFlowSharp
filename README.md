@@ -4,7 +4,7 @@ TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
 https://github.com/tensorflow/tensorflow
 
-This surfaces the C API as a strongly-typed C# API.
+This surfaces the C API as a strongly-typed .NET API for use from C# and F#.
 
 The API binding is pretty much done, and at this point, I am polishing the
 API to make it more pleasant to use from C# and F# and resolving some of the
@@ -29,7 +29,13 @@ nuget install TensorFlowSharp
 
 Or select it from the NuGet packages UI on Visual Studio.
 
-Alternatively, you can [download it](https://www.nuget.org/api/v2/package/TensorFlowSharp/0.96.0) directly.
+
+On Visual Studio, make sure that you are targeting .NET 4.6.1 or
+later, as this package uses some features of newer .NETs.  Otherwise,
+the package will not be added. Once you do this, you can just use the
+TensorFlowSharp nuget
+
+Alternatively, you can [download it](https://www.nuget.org/api/v2/package/TensorFlowSharp/1.2.2) directly.
 
 ## Using TensorFlowSharp
 
@@ -48,7 +54,7 @@ Something like this:
 ```csharp
 using(var graph = new TFGraph ())
 {
-    graph.Import (File.ReadAllBytes ("MySavedModel");
+    graph.Import (File.ReadAllBytes ("MySavedModel"));
     var session = new TFSession (graph);
     var runner = session.GetRunner ();
     runner.AddInput (graph ["input"] [0], tensor);
@@ -81,10 +87,41 @@ using (var session = new TFSession())
 
     // Multiply two constants
     var multiplyResults = session.GetRunner().Run(graph.Mul(a, b));
-    var multiplyResultValue = multiplyResults[0].GetValue();
+    var multiplyResultValue = multiplyResults.GetValue();
     Console.WriteLine("a*b={0}", multiplyResultValue);
 }
 ```
+Here is an F# scripting version of the same example, you can use this in F# Interactive:
+```
+#r @"packages\TensorFlowSharp.1.2.2\lib\net461\TensorFlowSharp.dll"
+
+open System
+open System.IO
+open TensorFlow
+
+// set the path to find the native DLL
+Environment.SetEnvironmentVariable("Path", 
+    Environment.GetEnvironmentVariable("Path") + ";" + __SOURCE_DIRECTORY__ + @"/packages/TensorFlowSharp.1.2.2/native")
+
+module AddTwoNumbers = 
+    let session = new TFSession()
+    let graph = session.Graph
+
+    let a = graph.Const(new TFTensor(2))
+    let b = graph.Const(new TFTensor(3))
+    Console.WriteLine("a=2 b=3")
+
+    // Add two constants
+    let addingResults = session.GetRunner().Run(graph.Add(a, b))
+    let addingResultValue = addingResults.GetValue()
+    Console.WriteLine("a+b={0}", addingResultValue)
+
+    // Multiply two constants
+    let multiplyResults = session.GetRunner().Run(graph.Mul(a, b))
+    let multiplyResultValue = multiplyResults.GetValue()
+    Console.WriteLine("a*b={0}", multiplyResultValue)
+```
+
 
 # Working on TensorFlowSharp 
 

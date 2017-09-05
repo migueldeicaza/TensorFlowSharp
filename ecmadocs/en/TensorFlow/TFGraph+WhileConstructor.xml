@@ -32,18 +32,23 @@
             Signature of the method that will be invoked by the TFGraph.While method to construct a while loop
             </summary>
     <remarks>
+      <para>
             The method should build up the condition on the conditionGraph and the body of the while 
             loop in the provided bodyGraph.   It should set the condOutput to the value used as the
             condition output and the array of values in bodyOutputs to the final outputs as well as the
             name to be used, if not set, one will be assigned.
-            
+            </para>
+      <para>
             The conditionGraph represents the while condition and the inputs are the current values of the
             input variables (condInputs).   The output should be a scalar boolean.
-            
+            </para>
+      <para>
             The loop body graph is in bodyGraph, The inputs are the current values of the loop
             variables. The outputs are the updated values of the loop variables.
-            
+            </para>
+      <para>
             You can use the passed status record problems with it.
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
 </Type>

@@ -1,0 +1,584 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFSession.Runner
+  id: TFSession.Runner
+  children:
+  - TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor)
+  - TensorFlow.TFSession.Runner.AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor)
+  - TensorFlow.TFSession.Runner.AddTarget(System.String[])
+  - TensorFlow.TFSession.Runner.AddTarget(TensorFlow.TFOperation[])
+  - TensorFlow.TFSession.Runner.Fetch(System.String)
+  - TensorFlow.TFSession.Runner.Fetch(System.String[])
+  - TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput)
+  - TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[])
+  - TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32)
+  - TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus)
+  - TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus)
+  - TensorFlow.TFSession.Runner.RunMetadata
+  - TensorFlow.TFSession.Runner.RunOptions
+  langs:
+  - csharp
+  name: TFSession.Runner
+  nameWithType: TFSession.Runner
+  fullName: TensorFlow.TFSession.Runner
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Use the runner class to easily configure inputs, outputs and targets to be passed to the session runner.
+  remarks: >-
+    <p>
+                The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+                to construct the parameters that will be passed to the TFSession.Run method.
+                </p>
+        <p>
+                Instances of this class are created by calling the GetRunner method on the TFSession.
+                </p>
+        <p>
+                The various methods in this class return an instance to the Runner itsel, to allow
+                to easily construct chains of execution like this:
+                </p>
+        <pre><code>
+                var result = session.GetRunner ().AddINput (myInput).Fetch (MyOutput).Run ();
+                </code></pre>
+        <p>
+                You do not need to chain the operations, this works just the same:
+                </p>
+        <pre><code>
+                runner = session.GetRunner ();
+                runner.AddInput(myInput);
+                runner.Fetch(myOutput);
+                var results = runner.Run();
+                </code></pre>
+  syntax:
+    content: public class TFSession.Runner
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor)
+  id: AddInput(System.String,TensorFlow.TFTensor)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: AddInput(String, TFTensor)
+  nameWithType: TFSession.Runner.AddInput(String, TFTensor)
+  fullName: TFSession.Runner.AddInput(String, TFTensor)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds an input to the session specified by name, with an optional index in the operation (separated by a colon).
+  syntax:
+    content: public TensorFlow.TFSession.Runner AddInput (string input, TensorFlow.TFTensor value);
+    parameters:
+    - id: input
+      type: System.String
+      description: Incoming port, with an optional index separated by a colon.
+    - id: value
+      type: TensorFlow.TFTensor
+      description: Value to assing to the incoming port.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: An instance to the runner, so you can easily chain the operations together.
+  overload: TensorFlow.TFSession.Runner.AddInput*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor)
+  id: AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: AddInput(TFOutput, TFTensor)
+  nameWithType: TFSession.Runner.AddInput(TFOutput, TFTensor)
+  fullName: TFSession.Runner.AddInput(TFOutput, TFTensor)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds an input to the session
+  syntax:
+    content: public TensorFlow.TFSession.Runner AddInput (TensorFlow.TFOutput input, TensorFlow.TFTensor value);
+    parameters:
+    - id: input
+      type: TensorFlow.TFOutput
+      description: Incoming port.
+    - id: value
+      type: TensorFlow.TFTensor
+      description: Value to assing to the incoming port.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: An instance to the runner, so you can easily chain the operations together.
+  overload: TensorFlow.TFSession.Runner.AddInput*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.AddTarget(System.String[])
+  id: AddTarget(System.String[])
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: AddTarget(String[])
+  nameWithType: TFSession.Runner.AddTarget(String[])
+  fullName: TFSession.Runner.AddTarget(String[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds the specified operation names as the ones to be retrieved.
+  syntax:
+    content: public TensorFlow.TFSession.Runner AddTarget (string[] targetNames);
+    parameters:
+    - id: targetNames
+      type: System.String[]
+      description: One or more target names.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: An instance to the runner, so you can easily chain the operations together.
+  overload: TensorFlow.TFSession.Runner.AddTarget*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.AddTarget(TensorFlow.TFOperation[])
+  id: AddTarget(TensorFlow.TFOperation[])
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: AddTarget(TFOperation[])
+  nameWithType: TFSession.Runner.AddTarget(TFOperation[])
+  fullName: TFSession.Runner.AddTarget(TFOperation[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds the specified operations as the ones to be retrieved.
+  syntax:
+    content: public TensorFlow.TFSession.Runner AddTarget (TensorFlow.TFOperation[] targets);
+    parameters:
+    - id: targets
+      type: TensorFlow.TFOperation[]
+      description: One or more targets.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: An instance to the runner, so you can easily chain the operations together.
+  overload: TensorFlow.TFSession.Runner.AddTarget*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String)
+  id: Fetch(System.String)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Fetch(String)
+  nameWithType: TFSession.Runner.Fetch(String)
+  fullName: TFSession.Runner.Fetch(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Makes the Run method return the output of the tensor referenced by operation, the operation string can contain the output index.
+  syntax:
+    content: public TensorFlow.TFSession.Runner Fetch (string operation);
+    parameters:
+    - id: operation
+      type: System.String
+      description: "The name of the operation in the graph, which might be a simple name, or it might be name:index, \n            where the index is the ."
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: The instance of runner, to allow chaining operations.
+  overload: TensorFlow.TFSession.Runner.Fetch*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String[])
+  id: Fetch(System.String[])
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Fetch(String[])
+  nameWithType: TFSession.Runner.Fetch(String[])
+  fullName: TFSession.Runner.Fetch(String[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Makes the Run method return the output of all the tensor referenced by outputs.
+  syntax:
+    content: public TensorFlow.TFSession.Runner Fetch (string[] outputs);
+    parameters:
+    - id: outputs
+      type: System.String[]
+      description: The output sreferencing a specified tensor.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: The instance of runner, to allow chaining operations.
+  overload: TensorFlow.TFSession.Runner.Fetch*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput)
+  id: Fetch(TensorFlow.TFOutput)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Fetch(TFOutput)
+  nameWithType: TFSession.Runner.Fetch(TFOutput)
+  fullName: TFSession.Runner.Fetch(TFOutput)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Makes the Run method return the output of the tensor referenced by output
+  syntax:
+    content: public TensorFlow.TFSession.Runner Fetch (TensorFlow.TFOutput output);
+    parameters:
+    - id: output
+      type: TensorFlow.TFOutput
+      description: The output referencing a specified tensor.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: The instance of runner, to allow chaining operations.
+  overload: TensorFlow.TFSession.Runner.Fetch*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[])
+  id: Fetch(TensorFlow.TFOutput[])
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Fetch(TFOutput[])
+  nameWithType: TFSession.Runner.Fetch(TFOutput[])
+  fullName: TFSession.Runner.Fetch(TFOutput[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Makes the Run method return the output of all the tensor referenced by outputs.
+  syntax:
+    content: public TensorFlow.TFSession.Runner Fetch (TensorFlow.TFOutput[] outputs);
+    parameters:
+    - id: outputs
+      type: TensorFlow.TFOutput[]
+      description: The outputs referencing a specified tensor.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: The instance of runner, to allow chaining operations.
+  overload: TensorFlow.TFSession.Runner.Fetch*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32)
+  id: Fetch(System.String,System.Int32)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Fetch(String, Int32)
+  nameWithType: TFSession.Runner.Fetch(String, Int32)
+  fullName: TFSession.Runner.Fetch(String, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Makes the Run method return the index-th output of the tensor referenced by operation.
+  syntax:
+    content: public TensorFlow.TFSession.Runner Fetch (string operation, int index);
+    parameters:
+    - id: operation
+      type: System.String
+      description: The name of the operation in the graph.
+    - id: index
+      type: System.Int32
+      description: The index of the output in the operation.
+    return:
+      type: TensorFlow.TFSession+Runner
+      description: The instance of runner, to allow chaining operations.
+  overload: TensorFlow.TFSession.Runner.Fetch*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus)
+  id: Run(TensorFlow.TFStatus)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Run(TFStatus)
+  nameWithType: TFSession.Runner.Run(TFStatus)
+  fullName: TFSession.Runner.Run(TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Execute the graph fragments necessary to compute all requested fetches.
+  syntax:
+    content: public TensorFlow.TFTensor[] Run (TensorFlow.TFStatus status = null);
+    parameters:
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFTensor[]
+      description: One TFTensor for each call to Fetch that you made, in the order that you made them.
+  overload: TensorFlow.TFSession.Runner.Run*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus)
+  id: Run(TensorFlow.TFOutput,TensorFlow.TFStatus)
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: Run(TFOutput, TFStatus)
+  nameWithType: TFSession.Runner.Run(TFOutput, TFStatus)
+  fullName: TFSession.Runner.Run(TFOutput, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Run the specified operation, by adding it implicity to the output, single return value
+  remarks: "This method is a convenience method, and when you call it, it will clear any \n            calls that you might have done to Fetch() and use the specified operation to Fetch\n            instead."
+  syntax:
+    content: public TensorFlow.TFTensor Run (TensorFlow.TFOutput operation, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: operation
+      type: TensorFlow.TFOutput
+      description: The output of the operation.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFSession.Runner.Run*
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.RunMetadata
+  id: RunMetadata
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: RunMetadata
+  nameWithType: TFSession.Runner.RunMetadata
+  fullName: TFSession.Runner.RunMetadata
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Protocol buffer encoded block containing the metadata passed to the <xref href="TensorFlow.TFSession.Run"></xref> method.
+  syntax:
+    content: public TensorFlow.TFBuffer RunMetadata;
+    return:
+      type: TensorFlow.TFBuffer
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFSession.Runner.RunOptions
+  id: RunOptions
+  parent: TensorFlow.TFSession.Runner
+  langs:
+  - csharp
+  name: RunOptions
+  nameWithType: TFSession.Runner.RunOptions
+  fullName: TFSession.Runner.RunOptions
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Protocol buffer encoded block containing the run options passed to the <xref href="TensorFlow.TFSession.Run"></xref> method.
+  syntax:
+    content: public TensorFlow.TFBuffer RunOptions;
+    return:
+      type: TensorFlow.TFBuffer
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFSession.Runner.AddInput(System.String,TensorFlow.TFTensor)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddInput(String, TFTensor)
+  nameWithType: TFSession.Runner.AddInput(String, TFTensor)
+  fullName: TFSession.Runner.AddInput(String, TFTensor)
+- uid: TensorFlow.TFSession
+  parent: TensorFlow
+  isExternal: false
+  name: TFSession
+  nameWithType: TFSession
+  fullName: TensorFlow.TFSession+Runner
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFTensor
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor
+  nameWithType: TFTensor
+  fullName: TensorFlow.TFTensor
+- uid: TensorFlow.TFSession.Runner.AddInput(TensorFlow.TFOutput,TensorFlow.TFTensor)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddInput(TFOutput, TFTensor)
+  nameWithType: TFSession.Runner.AddInput(TFOutput, TFTensor)
+  fullName: TFSession.Runner.AddInput(TFOutput, TFTensor)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFSession.Runner.AddTarget(System.String[])
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddTarget(String[])
+  nameWithType: TFSession.Runner.AddTarget(String[])
+  fullName: TFSession.Runner.AddTarget(String[])
+- uid: System.String[]
+  parent: System
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFSession.Runner.AddTarget(TensorFlow.TFOperation[])
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddTarget(TFOperation[])
+  nameWithType: TFSession.Runner.AddTarget(TFOperation[])
+  fullName: TFSession.Runner.AddTarget(TFOperation[])
+- uid: TensorFlow.TFOperation
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.TFOperation[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation[]
+  nameWithType: TFOperation[]
+  fullName: TensorFlow.TFOperation[]
+  spec.csharp:
+  - uid: TensorFlow.TFOperation
+    name: TFOperation
+    nameWithType: TFOperation
+    fullName: TensorFlow.TFOperation
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch(String)
+  nameWithType: TFSession.Runner.Fetch(String)
+  fullName: TFSession.Runner.Fetch(String)
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String[])
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch(String[])
+  nameWithType: TFSession.Runner.Fetch(String[])
+  fullName: TFSession.Runner.Fetch(String[])
+- uid: TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch(TFOutput)
+  nameWithType: TFSession.Runner.Fetch(TFOutput)
+  fullName: TFSession.Runner.Fetch(TFOutput)
+- uid: TensorFlow.TFSession.Runner.Fetch(TensorFlow.TFOutput[])
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch(TFOutput[])
+  nameWithType: TFSession.Runner.Fetch(TFOutput[])
+  fullName: TFSession.Runner.Fetch(TFOutput[])
+- uid: TensorFlow.TFOutput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput[]
+  nameWithType: TFOutput[]
+  fullName: TensorFlow.TFOutput[]
+  spec.csharp:
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFSession.Runner.Fetch(System.String,System.Int32)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch(String, Int32)
+  nameWithType: TFSession.Runner.Fetch(String, Int32)
+  fullName: TFSession.Runner.Fetch(String, Int32)
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFSession.Runner.Run(TensorFlow.TFStatus)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Run(TFStatus)
+  nameWithType: TFSession.Runner.Run(TFStatus)
+  fullName: TFSession.Runner.Run(TFStatus)
+- uid: TensorFlow.TFTensor[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor[]
+  nameWithType: TFTensor[]
+  fullName: TensorFlow.TFTensor[]
+  spec.csharp:
+  - uid: TensorFlow.TFTensor
+    name: TFTensor
+    nameWithType: TFTensor
+    fullName: TensorFlow.TFTensor
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFSession.Runner.Run(TensorFlow.TFOutput,TensorFlow.TFStatus)
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Run(TFOutput, TFStatus)
+  nameWithType: TFSession.Runner.Run(TFOutput, TFStatus)
+  fullName: TFSession.Runner.Run(TFOutput, TFStatus)
+- uid: TensorFlow.TFSession.Runner.RunMetadata
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: RunMetadata
+  nameWithType: TFSession.Runner.RunMetadata
+  fullName: TFSession.Runner.RunMetadata
+- uid: TensorFlow.TFBuffer
+  parent: TensorFlow
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFSession.Runner.RunOptions
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: RunOptions
+  nameWithType: TFSession.Runner.RunOptions
+  fullName: TFSession.Runner.RunOptions
+- uid: TensorFlow.TFSession.Runner.AddInput*
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddInput
+  nameWithType: TFSession.Runner.AddInput
+  fullName: TFSession.Runner.AddInput
+- uid: TensorFlow.TFSession.Runner.AddTarget*
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: AddTarget
+  nameWithType: TFSession.Runner.AddTarget
+  fullName: TFSession.Runner.AddTarget
+- uid: TensorFlow.TFSession.Runner.Fetch*
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Fetch
+  nameWithType: TFSession.Runner.Fetch
+  fullName: TFSession.Runner.Fetch
+- uid: TensorFlow.TFSession.Runner.Run*
+  parent: TensorFlow.TFSession.Runner
+  isExternal: false
+  name: Run
+  nameWithType: TFSession.Runner.Run
+  fullName: TFSession.Runner.Run

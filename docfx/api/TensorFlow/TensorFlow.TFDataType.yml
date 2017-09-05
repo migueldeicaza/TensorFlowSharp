@@ -1,0 +1,578 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFDataType
+  id: TFDataType
+  children:
+  - TensorFlow.TFDataType.BFloat16
+  - TensorFlow.TFDataType.Bool
+  - TensorFlow.TFDataType.Complex
+  - TensorFlow.TFDataType.Complex128
+  - TensorFlow.TFDataType.Complex64
+  - TensorFlow.TFDataType.Double
+  - TensorFlow.TFDataType.Float
+  - TensorFlow.TFDataType.Half
+  - TensorFlow.TFDataType.Int16
+  - TensorFlow.TFDataType.Int32
+  - TensorFlow.TFDataType.Int64
+  - TensorFlow.TFDataType.Int8
+  - TensorFlow.TFDataType.QInt16
+  - TensorFlow.TFDataType.QInt32
+  - TensorFlow.TFDataType.QInt8
+  - TensorFlow.TFDataType.QUInt16
+  - TensorFlow.TFDataType.QUInt8
+  - TensorFlow.TFDataType.Resource
+  - TensorFlow.TFDataType.String
+  - TensorFlow.TFDataType.UInt16
+  - TensorFlow.TFDataType.UInt8
+  langs:
+  - csharp
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+  type: Enum
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The data type for a specific tensor.
+  remarks: >-
+    Tensors have uniform data types, all the elements of the tensor are of this
+                type and they dictate how TensorFlow will treat the data stored.
+  syntax:
+    content: public enum TFDataType
+  inheritance:
+  - System.Enum
+- uid: TensorFlow.TFDataType.BFloat16
+  id: BFloat16
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: BFloat16
+  nameWithType: TFDataType.BFloat16
+  fullName: TFDataType.BFloat16
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Float32 truncated to 16 bits.  Only for cast operations.
+  syntax:
+    content: BFloat16
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Bool
+  id: Bool
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Bool
+  nameWithType: TFDataType.Bool
+  fullName: TFDataType.Bool
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Bool
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Complex
+  id: Complex
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Complex
+  nameWithType: TFDataType.Complex
+  fullName: TFDataType.Complex
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 32-bit float based complex numbers
+  syntax:
+    content: Complex
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Complex128
+  id: Complex128
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Complex128
+  nameWithType: TFDataType.Complex128
+  fullName: TFDataType.Complex128
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Double precission complex numbers (32-bit floats)
+  syntax:
+    content: Complex128
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Complex64
+  id: Complex64
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Complex64
+  nameWithType: TFDataType.Complex64
+  fullName: TFDataType.Complex64
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Single precission complex numbers (32-bit floats)
+  syntax:
+    content: Complex64
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Double
+  id: Double
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Double
+  nameWithType: TFDataType.Double
+  fullName: TFDataType.Double
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Double precission floatint point, 64-bits (C# double)
+  syntax:
+    content: Double
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Float
+  id: Float
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Float
+  nameWithType: TFDataType.Float
+  fullName: TFDataType.Float
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Single precission floatint point, 32-bits (C# float)
+  syntax:
+    content: Float
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Half
+  id: Half
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Half
+  nameWithType: TFDataType.Half
+  fullName: TFDataType.Half
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Half
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Int16
+  id: Int16
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Int16
+  nameWithType: TFDataType.Int16
+  fullName: TFDataType.Int16
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 16-bit signed integers (C# short)
+  syntax:
+    content: Int16
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Int32
+  id: Int32
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Int32
+  nameWithType: TFDataType.Int32
+  fullName: TFDataType.Int32
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 32-bit signed integers (C# int)
+  syntax:
+    content: Int32
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Int64
+  id: Int64
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Int64
+  nameWithType: TFDataType.Int64
+  fullName: TFDataType.Int64
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 64-bit signed integers (C# long)
+  syntax:
+    content: Int64
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Int8
+  id: Int8
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Int8
+  nameWithType: TFDataType.Int8
+  fullName: TFDataType.Int8
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 8-bit signed integers (C# sbyte)
+  syntax:
+    content: Int8
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.QInt16
+  id: QInt16
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: QInt16
+  nameWithType: TFDataType.QInt16
+  fullName: TFDataType.QInt16
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Quantized 16-bit signed integer
+  syntax:
+    content: QInt16
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.QInt32
+  id: QInt32
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: QInt32
+  nameWithType: TFDataType.QInt32
+  fullName: TFDataType.QInt32
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Quantized 32-bit signed integer
+  syntax:
+    content: QInt32
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.QInt8
+  id: QInt8
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: QInt8
+  nameWithType: TFDataType.QInt8
+  fullName: TFDataType.QInt8
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Quantized 8-bit signed integer
+  syntax:
+    content: QInt8
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.QUInt16
+  id: QUInt16
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: QUInt16
+  nameWithType: TFDataType.QUInt16
+  fullName: TFDataType.QUInt16
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Quantized 16-bit unsigned integer
+  syntax:
+    content: QUInt16
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.QUInt8
+  id: QUInt8
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: QUInt8
+  nameWithType: TFDataType.QUInt8
+  fullName: TFDataType.QUInt8
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Quantized 8-bit unsigned integer
+  syntax:
+    content: QUInt8
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Resource
+  id: Resource
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Resource
+  nameWithType: TFDataType.Resource
+  fullName: TFDataType.Resource
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: Resource
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.String
+  id: String
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: String
+  nameWithType: TFDataType.String
+  fullName: TFDataType.String
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Binary blob
+  syntax:
+    content: String
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.UInt16
+  id: UInt16
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: UInt16
+  nameWithType: TFDataType.UInt16
+  fullName: TFDataType.UInt16
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 16-bit unsigned integers (C# long)
+  syntax:
+    content: UInt16
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.UInt8
+  id: UInt8
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: UInt8
+  nameWithType: TFDataType.UInt8
+  fullName: TFDataType.UInt8
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 8 bit unsigned integers (C# byte)
+  syntax:
+    content: UInt8
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.Enum
+  parent: System
+  isExternal: true
+  name: Enum
+  nameWithType: Enum
+  fullName: System.Enum
+- uid: TensorFlow.TFDataType.BFloat16
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: BFloat16
+  nameWithType: TFDataType.BFloat16
+  fullName: TFDataType.BFloat16
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFDataType.Bool
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Bool
+  nameWithType: TFDataType.Bool
+  fullName: TFDataType.Bool
+- uid: TensorFlow.TFDataType.Complex
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Complex
+  nameWithType: TFDataType.Complex
+  fullName: TFDataType.Complex
+- uid: TensorFlow.TFDataType.Complex128
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Complex128
+  nameWithType: TFDataType.Complex128
+  fullName: TFDataType.Complex128
+- uid: TensorFlow.TFDataType.Complex64
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Complex64
+  nameWithType: TFDataType.Complex64
+  fullName: TFDataType.Complex64
+- uid: TensorFlow.TFDataType.Double
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Double
+  nameWithType: TFDataType.Double
+  fullName: TFDataType.Double
+- uid: TensorFlow.TFDataType.Float
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Float
+  nameWithType: TFDataType.Float
+  fullName: TFDataType.Float
+- uid: TensorFlow.TFDataType.Half
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Half
+  nameWithType: TFDataType.Half
+  fullName: TFDataType.Half
+- uid: TensorFlow.TFDataType.Int16
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Int16
+  nameWithType: TFDataType.Int16
+  fullName: TFDataType.Int16
+- uid: TensorFlow.TFDataType.Int32
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Int32
+  nameWithType: TFDataType.Int32
+  fullName: TFDataType.Int32
+- uid: TensorFlow.TFDataType.Int64
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Int64
+  nameWithType: TFDataType.Int64
+  fullName: TFDataType.Int64
+- uid: TensorFlow.TFDataType.Int8
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Int8
+  nameWithType: TFDataType.Int8
+  fullName: TFDataType.Int8
+- uid: TensorFlow.TFDataType.QInt16
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: QInt16
+  nameWithType: TFDataType.QInt16
+  fullName: TFDataType.QInt16
+- uid: TensorFlow.TFDataType.QInt32
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: QInt32
+  nameWithType: TFDataType.QInt32
+  fullName: TFDataType.QInt32
+- uid: TensorFlow.TFDataType.QInt8
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: QInt8
+  nameWithType: TFDataType.QInt8
+  fullName: TFDataType.QInt8
+- uid: TensorFlow.TFDataType.QUInt16
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: QUInt16
+  nameWithType: TFDataType.QUInt16
+  fullName: TFDataType.QUInt16
+- uid: TensorFlow.TFDataType.QUInt8
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: QUInt8
+  nameWithType: TFDataType.QUInt8
+  fullName: TFDataType.QUInt8
+- uid: TensorFlow.TFDataType.Resource
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Resource
+  nameWithType: TFDataType.Resource
+  fullName: TFDataType.Resource
+- uid: TensorFlow.TFDataType.String
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: String
+  nameWithType: TFDataType.String
+  fullName: TFDataType.String
+- uid: TensorFlow.TFDataType.UInt16
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: UInt16
+  nameWithType: TFDataType.UInt16
+  fullName: TFDataType.UInt16
+- uid: TensorFlow.TFDataType.UInt8
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: UInt8
+  nameWithType: TFDataType.UInt8
+  fullName: TFDataType.UInt8
