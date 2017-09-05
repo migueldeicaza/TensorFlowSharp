@@ -1529,14 +1529,12 @@ namespace TensorFlow
 	public partial class TFOperation
 	{
 		internal IntPtr handle;
-        internal int id;
 
         /// <summary>
         /// Gets the handle to the unmanaged TF_Operation object.
         /// </summary>
         /// <value>The handle.</value>
         public IntPtr Handle => handle;
-        public int Id => id;
 
 		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
 		internal TFGraph graph;
@@ -1545,7 +1543,6 @@ namespace TensorFlow
 		{
 			this.handle = handle;
 			this.graph = graph;
-            this.id = graph.GetNextId();
 		}
 
 		// extern const char * TF_OperationName (TF_Operation *oper);
@@ -2543,7 +2540,6 @@ namespace TensorFlow
 	/// </remarks>
 	public enum TFDataType : uint
 	{
-        None,
 		/// <summary>
 		/// Single precission floatint point, 32-bits (C# float)
 		/// </summary>
