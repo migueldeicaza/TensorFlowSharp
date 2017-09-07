@@ -1530,11 +1530,11 @@ namespace TensorFlow
 	{
 		internal IntPtr handle;
 
-		/// <summary>
-		/// Gets the handle to the unmanaged TF_Operation object.
-		/// </summary>
-		/// <value>The handle.</value>
-		public IntPtr Handle => handle;
+        /// <summary>
+        /// Gets the handle to the unmanaged TF_Operation object.
+        /// </summary>
+        /// <value>The handle.</value>
+        public IntPtr Handle => handle;
 
 		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
 		internal TFGraph graph;
