@@ -290,20 +290,13 @@ namespace SampleTest
 
 				var X = g.Placeholder (TFDataType.Float);
 				var Y = g.Placeholder (TFDataType.Float);
-				var xx = g.Pow (g.Sub (g.Const ((float)3), Y), g.Const ((float)2));
-				// For now, use constants which are not as nice as variables, which can retain
-				// values across invocations to Run().
 
 				var W = g.Variable (g.Const ((float)rng.Next ()), operName: "weight");
 				var b = g.Variable (g.Const ((float) rng.Next ()), operName: "bias");
-				//var W = g.Const ((float) rng.Next (), operName: "weight");
-				//var b = g.Const ((float) rng.Next (), operName: "bias");
 				var pred = g.Add (g.Mul (X, W, "x*w"), b);
 
-				var first = g.Pow (g.Const ((float) 2), g.Const ((float)2));
-				var second = g.Mul (g.Const (2), g.Const (n_samples), "dbg2*n_samples");
-				var rs = g.ReduceSum (first);
-				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const ((float)2))), g.Mul (g.Const (2), g.Const (n_samples), "2*n_samples"));
+				var first = g.Pow (g.Sub (pred, Y), g.Const ((float)2));
+				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2f))), g.Mul (g.Const (2f), g.Const ((float)n_samples), "2*n_samples"));
 
 				// STuck here: TensorFlow bindings need to surface gradient support
 				// waiting on Google for this

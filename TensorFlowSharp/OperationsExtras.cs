@@ -33,7 +33,8 @@ namespace TensorFlow
 
 				return this.Const (shape.ToIntArray (), TFDataType.Int32);
 			}
-			return Range (Const (0), Const (shape.NumDimensions), Const (1));
+			// Otherwise, we rely on Range and Rank to do the right thing at run-time.
+			return Range (Const (0), Rank (input), Const (1));
 		}
 
 		/// <summary>

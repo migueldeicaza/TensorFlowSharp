@@ -2543,6 +2543,11 @@ namespace TensorFlow
 	public enum TFDataType : uint
 	{
 		/// <summary>
+		/// The TFDataType has not been set
+		/// </summary>
+		Unknown = 0,
+
+		/// <summary>
 		/// Single precission floatint point, 32-bits (C# float)
 		/// </summary>
 		Float = 1,
@@ -2720,7 +2725,7 @@ namespace TensorFlow
 		/// Gets the type of the output.
 		/// </summary>
 		/// <value>The type of the output.</value>
-		public TFDataType OutputType => TF_OperationOutputType (this);
+		public TFDataType OutputType => LLOperation == IntPtr.Zero ? TFDataType.Unknown : TF_OperationOutputType (this);
 
 		/// <summary>
 		/// Initializes a new TFOutput instance.
@@ -2780,7 +2785,7 @@ namespace TensorFlow
 		public TFOperation Operation => new TFOperation (null, LLOperation);
 		public override string ToString ()
 		{
-			return string.Format ("[TFOutput: LLOperation=0x{0:X} Index={1} Operation={2}]", (long) LLOperation, Index, Operation);
+			return string.Format ("[{3} Index={1} Operation={2} (0x{0:X})]", (long) LLOperation, Index, Operation, OutputType);
 		}
 	}
 
