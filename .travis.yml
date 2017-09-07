@@ -1,5 +1,7 @@
 language: csharp
 solution: TensorFlowSharp.sln
+install:
+  - git fetch --unshallow
 script:
   - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow/TYPE=mac-slave/82/artifact/lib_package/libtensorflow-cpu-darwin-x86_64.tar.gz"
   - tar xzvf libtensorflow-cpu-darwin-x86_64.tar.gz lib/libtensorflow.so
