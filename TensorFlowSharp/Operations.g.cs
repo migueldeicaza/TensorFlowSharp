@@ -436,7 +436,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'All'.
@@ -546,13 +547,60 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Returns the argument of a complex number.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Angle'.
+		/// </param>
+		/// <param name="Tout">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Given a tensor `input` of complex numbers, this operation returns a tensor of
+		///   type `float` that is the argument of each element in `input`. All elements in
+		///   `input` must be complex numbers of the form \\(a + bj\\), where *a*
+		///   is the real part and *b* is the imaginary part.
+		///   
+		///   The argument returned by this operation is of the form \\(atan2(b, a)\\).
+		///   
+		///   For example:
+		///   
+		///   ```
+		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
+		///   tf.angle(input) ==&amp;gt; [2.0132, 1.056]
+		///   ```
+		///   
+		///   @compatibility(numpy)
+		///   Equivalent to np.angle.
+		///   @end_compatibility
+		/// </remarks>
+		public TFOutput Angle (TFOutput input, TFDataType? Tout = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Angle", MakeName ("Angle", operName));
+			desc.AddInput (input);
+			if (Tout.HasValue)
+				desc.SetAttrType ("Tout", Tout.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Computes the "logical or" of elements across dimensions of a tensor.
 		/// </summary>
 		/// <param name="input">
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Any'.
@@ -583,53 +631,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
-		}
-
-		/// <summary>
-		///   var -= alpha * (delta + lambda * delta * (var - shadow))
-		/// </summary>
-		/// <param name="var">
-		///   Should be from a Variable().
-		/// </param>
-		/// <param name="alpha">
-		///   Scaling factor. Must be a scalar.
-		/// </param>
-		/// <param name="delta">
-		///   The change.
-		/// </param>
-		/// <param name="lambda">
-		///   The variance parameter.
-		/// </param>
-		/// <param name="shadow">
-		///   Same as "var".
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyDelayCompensatedGradientDescent'.
-		/// </param>
-		/// <param name="use_locking">
-		///   Optional argument
-		///   If `True`, the subtraction will be protected by a lock;
-		///   otherwise the behavior is undefined, but may exhibit less contention.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   Update '*shadow' by changing it to the new value of 'var'
-		/// </remarks>
-		public TFOperation ApplyDelayCompensatedGradientDescent (TFOutput var, TFOutput alpha, TFOutput delta, TFOutput lambda, TFOutput shadow, bool? use_locking = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "ApplyDelayCompensatedGradientDescent", MakeName ("ApplyDelayCompensatedGradientDescent", operName));
-			desc.AddInput (var);
-			desc.AddInput (alpha);
-			desc.AddInput (delta);
-			desc.AddInput (lambda);
-			desc.AddInput (shadow);
-			if (use_locking.HasValue)
-				desc.SetAttr ("use_locking", use_locking.Value);
-			
-			var op = desc.FinishOperation ();
-			return op;
 		}
 
 		/// <summary>
@@ -668,8 +669,8 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32 or int64, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes
-		///   which dimension of the input Tensor to reduce across. For vectors,
+		///   int32 or int64, must be in the range `[-rank(input), rank(input))`.
+		///   Describes which dimension of the input Tensor to reduce across. For vectors,
 		///   use dimension = 0.
 		/// </param>
 		/// <param name="operName">
@@ -704,8 +705,8 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32 or int64, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes
-		///   which dimension of the input Tensor to reduce across. For vectors,
+		///   int32 or int64, must be in the range `[-rank(input), rank(input))`.
+		///   Describes which dimension of the input Tensor to reduce across. For vectors,
 		///   use dimension = 0.
 		/// </param>
 		/// <param name="operName">
@@ -2496,6 +2497,58 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Compare values of `input` to `threshold` and pack resulting bits into a `uint8`.
+		/// </summary>
+		/// <param name="input">
+		///   Values to compare against `threshold` and bitpack.
+		/// </param>
+		/// <param name="threshold">
+		///   Threshold to compare against.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CompareAndBitpack'.
+		/// </param>
+		/// <returns>
+		///   The bitpacked comparisons.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each comparison returns a boolean `true` (if `input_value &amp;gt; threshold`)
+		///   or and `false` otherwise.
+		///   
+		///   This operation is useful for Locality-Sensitive-Hashing (LSH) and other
+		///   algorithms that use hashing approximations of cosine and `L2` distances;
+		///   codes can be generated from an input via:
+		///   
+		///   ```python
+		///   codebook_size = 50
+		///   codebook_bits = codebook_size * 32
+		///   codebook = tf.get_variable('codebook', [x.shape[-1].value, codebook_bits],
+		///                              dtype=x.dtype,
+		///                              initializer=tf.orthogonal_initializer())
+		///   codes = compare_and_threshold(tf.matmul(x, codebook), threshold=0.)
+		///   codes = tf.bitcast(codes, tf.int32)  # go from uint8 to int32
+		///   # now codes has shape x.shape[:-1] + [codebook_size]
+		///   ```
+		///   
+		///   **NOTE**: Currently, the innermost dimension of the tensor must be divisible
+		///   by 8.
+		///   
+		///   Given an `input` shaped `[s0, s1, ..., s_n]`, the output is
+		///   a `uint8` tensor shaped `[s0, s1, ..., s_n / 8]`.
+		/// </remarks>
+		public TFOutput CompareAndBitpack (TFOutput input, TFOutput threshold, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CompareAndBitpack", MakeName ("CompareAndBitpack", operName));
+			desc.AddInput (input);
+			desc.AddInput (threshold);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Converts two real numbers to a complex number.
 		/// </summary>
 		/// <param name="real">
@@ -3767,17 +3820,24 @@ namespace TensorFlow {
 		///   Compute the cumulative product of the tensor `x` along `axis`.
 		/// </summary>
 		/// <param name="x">
+		///   A `Tensor`. Must be one of the following types: `float32`, `float64`,
+		///   `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`,
+		///   `complex128`, `qint8`, `quint8`, `qint32`, `half`.
 		/// </param>
 		/// <param name="axis">
+		///   A `Tensor` of type `int32` (default: 0). Must be in the range
+		///   `[-rank(x), rank(x))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cumprod'.
 		/// </param>
 		/// <param name="exclusive">
 		///   Optional argument
+		///   If `True`, perform exclusive cumprod.
 		/// </param>
 		/// <param name="reverse">
 		///   Optional argument
+		///   A `bool` (default: False).
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -3833,17 +3893,24 @@ namespace TensorFlow {
 		///   Compute the cumulative sum of the tensor `x` along `axis`.
 		/// </summary>
 		/// <param name="x">
+		///   A `Tensor`. Must be one of the following types: `float32`, `float64`,
+		///   `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`,
+		///   `complex128`, `qint8`, `quint8`, `qint32`, `half`.
 		/// </param>
 		/// <param name="axis">
+		///   A `Tensor` of type `int32` (default: 0). Must be in the range
+		///   `[-rank(x), rank(x))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cumsum'.
 		/// </param>
 		/// <param name="exclusive">
 		///   Optional argument
+		///   If `True`, perform exclusive cumsum.
 		/// </param>
 		/// <param name="reverse">
 		///   Optional argument
+		///   A `bool` (default: False).
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -5312,9 +5379,9 @@ namespace TensorFlow {
 		///   bounding box coordinates are floats in `[0.0, 1.0]` relative to the width and
 		///   height of the underlying image.
 		///   
-		///   For example, if an image is 100 x 200 pixels and the bounding box is
-		///   `[0.1, 0.2, 0.5, 0.9]`, the bottom-left and upper-right coordinates of the
-		///   bounding box will be `(10, 40)` to `(50, 180)`.
+		///   For example, if an image is 100 x 200 pixels (height x width) and the bounding
+		///   box is `[0.1, 0.2, 0.5, 0.9]`, the upper-left and bottom-right coordinates of
+		///   the bounding box will be `(40, 10)` to `(100, 50)` (in (x,y) coordinates).
 		///   
 		///   Parts of the bounding box may fall outside the image.
 		/// </remarks>
@@ -5441,7 +5508,8 @@ namespace TensorFlow {
 		///   
 		///   Values are merged in order, so if an index appears in both `indices[m][i]` and
 		///   `indices[n][j]` for `(m,i) &amp;lt; (n,j)` the slice `data[n][j]` will appear in the
-		///   merged result.
+		///   merged result. If you do not need this guarantee, ParallelDynamicStitch might
+		///   perform better on some devices.
 		///   
 		///   For example:
 		///   
@@ -6030,7 +6098,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="dim">
 		///   0-D (scalar). Specifies the dimension index at which to
-		///   expand the shape of `input`.
+		///   expand the shape of `input`. Must be in the range
+		///   `[-rank(input) - 1, rank(input)]`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExpandDims'.
@@ -6244,24 +6313,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var patches = new TFOutput (op, _idx++);
 			return patches;
-		}
-
-		/// <summary>
-		///   Output a fact about factorials.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Fact'.
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput Fact (string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "Fact", MakeName ("Fact", operName));
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var fact = new TFOutput (op, _idx++);
-			return fact;
 		}
 
 		/// <summary>
@@ -8239,6 +8290,49 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Returns a list of tensors with the same shapes and contents as the input
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IdentityN'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   tensors.
+		///   
+		///   This op can be used to override the gradient for complicated functions. For
+		///   example, suppose y = f(x) and we wish to apply a custom function g for backprop
+		///   such that dx = g(dy). In Python,
+		///   
+		///   ```python
+		///   with tf.get_default_graph().gradient_override_map(
+		///       {'IdentityN': 'OverrideGradientWithG'}):
+		///     y, _ = identity_n([f(x), x])
+		///   
+		///   @tf.RegisterGradient('OverrideGradientWithG')
+		///   def ApplyG(op, dy, _):
+		///     return [None, g(dy)]  # Do not backprop to f(x).
+		///   ```
+		/// </remarks>
+		public TFOutput[] IdentityN (TFOutput[] input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IdentityN", MakeName ("IdentityN", operName));
+			desc.AddInputs (input);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("output");
+			var output = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				output [i] = new TFOutput (op, _idx++);
+			
+			return output;
+		}
+
+		/// <summary>
 		///   A Reader that outputs the queued work as both the key and value.
 		/// </summary>
 		/// <param name="operName">
@@ -8763,6 +8857,53 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Says whether the targets are in the top `K` predictions.
+		/// </summary>
+		/// <param name="predictions">
+		///   A `batch_size` x `classes` tensor.
+		/// </param>
+		/// <param name="targets">
+		///   A `batch_size` vector of class ids.
+		/// </param>
+		/// <param name="k">
+		///   Number of top elements to look at for computing precision.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InTopKV2'.
+		/// </param>
+		/// <returns>
+		///   Computed precision at `k` as a `bool Tensor`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This outputs a `batch_size` bool array, an entry `out[i]` is `true` if the
+		///   prediction for the target class is among the top `k` predictions among
+		///   all predictions for example `i`. Note that the behavior of `InTopK` differs
+		///   from the `TopK` op in its handling of ties; if multiple classes have the
+		///   same prediction value and straddle the top-`k` boundary, all of those
+		///   classes are considered to be in the top `k`.
+		///   
+		///   More formally, let
+		///   
+		///     \\(predictions_i\\) be the predictions for all classes for example `i`,
+		///     \\(targets_i\\) be the target class for example `i`,
+		///     \\(out_i\\) be the output for example `i`,
+		///   
+		///   $$out_i = predictions_{i, targets_i} \in TopKIncludingTies(predictions_i)$$
+		/// </remarks>
+		public TFOutput InTopKV2 (TFOutput predictions, TFOutput targets, TFOutput k, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InTopKV2", MakeName ("InTopKV2", operName));
+			desc.AddInput (predictions);
+			desc.AddInput (targets);
+			desc.AddInput (k);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var precision = new TFOutput (op, _idx++);
+			return precision;
+		}
+
+		/// <summary>
 		///   Computes the reciprocal of x element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -9163,14 +9304,30 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorFromStringHandle'.
 		/// </param>
+		/// <param name="output_types">
+		///   Optional argument
+		///   If specified, defines the type of each tuple component in an
+		///   element produced by the resulting iterator.
+		/// </param>
+		/// <param name="output_shapes">
+		///   Optional argument
+		///   If specified, defines the shape of each tuple component in an
+		///   element produced by the resulting iterator.
+		/// </param>
 		/// <returns>
 		///   A handle to an iterator resource.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput IteratorFromStringHandle (TFOutput string_handle, string operName = null)
+		public TFOutput IteratorFromStringHandle (TFOutput string_handle, TFDataType[] output_types = null, TFShape[] output_shapes = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "IteratorFromStringHandle", MakeName ("IteratorFromStringHandle", operName));
 			desc.AddInput (string_handle);
+			if (output_types != null)
+				desc.SetAttrType ("output_types", output_types);
+			
+			if (output_shapes != null)
+				desc.SetAttrShape ("output_shapes", output_shapes);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var resource_handle = new TFOutput (op, _idx++);
@@ -10606,7 +10763,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the determinant of one ore more square matrices.
+		///   Computes the determinant of one or more square matrices.
 		/// </summary>
 		/// <param name="input">
 		///   Shape is `[..., M, M]`.
@@ -11013,7 +11170,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Max'.
@@ -11393,6 +11551,61 @@ namespace TensorFlow {
 		/// <summary>
 		///   Computes second-order gradients of the maxpooling function.
 		/// </summary>
+		/// <param name="orig_input">
+		///   The original input tensor.
+		/// </param>
+		/// <param name="orig_output">
+		///   The original output tensor.
+		/// </param>
+		/// <param name="grad">
+		///   4-D.  Gradients of gradients w.r.t. the input of `max_pool`.
+		/// </param>
+		/// <param name="ksize">
+		///   The size of the window for each dimension of the input tensor.
+		/// </param>
+		/// <param name="strides">
+		///   The stride of the sliding window for each dimension of the
+		///   input tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGradGradV2'.
+		/// </param>
+		/// <param name="data_format">
+		///   Optional argument
+		///   Specify the data format of the input and output data. With the
+		///   default format "NHWC", the data is stored in the order of:
+		///       [batch, in_height, in_width, in_channels].
+		///   Alternatively, the format could be "NCHW", the data storage order of:
+		///       [batch, in_channels, in_height, in_width].
+		/// </param>
+		/// <param name="padding">
+		///   The type of padding algorithm to use.
+		/// </param>
+		/// <returns>
+		///   Gradients of gradients w.r.t. the input to `max_pool`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MaxPoolGradGradV2 (TFOutput orig_input, TFOutput orig_output, TFOutput grad, TFOutput ksize, TFOutput strides, string padding, string data_format = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MaxPoolGradGradV2", MakeName ("MaxPoolGradGradV2", operName));
+			desc.AddInput (orig_input);
+			desc.AddInput (orig_output);
+			desc.AddInput (grad);
+			desc.AddInput (ksize);
+			desc.AddInput (strides);
+			desc.SetAttr ("padding", padding);
+			if (data_format != null)
+				desc.SetAttr ("data_format", data_format);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes second-order gradients of the maxpooling function.
+		/// </summary>
 		/// <param name="input">
 		///   The original input.
 		/// </param>
@@ -11438,6 +11651,61 @@ namespace TensorFlow {
 		/// <summary>
 		///   Computes gradients of the maxpooling function.
 		/// </summary>
+		/// <param name="orig_input">
+		///   The original input tensor.
+		/// </param>
+		/// <param name="orig_output">
+		///   The original output tensor.
+		/// </param>
+		/// <param name="grad">
+		///   4-D.  Gradients w.r.t. the output of `max_pool`.
+		/// </param>
+		/// <param name="ksize">
+		///   The size of the window for each dimension of the input tensor.
+		/// </param>
+		/// <param name="strides">
+		///   The stride of the sliding window for each dimension of the
+		///   input tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGradV2'.
+		/// </param>
+		/// <param name="data_format">
+		///   Optional argument
+		///   Specify the data format of the input and output data. With the
+		///   default format "NHWC", the data is stored in the order of:
+		///       [batch, in_height, in_width, in_channels].
+		///   Alternatively, the format could be "NCHW", the data storage order of:
+		///       [batch, in_channels, in_height, in_width].
+		/// </param>
+		/// <param name="padding">
+		///   The type of padding algorithm to use.
+		/// </param>
+		/// <returns>
+		///   Gradients w.r.t. the input to `max_pool`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MaxPoolGradV2 (TFOutput orig_input, TFOutput orig_output, TFOutput grad, TFOutput ksize, TFOutput strides, string padding, string data_format = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MaxPoolGradV2", MakeName ("MaxPoolGradV2", operName));
+			desc.AddInput (orig_input);
+			desc.AddInput (orig_output);
+			desc.AddInput (grad);
+			desc.AddInput (ksize);
+			desc.AddInput (strides);
+			desc.SetAttr ("padding", padding);
+			if (data_format != null)
+				desc.SetAttr ("data_format", data_format);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes gradients of the maxpooling function.
+		/// </summary>
 		/// <param name="input">
 		///   The original input.
 		/// </param>
@@ -11474,6 +11742,53 @@ namespace TensorFlow {
 			desc.SetAttr ("ksize", ksize);
 			desc.SetAttr ("strides", strides);
 			desc.SetAttr ("padding", padding);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Performs max pooling on the input.
+		/// </summary>
+		/// <param name="input">
+		///   4-D input to pool over.
+		/// </param>
+		/// <param name="ksize">
+		///   The size of the window for each dimension of the input tensor.
+		/// </param>
+		/// <param name="strides">
+		///   The stride of the sliding window for each dimension of the
+		///   input tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolV2'.
+		/// </param>
+		/// <param name="data_format">
+		///   Optional argument
+		///   Specify the data format of the input and output data. With the
+		///   default format "NHWC", the data is stored in the order of:
+		///       [batch, in_height, in_width, in_channels].
+		///   Alternatively, the format could be "NCHW", the data storage order of:
+		///       [batch, in_channels, in_height, in_width].
+		/// </param>
+		/// <param name="padding">
+		///   The type of padding algorithm to use.
+		/// </param>
+		/// <returns>
+		///   The max pooled output tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MaxPoolV2 (TFOutput input, TFOutput ksize, TFOutput strides, string padding, string data_format = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MaxPoolV2", MakeName ("MaxPoolV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (ksize);
+			desc.AddInput (strides);
+			desc.SetAttr ("padding", padding);
+			if (data_format != null)
+				desc.SetAttr ("data_format", data_format);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -11542,7 +11857,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Mean'.
@@ -11755,7 +12071,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Min'.
@@ -13282,6 +13599,93 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Interleave the values from the `data` tensors into a single tensor.
+		/// </summary>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="data">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ParallelDynamicStitch'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Builds a merged tensor such that
+		///   
+		///   ```python
+		///       merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
+		///   ```
+		///   
+		///   For example, if each `indices[m]` is scalar or vector, we have
+		///   
+		///   ```python
+		///       # Scalar indices:
+		///       merged[indices[m], ...] = data[m][...]
+		///   
+		///       # Vector indices:
+		///       merged[indices[m][i], ...] = data[m][i, ...]
+		///   ```
+		///   
+		///   Each `data[i].shape` must start with the corresponding `indices[i].shape`,
+		///   and the rest of `data[i].shape` must be constant w.r.t. `i`.  That is, we
+		///   must have `data[i].shape = indices[i].shape + constant`.  In terms of this
+		///   `constant`, the output shape is
+		///   
+		///       merged.shape = [max(indices)] + constant
+		///   
+		///   Values may be merged in parallel, so if an index appears in both `indices[m][i]`
+		///   and `indices[n][j]`, the result may be invalid. This differs from the normal
+		///   DynamicStitch operator that defines the behavior in that case.
+		///   
+		///   For example:
+		///   
+		///   ```python
+		///       indices[0] = 6
+		///       indices[1] = [4, 1]
+		///       indices[2] = [[5, 2], [0, 3]]
+		///       data[0] = [61, 62]
+		///       data[1] = [[41, 42], [11, 12]]
+		///       data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
+		///       merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
+		///                 [51, 52], [61, 62]]
+		///   ```
+		///   
+		///   This method can be used to merge partitions created by `dynamic_partition`
+		///   as illustrated on the following example:
+		///   
+		///   ```python
+		///       # Apply function (increments x_i) on elements for which a certain condition
+		///       # apply (x_i != -1 in this example).
+		///       x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
+		///       condition_mask=tf.not_equal(x,tf.constant(-1.))
+		///       partitioned_data = tf.dynamic_partition(
+		///           x, tf.cast(condition_mask, tf.int32) , 2)
+		///       partitioned_data[1] = partitioned_data[1] + 1.0
+		///       condition_indices = tf.dynamic_partition(
+		///           tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
+		///       x = tf.dynamic_stitch(condition_indices, partitioned_data)
+		///       # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
+		///       # unchanged.
+		///   ```
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/DynamicStitch.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ParallelDynamicStitch (TFOutput[] indices, TFOutput[] data, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ParallelDynamicStitch", MakeName ("ParallelDynamicStitch", operName));
+			desc.AddInputs (indices);
+			desc.AddInputs (data);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var merged = new TFOutput (op, _idx++);
+			return merged;
+		}
+
+		/// <summary>
 		///   Outputs random values from a normal distribution. The parameters may each be a
 		/// </summary>
 		/// <param name="shape">
@@ -13771,6 +14175,35 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Computes element-wise population count (a.k.a. popcount, bitsum, bitcount).
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PopulationCount'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   For each entry in `x`, calculates the number of `1` (on) bits in the binary
+		///   representation of that entry.
+		///   
+		///   **NOTE**: It is more efficient to first `tf.bitcast` your tensors into
+		///   `int32` or `int64` and perform the bitcount on the result, than to feed in
+		///   8- or 16-bit inputs and then aggregate the resulting counts.
+		/// </remarks>
+		public TFOutput PopulationCount (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PopulationCount", MakeName ("PopulationCount", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
 		///   Computes the power of one value to another.
 		/// </summary>
 		/// <param name="x">
@@ -13802,6 +14235,38 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
+		}
+
+		/// <summary>
+		///   Creates a dataset that asynchronously prefetches elements from `input_dataset`.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="buffer_size">
+		///   The maximum number of elements to buffer in an iterator over
+		///   this dataset.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PrefetchDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput PrefetchDataset (TFOutput input_dataset, TFOutput buffer_size, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PrefetchDataset", MakeName ("PrefetchDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (buffer_size);
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -13966,7 +14431,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Prod'.
@@ -17043,6 +17509,11 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Input images can be of different types but output images are always float.
+		///   
+		///   Each output pixel is computed by first transforming the pixel's footprint into
+		///   the input tensor and then averaging the pixels that intersect the footprint. An
+		///   input pixel's contribution to the average is weighted by the fraction of its
+		///   area that intersects the footprint.  This is the same as OpenCV's INTER_AREA.
 		/// </remarks>
 		public TFOutput ResizeArea (TFOutput images, TFOutput size, bool? align_corners = null, string operName = null)
 		{
@@ -19122,7 +19593,8 @@ namespace TensorFlow {
 		///   Up to 8-D.
 		/// </param>
 		/// <param name="axis">
-		///   1-D. The indices of the dimensions to reverse.
+		///   1-D. The indices of the dimensions to reverse. Must be in the range
+		///   `[-rank(tensor), rank(tensor))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReverseV2'.
@@ -20589,6 +21061,60 @@ namespace TensorFlow {
 			var e = new TFOutput (op, _idx++);
 			var v = new TFOutput (op, _idx++);
 			return (e, v);
+		}
+
+		/// <summary>
+		///   Computes scaled exponential linear: `scale * alpha * (exp(features) - 1)`
+		/// </summary>
+		/// <param name="features">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Selu'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   if &amp;lt; 0, `scale * features` otherwise.
+		///   
+		///   See [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
+		/// </remarks>
+		public TFOutput Selu (TFOutput features, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Selu", MakeName ("Selu", operName));
+			desc.AddInput (features);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var activations = new TFOutput (op, _idx++);
+			return activations;
+		}
+
+		/// <summary>
+		///   Computes gradients for the scaled exponential linear (Selu) operation.
+		/// </summary>
+		/// <param name="gradients">
+		///   The backpropagated gradients to the corresponding Selu operation.
+		/// </param>
+		/// <param name="outputs">
+		///   The outputs of the corresponding Selu operation.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SeluGrad'.
+		/// </param>
+		/// <returns>
+		///   The gradients: `gradients * (outputs + scale * alpha)`
+		///   if outputs &amp;lt; 0, `scale * gradients` otherwise.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput SeluGrad (TFOutput gradients, TFOutput outputs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SeluGrad", MakeName ("SeluGrad", operName));
+			desc.AddInput (gradients);
+			desc.AddInput (outputs);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var backprops = new TFOutput (op, _idx++);
+			return backprops;
 		}
 
 		/// <summary>
@@ -23676,7 +24202,8 @@ namespace TensorFlow {
 		/// <param name="squeeze_dims">
 		///   Optional argument
 		///   If specified, only squeezes the dimensions listed. The dimension
-		///   index starts at 0. It is an error to squeeze a dimension that is not 1.
+		///   index starts at 0. It is an error to squeeze a dimension that is not 1. Must
+		///   be in the range `[-rank(input), rank(input))`.
 		/// </param>
 		/// <returns>
 		///   Contains the same data as `input`, but has one or more dimensions of
@@ -24499,6 +25026,10 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StringSplit'.
 		/// </param>
+		/// <param name="skip_empty">
+		///   Optional argument
+		///   A `bool`. If `True`, skip the empty strings from the result.
+		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   indices: A dense matrix of int64 representing the indices of the sparse tensor.
@@ -24530,11 +25061,14 @@ namespace TensorFlow {
 		///     shape = [2, 3]
 		///     values = ['hello', 'world', 'a', 'b', 'c']
 		/// </remarks>
-		public (TFOutput indices, TFOutput values, TFOutput shape) StringSplit (TFOutput input, TFOutput delimiter, string operName = null)
+		public (TFOutput indices, TFOutput values, TFOutput shape) StringSplit (TFOutput input, TFOutput delimiter, bool? skip_empty = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "StringSplit", MakeName ("StringSplit", operName));
 			desc.AddInput (input);
 			desc.AddInput (delimiter);
+			if (skip_empty.HasValue)
+				desc.SetAttr ("skip_empty", skip_empty.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var indices = new TFOutput (op, _idx++);
@@ -24830,7 +25364,8 @@ namespace TensorFlow {
 		///   The tensor to reduce.
 		/// </param>
 		/// <param name="reduction_indices">
-		///   The dimensions to reduce.
+		///   The dimensions to reduce. Must be in the range
+		///   `[-rank(input), rank(input))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Sum'.
@@ -26861,7 +27396,7 @@ namespace TensorFlow {
 		///    `output[i] = numeric_limits&amp;lt;T&amp;gt;::min()`.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
-		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentSum.png" alt&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentMax.png" alt&amp;gt;
 		///   &amp;lt;/div&amp;gt;
 		/// </remarks>
 		public TFOutput UnsortedSegmentMax (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
