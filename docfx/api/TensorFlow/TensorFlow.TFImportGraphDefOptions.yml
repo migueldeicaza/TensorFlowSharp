@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFImportGraphDefOptions
+  id: TFImportGraphDefOptions
+  children:
+  - TensorFlow.TFImportGraphDefOptions.#ctor
+  - TensorFlow.TFImportGraphDefOptions.AddControlDependency(TensorFlow.TFOperation)
+  - TensorFlow.TFImportGraphDefOptions.AddInputMapping(System.String,System.Int32,TensorFlow.TFOutput)
+  - TensorFlow.TFImportGraphDefOptions.AddReturnOutput(System.String,System.Int32)
+  - TensorFlow.TFImportGraphDefOptions.NumReturnOutputs
+  - TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)
+  - TensorFlow.TFImportGraphDefOptions.SetPrefix(System.String)
+  langs:
+  - csharp
+  name: TFImportGraphDefOptions
+  nameWithType: TFImportGraphDefOptions
+  fullName: TensorFlow.TFImportGraphDefOptions
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Contains options that are used to control how graph importing works.
+  syntax:
+    content: 'public class TFImportGraphDefOptions : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFImportGraphDefOptions.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: TFImportGraphDefOptions()
+  nameWithType: TFImportGraphDefOptions.TFImportGraphDefOptions()
+  fullName: TFImportGraphDefOptions.TFImportGraphDefOptions()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TFImportGraphDefOptions ();
+    parameters: []
+  overload: TensorFlow.TFImportGraphDefOptions.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.AddControlDependency(TensorFlow.TFOperation)
+  id: AddControlDependency(TensorFlow.TFOperation)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: AddControlDependency(TFOperation)
+  nameWithType: TFImportGraphDefOptions.AddControlDependency(TFOperation)
+  fullName: TFImportGraphDefOptions.AddControlDependency(TFOperation)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Cause the imported graph to have a control dependency on the provided operation.
+  syntax:
+    content: public void AddControlDependency (TensorFlow.TFOperation operation);
+    parameters:
+    - id: operation
+      type: TensorFlow.TFOperation
+      description: This operation should exist in the graph being imported to.
+  overload: TensorFlow.TFImportGraphDefOptions.AddControlDependency*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.AddInputMapping(System.String,System.Int32,TensorFlow.TFOutput)
+  id: AddInputMapping(System.String,System.Int32,TensorFlow.TFOutput)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: AddInputMapping(String, Int32, TFOutput)
+  nameWithType: TFImportGraphDefOptions.AddInputMapping(String, Int32, TFOutput)
+  fullName: TFImportGraphDefOptions.AddInputMapping(String, Int32, TFOutput)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Adds an input mapping from a source name and index to a destination output
+  remarks: >-
+    Set any imported nodes with input `src_name:src_index` to have that input
+                replaced with `dst`. `src_name` refers to a node in the graph to be imported,
+                `dst` references a node already existing in the graph being imported into.
+  syntax:
+    content: public void AddInputMapping (string srcName, int srcIndex, TensorFlow.TFOutput dst);
+    parameters:
+    - id: srcName
+      type: System.String
+      description: Source name.
+    - id: srcIndex
+      type: System.Int32
+      description: Source index (in the source).
+    - id: dst
+      type: TensorFlow.TFOutput
+      description: Replacement value for the srcName:srcIndex.
+  overload: TensorFlow.TFImportGraphDefOptions.AddInputMapping*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.AddReturnOutput(System.String,System.Int32)
+  id: AddReturnOutput(System.String,System.Int32)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: AddReturnOutput(String, Int32)
+  nameWithType: TFImportGraphDefOptions.AddReturnOutput(String, Int32)
+  fullName: TFImportGraphDefOptions.AddReturnOutput(String, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Add an output in the graph definition to be returned via the return outputs parameter.
+  remarks: >-
+    If the output is remapped via an input
+                mapping, the corresponding existing tensor in graph will be returned.
+  syntax:
+    content: public void AddReturnOutput (string operName, int index);
+    parameters:
+    - id: operName
+      type: System.String
+      description: Operation name.
+    - id: index
+      type: System.Int32
+      description: Operation index.
+  overload: TensorFlow.TFImportGraphDefOptions.AddReturnOutput*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.NumReturnOutputs
+  id: NumReturnOutputs
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: NumReturnOutputs
+  nameWithType: TFImportGraphDefOptions.NumReturnOutputs
+  fullName: TFImportGraphDefOptions.NumReturnOutputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the number return outputs added via AddReturnOutput.
+  syntax:
+    content: public int NumReturnOutputs { get; }
+    return:
+      type: System.Int32
+      description: The number return outputs.
+  overload: TensorFlow.TFImportGraphDefOptions.NumReturnOutputs*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)
+  id: RemapControlDependency(System.String,TensorFlow.TFOperation)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: RemapControlDependency(String, TFOperation)
+  nameWithType: TFImportGraphDefOptions.RemapControlDependency(String, TFOperation)
+  fullName: TFImportGraphDefOptions.RemapControlDependency(String, TFOperation)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Sets any imported nodes with a given control input to have it replaced with an operation
+  remarks: >-
+    Set any imported nodes with control input <code>srcName</code> to have that input
+                replaced with <code>destination</code>.
+  syntax:
+    content: public void RemapControlDependency (string srcName, TensorFlow.TFOperation destination);
+    parameters:
+    - id: srcName
+      type: System.String
+      description: Node in the graph to be imported.
+    - id: destination
+      type: TensorFlow.TFOperation
+      description: References an operation that already exists in the graph being imported.
+  overload: TensorFlow.TFImportGraphDefOptions.RemapControlDependency*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.SetPrefix(System.String)
+  id: SetPrefix(System.String)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: SetPrefix(String)
+  nameWithType: TFImportGraphDefOptions.SetPrefix(String)
+  fullName: TFImportGraphDefOptions.SetPrefix(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public void SetPrefix (string prefix);
+    parameters:
+    - id: prefix
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFImportGraphDefOptions.SetPrefix*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFImportGraphDefOptions.#ctor
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: TFImportGraphDefOptions()
+  nameWithType: TFImportGraphDefOptions.TFImportGraphDefOptions()
+  fullName: TFImportGraphDefOptions.TFImportGraphDefOptions()
+- uid: TensorFlow.TFImportGraphDefOptions.AddControlDependency(TensorFlow.TFOperation)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddControlDependency(TFOperation)
+  nameWithType: TFImportGraphDefOptions.AddControlDependency(TFOperation)
+  fullName: TFImportGraphDefOptions.AddControlDependency(TFOperation)
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.TFImportGraphDefOptions.AddInputMapping(System.String,System.Int32,TensorFlow.TFOutput)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddInputMapping(String, Int32, TFOutput)
+  nameWithType: TFImportGraphDefOptions.AddInputMapping(String, Int32, TFOutput)
+  fullName: TFImportGraphDefOptions.AddInputMapping(String, Int32, TFOutput)
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFImportGraphDefOptions.AddReturnOutput(System.String,System.Int32)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddReturnOutput(String, Int32)
+  nameWithType: TFImportGraphDefOptions.AddReturnOutput(String, Int32)
+  fullName: TFImportGraphDefOptions.AddReturnOutput(String, Int32)
+- uid: TensorFlow.TFImportGraphDefOptions.NumReturnOutputs
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: NumReturnOutputs
+  nameWithType: TFImportGraphDefOptions.NumReturnOutputs
+  fullName: TFImportGraphDefOptions.NumReturnOutputs
+- uid: TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: RemapControlDependency(String, TFOperation)
+  nameWithType: TFImportGraphDefOptions.RemapControlDependency(String, TFOperation)
+  fullName: TFImportGraphDefOptions.RemapControlDependency(String, TFOperation)
+- uid: TensorFlow.TFImportGraphDefOptions.SetPrefix(System.String)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetPrefix(String)
+  nameWithType: TFImportGraphDefOptions.SetPrefix(String)
+  fullName: TFImportGraphDefOptions.SetPrefix(String)
+- uid: TensorFlow.TFImportGraphDefOptions.#ctor*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: TFImportGraphDefOptions
+  nameWithType: TFImportGraphDefOptions.TFImportGraphDefOptions
+  fullName: TFImportGraphDefOptions.TFImportGraphDefOptions
+- uid: TensorFlow.TFImportGraphDefOptions.AddControlDependency*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddControlDependency
+  nameWithType: TFImportGraphDefOptions.AddControlDependency
+  fullName: TFImportGraphDefOptions.AddControlDependency
+- uid: TensorFlow.TFImportGraphDefOptions.AddInputMapping*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddInputMapping
+  nameWithType: TFImportGraphDefOptions.AddInputMapping
+  fullName: TFImportGraphDefOptions.AddInputMapping
+- uid: TensorFlow.TFImportGraphDefOptions.AddReturnOutput*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: AddReturnOutput
+  nameWithType: TFImportGraphDefOptions.AddReturnOutput
+  fullName: TFImportGraphDefOptions.AddReturnOutput
+- uid: TensorFlow.TFImportGraphDefOptions.NumReturnOutputs*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: NumReturnOutputs
+  nameWithType: TFImportGraphDefOptions.NumReturnOutputs
+  fullName: TFImportGraphDefOptions.NumReturnOutputs
+- uid: TensorFlow.TFImportGraphDefOptions.RemapControlDependency*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: RemapControlDependency
+  nameWithType: TFImportGraphDefOptions.RemapControlDependency
+  fullName: TFImportGraphDefOptions.RemapControlDependency
+- uid: TensorFlow.TFImportGraphDefOptions.SetPrefix*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetPrefix
+  nameWithType: TFImportGraphDefOptions.SetPrefix
+  fullName: TFImportGraphDefOptions.SetPrefix
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

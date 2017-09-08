@@ -1,0 +1,2180 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TFTensor
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TFTensor
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFTensor">
+  
+  
+  <h1 id="TensorFlow_TFTensor" data-uid="TensorFlow.TFTensor">Class TFTensor
+  </h1>
+  <div class="markdown level0 summary"><p>TFTensor holds a multi-dimensional array of elements of a single data type.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.TFDisposable.html">TFDisposable</a></div>
+    <div class="level2"><span class="xref">TFTensor</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose">TFDisposable.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose_System_Boolean_">TFDisposable.Dispose(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Handle">TFDisposable.Handle</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFTensor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TFTensor : TensorFlow.TFDisposable</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFTensor_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+             You can create tensors with the various constructors in this class, or using
+             the implicit conversions from various data types into a TFTensor.
+            </p>
+    <p>
+             The implicit conversions for basic types produce tensors of one dimesion with
+             a single element, while the implicit conversion from an array, expects a multi-dimensional
+             array that is converted into a tensor of the right dimensions.
+             </p>
+    <p>
+             The special &quot;String&quot; tensor data type that you will find in TensorFlow documentation
+             really represents a byte array.   You can create string tensors by using the <span class="xref">TensorFlow.TFTensor.CreateString</span> 
+             method that takes a byte array buffer as input.
+             </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Array_" data-uid="TensorFlow.TFTensor.#ctor(System.Array)">TFTensor(Array)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor from an array, the shape reflects the shape of the C# array and the underlying type reflects the C# type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (Array array);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Array</span></td>
+        <td><span class="parametername">array</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_TensorFlow_TFDataType_System_Int64___System_Int32_" data-uid="TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.Int32)">TFTensor(TFDataType, Int64[], Int32)</h4>
+  <div class="markdown level1 summary"><p>Low-level: Creates an empty tensor of the specified type and shape, with the specified number of elements</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (TensorFlow.TFDataType dataType, long[] dims, int size);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>Data type.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">dims</span></td>
+        <td><p>Tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">size</span></td>
+        <td><p>Size in bytes of the tensor, this will be the actual memory allocated.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor__ctor_TensorFlow_TFDataType_System_Int64___System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>It is the responsibility of the caller to ensure that the size is correct given the data type size
+            and the tensor dimension specified in dims.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_UInt16___" data-uid="TensorFlow.TFTensor.#ctor(System.UInt16[])">TFTensor(UInt16[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of ushorts</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (ushort[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_UInt16_" data-uid="TensorFlow.TFTensor.#ctor(System.UInt16)">TFTensor(UInt16)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from an ushort value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (ushort value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Single___" data-uid="TensorFlow.TFTensor.#ctor(System.Single[])">TFTensor(Single[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of floats.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (float[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Single_" data-uid="TensorFlow.TFTensor.#ctor(System.Single)">TFTensor(Single)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a float value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (float value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_SByte___" data-uid="TensorFlow.TFTensor.#ctor(System.SByte[])">TFTensor(SByte[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of sbytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (sbyte[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.SByte</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_SByte_" data-uid="TensorFlow.TFTensor.#ctor(System.SByte)">TFTensor(SByte)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from an sbyte value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (sbyte value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.SByte</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Numerics_Complex___" data-uid="TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])">TFTensor(Complex[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of complex numbers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (System.Numerics.Complex[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Numerics.Complex</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Numerics_Complex_" data-uid="TensorFlow.TFTensor.#ctor(System.Numerics.Complex)">TFTensor(Complex)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a Complex value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (System.Numerics.Complex value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Numerics.Complex</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int64___" data-uid="TensorFlow.TFTensor.#ctor(System.Int64[])">TFTensor(Int64[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of longs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (long[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int64_" data-uid="TensorFlow.TFTensor.#ctor(System.Int64)">TFTensor(Int64)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a long value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (long value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int32___" data-uid="TensorFlow.TFTensor.#ctor(System.Int32[])">TFTensor(Int32[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of ints.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (int[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int32_" data-uid="TensorFlow.TFTensor.#ctor(System.Int32)">TFTensor(Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from an integer value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (int value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int16___" data-uid="TensorFlow.TFTensor.#ctor(System.Int16[])">TFTensor(Int16[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of shorts.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (short[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Int16_" data-uid="TensorFlow.TFTensor.#ctor(System.Int16)">TFTensor(Int16)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a short value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (short value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int16</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Double___" data-uid="TensorFlow.TFTensor.#ctor(System.Double[])">TFTensor(Double[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of doubles.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (double[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Double_" data-uid="TensorFlow.TFTensor.#ctor(System.Double)">TFTensor(Double)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a double value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (double value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Byte___" data-uid="TensorFlow.TFTensor.#ctor(System.Byte[])">TFTensor(Byte[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (byte[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Byte_" data-uid="TensorFlow.TFTensor.#ctor(System.Byte)">TFTensor(Byte)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from an byte value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (byte value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Boolean___" data-uid="TensorFlow.TFTensor.#ctor(System.Boolean[])">TFTensor(Boolean[])</h4>
+  <div class="markdown level1 summary"><p>Creates a 1 dimensional tensor from an array of booleans.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (bool[] data);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_System_Boolean_" data-uid="TensorFlow.TFTensor.#ctor(System.Boolean)">TFTensor(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Creates a constant tensor with a single dimension from a boolean value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (bool value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor__ctor_" data-uid="TensorFlow.TFTensor.#ctor*"></a>
+  <h4 id="TensorFlow_TFTensor__ctor_TensorFlow_TFDataType_System_Int64___System_IntPtr_System_UIntPtr_TensorFlow_TFTensor_Deallocator_System_IntPtr_" data-uid="TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)">TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)</h4>
+  <div class="markdown level1 summary"><p>Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFTensor (TensorFlow.TFDataType dataType, long[] dims, IntPtr data, UIntPtr dataSize, TensorFlow.TFTensor.Deallocator deallocator, IntPtr deallocatorData);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a></td>
+        <td><span class="parametername">dataType</span></td>
+        <td><p>Specifies the data type held by the tensor, as well as how to interpret the provided data.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">dims</span></td>
+        <td><p>Describes the tensor shape, an array that indicates .</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">data</span></td>
+        <td><p>Pointer to the raw data that will be used to initialize the tensor.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UIntPtr</span></td>
+        <td><span class="parametername">dataSize</span></td>
+        <td><p>The size of the data being passed in.</p>
+</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><span class="parametername">deallocator</span></td>
+        <td><p>Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <a class="xref" href="TensorFlow.MonoPInvokeCallbackAttribute.html">MonoPInvokeCallbackAttribute</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">deallocatorData</span></td>
+        <td><p>An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_TFTensor_Data_" data-uid="TensorFlow.TFTensor.Data*"></a>
+  <h4 id="TensorFlow_TFTensor_Data" data-uid="TensorFlow.TFTensor.Data">Data</h4>
+  <div class="markdown level1 summary"><p>Returns a pointer to the raw data in the tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IntPtr Data { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_Data_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The contents of the Data must be interpreted according to the type of the
+            data as described by the DataType property.   The amount of data
+            is given by the the TensorByteSize property.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_NumDims_" data-uid="TensorFlow.TFTensor.NumDims*"></a>
+  <h4 id="TensorFlow_TFTensor_NumDims" data-uid="TensorFlow.TFTensor.NumDims">NumDims</h4>
+  <div class="markdown level1 summary"><p>Returns the number of dimensions in the tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int NumDims { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_NumDims_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>For single-dimension tensors the return is 1, 2 dimensions is 2 and so on.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_Shape_" data-uid="TensorFlow.TFTensor.Shape*"></a>
+  <h4 id="TensorFlow_TFTensor_Shape" data-uid="TensorFlow.TFTensor.Shape">Shape</h4>
+  <div class="markdown level1 summary"><p>Returns the tensor shape, this is an array whose size determines the number of dimensions on the tensor, and each element is the size of the dimension</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long[] Shape { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_Shape_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>An array of size 0 is used for constants, an array of size 1 is used
+                for single-dimension arrays, where the dimension is the value of the
+                first element.   And so on.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_TensorByteSize_" data-uid="TensorFlow.TFTensor.TensorByteSize*"></a>
+  <h4 id="TensorFlow_TFTensor_TensorByteSize" data-uid="TensorFlow.TFTensor.TensorByteSize">TensorByteSize</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UIntPtr TensorByteSize { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UIntPtr</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_TensorType_" data-uid="TensorFlow.TFTensor.TensorType*"></a>
+  <h4 id="TensorFlow_TFTensor_TensorType" data-uid="TensorFlow.TFTensor.TensorType">TensorType</h4>
+  <div class="markdown level1 summary"><p>Returns the data type for the tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFDataType TensorType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a></td>
+        <td><p>The type of the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFTensor_CreateString_" data-uid="TensorFlow.TFTensor.CreateString*"></a>
+  <h4 id="TensorFlow_TFTensor_CreateString_System_Byte___" data-uid="TensorFlow.TFTensor.CreateString(System.Byte[])">CreateString(Byte[])</h4>
+  <div class="markdown level1 summary"><p>Creates a single-dimension tensor from a byte buffer.  This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor CreateString (byte[] buffer);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Byte___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)">FromBuffer(TFShape, Byte[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of bytes</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, byte[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Byte___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Double___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)">FromBuffer(TFShape, Double[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of doubles</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, double[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Double___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int16___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)">FromBuffer(TFShape, Int16[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of shorts</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, short[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int16___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int32___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)">FromBuffer(TFShape, Int32[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of ints</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, int[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int32___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int64___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)">FromBuffer(TFShape, Int64[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of longs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, long[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Int64___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Numerics_Complex___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)">FromBuffer(TFShape, Complex[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of Complex numbers</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, System.Numerics.Complex[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Numerics.Complex</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Numerics_Complex___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_SByte___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.SByte[],System.Int32,System.Int32)">FromBuffer(TFShape, SByte[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of sbytes</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, sbyte[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.SByte</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_SByte___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Single___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Single[],System.Int32,System.Int32)">FromBuffer(TFShape, Single[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of floats</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, float[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Single___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_FromBuffer_" data-uid="TensorFlow.TFTensor.FromBuffer*"></a>
+  <h4 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_UInt16___System_Int32_System_Int32_" data-uid="TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)">FromBuffer(TFShape, UInt16[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Creates a new tensor from a portion of an array of ushorts</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, ushort[] data, int start, int count);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Represents the tensor shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">start</span></td>
+        <td><p>The offset into the provided data array where the data resides.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to copy from count into the tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_UInt16___System_Int32_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use the FromBuffer method to create a tensor that has the specified dimensions
+            and is initialized with data from the data array.   The data is copied starting
+            at the start offset, for count bytes and is laid out into the tensor following the
+            specified dimensions.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_GetTensorDimension_" data-uid="TensorFlow.TFTensor.GetTensorDimension*"></a>
+  <h4 id="TensorFlow_TFTensor_GetTensorDimension_System_Int32_" data-uid="TensorFlow.TFTensor.GetTensorDimension(System.Int32)">GetTensorDimension(Int32)</h4>
+  <div class="markdown level1 summary"><p>Returns the number of elements on a specific dimension in the tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long GetTensorDimension (int dimIndex);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">dimIndex</span></td>
+        <td><p>Dimension that you are querying.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>The tensor dimension.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_GetTensorDimension_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If you have a tensor of 3 elements by 5, represented by [3 5],
+            the GetTensorDimension(0) will return 3, the GetTensorDimension(1)
+            will return 5.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_GetValue_" data-uid="TensorFlow.TFTensor.GetValue*"></a>
+  <h4 id="TensorFlow_TFTensor_GetValue_System_Boolean_" data-uid="TensorFlow.TFTensor.GetValue(System.Boolean)">GetValue(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Returns the value of the Tensor as a C# type if possible, or null if the data type can not be represented in C#</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object GetValue (bool jagged = false);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">jagged</span></td>
+        <td><p>The default is set to false, which returns .NET multi-dimensional arrays for multi-dimensional
+            tensors.    This is useful to feed the data back as a TFTensor created from an array.   Set to
+            true if you want to get arrays pointing to arrays, which are slightly more convenient to work
+            with from C#</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_GetValue_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
+            efficient memory-wise.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_ToString_" data-uid="TensorFlow.TFTensor.ToString*"></a>
+  <h4 id="TensorFlow_TFTensor_ToString" data-uid="TensorFlow.TFTensor.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Array_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)">op_Implicit(Array to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a C# array into a tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (Array array);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Array</span></td>
+        <td><span class="parametername">array</span></td>
+        <td><p>single dimension, or multi-dimensional array.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor containing the data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFTensor_op_Implicit_System_Array_to_TensorFlow_TFTensor__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This implicit conversion can convert single or multidimensional arrays of
+            booleans, sbytes, byte, shorts, ushorts, ints, longs, doubles, floats and
+            complex numbers into a tensor with the same dimensional shape as the provided
+            array.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Boolean_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)">op_Implicit(Boolean to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a boolean into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (bool value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the integer value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Byte_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)">op_Implicit(Byte to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a byte into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (byte value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the byte value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Double_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)">op_Implicit(Double to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a double into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (double value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the double value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Int32_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)">op_Implicit(Int32 to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts an integer into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (int value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the integer value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Int64_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)">op_Implicit(Int64 to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a long into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (long value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the long value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Numerics_Complex_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)">op_Implicit(Complex to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a Complex number into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (System.Numerics.Complex value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Numerics.Complex</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the complex value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFTensor_op_Implicit_" data-uid="TensorFlow.TFTensor.op_Implicit*"></a>
+  <h4 id="TensorFlow_TFTensor_op_Implicit_System_Single_to_TensorFlow_TFTensor_" data-uid="TensorFlow.TFTensor.op_Implicit(System.Single to TensorFlow.TFTensor)">op_Implicit(Single to TFTensor)</h4>
+  <div class="markdown level1 summary"><p>Converts a float into a 1-dimensional, 1-valued tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFTensor op_Implicit (float value);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Value to initialize the tensor with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor representing the float value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFBuffer.BufferReleaseFunc
+  id: TFBuffer.BufferReleaseFunc
+  langs:
+  - csharp
+  name: TFBuffer.BufferReleaseFunc
+  nameWithType: TFBuffer.BufferReleaseFunc
+  fullName: TensorFlow.TFBuffer.BufferReleaseFunc
+  type: Delegate
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Signature of the method that is invoked to release the data.
+  remarks: "Methods of this signature are invoked with the data pointer and the\n            lenght pointer when then TFBuffer no longer needs to hold on to the\n            data.  If you are using this on platforms with static compilation\n            like iOS, you need to annotate your callback with the MonoPInvokeCallbackAttribute,\n            like this:\n            \n            <pre><code>\n            [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]\n            internal static void MyFreeFunc (IntPtr data, IntPtr length){..}\n            </code></pre>"
+  syntax:
+    content: public delegate void TFBuffer.BufferReleaseFunc(IntPtr data, IntPtr lenght);
+  inheritance:
+  - System.Delegate
+references:
+- uid: System.Delegate
+  parent: System
+  isExternal: true
+  name: Delegate
+  nameWithType: Delegate
+  fullName: System.Delegate

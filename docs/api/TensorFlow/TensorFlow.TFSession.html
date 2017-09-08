@@ -1,0 +1,675 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TFSession
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TFSession
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFSession">
+  
+  
+  <h1 id="TensorFlow_TFSession" data-uid="TensorFlow.TFSession">Class TFSession
+  </h1>
+  <div class="markdown level0 summary"><p>Drives the execution of a graph</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.TFDisposable.html">TFDisposable</a></div>
+    <div class="level2"><span class="xref">TFSession</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose">TFDisposable.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Dispose_System_Boolean_">TFDisposable.Dispose(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.TFDisposable.html#TensorFlow_TFDisposable_Handle">TFDisposable.Handle</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFSession_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TFSession : TensorFlow.TFDisposable</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFSession_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+            This creates a new context to execute a TFGraph.   You can use the 
+            constructor to create an empty session, or you can load an existing
+            model using the <a class="xref" href="TensorFlow.TFSession.html#TensorFlow_TFSession_FromSavedModel_TensorFlow_TFSessionOptions_TensorFlow_TFBuffer_System_String_System_String___TensorFlow_TFGraph_TensorFlow_TFBuffer_TensorFlow_TFStatus_">FromSavedModel(TFSessionOptions, TFBuffer, String, String[], TFGraph, TFBuffer, TFStatus)</a> static method in this class.
+            </p>
+    <p>
+            To execute operations with the graph, call the <a class="xref" href="TensorFlow.TFSession.html#TensorFlow_TFSession_GetRunner">GetRunner()</a>  method
+            which returns an object that you can use to build the operation by providing
+            the inputs, requesting the operations that you want to execute and the desired outputs.
+            </p>
+    <p>
+            The <a class="xref" href="TensorFlow.TFSession.html#TensorFlow_TFSession_GetRunner">GetRunner()</a> method is a high-level helper function that wraps a
+            call to the <a class="xref" href="TensorFlow.TFSession.html#TensorFlow_TFSession_Run_TensorFlow_TFOutput___TensorFlow_TFTensor___TensorFlow_TFOutput___TensorFlow_TFOperation___TensorFlow_TFBuffer_TensorFlow_TFBuffer_TensorFlow_TFStatus_">Run(TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFBuffer, TFBuffer, TFStatus)</a> method which just takes too many parameters that must
+            be kept in sync.
+            </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFSession__ctor_" data-uid="TensorFlow.TFSession.#ctor*"></a>
+  <h4 id="TensorFlow_TFSession__ctor_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.#ctor(TensorFlow.TFStatus)">TFSession(TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFSession (TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession__ctor_" data-uid="TensorFlow.TFSession.#ctor*"></a>
+  <h4 id="TensorFlow_TFSession__ctor_TensorFlow_TFGraph_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.#ctor(TensorFlow.TFGraph,TensorFlow.TFStatus)">TFSession(TFGraph, TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession__ctor_" data-uid="TensorFlow.TFSession.#ctor*"></a>
+  <h4 id="TensorFlow_TFSession__ctor_TensorFlow_TFGraph_TensorFlow_TFSessionOptions_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.#ctor(TensorFlow.TFGraph,TensorFlow.TFSessionOptions,TensorFlow.TFStatus)">TFSession(TFGraph, TFSessionOptions, TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSessionOptions.html">TFSessionOptions</a></td>
+        <td><span class="parametername">sessionOptions</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_TFSession_Graph_" data-uid="TensorFlow.TFSession.Graph*"></a>
+  <h4 id="TensorFlow_TFSession_Graph" data-uid="TensorFlow.TFSession.Graph">Graph</h4>
+  <div class="markdown level1 summary"><p>Gets the graph associated with this TensorFlow session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFGraph Graph { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><p>The graph.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFSession_CloseSession_" data-uid="TensorFlow.TFSession.CloseSession*"></a>
+  <h4 id="TensorFlow_TFSession_CloseSession_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.CloseSession(TensorFlow.TFStatus)">CloseSession(TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CloseSession (TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession_DeleteSession_" data-uid="TensorFlow.TFSession.DeleteSession*"></a>
+  <h4 id="TensorFlow_TFSession_DeleteSession_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.DeleteSession(TensorFlow.TFStatus)">DeleteSession(TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DeleteSession (TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession_FromSavedModel_" data-uid="TensorFlow.TFSession.FromSavedModel*"></a>
+  <h4 id="TensorFlow_TFSession_FromSavedModel_TensorFlow_TFSessionOptions_TensorFlow_TFBuffer_System_String_System_String___TensorFlow_TFGraph_TensorFlow_TFBuffer_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.FromSavedModel(TensorFlow.TFSessionOptions,TensorFlow.TFBuffer,System.String,System.String[],TensorFlow.TFGraph,TensorFlow.TFBuffer,TensorFlow.TFStatus)">FromSavedModel(TFSessionOptions, TFBuffer, String, String[], TFGraph, TFBuffer, TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSessionOptions.html">TFSessionOptions</a></td>
+        <td><span class="parametername">sessionOptions</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><span class="parametername">runOptions</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">exportDir</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">tags</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><span class="parametername">metaGraphDef</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSession.html">TFSession</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession_GetRunner_" data-uid="TensorFlow.TFSession.GetRunner*"></a>
+  <h4 id="TensorFlow_TFSession_GetRunner" data-uid="TensorFlow.TFSession.GetRunner">GetRunner()</h4>
+  <div class="markdown level1 summary"><p>Gets a new runner, this provides a simpler API to prepare the inputs to run on a session</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFSession.Runner GetRunner ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td><p>The runner.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFSession_GetRunner_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The runner has a simple API that allows developers to call the AddTarget, AddInput, AddOutput and Fetch
+            to construct the parameters that will be passed to the TFSession.Run method.</p>
+<pre><code>        The Run method will return an array of TFTensor values, one for each invocation to the Fetch method.
+</code></pre></div>
+  
+  
+  <a id="TensorFlow_TFSession_PartialRun_" data-uid="TensorFlow.TFSession.PartialRun*"></a>
+  <h4 id="TensorFlow_TFSession_PartialRun_TensorFlow_TFSession_PartialRunToken_TensorFlow_TFOutput___TensorFlow_TFTensor___TensorFlow_TFOutput___TensorFlow_TFOperation___TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.PartialRun(TensorFlow.TFSession.PartialRunToken,TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)">PartialRun(TFSession+PartialRunToken, TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFTensor[] PartialRun (TensorFlow.TFSession.PartialRunToken token, TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td><span class="parametername">token</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">inputs</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><span class="parametername">inputValues</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">outputs</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><span class="parametername">targetOpers</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession_PartialRunSetup_" data-uid="TensorFlow.TFSession.PartialRunSetup*"></a>
+  <h4 id="TensorFlow_TFSession_PartialRunSetup_TensorFlow_TFOutput___TensorFlow_TFOutput___TensorFlow_TFOperation___TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.PartialRunSetup(TensorFlow.TFOutput[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFStatus)">PartialRunSetup(TFOutput[], TFOutput[], TFOperation[], TFStatus)</h4>
+  <div class="markdown level1 summary"><p>Prepares the session for a partial run.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFSession.PartialRunToken PartialRunSetup (TensorFlow.TFOutput[] inputs, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">inputs</span></td>
+        <td><p>Inputs.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">outputs</span></td>
+        <td><p>Outputs.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><span class="parametername">targetOpers</span></td>
+        <td><p>Target operations to run.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Status buffer, if specified a status code will be left here, if not specified, a <a class="xref" href="TensorFlow.TFException.html">TFException</a> exception is raised if there is an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td><p>A token that can be used to call <a class="xref" href="TensorFlow.TFSession.html#TensorFlow_TFSession_PartialRun_TensorFlow_TFSession_PartialRunToken_TensorFlow_TFOutput___TensorFlow_TFTensor___TensorFlow_TFOutput___TensorFlow_TFOperation___TensorFlow_TFStatus_">PartialRun(TFSession+PartialRunToken, TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFStatus)</a> repeatedly.   To complete your partial run, you should call Dispose on the resulting method.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFSession_Run_" data-uid="TensorFlow.TFSession.Run*"></a>
+  <h4 id="TensorFlow_TFSession_Run_TensorFlow_TFOutput___TensorFlow_TFTensor___TensorFlow_TFOutput___TensorFlow_TFOperation___TensorFlow_TFBuffer_TensorFlow_TFBuffer_TensorFlow_TFStatus_" data-uid="TensorFlow.TFSession.Run(TensorFlow.TFOutput[],TensorFlow.TFTensor[],TensorFlow.TFOutput[],TensorFlow.TFOperation[],TensorFlow.TFBuffer,TensorFlow.TFBuffer,TensorFlow.TFStatus)">Run(TFOutput[], TFTensor[], TFOutput[], TFOperation[], TFBuffer, TFBuffer, TFStatus)</h4>
+  <div class="markdown level1 summary"><p>Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.<br>            A simpler API is available by calling the <span class="xref">GetRunner</span> method which performs all the bookkeeping
+            necessary.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers = null, TensorFlow.TFBuffer runMetadata = null, TensorFlow.TFBuffer runOptions = null, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">inputs</span></td>
+        <td><p>Inputs nodes.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><span class="parametername">inputValues</span></td>
+        <td><p>Input values.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">outputs</span></td>
+        <td><p>Output nodes.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><span class="parametername">targetOpers</span></td>
+        <td><p>Target operations to execute.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><span class="parametername">runMetadata</span></td>
+        <td><p>Run metadata.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><span class="parametername">runOptions</span></td>
+        <td><p>Run options.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Status buffer, if specified a status code will be left here, if not specified, a <a class="xref" href="TensorFlow.TFException.html">TFException</a> exception is raised if there is an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><p>An array of tensors fetched from the requested outputs.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

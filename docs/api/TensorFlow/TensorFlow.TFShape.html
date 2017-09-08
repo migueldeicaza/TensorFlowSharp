@@ -1,0 +1,573 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TFShape
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TFShape
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.TFShape">
+  
+  
+  <h1 id="TensorFlow_TFShape" data-uid="TensorFlow.TFShape">Class TFShape
+  </h1>
+  <div class="markdown level0 summary"><p>Represents the shape of a tensor</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">TFShape</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_TFShape_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TFShape</code></pre>
+  </div>
+  <h5 id="TensorFlow_TFShape_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>
+            The shapes can be created by calling the constructor with the number of dimensions
+            in the shape.   The null value is used to specify that the shape is unknown,
+            an empty array is used to create a scalar, and other values are used to specify
+            the number of dimensions.
+            </p>
+    <p>
+            For the Unknown case, you can use <span class="xref">TensorFlor.TFShape.Unknown</span>, for
+            scalars, you can use the <span class="xref">TensorFlor.TFShape.Scalar</span> shape.
+            </p>
+    <p>
+            To create a 2-element vector, use:
+            new TFShape (2)
+            </p>
+    <p>
+            To create a 2x3 matrix, use:
+            new TFShape (2, 3)
+            </p>
+    <p>
+            To create a shape with an unknown number of elements, you can pass the value
+            -1.  This is typically used to indicate the shape of tensors that represent a
+            variable-sized batch of values.
+            </p>
+    <p>
+            To create a matrix with 4 columns and an unknown number of rows:
+            var batch = new TFShape (-1, 4)
+            </p></div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_TFShape__ctor_" data-uid="TensorFlow.TFShape.#ctor*"></a>
+  <h4 id="TensorFlow_TFShape__ctor_System_Int64___" data-uid="TensorFlow.TFShape.#ctor(System.Int64[])">TFShape(Int64[])</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TFShape (long[] args);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td><p>This is a params argument, so you can provide multiple values to it.<br>            A null value means that this is an unknown shape, a single value is used to create a vector,
+            two values are used to create a 2-D matrix and so on.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_TFShape_IsFullySpecified_" data-uid="TensorFlow.TFShape.IsFullySpecified*"></a>
+  <h4 id="TensorFlow_TFShape_IsFullySpecified" data-uid="TensorFlow.TFShape.IsFullySpecified">IsFullySpecified</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether all the dimensions in the <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> are fully specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsFullySpecified { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><code>true</code> if is fully specified; otherwise, <code>false</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_IsLongArray_" data-uid="TensorFlow.TFShape.IsLongArray*"></a>
+  <h4 id="TensorFlow_TFShape_IsLongArray" data-uid="TensorFlow.TFShape.IsLongArray">IsLongArray</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether one of the dimensions <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> in the shape is larger than Int32.MaxValue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsLongArray { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p><code>true</code> if is long array; otherwise, <code>false</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_Item_" data-uid="TensorFlow.TFShape.Item*"></a>
+  <h4 id="TensorFlow_TFShape_Item_System_Int32_" data-uid="TensorFlow.TFShape.Item(System.Int32)">Item(Int32)</h4>
+  <div class="markdown level1 summary"><p>Gets the dimensions for the specified index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long this[int idx] { get; }</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">idx</span></td>
+        <td><p>Index.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_NumDimensions_" data-uid="TensorFlow.TFShape.NumDimensions*"></a>
+  <h4 id="TensorFlow_TFShape_NumDimensions" data-uid="TensorFlow.TFShape.NumDimensions">NumDimensions</h4>
+  <div class="markdown level1 summary"><p>Number of dimensions represented by this shape.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int NumDimensions { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The number dimensions, -1 if the number of dimensions is unknown, 0 if the shape represent a scalar, 1 for a vector, 2 for a matrix and so on..</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_Scalar_" data-uid="TensorFlow.TFShape.Scalar*"></a>
+  <h4 id="TensorFlow_TFShape_Scalar" data-uid="TensorFlow.TFShape.Scalar">Scalar</h4>
+  <div class="markdown level1 summary"><p>This shape is used to represent scalar values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFShape Scalar { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><p>The scalar.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_Unknown_" data-uid="TensorFlow.TFShape.Unknown*"></a>
+  <h4 id="TensorFlow_TFShape_Unknown" data-uid="TensorFlow.TFShape.Unknown">Unknown</h4>
+  <div class="markdown level1 summary"><p>Represents an unknown number of dimensions in the tensor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFShape Unknown { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><p>The unknown.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_TFShape_AsTensor_" data-uid="TensorFlow.TFShape.AsTensor*"></a>
+  <h4 id="TensorFlow_TFShape_AsTensor" data-uid="TensorFlow.TFShape.AsTensor">AsTensor()</h4>
+  <div class="markdown level1 summary"><p>Returns the shape as a 1-dimensional tensor with each element corresponding to the specified shape dimension.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFTensor AsTensor ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a></td>
+        <td><p>The tensor.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_GetLength_" data-uid="TensorFlow.TFShape.GetLength*"></a>
+  <h4 id="TensorFlow_TFShape_GetLength_System_Int32_" data-uid="TensorFlow.TFShape.GetLength(System.Int32)">GetLength(Int32)</h4>
+  <div class="markdown level1 summary"><p>Gets the length of the specified dimension in the tensor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetLength (int dimension);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">dimension</span></td>
+        <td><p>Dimension.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The length, -1 for shapes that have an unknown dimension.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_ToArray_" data-uid="TensorFlow.TFShape.ToArray*"></a>
+  <h4 id="TensorFlow_TFShape_ToArray" data-uid="TensorFlow.TFShape.ToArray">ToArray()</h4>
+  <div class="markdown level1 summary"><p>Returns the shape as an array</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long[] ToArray ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span>[]</td>
+        <td><p>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_ToIntArray_" data-uid="TensorFlow.TFShape.ToIntArray*"></a>
+  <h4 id="TensorFlow_TFShape_ToIntArray" data-uid="TensorFlow.TFShape.ToIntArray">ToIntArray()</h4>
+  <div class="markdown level1 summary"><p>Returns the shape as an array</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int[] ToIntArray ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><p>null if the shape represents an unknown shape, otherwise an array with N elements, one per dimension, and each element can be either -1 (if the dimension size is unspecified) or the size of the dimension.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFShape_ToString_" data-uid="TensorFlow.TFShape.ToString*"></a>
+  <h4 id="TensorFlow_TFShape_ToString" data-uid="TensorFlow.TFShape.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  
+  
+  <a id="TensorFlow_TFShape_op_Addition_" data-uid="TensorFlow.TFShape.op_Addition*"></a>
+  <h4 id="TensorFlow_TFShape_op_Addition_TensorFlow_TFShape_TensorFlow_TFShape_" data-uid="TensorFlow.TFShape.op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)">op_Addition(TFShape, TFShape)</h4>
+  <div class="markdown level1 summary"><p>Adds a <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> to a <a class="xref" href="TensorFlow.TFShape.html">TFShape</a>, yielding a shape made up of the concatenation of the first and the second shapes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFShape op_Addition (TensorFlow.TFShape left, TensorFlow.TFShape right);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">left</span></td>
+        <td><p>The first <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> to add.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">right</span></td>
+        <td><p>The second <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> to add.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><p>The <a class="xref" href="TensorFlow.TFShape.html">TFShape</a> that is the sum of the values of <code>left</code> and <code>right</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>
