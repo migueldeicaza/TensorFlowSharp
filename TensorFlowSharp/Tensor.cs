@@ -54,7 +54,7 @@ namespace TensorFlow
 
 		static Deallocator FreeTensorDataDelegate = FreeTensorData;
 		static Deallocator FreeTensorHandleDelegate = FreeTensorHandle;
-
+		
 		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorData (IntPtr data, IntPtr len, IntPtr closure)
 		{
@@ -89,7 +89,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Int8, shape, data, start, count, size: 2));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of bytes
 		/// </summary>
@@ -107,7 +107,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.UInt8, shape, data, start, count, size: 1));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of shorts
 		/// </summary>
@@ -125,7 +125,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Int16, shape, data, start, count, size: 2));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of ushorts
 		/// </summary>
@@ -143,7 +143,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.UInt16, shape, data, start, count, size: 2));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of ints
 		/// </summary>
@@ -161,7 +161,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Int32, shape, data, start, count, size: 4));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of floats
 		/// </summary>
@@ -179,7 +179,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Float, shape, data, start, count, size: 4));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of doubles
 		/// </summary>
@@ -197,7 +197,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Double, shape, data, start, count, size: 8));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of longs
 		/// </summary>
@@ -215,7 +215,7 @@ namespace TensorFlow
 		{
 			return new TFTensor (SetupTensor (TFDataType.Int64, shape, data, start, count, size: 8));
 		}
-
+		
 		/// <summary>
 		/// Creates a new tensor from a portion of an array of Complex numbers
 		/// </summary>
@@ -262,50 +262,50 @@ namespace TensorFlow
 			TFDataType dt;
 			long size = 0;
 			switch (tc) {
-				case TypeCode.Boolean:
-					dt = TFDataType.Bool;
-					size = 1;
-					break;
-				case TypeCode.SByte:
-					dt = TFDataType.Int8;
-					size = 1;
-					break;
-				case TypeCode.Byte:
-					dt = TFDataType.UInt8;
-					size = 1;
-					break;
-				case TypeCode.Int16:
-					dt = TFDataType.Int16;
-					size = 2;
-					break;
-				case TypeCode.UInt16:
-					dt = TFDataType.UInt16;
-					size = 2;
-					break;
-				case TypeCode.Int32:
-					dt = TFDataType.Int32;
-					size = 4;
-					break;
-				case TypeCode.Int64:
-					dt = TFDataType.Int64;
-					size = 8;
-					break;
-				case TypeCode.Single:
-					dt = TFDataType.Float;
-					size = 4;
-					break;
-				case TypeCode.Double:
-					dt = TFDataType.Double;
-					size = 8;
-					break;
-				default:
-					// Check types that are not handled by the typecode
-					if (t.IsAssignableFrom (typeof (Complex))) {
-						size = 16;
-						dt = TFDataType.Complex128;
-					} else
-						throw new ArgumentException ($"The data type {t} is not supported");
-					break;
+			case TypeCode.Boolean:
+				dt = TFDataType.Bool;
+				size = 1;
+				break;
+			case TypeCode.SByte:
+				dt = TFDataType.Int8;
+				size = 1;
+				break;
+			case TypeCode.Byte:
+				dt = TFDataType.UInt8;
+				size = 1;
+				break;
+			case TypeCode.Int16:
+				dt = TFDataType.Int16;
+				size = 2;
+				break;
+			case TypeCode.UInt16:
+				dt = TFDataType.UInt16;
+				size = 2;
+				break;
+			case TypeCode.Int32:
+				dt = TFDataType.Int32;
+				size = 4;
+				break;
+			case TypeCode.Int64:
+				dt = TFDataType.Int64;
+				size = 8;
+				break;
+			case TypeCode.Single:
+				dt = TFDataType.Float;
+				size = 4;
+				break;
+			case TypeCode.Double:
+				dt = TFDataType.Double;
+				size = 8;
+				break;
+			default:
+				// Check types that are not handled by the typecode
+				if (t.IsAssignableFrom (typeof (Complex))) {
+					size = 16;
+					dt = TFDataType.Complex128;
+				} else
+					throw new ArgumentException ($"The data type {t} is not supported");
+				break;
 			}
 
 			var dims = new long [array.Rank];
@@ -470,7 +470,7 @@ namespace TensorFlow
 		public TFTensor (Complex [] data) : base (SetupTensor (TFDataType.Complex128, data, size: 16)) { }
 
 		/// <summary>
-		/// Creates a single-dimension tensor from a byte buffer. This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.
+		/// Creates a single-dimension tensor from a byte buffer.  This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.
 		/// </summary>
 		public unsafe static TFTensor CreateString (byte [] buffer)
 		{
@@ -487,7 +487,8 @@ namespace TensorFlow
 			IntPtr dst = TF_TensorData (handle);
 			Marshal.WriteInt64 (dst, 0);
 			var status = TFStatus.TF_NewStatus ();
-			fixed (byte* src = &buffer [0]) {
+			fixed (byte* src = &buffer [0])
+			{
 				TFString.TF_StringEncode (src, (UIntPtr)buffer.Length, (sbyte*)(dst + 8), size, status);
 				var ok = TFStatus.TF_GetCode (status) == TFCode.Ok;
 				TFStatus.TF_DeleteStatus (status);
@@ -520,7 +521,7 @@ namespace TensorFlow
 				throw new ArgumentNullException (nameof (shape));
 			return SetupTensor (dt, shape.dims, data, start, count, size);
 		}
-
+		
 		// Use for single dimension arrays 
 		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int start, int count, int size)
 		{
@@ -758,8 +759,7 @@ namespace TensorFlow
 		///     for single-dimension arrays, where the dimension is the value of the
 		///     first element.   And so on.
 		/// </remarks>
-		public long [] Shape
-		{
+		public long [] Shape {
 			get {
 				var dims = new long [TF_NumDims (handle)];
 				for (int i = 0; i < dims.Length; i++)
@@ -772,60 +772,60 @@ namespace TensorFlow
 		static Type TypeFromTensorType (TFDataType type)
 		{
 			switch (type) {
-				case TFDataType.Float:
-					return typeof (float);
-				case TFDataType.Double:
-					return typeof (double);
-				case TFDataType.Int32:
-					return typeof (int);
-				case TFDataType.UInt8:
-					return typeof (byte);
-				case TFDataType.Int16:
-					return typeof (short);
-				case TFDataType.Int8:
-					return typeof (sbyte);
-				case TFDataType.String:
-					return typeof (TFString);
-				case TFDataType.Int64:
-					return typeof (long);
-				case TFDataType.Bool:
-					return typeof (bool);
-				case TFDataType.UInt16:
-					return typeof (ushort);
-				case TFDataType.Complex128:
-					return typeof (Complex);
-				default:
-					return null;
+			case TFDataType.Float:
+				return typeof (float);
+			case TFDataType.Double:
+				return typeof (double);
+			case TFDataType.Int32:
+				return typeof (int);
+			case TFDataType.UInt8:
+				return typeof (byte);
+			case TFDataType.Int16:
+				return typeof (short);
+			case TFDataType.Int8:
+				return typeof (sbyte);
+			case TFDataType.String:
+				return typeof (TFString);
+			case TFDataType.Int64:
+				return typeof (long);
+			case TFDataType.Bool:
+				return typeof (bool);
+			case TFDataType.UInt16:
+				return typeof (ushort);
+			case TFDataType.Complex128:
+				return typeof (Complex);
+			default:
+				return null;
 			}
 		}
 
 		static unsafe object FetchSimple (TFDataType dt, IntPtr data)
 		{
 			switch (dt) {
-				case TFDataType.Float:
-					return *(float*)data;
-				case TFDataType.Double:
-					return *(double*)data;
-				case TFDataType.Int32:
-					return *(int*)data;
-				case TFDataType.UInt8:
-					return *(byte*)data;
-				case TFDataType.Int16:
-					return *(short*)data;
-				case TFDataType.Int8:
-					return *(sbyte*)data;
-				case TFDataType.String:
-					throw new NotImplementedException ();
-				case TFDataType.Int64:
-					return *(long*)data;
-				case TFDataType.Bool:
-					return *(bool*)data;
-				case TFDataType.UInt16:
-					return *(ushort*)data;
-				case TFDataType.Complex128:
-					return *(Complex*)data;
-				default:
-					return null;
+			case TFDataType.Float:
+				return *(float*)data;
+			case TFDataType.Double:
+				return *(double*)data;
+			case TFDataType.Int32:
+				return *(int*)data;
+			case TFDataType.UInt8:
+				return *(byte*)data;
+			case TFDataType.Int16:
+				return *(short*)data;
+			case TFDataType.Int8:
+				return *(sbyte*)data;
+			case TFDataType.String:
+				throw new NotImplementedException ();
+			case TFDataType.Int64:
+				return *(long*)data;
+			case TFDataType.Bool:
+				return *(bool*)data;
+			case TFDataType.UInt16:
+				return *(ushort*)data;
+			case TFDataType.Complex128:
+				return *(Complex*)data;
+			default:
+				return null;
 			}
 		}
 
@@ -838,61 +838,61 @@ namespace TensorFlow
 		{
 			int len = target.Length;
 			switch (dt) {
-				case TFDataType.Int8:
-					var asbyte = (sbyte [])target;
-					fixed (sbyte* p = &asbyte [0])
-						Copy (data, p, len);
-					return;
-				case TFDataType.Bool:
-					var abool = (bool [])target;
-					fixed (bool* p = &abool [0])
-						Copy (data, p, len);
-					return;
-				case TFDataType.UInt16:
-					var aushort = (ushort [])target;
-					fixed (ushort* p = &aushort [0])
-						Copy (data, p, len * 2);
-					return;
-				case TFDataType.Complex128:
-					var acomplex = (Complex [])target;
-					fixed (Complex* p = &acomplex [0])
-						Copy (data, p, len * sizeof (Complex));
-					return;
-				case TFDataType.Float:
-					var afloat = (float [])target;
-					fixed (float* p = &afloat [0])
-						Copy (data, p, len * sizeof (float));
-					return;
-				case TFDataType.Double:
-					var adouble = (double [])target;
-					fixed (double* p = &adouble [0])
-						Copy (data, p, len * sizeof (double));
-					return;
-				case TFDataType.Int32:
-					var aint = (int [])target;
-					fixed (int* p = &aint [0])
-						Copy (data, p, len * sizeof (double));
-					return;
-				case TFDataType.UInt8:
-					var abyte = (byte [])target;
-					fixed (byte* p = &abyte [0])
-						Copy (data, p, len * sizeof (byte));
-					return;
-				case TFDataType.Int16:
-					var ashort = (short [])target;
-					fixed (short* p = &ashort [0])
-						Copy (data, p, len * sizeof (short));
-					return;
-				case TFDataType.Int64:
-					var along = (long [])target;
-					fixed (long* p = &along [0])
-						Copy (data, p, len * sizeof (long));
-					return;
-				case TFDataType.String:
-					// need to return an array of TFStrings []
-					throw new NotImplementedException ();
-				default:
-					throw new NotImplementedException ();
+			case TFDataType.Int8:
+				var asbyte = (sbyte [])target;
+				fixed (sbyte* p = &asbyte [0])
+					Copy (data, p, len);
+				return;
+			case TFDataType.Bool:
+				var abool = (bool [])target;
+				fixed (bool* p = &abool [0])
+					Copy (data, p, len);
+				return;
+			case TFDataType.UInt16:
+				var aushort = (ushort [])target;
+				fixed (ushort* p = &aushort [0])
+					Copy (data, p, len * 2);
+				return;
+			case TFDataType.Complex128:
+				var acomplex = (Complex [])target;
+				fixed (Complex* p = &acomplex [0])
+					Copy (data, p, len * sizeof (Complex));
+				return;
+			case TFDataType.Float:
+				var afloat = (float [])target;
+				fixed (float* p = &afloat [0])
+					Copy (data, p, len * sizeof (float));
+				return;
+			case TFDataType.Double:
+				var adouble = (double [])target;
+				fixed (double* p = &adouble [0])
+					Copy (data, p, len * sizeof (double));
+				return;
+			case TFDataType.Int32:
+				var aint = (int [])target;
+				fixed (int* p = &aint [0])
+					Copy (data, p, len * sizeof (double));
+				return;
+			case TFDataType.UInt8:
+				var abyte = (byte [])target;
+				fixed (byte* p = &abyte [0])
+					Copy (data, p, len * sizeof (byte));
+				return;
+			case TFDataType.Int16:
+				var ashort = (short [])target;
+				fixed (short* p = &ashort [0])
+					Copy (data, p, len * sizeof (short));
+				return;
+			case TFDataType.Int64:
+				var along = (long [])target;
+				fixed (long* p = &along [0])
+					Copy (data, p, len * sizeof (long));
+				return;
+			case TFDataType.String:
+				// need to return an array of TFStrings []
+				throw new NotImplementedException ();
+			default:
+				throw new NotImplementedException ();
 			}
 		}
 
@@ -906,46 +906,46 @@ namespace TensorFlow
 
 				for (long l = 0; l < shape [level]; l++)
 					switch (dt) {
-						case TFDataType.Float:
-							target.SetValue ((*(float*)data), l);
-							data += 4;
-							break;
-						case TFDataType.Double:
-							target.SetValue ((*(double*)data), l);
-							data += 8;
-							break;
-						case TFDataType.Int32:
-							target.SetValue ((*(int*)data), l);
-							data += 4;
-							break;
-						case TFDataType.UInt8:
-							target.SetValue ((*(byte*)data), l);
-							data += 1;
-							break;
-						case TFDataType.Int16:
-							target.SetValue ((*(short*)data), l);
-							data += 2;
-							break;
-						case TFDataType.Int8:
-							target.SetValue ((*(sbyte*)data), l);
-							data += 1;
-							break;
-						case TFDataType.Int64:
-							target.SetValue ((*(long*)data), l);
-							data += 8;
-							break;
-						case TFDataType.Bool:
-							target.SetValue ((*(bool*)data), l);
-							data += 1;
-							break;
-						case TFDataType.Complex128:
-							target.SetValue ((*(Complex*)data), l);
-							data += sizeof (Complex);
-							break;
-						case TFDataType.String:
-							throw new NotImplementedException ("String decoding not implemented for tensor vectors yet");
-						default:
-							throw new NotImplementedException ();
+					case TFDataType.Float:
+						target.SetValue ((*(float*)data), l);
+						data += 4;
+						break;
+					case TFDataType.Double:
+						target.SetValue ((*(double*)data), l);
+						data += 8;
+						break;
+					case TFDataType.Int32:
+						target.SetValue ((*(int*)data), l);
+						data += 4;
+						break;
+					case TFDataType.UInt8:
+						target.SetValue ((*(byte*)data), l);
+						data += 1;
+						break;
+					case TFDataType.Int16:
+						target.SetValue ((*(short*)data), l);
+						data += 2;
+						break;
+					case TFDataType.Int8:
+						target.SetValue ((*(sbyte*)data), l);
+						data += 1;
+						break;
+					case TFDataType.Int64:
+						target.SetValue ((*(long*)data), l);
+						data += 8;
+						break;
+					case TFDataType.Bool:
+						target.SetValue ((*(bool*)data), l);
+						data += 1;
+						break;
+					case TFDataType.Complex128:
+						target.SetValue ((*(Complex*)data), l);
+						data += sizeof (Complex);
+						break;
+					case TFDataType.String:
+						throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+					default:
+						throw new NotImplementedException ();
 					}
 			} else {
 				target = null;
@@ -995,46 +995,46 @@ namespace TensorFlow
 			} else {
 				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++) {
 					switch (dt) {
-						case TFDataType.Float:
-							target.SetValue ((*(float*)data), idx);
-							data += 4;
-							break;
-						case TFDataType.Double:
-							target.SetValue ((*(double*)data), idx);
-							data += 8;
-							break;
-						case TFDataType.Int32:
-							target.SetValue ((*(int*)data), idx);
-							data += 4;
-							break;
-						case TFDataType.UInt8:
-							target.SetValue ((*(byte*)data), idx);
-							data += 1;
-							break;
-						case TFDataType.Int16:
-							target.SetValue ((*(short*)data), idx);
-							data += 2;
-							break;
-						case TFDataType.Int8:
-							target.SetValue ((*(sbyte*)data), idx);
-							data += 1;
-							break;
-						case TFDataType.Int64:
-							target.SetValue ((*(long*)data), idx);
-							data += 8;
-							break;
-						case TFDataType.Bool:
-							target.SetValue ((*(bool*)data), idx);
-							data += 1;
-							break;
-						case TFDataType.Complex128:
-							target.SetValue ((*(Complex*)data), idx);
-							data += sizeof (Complex);
-							break;
-						case TFDataType.String:
-							throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
-						default:
-							throw new NotImplementedException ();
+					case TFDataType.Float:
+						target.SetValue ((*(float*)data), idx);
+						data += 4;
+						break;
+					case TFDataType.Double:
+						target.SetValue ((*(double*)data), idx);
+						data += 8;
+						break;
+					case TFDataType.Int32:
+						target.SetValue ((*(int*)data), idx);
+						data += 4;
+						break;
+					case TFDataType.UInt8:
+						target.SetValue ((*(byte*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Int16:
+						target.SetValue ((*(short*)data), idx);
+						data += 2;
+						break;
+					case TFDataType.Int8:
+						target.SetValue ((*(sbyte*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Int64:
+						target.SetValue ((*(long*)data), idx);
+						data += 8;
+						break;
+					case TFDataType.Bool:
+						target.SetValue ((*(bool*)data), idx);
+						data += 1;
+						break;
+					case TFDataType.Complex128:
+						target.SetValue ((*(Complex*)data), idx);
+						data += sizeof (Complex);
+						break;
+					case TFDataType.String:
+						throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+					default:
+						throw new NotImplementedException ();
 					}
 				}
 			}
@@ -1045,7 +1045,7 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="jagged">
 		/// The default is set to false, which returns .NET multi-dimensional arrays for multi-dimensional
-		/// tensors. This is useful to feed the data back as a TFTensor created from an array.   Set to
+		/// tensors.    This is useful to feed the data back as a TFTensor created from an array.   Set to
 		/// true if you want to get arrays pointing to arrays, which are slightly more convenient to work
 		/// with from C#
 		/// </param>
@@ -1106,6 +1106,7 @@ namespace TensorFlow
 
 		private static int [] getLength (Array array, bool deep = true, bool max = false)
 		{
+			// This function gets the length of all dimensions in a multidimensional, jagged, or mixed array.
 			// https://github.com/accord-net/framework/blob/b4990721a61f03602d04c12b148215c7eca1b7ac/Sources/Accord.Math/Matrix/Matrix.Construction.cs#L1118
 			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
 
@@ -1143,6 +1144,7 @@ namespace TensorFlow
 
 		private static Array deepFlatten (Array array)
 		{
+			// This function converts multidimensional, jagged, or mixed arrays into a single unidimensional array (i.e. flattens the mixed array).
 			// https://github.com/accord-net/framework/blob/f78181b82eb6ee6cc7fd10d2a7a55334982c40df/Sources/Accord.Math/Matrix/Matrix.Common.cs#L1625
 			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
 			int totalLength = getTotalLength (array, deep: true);
@@ -1157,6 +1159,7 @@ namespace TensorFlow
 
 		private static IEnumerable enumerateJagged (Array array)
 		{
+			// This function can enumerate all elements in a multidimensional ,jagged, or mixed array.
 			// From https://github.com/accord-net/framework/blob/b4990721a61f03602d04c12b148215c7eca1b7ac/Sources/Accord.Math/Matrix/Jagged.Construction.cs#L1202
 			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
 			var arrays = new Stack<Array> ();
@@ -1240,4 +1243,4 @@ namespace TensorFlow
 
 	}
 
-}
+}	
