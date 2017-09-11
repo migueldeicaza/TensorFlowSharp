@@ -12,5 +12,5 @@ script:
   - cp -R $TRAVIS_BUILD_DIR/native/libtensorflow.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
   - cp -R $TRAVIS_BUILD_DIR/native/libtensorflow.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/libtensorflow.dylib
   - sh $TRAVIS_BUILD_DIR/runtests.sh
-mono: "5.0.0"
+mono: "5.2.0"
 os: "osx"
