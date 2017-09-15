@@ -104,9 +104,9 @@ namespace TensorFlow
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
-				var handle = VariableV2 (new TFShape (GetShape (initialValue)), type);
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
-					init = Assign (handle, initialValue).Operation;
+					init = AssignVariableOp (handle, initialValue);
 					if (trainable)
 						AddTrainableVariable (handle.Operation);
 					using (var rScope = WithScope ("Read")) {
@@ -187,10 +187,10 @@ namespace TensorFlow
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
-				var handle = VariableV2 (new TFShape (GetShape (initialValue)), type);
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
-					var init = Assign (handle, initialValue);
-					AddInitVariable (init.Operation);
+					var init = AssignVariableOp (handle, initialValue);
+					AddInitVariable (init);
 					if (trainable)
 						AddTrainableVariable (handle.Operation);
 					using (var rScope = WithScope ("Read")) {
@@ -207,7 +207,7 @@ namespace TensorFlow
 		/// <param name="initialValue">Initial value.</param>
 		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning TFOutput returns the handle to the variable, this is a VarHandleOp, if you want to read it, create a ReadVariableOp on result.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -221,10 +221,10 @@ namespace TensorFlow
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
 
-				var handle = VariableV2 (new TFShape (GetShape (initialValue)), type);
+				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
-					var init = Assign (handle, initialValue);
-					AddInitVariable (handle.Operation);
+					var init = AssignVariableOp (handle, initialValue);
+					AddInitVariable (init);
 					if (trainable)
 						AddTrainableVariable (handle.Operation);
 					return handle;
