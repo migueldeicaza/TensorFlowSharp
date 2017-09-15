@@ -781,7 +781,7 @@ namespace TensorFlow
 
 		Dictionary<string, int> values = new Dictionary<string, int> ();
 
-		string MakeName (string operName, string userName)
+		internal string MakeName (string operName, string userName)
 		{
 			if (userName == null) {
 				var k = CurrentNameScope == "" ? operName : CurrentNameScope + "/" + operName;

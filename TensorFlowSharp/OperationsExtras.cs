@@ -85,6 +85,30 @@ namespace TensorFlow
 			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
 
+		// Helper method to create a variable and track it.
+		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
+		{
+			var scopeName = MakeName ("Variable", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var type = initialValue.OutputType;
+				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				using (var aScope = WithScope ("Assign")) {
+					var assignOp = AssignVariableOp (variableHandle, initialValue);
+					using (var rScope = WithScope ("Read")) {
+						var readHandle = ReadVariableOp (variableHandle, type);
+
+						var nv = new Variable (variableHandle, readHandle, assignOp);
+						if (trainable)
+							AddTrainableVariable (nv);
+						AddInitVariable (assignOp);
+						return nv;
+					}
+				}
+			}
+
+		}
+
 		/// <summary>
 		/// Variable node, with a starting initial value.
 		/// </summary>
@@ -93,32 +117,21 @@ namespace TensorFlow
 		/// <param name="value">Returns the value of the variable.</param>
 		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, bool trainable = true, string operName = null)
+		public Variable Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					init = AssignVariableOp (handle, initialValue);
-					if (trainable)
-						AddTrainableVariable (handle.Operation);
-					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
-					}
-				}
-			}
+			var nv = MakeVariable (initialValue, trainable, operName);
+			init = nv.Assign;
+			value = nv.Read;
+			return nv;
 		}
 
 		List<TFOperation> pending_init_variables;
-		List<TFOperation> trainable_variables;
+		List<Variable> trainable_variables;
 
 		/// <summary>
 		/// Registers a specified variable as an initialization variable.
@@ -144,10 +157,10 @@ namespace TensorFlow
 		}
 
 		// TODO: finalize semantics, when should we clear these?
-		internal void AddTrainableVariable (TFOperation variable)
+		internal void AddTrainableVariable (Variable variable)
 		{
 			if (trainable_variables == null)
-				trainable_variables = new List<TFOperation> ();
+				trainable_variables = new List<Variable> ();
 			trainable_variables.Add (variable);
 		}
 
@@ -173,7 +186,7 @@ namespace TensorFlow
 		/// <param name="value">Returns the value of the variable.</param>
 		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -181,24 +194,11 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
+		public Variable Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					if (trainable)
-						AddTrainableVariable (handle.Operation);
-					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
-					}
-				}
-			}
+			var nv = MakeVariable (initialValue, trainable, operName);
+			value = nv.Read;
+			return nv;
 		}
 
 		/// <summary>
@@ -207,7 +207,7 @@ namespace TensorFlow
 		/// <param name="initialValue">Initial value.</param>
 		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable, this is a VarHandleOp, if you want to read it, create a ReadVariableOp on result.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -215,21 +215,9 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, bool trainable = true, string operName = null)
+		public Variable Variable (TFOutput initialValue, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					if (trainable)
-						AddTrainableVariable (handle.Operation);
-					return handle;
-				}
-			}
+			return MakeVariable (initialValue, trainable, operName);
 		}
 
 		//
