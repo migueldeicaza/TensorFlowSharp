@@ -12,15 +12,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn", "Learn\Learn.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleInceptionInference", "Examples\ExampleInceptionInference\ExampleInceptionInference.csproj", "{069A6736-7711-4805-8660-A267E713BC54}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExampleInceptionInference", "Examples\FExampleInceptionInference\FSharpExampleInceptionInference.fsproj", "{03FB7F3A-6D24-4033-9B04-69AD8A198CCF}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "FSharpExampleInceptionInference", "Examples\FExampleInceptionInference\FSharpExampleInceptionInference.fsproj", "{03FB7F3A-6D24-4033-9B04-69AD8A198CCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{674EC1D7-9649-462E-A7A8-93D0DE84FE64}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ImageCompression", "Examples\ImageCompression\ImageCompression.fsproj", "{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ImageCompression", "Examples\ImageCompression\ImageCompression.fsproj", "{5A493E1F-407D-4A3B-AF9B-A0F2930C1C18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6E72CAD1-7962-4256-AF2A-3B813FFC88EA}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TensorFlowSharp.Tests", "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj", "{9EE13143-569F-4F7A-975A-DE7DF5C8FF0B}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "TensorFlowSharp.Tests", "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj", "{9EE13143-569F-4F7A-975A-DE7DF5C8FF0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp.Tests.CSharp", "tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj", "{6504A704-575C-48D0-A4D2-422A7010936B}"
 EndProject
@@ -103,15 +103,30 @@ Global
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
-		$1.ResourceNamePolicy = FileFormatDefault
 		$0.TextStylePolicy = $2
 		$2.scope = text/x-csharp
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/plain
+		$2.FileWidth = 80
+		$2.TabWidth = 8
+		$2.IndentWidth = 8
 		$0.CSharpFormattingPolicy = $3
 		$3.scope = text/x-csharp
-		$3.inheritsSet = Mono
-		$3.inheritsScope = text/x-csharp
+		$3.IndentSwitchSection = False
+		$3.NewLinesForBracesInProperties = False
+		$3.NewLinesForBracesInAccessors = False
+		$3.NewLinesForBracesInAnonymousMethods = False
+		$3.NewLinesForBracesInControlBlocks = False
+		$3.NewLinesForBracesInAnonymousTypes = False
+		$3.NewLinesForBracesInObjectCollectionArrayInitializers = False
+		$3.NewLinesForBracesInLambdaExpressionBody = False
+		$3.NewLineForElse = False
+		$3.NewLineForCatch = False
+		$3.NewLineForFinally = False
+		$3.NewLineForMembersInObjectInit = False
+		$3.NewLineForMembersInAnonymousTypes = False
+		$3.NewLineForClausesInQuery = False
+		$3.SpacingAfterMethodDeclarationName = True
+		$3.SpaceAfterMethodCallName = True
+		$3.SpaceBeforeOpenSquareBracket = True
 		version = 0.2
 	EndGlobalSection
 EndGlobal
