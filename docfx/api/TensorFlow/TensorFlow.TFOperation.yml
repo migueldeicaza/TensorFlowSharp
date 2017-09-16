@@ -1,0 +1,490 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFOperation
+  id: TFOperation
+  children:
+  - TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
+  - TensorFlow.TFOperation.Handle
+  - TensorFlow.TFOperation.InputListLength(System.String,TensorFlow.TFStatus)
+  - TensorFlow.TFOperation.Item(System.Int32)
+  - TensorFlow.TFOperation.Name
+  - TensorFlow.TFOperation.NumControlInputs
+  - TensorFlow.TFOperation.NumControlOutputs
+  - TensorFlow.TFOperation.NumInputs
+  - TensorFlow.TFOperation.NumOutputs
+  - TensorFlow.TFOperation.OpType
+  - TensorFlow.TFOperation.OutputListLength(System.String,TensorFlow.TFStatus)
+  - TensorFlow.TFOperation.ToNodeDef(TensorFlow.TFStatus)
+  langs:
+  - csharp
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Represents a computation node in the graph.  Tensorflow operations are attached to a <xref href="Tensorflow.TFGraph"></xref>.
+  remarks: "TFOperations are usually created by  invoking one of the methods in \n            <xref href=\"Tensorflow.TFGraph\"></xref>, but they can also be constructed\n            manually using the low-level <xref href=\"Tensorflow.TFOperationDesc\"></xref> API."
+  syntax:
+    content: public class TFOperation
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
+  id: GetAttributeMetadata(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: GetAttributeMetadata(String, TFStatus)
+  nameWithType: TFOperation.GetAttributeMetadata(String, TFStatus)
+  fullName: TFOperation.GetAttributeMetadata(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public TensorFlow.TFAttributeMetadata GetAttributeMetadata (string attrName, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFAttributeMetadata
+      description: To be added.
+  overload: TensorFlow.TFOperation.GetAttributeMetadata*
+  exceptions: []
+- uid: TensorFlow.TFOperation.Handle
+  id: Handle
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: Handle
+  nameWithType: TFOperation.Handle
+  fullName: TFOperation.Handle
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the handle to the unmanaged TF_Operation object.
+  syntax:
+    content: public IntPtr Handle { get; }
+    return:
+      type: System.IntPtr
+      description: The handle.
+  overload: TensorFlow.TFOperation.Handle*
+  exceptions: []
+- uid: TensorFlow.TFOperation.InputListLength(System.String,TensorFlow.TFStatus)
+  id: InputListLength(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: InputListLength(String, TFStatus)
+  nameWithType: TFOperation.InputListLength(String, TFStatus)
+  fullName: TFOperation.InputListLength(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int InputListLength (string argName, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: argName
+      type: System.String
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: System.Int32
+      description: To be added.
+  overload: TensorFlow.TFOperation.InputListLength*
+  exceptions: []
+- uid: TensorFlow.TFOperation.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: Item(Int32)
+  nameWithType: TFOperation.Item(Int32)
+  fullName: TFOperation.Item(Int32)
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the handle to the idx-th output of the operation.
+  syntax:
+    content: public TensorFlow.TFOutput this[int idx] { get; }
+    parameters:
+    - id: idx
+      type: System.Int32
+      description: Index of the output in the operation.
+    return:
+      type: TensorFlow.TFOutput
+      description: To be added.
+  overload: TensorFlow.TFOperation.Item*
+  exceptions: []
+- uid: TensorFlow.TFOperation.Name
+  id: Name
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: Name
+  nameWithType: TFOperation.Name
+  fullName: TFOperation.Name
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The name for this operation/
+  syntax:
+    content: public string Name { get; }
+    return:
+      type: System.String
+      description: The name.
+  overload: TensorFlow.TFOperation.Name*
+  exceptions: []
+- uid: TensorFlow.TFOperation.NumControlInputs
+  id: NumControlInputs
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: NumControlInputs
+  nameWithType: TFOperation.NumControlInputs
+  fullName: TFOperation.NumControlInputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int NumControlInputs { get; }
+    return:
+      type: System.Int32
+      description: To be added.
+  overload: TensorFlow.TFOperation.NumControlInputs*
+  exceptions: []
+- uid: TensorFlow.TFOperation.NumControlOutputs
+  id: NumControlOutputs
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: NumControlOutputs
+  nameWithType: TFOperation.NumControlOutputs
+  fullName: TFOperation.NumControlOutputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int NumControlOutputs { get; }
+    return:
+      type: System.Int32
+      description: To be added.
+  overload: TensorFlow.TFOperation.NumControlOutputs*
+  exceptions: []
+- uid: TensorFlow.TFOperation.NumInputs
+  id: NumInputs
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: NumInputs
+  nameWithType: TFOperation.NumInputs
+  fullName: TFOperation.NumInputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the number of inputs for this operation.
+  syntax:
+    content: public int NumInputs { get; }
+    return:
+      type: System.Int32
+      description: The number inputs.
+  overload: TensorFlow.TFOperation.NumInputs*
+  exceptions: []
+- uid: TensorFlow.TFOperation.NumOutputs
+  id: NumOutputs
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: NumOutputs
+  nameWithType: TFOperation.NumOutputs
+  fullName: TFOperation.NumOutputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the number of outputs on this operation.
+  syntax:
+    content: public int NumOutputs { get; }
+    return:
+      type: System.Int32
+      description: The number outputs.
+  overload: TensorFlow.TFOperation.NumOutputs*
+  exceptions: []
+- uid: TensorFlow.TFOperation.OpType
+  id: OpType
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: OpType
+  nameWithType: TFOperation.OpType
+  fullName: TFOperation.OpType
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public string OpType { get; }
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFOperation.OpType*
+  exceptions: []
+- uid: TensorFlow.TFOperation.OutputListLength(System.String,TensorFlow.TFStatus)
+  id: OutputListLength(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: OutputListLength(String, TFStatus)
+  nameWithType: TFOperation.OutputListLength(String, TFStatus)
+  fullName: TFOperation.OutputListLength(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public int OutputListLength (string argName, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: argName
+      type: System.String
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: System.Int32
+      description: To be added.
+  overload: TensorFlow.TFOperation.OutputListLength*
+  exceptions: []
+- uid: TensorFlow.TFOperation.ToNodeDef(TensorFlow.TFStatus)
+  id: ToNodeDef(TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: ToNodeDef(TFStatus)
+  nameWithType: TFOperation.ToNodeDef(TFStatus)
+  fullName: TFOperation.ToNodeDef(TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Encodes the TFOperation as a protocol buffer payload
+  syntax:
+    content: public TensorFlow.TFBuffer ToNodeDef (TensorFlow.TFStatus status = null);
+    parameters:
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFBuffer
+      description: The buffer with the encoded operation in the protocol buffer format.
+  overload: TensorFlow.TFOperation.ToNodeDef*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeMetadata(String, TFStatus)
+  nameWithType: TFOperation.GetAttributeMetadata(String, TFStatus)
+  fullName: TFOperation.GetAttributeMetadata(String, TFStatus)
+- uid: TensorFlow.TFAttributeMetadata
+  parent: TensorFlow
+  isExternal: false
+  name: TFAttributeMetadata
+  nameWithType: TFAttributeMetadata
+  fullName: TensorFlow.TFAttributeMetadata
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFOperation.Handle
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Handle
+  nameWithType: TFOperation.Handle
+  fullName: TFOperation.Handle
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: TensorFlow.TFOperation.InputListLength(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: InputListLength(String, TFStatus)
+  nameWithType: TFOperation.InputListLength(String, TFStatus)
+  fullName: TFOperation.InputListLength(String, TFStatus)
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFOperation.Item(System.Int32)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Item(Int32)
+  nameWithType: TFOperation.Item(Int32)
+  fullName: TFOperation.Item(Int32)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFOperation.Name
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Name
+  nameWithType: TFOperation.Name
+  fullName: TFOperation.Name
+- uid: TensorFlow.TFOperation.NumControlInputs
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumControlInputs
+  nameWithType: TFOperation.NumControlInputs
+  fullName: TFOperation.NumControlInputs
+- uid: TensorFlow.TFOperation.NumControlOutputs
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumControlOutputs
+  nameWithType: TFOperation.NumControlOutputs
+  fullName: TFOperation.NumControlOutputs
+- uid: TensorFlow.TFOperation.NumInputs
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumInputs
+  nameWithType: TFOperation.NumInputs
+  fullName: TFOperation.NumInputs
+- uid: TensorFlow.TFOperation.NumOutputs
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumOutputs
+  nameWithType: TFOperation.NumOutputs
+  fullName: TFOperation.NumOutputs
+- uid: TensorFlow.TFOperation.OpType
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: OpType
+  nameWithType: TFOperation.OpType
+  fullName: TFOperation.OpType
+- uid: TensorFlow.TFOperation.OutputListLength(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: OutputListLength(String, TFStatus)
+  nameWithType: TFOperation.OutputListLength(String, TFStatus)
+  fullName: TFOperation.OutputListLength(String, TFStatus)
+- uid: TensorFlow.TFOperation.ToNodeDef(TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: ToNodeDef(TFStatus)
+  nameWithType: TFOperation.ToNodeDef(TFStatus)
+  fullName: TFOperation.ToNodeDef(TFStatus)
+- uid: TensorFlow.TFBuffer
+  parent: TensorFlow
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFOperation.GetAttributeMetadata*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeMetadata
+  nameWithType: TFOperation.GetAttributeMetadata
+  fullName: TFOperation.GetAttributeMetadata
+- uid: TensorFlow.TFOperation.Handle*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Handle
+  nameWithType: TFOperation.Handle
+  fullName: TFOperation.Handle
+- uid: TensorFlow.TFOperation.InputListLength*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: InputListLength
+  nameWithType: TFOperation.InputListLength
+  fullName: TFOperation.InputListLength
+- uid: TensorFlow.TFOperation.Item*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Item
+  nameWithType: TFOperation.Item
+  fullName: TFOperation.Item
+- uid: TensorFlow.TFOperation.Name*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: Name
+  nameWithType: TFOperation.Name
+  fullName: TFOperation.Name
+- uid: TensorFlow.TFOperation.NumControlInputs*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumControlInputs
+  nameWithType: TFOperation.NumControlInputs
+  fullName: TFOperation.NumControlInputs
+- uid: TensorFlow.TFOperation.NumControlOutputs*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumControlOutputs
+  nameWithType: TFOperation.NumControlOutputs
+  fullName: TFOperation.NumControlOutputs
+- uid: TensorFlow.TFOperation.NumInputs*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumInputs
+  nameWithType: TFOperation.NumInputs
+  fullName: TFOperation.NumInputs
+- uid: TensorFlow.TFOperation.NumOutputs*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: NumOutputs
+  nameWithType: TFOperation.NumOutputs
+  fullName: TFOperation.NumOutputs
+- uid: TensorFlow.TFOperation.OpType*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: OpType
+  nameWithType: TFOperation.OpType
+  fullName: TFOperation.OpType
+- uid: TensorFlow.TFOperation.OutputListLength*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: OutputListLength
+  nameWithType: TFOperation.OutputListLength
+  fullName: TFOperation.OutputListLength
+- uid: TensorFlow.TFOperation.ToNodeDef*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: ToNodeDef
+  nameWithType: TFOperation.ToNodeDef
+  fullName: TFOperation.ToNodeDef

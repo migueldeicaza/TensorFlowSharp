@@ -24,7 +24,13 @@
     <remarks>
             Methods of this signature are invoked with the data pointer and the
             lenght pointer when then TFBuffer no longer needs to hold on to the
-            data.
-            </remarks>
+            data.  If you are using this on platforms with static compilation
+            like iOS, you need to annotate your callback with the MonoPInvokeCallbackAttribute,
+            like this:
+            
+            <code>
+            [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+            internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+            </code></remarks>
   </Docs>
 </Type>

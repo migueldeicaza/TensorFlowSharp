@@ -28,16 +28,13 @@ namespace TensorFlow
 
 			// Fast path: avoid creating Rank and Range ops if ndims is known.
 			var shape = GetTensorShape (input);
-			if (shape.Length >= 0) {
+			if (shape.IsFullySpecified) {
 				// The python code distinguishes between tensor and sparsetensor
 
-				var array = new int [shape.Length];
-				for (int i = 0; i < array.Length; i++)
-					array [i] = i;
-
-				return this.Const (array, TFDataType.Int32);                   
+				return this.Const (shape.ToIntArray (), TFDataType.Int32);
 			}
-			return Range (Const (0), Const (shape.Length), Const (1));
+			// Otherwise, we rely on Range and Rank to do the right thing at run-time.
+			return Range (Const (0), Rank (input), Const (1));
 		}
 
 		/// <summary>
@@ -63,35 +60,95 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Variable node, with a starting initial value.
+		/// Computes the mean of elements across dimensions of a tensor.
 		/// </summary>
-		/// <param name="initialValue">Initial value.</param>
-		/// <param name="init">Returns the operation that initializes the value of the variable.</param>
-		/// <param name="value">Returns the value of the variable.</param>
-		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The reduced tensor.</returns>
+		/// <param name="input">The tensor to reduce. Should have numeric type.</param>
+		/// <param name="axis">The dimensions to reduce. If not set (the default), reduces all dimensions.</param>
+		/// <param name="keep_dims">If set to <c>true</c> retains reduced dimensions with length 1.</param>
+		/// <param name="operName">A name for the operation, optional.</param>
 		/// <remarks>
-		/// Variables need to be initialized before the main execution so you will typically want to
-		/// run the session on the variable
+		/// <para>
+		///   Reduces input_tensor along the dimensions given in axis.
+		/// Unless keep_dims is true, the rank of the tensor is reduced by 1 for each
+		/// entry in axis. If keep_dims is true, the reduced dimensions
+		/// are retained with length 1.</para>
+		/// 
+		/// <para>
+		/// If axis has no entries, all dimensions are reduced, and a
+		/// tensor with a single element is returned.</para>
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, string operName = null)
+		public TFOutput ReduceMean (TFOutput input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
+		{
+			if (input.OutputType == TFDataType.Bool)
+				input = this.Cast (input, TFDataType.Int8);
+			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
+		}
+
+		// Helper method to create a variable and track it.
+		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
 		{
 			var scopeName = MakeName ("Variable", operName);
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
 				using (var aScope = WithScope ("Assign")) {
-					init = AssignVariableOp (handle, initialValue);
+					var assignOp = AssignVariableOp (variableHandle, initialValue);
 					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
+						var readHandle = ReadVariableOp (variableHandle, type);
+
+						var nv = new Variable (variableHandle, readHandle, assignOp);
+						if (trainable)
+							AddTrainableVariable (nv);
+						AddInitVariable (assignOp);
+						return nv;
 					}
 				}
 			}
+
+		}
+
+		/// <summary>
+		/// Variable node, with a starting initial value.
+		/// </summary>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="init">Returns the operation that initializes the value of the variable.</param>
+		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
+		/// <remarks>
+		/// Variables need to be initialized before the main execution so you will typically want to
+		/// run the session on the variable
+		/// </remarks>
+		public Variable Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, bool trainable = true, string operName = null)
+		{
+			var nv = MakeVariable (initialValue, trainable, operName);
+			init = nv.Assign;
+			value = nv.Read;
+			return nv;
 		}
 
 		List<TFOperation> pending_init_variables;
+		List<Variable> trainable_variables;
+
+		/// <summary>
+		/// Registers a specified variable as an initialization variable.
+		/// </summary>
+		/// <param name="variable">Variable to register.</param>
+		/// <remarks>
+		/// <para>
+		/// This is a convenience method to track the variables that need to be initialized in the graph,
+		/// you can retrieve the list of all those variables by calling the <see cref="M:TensorFlow.TFGraph.GetGlobalVariablesInitializer"/>
+		/// which will return this list and clear the state at that point.
+		/// </para>
+		/// <para>
+		/// You typically use this method from helper methods to register all the variables that you want
+		/// initialized, and a higher level method will retrieve all these variables and initialize them
+		/// at their convenience.
+		/// </para>
+		/// </remarks>
 		public void AddInitVariable (TFOperation variable)
 		{
 			if (pending_init_variables == null)
@@ -99,6 +156,22 @@ namespace TensorFlow
 			pending_init_variables.Add (variable);
 		}
 
+		// TODO: finalize semantics, when should we clear these?
+		internal void AddTrainableVariable (Variable variable)
+		{
+			if (trainable_variables == null)
+				trainable_variables = new List<Variable> ();
+			trainable_variables.Add (variable);
+		}
+
+		/// <summary>
+		/// Gets the list of all registered global variables.
+		/// </summary>
+		/// <returns>The array of variables that should be initialized.</returns>
+		/// <remarks>
+		/// After this method is invoked the list of pending initialization variables
+		/// is cleared.
+		/// </remarks>
 		public TFOperation [] GetGlobalVariablesInitializer ()
 		{
 			var res = pending_init_variables.ToArray ();
@@ -111,8 +184,9 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
 		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -120,30 +194,20 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOutput value, string operName = null)
+		public Variable Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
-					}
-				}
-			}
+			var nv = MakeVariable (initialValue, trainable, operName);
+			value = nv.Read;
+			return nv;
 		}
 
 		/// <summary>
 		/// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -151,19 +215,9 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, string operName = null)
+		public Variable Variable (TFOutput initialValue, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					return handle;
-				}
-			}
+			return MakeVariable (initialValue, trainable, operName);
 		}
 
 		//
@@ -171,8 +225,6 @@ namespace TensorFlow
 		//
 		TFOutput ShapeTensorOutput (TFShape shape)
 		{
-			Array a;
-
 			if (shape.IsLongArray)
 				return Const (shape.ToArray (), TFDataType.Int64);
 			else
@@ -187,7 +239,7 @@ namespace TensorFlow
 		/// <param name="mean">The mean of the standard distribution.</param>
 		/// <param name="stddev">The standard deviation of the normal distribution.</param>
 		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
-		/// <param name="operName">>Operation name, optional.</param>
+		/// <param name="operName">Operation name, optional.</param>
 		public TFOutput RandomNormal (TFShape shape, double mean = 0, double stddev = 1, int? seed = null, string operName = null)
 		{
 			var scopeName = MakeName ("RandomNormal", operName);
@@ -254,8 +306,257 @@ namespace TensorFlow
 					localSeed = operationSeed.Value;
 				} else {
 					localSeed = 0;
-				}					
+				}
 			}
 		}
+
+		/// <summary>
+		/// Computes dropout. 
+		/// </summary>
+		/// <param name="x">A tensor.</param>
+		/// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+		/// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <remarks>
+		/// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+		/// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+		/// </remarks>
+		public TFOutput Dropout (TFOutput x, TFOutput keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
+		{
+			var scopeName = MakeName ("dropout", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				if (noise_shape == null)
+					noise_shape = new TFShape (GetShape (x));
+
+				TFOutput shapeTensor = ShapeTensorOutput (noise_shape);
+
+				// uniform [keep_prob, 1.0 + keep_prob)
+				TFOutput random_tensor = keep_prob;
+				random_tensor = Add (random_tensor, RandomUniform (shapeTensor, seed: seed, dtype: x.OutputType));
+
+				// 0. if [keep_prob, 1.0) and 1. if [1.0, 1.0 + keep_prob)
+				TFOutput binary_tensor = Floor (random_tensor);
+				TFOutput ret = Mul (Div (x, keep_prob), binary_tensor);
+				SetTensorShape (ret, GetShape (x));
+				return ret;
+			}
+		}
+
+		/// <summary>
+		/// Computes dropout. 
+		/// </summary>
+		/// <param name="x">A tensor.</param>
+		/// <param name="keep_prob">A scalar Tensor with the same type as x. The probability that each element is kept.</param>
+		/// <param name="noise_shape">A 1-D Tensor of type int32, representing the shape for randomly generated keep/drop flags.</param>
+		/// <param name="seed">Integer seed used for the random distribution, using the TensorFlow SetRandomSeed .</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <remarks>
+		/// With probability keep_prob, outputs the input element scaled up by 1 / keep_prob, 
+		/// otherwise outputs 0. The scaling is so that the expected sum is unchanged.
+		/// </remarks>
+		public TFOutput Dropout (TFOutput x, double keep_prob, TFShape noise_shape = null, int? seed = null, string operName = null)
+		{
+			if (keep_prob < 0 || keep_prob >= 1)
+				throw new ArgumentOutOfRangeException ("keep_prob must be a scalar tensor or a float in the range (0, 1], got " + keep_prob);
+
+			if (keep_prob == 1)
+				return x;
+
+			var scopeName = MakeName ("dropout", operName);
+			using (var newScope = WithScope (scopeName)) {
+				var tkeep_prob = Const (keep_prob);
+				return Dropout (x, tkeep_prob, noise_shape, seed, operName);
+			}
+		}
+
+
+
+		/// <summary>
+		/// Clips tensor values to a specified min and max.
+		/// </summary>
+		/// <remarks>
+		/// Given a tensor <paramref name="x"/>, this operation returns a tensor of the same type and shape
+		/// as <paramref name="x"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
+		/// Any values less than <paramref name="clib_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
+		/// <paramref name="clip_value_max"/> are set to <paramref name="clip_value_max"/>.
+		/// </remarks>
+		/// <param name="x">The tensor.</param>
+		/// <param name="clip_value_min">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="clip_value_max">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput ClipByValue (TFOutput x, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L33
+			var scopeName = MakeName ("ClipByValue", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Go through list of tensors, for each value in each tensor clip
+				var t_min = Minimum (x, clip_value_max);
+				var t_max = Maximum (t_min, clip_value_min, operName: operName);
+				return t_max;
+			}
+		}
+
+		/// <summary>
+		/// Clips tensor values to a maximum L2-norm.
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation normalizes 
+		/// <paramref name="x"/> so that its L2-norm is less than or equal to <paramref name="clip_norm"/>, along the dimensions 
+		/// given in <paramref name="axes"/>. Specifically, in the default case where all dimensions are used for calculation, if
+		/// the L2-norm of <paramref name="x"/> is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
+		/// is not modified. If the L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of 
+		/// the same type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm(t)</c></para>
+		/// </remarks>
+		/// <param name="x">The tensor.</param>
+		/// <param name="clip_norm">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="axes">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput ClipByNorm (TFOutput x, TFOutput clip_norm, TFOutput? axes = null, string operName = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L73
+			var scopeName = MakeName ("ClipByNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Calculate L2-norm, clip elements by ratio of clip_norm to L2-norm
+				var l2norm_inv = Rsqrt (ReduceSum (Mul (x, x), axes, keep_dims: true));
+				var intermediate = Mul (x, clip_norm);
+
+				var tclip = Identity (Mul (intermediate, Minimum (l2norm_inv, Div (Const (new TFTensor (1.0)), clip_norm), operName: operName)));
+
+				return tclip;
+			}
+		}
+
+		/// <summary>
+		/// Computes the global norm of multiple tensors.
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		///  Given a tuple or list of tensors <paramref name="tensors"/>, this operation returns the global norm of the elements in all tensors 
+		///  in <paramref name="tensors"/>. The global norm is computed as: <c>global_norm = sqrt(sum([l2norm(t)**2 for t in t_list]))</c>. Any 
+		///  entries in <paramref name="tensors"/> that are of type None are ignored.</para>
+		/// </remarks>
+		/// <param name="tensors">The input tensors.</param>
+		/// <param name="operName">Operation name, optional.</param>
+		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
+		public TFOutput GlobalNorm (TFOutput [] tensors, string operName = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L122
+			var scopeName = MakeName ("GlobalNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				TFOutput [] half_squared_norms = new TFOutput [tensors.Length];
+
+				for (int i = 0; i < half_squared_norms.Length; i++)
+					half_squared_norms [i] = L2Loss (tensors [i]);
+
+				TFOutput half_squared_norm = ReduceSum (Stack (half_squared_norms));
+				TFOutput norm = Sqrt (Mul (half_squared_norm, Const (2.0)), operName: "global_norm");
+				return norm;
+			}
+		}
+
+		/// <summary>
+		/// Clips tensor values to a maximum average L2-norm.
+		/// </summary>
+		/// <remarks>
+		/// Given a tensor <paramref name="x"/>, and a maximum clip value <paramref name="clip_norm"/>, this operation 
+		/// normalizes <paramref name="x"/> so that its its average L2-norm is less than or equal to <paramref name="clip_norm"/>.
+		/// Specifically, if the average L2-norm is already less than or equal to <paramref name="clip_norm"/>, then <paramref name="x"/>
+		/// is not modified. If the average L2-norm is greater than <paramref name="clip_norm"/>, then this operation returns a tensor of the same
+		/// type and shape as <paramref name="x"/> with its values set to: <c>t* clip_norm / l2norm_avg(t)</c>. In this case, 
+		/// the average L2-norm of the output tensor is <paramref name="clip_norm"/>.
+		/// </remarks>
+		/// <param name="x">The input tensor.</param>
+		/// <param name="clip_norm">A maximum clipping value.</param>
+		/// <param name="operName">Name of the oper.</param>
+		public TFOutput ClipByAverageNorm (TFOutput x, TFOutput clip_norm, string operName = null)
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L251
+			var scopeName = MakeName ("ClipByAverageNorm", operName);
+			using (var newScope = WithScope (scopeName)) {
+				// Calculate L2-norm per element, clip elements by ratio of clip_norm to
+				// L2-norm per element
+				TFOutput n_element = Cast (Size (x), TFDataType.Float);
+				TFOutput l2norm_inv = Rsqrt (ReduceSum (Mul (x, x), Range (Rank (x))));
+				TFOutput tclip = Identity (Mul (Mul (x, clip_norm), Minimum (Mul (l2norm_inv, n_element), Div (Const (new TFTensor (1.0)), clip_norm)), operName: operName));
+
+				return tclip;
+			}
+		}
+
+		/// <summary>
+		/// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
+		/// </summary>
+		/// <remarks>
+		///  Packs the list of tensors in <paramref name="values"/> into a tensor with rank one higher than
+		///  each tensor in <paramref name="values"/>, by packing them along the <paramref name="axis"/> dimension.
+		///  Given a list of length <c>N</c> of tensors of shape </c>(A, B, C)</c>: if <c>axis == 0</c> then the 
+		///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1<c> then the <c>output<c>
+		///  tensor will have the shape <c>(A, N, B, C)<c>; etc.
+		/// </remarks>
+		/// 
+		public TFOutput Stack (TFOutput [] values, int? axis = 0, string operName = "stack")
+		{
+			// https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/array_ops.py#L804
+
+			int ndims = GetTensorNumDims (values [0]);
+
+			int expanded_num_dims = ndims + 1;
+			if (axis < -expanded_num_dims || axis >= expanded_num_dims)
+				throw new InvalidOperationException ($"axis = {axis} not in [{-expanded_num_dims}, {expanded_num_dims}]");
+
+			return Pack (values, axis: axis, operName: operName);
+		}
+
+		/// <summary>
+		/// Creates a sequence of numbers.
+		/// </summary>
+		/// <remarks>
+		/// Creates a sequence of numbers that begins at `start` and extends by increments of `delta` up to but not including 
+		/// `limit`. The dtype of the resulting tensor is inferred from the inputs unless it is provided explicitly.
+		/// </remarks>
+		/// <param name="start">A 0 - D `Tensor` (scalar).Acts as first entry in the range if `limit` is not None; otherwise, acts as range limit and first entry defaults to 0.</param>
+		/// <param name="limit">A 0 - D `Tensor` (scalar).Upper limit of sequence, exclusive. If None, defaults to the value of `start` while the first entry of the range defaults to 0.</param>
+		/// <param name="delta">A 0 - D `Tensor` (scalar).Number that increments `start`. Defaults to 1.</param>
+		/// <param name="dataType">The type of the elements of the resulting tensor.</param>
+		/// <param name="operName">A name for the operation.Defaults to "range".</param>
+		public TFOutput Range (TFOutput start, TFOutput? limit = null, TFOutput? delta = null, TFDataType? dataType = null, string operName = "range")
+		{
+			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/math_ops.py#L1156
+
+			if (limit == null) {
+				limit = start;
+				start = Cast (Const (new TFTensor (0.0)), start.OutputType); // TODO: Maybe add dataType as convenience in Const?
+			}
+
+			if (delta == null)
+				delta = Cast (Const (new TFTensor (1.0)), start.OutputType);
+
+			using (var newScope = WithScope (MakeName ("Range", operName))) {
+				// infer dtype if not explicitly provided
+				if (dataType == null) {
+					var dtype_hierarchy = new [] { TFDataType.Int32, TFDataType.Int64, TFDataType.Float, TFDataType.Double };
+					if (!dtype_hierarchy.Contains (start.OutputType)
+					 || !dtype_hierarchy.Contains (limit.Value.OutputType)
+					 || !dtype_hierarchy.Contains (delta.Value.OutputType))
+						throw new ArgumentException ("Unexpected type");
+
+					TFDataType [] dtypes = new [] { start.OutputType, limit.Value.OutputType, delta.Value.OutputType };
+					int imax = dtypes.Select (x => Array.IndexOf (dtype_hierarchy, x)).Max ();
+					TFDataType inferred_dtype = dtype_hierarchy [imax];
+
+					start = Cast (start, inferred_dtype);
+					limit = Cast (limit.Value, inferred_dtype);
+					delta = Cast (delta.Value, inferred_dtype);
+				}
+
+				return Range (start, limit.Value, delta.Value, operName: operName);
+			}
+		}
+
 	}
 }

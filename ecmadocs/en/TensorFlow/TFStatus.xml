@@ -14,17 +14,20 @@
             Used to track the result of TensorFlow operations.
             </summary>
     <remarks>
+      <para>
             TFStatus is used to track the status of a call to some TensorFlow
             operations.   Instances of this object are passed to various
             TensorFlow operations and you can use the <see cref="P:TensorFlow.TFStatus.Ok" />
             to quickly check if the operation succeeded, or get more detail from the
             <see cref="P:TensorFlow.TFStatus.StatusCode" /> and a human-readable text
             using the <see cref="P:TensorFlow.TFStatus.StatusMessage" /> property.
-            
+            </para>
+      <para>
             The convenience <see cref="M:TensorFlow.TFStatus.Raise" /> can be used
             to raise a <see cref="P:TensorFlow.TFException" /> if the status of the
             operation did not succeed.
-            </remarks>
+            </para>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">

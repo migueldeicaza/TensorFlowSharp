@@ -1,0 +1,72 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFScope
+  id: TFScope
+  children:
+  - TensorFlow.TFScope.Dispose
+  langs:
+  - csharp
+  name: TFScope
+  nameWithType: TFScope
+  fullName: TensorFlow.TFScope
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: TFGraph name scope handle
+  remarks: >-
+    Instances of this class when disposed restore the CurrentNameScope to the
+                value they had when the TFGraph.WithScope method was called.
+  syntax:
+    content: 'public class TFScope : IDisposable'
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers: []
+- uid: TensorFlow.TFScope.Dispose
+  id: Dispose
+  parent: TensorFlow.TFScope
+  langs:
+  - csharp
+  name: Dispose()
+  nameWithType: TFScope.Dispose()
+  fullName: TFScope.Dispose()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Pops the name space to the previous namescope in use.
+  remarks: >-
+    Call <xref href="TensorFlow.TFScope.Dispose"></xref> when you are finished using the <xref href="TensorFlow.TFScope"></xref>
+                to restore the previous name scope in use in the <xref href="TensorFlow.TFGraph"></xref>.
+  syntax:
+    content: public void Dispose ();
+    parameters: []
+  overload: TensorFlow.TFScope.Dispose*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFScope.Dispose
+  parent: TensorFlow.TFScope
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFScope.Dispose()
+  fullName: TFScope.Dispose()
+- uid: TensorFlow.TFScope.Dispose*
+  parent: TensorFlow.TFScope
+  isExternal: false
+  name: Dispose
+  nameWithType: TFScope.Dispose
+  fullName: TFScope.Dispose
+- uid: System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable

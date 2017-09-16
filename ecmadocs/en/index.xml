@@ -42,6 +42,7 @@
   <Copyright>MIT Licensed</Copyright>
   <Types>
     <Namespace Name="TensorFlow">
+      <Type Name="MonoPInvokeCallbackAttribute" Kind="Class" />
       <Type Name="TFAttributeMetadata" Kind="Structure" />
       <Type Name="TFAttributeType" Kind="Enumeration" />
       <Type Name="TFBuffer" Kind="Class" />

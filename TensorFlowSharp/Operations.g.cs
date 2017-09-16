@@ -64,6 +64,127 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Applies a gradient to a given accumulator.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a accumulator.
+		/// </param>
+		/// <param name="local_step">
+		///   The local_step value at which the gradient was computed.
+		/// </param>
+		/// <param name="gradient">
+		///   A tensor of the gradient to be accumulated.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AccumulatorApplyGradient'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Does not add if local_step is lesser than the accumulator's global_step.
+		/// </remarks>
+		public TFOperation AccumulatorApplyGradient (TFOutput handle, TFOutput local_step, TFOutput gradient, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AccumulatorApplyGradient", MakeName ("AccumulatorApplyGradient", operName));
+			desc.AddInput (handle);
+			desc.AddInput (local_step);
+			desc.AddInput (gradient);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Returns the number of gradients aggregated in the given accumulators.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to an accumulator.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AccumulatorNumAccumulated'.
+		/// </param>
+		/// <returns>
+		///   The number of gradients aggregated in the given accumulator.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput AccumulatorNumAccumulated (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AccumulatorNumAccumulated", MakeName ("AccumulatorNumAccumulated", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var num_accumulated = new TFOutput (op, _idx++);
+			return num_accumulated;
+		}
+
+		/// <summary>
+		///   Updates the accumulator with a new value for global_step.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to an accumulator.
+		/// </param>
+		/// <param name="new_global_step">
+		///   The new global_step value to set.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AccumulatorSetGlobalStep'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Logs warning if the accumulator's value is already higher than
+		///   new_global_step.
+		/// </remarks>
+		public TFOperation AccumulatorSetGlobalStep (TFOutput handle, TFOutput new_global_step, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AccumulatorSetGlobalStep", MakeName ("AccumulatorSetGlobalStep", operName));
+			desc.AddInput (handle);
+			desc.AddInput (new_global_step);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Extracts the average gradient in the given ConditionalAccumulator.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to an accumulator.
+		/// </param>
+		/// <param name="num_required">
+		///   Number of gradients required before we return an aggregate.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AccumulatorTakeGradient'.
+		/// </param>
+		/// <param name="dtype">
+		///   The data type of accumulated gradients. Needs to correspond to the type
+		///   of the accumulator.
+		/// </param>
+		/// <returns>
+		///   The average of the accumulated gradients.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The op blocks until sufficient (i.e., more than num_required)
+		///   gradients have been accumulated.  If the accumulator has already
+		///   aggregated more than num_required gradients, it returns the average of
+		///   the accumulated gradients.  Also automatically increments the recorded
+		///   global_step in the accumulator by 1, and resets the aggregate to 0.
+		/// </remarks>
+		public TFOutput AccumulatorTakeGradient (TFOutput handle, TFOutput num_required, TFDataType dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AccumulatorTakeGradient", MakeName ("AccumulatorTakeGradient", operName));
+			desc.AddInput (handle);
+			desc.AddInput (num_required);
+			desc.SetAttrType ("dtype", dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var average = new TFOutput (op, _idx++);
+			return average;
+		}
+
+		/// <summary>
 		///   Computes acos of x element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -77,6 +198,27 @@ namespace TensorFlow {
 		public TFOutput Acos (TFOutput x, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Acos", MakeName ("Acos", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Computes inverse hyperbolic cosine of x element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Acosh'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Acosh (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Acosh", MakeName ("Acosh", operName));
 			desc.AddInput (x);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -565,6 +707,804 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Update '*var' according to the adadelta scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum_update">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay factor. Must be a scalar.
+		/// </param>
+		/// <param name="epsilon">
+		///   Constant factor. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyAdadelta'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var, accum and update_accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   accum = rho() * accum + (1 - rho()) * grad.square();
+		///   update = (update_accum + epsilon).sqrt() * (accum + epsilon()).rsqrt() * grad;
+		///   update_accum = rho() * update_accum + (1 - rho()) * update.square();
+		///   var -= update;
+		/// </remarks>
+		public TFOutput ApplyAdadelta (TFOutput var, TFOutput accum, TFOutput accum_update, TFOutput lr, TFOutput rho, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyAdadelta", MakeName ("ApplyAdadelta", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (accum_update);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the adagrad scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyAdagrad'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   accum += grad * grad
+		///   var -= lr * grad * (1 / sqrt(accum))
+		/// </remarks>
+		public TFOutput ApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyAdagrad", MakeName ("ApplyAdagrad", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the proximal adagrad scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="gradient_accumulator">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="gradient_squared_accumulator">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="global_step">
+		///   Training step number. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyAdagradDA'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var and accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ApplyAdagradDA (TFOutput var, TFOutput gradient_accumulator, TFOutput gradient_squared_accumulator, TFOutput grad, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput global_step, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyAdagradDA", MakeName ("ApplyAdagradDA", operName));
+			desc.AddInput (var);
+			desc.AddInput (gradient_accumulator);
+			desc.AddInput (gradient_squared_accumulator);
+			desc.AddInput (grad);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (global_step);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the Adam algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="m">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="v">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="beta1_power">
+		///   Must be a scalar.
+		/// </param>
+		/// <param name="beta2_power">
+		///   Must be a scalar.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta1">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta2">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyAdam'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var, m, and v tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <param name="use_nesterov">
+		///   Optional argument
+		///   If `True`, uses the nesterov update.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   lr_t &amp;lt;- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
+		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g_t
+		///   v_t &amp;lt;- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
+		///   variable &amp;lt;- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+		/// </remarks>
+		public TFOutput ApplyAdam (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput beta2_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyAdam", MakeName ("ApplyAdam", operName));
+			desc.AddInput (var);
+			desc.AddInput (m);
+			desc.AddInput (v);
+			desc.AddInput (beta1_power);
+			desc.AddInput (beta2_power);
+			desc.AddInput (lr);
+			desc.AddInput (beta1);
+			desc.AddInput (beta2);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (use_nesterov.HasValue)
+				desc.SetAttr ("use_nesterov", use_nesterov.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the centered RMSProp algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mg">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="ms">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mom">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay rate. Must be a scalar.
+		/// </param>
+		/// <param name="momentum">
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyCenteredRMSProp'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The centered RMSProp algorithm uses an estimate of the centered second moment
+		///   (i.e., the variance) for normalization, as opposed to regular RMSProp, which
+		///   uses the (uncentered) second moment. This often helps with training, but is
+		///   slightly more expensive in terms of computation and memory.
+		///   
+		///   Note that in dense implementation of this algorithm, mg, ms, and mom will
+		///   update even if the grad is zero, but in this sparse implementation, mg, ms,
+		///   and mom will not update in iterations during which the grad is zero.
+		///   
+		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
+		///   mean_grad = decay * mean_grad + (1-decay) * gradient
+		///   
+		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
+		///   
+		///   mg &amp;lt;- rho * mg_{t-1} + (1-rho) * grad
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms - mg * mg + epsilon)
+		///   var &amp;lt;- var - mom
+		/// </remarks>
+		public TFOutput ApplyCenteredRMSProp (TFOutput var, TFOutput mg, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyCenteredRMSProp", MakeName ("ApplyCenteredRMSProp", operName));
+			desc.AddInput (var);
+			desc.AddInput (mg);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (momentum);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   var -= alpha * (delta + lambda * delta * (var - shadow))
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="alpha">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="delta">
+		///   The change.
+		/// </param>
+		/// <param name="lambda">
+		///   The variance parameter.
+		/// </param>
+		/// <param name="shadow">
+		///   Same as "var".
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyDelayCompensatedGradientDescent'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Update '*shadow' by changing it to the new value of 'var'
+		/// </remarks>
+		public TFOperation ApplyDelayCompensatedGradientDescent (TFOutput var, TFOutput alpha, TFOutput delta, TFOutput lambda, TFOutput shadow, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyDelayCompensatedGradientDescent", MakeName ("ApplyDelayCompensatedGradientDescent", operName));
+			desc.AddInput (var);
+			desc.AddInput (alpha);
+			desc.AddInput (delta);
+			desc.AddInput (lambda);
+			desc.AddInput (shadow);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyFtrl'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   accum_new = accum + grad * grad
+		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOutput ApplyFtrl (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyFtrl", MakeName ("ApplyFtrl", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 shrinkage regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2_shrinkage">
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyFtrlV2'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
+		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
+		///   linear += grad_with_shrinkage +
+		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOutput ApplyFtrlV2 (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput l2_shrinkage, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyFtrlV2", MakeName ("ApplyFtrlV2", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (l2_shrinkage);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' by subtracting 'alpha' * 'delta' from it.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="alpha">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="delta">
+		///   The change.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyGradientDescent'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ApplyGradientDescent (TFOutput var, TFOutput alpha, TFOutput delta, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyGradientDescent", MakeName ("ApplyGradientDescent", operName));
+			desc.AddInput (var);
+			desc.AddInput (alpha);
+			desc.AddInput (delta);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the momentum scheme. Set use_nesterov = True if you
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="momentum">
+		///   Momentum. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyMomentum'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <param name="use_nesterov">
+		///   Optional argument
+		///   If `True`, the tensor passed to compute grad will be
+		///   var - lr * momentum * accum, so in the end, the var you get is actually
+		///   var - lr * momentum * accum.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   want to use Nesterov momentum.
+		///   
+		///   accum = accum * momentum + grad
+		///   var -= lr * accum
+		/// </remarks>
+		public TFOutput ApplyMomentum (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput momentum, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyMomentum", MakeName ("ApplyMomentum", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (grad);
+			desc.AddInput (momentum);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (use_nesterov.HasValue)
+				desc.SetAttr ("use_nesterov", use_nesterov.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' and '*accum' according to FOBOS with Adagrad learning rate.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyProximalAdagrad'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var and accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   accum += grad * grad
+		///   prox_v = var - lr * grad * (1 / sqrt(accum))
+		///   var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}
+		/// </remarks>
+		public TFOutput ApplyProximalAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyProximalAdagrad", MakeName ("ApplyProximalAdagrad", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' as FOBOS algorithm with fixed learning rate.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="alpha">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="delta">
+		///   The change.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyProximalGradientDescent'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   prox_v = var - alpha * delta
+		///   var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}
+		/// </remarks>
+		public TFOutput ApplyProximalGradientDescent (TFOutput var, TFOutput alpha, TFOutput l1, TFOutput l2, TFOutput delta, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyProximalGradientDescent", MakeName ("ApplyProximalGradientDescent", operName));
+			desc.AddInput (var);
+			desc.AddInput (alpha);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (delta);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the RMSProp algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="ms">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mom">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay rate. Must be a scalar.
+		/// </param>
+		/// <param name="momentum">
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyRMSProp'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Note that in dense implementation of this algorithm, ms and mom will
+		///   update even if the grad is zero, but in this sparse implementation, ms
+		///   and mom will not update in iterations during which the grad is zero.
+		///   
+		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
+		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
+		///   
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
+		/// </remarks>
+		public TFOutput ApplyRMSProp (TFOutput var, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyRMSProp", MakeName ("ApplyRMSProp", operName));
+			desc.AddInput (var);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (momentum);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Returns the truth value of abs(x-y) &amp;lt; tolerance element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -600,11 +1540,15 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes which dimension
-		///   of the input Tensor to reduce across. For vectors, use dimension = 0.
+		///   int32 or int64, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes
+		///   which dimension of the input Tensor to reduce across. For vectors,
+		///   use dimension = 0.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ArgMax'.
+		/// </param>
+		/// <param name="output_type">
+		///   Optional argument
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -612,11 +1556,14 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Note that in case of ties the identity of the return value is not guaranteed.
 		/// </remarks>
-		public TFOutput ArgMax (TFOutput input, TFOutput dimension, string operName = null)
+		public TFOutput ArgMax (TFOutput input, TFOutput dimension, TFDataType? output_type = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ArgMax", MakeName ("ArgMax", operName));
 			desc.AddInput (input);
 			desc.AddInput (dimension);
+			if (output_type.HasValue)
+				desc.SetAttrType ("output_type", output_type.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -629,11 +1576,15 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes which dimension
-		///   of the input Tensor to reduce across. For vectors, use dimension = 0.
+		///   int32 or int64, 0 &amp;lt;= dimension &amp;lt; rank(input).  Describes
+		///   which dimension of the input Tensor to reduce across. For vectors,
+		///   use dimension = 0.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ArgMin'.
+		/// </param>
+		/// <param name="output_type">
+		///   Optional argument
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -641,11 +1592,14 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Note that in case of ties the identity of the return value is not guaranteed.
 		/// </remarks>
-		public TFOutput ArgMin (TFOutput input, TFOutput dimension, string operName = null)
+		public TFOutput ArgMin (TFOutput input, TFOutput dimension, TFDataType? output_type = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ArgMin", MakeName ("ArgMin", operName));
 			desc.AddInput (input);
 			desc.AddInput (dimension);
+			if (output_type.HasValue)
+				desc.SetAttrType ("output_type", output_type.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -666,6 +1620,27 @@ namespace TensorFlow {
 		public TFOutput Asin (TFOutput x, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Asin", MakeName ("Asin", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Computes inverse hyperbolic sine of x element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Asinh'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Asinh (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Asinh", MakeName ("Asinh", operName));
 			desc.AddInput (x);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -709,6 +1684,95 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Update 'ref' by assigning 'value' to it.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node. May be uninitialized.
+		/// </param>
+		/// <param name="value">
+		///   The value to be assigned to the variable.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Assign'.
+		/// </param>
+		/// <param name="validate_shape">
+		///   Optional argument
+		///   If true, the operation will validate that the shape
+		///   of 'value' matches the shape of the Tensor being assigned to.  If false,
+		///   'ref' will take on the shape of 'value'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the assignment will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as "ref".  Returned as a convenience for operations that want
+		///   to use the new value after the variable has been reset.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation outputs "ref" after the assignment is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		/// </remarks>
+		public TFOutput Assign (TFOutput reference, TFOutput value, bool? validate_shape = null, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Assign", MakeName ("Assign", operName));
+			desc.AddInput (reference);
+			desc.AddInput (value);
+			if (validate_shape.HasValue)
+				desc.SetAttr ("validate_shape", validate_shape.Value);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Update 'ref' by adding 'value' to it.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="value">
+		///   The value to be added to the variable.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AssignAdd'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the addition will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as "ref".  Returned as a convenience for operations that want
+		///   to use the new value after the variable has been updated.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation outputs "ref" after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		/// </remarks>
+		public TFOutput AssignAdd (TFOutput reference, TFOutput value, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AssignAdd", MakeName ("AssignAdd", operName));
+			desc.AddInput (reference);
+			desc.AddInput (value);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
 		///   Adds a value to the current value of a variable.
 		/// </summary>
 		/// <param name="resource">
@@ -737,6 +1801,46 @@ namespace TensorFlow {
 			desc.AddInput (value);
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Update 'ref' by subtracting 'value' from it.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="value">
+		///   The value to be subtracted to the variable.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AssignSub'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as "ref".  Returned as a convenience for operations that want
+		///   to use the new value after the variable has been updated.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation outputs "ref" after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		/// </remarks>
+		public TFOutput AssignSub (TFOutput reference, TFOutput value, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AssignSub", MakeName ("AssignSub", operName));
+			desc.AddInput (reference);
+			desc.AddInput (value);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
 		}
 
 		/// <summary>
@@ -912,6 +2016,27 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
+		}
+
+		/// <summary>
+		///   Computes inverse hyperbolic tangent of x element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Atanh'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Atanh (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Atanh", MakeName ("Atanh", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
 		}
 
 		/// <summary>
@@ -1282,6 +2407,273 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Defines a barrier that persists across different graph executions.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Barrier'.
+		/// </param>
+		/// <param name="shapes">
+		///   Optional argument
+		///   The shape of each component in a value. Each shape must be 1 in the
+		///   first dimension. The length of this attr must be the same as the length of
+		///   component_types.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   The capacity of the barrier.  The default capacity is MAX_INT32,
+		///   which is the largest capacity of the underlying queue.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this barrier is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this barrier will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a value.
+		/// </param>
+		/// <returns>
+		///   The handle to the barrier.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   A barrier represents a key-value map, where each key is a string, and
+		///   each value is a tuple of tensors.
+		///   
+		///   At runtime, the barrier contains 'complete' and 'incomplete'
+		///   elements. A complete element has defined tensors for all components of
+		///   its value tuple, and may be accessed using BarrierTakeMany. An
+		///   incomplete element has some undefined components in its value tuple,
+		///   and may be updated using BarrierInsertMany.
+		/// </remarks>
+		public TFOutput Barrier (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Barrier", MakeName ("Barrier", operName));
+			desc.SetAttrType ("component_types", component_types);
+			if (shapes != null)
+				desc.SetAttrShape ("shapes", shapes);
+			
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Closes the given barrier.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a barrier.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BarrierClose'.
+		/// </param>
+		/// <param name="cancel_pending_enqueues">
+		///   Optional argument
+		///   If true, all pending enqueue requests that are
+		///   blocked on the barrier's queue will be canceled. InsertMany will fail, even
+		///   if no new key is introduced.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation signals that no more new elements will be inserted in the
+		///   given barrier. Subsequent InsertMany that try to introduce a new key will fail.
+		///   Subsequent InsertMany operations that just add missing components to already
+		///   existing elements will continue to succeed. Subsequent TakeMany operations will
+		///   continue to succeed if sufficient completed elements remain in the barrier.
+		///   Subsequent TakeMany operations that would block will fail immediately.
+		/// </remarks>
+		public TFOperation BarrierClose (TFOutput handle, bool? cancel_pending_enqueues = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BarrierClose", MakeName ("BarrierClose", operName));
+			desc.AddInput (handle);
+			if (cancel_pending_enqueues.HasValue)
+				desc.SetAttr ("cancel_pending_enqueues", cancel_pending_enqueues.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Computes the number of incomplete elements in the given barrier.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a barrier.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BarrierIncompleteSize'.
+		/// </param>
+		/// <returns>
+		///   The number of incomplete elements (i.e. those with some of their value
+		///   components not set) in the barrier.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BarrierIncompleteSize (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BarrierIncompleteSize", MakeName ("BarrierIncompleteSize", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   For each key, assigns the respective value to the specified component.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a barrier.
+		/// </param>
+		/// <param name="keys">
+		///   A one-dimensional tensor of keys, with length n.
+		/// </param>
+		/// <param name="values">
+		///   An any-dimensional tensor of values, which are associated with the
+		///   respective keys. The 0th dimension must have length n.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BarrierInsertMany'.
+		/// </param>
+		/// <param name="component_index">
+		///   The component of the barrier elements that is being assigned.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   If a key is not found in the barrier, this operation will create a new
+		///   incomplete element. If a key is found in the barrier, and the element
+		///   already has a value at component_index, this operation will fail with
+		///   INVALID_ARGUMENT, and leave the barrier in an undefined state.
+		/// </remarks>
+		public TFOperation BarrierInsertMany (TFOutput handle, TFOutput keys, TFOutput values, long component_index, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BarrierInsertMany", MakeName ("BarrierInsertMany", operName));
+			desc.AddInput (handle);
+			desc.AddInput (keys);
+			desc.AddInput (values);
+			desc.SetAttr ("component_index", component_index);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Computes the number of complete elements in the given barrier.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a barrier.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BarrierReadySize'.
+		/// </param>
+		/// <returns>
+		///   The number of complete elements (i.e. those with all of their value
+		///   components set) in the barrier.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BarrierReadySize (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BarrierReadySize", MakeName ("BarrierReadySize", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   Takes the given number of completed elements from a barrier.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a barrier.
+		/// </param>
+		/// <param name="num_elements">
+		///   A single-element tensor containing the number of elements to
+		///   take.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BarrierTakeMany'.
+		/// </param>
+		/// <param name="allow_small_batch">
+		///   Optional argument
+		///   Allow to return less than num_elements items if barrier is
+		///   already closed.
+		/// </param>
+		/// <param name="wait_for_incomplete">
+		///   Optional argument
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue is empty, this operation will block for up to
+		///   timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a value.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   indices: A one-dimensional tensor of indices, with length num_elems.
+		///   These indices refer to the batch in which the values were placed into the
+		///   barrier (starting with MIN_LONG and increasing with each BarrierInsertMany).
+		///   keys: A one-dimensional tensor of keys, with length num_elements.
+		///   values: One any-dimensional tensor per component in a barrier element. All
+		///   values have length num_elements in the 0th dimension.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   This operation concatenates completed-element component tensors along
+		///   the 0th dimension to make a single component tensor.
+		///   
+		///   Elements come out of the barrier when they are complete, and in the order
+		///   in which they were placed into the barrier.  The indices output provides
+		///   information about the batch in which each element was originally inserted
+		///   into the barrier.
+		/// </remarks>
+		public (TFOutput indices, TFOutput keys, TFOutput[] values) BarrierTakeMany (TFOutput handle, TFOutput num_elements, TFDataType[] component_types, bool? allow_small_batch = null, bool? wait_for_incomplete = null, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BarrierTakeMany", MakeName ("BarrierTakeMany", operName));
+			desc.AddInput (handle);
+			desc.AddInput (num_elements);
+			desc.SetAttrType ("component_types", component_types);
+			if (allow_small_batch.HasValue)
+				desc.SetAttr ("allow_small_batch", allow_small_batch.Value);
+			
+			if (wait_for_incomplete.HasValue)
+				desc.SetAttr ("wait_for_incomplete", wait_for_incomplete.Value);
+			
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			var indices = new TFOutput (op, _idx++);
+			var keys = new TFOutput (op, _idx++);
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return (indices, keys, values);
 		}
 
 		/// <summary>
@@ -2001,6 +3393,90 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Elementwise computes the bitwise AND of `x` and `y`.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseAnd'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The result will have those bits set, that are set in both `x` and `y`. The
+		///   computation is performed on the underlying representations of `x` and `y`.
+		/// </remarks>
+		public TFOutput BitwiseAnd (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BitwiseAnd", MakeName ("BitwiseAnd", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
+		///   Elementwise computes the bitwise OR of `x` and `y`.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseOr'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The result will have those bits set, that are set in `x`, `y` or both. The
+		///   computation is performed on the underlying representations of `x` and `y`.
+		/// </remarks>
+		public TFOutput BitwiseOr (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BitwiseOr", MakeName ("BitwiseOr", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
+		///   Elementwise computes the bitwise XOR of `x` and `y`.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BitwiseXor'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The result will have those bits set, that are different in `x` and `y`. The
+		///   computation is performed on the underlying representations of `x` and `y`.
+		/// </remarks>
+		public TFOutput BitwiseXor (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BitwiseXor", MakeName ("BitwiseXor", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
 		///   Return the shape of s0 op s1 with broadcast.
 		/// </summary>
 		/// <param name="s0">
@@ -2103,6 +3579,44 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a dataset that caches elements from `input_dataset`.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="filename">
+		///   A path on the filesystem where we should cache the dataset. Note: this
+		///   will be a directory.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CacheDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   A CacheDataset will iterate over the input_dataset, and store tensors. If the
+		///   cache already exists, the cache will be used. If the cache is inappropriate
+		///   (e.g. cannot be opened, contains tensors of the wrong shape / size), an error
+		///   will the returned when used.
+		/// </remarks>
+		public TFOutput CacheDataset (TFOutput input_dataset, TFOutput filename, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CacheDataset", MakeName ("CacheDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (filename);
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Cast x of type SrcT to y of DstT.
 		/// </summary>
 		/// <param name="x">
@@ -2191,9 +3705,18 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
-		///   form square matrices, with the same constraints as the single matrix Cholesky
-		///   decomposition above. The output is a tensor of the same shape as the input
+		///   form square matrices.
+		///   
+		///   The input has to be symmetric and positive definite. Only the lower-triangular
+		///   part of the input will be used for this operation. The upper-triangular part
+		///   will not be read.
+		///   
+		///   The output is a tensor of the same shape as the input
 		///   containing the Cholesky decompositions for all input submatrices `[..., :, :]`.
+		///   
+		///   **Note**: The gradient computation on GPU is faster for large matrices but
+		///   not for large batch dimensions when the submatrices are small. In this
+		///   case it might be faster to use the CPU.
 		/// </remarks>
 		public TFOutput Cholesky (TFOutput input, string operName = null)
 		{
@@ -2411,6 +3934,36 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a dataset that concatenates `input_dataset` with `another_dataset`.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="another_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConcatenateDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ConcatenateDataset (TFOutput input_dataset, TFOutput another_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ConcatenateDataset", MakeName ("ConcatenateDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (another_dataset);
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Computes offsets of concat inputs within its output.
 		/// </summary>
 		/// <param name="concat_dim">
@@ -2484,6 +4037,57 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   A conditional accumulator for aggregating gradients.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConditionalAccumulator'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this accumulator is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this accumulator will be shared under the
+		///   given name across multiple sessions.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of the value being accumulated.
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the values, can be [], in which case shape is unknown.
+		/// </param>
+		/// <returns>
+		///   The handle to the accumulator.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The accumulator accepts gradients marked with local_step greater or
+		///   equal to the most recent global_step known to the accumulator. The
+		///   average can be extracted from the accumulator, provided sufficient
+		///   gradients have been accumulated. Extracting the average automatically
+		///   resets the aggregate to 0, and increments the global_step recorded by
+		///   the accumulator.
+		/// </remarks>
+		public TFOutput ConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ConditionalAccumulator", MakeName ("ConditionalAccumulator", operName));
+			desc.SetAttrType ("dtype", dtype);
+			desc.SetAttrShape ("shape", shape);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -3037,6 +4641,56 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Computes hyperbolic cosine of x element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cosh'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Cosh (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Cosh", MakeName ("Cosh", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Increments 'ref' until it reaches 'limit'.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a scalar `Variable` node.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CountUpTo'.
+		/// </param>
+		/// <param name="limit">
+		///   If incrementing ref would bring it above limit, instead generates an
+		///   'OutOfRange' error.
+		/// </param>
+		/// <returns>
+		///   A copy of the input before increment. If nothing else modifies the
+		///   input, the values produced will all be distinct.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput CountUpTo (TFOutput reference, long limit, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CountUpTo", MakeName ("CountUpTo", operName));
+			desc.AddInput (reference);
+			desc.SetAttr ("limit", limit);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Extracts crops from the input image tensor and bilinearly resizes them (possibly
 		/// </summary>
 		/// <param name="image">
@@ -3049,7 +4703,7 @@ namespace TensorFlow {
 		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
 		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
 		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
+		///   `[0, image_height - 1]` in image height coordinates. We do allow `y1` &amp;gt; `y2`, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
 		///   outside the `[0, 1]` range are allowed, in which case we use
@@ -3420,8 +5074,8 @@ namespace TensorFlow {
 		/// <param name="ignore_longer_outputs_than_inputs">
 		///   Optional argument
 		///   Scalar. If set to true, during CTC
-		///   calculation items have longer input sequences than output sequences
-		///   are ignored by returning zero-gradient for those items.
+		///   calculation, items that have longer output sequences than input sequences
+		///   are skipped: they don't contribute to the loss term and have zero-gradient.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
@@ -3479,26 +5133,31 @@ namespace TensorFlow {
 		/// <remarks>
 		///   By default, this op performs an inclusive cumprod, which means that the first
 		///   element of the input is identical to the first element of the output:
-		///   ```prettyprint
-		///   tf.cumprod([a, b, c]) ==&amp;gt; [a, a * b, a * b * c]
+		///   
+		///   ```python
+		///   tf.cumprod([a, b, c])  # =&amp;gt; [a, a * b, a * b * c]
 		///   ```
 		///   
 		///   By setting the `exclusive` kwarg to `True`, an exclusive cumprod is
 		///   performed instead:
-		///   ```prettyprint
-		///   tf.cumprod([a, b, c], exclusive=True) ==&amp;gt; [1, a, a * b]
+		///   
+		///   ```python
+		///   tf.cumprod([a, b, c], exclusive=True)  # =&amp;gt; [1, a, a * b]
 		///   ```
 		///   
 		///   By setting the `reverse` kwarg to `True`, the cumprod is performed in the
 		///   opposite direction:
-		///   ```prettyprint
-		///   tf.cumprod([a, b, c], reverse=True) ==&amp;gt; [a * b * c, b * c, c]
+		///   
+		///   ```python
+		///   tf.cumprod([a, b, c], reverse=True)  # =&amp;gt; [a * b * c, b * c, c]
 		///   ```
+		///   
 		///   This is more efficient than using separate `tf.reverse` ops.
 		///   
 		///   The `reverse` and `exclusive` kwargs can also be combined:
-		///   ```prettyprint
-		///   tf.cumprod([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b * c, c, 1]
+		///   
+		///   ```python
+		///   tf.cumprod([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b * c, c, 1]
 		///   ```
 		/// </remarks>
 		public TFOutput Cumprod (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
@@ -3540,26 +5199,31 @@ namespace TensorFlow {
 		/// <remarks>
 		///   By default, this op performs an inclusive cumsum, which means that the first
 		///   element of the input is identical to the first element of the output:
-		///   ```prettyprint
-		///   tf.cumsum([a, b, c]) ==&amp;gt; [a, a + b, a + b + c]
+		///   
+		///   ```python
+		///   tf.cumsum([a, b, c])  # =&amp;gt; [a, a + b, a + b + c]
 		///   ```
 		///   
 		///   By setting the `exclusive` kwarg to `True`, an exclusive cumsum is
 		///   performed instead:
-		///   ```prettyprint
-		///   tf.cumsum([a, b, c], exclusive=True) ==&amp;gt; [0, a, a + b]
+		///   
+		///   ```python
+		///   tf.cumsum([a, b, c], exclusive=True)  # =&amp;gt; [0, a, a + b]
 		///   ```
 		///   
 		///   By setting the `reverse` kwarg to `True`, the cumsum is performed in the
 		///   opposite direction:
-		///   ```prettyprint
-		///   tf.cumsum([a, b, c], reverse=True) ==&amp;gt; [a + b + c, b + c, c]
+		///   
+		///   ```python
+		///   tf.cumsum([a, b, c], reverse=True)  # =&amp;gt; [a + b + c, b + c, c]
 		///   ```
+		///   
 		///   This is more efficient than using separate `tf.reverse` ops.
 		///   
 		///   The `reverse` and `exclusive` kwargs can also be combined:
-		///   ```prettyprint
-		///   tf.cumsum([a, b, c], exclusive=True, reverse=True) ==&amp;gt; [b + c, c, 0]
+		///   
+		///   ```python
+		///   tf.cumsum([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b + c, c, 0]
 		///   ```
 		/// </remarks>
 		public TFOutput Cumsum (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
@@ -3573,6 +5237,31 @@ namespace TensorFlow {
 			if (reverse.HasValue)
 				desc.SetAttr ("reverse", reverse.Value);
 			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Identity op for gradient debugging.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DebugGradientIdentity'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op is hidden from public in Python. It is used by TensorFlow Debugger to
+		///   register gradient tensors for gradient debugging.
+		/// </remarks>
+		public TFOutput DebugGradientIdentity (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DebugGradientIdentity", MakeName ("DebugGradientIdentity", operName));
+			desc.AddInput (input);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -3661,7 +5350,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="field_delim">
 		///   Optional argument
-		///   delimiter to separate fields in a record.
+		///   char delimiter to separate fields in a record.
+		/// </param>
+		/// <param name="use_quote_delim">
+		///   Optional argument
+		///   If false, treats double quotation marks as regular
+		///   characters inside of the string fields (ignoring RFC 4180, Section 2,
+		///   Bullet 5).
 		/// </param>
 		/// <returns>
 		///   Each tensor will have the same shape as records.
@@ -3672,13 +5367,16 @@ namespace TensorFlow {
 		///   (https://tools.ietf.org/html/rfc4180)
 		///   Note that we allow leading and trailing spaces with int or float field.
 		/// </remarks>
-		public TFOutput[] DecodeCSV (TFOutput records, TFOutput[] record_defaults, string field_delim = null, string operName = null)
+		public TFOutput[] DecodeCSV (TFOutput records, TFOutput[] record_defaults, string field_delim = null, bool? use_quote_delim = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "DecodeCSV", MakeName ("DecodeCSV", operName));
 			desc.AddInput (records);
 			desc.AddInputs (record_defaults);
 			if (field_delim != null)
 				desc.SetAttr ("field_delim", field_delim);
+			
+			if (use_quote_delim.HasValue)
+				desc.SetAttr ("use_quote_delim", use_quote_delim.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -4321,11 +6019,13 @@ namespace TensorFlow {
 		///   `channel_multiplier` channels for each), then concatenates the results
 		///   together. Thus, the output has `in_channels * channel_multiplier` channels.
 		///   
+		///   ```
 		///   for k in 0..in_channels-1
 		///     for q in 0..channel_multiplier-1
 		///       output[b, i, j, k * channel_multiplier + q] =
 		///         sum_{di, dj} input[b, strides[1] * i + di, strides[2] * j + dj, k] *
 		///                           filter[di, dj, k, q]
+		///   ```
 		///   
 		///   Must have `strides[0] = strides[3] = 1`.  For the most common case of the same
 		///   horizontal and vertices strides, `strides = [1, stride, stride, 1]`.
@@ -4641,6 +6341,42 @@ namespace TensorFlow {
 			
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Destroys the temporary variable and returns its final value.
+		/// </summary>
+		/// <param name="reference">
+		///   A reference to the temporary variable tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DestroyTemporaryVariable'.
+		/// </param>
+		/// <param name="var_name">
+		///   Name of the temporary variable, usually the name of the matching
+		///   'TemporaryVariable' op.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Sets output to the value of the Tensor pointed to by 'ref', then destroys
+		///   the temporary variable called 'var_name'.
+		///   All other uses of 'ref' *must* have executed before this op.
+		///   This is typically achieved by chaining the ref through each assign op, or by
+		///   using control dependencies.
+		///   
+		///   Outputs the final value of the tensor pointed to by 'ref'.
+		/// </remarks>
+		public TFOutput DestroyTemporaryVariable (TFOutput reference, string var_name, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DestroyTemporaryVariable", MakeName ("DestroyTemporaryVariable", operName));
+			desc.AddInput (reference);
+			desc.SetAttr ("var_name", var_name);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var value = new TFOutput (op, _idx++);
+			return value;
 		}
 
 		/// <summary>
@@ -5859,7 +7595,8 @@ namespace TensorFlow {
 		///   input stride, specifying how far two consecutive patch samples are in the
 		///   input. Equivalent to extracting patches with
 		///   `patch_sizes_eff = patch_sizes + (patch_sizes - 1) * (rates - 1)`, followed by
-		///   subsampling them spatially by a factor of `rates`.
+		///   subsampling them spatially by a factor of `rates`. This is equivalent to
+		///   `rate` in dilated (a.k.a. Atrous) convolutions.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5875,7 +7612,8 @@ namespace TensorFlow {
 		/// <returns>
 		///   4-D Tensor with shape `[batch, out_rows, out_cols, ksize_rows *
 		///   ksize_cols * depth]` containing image patches with size
-		///   `ksize_rows x ksize_cols x depth` vectorized in the "depth" dimension.
+		///   `ksize_rows x ksize_cols x depth` vectorized in the "depth" dimension. Note
+		///   `out_rows` and `out_cols` are the dimensions of the output patches.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ExtractImagePatches (TFOutput images, long[] ksizes, long[] strides, long[] rates, string padding, string operName = null)
@@ -5927,18 +7665,22 @@ namespace TensorFlow {
 		/// <param name="num_bits">
 		///   Optional argument
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Attributes [min; max] define the clamping range for the 'inputs' data.  Op
-		///   divides this range into 255 steps (total of 256 values), then replaces each
-		///   'inputs' value with the closest of the quantized step values.
-		///   'num_bits' is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   Attributes `[min; max]` define the clamping range for the `inputs` data.
+		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+		///   then de-quantized and output as floats in `[min; max]` interval.
+		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
 		///   Quantization is called fake since the output is still in floating point.
 		/// </remarks>
-		public TFOutput FakeQuantWithMinMaxArgs (TFOutput inputs, float? min = null, float? max = null, long? num_bits = null, string operName = null)
+		public TFOutput FakeQuantWithMinMaxArgs (TFOutput inputs, float? min = null, float? max = null, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxArgs", MakeName ("FakeQuantWithMinMaxArgs", operName));
 			desc.AddInput (inputs);
@@ -5950,6 +7692,9 @@ namespace TensorFlow {
 			
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -5978,12 +7723,15 @@ namespace TensorFlow {
 		/// <param name="num_bits">
 		///   Optional argument
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Backpropagated gradients below the FakeQuantWithMinMaxArgs operation:
 		///   `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput FakeQuantWithMinMaxArgsGradient (TFOutput gradients, TFOutput inputs, float? min = null, float? max = null, long? num_bits = null, string operName = null)
+		public TFOutput FakeQuantWithMinMaxArgsGradient (TFOutput gradients, TFOutput inputs, float? min = null, float? max = null, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxArgsGradient", MakeName ("FakeQuantWithMinMaxArgsGradient", operName));
 			desc.AddInput (gradients);
@@ -5996,6 +7744,9 @@ namespace TensorFlow {
 			
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -6018,20 +7769,25 @@ namespace TensorFlow {
 		/// <param name="num_bits">
 		///   Optional argument
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   and `max` to 'outputs' tensor of same shape as `inputs`.
 		///   
-		///   [min; max] is the clamping range for the 'inputs' data.  Op divides this range
-		///   into 255 steps (total of 256 values), then replaces each 'inputs' value with the
-		///   closest of the quantized step values.
-		///   'num_bits' is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   `[min; max]` define the clamping range for the `inputs` data.
+		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+		///   then de-quantized and output as floats in `[min; max]` interval.
+		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
-		///   This operation has a gradient and thus allows for training `min` and `max` values.
+		///   This operation has a gradient and thus allows for training `min` and `max`
+		///   values.
 		/// </remarks>
-		public TFOutput FakeQuantWithMinMaxVars (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, string operName = null)
+		public TFOutput FakeQuantWithMinMaxVars (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxVars", MakeName ("FakeQuantWithMinMaxVars", operName));
 			desc.AddInput (inputs);
@@ -6039,6 +7795,9 @@ namespace TensorFlow {
 			desc.AddInput (max);
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -6067,6 +7826,10 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The bitwidth of the quantization; between 2 and 8, inclusive.
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		///   Whether to quantize into 2^num_bits - 1 distinct values.
+		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   backprops_wrt_input: Backpropagated gradients w.r.t. inputs:
@@ -6077,7 +7840,7 @@ namespace TensorFlow {
 		///   `sum(gradients * (inputs &amp;gt; max))`.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
-		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, string operName = null)
+		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxVarsGradient", MakeName ("FakeQuantWithMinMaxVarsGradient", operName));
 			desc.AddInput (gradients);
@@ -6086,6 +7849,9 @@ namespace TensorFlow {
 			desc.AddInput (max);
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -6110,6 +7876,9 @@ namespace TensorFlow {
 		/// <param name="num_bits">
 		///   Optional argument
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
@@ -6117,14 +7886,16 @@ namespace TensorFlow {
 		///   `[b, d]` `[b, h, w, d]` via per-channel floats `min` and `max` of shape `[d]`
 		///   to 'outputs' tensor of same shape as `inputs`.
 		///   
-		///   [min; max] is the clamping range for the 'inputs' data in the corresponding
-		///   depth channel.  Op divides this range into 255 steps (total of 256 values), then
-		///   replaces each 'inputs' value with the closest of the quantized step values.
-		///   'num_bits' is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   `[min; max]` define the clamping range for the `inputs` data.
+		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
+		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
+		///   then de-quantized and output as floats in `[min; max]` interval.
+		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
-		///   This operation has a gradient and thus allows for training `min` and `max` values.
+		///   This operation has a gradient and thus allows for training `min` and `max`
+		///   values.
 		/// </remarks>
-		public TFOutput FakeQuantWithMinMaxVarsPerChannel (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, string operName = null)
+		public TFOutput FakeQuantWithMinMaxVarsPerChannel (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxVarsPerChannel", MakeName ("FakeQuantWithMinMaxVarsPerChannel", operName));
 			desc.AddInput (inputs);
@@ -6132,6 +7903,9 @@ namespace TensorFlow {
 			desc.AddInput (max);
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
+			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -6162,6 +7936,10 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The bitwidth of the quantization; between 2 and 8, inclusive.
 		/// </param>
+		/// <param name="narrow_range">
+		///   Optional argument
+		///   Whether to quantize into 2^num_bits - 1 distinct values.
+		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   backprops_wrt_input: Backpropagated gradients w.r.t. inputs, shape same as
@@ -6173,7 +7951,7 @@ namespace TensorFlow {
 		///   `sum_per_d(gradients * (inputs &amp;gt; max))`.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
-		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsPerChannelGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, string operName = null)
+		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsPerChannelGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FakeQuantWithMinMaxVarsPerChannelGradient", MakeName ("FakeQuantWithMinMaxVarsPerChannelGradient", operName));
 			desc.AddInput (gradients);
@@ -6183,12 +7961,36 @@ namespace TensorFlow {
 			if (num_bits.HasValue)
 				desc.SetAttr ("num_bits", num_bits.Value);
 			
+			if (narrow_range.HasValue)
+				desc.SetAttr ("narrow_range", narrow_range.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var backprops_wrt_input = new TFOutput (op, _idx++);
 			var backprop_wrt_min = new TFOutput (op, _idx++);
 			var backprop_wrt_max = new TFOutput (op, _idx++);
 			return (backprops_wrt_input, backprop_wrt_min, backprop_wrt_max);
+		}
+
+		/// <summary>
+		///   Deprecated. Do not use.
+		/// </summary>
+		/// <param name="resource">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeQueue'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput FakeQueue (TFOutput resource, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "FakeQueue", MakeName ("FakeQueue", operName));
+			desc.AddInput (resource);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -6285,6 +8087,63 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   A queue that produces elements in first-in first-out order.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FIFOQueue'.
+		/// </param>
+		/// <param name="shapes">
+		///   Optional argument
+		///   The shape of each component in a value. The length of this attr must
+		///   be either 0 or the same as the length of component_types. If the length of
+		///   this attr is 0, the shapes of queue elements are not constrained, and
+		///   only one element may be dequeued at a time.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   The upper bound on the number of elements in this queue.
+		///   Negative numbers mean no limit.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this queue will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a value.
+		/// </param>
+		/// <returns>
+		///   The handle to the queue.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput FIFOQueue (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "FIFOQueue", MakeName ("FIFOQueue", operName));
+			desc.SetAttrType ("component_types", component_types);
+			if (shapes != null)
+				desc.SetAttrShape ("shapes", shapes);
+			
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -6426,7 +8285,7 @@ namespace TensorFlow {
 		///   A Reader that outputs fixed-length records from a file.
 		/// </summary>
 		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FixedLengthRecordReaderV2'.
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FixedLengthRecordReader'.
 		/// </param>
 		/// <param name="header_bytes">
 		///   Optional argument
@@ -6458,7 +8317,73 @@ namespace TensorFlow {
 		///   The handle to reference the Reader.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput FixedLengthRecordReaderV2 (long record_bytes, long? header_bytes = null, long? footer_bytes = null, long? hop_bytes = null, string container = null, string shared_name = null, string operName = null)
+		public TFOutput FixedLengthRecordReader (long record_bytes, long? header_bytes = null, long? footer_bytes = null, long? hop_bytes = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "FixedLengthRecordReader", MakeName ("FixedLengthRecordReader", operName));
+			desc.SetAttr ("record_bytes", record_bytes);
+			if (header_bytes.HasValue)
+				desc.SetAttr ("header_bytes", header_bytes.Value);
+			
+			if (footer_bytes.HasValue)
+				desc.SetAttr ("footer_bytes", footer_bytes.Value);
+			
+			if (hop_bytes.HasValue)
+				desc.SetAttr ("hop_bytes", hop_bytes.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
+		}
+
+		/// <summary>
+		///   A Reader that outputs fixed-length records from a file.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FixedLengthRecordReaderV2'.
+		/// </param>
+		/// <param name="header_bytes">
+		///   Optional argument
+		///   Number of bytes in the header, defaults to 0.
+		/// </param>
+		/// <param name="footer_bytes">
+		///   Optional argument
+		///   Number of bytes in the footer, defaults to 0.
+		/// </param>
+		/// <param name="hop_bytes">
+		///   Optional argument
+		///   Number of bytes to hop before each read. Default of 0 means using
+		///   record_bytes.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <param name="encoding">
+		///   Optional argument
+		///   The type of encoding for the file. Currently ZLIB and GZIP
+		///   are supported. Defaults to none.
+		/// </param>
+		/// <param name="record_bytes">
+		///   Number of bytes in the record.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput FixedLengthRecordReaderV2 (long record_bytes, long? header_bytes = null, long? footer_bytes = null, long? hop_bytes = null, string container = null, string shared_name = null, string encoding = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "FixedLengthRecordReaderV2", MakeName ("FixedLengthRecordReaderV2", operName));
 			desc.SetAttr ("record_bytes", record_bytes);
@@ -6476,6 +8401,9 @@ namespace TensorFlow {
 			
 			if (shared_name != null)
 				desc.SetAttr ("shared_name", shared_name);
+			
+			if (encoding != null)
+				desc.SetAttr ("encoding", encoding);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -7377,7 +9305,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather values or slices from `params` according to `indices`.
+		///   Gather slices from `params` into a Tensor with shape specified by `indices`.
 		/// </summary>
 		/// <param name="parameters">
 		///   The tensor from which to gather values.
@@ -7394,13 +9322,23 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` is an integer tensor containing indices into `params`.  The last
-		///   dimension of `indices` can be at most the rank of `params`:
+		///   `indices` is an K-dimensional integer tensor, best thought of as a
+		///   (K-1)-dimensional tensor of indices into `params`, where each element defines a
+		///   slice of `params`:
+		///   
+		///       output[i_0, ..., i_{K-2}] = params[indices[i0, ..., i_{K-2}]]
+		///   
+		///   Whereas in @{tf.gather} `indices` defines slices into the first
+		///   dimension of `params`, in `tf.gather_nd`, `indices` defines slices into the
+		///   first `N` dimensions of `params`, where `N = indices.shape[-1]`.
+		///   
+		///   The last dimension of `indices` can be at most the rank of
+		///   `params`:
 		///   
 		///       indices.shape[-1] &amp;lt;= params.rank
 		///   
 		///   The last dimension of `indices` corresponds to elements
-		///   (if `indices.shape[-1] = params.rank`) or slices
+		///   (if `indices.shape[-1] == params.rank`) or slices
 		///   (if `indices.shape[-1] &amp;lt; params.rank`) along dimension `indices.shape[-1]`
 		///   of `params`.  The output tensor has shape
 		///   
@@ -7488,6 +9426,63 @@ namespace TensorFlow {
 			var desc = new TFOperationDesc (this, "GatherNd", MakeName ("GatherNd", operName));
 			desc.AddInput (parameters);
 			desc.AddInput (indices);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Gather slices from `params` axis `axis` according to `indices`.
+		/// </summary>
+		/// <param name="parameters">
+		///   The tensor from which to gather values. Must be at least rank
+		///   `axis + 1`.
+		/// </param>
+		/// <param name="indices">
+		///   Index tensor. Must be in range `[0, params.shape[axis])`.
+		/// </param>
+		/// <param name="axis">
+		///   The axis in `params` to gather `indices` from. Defaults to the first
+		///   dimension. Supports negative indexes.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GatherV2'.
+		/// </param>
+		/// <returns>
+		///   Values from `params` gathered from indices given by `indices`, with
+		///   shape `params.shape[:axis] + indices.shape + params.shape[axis + 1:]`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   `indices` must be an integer tensor of any dimension (usually 0-D or 1-D).
+		///   Produces an output tensor with shape `params.shape[:axis] + indices.shape +
+		///   params.shape[axis + 1:]` where:
+		///   
+		///   ```python
+		///       # Scalar indices (output is rank(params) - 1).
+		///       output[a_0, ..., a_n, b_0, ..., b_n] =
+		///         params[a_0, ..., a_n, indices, b_0, ..., b_n]
+		///   
+		///       # Vector indices (output is rank(params)).
+		///       output[a_0, ..., a_n, i, b_0, ..., b_n] =
+		///         params[a_0, ..., a_n, indices[i], b_0, ..., b_n]
+		///   
+		///       # Higher rank indices (output is rank(params) + rank(indices) - 1).
+		///       output[a_0, ..., a_n, i, ..., j, b_0, ... b_n] =
+		///         params[a_0, ..., a_n, indices[i, ..., j], b_0, ..., b_n]
+		///   ```
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/Gather.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput GatherV2 (TFOutput parameters, TFOutput indices, TFOutput axis, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "GatherV2", MakeName ("GatherV2", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (indices);
+			desc.AddInput (axis);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -7629,6 +9624,62 @@ namespace TensorFlow {
 		///   Creates a non-initialized hash table.
 		/// </summary>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HashTable'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this table is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this table is shared under the given name across
+		///   multiple sessions.
+		/// </param>
+		/// <param name="use_node_name_sharing">
+		///   Optional argument
+		///   If true and shared_name is empty, the table is shared
+		///   using the node name.
+		/// </param>
+		/// <param name="key_dtype">
+		///   Type of the table keys.
+		/// </param>
+		/// <param name="value_dtype">
+		///   Type of the table values.
+		/// </param>
+		/// <returns>
+		///   Handle to a table.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op creates a hash table, specifying the type of its keys and values.
+		///   Before using the table you will have to initialize it.  After initialization the
+		///   table will be immutable.
+		/// </remarks>
+		public TFOutput HashTable (TFDataType key_dtype, TFDataType value_dtype, string container = null, string shared_name = null, bool? use_node_name_sharing = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "HashTable", MakeName ("HashTable", operName));
+			desc.SetAttrType ("key_dtype", key_dtype);
+			desc.SetAttrType ("value_dtype", value_dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (use_node_name_sharing.HasValue)
+				desc.SetAttr ("use_node_name_sharing", use_node_name_sharing.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var table_handle = new TFOutput (op, _idx++);
+			return table_handle;
+		}
+
+		/// <summary>
+		///   Creates a non-initialized hash table.
+		/// </summary>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HashTableV2'.
 		/// </param>
 		/// <param name="container">
@@ -7764,6 +9815,45 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   A Reader that outputs the queued work as both the key and value.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IdentityReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   To use, enqueue strings in a Queue.  ReaderRead will take the front
+		///   work string and output (work, work).
+		/// </remarks>
+		public TFOutput IdentityReader (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IdentityReader", MakeName ("IdentityReader", operName));
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
 		}
 
 		/// <summary>
@@ -7979,6 +10069,33 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a dataset that contains the elements of `input_dataset` ignoring errors.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IgnoreErrorsDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IgnoreErrorsDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IgnoreErrorsDataset", MakeName ("IgnoreErrorsDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Returns the imaginary part of a complex number.
 		/// </summary>
 		/// <param name="input">
@@ -8127,6 +10244,93 @@ namespace TensorFlow {
 			int _idx = 0;
 			var tensor = new TFOutput (op, _idx++);
 			return tensor;
+		}
+
+		/// <summary>
+		///   Table initializer that takes two tensors for keys and values respectively.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to a table which will be initialized.
+		/// </param>
+		/// <param name="keys">
+		///   Keys of type Tkey.
+		/// </param>
+		/// <param name="values">
+		///   Values of type Tval.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InitializeTable'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation InitializeTable (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InitializeTable", MakeName ("InitializeTable", operName));
+			desc.AddInput (table_handle);
+			desc.AddInput (keys);
+			desc.AddInput (values);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Initializes a table from a text file.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to a table which will be initialized.
+		/// </param>
+		/// <param name="filename">
+		///   Filename of a vocabulary text file.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InitializeTableFromTextFile'.
+		/// </param>
+		/// <param name="vocab_size">
+		///   Optional argument
+		///   Number of elements of the file, use -1 if unknown.
+		/// </param>
+		/// <param name="delimiter">
+		///   Optional argument
+		///   Delimiter to separate fields in a line.
+		/// </param>
+		/// <param name="key_index">
+		///   Column index in a line to get the table `key` values from.
+		/// </param>
+		/// <param name="value_index">
+		///   Column index that represents information of a line to get the table
+		///   `value` values from.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   It inserts one key-value pair into the table for each line of the file.
+		///   The key and value is extracted from the whole line content, elements from the
+		///   split line based on `delimiter` or the line number (starting from zero).
+		///   Where to extract the key and value from a line is specified by `key_index` and
+		///   `value_index`.
+		///   
+		///   - A value of -1 means use the line number(starting from zero), expects `int64`.
+		///   - A value of -2 means use the whole line content, expects `string`.
+		///   - A value &amp;gt;= 0 means use the index (starting at zero) of the split line based
+		///     on `delimiter`.
+		/// </remarks>
+		public TFOperation InitializeTableFromTextFile (TFOutput table_handle, TFOutput filename, long key_index, long value_index, long? vocab_size = null, string delimiter = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InitializeTableFromTextFile", MakeName ("InitializeTableFromTextFile", operName));
+			desc.AddInput (table_handle);
+			desc.AddInput (filename);
+			desc.SetAttr ("key_index", key_index);
+			desc.SetAttr ("value_index", value_index);
+			if (vocab_size.HasValue)
+				desc.SetAttr ("vocab_size", vocab_size.Value);
+			
+			if (delimiter != null)
+				desc.SetAttr ("delimiter", delimiter);
+			
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -8288,6 +10492,31 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Flips all bits elementwise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Invert'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The result will have exactly those bits set, that are not set in `x`. The
+		///   computation is performed on the underlying representation of x.
+		/// </remarks>
+		public TFOutput Invert (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Invert", MakeName ("Invert", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
 		///   Computes the inverse permutation of a tensor.
 		/// </summary>
 		/// <param name="x">
@@ -8387,6 +10616,10 @@ namespace TensorFlow {
 		///   dimension of `input` (`fft_length = 2 * (inner - 1)`). If the FFT length used to
 		///   compute `input` is odd, it should be provided since it cannot be inferred
 		///   properly.
+		///   
+		///   Along the axis `IRFFT` is computed on, if `fft_length / 2 + 1` is smaller
+		///   than the corresponding dimension of `input`, the dimension is cropped. If it is
+		///   larger, the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -8431,6 +10664,11 @@ namespace TensorFlow {
 		///   from the size of the inner-most 2 dimensions of `input`. If the FFT length used
 		///   to compute `input` is odd, it should be provided since it cannot be inferred
 		///   properly.
+		///   
+		///   Along each axis `IRFFT2D` is computed on, if `fft_length` (or
+		///   `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
+		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT2D (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -8475,6 +10713,11 @@ namespace TensorFlow {
 		///   from the size of the inner-most 3 dimensions of `input`. If the FFT length used
 		///   to compute `input` is odd, it should be provided since it cannot be inferred
 		///   properly.
+		///   
+		///   Along each axis `IRFFT3D` is computed on, if `fft_length` (or
+		///   `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
+		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT3D (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -8566,6 +10809,31 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Checks whether a tensor has been initialized.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node. May be uninitialized.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IsVariableInitialized'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Outputs boolean scalar indicating whether the tensor has been initialized.
+		/// </remarks>
+		public TFOutput IsVariableInitialized (TFOutput reference, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IsVariableInitialized", MakeName ("IsVariableInitialized", operName));
+			desc.AddInput (reference);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var is_initialized = new TFOutput (op, _idx++);
+			return is_initialized;
+		}
+
+		/// <summary>
 		///   A container for an iterator resource.
 		/// </summary>
 		/// <param name="operName">
@@ -8617,6 +10885,29 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Converts the given string representing a handle to an iterator to a resource.
+		/// </summary>
+		/// <param name="string_handle">
+		///   A string representation of the given handle.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorFromStringHandle'.
+		/// </param>
+		/// <returns>
+		///   A handle to an iterator resource.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IteratorFromStringHandle (TFOutput string_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IteratorFromStringHandle", MakeName ("IteratorFromStringHandle", operName));
+			desc.AddInput (string_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resource_handle = new TFOutput (op, _idx++);
+			return resource_handle;
+		}
+
+		/// <summary>
 		///   Gets the next output from the given iterator.
 		/// </summary>
 		/// <param name="iterator">
@@ -8646,6 +10937,29 @@ namespace TensorFlow {
 				components [i] = new TFOutput (op, _idx++);
 			
 			return components;
+		}
+
+		/// <summary>
+		///   Converts the given `resource_handle` representing an iterator to a string.
+		/// </summary>
+		/// <param name="resource_handle">
+		///   A handle to an iterator resource.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorToStringHandle'.
+		/// </param>
+		/// <returns>
+		///   A string representation of the given handle.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IteratorToStringHandle (TFOutput resource_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IteratorToStringHandle", MakeName ("IteratorToStringHandle", operName));
+			desc.AddInput (resource_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var string_handle = new TFOutput (op, _idx++);
+			return string_handle;
 		}
 
 		/// <summary>
@@ -8935,6 +11249,41 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   A Reader that outputs the records from a LMDB file.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LMDBReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput LMDBReader (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LMDBReader", MakeName ("LMDBReader", operName));
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
+		}
+
+		/// <summary>
 		///   Computes natural logarithm of x element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -9174,6 +11523,38 @@ namespace TensorFlow {
 		///   Handle to the table.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableExport'.
+		/// </param>
+		/// <param name="Tkeys">
+		/// </param>
+		/// <param name="Tvalues">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   keys: Vector of all keys present in the table.
+		///   values: Tensor of all values in the table. Indexed in parallel with `keys`.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput keys, TFOutput values) LookupTableExport (TFOutput table_handle, TFDataType Tkeys, TFDataType Tvalues, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LookupTableExport", MakeName ("LookupTableExport", operName));
+			desc.AddInput (table_handle);
+			desc.SetAttrType ("Tkeys", Tkeys);
+			desc.SetAttrType ("Tvalues", Tvalues);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var keys = new TFOutput (op, _idx++);
+			var values = new TFOutput (op, _idx++);
+			return (keys, values);
+		}
+
+		/// <summary>
+		///   Outputs all keys and values in the table.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to the table.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableExportV2'.
 		/// </param>
 		/// <param name="Tkeys">
@@ -9197,6 +11578,44 @@ namespace TensorFlow {
 			var keys = new TFOutput (op, _idx++);
 			var values = new TFOutput (op, _idx++);
 			return (keys, values);
+		}
+
+		/// <summary>
+		///   Looks up keys in a table, outputs the corresponding values.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to the table.
+		/// </param>
+		/// <param name="keys">
+		///   Any shape.  Keys to look up.
+		/// </param>
+		/// <param name="default_value">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableFind'.
+		/// </param>
+		/// <returns>
+		///   Same shape as `keys`.  Values found in the table, or `default_values`
+		///   for missing keys.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The tensor `keys` must of the same type as the keys of the table.
+		///   The output `values` is of the type of the table values.
+		///   
+		///   The scalar `default_value` is the value output for keys not present in the
+		///   table. It must also be of the same type as the table values.
+		/// </remarks>
+		public TFOutput LookupTableFind (TFOutput table_handle, TFOutput keys, TFOutput default_value, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LookupTableFind", MakeName ("LookupTableFind", operName));
+			desc.AddInput (table_handle);
+			desc.AddInput (keys);
+			desc.AddInput (default_value);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var values = new TFOutput (op, _idx++);
+			return values;
 		}
 
 		/// <summary>
@@ -9250,6 +11669,38 @@ namespace TensorFlow {
 		///   Values to associate with keys.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableImport'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The tensor `keys` must be of the same type as the keys of the table.
+		///   The tensor `values` must be of the type of the table values.
+		/// </remarks>
+		public TFOperation LookupTableImport (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LookupTableImport", MakeName ("LookupTableImport", operName));
+			desc.AddInput (table_handle);
+			desc.AddInput (keys);
+			desc.AddInput (values);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Replaces the contents of the table with the specified keys and values.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to the table.
+		/// </param>
+		/// <param name="keys">
+		///   Any shape.  Keys to look up.
+		/// </param>
+		/// <param name="values">
+		///   Values to associate with keys.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableImportV2'.
 		/// </param>
 		/// <returns>
@@ -9262,6 +11713,38 @@ namespace TensorFlow {
 		public TFOperation LookupTableImportV2 (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "LookupTableImportV2", MakeName ("LookupTableImportV2", operName));
+			desc.AddInput (table_handle);
+			desc.AddInput (keys);
+			desc.AddInput (values);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Updates the table to associates keys with values.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to the table.
+		/// </param>
+		/// <param name="keys">
+		///   Any shape.  Keys to look up.
+		/// </param>
+		/// <param name="values">
+		///   Values to associate with keys.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableInsert'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The tensor `keys` must be of the same type as the keys of the table.
+		///   The tensor `values` must be of the type of the table values.
+		/// </remarks>
+		public TFOperation LookupTableInsert (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LookupTableInsert", MakeName ("LookupTableInsert", operName));
 			desc.AddInput (table_handle);
 			desc.AddInput (keys);
 			desc.AddInput (values);
@@ -9299,6 +11782,29 @@ namespace TensorFlow {
 			desc.AddInput (values);
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Computes the number of elements in the given table.
+		/// </summary>
+		/// <param name="table_handle">
+		///   Handle to the table.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableSize'.
+		/// </param>
+		/// <returns>
+		///   Scalar that contains number of elements in the table.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput LookupTableSize (TFOutput table_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LookupTableSize", MakeName ("LookupTableSize", operName));
+			desc.AddInput (table_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
 		}
 
 		/// <summary>
@@ -9497,6 +12003,380 @@ namespace TensorFlow {
 			desc.AddInput (iterator);
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Op removes all elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapClear'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation MapClear (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapClear", MakeName ("MapClear", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Op returns the number of incomplete elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapIncompleteSize'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MapIncompleteSize (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapIncompleteSize", MakeName ("MapIncompleteSize", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   Op peeks at the values at the specified key.  If the
+		/// </summary>
+		/// <param name="key">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapPeek'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   underlying container does not contain this key
+		///   this op will block until it does.
+		/// </remarks>
+		public TFOutput[] MapPeek (TFOutput key, TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapPeek", MakeName ("MapPeek", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return values;
+		}
+
+		/// <summary>
+		///   Op returns the number of elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapSize'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MapSize (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapSize", MakeName ("MapSize", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   Stage (key, values) in the underlying container which behaves like a hashtable.
+		/// </summary>
+		/// <param name="key">
+		///   int64
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="values">
+		///   a list of tensors
+		///   dtypes A list of data types that inserted values should adhere to.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapStage'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+		///   on the container will block when the capacity is reached.
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container. Otherwise,
+		///   a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   It is necessary to match this name to the matching Unstage Op.
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation MapStage (TFOutput key, TFOutput indices, TFOutput[] values, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapStage", MakeName ("MapStage", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.AddInputs (values);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Op removes and returns the values associated with the key
+		/// </summary>
+		/// <param name="key">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapUnstage'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   from the underlying container.   If the underlying container
+		///   does not contain this key, the op will block until it does.
+		/// </remarks>
+		public TFOutput[] MapUnstage (TFOutput key, TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapUnstage", MakeName ("MapUnstage", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return values;
+		}
+
+		/// <summary>
+		///   Op removes and returns a random (key, value)
+		/// </summary>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MapUnstageNoKey'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   key: 
+		///   values: 
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   from the underlying container.   If the underlying container
+		///   does not contain elements, the op will block until it does.
+		/// </remarks>
+		public (TFOutput key, TFOutput[] values) MapUnstageNoKey (TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MapUnstageNoKey", MakeName ("MapUnstageNoKey", operName));
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			var key = new TFOutput (op, _idx++);
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return (key, values);
 		}
 
 		/// <summary>
@@ -10554,6 +13434,11 @@ namespace TensorFlow {
 		///   The indices in `argmax` are flattened, so that a maximum value at position
 		///   `[b, y, x, c]` becomes flattened index
 		///   `((b * height + y) * width + x) * channels + c`.
+		///   
+		///   The indices returned are always in `[0, height) x [0, width)` before flattening,
+		///   even if padding is involved and the mathematically correct answer is outside
+		///   (either negative or too large).  This is a bug, but fixing it is difficult to do
+		///   in a safe backwards compatible way, especially due to flattening.
 		/// </remarks>
 		public (TFOutput output, TFOutput argmax) MaxPoolWithArgmax (TFOutput input, long[] ksize, long[] strides, string padding, TFDataType? Targmax = null, string operName = null)
 		{
@@ -11079,6 +13964,87 @@ namespace TensorFlow {
 		///   be used in insert or lookup operations.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutableDenseHashTable'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this table is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this table is shared under the given name across
+		///   multiple sessions.
+		/// </param>
+		/// <param name="use_node_name_sharing">
+		///   Optional argument
+		/// </param>
+		/// <param name="value_shape">
+		///   Optional argument
+		///   The shape of each value.
+		/// </param>
+		/// <param name="initial_num_buckets">
+		///   Optional argument
+		///   The initial number of hash table buckets. Must be a power
+		///   to 2.
+		/// </param>
+		/// <param name="max_load_factor">
+		///   Optional argument
+		///   The maximum ratio between number of entries and number of
+		///   buckets before growing the table. Must be between 0 and 1.
+		/// </param>
+		/// <param name="value_dtype">
+		///   Type of the table values.
+		/// </param>
+		/// <returns>
+		///   Handle to a table.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   It uses "open addressing" with quadratic reprobing to resolve
+		///   collisions.
+		///   
+		///   This op creates a mutable hash table, specifying the type of its keys and
+		///   values. Each value must be a scalar. Data can be inserted into the table using
+		///   the insert operations. It does not support the initialization operation.
+		/// </remarks>
+		public TFOutput MutableDenseHashTable (TFOutput empty_key, TFDataType value_dtype, string container = null, string shared_name = null, bool? use_node_name_sharing = null, TFShape value_shape = null, long? initial_num_buckets = null, float? max_load_factor = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MutableDenseHashTable", MakeName ("MutableDenseHashTable", operName));
+			desc.AddInput (empty_key);
+			desc.SetAttrType ("value_dtype", value_dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (use_node_name_sharing.HasValue)
+				desc.SetAttr ("use_node_name_sharing", use_node_name_sharing.Value);
+			
+			if (value_shape != null)
+				desc.SetAttrShape ("value_shape", value_shape);
+			
+			if (initial_num_buckets.HasValue)
+				desc.SetAttr ("initial_num_buckets", initial_num_buckets.Value);
+			
+			if (max_load_factor.HasValue)
+				desc.SetAttr ("max_load_factor", max_load_factor.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var table_handle = new TFOutput (op, _idx++);
+			return table_handle;
+		}
+
+		/// <summary>
+		///   Creates an empty hash table that uses tensors as the backing store.
+		/// </summary>
+		/// <param name="empty_key">
+		///   The key used to represent empty key buckets internally. Must not
+		///   be used in insert or lookup operations.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutableDenseHashTableV2'.
 		/// </param>
 		/// <param name="container">
@@ -11145,6 +14111,122 @@ namespace TensorFlow {
 			
 			if (max_load_factor.HasValue)
 				desc.SetAttr ("max_load_factor", max_load_factor.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var table_handle = new TFOutput (op, _idx++);
+			return table_handle;
+		}
+
+		/// <summary>
+		///   Creates an empty hash table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutableHashTable'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this table is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this table is shared under the given name across
+		///   multiple sessions.
+		/// </param>
+		/// <param name="use_node_name_sharing">
+		///   Optional argument
+		///   If true and shared_name is empty, the table is shared
+		///   using the node name.
+		/// </param>
+		/// <param name="key_dtype">
+		///   Type of the table keys.
+		/// </param>
+		/// <param name="value_dtype">
+		///   Type of the table values.
+		/// </param>
+		/// <returns>
+		///   Handle to a table.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op creates a mutable hash table, specifying the type of its keys and
+		///   values. Each value must be a scalar. Data can be inserted into the table using
+		///   the insert operations. It does not support the initialization operation.
+		/// </remarks>
+		public TFOutput MutableHashTable (TFDataType key_dtype, TFDataType value_dtype, string container = null, string shared_name = null, bool? use_node_name_sharing = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MutableHashTable", MakeName ("MutableHashTable", operName));
+			desc.SetAttrType ("key_dtype", key_dtype);
+			desc.SetAttrType ("value_dtype", value_dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (use_node_name_sharing.HasValue)
+				desc.SetAttr ("use_node_name_sharing", use_node_name_sharing.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var table_handle = new TFOutput (op, _idx++);
+			return table_handle;
+		}
+
+		/// <summary>
+		///   Creates an empty hash table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutableHashTableOfTensors'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this table is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this table is shared under the given name across
+		///   multiple sessions.
+		/// </param>
+		/// <param name="use_node_name_sharing">
+		///   Optional argument
+		/// </param>
+		/// <param name="value_shape">
+		///   Optional argument
+		/// </param>
+		/// <param name="key_dtype">
+		///   Type of the table keys.
+		/// </param>
+		/// <param name="value_dtype">
+		///   Type of the table values.
+		/// </param>
+		/// <returns>
+		///   Handle to a table.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op creates a mutable hash table, specifying the type of its keys and
+		///   values. Each value must be a vector. Data can be inserted into the table using
+		///   the insert operations. It does not support the initialization operation.
+		/// </remarks>
+		public TFOutput MutableHashTableOfTensors (TFDataType key_dtype, TFDataType value_dtype, string container = null, string shared_name = null, bool? use_node_name_sharing = null, TFShape value_shape = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MutableHashTableOfTensors", MakeName ("MutableHashTableOfTensors", operName));
+			desc.SetAttrType ("key_dtype", key_dtype);
+			desc.SetAttrType ("value_dtype", value_dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (use_node_name_sharing.HasValue)
+				desc.SetAttr ("use_node_name_sharing", use_node_name_sharing.Value);
+			
+			if (value_shape != null)
+				desc.SetAttrShape ("value_shape", value_shape);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -11290,6 +14372,49 @@ namespace TensorFlow {
 			int _idx = 0;
 			var y = new TFOutput (op, _idx++);
 			return y;
+		}
+
+		/// <summary>
+		///   Training via negative sampling.
+		/// </summary>
+		/// <param name="w_in">
+		///   input word embedding.
+		/// </param>
+		/// <param name="w_out">
+		///   output word embedding.
+		/// </param>
+		/// <param name="examples">
+		///   A vector of word ids.
+		/// </param>
+		/// <param name="labels">
+		///   A vector of word ids.
+		/// </param>
+		/// <param name="lr">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NegTrain'.
+		/// </param>
+		/// <param name="vocab_count">
+		///   Count of words in the vocabulary.
+		/// </param>
+		/// <param name="num_negative_samples">
+		///   Number of negative samples per example.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation NegTrain (TFOutput w_in, TFOutput w_out, TFOutput examples, TFOutput labels, TFOutput lr, long[] vocab_count, long num_negative_samples, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "NegTrain", MakeName ("NegTrain", operName));
+			desc.AddInput (w_in);
+			desc.AddInput (w_out);
+			desc.AddInput (examples);
+			desc.AddInput (labels);
+			desc.AddInput (lr);
+			desc.SetAttr ("vocab_count", vocab_count);
+			desc.SetAttr ("num_negative_samples", num_negative_samples);
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -11634,6 +14759,384 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Op removes all elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapClear'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation OrderedMapClear (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapClear", MakeName ("OrderedMapClear", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Op returns the number of incomplete elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapIncompleteSize'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput OrderedMapIncompleteSize (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapIncompleteSize", MakeName ("OrderedMapIncompleteSize", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   Op peeks at the values at the specified key.  If the
+		/// </summary>
+		/// <param name="key">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapPeek'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   underlying container does not contain this key
+		///   this op will block until it does.   This Op is optimized for
+		///   performance.
+		/// </remarks>
+		public TFOutput[] OrderedMapPeek (TFOutput key, TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapPeek", MakeName ("OrderedMapPeek", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return values;
+		}
+
+		/// <summary>
+		///   Op returns the number of elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapSize'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput OrderedMapSize (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapSize", MakeName ("OrderedMapSize", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
+		}
+
+		/// <summary>
+		///   Stage (key, values) in the underlying container which behaves like a ordered
+		/// </summary>
+		/// <param name="key">
+		///   int64
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="values">
+		///   a list of tensors
+		///   dtypes A list of data types that inserted values should adhere to.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapStage'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+		///   on the container will block when the capacity is reached.
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container. Otherwise,
+		///   a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   It is necessary to match this name to the matching Unstage Op.
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   associative container.   Elements are ordered by key.
+		/// </remarks>
+		public TFOperation OrderedMapStage (TFOutput key, TFOutput indices, TFOutput[] values, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapStage", MakeName ("OrderedMapStage", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.AddInputs (values);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Op removes and returns the values associated with the key
+		/// </summary>
+		/// <param name="key">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapUnstage'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   from the underlying container.   If the underlying container
+		///   does not contain this key, the op will block until it does.
+		/// </remarks>
+		public TFOutput[] OrderedMapUnstage (TFOutput key, TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapUnstage", MakeName ("OrderedMapUnstage", operName));
+			desc.AddInput (key);
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return values;
+		}
+
+		/// <summary>
+		///   Op removes and returns the (key, value) element with the smallest
+		/// </summary>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OrderedMapUnstageNoKey'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   key: 
+		///   values: 
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   key from the underlying container.   If the underlying container
+		///   does not contain elements, the op will block until it does.
+		/// </remarks>
+		public (TFOutput key, TFOutput[] values) OrderedMapUnstageNoKey (TFOutput indices, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OrderedMapUnstageNoKey", MakeName ("OrderedMapUnstageNoKey", operName));
+			desc.AddInput (indices);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			var key = new TFOutput (op, _idx++);
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return (key, values);
+		}
+
+		/// <summary>
 		///   Packs a list of `N` rank-`R` tensors into one rank-`(R+1)` tensor.
 		/// </summary>
 		/// <param name="values">
@@ -11778,6 +15281,72 @@ namespace TensorFlow {
 		///   A queue that produces elements in first-in first-out order.
 		/// </summary>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PaddingFIFOQueue'.
+		/// </param>
+		/// <param name="shapes">
+		///   Optional argument
+		///   The shape of each component in a value. The length of this attr must
+		///   be either 0 or the same as the length of component_types.
+		///   Shapes of fixed rank but variable size are allowed by setting
+		///   any shape dimension to -1.  In this case, the inputs' shape may vary along
+		///   the given dimension, and DequeueMany will pad the given dimension with
+		///   zeros up to the maximum shape of all elements in the given batch.
+		///   If the length of this attr is 0, different queue elements may have
+		///   different ranks and shapes, but only one element may be dequeued at a time.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   The upper bound on the number of elements in this queue.
+		///   Negative numbers mean no limit.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this queue will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a value.
+		/// </param>
+		/// <returns>
+		///   The handle to the queue.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Variable-size shapes are allowed by setting the corresponding shape dimensions
+		///   to 0 in the shape attr.  In this case DequeueMany will pad up to the maximum
+		///   size of any given element in the minibatch.  See below for details.
+		/// </remarks>
+		public TFOutput PaddingFIFOQueue (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PaddingFIFOQueue", MakeName ("PaddingFIFOQueue", operName));
+			desc.SetAttrType ("component_types", component_types);
+			if (shapes != null)
+				desc.SetAttrShape ("shapes", shapes);
+			
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   A queue that produces elements in first-in first-out order.
+		/// </summary>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PaddingFIFOQueueV2'.
 		/// </param>
 		/// <param name="shapes">
@@ -11838,6 +15407,59 @@ namespace TensorFlow {
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   Pads a tensor.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="paddings">
+		/// </param>
+		/// <param name="constant_values">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PadV2'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation pads `input` according to the `paddings` and `constant_values`
+		///   you specify. `paddings` is an integer tensor with shape `[Dn, 2]`, where n is
+		///   the rank of `input`. For each dimension D of `input`, `paddings[D, 0]` indicates
+		///   how many padding values to add before the contents of `input` in that dimension,
+		///   and `paddings[D, 1]` indicates how many padding values to add after the contents
+		///   of `input` in that dimension. `constant_values` is a scalar tensor of the same
+		///   type as `input` that indicates the value to use for padding `input`.
+		///   
+		///   The padded size of each dimension D of the output is:
+		///   
+		///   `paddings(D, 0) + input.dim_size(D) + paddings(D, 1)`
+		///   
+		///   For example:
+		///   
+		///   ```
+		///   # 't' is [[1, 1], [2, 2]]
+		///   # 'paddings' is [[1, 1], [2, 2]]
+		///   # 'constant_values' is 0
+		///   # rank of 't' is 2
+		///   pad(t, paddings) ==&amp;gt; [[0, 0, 0, 0, 0, 0]
+		///                         [0, 0, 1, 1, 0, 0]
+		///                         [0, 0, 2, 2, 0, 0]
+		///                         [0, 0, 0, 0, 0, 0]]
+		///   ```
+		/// </remarks>
+		public TFOutput PadV2 (TFOutput input, TFOutput paddings, TFOutput constant_values, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PadV2", MakeName ("PadV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (paddings);
+			desc.AddInput (constant_values);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -12505,6 +16127,70 @@ namespace TensorFlow {
 		///   A queue that produces elements sorted by the first component value.
 		/// </summary>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PriorityQueue'.
+		/// </param>
+		/// <param name="component_types">
+		///   Optional argument
+		///   The type of each component in a value.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   The upper bound on the number of elements in this queue.
+		///   Negative numbers mean no limit.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this queue will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="shapes">
+		///   The shape of each component in a value. The length of this attr must
+		///   be either 0 or the same as the length of component_types. If the length of
+		///   this attr is 0, the shapes of queue elements are not constrained, and
+		///   only one element may be dequeued at a time.
+		/// </param>
+		/// <returns>
+		///   The handle to the queue.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Note that the PriorityQueue requires the first component of any element
+		///   to be a scalar int64, in addition to the other elements declared by
+		///   component_types.  Therefore calls to Enqueue and EnqueueMany (resp. Dequeue
+		///   and DequeueMany) on a PriorityQueue will all require (resp. output) one extra
+		///   entry in their input (resp. output) lists.
+		/// </remarks>
+		public TFOutput PriorityQueue (TFShape[] shapes, TFDataType[] component_types = null, long? capacity = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PriorityQueue", MakeName ("PriorityQueue", operName));
+			desc.SetAttrShape ("shapes", shapes);
+			if (component_types != null)
+				desc.SetAttrType ("component_types", component_types);
+			
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   A queue that produces elements sorted by the first component value.
+		/// </summary>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PriorityQueueV2'.
 		/// </param>
 		/// <param name="component_types">
@@ -12633,7 +16319,7 @@ namespace TensorFlow {
 		///   Computes the QR decomposition of each inner matrix in `tensor` such that
 		///   `tensor[..., :, :] = q[..., :, :] * r[..., :,:])`
 		///   
-		///   ```prettyprint
+		///   ```python
 		///   # a is a tensor.
 		///   # q is a tensor of orthonormal matrices.
 		///   # r is a tensor of upper triangular matrices.
@@ -12808,6 +16494,107 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Quantizes then dequantizes a tensor.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="input_min">
+		/// </param>
+		/// <param name="input_max">
+		/// </param>
+		/// <param name="num_bits">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizeAndDequantizeV3'.
+		/// </param>
+		/// <param name="signed_input">
+		///   Optional argument
+		/// </param>
+		/// <param name="range_given">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This is almost identical to QuantizeAndDequantizeV2, except that num_bits is a
+		///   tensor, so its value can change during training.
+		/// </remarks>
+		public TFOutput QuantizeAndDequantizeV3 (TFOutput input, TFOutput input_min, TFOutput input_max, TFOutput num_bits, bool? signed_input = null, bool? range_given = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QuantizeAndDequantizeV3", MakeName ("QuantizeAndDequantizeV3", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_min);
+			desc.AddInput (input_max);
+			desc.AddInput (num_bits);
+			if (signed_input.HasValue)
+				desc.SetAttr ("signed_input", signed_input.Value);
+			
+			if (range_given.HasValue)
+				desc.SetAttr ("range_given", range_given.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Returns x + y element-wise, working on quantized buffers.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="min_x">
+		///   The float value that the lowest quantized `x` value represents.
+		/// </param>
+		/// <param name="max_x">
+		///   The float value that the highest quantized `x` value represents.
+		/// </param>
+		/// <param name="min_y">
+		///   The float value that the lowest quantized `y` value represents.
+		/// </param>
+		/// <param name="max_y">
+		///   The float value that the highest quantized `y` value represents.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedAdd'.
+		/// </param>
+		/// <param name="Toutput">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   z: 
+		///   min_z: The float value that the lowest quantized output value represents.
+		///   max_z: The float value that the highest quantized output value represents.
+		///   
+		///   *NOTE*: `QuantizedAdd` supports limited forms of broadcasting. More about
+		///   broadcasting [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput z, TFOutput min_z, TFOutput max_z) QuantizedAdd (TFOutput x, TFOutput y, TFOutput min_x, TFOutput max_x, TFOutput min_y, TFOutput max_y, TFDataType? Toutput = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QuantizedAdd", MakeName ("QuantizedAdd", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			desc.AddInput (min_x);
+			desc.AddInput (max_x);
+			desc.AddInput (min_y);
+			desc.AddInput (max_y);
+			if (Toutput.HasValue)
+				desc.SetAttrType ("Toutput", Toutput.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			var min_z = new TFOutput (op, _idx++);
+			var max_z = new TFOutput (op, _idx++);
+			return (z, min_z, max_z);
 		}
 
 		/// <summary>
@@ -13624,6 +17411,58 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Resize quantized `images` to `size` using quantized bilinear interpolation.
+		/// </summary>
+		/// <param name="images">
+		///   4-D with shape `[batch, height, width, channels]`.
+		/// </param>
+		/// <param name="size">
+		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   new size for the images.
+		/// </param>
+		/// <param name="min">
+		/// </param>
+		/// <param name="max">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedResizeBilinear'.
+		/// </param>
+		/// <param name="align_corners">
+		///   Optional argument
+		///   If true, rescale input by (new_height - 1) / (height - 1), which
+		///   exactly aligns the 4 corners of images and resized images. If false, rescale
+		///   by new_height / height. Treat similarly the width dimension.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   resized_images: 4-D with shape
+		///   `[batch, new_height, new_width, channels]`.
+		///   out_min: 
+		///   out_max: 
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Input images and output images must be quantized types.
+		/// </remarks>
+		public (TFOutput resized_images, TFOutput out_min, TFOutput out_max) QuantizedResizeBilinear (TFOutput images, TFOutput size, TFOutput min, TFOutput max, bool? align_corners = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QuantizedResizeBilinear", MakeName ("QuantizedResizeBilinear", operName));
+			desc.AddInput (images);
+			desc.AddInput (size);
+			desc.AddInput (min);
+			desc.AddInput (max);
+			if (align_corners.HasValue)
+				desc.SetAttr ("align_corners", align_corners.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resized_images = new TFOutput (op, _idx++);
+			var out_min = new TFOutput (op, _idx++);
+			var out_max = new TFOutput (op, _idx++);
+			return (resized_images, out_min, out_max);
+		}
+
+		/// <summary>
 		///   Quantize the 'input' tensor of type float to 'output' tensor of type 'T'.
 		/// </summary>
 		/// <param name="input">
@@ -13725,12 +17564,47 @@ namespace TensorFlow {
 		///   The handle to a queue.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueClose'.
+		/// </param>
+		/// <param name="cancel_pending_enqueues">
+		///   Optional argument
+		///   If true, all pending enqueue requests that are
+		///   blocked on the given queue will be canceled.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation signals that no more elements will be enqueued in the
+		///   given queue. Subsequent Enqueue(Many) operations will fail.
+		///   Subsequent Dequeue(Many) operations will continue to succeed if
+		///   sufficient elements remain in the queue. Subsequent Dequeue(Many)
+		///   operations that would block will fail immediately.
+		/// </remarks>
+		public TFOperation QueueClose (TFOutput handle, bool? cancel_pending_enqueues = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueClose", MakeName ("QueueClose", operName));
+			desc.AddInput (handle);
+			if (cancel_pending_enqueues.HasValue)
+				desc.SetAttr ("cancel_pending_enqueues", cancel_pending_enqueues.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Closes the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueCloseV2'.
 		/// </param>
 		/// <param name="cancel_pending_enqueues">
 		///   Optional argument
 		///   If true, all pending enqueue requests that are
-		///   blocked on the given queue will be cancelled.
+		///   blocked on the given queue will be canceled.
 		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
@@ -13751,6 +17625,115 @@ namespace TensorFlow {
 			
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Dequeues a tuple of one or more tensors from the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeue'.
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue is empty, this operation will block for up to
+		///   timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a tuple.
+		/// </param>
+		/// <returns>
+		///   One or more tensors that were dequeued as a tuple.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation has k outputs, where k is the number of components
+		///   in the tuples stored in the given queue, and output i is the ith
+		///   component of the dequeued tuple.
+		///   
+		///   N.B. If the queue is empty, this operation will block until an element
+		///   has been dequeued (or 'timeout_ms' elapses, if specified).
+		/// </remarks>
+		public TFOutput[] QueueDequeue (TFOutput handle, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueDequeue", MakeName ("QueueDequeue", operName));
+			desc.AddInput (handle);
+			desc.SetAttrType ("component_types", component_types);
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
+		}
+
+		/// <summary>
+		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="n">
+		///   The number of tuples to dequeue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueMany'.
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue has fewer than n elements, this operation
+		///   will block for up to timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a tuple.
+		/// </param>
+		/// <returns>
+		///   One or more tensors that were dequeued as a tuple.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   If the queue is closed and there are fewer than `n` elements, then an
+		///   OutOfRange error is returned.
+		///   
+		///   This operation concatenates queue-element component tensors along the
+		///   0th dimension to make a single component tensor.  All of the components
+		///   in the dequeued tuple will have size `n` in the 0th dimension.
+		///   
+		///   This operation has `k` outputs, where `k` is the number of components in
+		///   the tuples stored in the given queue, and output `i` is the ith
+		///   component of the dequeued tuple.
+		///   
+		///   N.B. If the queue is empty, this operation will block until `n` elements
+		///   have been dequeued (or 'timeout_ms' elapses, if specified).
+		/// </remarks>
+		public TFOutput[] QueueDequeueMany (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueDequeueMany", MakeName ("QueueDequeueMany", operName));
+			desc.AddInput (handle);
+			desc.AddInput (n);
+			desc.SetAttrType ("component_types", component_types);
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
 		}
 
 		/// <summary>
@@ -13796,6 +17779,70 @@ namespace TensorFlow {
 		public TFOutput[] QueueDequeueManyV2 (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "QueueDequeueManyV2", MakeName ("QueueDequeueManyV2", operName));
+			desc.AddInput (handle);
+			desc.AddInput (n);
+			desc.SetAttrType ("component_types", component_types);
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
+		}
+
+		/// <summary>
+		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="n">
+		///   The number of tuples to dequeue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueUpTo'.
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue has fewer than n elements, this operation
+		///   will block for up to timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a tuple.
+		/// </param>
+		/// <returns>
+		///   One or more tensors that were dequeued as a tuple.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation is not supported by all queues.  If a queue does not support
+		///   DequeueUpTo, then an Unimplemented error is returned.
+		///   
+		///   If the queue is closed and there are more than 0 but less than `n`
+		///   elements remaining, then instead of returning an OutOfRange error like
+		///   QueueDequeueMany, less than `n` elements are returned immediately.  If
+		///   the queue is closed and there are 0 elements left in the queue, then
+		///   an OutOfRange error is returned just like in QueueDequeueMany.
+		///   Otherwise the behavior is identical to QueueDequeueMany:
+		///   
+		///   This operation concatenates queue-element component tensors along the
+		///   0th dimension to make a single component tensor.  All of the components
+		///   in the dequeued tuple will have size `n` in the 0th dimension.
+		///   
+		///   This operation has k outputs, where `k` is the number of components in
+		///   the tuples stored in the given queue, and output `i` is the ith
+		///   component of the dequeued tuple.
+		/// </remarks>
+		public TFOutput[] QueueDequeueUpTo (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueDequeueUpTo", MakeName ("QueueDequeueUpTo", operName));
 			desc.AddInput (handle);
 			desc.AddInput (n);
 			desc.SetAttrType ("component_types", component_types);
@@ -13927,6 +17974,91 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Enqueues a tuple of one or more tensors in the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="components">
+		///   One or more tensors from which the enqueued tensors should be taken.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueue'.
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue is full, this operation will block for up to
+		///   timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The components input has k elements, which correspond to the components of
+		///   tuples stored in the given queue.
+		///   
+		///   N.B. If the queue is full, this operation will block until the given
+		///   element has been enqueued (or 'timeout_ms' elapses, if specified).
+		/// </remarks>
+		public TFOperation QueueEnqueue (TFOutput handle, TFOutput[] components, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueEnqueue", MakeName ("QueueEnqueue", operName));
+			desc.AddInput (handle);
+			desc.AddInputs (components);
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Enqueues zero or more tuples of one or more tensors in the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="components">
+		///   One or more tensors from which the enqueued tensors should
+		///   be taken.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueueMany'.
+		/// </param>
+		/// <param name="timeout_ms">
+		///   Optional argument
+		///   If the queue is too full, this operation will block for up
+		///   to timeout_ms milliseconds.
+		///   Note: This option is not supported yet.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation slices each component tensor along the 0th dimension to
+		///   make multiple queue elements. All of the tuple components must have the
+		///   same size in the 0th dimension.
+		///   
+		///   The components input has k elements, which correspond to the components of
+		///   tuples stored in the given queue.
+		///   
+		///   N.B. If the queue is full, this operation will block until the given
+		///   elements have been enqueued (or 'timeout_ms' elapses, if specified).
+		/// </remarks>
+		public TFOperation QueueEnqueueMany (TFOutput handle, TFOutput[] components, long? timeout_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueEnqueueMany", MakeName ("QueueEnqueueMany", operName));
+			desc.AddInput (handle);
+			desc.AddInputs (components);
+			if (timeout_ms.HasValue)
+				desc.SetAttr ("timeout_ms", timeout_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
 		///   Enqueues zero or more tuples of one or more tensors in the given queue.
 		/// </summary>
 		/// <param name="handle">
@@ -14009,6 +18141,81 @@ namespace TensorFlow {
 			
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Returns true if queue is closed.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueIsClosed'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation returns true if the queue is closed and false if the queue
+		///   is open.
+		/// </remarks>
+		public TFOutput QueueIsClosed (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueIsClosed", MakeName ("QueueIsClosed", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var is_closed = new TFOutput (op, _idx++);
+			return is_closed;
+		}
+
+		/// <summary>
+		///   Returns true if queue is closed.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueIsClosedV2'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation returns true if the queue is closed and false if the queue
+		///   is open.
+		/// </remarks>
+		public TFOutput QueueIsClosedV2 (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueIsClosedV2", MakeName ("QueueIsClosedV2", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var is_closed = new TFOutput (op, _idx++);
+			return is_closed;
+		}
+
+		/// <summary>
+		///   Computes the number of elements in the given queue.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a queue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueSize'.
+		/// </param>
+		/// <returns>
+		///   The number of elements in the given queue.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput QueueSize (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "QueueSize", MakeName ("QueueSize", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
 		}
 
 		/// <summary>
@@ -14225,7 +18432,7 @@ namespace TensorFlow {
 		///     to one and only one `output[i]`. For example, a mapping that might occur for a
 		///     3x2 tensor is:
 		///   
-		///   ```prettyprint
+		///   ```
 		///   [[1, 2],       [[5, 6],
 		///    [3, 4],  ==&amp;gt;   [1, 2],
 		///    [5, 6]]        [3, 4]]
@@ -14245,6 +18452,87 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   A queue that randomizes the order of elements.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RandomShuffleQueue'.
+		/// </param>
+		/// <param name="shapes">
+		///   Optional argument
+		///   The shape of each component in a value. The length of this attr must
+		///   be either 0 or the same as the length of component_types. If the length of
+		///   this attr is 0, the shapes of queue elements are not constrained, and
+		///   only one element may be dequeued at a time.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   The upper bound on the number of elements in this queue.
+		///   Negative numbers mean no limit.
+		/// </param>
+		/// <param name="min_after_dequeue">
+		///   Optional argument
+		///   Dequeue will block unless there would be this
+		///   many elements after the dequeue or the queue is closed. This
+		///   ensures a minimum level of mixing of elements.
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		///   If either seed or seed2 is set to be non-zero, the random number
+		///   generator is seeded by the given seed.  Otherwise, a random seed is used.
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		///   A second seed to avoid seed collision.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this queue is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this queue will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="component_types">
+		///   The type of each component in a value.
+		/// </param>
+		/// <returns>
+		///   The handle to the queue.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput RandomShuffleQueue (TFDataType[] component_types, TFShape[] shapes = null, long? capacity = null, long? min_after_dequeue = null, long? seed = null, long? seed2 = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RandomShuffleQueue", MakeName ("RandomShuffleQueue", operName));
+			desc.SetAttrType ("component_types", component_types);
+			if (shapes != null)
+				desc.SetAttrShape ("shapes", shapes);
+			
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (min_after_dequeue.HasValue)
+				desc.SetAttr ("min_after_dequeue", min_after_dequeue.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -14600,6 +18888,32 @@ namespace TensorFlow {
 		///   Handle to a Reader.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderNumRecordsProduced'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This is the same as the number of ReaderRead executions that have
+		///   succeeded.
+		/// </remarks>
+		public TFOutput ReaderNumRecordsProduced (TFOutput reader_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderNumRecordsProduced", MakeName ("ReaderNumRecordsProduced", operName));
+			desc.AddInput (reader_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var records_produced = new TFOutput (op, _idx++);
+			return records_produced;
+		}
+
+		/// <summary>
+		///   Returns the number of records this Reader has produced.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderNumRecordsProducedV2'.
 		/// </param>
 		/// <returns>
@@ -14626,6 +18940,28 @@ namespace TensorFlow {
 		///   Handle to a Reader.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderNumWorkUnitsCompleted'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ReaderNumWorkUnitsCompleted (TFOutput reader_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderNumWorkUnitsCompleted", MakeName ("ReaderNumWorkUnitsCompleted", operName));
+			desc.AddInput (reader_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var units_completed = new TFOutput (op, _idx++);
+			return units_completed;
+		}
+
+		/// <summary>
+		///   Returns the number of work units this Reader has finished processing.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderNumWorkUnitsCompletedV2'.
 		/// </param>
 		/// <returns>
@@ -14639,6 +18975,81 @@ namespace TensorFlow {
 			int _idx = 0;
 			var units_completed = new TFOutput (op, _idx++);
 			return units_completed;
+		}
+
+		/// <summary>
+		///   Returns the next record (key, value pair) produced by a Reader.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="queue_handle">
+		///   Handle to a Queue, with string work items.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderRead'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   key: A scalar.
+		///   value: A scalar.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Will dequeue from the input queue if necessary (e.g. when the
+		///   Reader needs to start reading from a new file since it has finished
+		///   with the previous file).
+		/// </remarks>
+		public (TFOutput key, TFOutput value) ReaderRead (TFOutput reader_handle, TFOutput queue_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderRead", MakeName ("ReaderRead", operName));
+			desc.AddInput (reader_handle);
+			desc.AddInput (queue_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var key = new TFOutput (op, _idx++);
+			var value = new TFOutput (op, _idx++);
+			return (key, value);
+		}
+
+		/// <summary>
+		///   Returns up to `num_records` (key, value) pairs produced by a Reader.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a `Reader`.
+		/// </param>
+		/// <param name="queue_handle">
+		///   Handle to a `Queue`, with string work items.
+		/// </param>
+		/// <param name="num_records">
+		///   number of records to read from `Reader`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderReadUpTo'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   keys: A 1-D tensor.
+		///   values: A 1-D tensor.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Will dequeue from the input queue if necessary (e.g. when the
+		///   Reader needs to start reading from a new file since it has finished
+		///   with the previous file).
+		///   It may return less than `num_records` even before the last batch.
+		/// </remarks>
+		public (TFOutput keys, TFOutput values) ReaderReadUpTo (TFOutput reader_handle, TFOutput queue_handle, TFOutput num_records, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderReadUpTo", MakeName ("ReaderReadUpTo", operName));
+			desc.AddInput (reader_handle);
+			desc.AddInput (queue_handle);
+			desc.AddInput (num_records);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var keys = new TFOutput (op, _idx++);
+			var values = new TFOutput (op, _idx++);
+			return (keys, values);
 		}
 
 		/// <summary>
@@ -14723,6 +19134,26 @@ namespace TensorFlow {
 		///   Handle to a Reader.
 		/// </param>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderReset'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation ReaderReset (TFOutput reader_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderReset", MakeName ("ReaderReset", operName));
+			desc.AddInput (reader_handle);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Restore a Reader to its initial clean state.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderResetV2'.
 		/// </param>
 		/// <returns>
@@ -14732,6 +19163,35 @@ namespace TensorFlow {
 		{
 			var desc = new TFOperationDesc (this, "ReaderResetV2", MakeName ("ReaderResetV2", operName));
 			desc.AddInput (reader_handle);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Restore a reader to a previously saved state.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="state">
+		///   Result of a ReaderSerializeState of a Reader with type
+		///   matching reader_handle.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderRestoreState'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Not all Readers support being restored, so this can produce an
+		///   Unimplemented error.
+		/// </remarks>
+		public TFOperation ReaderRestoreState (TFOutput reader_handle, TFOutput state, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderRestoreState", MakeName ("ReaderRestoreState", operName));
+			desc.AddInput (reader_handle);
+			desc.AddInput (state);
 			var op = desc.FinishOperation ();
 			return op;
 		}
@@ -14763,6 +19223,32 @@ namespace TensorFlow {
 			desc.AddInput (state);
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Produce a string tensor that encodes the state of a Reader.
+		/// </summary>
+		/// <param name="reader_handle">
+		///   Handle to a Reader.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderSerializeState'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Not all Readers support being serialized, so this can produce an
+		///   Unimplemented error.
+		/// </remarks>
+		public TFOutput ReaderSerializeState (TFOutput reader_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ReaderSerializeState", MakeName ("ReaderSerializeState", operName));
+			desc.AddInput (reader_handle);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var state = new TFOutput (op, _idx++);
+			return state;
 		}
 
 		/// <summary>
@@ -15094,6 +19580,219 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates or finds a child frame, and makes `data` available to the child frame.
+		/// </summary>
+		/// <param name="data">
+		///   The tensor to be made available to the child frame.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefEnter'.
+		/// </param>
+		/// <param name="is_constant">
+		///   Optional argument
+		///   If true, the output is constant within the child frame.
+		/// </param>
+		/// <param name="parallel_iterations">
+		///   Optional argument
+		///   The number of iterations allowed to run in parallel.
+		/// </param>
+		/// <param name="frame_name">
+		///   The name of the child frame.
+		/// </param>
+		/// <returns>
+		///   The same tensor as `data`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The unique `frame_name` is used by the `Executor` to identify frames. If
+		///   `is_constant` is true, `output` is a constant in the child frame; otherwise
+		///   it may be changed in the child frame. At most `parallel_iterations` iterations
+		///   are run in parallel in the child frame.
+		/// </remarks>
+		public TFOutput RefEnter (TFOutput data, string frame_name, bool? is_constant = null, long? parallel_iterations = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefEnter", MakeName ("RefEnter", operName));
+			desc.AddInput (data);
+			desc.SetAttr ("frame_name", frame_name);
+			if (is_constant.HasValue)
+				desc.SetAttr ("is_constant", is_constant.Value);
+			
+			if (parallel_iterations.HasValue)
+				desc.SetAttr ("parallel_iterations", parallel_iterations.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Exits the current frame to its parent frame.
+		/// </summary>
+		/// <param name="data">
+		///   The tensor to be made available to the parent frame.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefExit'.
+		/// </param>
+		/// <returns>
+		///   The same tensor as `data`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Exit makes its input `data` available to the parent frame.
+		/// </remarks>
+		public TFOutput RefExit (TFOutput data, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefExit", MakeName ("RefExit", operName));
+			desc.AddInput (data);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Return the same ref tensor as the input ref tensor.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefIdentity'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput RefIdentity (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefIdentity", MakeName ("RefIdentity", operName));
+			desc.AddInput (input);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Forwards the value of an available tensor from `inputs` to `output`.
+		/// </summary>
+		/// <param name="inputs">
+		///   The input tensors, exactly one of which will become available.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefMerge'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output: Will be set to the available input tensor.
+		///   value_index: The index of the chosen input tensor in `inputs`.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   `Merge` waits for at least one of the tensors in `inputs` to become available.
+		///   It is usually combined with `Switch` to implement branching.
+		///   
+		///   `Merge` forwards the first tensor for become available to `output`, and sets
+		///   `value_index` to its index in `inputs`.
+		/// </remarks>
+		public (TFOutput output, TFOutput value_index) RefMerge (TFOutput[] inputs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefMerge", MakeName ("RefMerge", operName));
+			desc.AddInputs (inputs);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			var value_index = new TFOutput (op, _idx++);
+			return (output, value_index);
+		}
+
+		/// <summary>
+		///   Makes its input available to the next iteration.
+		/// </summary>
+		/// <param name="data">
+		///   The tensor to be made available to the next iteration.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefNextIteration'.
+		/// </param>
+		/// <returns>
+		///   The same tensor as `data`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput RefNextIteration (TFOutput data, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefNextIteration", MakeName ("RefNextIteration", operName));
+			desc.AddInput (data);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Forwards the `index`th element of `inputs` to `output`.
+		/// </summary>
+		/// <param name="index">
+		///   A scalar that determines the input that gets selected.
+		/// </param>
+		/// <param name="inputs">
+		///   A list of ref tensors, one of which will be forwarded to `output`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefSelect'.
+		/// </param>
+		/// <returns>
+		///   The forwarded tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput RefSelect (TFOutput index, TFOutput[] inputs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefSelect", MakeName ("RefSelect", operName));
+			desc.AddInput (index);
+			desc.AddInputs (inputs);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Forwards the ref tensor `data` to the output port determined by `pred`.
+		/// </summary>
+		/// <param name="data">
+		///   The ref tensor to be forwarded to the appropriate output.
+		/// </param>
+		/// <param name="pred">
+		///   A scalar that specifies which output port will receive data.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefSwitch'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output_false: If `pred` is false, data will be forwarded to this output.
+		///   output_true: If `pred` is true, data will be forwarded to this output.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   If `pred` is true, the `data` input is forwarded to `output_true`. Otherwise,
+		///   the data goes to `output_false`.
+		///   
+		///   See also `Switch` and `Merge`.
+		/// </remarks>
+		public (TFOutput output_false, TFOutput output_true) RefSwitch (TFOutput data, TFOutput pred, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RefSwitch", MakeName ("RefSwitch", operName));
+			desc.AddInput (data);
+			desc.AddInput (pred);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_false = new TFOutput (op, _idx++);
+			var output_true = new TFOutput (op, _idx++);
+			return (output_false, output_true);
+		}
+
+		/// <summary>
 		///   Computes rectified linear: `max(features, 0)`.
 		/// </summary>
 		/// <param name="features">
@@ -15192,9 +19891,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Execute a sub graph on a remote processor transferred by GraphTransferer.
+		///   Execute a sub graph on a remote processor.
 		/// </summary>
 		/// <param name="inputs">
+		///   Arbitrary number of tensors with arbitrary data types
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RemoteFusedGraphExecute'.
@@ -15202,14 +19902,21 @@ namespace TensorFlow {
 		/// <param name="Toutputs">
 		/// </param>
 		/// <param name="serialized_remote_fused_graph_execute_info">
+		///   Serialized protocol buffer
+		///   of RemoteFusedGraphExecuteInfo which contains graph specifications.
 		/// </param>
 		/// <returns>
+		///   Arbitrary number of tensors with arbitrary data types
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The graph specifications are serialized by protobuf as graph_transfer_info.
-		///   The implementation / limitations may differ for each platform
-		///   and each available peripheral.
+		///   The graph specifications(such as graph itself, input tensors and output names)
+		///   are stored as a serialized protocol buffer of RemoteFusedGraphExecuteInfo
+		///   as serialized_remote_fused_graph_execute_info.
+		///   The specifications will be passed to a dedicated registered
+		///   remote fused graph executor.  The executor will send the graph specifications
+		///   to a remote processor and execute that graph.  The execution results
+		///   will be passed to consumer nodes as outputs of this node.
 		/// </remarks>
 		public TFOutput[] RemoteFusedGraphExecute (TFOutput[] inputs, TFDataType[] Toutputs, string serialized_remote_fused_graph_execute_info, string operName = null)
 		{
@@ -16032,7 +20739,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   accum_new = accum + grad * grad
-		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   linear += grad - (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
 		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
@@ -16047,6 +20754,75 @@ namespace TensorFlow {
 			desc.AddInput (lr);
 			desc.AddInput (l1);
 			desc.AddInput (l2);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 shrinkage regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2_shrinkage">
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceApplyFtrlV2'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
+		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
+		///   linear += grad_with_shrinkage +
+		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOperation ResourceApplyFtrlV2 (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput l2_shrinkage, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceApplyFtrlV2", MakeName ("ResourceApplyFtrlV2", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (l2_shrinkage);
 			desc.AddInput (lr_power);
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
@@ -16725,6 +21501,80 @@ namespace TensorFlow {
 			desc.AddInput (lr);
 			desc.AddInput (l1);
 			desc.AddInput (l2);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Update relevant entries in '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 shrinkage regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2_shrinkage">
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceSparseApplyFtrlV2'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var, accum and linear as follows:
+		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
+		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
+		///   linear += grad_with_shrinkage +
+		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOperation ResourceSparseApplyFtrlV2 (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput l2_shrinkage, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceSparseApplyFtrlV2", MakeName ("ResourceSparseApplyFtrlV2", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (l2_shrinkage);
 			desc.AddInput (lr_power);
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
@@ -17495,6 +22345,10 @@ namespace TensorFlow {
 		///   Since the DFT of a real signal is Hermitian-symmetric, `RFFT` only returns the
 		///   `fft_length / 2 + 1` unique components of the FFT: the zero-frequency term,
 		///   followed by the `fft_length / 2` positive-frequency terms.
+		///   
+		///   Along the axis `RFFT` is computed on, if `fft_length` is smaller than the
+		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -17538,6 +22392,10 @@ namespace TensorFlow {
 		///   `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
 		///   of `output`: the zero-frequency term, followed by the `fft_length / 2`
 		///   positive-frequency terms.
+		///   
+		///   Along each axis `RFFT2D` is computed on, if `fft_length` is smaller than the
+		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT2D (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -17581,6 +22439,10 @@ namespace TensorFlow {
 		///   `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
 		///   of `output`: the zero-frequency term, followed by the `fft_length / 2`
 		///   positive-frequency terms.
+		///   
+		///   Along each axis `RFFT3D` is computed on, if `fft_length` is smaller than the
+		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT3D (TFOutput input, TFOutput fft_length, string operName = null)
 		{
@@ -17871,6 +22733,139 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Generate a single randomly distorted bounding box for an image.
+		/// </summary>
+		/// <param name="image_size">
+		///   1-D, containing `[height, width, channels]`.
+		/// </param>
+		/// <param name="bounding_boxes">
+		///   3-D with shape `[batch, N, 4]` describing the N bounding boxes
+		///   associated with the image.
+		/// </param>
+		/// <param name="min_object_covered">
+		///   The cropped area of the image must contain at least this
+		///   fraction of any bounding box supplied. The value of this parameter should be
+		///   non-negative. In the case of 0, the cropped area does not need to overlap
+		///   any of the bounding boxes supplied.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SampleDistortedBoundingBoxV2'.
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		///   If either `seed` or `seed2` are set to non-zero, the random number
+		///   generator is seeded by the given `seed`.  Otherwise, it is seeded by a random
+		///   seed.
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		///   A second seed to avoid seed collision.
+		/// </param>
+		/// <param name="aspect_ratio_range">
+		///   Optional argument
+		///   The cropped area of the image must have an aspect ratio =
+		///   width / height within this range.
+		/// </param>
+		/// <param name="area_range">
+		///   Optional argument
+		///   The cropped area of the image must contain a fraction of the
+		///   supplied image within in this range.
+		/// </param>
+		/// <param name="max_attempts">
+		///   Optional argument
+		///   Number of attempts at generating a cropped region of the image
+		///   of the specified constraints. After `max_attempts` failures, return the entire
+		///   image.
+		/// </param>
+		/// <param name="use_image_if_no_bounding_boxes">
+		///   Optional argument
+		///   Controls behavior if no bounding boxes supplied.
+		///   If true, assume an implicit bounding box covering the whole input. If false,
+		///   raise an error.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   begin: 1-D, containing `[offset_height, offset_width, 0]`. Provide as input to
+		///   `tf.slice`.
+		///   size: 1-D, containing `[target_height, target_width, -1]`. Provide as input to
+		///   `tf.slice`.
+		///   bboxes: 3-D with shape `[1, 1, 4]` containing the distorted bounding box.
+		///   Provide as input to `tf.image.draw_bounding_boxes`.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Bounding box annotations are often supplied in addition to ground-truth labels
+		///   in image recognition or object localization tasks. A common technique for
+		///   training such a system is to randomly distort an image while preserving
+		///   its content, i.e. *data augmentation*. This Op outputs a randomly distorted
+		///   localization of an object, i.e. bounding box, given an `image_size`,
+		///   `bounding_boxes` and a series of constraints.
+		///   
+		///   The output of this Op is a single bounding box that may be used to crop the
+		///   original image. The output is returned as 3 tensors: `begin`, `size` and
+		///   `bboxes`. The first 2 tensors can be fed directly into `tf.slice` to crop the
+		///   image. The latter may be supplied to `tf.image.draw_bounding_boxes` to visualize
+		///   what the bounding box looks like.
+		///   
+		///   Bounding boxes are supplied and returned as `[y_min, x_min, y_max, x_max]`. The
+		///   bounding box coordinates are floats in `[0.0, 1.0]` relative to the width and
+		///   height of the underlying image.
+		///   
+		///   For example,
+		///   
+		///   ```python
+		///       # Generate a single distorted bounding box.
+		///       begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
+		///           tf.shape(image),
+		///           bounding_boxes=bounding_boxes)
+		///   
+		///       # Draw the bounding box in an image summary.
+		///       image_with_box = tf.image.draw_bounding_boxes(tf.expand_dims(image, 0),
+		///                                                     bbox_for_draw)
+		///       tf.image_summary('images_with_box', image_with_box)
+		///   
+		///       # Employ the bounding box to distort the image.
+		///       distorted_image = tf.slice(image, begin, size)
+		///   ```
+		///   
+		///   Note that if no bounding box information is available, setting
+		///   `use_image_if_no_bounding_boxes = true` will assume there is a single implicit
+		///   bounding box covering the whole image. If `use_image_if_no_bounding_boxes` is
+		///   false and no bounding boxes are supplied, an error is raised.
+		/// </remarks>
+		public (TFOutput begin, TFOutput size, TFOutput bboxes) SampleDistortedBoundingBoxV2 (TFOutput image_size, TFOutput bounding_boxes, TFOutput min_object_covered, long? seed = null, long? seed2 = null, float[] aspect_ratio_range = null, float[] area_range = null, long? max_attempts = null, bool? use_image_if_no_bounding_boxes = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SampleDistortedBoundingBoxV2", MakeName ("SampleDistortedBoundingBoxV2", operName));
+			desc.AddInput (image_size);
+			desc.AddInput (bounding_boxes);
+			desc.AddInput (min_object_covered);
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			if (aspect_ratio_range != null)
+				desc.SetAttr ("aspect_ratio_range", aspect_ratio_range);
+			
+			if (area_range != null)
+				desc.SetAttr ("area_range", area_range);
+			
+			if (max_attempts.HasValue)
+				desc.SetAttr ("max_attempts", max_attempts.Value);
+			
+			if (use_image_if_no_bounding_boxes.HasValue)
+				desc.SetAttr ("use_image_if_no_bounding_boxes", use_image_if_no_bounding_boxes.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var begin = new TFOutput (op, _idx++);
+			var size = new TFOutput (op, _idx++);
+			var bboxes = new TFOutput (op, _idx++);
+			return (begin, size, bboxes);
+		}
+
+		/// <summary>
 		///   Saves the input tensors to disk.
 		/// </summary>
 		/// <param name="filename">
@@ -18033,6 +23028,194 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Adds sparse updates to a variable reference.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of `ref`.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to `ref`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterAdd'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the addition will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///       # Scalar indices
+		///       ref[indices, ...] += updates[...]
+		///   
+		///       # Vector indices (for each i)
+		///       ref[indices[i], ...] += updates[i, ...]
+		///   
+		///       # High rank indices (for each i, ..., j)
+		///       ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]
+		///   
+		///   This operation outputs `ref` after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   the same location, their contributions add.
+		///   
+		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterAdd.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ScatterAdd (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterAdd", MakeName ("ScatterAdd", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Divides a variable reference by sparse updates.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of `ref`.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of values that `ref` is divided by.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterDiv'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the operation will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   ```python
+		///       # Scalar indices
+		///       ref[indices, ...] /= updates[...]
+		///   
+		///       # Vector indices (for each i)
+		///       ref[indices[i], ...] /= updates[i, ...]
+		///   
+		///       # High rank indices (for each i, ..., j)
+		///       ref[indices[i, ..., j], ...] /= updates[i, ..., j, ...]
+		///   ```
+		///   
+		///   This operation outputs `ref` after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   the same location, their contributions divide.
+		///   
+		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		/// </remarks>
+		public TFOutput ScatterDiv (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterDiv", MakeName ("ScatterDiv", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Multiplies sparse updates into a variable reference.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of `ref`.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to multiply to `ref`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterMul'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the operation will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   ```python
+		///       # Scalar indices
+		///       ref[indices, ...] *= updates[...]
+		///   
+		///       # Vector indices (for each i)
+		///       ref[indices[i], ...] *= updates[i, ...]
+		///   
+		///       # High rank indices (for each i, ..., j)
+		///       ref[indices[i, ..., j], ...] *= updates[i, ..., j, ...]
+		///   ```
+		///   
+		///   This operation outputs `ref` after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   the same location, their contributions multiply.
+		///   
+		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		/// </remarks>
+		public TFOutput ScatterMul (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterMul", MakeName ("ScatterMul", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
 		///   Scatter `updates` into a new (initially zero) tensor according to `indices`.
 		/// </summary>
 		/// <param name="indices">
@@ -18055,8 +23238,8 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Creates a new tensor by applying sparse `updates` to individual
 		///   values or slices within a zero tensor of the given `shape` according to
-		///   indices.  This operator is the inverse of the [tf.gather_nd](#gather_nd)
-		///   operator which extracts values or slices from a given tensor.
+		///   indices.  This operator is the inverse of the @{tf.gather_nd} operator which
+		///   extracts values or slices from a given tensor.
 		///   
 		///   **WARNING**: The order in which updates are applied is nondeterministic, so the
 		///   output will be nondeterministic if `indices` contains duplicates.
@@ -18135,6 +23318,444 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Applies sparse addition between `updates` and individual values or slices
+		/// </summary>
+		/// <param name="reference">
+		///   A mutable Tensor. Should be from a Variable node.
+		/// </param>
+		/// <param name="indices">
+		///   A Tensor. Must be one of the following types: int32, int64.
+		///   A tensor of indices into ref.
+		/// </param>
+		/// <param name="updates">
+		///   A Tensor. Must have the same type as ref. A tensor of updated values
+		///   to add to ref.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterNdAdd'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   An optional bool. Defaults to True. If True, the assignment will
+		///   be protected by a lock; otherwise the behavior is undefined,
+		///   but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as ref. Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   within a given variable according to `indices`.
+		///   
+		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   
+		///   `indices` must be integer tensor, containing indices into `ref`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   
+		///   The innermost dimension of `indices` (with length `K`) corresponds to
+		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
+		///   dimension of `ref`.
+		///   
+		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   
+		///   ```
+		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
+		///   ```
+		///   
+		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
+		///   elements. In Python, that addition would look like this:
+		///   
+		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///       indices = tf.constant([[4], [3], [1], [7]])
+		///       updates = tf.constant([9, 10, 11, 12])
+		///       add = tf.scatter_nd_add(ref, indices, updates)
+		///       with tf.Session() as sess:
+		///         print sess.run(add)
+		///   
+		///   The resulting update to ref would look like this:
+		///   
+		///       [1, 13, 3, 14, 14, 6, 7, 20]
+		///   
+		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   slices.
+		/// </remarks>
+		public TFOutput ScatterNdAdd (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterNdAdd", MakeName ("ScatterNdAdd", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Applies sparse addition to `input` using individual values or slices
+		/// </summary>
+		/// <param name="input">
+		///   A Tensor.
+		/// </param>
+		/// <param name="indices">
+		///   A Tensor. Must be one of the following types: `int32`, `int64`.
+		///   A tensor of indices into `input`.
+		/// </param>
+		/// <param name="updates">
+		///   A Tensor. Must have the same type as ref. A tensor of updated values
+		///   to add to `input`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterNdNonAliasingAdd'.
+		/// </param>
+		/// <returns>
+		///   A `Tensor` with the same shape as `input`, containing values of `input`
+		///   updated with `updates`.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   from `updates` according to indices `indices`.  The updates are non-aliasing:
+		///   `input` is only modified in-place if no other operations will use it.
+		///   Otherwise, a copy of `input` is made.  This operation has a gradient with
+		///   respect to both `input` and `updates`.
+		///   
+		///   `input` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   
+		///   `indices` must be integer tensor, containing indices into `input`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   
+		///   The innermost dimension of `indices` (with length `K`) corresponds to
+		///   indices into elements (if `K = P`) or `(P-K)`-dimensional slices
+		///   (if `K &amp;lt; P`) along the `K`th dimension of `input`.
+		///   
+		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   
+		///   ```
+		///   [d_0, ..., d_{Q-2}, input.shape[K], ..., input.shape[P-1]].
+		///   ```
+		///   
+		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
+		///   elements. In Python, that addition would look like this:
+		///   
+		///       input = tf.constant([1, 2, 3, 4, 5, 6, 7, 8])
+		///       indices = tf.constant([[4], [3], [1], [7]])
+		///       updates = tf.constant([9, 10, 11, 12])
+		///       output = tf.scatter_nd_non_aliasing_add(input, indices, updates)
+		///       with tf.Session() as sess:
+		///         print(sess.run(output))
+		///   
+		///   The resulting value `output` would look like this:
+		///   
+		///       [1, 13, 3, 14, 14, 6, 7, 20]
+		///   
+		///   See @{tf.scatter_nd} for more details about how to make updates to slices.
+		/// </remarks>
+		public TFOutput ScatterNdNonAliasingAdd (TFOutput input, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterNdNonAliasingAdd", MakeName ("ScatterNdNonAliasingAdd", operName));
+			desc.AddInput (input);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Applies sparse subtraction between `updates` and individual values or slices
+		/// </summary>
+		/// <param name="reference">
+		///   A mutable Tensor. Should be from a Variable node.
+		/// </param>
+		/// <param name="indices">
+		///   A Tensor. Must be one of the following types: int32, int64.
+		///   A tensor of indices into ref.
+		/// </param>
+		/// <param name="updates">
+		///   A Tensor. Must have the same type as ref. A tensor of updated values
+		///   to subtract from ref.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterNdSub'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   An optional bool. Defaults to True. If True, the assignment will
+		///   be protected by a lock; otherwise the behavior is undefined,
+		///   but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as ref. Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   within a given variable according to `indices`.
+		///   
+		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   
+		///   `indices` must be integer tensor, containing indices into `ref`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   
+		///   The innermost dimension of `indices` (with length `K`) corresponds to
+		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
+		///   dimension of `ref`.
+		///   
+		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   
+		///   ```
+		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
+		///   ```
+		///   
+		///   For example, say we want to subtract 4 scattered elements from a rank-1 tensor
+		///   with 8 elements. In Python, that subtraction would look like this:
+		///   
+		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///       indices = tf.constant([[4], [3], [1], [7]])
+		///       updates = tf.constant([9, 10, 11, 12])
+		///       sub = tf.scatter_nd_sub(ref, indices, updates)
+		///       with tf.Session() as sess:
+		///         print sess.run(sub)
+		///   
+		///   The resulting update to ref would look like this:
+		///   
+		///       [1, -9, 3, -6, -4, 6, 7, -4]
+		///   
+		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   slices.
+		/// </remarks>
+		public TFOutput ScatterNdSub (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterNdSub", MakeName ("ScatterNdSub", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Applies sparse `updates` to individual values or slices within a given
+		/// </summary>
+		/// <param name="reference">
+		///   A mutable Tensor. Should be from a Variable node.
+		/// </param>
+		/// <param name="indices">
+		///   A Tensor. Must be one of the following types: int32, int64.
+		///   A tensor of indices into ref.
+		/// </param>
+		/// <param name="updates">
+		///   A Tensor. Must have the same type as ref. A tensor of updated
+		///   values to add to ref.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterNdUpdate'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   An optional bool. Defaults to True. If True, the assignment will
+		///   be protected by a lock; otherwise the behavior is undefined,
+		///   but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as ref. Returned as a convenience for operations that want to
+		///   use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   variable according to `indices`.
+		///   
+		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   
+		///   `indices` must be integer tensor, containing indices into `ref`.
+		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   
+		///   The innermost dimension of `indices` (with length `K`) corresponds to
+		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
+		///   dimension of `ref`.
+		///   
+		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   
+		///   ```
+		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
+		///   ```
+		///   
+		///   For example, say we want to update 4 scattered elements to a rank-1 tensor to
+		///   8 elements. In Python, that update would look like this:
+		///   
+		///   ```python
+		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///       indices = tf.constant([[4], [3], [1] ,[7]])
+		///       updates = tf.constant([9, 10, 11, 12])
+		///       update = tf.scatter_nd_update(ref, indices, updates)
+		///       with tf.Session() as sess:
+		///         print sess.run(update)
+		///   ```
+		///   
+		///   The resulting update to ref would look like this:
+		///   
+		///       [1, 11, 3, 10, 9, 6, 7, 12]
+		///   
+		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   slices.
+		/// </remarks>
+		public TFOutput ScatterNdUpdate (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterNdUpdate", MakeName ("ScatterNdUpdate", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Subtracts sparse updates to a variable reference.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of `ref`.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to subtract from `ref`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterSub'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   ```python
+		///       # Scalar indices
+		///       ref[indices, ...] -= updates[...]
+		///   
+		///       # Vector indices (for each i)
+		///       ref[indices[i], ...] -= updates[i, ...]
+		///   
+		///       # High rank indices (for each i, ..., j)
+		///       ref[indices[i, ..., j], ...] -= updates[i, ..., j, ...]
+		///   ```
+		///   
+		///   This operation outputs `ref` after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   the same location, their (negated) contributions add.
+		///   
+		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterSub.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ScatterSub (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterSub", MakeName ("ScatterSub", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Applies sparse updates to a variable reference.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a `Variable` node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of `ref`.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to store in `ref`.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterUpdate'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the assignment will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   ```python
+		///       # Scalar indices
+		///       ref[indices, ...] = updates[...]
+		///   
+		///       # Vector indices (for each i)
+		///       ref[indices[i], ...] = updates[i, ...]
+		///   
+		///       # High rank indices (for each i, ..., j)
+		///       ref[indices[i, ..., j], ...] = updates[i, ..., j, ...]
+		///   ```
+		///   
+		///   This operation outputs `ref` after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   If values in `ref` is to be updated more than once, because there are
+		///   duplicate entries in `indices`, the order at which the updates happen
+		///   for each value is undefined.
+		///   
+		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterUpdate.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ScatterUpdate (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterUpdate", MakeName ("ScatterUpdate", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
 		}
 
 		/// <summary>
@@ -18289,6 +23910,35 @@ namespace TensorFlow {
 				out_delta_dense_weights [i] = new TFOutput (op, _idx++);
 			
 			return (out_example_state_data, out_delta_sparse_weights, out_delta_dense_weights);
+		}
+
+		/// <summary>
+		///   Applies L1 regularization shrink step on the parameters.
+		/// </summary>
+		/// <param name="weights">
+		///   a list of vectors where each value is the weight associated with a
+		///   feature group.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SdcaShrinkL1'.
+		/// </param>
+		/// <param name="l1">
+		///   Symmetric l1 regularization strength.
+		/// </param>
+		/// <param name="l2">
+		///   Symmetric l2 regularization strength. Should be a positive float.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation SdcaShrinkL1 (TFOutput[] weights, float l1, float l2, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SdcaShrinkL1", MakeName ("SdcaShrinkL1", operName));
+			desc.AddInputs (weights);
+			desc.SetAttr ("l1", l1);
+			desc.SetAttr ("l2", l2);
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -18542,15 +24192,14 @@ namespace TensorFlow {
 		///   
 		///   For example:
 		///   
-		///   ```prettyprint
+		///   ```python
 		///   # 'condition' tensor is [[True,  False]
 		///   #                        [False, True]]
 		///   # 't' is [[1, 2],
 		///   #         [3, 4]]
 		///   # 'e' is [[5, 6],
 		///   #         [7, 8]]
-		///   select(condition, t, e) ==&amp;gt; [[1, 6],
-		///                                [7, 4]]
+		///   select(condition, t, e)  # =&amp;gt; [[1, 6], [7, 4]]
 		///   
 		///   
 		///   # 'condition' tensor is [True, False]
@@ -18630,7 +24279,7 @@ namespace TensorFlow {
 		///   Computes the eigenvalues and (optionally) eigenvectors of each inner matrix in
 		///   `input` such that `input[..., :, :] = v[..., :, :] * diag(e[..., :])`.
 		///   
-		///   ```prettyprint
+		///   ```python
 		///   # a is a tensor.
 		///   # e is a tensor of eigenvalues.
 		///   # v is a tensor of eigenvectors.
@@ -19029,6 +24678,27 @@ namespace TensorFlow {
 		public TFOutput Sin (TFOutput x, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Sin", MakeName ("Sin", operName));
+			desc.AddInput (x);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Computes hyperbolic sine of x element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Sinh'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Sinh (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Sinh", MakeName ("Sinh", operName));
 			desc.AddInput (x);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -19738,6 +25408,99 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Applies a sparse gradient to a given accumulator.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a accumulator.
+		/// </param>
+		/// <param name="local_step">
+		///   The local_step value at which the sparse gradient was computed.
+		/// </param>
+		/// <param name="gradient_indices">
+		///   Indices of the sparse gradient to be accumulated. Must be a
+		///   vector.
+		/// </param>
+		/// <param name="gradient_values">
+		///   Values are the non-zero slices of the gradient, and must have
+		///   the same first dimension as indices, i.e., the nnz represented by indices and
+		///   values must be consistent.
+		/// </param>
+		/// <param name="gradient_shape">
+		///   Shape of the sparse gradient to be accumulated.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseAccumulatorApplyGradient'.
+		/// </param>
+		/// <param name="has_known_shape">
+		///   Boolean indicating whether gradient_shape is unknown, in which
+		///   case the input is ignored during validation.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Does not add if local_step is smaller than the accumulator's
+		///   global_step.
+		/// </remarks>
+		public TFOperation SparseAccumulatorApplyGradient (TFOutput handle, TFOutput local_step, TFOutput gradient_indices, TFOutput gradient_values, TFOutput gradient_shape, bool has_known_shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseAccumulatorApplyGradient", MakeName ("SparseAccumulatorApplyGradient", operName));
+			desc.AddInput (handle);
+			desc.AddInput (local_step);
+			desc.AddInput (gradient_indices);
+			desc.AddInput (gradient_values);
+			desc.AddInput (gradient_shape);
+			desc.SetAttr ("has_known_shape", has_known_shape);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Extracts the average sparse gradient in a SparseConditionalAccumulator.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a SparseConditionalAccumulator.
+		/// </param>
+		/// <param name="num_required">
+		///   Number of gradients required before we return an aggregate.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseAccumulatorTakeGradient'.
+		/// </param>
+		/// <param name="dtype">
+		///   The data type of accumulated gradients. Needs to correspond to the type
+		///   of the accumulator.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   indices: Indices of the average of the accumulated sparse gradients.
+		///   values: Values of the average of the accumulated sparse gradients.
+		///   shape: Shape of the average of the accumulated sparse gradients.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   The op will blocks until sufficient (i.e., more than num_required)
+		///   gradients have been accumulated. If the accumulator has already
+		///   aggregated more than num_required gradients, it will return its
+		///   average of the accumulated gradients.  Also automatically increments
+		///   the recorded global_step in the accumulator by 1, and resets the
+		///   aggregate to 0.
+		/// </remarks>
+		public (TFOutput indices, TFOutput values, TFOutput shape) SparseAccumulatorTakeGradient (TFOutput handle, TFOutput num_required, TFDataType dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseAccumulatorTakeGradient", MakeName ("SparseAccumulatorTakeGradient", operName));
+			desc.AddInput (handle);
+			desc.AddInput (num_required);
+			desc.SetAttrType ("dtype", dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var indices = new TFOutput (op, _idx++);
+			var values = new TFOutput (op, _idx++);
+			var shape = new TFOutput (op, _idx++);
+			return (indices, values, shape);
+		}
+
+		/// <summary>
 		///   Adds two `SparseTensor` objects to produce another `SparseTensor`.
 		/// </summary>
 		/// <param name="a_indices">
@@ -19854,6 +25617,676 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   var: Should be from a Variable().
+		/// </summary>
+		/// <param name="var">
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum_update">
+		///   : Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Learning rate. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay factor. Must be a scalar.
+		/// </param>
+		/// <param name="epsilon">
+		///   Constant factor. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyAdadelta'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var and accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput SparseApplyAdadelta (TFOutput var, TFOutput accum, TFOutput accum_update, TFOutput lr, TFOutput rho, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyAdadelta", MakeName ("SparseApplyAdadelta", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (accum_update);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update relevant entries in '*var' and '*accum' according to the adagrad scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Learning rate. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyAdagrad'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var and accum as follows:
+		///   accum += grad * grad
+		///   var -= lr * grad * (1 / sqrt(accum))
+		/// </remarks>
+		public TFOutput SparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyAdagrad", MakeName ("SparseApplyAdagrad", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update entries in '*var' and '*accum' according to the proximal adagrad scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="gradient_accumulator">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="gradient_squared_accumulator">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="lr">
+		///   Learning rate. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="global_step">
+		///   Training step number. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyAdagradDA'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var and accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput SparseApplyAdagradDA (TFOutput var, TFOutput gradient_accumulator, TFOutput gradient_squared_accumulator, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput global_step, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyAdagradDA", MakeName ("SparseApplyAdagradDA", operName));
+			desc.AddInput (var);
+			desc.AddInput (gradient_accumulator);
+			desc.AddInput (gradient_squared_accumulator);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (global_step);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the centered RMSProp algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mg">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="ms">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mom">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay rate. Must be a scalar.
+		/// </param>
+		/// <param name="momentum">
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var, ms and mom.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyCenteredRMSProp'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The centered RMSProp algorithm uses an estimate of the centered second moment
+		///   (i.e., the variance) for normalization, as opposed to regular RMSProp, which
+		///   uses the (uncentered) second moment. This often helps with training, but is
+		///   slightly more expensive in terms of computation and memory.
+		///   
+		///   Note that in dense implementation of this algorithm, mg, ms, and mom will
+		///   update even if the grad is zero, but in this sparse implementation, mg, ms,
+		///   and mom will not update in iterations during which the grad is zero.
+		///   
+		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
+		///   mean_grad = decay * mean_grad + (1-decay) * gradient
+		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
+		///   
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
+		/// </remarks>
+		public TFOutput SparseApplyCenteredRMSProp (TFOutput var, TFOutput mg, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyCenteredRMSProp", MakeName ("SparseApplyCenteredRMSProp", operName));
+			desc.AddInput (var);
+			desc.AddInput (mg);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (momentum);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update relevant entries in '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyFtrl'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var, accum and linear as follows:
+		///   accum_new = accum + grad * grad
+		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOutput SparseApplyFtrl (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyFtrl", MakeName ("SparseApplyFtrl", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update relevant entries in '*var' according to the Ftrl-proximal scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="linear">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 shrinkage regulariation. Must be a scalar.
+		/// </param>
+		/// <param name="l2_shrinkage">
+		/// </param>
+		/// <param name="lr_power">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyFtrlV2'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var, accum and linear as follows:
+		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
+		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
+		///   linear += grad_with_shrinkage +
+		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
+		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
+		///   accum = accum_new
+		/// </remarks>
+		public TFOutput SparseApplyFtrlV2 (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput l2_shrinkage, TFOutput lr_power, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyFtrlV2", MakeName ("SparseApplyFtrlV2", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (linear);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (l2_shrinkage);
+			desc.AddInput (lr_power);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update relevant entries in '*var' and '*accum' according to the momentum scheme.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Learning rate. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="momentum">
+		///   Momentum. Must be a scalar.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyMomentum'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var and accum tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <param name="use_nesterov">
+		///   Optional argument
+		///   If `True`, the tensor passed to compute grad will be
+		///   var - lr * momentum * accum, so in the end, the var you get is actually
+		///   var - lr * momentum * accum.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Set use_nesterov = True if you want to use Nesterov momentum.
+		///   
+		///   That is for rows we have grad for, we update var and accum as follows:
+		///   
+		///   accum = accum * momentum + grad
+		///   var -= lr * accum
+		/// </remarks>
+		public TFOutput SparseApplyMomentum (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, TFOutput momentum, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyMomentum", MakeName ("SparseApplyMomentum", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			desc.AddInput (momentum);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (use_nesterov.HasValue)
+				desc.SetAttr ("use_nesterov", use_nesterov.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Sparse update entries in '*var' and '*accum' according to FOBOS algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="accum">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Learning rate. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyProximalAdagrad'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, updating of the var and accum tensors will be protected by
+		///   a lock; otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var and accum as follows:
+		///   accum += grad * grad
+		///   prox_v = var
+		///   prox_v -= lr * grad * (1 / sqrt(accum))
+		///   var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}
+		/// </remarks>
+		public TFOutput SparseApplyProximalAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyProximalAdagrad", MakeName ("SparseApplyProximalAdagrad", operName));
+			desc.AddInput (var);
+			desc.AddInput (accum);
+			desc.AddInput (lr);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Sparse update '*var' as FOBOS algorithm with fixed learning rate.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="alpha">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="l1">
+		///   L1 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="l2">
+		///   L2 regularization. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var and accum.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyProximalGradientDescent'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the subtraction will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   That is for rows we have grad for, we update var as follows:
+		///   prox_v = var - alpha * grad
+		///   var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}
+		/// </remarks>
+		public TFOutput SparseApplyProximalGradientDescent (TFOutput var, TFOutput alpha, TFOutput l1, TFOutput l2, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyProximalGradientDescent", MakeName ("SparseApplyProximalGradientDescent", operName));
+			desc.AddInput (var);
+			desc.AddInput (alpha);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the RMSProp algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="ms">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="mom">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="rho">
+		///   Decay rate. Must be a scalar.
+		/// </param>
+		/// <param name="momentum">
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="indices">
+		///   A vector of indices into the first dimension of var, ms and mom.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseApplyRMSProp'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Note that in dense implementation of this algorithm, ms and mom will
+		///   update even if the grad is zero, but in this sparse implementation, ms
+		///   and mom will not update in iterations during which the grad is zero.
+		///   
+		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
+		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
+		///   
+		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
+		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
+		///   var &amp;lt;- var - mom
+		/// </remarks>
+		public TFOutput SparseApplyRMSProp (TFOutput var, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseApplyRMSProp", MakeName ("SparseApplyRMSProp", operName));
+			desc.AddInput (var);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (lr);
+			desc.AddInput (rho);
+			desc.AddInput (momentum);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			desc.AddInput (indices);
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Concatenates a list of `SparseTensor` along the specified dimension.
 		/// </summary>
 		/// <param name="indices">
@@ -19935,6 +26368,57 @@ namespace TensorFlow {
 			var output_values = new TFOutput (op, _idx++);
 			var output_shape = new TFOutput (op, _idx++);
 			return (output_indices, output_values, output_shape);
+		}
+
+		/// <summary>
+		///   A conditional accumulator for aggregating sparse gradients.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseConditionalAccumulator'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this accumulator is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this accumulator will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of the value being accumulated.
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the values.
+		/// </param>
+		/// <returns>
+		///   The handle to the accumulator.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The accumulator accepts gradients marked with local_step greater or
+		///   equal to the most recent global_step known to the accumulator. The
+		///   average can be extracted from the accumulator, provided sufficient
+		///   gradients have been accumulated. Extracting the average automatically
+		///   resets the aggregate to 0, and increments the global_step recorded by
+		///   the accumulator.
+		/// </remarks>
+		public TFOutput SparseConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseConditionalAccumulator", MakeName ("SparseConditionalAccumulator", operName));
+			desc.SetAttrType ("dtype", dtype);
+			desc.SetAttrShape ("shape", shape);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -20168,6 +26652,129 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Fills empty rows in the input 2-D `SparseTensor` with a default value.
+		/// </summary>
+		/// <param name="indices">
+		///   2-D. the indices of the sparse tensor.
+		/// </param>
+		/// <param name="values">
+		///   1-D. the values of the sparse tensor.
+		/// </param>
+		/// <param name="dense_shape">
+		///   1-D. the shape of the sparse tensor.
+		/// </param>
+		/// <param name="default_value">
+		///   0-D. default value to insert into location `[row, 0, ..., 0]`
+		///     for rows missing from the input sparse tensor.
+		///   output indices: 2-D. the indices of the filled sparse tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseFillEmptyRows'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output_indices: 
+		///   output_values: 1-D. the values of the filled sparse tensor.
+		///   empty_row_indicator: 1-D. whether the dense row was missing in the
+		///   input sparse tensor.
+		///   reverse_index_map: 1-D. a map from the input indices to the output indices.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   The input `SparseTensor` is represented via the tuple of inputs
+		///   (`indices`, `values`, `dense_shape`).  The output `SparseTensor` has the
+		///   same `dense_shape` but with indices `output_indices` and values
+		///   `output_values`.
+		///   
+		///   This op inserts a single entry for every row that doesn't have any values.
+		///   The index is created as `[row, 0, ..., 0]` and the inserted value
+		///   is `default_value`.
+		///   
+		///   For example, suppose `sp_input` has shape `[5, 6]` and non-empty values:
+		///   
+		///       [0, 1]: a
+		///       [0, 3]: b
+		///       [2, 0]: c
+		///       [3, 1]: d
+		///   
+		///   Rows 1 and 4 are empty, so the output will be of shape `[5, 6]` with values:
+		///   
+		///       [0, 1]: a
+		///       [0, 3]: b
+		///       [1, 0]: default_value
+		///       [2, 0]: c
+		///       [3, 1]: d
+		///       [4, 0]: default_value
+		///   
+		///   The output `SparseTensor` will be in row-major order and will have the
+		///   same shape as the input.
+		///   
+		///   This op also returns an indicator vector shaped `[dense_shape[0]]` such that
+		///   
+		///       empty_row_indicator[i] = True iff row i was an empty row.
+		///   
+		///   And a reverse index map vector shaped `[indices.shape[0]]` that is used during
+		///   backpropagation,
+		///   
+		///       reverse_index_map[j] = out_j s.t. indices[j, :] == output_indices[out_j, :]
+		/// </remarks>
+		public (TFOutput output_indices, TFOutput output_values, TFOutput empty_row_indicator, TFOutput reverse_index_map) SparseFillEmptyRows (TFOutput indices, TFOutput values, TFOutput dense_shape, TFOutput default_value, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseFillEmptyRows", MakeName ("SparseFillEmptyRows", operName));
+			desc.AddInput (indices);
+			desc.AddInput (values);
+			desc.AddInput (dense_shape);
+			desc.AddInput (default_value);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_indices = new TFOutput (op, _idx++);
+			var output_values = new TFOutput (op, _idx++);
+			var empty_row_indicator = new TFOutput (op, _idx++);
+			var reverse_index_map = new TFOutput (op, _idx++);
+			return (output_indices, output_values, empty_row_indicator, reverse_index_map);
+		}
+
+		/// <summary>
+		///   The gradient of SparseFillEmptyRows.
+		/// </summary>
+		/// <param name="reverse_index_map">
+		///   1-D.  The reverse index map from SparseFillEmptyRows.
+		/// </param>
+		/// <param name="grad_values">
+		///   1-D.  The gradients from backprop.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseFillEmptyRowsGrad'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   d_values: 1-D.  The backprop into values.
+		///   d_default_value: 0-D.  The backprop into default_value.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Takes vectors reverse_index_map, shaped `[N]`, and grad_values,
+		///   shaped `[N_full]`, where `N_full &amp;gt;= N` and copies data into either
+		///   `d_values` or `d_default_value`.  Here `d_values` is shaped `[N]` and
+		///   `d_default_value` is a scalar.
+		///   
+		///     d_values[j] = grad_values[reverse_index_map[j]]
+		///     d_default_value = sum_{k : 0 .. N_full - 1} (
+		///        grad_values[k] * 1{k not in reverse_index_map})
+		/// </remarks>
+		public (TFOutput d_values, TFOutput d_default_value) SparseFillEmptyRowsGrad (TFOutput reverse_index_map, TFOutput grad_values, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseFillEmptyRowsGrad", MakeName ("SparseFillEmptyRowsGrad", operName));
+			desc.AddInput (reverse_index_map);
+			desc.AddInput (grad_values);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var d_values = new TFOutput (op, _idx++);
+			var d_default_value = new TFOutput (op, _idx++);
+			return (d_values, d_default_value);
+		}
+
+		/// <summary>
 		///   Multiply matrix "a" by matrix "b".
 		/// </summary>
 		/// <param name="a">
@@ -20197,6 +26804,9 @@ namespace TensorFlow {
 		///   match the outer dimension of "b". This op is optimized for the case where at
 		///   least one of "a" or "b" is sparse. The breakeven for using this versus a dense
 		///   matrix multiply on one platform was 30% zero values in the sparse matrix.
+		///   
+		///   The gradient computation of this operation will only take advantage of sparsity
+		///   in the input gradient when that gradient comes from a Relu.
 		/// </remarks>
 		public TFOutput SparseMatMul (TFOutput a, TFOutput b, bool? transpose_a = null, bool? transpose_b = null, bool? a_is_sparse = null, bool? b_is_sparse = null, string operName = null)
 		{
@@ -20219,6 +26829,125 @@ namespace TensorFlow {
 			int _idx = 0;
 			var product = new TFOutput (op, _idx++);
 			return product;
+		}
+
+		/// <summary>
+		///   Computes the max of elements across dimensions of a SparseTensor.
+		/// </summary>
+		/// <param name="input_indices">
+		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   SparseTensor, possibly not in canonical ordering.
+		/// </param>
+		/// <param name="input_values">
+		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		/// </param>
+		/// <param name="input_shape">
+		///   1-D.  Shape of the input SparseTensor.
+		/// </param>
+		/// <param name="reduction_axes">
+		///   1-D.  Length-`K` vector containing the reduction axes.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMax'.
+		/// </param>
+		/// <param name="keep_dims">
+		///   Optional argument
+		///   If true, retain reduced dimensions with length 1.
+		/// </param>
+		/// <returns>
+		///   `R-K`-D.  The reduced Tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This Op takes a SparseTensor and is the sparse counterpart to
+		///   `tf.reduce_max()`.  In particular, this Op also returns a dense `Tensor`
+		///   instead of a sparse one.
+		///   
+		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
+		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
+		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   with length 1.
+		///   
+		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   with a single element is returned.  Additionally, the axes can be negative,
+		///   which are interpreted according to the indexing rules in Python.
+		/// </remarks>
+		public TFOutput SparseReduceMax (TFOutput input_indices, TFOutput input_values, TFOutput input_shape, TFOutput reduction_axes, bool? keep_dims = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseReduceMax", MakeName ("SparseReduceMax", operName));
+			desc.AddInput (input_indices);
+			desc.AddInput (input_values);
+			desc.AddInput (input_shape);
+			desc.AddInput (reduction_axes);
+			if (keep_dims.HasValue)
+				desc.SetAttr ("keep_dims", keep_dims.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes the max of elements across dimensions of a SparseTensor.
+		/// </summary>
+		/// <param name="input_indices">
+		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   SparseTensor, possibly not in canonical ordering.
+		/// </param>
+		/// <param name="input_values">
+		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		/// </param>
+		/// <param name="input_shape">
+		///   1-D.  Shape of the input SparseTensor.
+		/// </param>
+		/// <param name="reduction_axes">
+		///   1-D.  Length-`K` vector containing the reduction axes.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMaxSparse'.
+		/// </param>
+		/// <param name="keep_dims">
+		///   Optional argument
+		///   If true, retain reduced dimensions with length 1.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output_indices: 
+		///   output_values: 
+		///   output_shape: 
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   This Op takes a SparseTensor and is the sparse counterpart to
+		///   `tf.reduce_max()`.  In contrast to SparseReduceMax, this Op returns a
+		///   SparseTensor.
+		///   
+		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
+		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
+		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   with length 1.
+		///   
+		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   with a single element is returned.  Additionally, the axes can be negative,
+		///   which are interpreted according to the indexing rules in Python.
+		/// </remarks>
+		public (TFOutput output_indices, TFOutput output_values, TFOutput output_shape) SparseReduceMaxSparse (TFOutput input_indices, TFOutput input_values, TFOutput input_shape, TFOutput reduction_axes, bool? keep_dims = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseReduceMaxSparse", MakeName ("SparseReduceMaxSparse", operName));
+			desc.AddInput (input_indices);
+			desc.AddInput (input_values);
+			desc.AddInput (input_shape);
+			desc.AddInput (reduction_axes);
+			if (keep_dims.HasValue)
+				desc.SetAttr ("keep_dims", keep_dims.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_indices = new TFOutput (op, _idx++);
+			var output_values = new TFOutput (op, _idx++);
+			var output_shape = new TFOutput (op, _idx++);
+			return (output_indices, output_values, output_shape);
 		}
 
 		/// <summary>
@@ -20620,22 +27349,22 @@ namespace TensorFlow {
 		///   
 		///   For example:
 		///   
-		///   ```prettyprint
+		///   ```python
 		///   c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])
 		///   
 		///   # Select two rows, one segment.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 0]))
-		///     ==&amp;gt; [[0 0 0 0]]
+		///   # =&amp;gt; [[0 0 0 0]]
 		///   
 		///   # Select two rows, two segment.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 1]))
-		///     ==&amp;gt; [[ 1  2  3  4]
-		///          [-1 -2 -3 -4]]
+		///   # =&amp;gt; [[ 1  2  3  4]
+		///   #     [-1 -2 -3 -4]]
 		///   
 		///   # Select all rows, two segments.
 		///   tf.sparse_segment_sum(c, tf.constant([0, 1, 2]), tf.constant([0, 0, 1]))
-		///     ==&amp;gt; [[0 0 0 0]
-		///          [5 6 7 8]]
+		///   # =&amp;gt; [[0 0 0 0]
+		///   #     [5 6 7 8]]
 		///   
 		///   # Which is equivalent to:
 		///   tf.segment_sum(c, tf.constant([0, 0, 1]))
@@ -20651,6 +27380,71 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Slice a `SparseTensor` based on the `start` and `size`.
+		/// </summary>
+		/// <param name="indices">
+		///   2-D tensor represents the indices of the sparse tensor.
+		/// </param>
+		/// <param name="values">
+		///   1-D tensor represents the values of the sparse tensor.
+		/// </param>
+		/// <param name="shape">
+		///   1-D. tensor represents the shape of the sparse tensor.
+		/// </param>
+		/// <param name="start">
+		///   1-D. tensor represents the start of the slice.
+		/// </param>
+		/// <param name="size">
+		///   1-D. tensor represents the size of the slice.
+		///   output indices: A list of 1-D tensors represents the indices of the output
+		///   sparse tensors.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseSlice'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output_indices: 
+		///   output_values: A list of 1-D tensors represents the values of the output sparse
+		///   tensors.
+		///   output_shape: A list of 1-D tensors represents the shape of the output sparse
+		///   tensors.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   For example, if the input is
+		///   
+		///       input_tensor = shape = [2, 7]
+		///       [    a   d e  ]
+		///       [b c          ]
+		///   
+		///   Graphically the output tensors are:
+		///   
+		///       sparse_slice([0, 0], [2, 4]) = shape = [2, 4]
+		///       [    a  ]
+		///       [b c    ]
+		///   
+		///       sparse_slice([0, 4], [2, 3]) = shape = [2, 3]
+		///       [ d e  ]
+		///       [      ]
+		/// </remarks>
+		public (TFOutput output_indices, TFOutput output_values, TFOutput output_shape) SparseSlice (TFOutput indices, TFOutput values, TFOutput shape, TFOutput start, TFOutput size, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseSlice", MakeName ("SparseSlice", operName));
+			desc.AddInput (indices);
+			desc.AddInput (values);
+			desc.AddInput (shape);
+			desc.AddInput (start);
+			desc.AddInput (size);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_indices = new TFOutput (op, _idx++);
+			var output_values = new TFOutput (op, _idx++);
+			var output_shape = new TFOutput (op, _idx++);
+			return (output_indices, output_values, output_shape);
 		}
 
 		/// <summary>
@@ -21080,7 +27874,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Builds an array `dense` with shape `output_shape` such that
 		///   
-		///   ```prettyprint
+		///   ```
 		///   # If sparse_indices is scalar
 		///   dense[i] = (i == sparse_indices ? sparse_values : default_value)
 		///   
@@ -21211,7 +28005,7 @@ namespace TensorFlow {
 		/// </summary>
 		/// <param name="split_dim">
 		///   0-D.  The dimension along which to split.  Must be in the range
-		///   `[0, rank(value))`.
+		///   `[-rank(value), rank(value))`.
 		/// </param>
 		/// <param name="value">
 		///   The tensor to split.
@@ -21259,7 +28053,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="split_dim">
 		///   0-D.  The dimension along which to split.  Must be in the range
-		///   `[0, rank(value))`.
+		///   `[-rank(value), rank(value))`.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SplitV'.
@@ -21447,13 +28241,241 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Deprecated, use StackV2.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Stack'.
+		/// </param>
+		/// <param name="stack_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="elem_type">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Stack (TFDataType elem_type, string stack_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Stack", MakeName ("Stack", operName));
+			desc.SetAttrType ("elem_type", elem_type);
+			if (stack_name != null)
+				desc.SetAttr ("stack_name", stack_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Deprecated, use StackCloseV2.
+		/// </summary>
+		/// <param name="handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackClose'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation StackClose (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackClose", MakeName ("StackClose", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Delete the stack from its resource container.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a stack.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackCloseV2'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation StackCloseV2 (TFOutput handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackCloseV2", MakeName ("StackCloseV2", operName));
+			desc.AddInput (handle);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Deprecated, use StackPopV2.
+		/// </summary>
+		/// <param name="handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackPop'.
+		/// </param>
+		/// <param name="elem_type">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StackPop (TFOutput handle, TFDataType elem_type, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackPop", MakeName ("StackPop", operName));
+			desc.AddInput (handle);
+			desc.SetAttrType ("elem_type", elem_type);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var elem = new TFOutput (op, _idx++);
+			return elem;
+		}
+
+		/// <summary>
+		///   Pop the element at the top of the stack.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a stack.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackPopV2'.
+		/// </param>
+		/// <param name="elem_type">
+		///   The type of the elem that is popped.
+		/// </param>
+		/// <returns>
+		///   The tensor that is popped from the top of the stack.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StackPopV2 (TFOutput handle, TFDataType elem_type, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackPopV2", MakeName ("StackPopV2", operName));
+			desc.AddInput (handle);
+			desc.SetAttrType ("elem_type", elem_type);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var elem = new TFOutput (op, _idx++);
+			return elem;
+		}
+
+		/// <summary>
+		///   Deprecated, use StackPushV2.
+		/// </summary>
+		/// <param name="handle">
+		/// </param>
+		/// <param name="elem">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackPush'.
+		/// </param>
+		/// <param name="swap_memory">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StackPush (TFOutput handle, TFOutput elem, bool? swap_memory = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackPush", MakeName ("StackPush", operName));
+			desc.AddInput (handle);
+			desc.AddInput (elem);
+			if (swap_memory.HasValue)
+				desc.SetAttr ("swap_memory", swap_memory.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Push an element onto the stack.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to a stack.
+		/// </param>
+		/// <param name="elem">
+		///   The tensor to be pushed onto the stack.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackPushV2'.
+		/// </param>
+		/// <param name="swap_memory">
+		///   Optional argument
+		///   Swap `elem` to CPU. Default to false.
+		/// </param>
+		/// <returns>
+		///   The same tensor as the input 'elem'.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StackPushV2 (TFOutput handle, TFOutput elem, bool? swap_memory = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackPushV2", MakeName ("StackPushV2", operName));
+			desc.AddInput (handle);
+			desc.AddInput (elem);
+			if (swap_memory.HasValue)
+				desc.SetAttr ("swap_memory", swap_memory.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   A stack that produces elements in first-in last-out order.
+		/// </summary>
+		/// <param name="max_size">
+		///   The maximum size of the stack if non-negative. If negative, the stack
+		///   size is unlimited.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StackV2'.
+		/// </param>
+		/// <param name="stack_name">
+		///   Optional argument
+		///   Overrides the name used for the temporary stack resource. Default
+		///   value is the name of the 'Stack' op (which is guaranteed unique).
+		/// </param>
+		/// <param name="elem_type">
+		///   The type of the elements on the stack.
+		/// </param>
+		/// <returns>
+		///   The handle to the stack.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StackV2 (TFOutput max_size, TFDataType elem_type, string stack_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StackV2", MakeName ("StackV2", operName));
+			desc.AddInput (max_size);
+			desc.SetAttrType ("elem_type", elem_type);
+			if (stack_name != null)
+				desc.SetAttr ("stack_name", stack_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Stage values similar to a lightweight Enqueue.
 		/// </summary>
 		/// <param name="values">
 		///   a list of tensors
+		///   dtypes A list of data types that inserted values should adhere to.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Stage'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		///   Maximum number of elements in the Staging Area. If &amp;gt; 0, inserts
+		///   on the container will block when the capacity is reached.
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		///   The maximum number of bytes allowed for Tensors in the Staging Area.
+		///   If &amp;gt; 0, inserts will block until sufficient space is available.
 		/// </param>
 		/// <param name="container">
 		///   Optional argument
@@ -21471,10 +28493,16 @@ namespace TensorFlow {
 		///   The basic functionality of this Op is similar to a queue with many
 		///   fewer capabilities and options.  This Op is optimized for performance.
 		/// </remarks>
-		public TFOperation Stage (TFOutput[] values, string container = null, string shared_name = null, string operName = null)
+		public TFOperation Stage (TFOutput[] values, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Stage", MakeName ("Stage", operName));
 			desc.AddInputs (values);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
 			if (container != null)
 				desc.SetAttr ("container", container);
 			
@@ -21483,6 +28511,152 @@ namespace TensorFlow {
 			
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Op removes all elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StageClear'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation StageClear (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StageClear", MakeName ("StageClear", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Op peeks at the values at the specified index.  If the
+		/// </summary>
+		/// <param name="index">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StagePeek'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   underlying container does not contain sufficient elements
+		///   this op will block until it does.   This Op is optimized for
+		///   performance.
+		/// </remarks>
+		public TFOutput[] StagePeek (TFOutput index, TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StagePeek", MakeName ("StagePeek", operName));
+			desc.AddInput (index);
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return values;
+		}
+
+		/// <summary>
+		///   Op returns the number of elements in the underlying container.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StageSize'.
+		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="dtypes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StageSize (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StageSize", MakeName ("StageSize", operName));
+			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var size = new TFOutput (op, _idx++);
+			return size;
 		}
 
 		/// <summary>
@@ -21828,6 +29002,77 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Assign `value` to the sliced l-value reference of `ref`.
+		/// </summary>
+		/// <param name="reference">
+		/// </param>
+		/// <param name="begin">
+		/// </param>
+		/// <param name="end">
+		/// </param>
+		/// <param name="strides">
+		/// </param>
+		/// <param name="value">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StridedSliceAssign'.
+		/// </param>
+		/// <param name="begin_mask">
+		///   Optional argument
+		/// </param>
+		/// <param name="end_mask">
+		///   Optional argument
+		/// </param>
+		/// <param name="ellipsis_mask">
+		///   Optional argument
+		/// </param>
+		/// <param name="new_axis_mask">
+		///   Optional argument
+		/// </param>
+		/// <param name="shrink_axis_mask">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The values of `value` are assigned to the positions in the variable
+		///   `ref` that are selected by the slice parameters. The slice parameters
+		///   `begin, `end`, `strides`, etc. work exactly as in `StridedSlice`.
+		///   
+		///   NOTE this op currently does not support broadcasting and so `value`'s
+		///   shape must be exactly the shape produced by the slice of `ref`.
+		/// </remarks>
+		public TFOutput StridedSliceAssign (TFOutput reference, TFOutput begin, TFOutput end, TFOutput strides, TFOutput value, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StridedSliceAssign", MakeName ("StridedSliceAssign", operName));
+			desc.AddInput (reference);
+			desc.AddInput (begin);
+			desc.AddInput (end);
+			desc.AddInput (strides);
+			desc.AddInput (value);
+			if (begin_mask.HasValue)
+				desc.SetAttr ("begin_mask", begin_mask.Value);
+			
+			if (end_mask.HasValue)
+				desc.SetAttr ("end_mask", end_mask.Value);
+			
+			if (ellipsis_mask.HasValue)
+				desc.SetAttr ("ellipsis_mask", ellipsis_mask.Value);
+			
+			if (new_axis_mask.HasValue)
+				desc.SetAttr ("new_axis_mask", new_axis_mask.Value);
+			
+			if (shrink_axis_mask.HasValue)
+				desc.SetAttr ("shrink_axis_mask", shrink_axis_mask.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
 		}
 
 		/// <summary>
@@ -22350,7 +29595,7 @@ namespace TensorFlow {
 		///   Computes the SVD of each inner matrix in `input` such that
 		///   `input[..., :, :] = u[..., :, :] * diag(s[..., :, :]) * transpose(v[..., :, :])`
 		///   
-		///   ```prettyprint
+		///   ```python
 		///   # a is a tensor containing a batch of matrices.
 		///   # s is a tensor of singular values for each matrix.
 		///   # u is the tensor containing of left singular vectors for each matrix.
@@ -22614,6 +29859,57 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
+		}
+
+		/// <summary>
+		///   Returns a tensor that may be mutated, but only persists within a single step.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TemporaryVariable'.
+		/// </param>
+		/// <param name="var_name">
+		///   Optional argument
+		///   Overrides the name used for the temporary variable resource. Default
+		///   value is the name of the 'TemporaryVariable' op (which is guaranteed unique).
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the variable tensor.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of elements in the variable tensor.
+		/// </param>
+		/// <returns>
+		///   A reference to the variable tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This is an experimental op for internal use only and it is possible to use this
+		///   op in unsafe ways.  DO NOT USE unless you fully understand the risks.
+		///   
+		///   It is the caller's responsibility to ensure that 'ref' is eventually passed to a
+		///   matching 'DestroyTemporaryVariable' op after all other uses have completed.
+		///   
+		///   Outputs a ref to the tensor state so it may be read or modified.
+		///   
+		///     E.g.
+		///         var = state_ops._temporary_variable([1, 2], types.float_)
+		///         var_name = var.op.name
+		///         var = state_ops.assign(var, [[4.0, 5.0]])
+		///         var = state_ops.assign_add(var, [[6.0, 7.0]])
+		///         final = state_ops._destroy_temporary_variable(var, var_name=var_name)
+		/// </remarks>
+		public TFOutput TemporaryVariable (TFShape shape, TFDataType dtype, string var_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TemporaryVariable", MakeName ("TemporaryVariable", operName));
+			desc.SetAttrShape ("shape", shape);
+			desc.SetAttrType ("dtype", dtype);
+			if (var_name != null)
+				desc.SetAttr ("var_name", var_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reference = new TFOutput (op, _idx++);
+			return reference;
 		}
 
 		/// <summary>
@@ -22914,7 +30210,7 @@ namespace TensorFlow {
 		///   
 		///   TensorArray gradient calls use an accumulator TensorArray object.  If
 		///   multiple gradients are calculated and run in the same session, the multiple
-		///   gradient nodes may accidentally flow throuth the same accumulator TensorArray.
+		///   gradient nodes may accidentally flow through the same accumulator TensorArray.
 		///   This double counts and generally breaks the TensorArray gradient flow.
 		///   
 		///   The solution is to identify which gradient call this particular
@@ -23461,6 +30757,11 @@ namespace TensorFlow {
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
+		/// <remarks>
+		///   This op is being phased out in favor of TensorSummaryV2, which lets callers pass
+		///   a tag as well as a serialized SummaryMetadata proto string that contains
+		///   plugin-specific data. We will keep this op to maintain backwards compatibility.
+		/// </remarks>
 		public TFOutput TensorSummary (TFOutput tensor, string description = null, string[] labels = null, string display_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TensorSummary", MakeName ("TensorSummary", operName));
@@ -23481,11 +30782,46 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Outputs a `Summary` protocol buffer with a tensor and per-plugin data.
+		/// </summary>
+		/// <param name="tag">
+		///   A string attached to this summary. Used for organization in TensorBoard.
+		/// </param>
+		/// <param name="tensor">
+		///   A tensor to serialize.
+		/// </param>
+		/// <param name="serialized_summary_metadata">
+		///   A serialized SummaryMetadata proto. Contains plugin
+		///   data.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorSummaryV2'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput TensorSummaryV2 (TFOutput tag, TFOutput tensor, TFOutput serialized_summary_metadata, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorSummaryV2", MakeName ("TensorSummaryV2", operName));
+			desc.AddInput (tag);
+			desc.AddInput (tensor);
+			desc.AddInput (serialized_summary_metadata);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var summary = new TFOutput (op, _idx++);
+			return summary;
+		}
+
+		/// <summary>
 		///   Creates a dataset that emits the lines of one or more text files.
 		/// </summary>
 		/// <param name="filenames">
 		///   A scalar or a vector containing the name(s) of the file(s) to be
 		///   read.
+		/// </param>
+		/// <param name="compression_type">
+		///   A scalar containing either (i) the empty string (no
+		///   compression), (ii) "ZLIB", or (iii) "GZIP".
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TextLineDataset'.
@@ -23493,14 +30829,57 @@ namespace TensorFlow {
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput TextLineDataset (TFOutput filenames, string operName = null)
+		public TFOutput TextLineDataset (TFOutput filenames, TFOutput compression_type, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "TextLineDataset", MakeName ("TextLineDataset", operName));
 			desc.AddInput (filenames);
+			desc.AddInput (compression_type);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   A Reader that outputs the lines of a file delimited by '\n'.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TextLineReader'.
+		/// </param>
+		/// <param name="skip_header_lines">
+		///   Optional argument
+		///   Number of lines to skip from the beginning of every file.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput TextLineReader (long? skip_header_lines = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TextLineReader", MakeName ("TextLineReader", operName));
+			if (skip_header_lines.HasValue)
+				desc.SetAttr ("skip_header_lines", skip_header_lines.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
 		}
 
 		/// <summary>
@@ -23571,6 +30950,47 @@ namespace TensorFlow {
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   A Reader that outputs the records from a TensorFlow Records file.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TFRecordReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <param name="compression_type">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput TFRecordReader (string container = null, string shared_name = null, string compression_type = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TFRecordReader", MakeName ("TFRecordReader", operName));
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (compression_type != null)
+				desc.SetAttr ("compression_type", compression_type);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
 		}
 
 		/// <summary>
@@ -24340,6 +31760,12 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Unstage'.
 		/// </param>
+		/// <param name="capacity">
+		///   Optional argument
+		/// </param>
+		/// <param name="memory_limit">
+		///   Optional argument
+		/// </param>
 		/// <param name="container">
 		///   Optional argument
 		/// </param>
@@ -24352,13 +31778,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The basic funtionality is similar to dequeue with many fewer
+		///   The basic functionality is similar to dequeue with many fewer
 		///   capabilities and options.  This Op is optimized for performance.
 		/// </remarks>
-		public TFOutput[] Unstage (TFDataType[] dtypes, string container = null, string shared_name = null, string operName = null)
+		public TFOutput[] Unstage (TFDataType[] dtypes, long? capacity = null, long? memory_limit = null, string container = null, string shared_name = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Unstage", MakeName ("Unstage", operName));
 			desc.SetAttrType ("dtypes", dtypes);
+			if (capacity.HasValue)
+				desc.SetAttr ("capacity", capacity.Value);
+			
+			if (memory_limit.HasValue)
+				desc.SetAttr ("memory_limit", memory_limit.Value);
+			
 			if (container != null)
 				desc.SetAttr ("container", container);
 			
@@ -24415,6 +31847,90 @@ namespace TensorFlow {
 			int _idx = 0;
 			var resource = new TFOutput (op, _idx++);
 			return resource;
+		}
+
+		/// <summary>
+		///   Use VariableV2 instead.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Variable'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="shape">
+		/// </param>
+		/// <param name="dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Variable (TFShape shape, TFDataType dtype, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Variable", MakeName ("Variable", operName));
+			desc.SetAttrShape ("shape", shape);
+			desc.SetAttrType ("dtype", dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reference = new TFOutput (op, _idx++);
+			return reference;
+		}
+
+		/// <summary>
+		///   Holds state in the form of a tensor that persists across steps.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'VariableV2'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this variable is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this variable is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the variable tensor.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of elements in the variable tensor.
+		/// </param>
+		/// <returns>
+		///   A reference to the variable tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Outputs a ref to the tensor state so it may be read or modified.
+		///   TODO(zhifengc/mrry): Adds a pointer to a more detail document
+		///   about sharing states in tensorflow.
+		/// </remarks>
+		public TFOutput VariableV2 (TFShape shape, TFDataType dtype, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "VariableV2", MakeName ("VariableV2", operName));
+			desc.SetAttrShape ("shape", shape);
+			desc.SetAttrType ("dtype", dtype);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reference = new TFOutput (op, _idx++);
+			return reference;
 		}
 
 		/// <summary>
@@ -24499,6 +32015,45 @@ namespace TensorFlow {
 		///   A Reader that outputs the entire contents of a file as a value.
 		/// </summary>
 		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WholeFileReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   To use, enqueue filenames in a Queue.  The output of ReaderRead will
+		///   be a filename (key) and the contents of that file (value).
+		/// </remarks>
+		public TFOutput WholeFileReader (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "WholeFileReader", MakeName ("WholeFileReader", operName));
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
+		}
+
+		/// <summary>
+		///   A Reader that outputs the entire contents of a file as a value.
+		/// </summary>
+		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WholeFileReaderV2'.
 		/// </param>
 		/// <param name="container">
@@ -24535,7 +32090,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes contents to the file at input filename. Creates file if not existing.
+		///   Writes contents to the file at input filename. Creates file and recursively
 		/// </summary>
 		/// <param name="filename">
 		///   scalar. The name of the file to which we write the contents.
@@ -24549,6 +32104,9 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns the description of the operation
 		/// </returns>
+		/// <remarks>
+		///   creates directory if not existing.
+		/// </remarks>
 		public TFOperation WriteFile (TFOutput filename, TFOutput contents, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "WriteFile", MakeName ("WriteFile", operName));

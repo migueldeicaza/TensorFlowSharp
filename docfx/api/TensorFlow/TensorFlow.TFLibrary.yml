@@ -1,0 +1,106 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFLibrary
+  id: TFLibrary
+  children:
+  - TensorFlow.TFLibrary.FromFile(System.String,TensorFlow.TFStatus)
+  langs:
+  - csharp
+  name: TFLibrary
+  nameWithType: TFLibrary
+  fullName: TensorFlow.TFLibrary
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: 'public class TFLibrary : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFLibrary.FromFile(System.String,TensorFlow.TFStatus)
+  id: FromFile(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFLibrary
+  langs:
+  - csharp
+  name: FromFile(String, TFStatus)
+  nameWithType: TFLibrary.FromFile(String, TFStatus)
+  fullName: TFLibrary.FromFile(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public static TensorFlow.TFLibrary FromFile (string libraryFile, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: libraryFile
+      type: System.String
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFLibrary
+      description: To be added.
+  overload: TensorFlow.TFLibrary.FromFile*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFLibrary.FromFile(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFLibrary
+  isExternal: false
+  name: FromFile(String, TFStatus)
+  nameWithType: TFLibrary.FromFile(String, TFStatus)
+  fullName: TFLibrary.FromFile(String, TFStatus)
+- uid: TensorFlow.TFLibrary
+  parent: TensorFlow
+  isExternal: false
+  name: TFLibrary
+  nameWithType: TFLibrary
+  fullName: TensorFlow.TFLibrary
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFLibrary.FromFile*
+  parent: TensorFlow.TFLibrary
+  isExternal: false
+  name: FromFile
+  nameWithType: TFLibrary.FromFile
+  fullName: TFLibrary.FromFile
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle
