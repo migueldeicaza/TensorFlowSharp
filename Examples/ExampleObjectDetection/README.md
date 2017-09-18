@@ -17,4 +17,4 @@ This example uses tensorflow [object detection model API](https://github.com/ten
 4. go to _'TensorFlowSharp\Examples\ExampleObjectDetection'_ folder and run _'run_example_macos.sh'_. This step detects objects in the _'TensorFlowSharp\Examples\ExampleObjectDetection\test_images\input.jpg'_ image and saves result to _'TensorFlowSharp\Examples\ExampleObjectDetection\bin\Debug\test_images\output.jpg'_ image.
 
 ## I found an issue in the example ##
-If you want to address a bug or a question related to the object detection example, just create new issue on github starting with [Object Detection Example] tag.
+If you want to address a bug or a question related to the object detection example - just create a new issue on github starting with [Object Detection Example] tag.
