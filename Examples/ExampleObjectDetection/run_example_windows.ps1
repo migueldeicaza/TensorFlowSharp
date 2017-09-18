@@ -31,11 +31,12 @@
 $itemName = "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017"
 $fileName = $itemName + ".tar.gz"
 $source = "http://download.tensorflow.org/models/object_detection/"+$fileName
+$exeFolderRel = "bin\Debug"
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $destinationFolder =[io.path]::combine($scriptPath,$exeFolderRel)
 
-$destination = $destinationFolder+$fileName
+$destination = [io.path]::combine($destinationFolder, $fileName)
 $destination
 
 if(!(Test-Path -Path ([io.path]::combine($destinationFolder, $itemName) ))){
