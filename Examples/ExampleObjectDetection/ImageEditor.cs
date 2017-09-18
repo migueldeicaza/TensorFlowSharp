@@ -57,7 +57,9 @@ namespace ExampleCommon
 			Pen pen = new Pen (brush);
 
 			_graphics.DrawRectangle (pen, left, top, right - left, bottom - top);
-			_graphics.DrawString (text, new Font (_fontFamily, _fontSize), brush, new PointF (left, top));
+			var font = new Font (_fontFamily, _fontSize);
+			SizeF size = _graphics.MeasureString (text, font);
+			_graphics.DrawString (text, font, brush, new PointF (left, top - size.Height));
 		}
 
 		public void Dispose ()
