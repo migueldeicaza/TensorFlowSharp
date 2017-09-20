@@ -13,7 +13,7 @@ This example uses tensorflow [object detection model API](https://github.com/ten
 ExampleObjectDetection
 ```
 
-By default, the example download pretrained model, but you can specify your own using following options:  
+By default, the example downloads a pretrained model, but you can specify your own using the following options:  
 
 _input_image_ - optional, the path to the image for processing (the default is 'test_images/input.jpg')  
 _output_image_ - optional, the path where the image with detected objects will be saved (the default is 'test_images/output.jpg')  
