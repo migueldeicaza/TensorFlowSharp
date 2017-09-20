@@ -14,12 +14,11 @@ ExampleObjectDetection
 ```
 
 By default the example download pretrained model, but you can specify your own using following options:
-_input_image_ - the path to the image for processing
-_output_image_ - the path where the image with detected objects will be saved
-_catalog_ - the path to the '*.pbtxt' file
-_model_ - the path to the '*.pb' file 
+_input_image_ - optional, the path to the image for processing (the default is 'test_images/input.jpg')
+_output_image_ -optional, the path where the image with detected objects will be saved (the default is 'test_images/output.jpg')
+_catalog_ - optional, the path to the '*.pbtxt' file (by default, 'mscoco_label_map.pbtxt' been loaded)
+_model_ - optional, the path to the '*.pb' file (by default, 'frozen_inference_graph.pb' model been used, but you can download any other from here https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md or train your own)
  
-for instance, 
 ```
 ExampleObjectDetection --input_image="/demo/input.jpg" --output_image="/demo/output.jpg" --catalog="/demo/mscoco_label_map.pbtxt" --model="/demo/frozen_inference_graph.pb"
 ```

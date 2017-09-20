@@ -35,20 +35,12 @@ namespace ExampleObjectDetection
 		};
 
 		/// <summary>
-		/// The utility processes the image and produces output image highlighting detected objects on it.
-		/// You need to proceed following steps to get the example working:
-		/// 1. Download and unzip one of trained models from 
-		/// https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md
-		/// 
-		/// for instance 'faster_rcnn_inception_resnet_v2_atrous_coco'
-		/// 2. Download mscoco_label_map.pbtxt from
-		/// https://github.com/tensorflow/models/blob/master/object_detection/data/mscoco_label_map.pbtxt
-		/// 
-		/// 3. Run the ExampleObjectDetection util from command line specifying input_image, output_image, catalog and model options
-		/// where input_image - the path to the image for processing
-		/// output_image - the path where the image with detected objects will be saved
-		/// catalog - the path to the 'mscoco_label_map.pbtxt' file (see 2)
-		/// model - the path to the 'frozen_inference_graph.pb' file (see 1)
+		/// Run the ExampleObjectDetection util from command line. Following options are available:
+		/// input_image - optional, the path to the image for processing (the default is 'test_images/input.jpg')
+		/// output_image - optional, the path where the image with detected objects will be saved (the default is 'test_images/output.jpg')
+		/// catalog - optional, the path to the '*.pbtxt' file (by default, 'mscoco_label_map.pbtxt' been loaded)
+		/// model - optional, the path to the '*.pb' file (by default, 'frozen_inference_graph.pb' model been used, but you can download any other from here 
+		/// https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md or train your own)
 		/// 
 		/// for instance, 
 		/// ExampleObjectDetection --input_image="/demo/input.jpg" --output_image="/demo/output.jpg" --catalog="/demo/mscoco_label_map.pbtxt" --model="/demo/frozen_inference_graph.pb"
