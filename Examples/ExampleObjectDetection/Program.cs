@@ -5,14 +5,21 @@ using System.Linq;
 using TensorFlow;
 using ExampleCommon;
 using Mono.Options;
+using System.IO.Compression;
+using System.Reflection;
+using System.Net;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Tar;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace ExampleObjectDetection
 {
 	class Program
 	{
 		private static IEnumerable<CatalogItem> _catalog;
-		private static string _input;
-		private static string _output;
+		private static string _currentDir = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
+		private static string _input = Path.Combine (_currentDir, "test_images/input.jpg");
+		private static string _output = Path.Combine (_currentDir, "test_images/output.jpg");
 		private static string _catalogPath;
 		private static string _modelPath;
 
@@ -51,20 +58,12 @@ namespace ExampleObjectDetection
 		{
 			options.Parse (args);
 
-			if(_input == null) {
-				throw new ArgumentException ("Missing required option --input_image=");
-			}
-
-			if (_output == null) {
-				throw new ArgumentException ("Missing required option --output_image=");
-			}
-
 			if (_catalogPath == null) {
-				throw new ArgumentException ("Missing required option --catalog=");
+				_catalogPath = DownloadDefaultTexts (_currentDir);
 			}
 
 			if (_modelPath == null) {
-				throw new ArgumentException ("Missing required option --model=");
+				_modelPath = DownloadDefaultModel (_currentDir);
 			}
 
 			_catalog = CatalogUtil.ReadCatalogItems (_catalogPath);
@@ -100,7 +99,47 @@ namespace ExampleObjectDetection
 				}
 			}
 		}
-		
+
+		private static string DownloadDefaultModel (string dir)
+		{
+			const string defaultModelUrl = "http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017.tar.gz";
+
+			var modelFile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017/frozen_inference_graph.pb");
+			var zipfile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017.tar.gz");
+
+			if (File.Exists (modelFile))
+				return modelFile;
+
+			if (!File.Exists (zipfile)) {
+				var wc = new WebClient ();
+				wc.DownloadFile (defaultModelUrl, zipfile);
+			}
+
+			ExtractToDirectory (zipfile, dir);
+			File.Delete (zipfile);
+
+			return modelFile;
+		}
+
+		private static void ExtractToDirectory (string file, string targetDir)
+		{
+			using (Stream inStream = File.OpenRead (file))
+			using (Stream gzipStream = new GZipInputStream (inStream)) {
+				TarArchive tarArchive = TarArchive.CreateInputTarArchive (gzipStream);
+				tarArchive.ExtractContents (targetDir);
+			}
+		}
+
+		private static string DownloadDefaultTexts (string dir)
+		{
+			const string defaultTextsUrl = "https://raw.githubusercontent.com/tensorflow/models/master/object_detection/data/mscoco_label_map.pbtxt";
+			var textsFile = Path.Combine (dir, "mscoco_label_map.pbtxt");
+			var wc = new WebClient ();
+			wc.DownloadFile (defaultTextsUrl, textsFile);
+
+			return textsFile;
+		}
+
 		private static void DrawBoxes (float [,,] boxes, float [,] scores, float [,] classes, string inputFile, string outputFile, double minScore)
 		{
 			var x = boxes.GetLength (0);
@@ -117,18 +156,18 @@ namespace ExampleObjectDetection
 						for (int k = 0; k < z; k++) {
 							var box = boxes [i, j, k];
 							switch (k) {
-								case 0:
-									ymin = box;
-									break;
-								case 1:
-									xmin = box;
-									break;
-								case 2:
-									ymax = box;
-									break;
-								case 3:
-									xmax = box;
-									break;
+							case 0:
+								ymin = box;
+								break;
+							case 1:
+								xmin = box;
+								break;
+							case 2:
+								ymax = box;
+								break;
+							case 3:
+								xmax = box;
+								break;
 							}
 
 						}
