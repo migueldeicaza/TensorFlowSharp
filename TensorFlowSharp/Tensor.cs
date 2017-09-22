@@ -5,6 +5,9 @@
 //   Miguel de Icaza (miguel@microsoft.com)
 //
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -238,7 +241,22 @@ namespace TensorFlow
 		{
 			if (array == null)
 				throw new ArgumentNullException (nameof (array));
-			// TODO: ensure that we do not have arrays of arrays.
+
+			// Ensure that, if we have arrays of arrays, we can handle them accordingly:
+			if (isJagged (array.GetType ())) {
+				Type elementType = getInnerMostType (array);
+				int [] length = getLength (array);
+				Array multidimensional = Array.CreateInstance (elementType, length);
+				Array flatten = deepFlatten (array);
+				Buffer.BlockCopy (flatten, 0, multidimensional, 0, flatten.Length * Marshal.SizeOf (elementType));
+				createFromMultidimensionalArrays (multidimensional);
+			} else {
+				createFromMultidimensionalArrays (array);
+			}
+		}
+
+		private unsafe void createFromMultidimensionalArrays (Array array)
+		{
 			var t = array.GetType ().GetElementType ();
 			var tc = Type.GetTypeCode (t);
 			TFDataType dt;
@@ -1115,6 +1133,152 @@ namespace TensorFlow
 			sb.Append ("]");
 			return sb.ToString ();
 		}
+
+
+
+
+
+
+
+
+
+		private static int [] getLength (Array array, bool deep = true, bool max = false)
+		{
+			// This function gets the length of all dimensions in a multidimensional, jagged, or mixed array.
+			// https://github.com/accord-net/framework/blob/b4990721a61f03602d04c12b148215c7eca1b7ac/Sources/Accord.Math/Matrix/Matrix.Construction.cs#L1118
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+
+			if (array.Rank == 0)
+				return new int [0];
+
+			if (deep && isJagged (array)) {
+				if (array.Length == 0)
+					return new int [0];
+
+				int [] rest;
+				if (!max) {
+					rest = getLength (array.GetValue (0) as Array, deep);
+				} else {
+					// find the max
+					rest = getLength (array.GetValue (0) as Array, deep);
+					for (int i = 1; i < array.Length; i++) {
+						int [] r = getLength (array.GetValue (i) as Array, deep);
+
+						for (int j = 0; j < r.Length; j++) {
+							if (r [j] > rest [j])
+								rest [j] = r [j];
+						}
+					}
+				}
+
+				return new [] { array.Length }.Concat (rest).ToArray ();
+			}
+
+			int [] vector = new int [array.Rank];
+			for (int i = 0; i < vector.Length; i++)
+				vector [i] = array.GetUpperBound (i) + 1;
+			return vector;
+		}
+
+		private static Array deepFlatten (Array array)
+		{
+			// This function converts multidimensional, jagged, or mixed arrays into a single unidimensional array (i.e. flattens the mixed array).
+			// https://github.com/accord-net/framework/blob/f78181b82eb6ee6cc7fd10d2a7a55334982c40df/Sources/Accord.Math/Matrix/Matrix.Common.cs#L1625
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			int totalLength = getTotalLength (array, deep: true);
+			var elementType = getInnerMostType (array);
+			Array result = Array.CreateInstance (elementType, totalLength);
+
+			int k = 0;
+			foreach (object v in enumerateJagged (array))
+				result.SetValue (v, k++);
+			return result;
+		}
+
+		private static IEnumerable enumerateJagged (Array array)
+		{
+			// This function can enumerate all elements in a multidimensional ,jagged, or mixed array.
+			// From https://github.com/accord-net/framework/blob/b4990721a61f03602d04c12b148215c7eca1b7ac/Sources/Accord.Math/Matrix/Jagged.Construction.cs#L1202
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			var arrays = new Stack<Array> ();
+			var counters = new Stack<int> ();
+
+			arrays.Push (array);
+			counters.Push (0);
+			int depth = 1;
+
+			Array a = array;
+			int i = 0;
+
+			while (arrays.Count > 0) {
+				if (i >= a.Length) {
+					a = arrays.Pop ();
+					i = counters.Pop () + 1;
+					depth--;
+				} else {
+					Object e = a.GetValue (i);
+					Array next = e as Array;
+					if (next == null) {
+						yield return e;
+						i++;
+					} else {
+						arrays.Push (a);
+						counters.Push (i);
+						a = next;
+						i = 0;
+						depth++;
+					}
+				}
+			}
+		}
+
+		private static int getTotalLength (Array array, bool deep = true, bool rectangular = true)
+		{
+			// From https://github.com/accord-net/framework/blob/b4990721a61f03602d04c12b148215c7eca1b7ac/Sources/Accord.Math/Matrix/Matrix.Construction.cs#L1087
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			if (deep && isJagged (array.GetType ())) {
+				if (rectangular) {
+					int rest = getTotalLength (array.GetValue (0) as Array, deep);
+					return array.Length * rest;
+				} else {
+					int sum = 0;
+					for (int i = 0; i < array.Length; i++)
+						sum += getTotalLength (array.GetValue (i) as Array, deep);
+					return sum;
+				}
+			}
+
+			return array.Length;
+		}
+
+		private static bool isJagged (Array array)
+		{
+			// From https://github.com/accord-net/framework/blob/f78181b82eb6ee6cc7fd10d2a7a55334982c40df/Sources/Accord.Math/Matrix/Matrix.Construction.cs#L1204
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			if (array.Length == 0)
+				return array.Rank == 1;
+			return array.Rank == 1 && array.GetValue (0) is Array;
+		}
+
+		private static bool isJagged (Type type)
+		{
+			// From https://github.com/accord-net/framework/blob/eb371fbc540a41c1a711b6ab1ebd49889316e7f7/Sources/Accord.Math/Matrix/Matrix.Common.cs#L84
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			return type.IsArray && type.GetElementType ().IsArray;
+		}
+
+		private static Type getInnerMostType (Array array)
+		{
+			// From https://github.com/accord-net/framework/blob/eb371fbc540a41c1a711b6ab1ebd49889316e7f7/Sources/Accord.Math/Matrix/Matrix.Common.cs#L95
+			// Relicensed under the MIT license by the original author for inclusion in TensorFlowSharp and any derived projects, see the MIT license for details
+			Type type = array.GetType ();
+
+			while (type.IsArray)
+				type = type.GetElementType ();
+
+			return type;
+		}
+
 	}
 
 }	

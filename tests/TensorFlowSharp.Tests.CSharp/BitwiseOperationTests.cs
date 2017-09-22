@@ -14,14 +14,14 @@ namespace TensorFlowSharp.Tests.CSharp
             using (var graph = new TFGraph())
             using (var session = new TFSession(graph))
             {
-                var a = graph.Placeholder(TFDataType.Int32);
-                var b = graph.Placeholder(TFDataType.Int32);
+                TFOutput a = graph.Placeholder(TFDataType.Int32);
+                TFOutput b = graph.Placeholder(TFDataType.Int32);
 
                 TFOutput y = graph.BitwiseAnd(a, b);
 
-                TFTensor[] result = session.Run(new[] {a, b}, new TFTensor[] {aValue, bValue}, new[] {y});
+                TFTensor[] result = session.Run(new[] { a, b }, new TFTensor[] { aValue, bValue }, new[] { y });
 
-                Assert.Equal(expected, (int) result[0].GetValue());
+                Assert.Equal(expected, (int)result[0].GetValue());
             }
         }
     }

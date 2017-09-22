@@ -28,16 +28,13 @@ namespace TensorFlow
 
 			// Fast path: avoid creating Rank and Range ops if ndims is known.
 			var shape = GetTensorShape (input);
-			if (shape.Length >= 0) {
+			if (shape.IsFullySpecified) {
 				// The python code distinguishes between tensor and sparsetensor
 
-				var array = new int [shape.Length];
-				for (int i = 0; i < array.Length; i++)
-					array [i] = i;
-
-				return this.Const (array, TFDataType.Int32);
+				return this.Const (shape.ToIntArray (), TFDataType.Int32);
 			}
-			return Range (Const (0), Const (shape.Length), Const (1));
+			// Otherwise, we rely on Range and Rank to do the right thing at run-time.
+			return Range (Const (0), Rank (input), Const (1));
 		}
 
 		/// <summary>
@@ -88,36 +85,53 @@ namespace TensorFlow
 			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
 
+		// Helper method to create a variable and track it.
+		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
+		{
+			var scopeName = MakeName ("Variable", operName);
+
+			using (var newScope = WithScope (scopeName)) {
+				var type = initialValue.OutputType;
+				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				using (var aScope = WithScope ("Assign")) {
+					var assignOp = AssignVariableOp (variableHandle, initialValue);
+					using (var rScope = WithScope ("Read")) {
+						var readHandle = ReadVariableOp (variableHandle, type);
+
+						var nv = new Variable (variableHandle, readHandle, assignOp);
+						if (trainable)
+							AddTrainableVariable (nv);
+						AddInitVariable (assignOp);
+						return nv;
+					}
+				}
+			}
+
+		}
+
 		/// <summary>
 		/// Variable node, with a starting initial value.
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
 		/// <param name="init">Returns the operation that initializes the value of the variable.</param>
 		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, string operName = null)
+		public Variable Variable (TFOutput initialValue, out TFOperation init, out TFOutput value, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					init = AssignVariableOp (handle, initialValue);
-					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
-					}
-				}
-			}
+			var nv = MakeVariable (initialValue, trainable, operName);
+			init = nv.Assign;
+			value = nv.Read;
+			return nv;
 		}
 
 		List<TFOperation> pending_init_variables;
+		List<Variable> trainable_variables;
 
 		/// <summary>
 		/// Registers a specified variable as an initialization variable.
@@ -142,6 +156,14 @@ namespace TensorFlow
 			pending_init_variables.Add (variable);
 		}
 
+		// TODO: finalize semantics, when should we clear these?
+		internal void AddTrainableVariable (Variable variable)
+		{
+			if (trainable_variables == null)
+				trainable_variables = new List<Variable> ();
+			trainable_variables.Add (variable);
+		}
+
 		/// <summary>
 		/// Gets the list of all registered global variables.
 		/// </summary>
@@ -162,8 +184,9 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
 		/// <param name="value">Returns the value of the variable.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -171,30 +194,20 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, out TFOutput value, string operName = null)
+		public Variable Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					using (var rScope = WithScope ("Read")) {
-						value = ReadVariableOp (handle, type);
-						return handle;
-					}
-				}
-			}
+			var nv = MakeVariable (initialValue, trainable, operName);
+			value = nv.Read;
+			return nv;
 		}
 
 		/// <summary>
 		/// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
 		/// </summary>
 		/// <param name="initialValue">Initial value.</param>
+		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
 		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning TFOutput returns the handle to the variable.</returns>
+		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
 		/// <remarks>
 		/// Variables need to be initialized before the main execution so you will typically want to
 		/// run the session on the variable.
@@ -202,20 +215,9 @@ namespace TensorFlow
 		/// The init sequence for the variable is stored in the graph, you must manually initialize 
 		/// those by running the session on the global variables.
 		/// </remarks>
-		public TFOutput Variable (TFOutput initialValue, string operName = null)
+		public Variable Variable (TFOutput initialValue, bool trainable = true, string operName = null)
 		{
-			var scopeName = MakeName ("Variable", operName);
-			using (var newScope = WithScope (scopeName)) {
-				var type = initialValue.OutputType;
-
-				// This should be VariableV2, but requires Ref support in the C API.
-				var handle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
-				using (var aScope = WithScope ("Assign")) {
-					var init = AssignVariableOp (handle, initialValue);
-					AddInitVariable (init);
-					return handle;
-				}
-			}
+			return MakeVariable (initialValue, trainable, operName);
 		}
 
 		//
@@ -486,7 +488,6 @@ namespace TensorFlow
 			}
 		}
 
-
 		/// <summary>
 		///   Computes sigmoid cross entropy given `logits`.
 		/// </summary>
@@ -557,12 +558,6 @@ namespace TensorFlow
 				return this.Select (condition: condition, t: x.Value, e: y.Value, operName: name);
 			throw new ArgumentException ("x and y must both be non-None or both be None.");
 		}
-
-
-
-
-
-
 
 		/// <summary>
 		/// Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.

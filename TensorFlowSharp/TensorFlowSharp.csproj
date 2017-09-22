@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <ReleaseVersion>0.2</ReleaseVersion>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.3.0-pre1</PackageVersion>
+    <PackageVersion>1.3.0</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -19,7 +19,13 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlor 1.3 - preview release</PackageReleaseNotes>
+    <PackageReleaseNotes>Adds support for TensorFlor 1.3
+
+In addition to bringing the 1.3 API, this contains the following high-level APIs:
+
+* TFGraph.ReduceMean
+* Type to TFDataType conversion helper
+</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <_NativeFiles Include="..\native\*.*">
@@ -63,12 +69,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queue.cs" />
     <Compile Include="Tensorflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations.g.cs" />
     <Compile Include="OperationsExtras.cs" />
     <Compile Include="Buffer.cs" />
     <Compile Include="Tensor.cs" />
+    <Compile Include="Variable.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging">

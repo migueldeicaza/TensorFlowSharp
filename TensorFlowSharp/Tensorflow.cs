@@ -538,19 +538,21 @@ namespace TensorFlow
 		/// <returns>The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.</returns>
 		/// <param name="output">The tensor that you want to look up.  </param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
-		public long [] GetTensorShape (TFOutput output, TFStatus status = null)
+		public TFShape GetTensorShape (TFOutput output, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
 				ObjectDisposedException ();
 			var cstatus = TFStatus.Setup (status);
 			var n = TF_GraphGetTensorNumDims (handle, output, cstatus.handle);
 			if (!cstatus.CheckMaybeRaise (status, last: false))
-				return null;
+				return TFShape.Unknown;
+			if (n == -1)
+				return TFShape.Unknown;
 			
 			var dims = new long [n];
 			TF_GraphGetTensorShape (handle, output, dims, dims.Length, cstatus.handle);
 			cstatus.CheckMaybeRaise (status);
-			return dims;
+			return new TFShape (dims);
 		}
 
 		// extern void TF_GraphToGraphDef (TF_Graph *graph, TF_Buffer *output_graph_def, TF_Status *status);
@@ -767,9 +769,7 @@ namespace TensorFlow
 		public TFScope WithScope (string nameScopeDesc)
 		{
 			var scope = new TFScope (this);
-			if (scope == null)
-				CurrentNameScope = "";
-			else if (CurrentNameScope.Length == 0)
+			if (CurrentNameScope.Length == 0)
 				CurrentNameScope = nameScopeDesc;
 			else
 				CurrentNameScope = CurrentNameScope + "/" + nameScopeDesc;
@@ -779,7 +779,7 @@ namespace TensorFlow
 
 		Dictionary<string, int> values = new Dictionary<string, int> ();
 
-		string MakeName (string operName, string userName)
+		internal string MakeName (string operName, string userName)
 		{
 			if (userName == null) {
 				var k = CurrentNameScope == "" ? operName : CurrentNameScope + "/" + operName;
@@ -1530,11 +1530,11 @@ namespace TensorFlow
 	{
 		internal IntPtr handle;
 
-		/// <summary>
-		/// Gets the handle to the unmanaged TF_Operation object.
-		/// </summary>
-		/// <value>The handle.</value>
-		public IntPtr Handle => handle;
+        /// <summary>
+        /// Gets the handle to the unmanaged TF_Operation object.
+        /// </summary>
+        /// <value>The handle.</value>
+        public IntPtr Handle => handle;
 
 		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
 		internal TFGraph graph;
@@ -2541,6 +2541,11 @@ namespace TensorFlow
 	public enum TFDataType : uint
 	{
 		/// <summary>
+		/// The TFDataType has not been set
+		/// </summary>
+		Unknown = 0,
+
+		/// <summary>
 		/// Single precission floatint point, 32-bits (C# float)
 		/// </summary>
 		Float = 1,
@@ -2718,7 +2723,7 @@ namespace TensorFlow
 		/// Gets the type of the output.
 		/// </summary>
 		/// <value>The type of the output.</value>
-		public TFDataType OutputType => TF_OperationOutputType (this);
+		public TFDataType OutputType => LLOperation == IntPtr.Zero ? TFDataType.Unknown : TF_OperationOutputType (this);
 
 		/// <summary>
 		/// Initializes a new TFOutput instance.
@@ -2778,7 +2783,7 @@ namespace TensorFlow
 		public TFOperation Operation => new TFOperation (null, LLOperation);
 		public override string ToString ()
 		{
-			return string.Format ("[TFOutput: LLOperation=0x{0:X} Index={1} Operation={2}]", (long) LLOperation, Index, Operation);
+			return string.Format ("[{3} Index={1} Operation={2} (0x{0:X})]", (long) LLOperation, Index, Operation, OutputType);
 		}
 	}
 
