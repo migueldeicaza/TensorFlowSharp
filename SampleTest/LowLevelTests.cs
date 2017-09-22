@@ -281,7 +281,7 @@ namespace SampleTest
 			var meta = op.GetAttributeMetadata (name);
 			Assert (meta.IsList == (expectedListSize >= 0 ? true : false));
 			Assert (expectedListSize == meta.ListSize);
-			Assert (expectedTotalSize == expectedTotalSize);
+			Assert (expectedTotalSize == meta.TotalSize);
 			Assert (expectedType == meta.Type);
 		}
 
