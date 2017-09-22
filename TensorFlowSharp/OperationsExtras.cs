@@ -31,10 +31,14 @@ namespace TensorFlow
 			if (shape.IsFullySpecified) {
 				// The python code distinguishes between tensor and sparsetensor
 
-				return this.Const (shape.ToIntArray (), TFDataType.Int32);
+				var array = new int [shape.NumDimensions];
+				for (int i = 0; i < array.Length; i++)
+					array [i] = i;
+
+				return this.Const (array, TFDataType.Int32);
 			}
 			// Otherwise, we rely on Range and Rank to do the right thing at run-time.
-			return Range (Const (0), Rank (input), Const (1));
+			return Range (Const (0), Const (shape.NumDimensions), Const (1));
 		}
 
 		/// <summary>
