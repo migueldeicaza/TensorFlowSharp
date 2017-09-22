@@ -769,9 +769,7 @@ namespace TensorFlow
 		public TFScope WithScope (string nameScopeDesc)
 		{
 			var scope = new TFScope (this);
-			if (scope == null)
-				CurrentNameScope = "";
-			else if (CurrentNameScope.Length == 0)
+			if (CurrentNameScope.Length == 0)
 				CurrentNameScope = nameScopeDesc;
 			else
 				CurrentNameScope = CurrentNameScope + "/" + nameScopeDesc;
