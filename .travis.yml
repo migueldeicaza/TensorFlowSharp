@@ -1,15 +1,15 @@
 language: csharp
 solution: TensorFlowSharp.sln
 script:
-  - wget "http://ci.tensorflow.org/view/Nightly/job/nightly-libtensorflow/TYPE=mac-slave/82/artifact/lib_package/libtensorflow-cpu-darwin-x86_64.tar.gz"
-  - tar xzvf libtensorflow-cpu-darwin-x86_64.tar.gz lib/libtensorflow.so
-  - mkdir -p native
-  - cp lib/libtensorflow.so native/libtensorflow.dylib
-  - cp lib/libtensorflow.so native/
+  - tsh_version=1.3.0
+  - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
+  - tar xzvf $tsh_version native
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
   - cp -R $TRAVIS_BUILD_DIR/native/libtensorflow.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/libtensorflow.dylib
-  - sh $TRAVIS_BUILD_DIR/build.sh
-mono: "5.0.0"
+  - cp -R $TRAVIS_BUILD_DIR/native/libtensorflow.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/libtensorflow.dylib
+  - cd $TRAVIS_BUILD_DIR/packages/xunit.runner.console.2.2.0/tools
+  - mono --arch=64 xunit.console.exe "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/TensorFlowSharp.Tests.dll" "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/TensorFlowSharp.Tests.CSharp.dll"
+mono: "5.2.0"
 os: "osx"
