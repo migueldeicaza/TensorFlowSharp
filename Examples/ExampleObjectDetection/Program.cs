@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Configuration;
 using TensorFlow;
 using ExampleCommon;
 using Mono.Options;
-using System.IO.Compression;
 using System.Reflection;
 using System.Net;
-using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
 
@@ -94,7 +93,7 @@ namespace ExampleObjectDetection
 
 		private static string DownloadDefaultModel (string dir)
 		{
-			const string defaultModelUrl = "http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017.tar.gz";
+			string defaultModelUrl = ConfigurationManager.AppSettings["DefaultModelUrl"] ?? throw new ConfigurationErrorsException("'DefaultModelUrl' setting is missing in the configuration file");
 
 			var modelFile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017/frozen_inference_graph.pb");
 			var zipfile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017.tar.gz");
@@ -124,7 +123,7 @@ namespace ExampleObjectDetection
 
 		private static string DownloadDefaultTexts (string dir)
 		{
-			const string defaultTextsUrl = "https://raw.githubusercontent.com/tensorflow/models/master/object_detection/data/mscoco_label_map.pbtxt";
+			string defaultTextsUrl = ConfigurationManager.AppSettings ["DefaultTextsUrl"] ?? throw new ConfigurationErrorsException ("'DefaultTextsUrl' setting is missing in the configuration file");
 			var textsFile = Path.Combine (dir, "mscoco_label_map.pbtxt");
 			var wc = new WebClient ();
 			wc.DownloadFile (defaultTextsUrl, textsFile);
