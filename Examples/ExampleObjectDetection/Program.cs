@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Configuration;
 using TensorFlow;
 using ExampleCommon;
 using Mono.Options;
+using System.Reflection;
+using System.Net;
+using ICSharpCode.SharpZipLib.Tar;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace ExampleObjectDetection
 {
 	class Program
 	{
 		private static IEnumerable<CatalogItem> _catalog;
-		private static string _input;
-		private static string _output;
+		private static string _currentDir = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
+		private static string _input = Path.Combine (_currentDir, "test_images/input.jpg");
+		private static string _output = Path.Combine (_currentDir, "test_images/output.jpg");
 		private static string _catalogPath;
 		private static string _modelPath;
 
@@ -28,20 +34,12 @@ namespace ExampleObjectDetection
 		};
 
 		/// <summary>
-		/// The utility processes the image and produces output image highlighting detected objects on it.
-		/// You need to proceed following steps to get the example working:
-		/// 1. Download and unzip one of trained models from 
-		/// https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md
-		/// 
-		/// for instance 'faster_rcnn_inception_resnet_v2_atrous_coco'
-		/// 2. Download mscoco_label_map.pbtxt from
-		/// https://github.com/tensorflow/models/blob/master/object_detection/data/mscoco_label_map.pbtxt
-		/// 
-		/// 3. Run the ExampleObjectDetection util from command line specifying input_image, output_image, catalog and model options
-		/// where input_image - the path to the image for processing
-		/// output_image - the path where the image with detected objects will be saved
-		/// catalog - the path to the 'mscoco_label_map.pbtxt' file (see 2)
-		/// model - the path to the 'frozen_inference_graph.pb' file (see 1)
+		/// Run the ExampleObjectDetection util from command line. Following options are available:
+		/// input_image - optional, the path to the image for processing (the default is 'test_images/input.jpg')
+		/// output_image - optional, the path where the image with detected objects will be saved (the default is 'test_images/output.jpg')
+		/// catalog - optional, the path to the '*.pbtxt' file (by default, 'mscoco_label_map.pbtxt' been loaded)
+		/// model - optional, the path to the '*.pb' file (by default, 'frozen_inference_graph.pb' model been used, but you can download any other from here 
+		/// https://github.com/tensorflow/models/blob/master/object_detection/g3doc/detection_model_zoo.md or train your own)
 		/// 
 		/// for instance, 
 		/// ExampleObjectDetection --input_image="/demo/input.jpg" --output_image="/demo/output.jpg" --catalog="/demo/mscoco_label_map.pbtxt" --model="/demo/frozen_inference_graph.pb"
@@ -51,20 +49,12 @@ namespace ExampleObjectDetection
 		{
 			options.Parse (args);
 
-			if(_input == null) {
-				throw new ArgumentException ("Missing required option --input_image=");
-			}
-
-			if (_output == null) {
-				throw new ArgumentException ("Missing required option --output_image=");
-			}
-
 			if (_catalogPath == null) {
-				throw new ArgumentException ("Missing required option --catalog=");
+				_catalogPath = DownloadDefaultTexts (_currentDir);
 			}
 
 			if (_modelPath == null) {
-				throw new ArgumentException ("Missing required option --model=");
+				_modelPath = DownloadDefaultModel (_currentDir);
 			}
 
 			_catalog = CatalogUtil.ReadCatalogItems (_catalogPath);
@@ -100,7 +90,47 @@ namespace ExampleObjectDetection
 				}
 			}
 		}
-		
+
+		private static string DownloadDefaultModel (string dir)
+		{
+			string defaultModelUrl = ConfigurationManager.AppSettings["DefaultModelUrl"] ?? throw new ConfigurationErrorsException("'DefaultModelUrl' setting is missing in the configuration file");
+
+			var modelFile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017/frozen_inference_graph.pb");
+			var zipfile = Path.Combine (dir, "faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017.tar.gz");
+
+			if (File.Exists (modelFile))
+				return modelFile;
+
+			if (!File.Exists (zipfile)) {
+				var wc = new WebClient ();
+				wc.DownloadFile (defaultModelUrl, zipfile);
+			}
+
+			ExtractToDirectory (zipfile, dir);
+			File.Delete (zipfile);
+
+			return modelFile;
+		}
+
+		private static void ExtractToDirectory (string file, string targetDir)
+		{
+			using (Stream inStream = File.OpenRead (file))
+			using (Stream gzipStream = new GZipInputStream (inStream)) {
+				TarArchive tarArchive = TarArchive.CreateInputTarArchive (gzipStream);
+				tarArchive.ExtractContents (targetDir);
+			}
+		}
+
+		private static string DownloadDefaultTexts (string dir)
+		{
+			string defaultTextsUrl = ConfigurationManager.AppSettings ["DefaultTextsUrl"] ?? throw new ConfigurationErrorsException ("'DefaultTextsUrl' setting is missing in the configuration file");
+			var textsFile = Path.Combine (dir, "mscoco_label_map.pbtxt");
+			var wc = new WebClient ();
+			wc.DownloadFile (defaultTextsUrl, textsFile);
+
+			return textsFile;
+		}
+
 		private static void DrawBoxes (float [,,] boxes, float [,] scores, float [,] classes, string inputFile, string outputFile, double minScore)
 		{
 			var x = boxes.GetLength (0);
@@ -117,18 +147,18 @@ namespace ExampleObjectDetection
 						for (int k = 0; k < z; k++) {
 							var box = boxes [i, j, k];
 							switch (k) {
-								case 0:
-									ymin = box;
-									break;
-								case 1:
-									xmin = box;
-									break;
-								case 2:
-									ymax = box;
-									break;
-								case 3:
-									xmax = box;
-									break;
+							case 0:
+								ymin = box;
+								break;
+							case 1:
+								xmin = box;
+								break;
+							case 2:
+								ymax = box;
+								break;
+							case 3:
+								xmax = box;
+								break;
 							}
 
 						}
