@@ -1,11 +1,9 @@
 language: csharp
 solution: TensorFlowSharp.sln
 script:
-  - wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-darwin-x86_64-1.3.0.tar.gz"
-  - tar xzvf libtensorflow-cpu-darwin-x86_64-1.3.0.tar.gz lib/libtensorflow.so
-  - mkdir -p native
-  - cp lib/libtensorflow.so native/libtensorflow.dylib
-  - cp lib/libtensorflow.so native/
+  - tsh_version=1.3.0
+  - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
+  - tar xzvf $tsh_version native
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln

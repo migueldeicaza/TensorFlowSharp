@@ -69,6 +69,7 @@ In addition to bringing the 1.3 API, this contains the following high-level APIs
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Queue.cs" />
     <Compile Include="Tensorflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Operations.g.cs" />
