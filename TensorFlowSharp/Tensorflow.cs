@@ -1005,10 +1005,10 @@ namespace TensorFlow
 					fixed (TFOutput* py = &y [0]) {
 						fixed (TFOutput* px = &x [0]) {
 							if (dx == null) {
-								TF_AddGradients (handle, py, y.Length, px, x.Length, (TFOutput*)null, status.Handle, pret);
+								TF_AddGradients (handle, py, y.Length, px, x.Length, (TFOutput*)null, cstatus.Handle, pret);
 							} else {
 								fixed (TFOutput* pdx = &dx [0]) {
-									TF_AddGradients (handle, py, y.Length, px, x.Length, pdx, status.Handle, pret);
+									TF_AddGradients (handle, py, y.Length, px, x.Length, pdx, cstatus.Handle, pret);
 								}
 							}
 						}
