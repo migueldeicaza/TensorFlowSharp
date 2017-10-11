@@ -10,7 +10,7 @@ namespace TensorFlowSharp.Tests.CSharp
 		{
 			using (var graph = new TFGraph ())
 			using (var session = new TFSession (graph)) {
-				var x = graph.Const (3);
+				var x = graph.Const (3.0);
 
 				var y1 = graph.Square (x, "Square1");
 				var y2 = graph.Square (y1, "Square2");
@@ -19,7 +19,7 @@ namespace TensorFlowSharp.Tests.CSharp
 				var g = graph.AddGradients (new TFOutput [] { y1, y3 }, new [] { x });
 
 				var r = session.Run (new TFOutput [] { }, new TFTensor [] { }, g);
-				int dy = (int)r [0].GetValue ();
+				var dy = (double)r [0].GetValue ();
 				Assert.Equal (17502.0, dy);
 			}
 		}
