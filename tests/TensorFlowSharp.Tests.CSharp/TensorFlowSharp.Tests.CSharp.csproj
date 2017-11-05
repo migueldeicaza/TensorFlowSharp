@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GradientTests.cs" />
     <Compile Include="ArrayTests.cs" />
     <Compile Include="TensorTests.cs" />
     <Compile Include="ClipTests.cs" />

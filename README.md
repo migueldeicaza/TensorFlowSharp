@@ -149,6 +149,8 @@ library as well as compile the tests and samples.
 
 ## Building your own native TensorFlow library
 
+You will wan to use Visual Studio 2017 or Visual Studio for Mac to build.
+
 To build the TensorFlow C library from source,
 [follow these instructions](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/go/README.md#building-the-tensorflow-c-library-from-source).
 
