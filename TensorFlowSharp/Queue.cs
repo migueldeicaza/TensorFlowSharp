@@ -25,6 +25,10 @@ namespace TensorFlow
 			Session = session ?? throw new ArgumentNullException (nameof (session));
 		}
 
+		/// <summary>
+		/// The session that this QueueBased was created for.
+		/// </summary>
+		/// <value>The session.</value>
 		protected TFSession Session { get; private set; }
 
 		/// <summary>

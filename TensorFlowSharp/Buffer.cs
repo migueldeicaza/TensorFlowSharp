@@ -74,6 +74,9 @@ namespace TensorFlow
 
 		internal TFBuffer (IntPtr handle) : base (handle) { }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFBuffer"/> class.
+		/// </summary>
 		unsafe public TFBuffer () : base ((IntPtr)TF_NewBuffer ())
 		{
 		}

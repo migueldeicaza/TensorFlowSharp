@@ -30,6 +30,7 @@ using TF_Tensor = System.IntPtr;
 using TF_ImportGraphDefOptions = System.IntPtr;
 using TF_Library = System.IntPtr;
 using TF_BufferPtr = System.IntPtr;
+using TF_Function = System.IntPtr;
 
 using size_t = System.UIntPtr;
 using System.Numerics;
@@ -517,6 +518,12 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_GraphGetTensorNumDims (TF_Graph graph, TFOutput output, TF_Status status);
 
+		/// <summary>
+		/// Returns the number of dimensions of the Tensor referenced by output
+		/// </summary>
+		/// <returns>The number of dimensions of the tensor.</returns>
+		/// <param name="output">The tensor to probe.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public int GetTensorNumDims (TFOutput output, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -1017,6 +1024,134 @@ namespace TensorFlow
 				return null;
 			return ret;
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_GraphCopyFunction (TF_Graph graph, TF_Function func, TF_Function grad, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_GraphToFunction (TF_Graph body, string fn_name, byte append_hash_to_fn_name,
+							 int num_opers, IntPtr opers,
+							 int ninputs, TFOutput [] inputs,
+							 int noutputs, TFOutput [] ouputs,
+							 string [] output_names,
+							 IntPtr options,
+							 string description,
+							 TF_Status status);
+
+		/// <summary>
+		/// Creates a TFFunction from a TFGraph
+		/// </summary>
+		/// <returns>The function.</returns>
+		/// <param name="functionName">Name of the new function.  Should match the operation name (OpDef.name) regexp [A-Z][A-Za-z0-9_.\\-/]*.  If appendHashToFunctioName is false, the name must be unique (at least those registered in graphs where this function will be used).</param>
+		/// <param name="description">Optional, human readable description of this function.</param>
+		/// <param name="operations">Array of operations to become the body of the function or null.  
+		///     If no array is given , all the
+		///     operations in function body will become part of the function
+		///     except operations referenced in inputs. These operations
+		///     must have a single output (these operations are typically
+		///     placeholders created for the sole purpose of representing
+		///     an input).
+		/// 
+		///     If an array is given, all operations
+		///     in it will become part of the function. In particular, no
+		///     automatic skipping of dummy input operations is performed.
+		/// </param>
+		/// <param name="inputs">Array that specify the inputs to the function, or null.  The names used for function inputs are normalized
+		///     names of the operations (usually placeholders) pointed to by
+		///     inputs.  These operation names should start with a letter.
+		///     Normalization will convert all letters to lowercase and
+		///     non-alphanumeric characters to '_' to make resulting names match
+		///     the "[a-z][a-z0-9_]*" pattern for operation argument names.
+		///     `inputs` cannot contain the same tensor twice.</param>
+		/// <param name="outputs">rray that specify the inputs to the function, or null.   This can contain the same tensor twice.</param>
+		/// <param name="outputNames">The names of the function's outputs.   The array either has the same elements of outputs, or be null.   Names must match "[a-z][a-z0-9_]*" regexp, if null is passed, the names are generated automatically.</param>
+		/// <param name="appendHashToFunctionName">If set to <c>true</c> appends hash to functionName, otherwise it will use the specified name in functionName.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// <para>
+		///   This method converts the graph whose operations (or a subset of its operations) will be converted
+		///   into a TFFunction.
+		/// </para>
+		/// <para>
+		///   Note that when the same TF_Output is listed as both an input and an output,
+		///   the corresponding function's output will equal to this input,
+		///   instead of the original node's output.
+		/// </para>
+		/// <para>
+		/// Callers must also satisfy the following constraints:
+		/// </para>
+		/// <para>
+		///   <paramref name="inputs"/> cannot refer to TFOutputs within a control flow context. For
+		///   example, one cannot use the output of "switch" node as input.
+		/// </para>
+		/// <para>
+		///   <paramref name="inputs"/> and <paramref name="outputs"/> cannot have reference types. Reference types are
+		///   not exposed through C API and are being replaced with Resources. We support
+		///   reference types inside function's body to support legacy code. Do not
+		///   use them in new code.
+		/// </para>
+		/// <para>
+		///   Every node in the function's body must have all of its inputs (including
+		///   control inputs). In other words, for every node in the body, each input
+		///   must be either listed in <paramref name="inputs"/> or must come from another node in
+		///   the body. In particular, it is an error to have a control edge going from
+		///   a node outside of the body into a node in the body. This applies to control
+		///   edges going from nodes referenced in <paramref name="inputs"/> to nodes in the body when
+		///   the former nodes are not in the body (automatically skipped or not
+		///   included in explicitly specified body).
+		/// </para>
+		/// </remarks>
+		public TFFunction ToFunction (string functionName,
+					      string description,
+					      TFOperation [] operations,
+					      TFOutput [] inputs,
+					      TFOutput [] outputs,
+					      string [] outputNames,
+					      bool appendHashToFunctionName = false,
+					      TFStatus status = null)
+		{
+			if (functionName == null)
+				throw new ArgumentNullException (nameof (functionName));
+			if (outputs == null) {
+				if (outputNames != null)
+					throw new ArgumentException ("outputs is null, but outputNames is not", nameof (outputNames));
+			} else {
+				if (outputNames != null && outputs.Length != outputNames.Length)
+					throw new ArgumentException ("the outputs and outputNames array are specified, but have different lenghts");
+			}
+			var cstatus = TFStatus.Setup (status);
+
+			unsafe {
+				IntPtr functionOptions = IntPtr.Zero;
+				IntPtr ops = IntPtr.Zero;
+				int nops;
+				if (operations == null) {
+					nops = 0;
+					ops = IntPtr.Zero;
+				} else {
+					nops = operations.Length;
+					ops = Marshal.AllocHGlobal (sizeof (IntPtr) * operations.Length);
+					for (int i = 0; i < nops; i++)
+						Marshal.WriteIntPtr (ops, i * sizeof (IntPtr), operations [i].handle);
+				}
+
+				var fnHandle = TF_GraphToFunction (handle, functionName, (byte) (appendHashToFunctionName ? 1 : 0),
+								   nops, ops,
+								   inputs == null ? 0 : inputs.Length, inputs,
+								   outputs == null ? 0 : outputs.Length, outputs,
+								   outputNames,
+								   functionOptions,
+								   description,
+								   cstatus.Handle);
+				if (ops != IntPtr.Zero)
+					Marshal.FreeHGlobal (ops);
+
+				if (!cstatus.CheckMaybeRaise (status, last: false))
+					return null;
+				return new TFFunction (fnHandle);
+			}
+		}
+		                              
 	}
 
 	//
@@ -1035,6 +1170,70 @@ namespace TensorFlow
 			// nothing, we do not own the handle
 		}
 	}
+
+	/// <summary>
+	/// A grouping of operations with defined inputs and outputs.
+	/// Once created and added to graphs, functions can be invoked by creating an
+	/// operation whose operation type matches the function name.
+	/// </summary>
+	public class TFFunction : TFDisposable {
+		internal TFFunction (IntPtr handle) : base (handle)
+		{
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_FunctionToFunctionDef (IntPtr func, IntPtr buffer, TF_Status status);
+
+		/// <summary>
+		/// Write out a serialized representation of the function as a FunctionDef protocol message to the provided <paramref name="outputFuncDef"/>
+		/// </summary>
+		/// <param name="outputFuncDef">An allocated buffer where the function will be serialized.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		public void ToFunctionDef (TFBuffer outputFuncDef, TFStatus status = null)
+		{
+			if (outputFuncDef == null)
+				throw new ArgumentNullException (nameof (outputFuncDef));
+			var cstatus = TFStatus.Setup (status);
+			TF_FunctionToFunctionDef (handle, outputFuncDef.Handle, cstatus.Handle);
+			cstatus.CheckMaybeRaise (status, last: false);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_DeleteFunction (IntPtr handle);
+
+		internal override void NativeDispose (TF_Status handle)
+		{
+			TF_DeleteFunction (handle);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_FunctionImportFunctionDef (byte* proto, IntPtr len, TF_Status status);
+
+		/// <summary>
+		/// Construct and return the function whose FunctionDef representation is
+		/// serialized in <paramref name="proto"/> proto
+		/// </summary>
+		/// <returns>The function definition, or null on failure.</returns>
+		/// <param name="proto">Array containing the serialized FunctionDef in a protocol buffer.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		public TFFunction ImportFunctionDef (byte [] proto, TFStatus status = null)
+		{
+			if (proto == null)
+				throw new ArgumentNullException (nameof (proto));
+
+			var cstatus = TFStatus.Setup (status);
+			unsafe {
+				IntPtr res;
+				fixed (byte* p = &proto [0]) {
+					res = TF_FunctionImportFunctionDef (p, (IntPtr) proto.Length, cstatus.Handle);
+					if (!cstatus.CheckMaybeRaise (status, last: false))
+						return null;
+				}
+				return new TFFunction (handle);
+			}
+		}
+	}
+
 
 	/// <summary>
 	/// TFGraph name scope handle
@@ -1115,6 +1314,11 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_SetDevice (TF_OperationDescription desc, string device);
 
+		/// <summary>
+		/// Specifies the device for the operation, if one is not provided, the operation is unconstrained.
+		/// </summary>
+		/// <returns>This instance, allows for chaining operation invocations.</returns>
+		/// <param name="device">The device to constraint to in this operation.</param>
 		public TFOperationDesc SetDevice (string device)
 		{
 			if (handle == IntPtr.Zero)
@@ -1530,11 +1734,11 @@ namespace TensorFlow
 	{
 		internal IntPtr handle;
 
-        /// <summary>
-        /// Gets the handle to the unmanaged TF_Operation object.
-        /// </summary>
-        /// <value>The handle.</value>
-        public IntPtr Handle => handle;
+	        /// <summary>
+	        /// Gets the handle to the unmanaged TF_Operation object.
+	        /// </summary>
+	        /// <value>The handle.</value>
+	        public IntPtr Handle => handle;
 
 		// Pointer to the graph, to keep it from collecting if there are TFOperations alive.
 		internal TFGraph graph;
@@ -2632,6 +2836,9 @@ namespace TensorFlow
 		/// <summary>
 		/// Variant data type
 		/// </summary>
+		Variant = 21,
+
+
 	}
 
 	/// <summary>
@@ -2639,29 +2846,168 @@ namespace TensorFlow
 	/// </summary>
 	public enum TFCode : uint
 	{
+		/// <summary>
+		/// Not an error; returned on success
+		/// </summary>
 		Ok = 0,
+		/// <summary>
+		/// The operation was cancelled (typically by the caller).
+		/// </summary>
 		Cancelled = 1,
+		/// <summary>
+		/// Unknown error.  An example of where this error may be returned is
+		/// if a Status value received from another address space belongs to
+		/// an error-space that is not known in this address space.  Also
+		/// errors raised by APIs that do not return enough error information
+		/// may be converted to this error.
+		/// </summary>
 		Unknown = 2,
+
+		/// <summary>
+		/// Client specified an invalid argument.  Note that this differs
+		/// from FailedPrecondition.  InvalidArgumentindicates arguments
+		/// that are problematic regardless of the state of the system
+		/// (e.g., a malformed file name).
+		/// </summary>
 		InvalidArgument = 3,
+
+		/// <summary>
+		/// Deadline expired before operation could complete.  For operations
+		/// that change the state of the system, this error may be returned
+		/// even if the operation has completed successfully.  For example, a
+		/// successful response from a server could have been delayed long
+		/// enough for the deadline to expire.
+		/// </summary>
 		DeadlineExceeded = 4,
+
+		/// <summary>
+		/// Some requested entity (e.g., file or directory) was not found.
+		/// For privacy reasons, this code may be returned when the client
+		/// does not have the access right to the entity.
+		/// </summary>
 		NotFound = 5,
+
+		/// <summary>
+		/// Some entity that we attempted to create (e.g., file or directory) already exists.
+		/// </summary>
 		AlreadyExists = 6,
+
+		/// <summary>
+		/// The caller does not have permission to execute the specified
+		// operation.  PermissionDenied must not be used for rejections
+		// caused by exhausting some resource (use ResourceExhausted
+		// instead for those errors).  PermissionDeniedmust not be
+		// used if the caller can not be identified (use Unauthenticated
+		// instead for those errors).
+		/// </summary>
 		PermissionDenied = 7,
+
+		/// <summary>
+		/// The request does not have valid authentication credentials for the
+		/// operation.
+		/// </summary>
 		Unauthenticated = 16,
+
+		/// <summary>
+		/// Some resource has been exhausted, perhaps a per-user quota, or
+		/// perhaps the entire file system is out of space.
+		/// </summary>
 		ResourceExhausted = 8,
+
+		/// <summary>
+		/// Operation was rejected because the system is not in a state
+		/// required for the operation's execution.  For example, directory
+		/// to be deleted may be non-empty, an rmdir operation is applied to
+		/// a non-directory, etc.
+		///
+		/// A litmus test that may help a service implementor in deciding
+		/// between FailedPrecondition, Aborted, and Unavailable:
+		/// 
+		///  (a) Use Unavailableif the client can retry just the failing call.
+		///  (b) Use Aborted if the client should retry at a higher-level
+		///      (e.g., restarting a read-modify-write sequence).
+		///  (c) Use FailedPrecondition if the client should not retry until
+		///      the system state has been explicitly fixed.  E.g., if an "rmdir"
+		///      fails because the directory is non-empty, FailedPrecondition
+		///      should be returned since the client should not retry unless
+		///      they have first fixed up the directory by deleting files from it.
+		///  (d) Use FailedPrecondition if the client performs conditional
+		///      REST Get/Update/Delete on a resource and the resource on the
+		///      server does not match the condition. E.g., conflicting
+		///      read-modify-write on the same resource.
+		/// </summary>
 		FailedPrecondition = 9,
+
+		/// <summary>
+		/// The operation was aborted, typically due to a concurrency issue
+		/// like sequencer check failures, transaction aborts, etc.
+		///
+		/// See litmus test above for deciding between FailedPrecondition,
+		/// Aborted and Unavailable
+		/// </summary>
 		Aborted = 10,
+
+		/// <summary>
+		/// Operation tried to iterate past the valid input range.  E.g., seeking or
+		// reading past end of file.
+		//
+		// Unlike InvalidArgument, this error indicates a problem that may
+		// be fixed if the system state changes. For example, a 32-bit file
+		// system will generate InvalidArgument if asked to read at an
+		// offset that is not in the range [0,2^32-1], but it will generate
+		// OutOfRange if asked to read from an offset past the current
+		// file size.
+		//
+		// There is a fair bit of overlap between FailedPrecondition and
+		// OutOfRange.  We recommend using OutOfRane (the more specific
+		// error) when it applies so that callers who are iterating through
+		// a space can easily look for an OutOfRange error to detect when
+		// they are done.
+		/// </summary>
 		OutOfRange = 11,
+
+		/// <summary>
+		/// Operation is not implemented or not supported/enabled in this service.
+		/// </summary>
 		Unimplemented = 12,
+
+		/// <summary>
+		/// Internal errors.  Means some invariants expected by underlying
+		/// system has been broken.  If you see one of these errors,
+		/// something is very broken.
+		/// </summary>
 		Internal = 13,
+
+		/// <summary>
+		/// The service is currently unavailable.  This is a most likely a
+		/// transient condition and may be corrected by retrying with
+  		/// a backoff.
+  		///
+  		/// See litmus test above for deciding between FailedPrecondition,
+  		/// Aborted, and Unavailable.
+		/// </summary>
 		Unavailable = 14,
+
+		/// <summary>
+		/// Unrecoverable data loss or corruption.
+		/// </summary>
 		DataLoss = 15
 	}
 
+	/// <summary>
+	/// Represents a specific input of an operation.
+	/// </summary>
 	[StructLayout (LayoutKind.Sequential)]
 	public struct TFInput
 	{
+		/// <summary>
+		/// The operation that this input is for
+		/// </summary>
 		public unsafe TF_Operation Operation;
+
+		/// <summary>
+		/// The index of the output within the Operation
+		/// </summary>
 		public int Index;
 
 		// extern TF_Output TF_OperationInput (TF_Input oper_in);
@@ -2700,6 +3046,10 @@ namespace TensorFlow
 	public struct TFOutput
 	{
 		unsafe TF_Operation LLOperation;
+
+		/// <summary>
+		/// The index of the output within the operation.
+		/// </summary>
 		public int Index;
 
 		// extern int TF_OperationOutputNumConsumers (TF_Output oper_out);
@@ -2741,7 +3091,7 @@ namespace TensorFlow
 		/// <summary>
 		/// Initializes a new TFOutput instance from another TFOutput
 		/// </summary>
-		/// <param name="operation">The other TFOutput that is having its operation attached.</param>
+		/// <param name="output">The other TFOutput that is having its operation attached.</param>
 		/// <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
 		public TFOutput (TFOutput output, int index = 0)
 		{
@@ -2781,6 +3131,11 @@ namespace TensorFlow
 		/// </summary>
 		/// <value>The operation.</value>
 		public TFOperation Operation => new TFOperation (null, LLOperation);
+
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFOutput"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFOutput"/>.</returns>
 		public override string ToString ()
 		{
 			return string.Format ("[{3} Index={1} Operation={2} (0x{0:X})]", (long) LLOperation, Index, Operation, OutputType);
@@ -2855,6 +3210,10 @@ namespace TensorFlow
 		public TFAttributeType Type;
 		public long TotalSize;
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFAttributeMetadata"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFAttributeMetadata"/>.</returns>
 		public override string ToString ()
 		{
 			return string.Format ($"[TFAttributeMetadata IsList={IsList} ListSize={ListSize} Type={Type} TotalSize={TotalSize}]");
@@ -2997,6 +3356,10 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFShape"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFShape"/>.</returns>
 		public override string ToString ()
 		{
 			if (dims == null)
