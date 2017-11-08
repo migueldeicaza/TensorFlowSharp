@@ -68,8 +68,8 @@ namespace Learn.Mnist
 
 				int p = 0;
 				for (int item = 0; item < batchSize; item++) {
-					Buffer.BlockCopy (source [start+item].DataFloat, 0, imageData, p, 784);
-					p += 784;
+					Buffer.BlockCopy (source [start+item].DataFloat, 0, imageData, p, 784 * sizeof (float));
+					p += 784 * sizeof (float);
 					for (var j = 0; j < 10; j++)
 						labelData [item, j] = oneHotLabels [item + start, j];
 				}
