@@ -31,6 +31,7 @@ using TF_ImportGraphDefOptions = System.IntPtr;
 using TF_Library = System.IntPtr;
 using TF_BufferPtr = System.IntPtr;
 using TF_Function = System.IntPtr;
+using TF_DeviceList = System.IntPtr;
 
 using size_t = System.UIntPtr;
 using System.Numerics;
@@ -190,6 +191,38 @@ namespace TensorFlow
 		internal static void ObjectDisposedException ()
 		{
 			throw new ObjectDisposedException ("The object was disposed");
+		}
+	}
+
+	internal class RaiseExceptionOnNotOkStatus: IDisposable
+	{
+		private readonly TFStatus status = null;
+
+		private RaiseExceptionOnNotOkStatus ()
+		{
+			status = new TFStatus();
+		}
+
+		public static RaiseExceptionOnNotOkStatus GetInstance()
+		{
+			return new RaiseExceptionOnNotOkStatus();
+		}
+
+		public TFStatus Status => status;
+
+		public void Dispose()
+		{
+			try
+			{
+				if (!status.Ok) {
+					// TODO: make 
+					throw new TFException (status.StatusMessage);
+				}
+			}
+			finally
+			{
+				status.Dispose();
+			}
 		}
 	}
 
@@ -1991,6 +2024,27 @@ namespace TensorFlow
 		}
 	}
 
+	public enum DeviceType
+	{
+		CPU, GPU, TPU
+	}
+
+	public class DeviceAttributes
+	{
+		public DeviceAttributes (string name, DeviceType deviceType, long memoryLimitBytes)
+		{
+			Name = name;
+			DeviceType = deviceType;
+			MemoryLimitBytes = memoryLimitBytes;
+		}
+		
+		public string Name { get; private set; }
+
+		public DeviceType DeviceType { get; private  set; }
+
+		public long MemoryLimitBytes { get; private  set; }
+	} 
+
 	/// <summary>
 	/// Contains options that are used to control how graph importing works.
 	/// </summary>
@@ -2177,6 +2231,35 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Lists available devices in this session.
+		/// </summary>
+		public IEnumerable<DeviceAttributes> ListDevices()
+		{
+			using (var raiseExceptionWrapper = RaiseExceptionOnNotOkStatus.GetInstance()) {
+				unsafe
+				{
+					var status = raiseExceptionWrapper.Status.Handle;
+					var rawDeviceList = TF_SessionListDevices (this.Handle, status);
+					var size = TF_DeviceListCount (rawDeviceList);
+
+					var list = new List<DeviceAttributes> ();
+					for (var i = 0; i < size; i++) {
+						var name = TF_DeviceListName (rawDeviceList, i, status);
+						var deviceType = (DeviceType) Enum.Parse (typeof(DeviceType), TF_DeviceListType (rawDeviceList, i, status)); 
+						var memory = TF_DeviceListMemoryBytes (rawDeviceList, i, status);
+
+						list.Add (new DeviceAttributes (name, deviceType, memory));
+					}
+
+					// TODO: Fix deleting.
+					// TF_DeleteDeviceList (rawDeviceList);
+
+					return list;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Creates a new execution session associated with the specified session graph.
 		/// </summary>
 		/// <param name="graph">The Graph to which this session is associated.</param>
@@ -2206,6 +2289,24 @@ namespace TensorFlow
 		// extern TF_Session * TF_LoadSessionFromSavedModel (const TF_SessionOptions *session_options, const TF_Buffer *run_options, const char *export_dir, const char *const *tags, int tags_len, TF_Graph *graph, TF_Buffer *meta_graph_def, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe TF_Session TF_LoadSessionFromSavedModel (TF_SessionOptions session_options, LLBuffer* run_options, string export_dir, string [] tags, int tags_len, TF_Graph graph, LLBuffer* meta_graph_def, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe TF_DeviceList TF_SessionListDevices (TF_Session session, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe int TF_DeviceListCount (TF_DeviceList list);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe string TF_DeviceListName (TF_DeviceList list, int index, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe string TF_DeviceListType (TF_DeviceList list, int index, TF_Status status);
+ 
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe long TF_DeviceListMemoryBytes (TF_DeviceList list, int index, TF_Status status);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_DeleteDeviceList (TF_DeviceList list);
 
 		/// <summary>
 		/// Creates a session and graph from a saved session model
