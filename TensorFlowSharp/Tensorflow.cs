@@ -203,7 +203,7 @@ namespace TensorFlow
 		/// <param name="message">Message.</param>
 		public TFException (string message) : base (message) { }
 
-		internal TFException MakeException (TFStatus status)
+		internal static TFException MakeException (TFStatus status)
 		{
 			switch (status.StatusCode) {
 				case TFCode.Cancelled:
