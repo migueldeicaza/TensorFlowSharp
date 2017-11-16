@@ -202,6 +202,206 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="message">Message.</param>
 		public TFException (string message) : base (message) { }
+
+		internal TFException MakeException (TFStatus status)
+		{
+			switch (status.StatusCode) {
+				case TFCode.Cancelled:
+					return new TFCancelledException(status.StatusMessage);
+				case TFCode.Unknown:
+					return new TFUnknownException (status.StatusMessage);
+				case TFCode.InvalidArgument:
+					return new TFInvalidArgumentException(status.StatusMessage);
+				case TFCode.DeadlineExceeded:
+					return new TFDeadlineExceededException(status.StatusMessage);
+				case TFCode.NotFound:
+					return new TFNotFoundException(status.StatusMessage);
+				case TFCode.AlreadyExists:
+					return new TFAlreadyExistsException(status.StatusMessage);
+				case TFCode.PermissionDenied:
+					return new TFPermissionDeniedException(status.StatusMessage);
+				case TFCode.Unauthenticated:
+					return new TFUnauthenticatedException(status.StatusMessage);
+				case TFCode.ResourceExhausted:
+					return new TFResourceExhaustedException(status.StatusMessage);
+				case TFCode.FailedPrecondition:
+					return new TFFailedPreconditionError(status.StatusMessage);
+				case TFCode.Aborted:
+					return new TFAbortedException(status.StatusMessage);
+				case TFCode.OutOfRange:
+					return new TFOutOfRangeException(status.StatusMessage);
+				case TFCode.Unimplemented:
+					return new TFUnimplementedException(status.StatusMessage);
+				case TFCode.Internal:
+					return new TFInternalException(status.StatusMessage);
+				case TFCode.Unavailable:
+					return new TFUnavailableException(status.StatusMessage);
+				case TFCode.DataLoss:
+					return new TFDataLossException(status.StatusMessage);
+				default:
+					return new TFException(status.StatusMessage);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Raised when an operation or step is cancelled.
+	/// </summary>
+	public class TFCancelledException : TFException
+	{
+		public TFCancelledException (string message) : base (message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Unknown error.
+	/// </summary>
+	public class TFUnknownException : TFException
+	{
+		public TFUnknownException (string message) : base (message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when an operation receives an invalid argument.
+	/// </summary>
+	public class TFInvalidArgumentException : TFException
+	{
+		public TFInvalidArgumentException (string message) : base (message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when a deadline expires before an operation could complete.
+	/// </summary>
+	public class TFDeadlineExceededException : TFException
+	{
+		public TFDeadlineExceededException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when a requested entity (e.g., a file or directory) was not found.
+	/// </summary>
+	public class TFNotFoundException : TFException
+	{
+		public TFNotFoundException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when an entity that we attempted to create already exists. 
+	/// </summary>
+	public class TFAlreadyExistsException : TFException
+	{
+		public TFAlreadyExistsException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when the caller does not have permission to run an operation.
+	/// </summary>
+	public class TFPermissionDeniedException : TFException
+	{
+		public TFPermissionDeniedException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// The request does not have valid authentication credentials.
+	/// </summary>
+	public class TFUnauthenticatedException : TFException
+	{
+		public TFUnauthenticatedException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Some resource has been exhausted.
+	/// </summary>
+	public class TFResourceExhaustedException : TFException
+	{
+		public TFResourceExhaustedException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Operation was rejected because the system is not in a state to execute it.
+	/// </summary>
+	public class TFFailedPreconditionError : TFException
+	{
+		public TFFailedPreconditionError(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// The operation was aborted, typically due to a concurrent action.
+	/// </summary>
+	public class TFAbortedException : TFException
+	{
+		public TFAbortedException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when an operation iterates past the valid input range.
+	/// </summary>
+	public class TFOutOfRangeException : TFException
+	{
+		public TFOutOfRangeException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when an operation has not been implemented.
+	/// </summary>
+	public class TFUnimplementedException : TFException
+	{
+		public TFUnimplementedException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when the system experiences an internal error.
+	/// </summary>
+	public class TFInternalException : TFException
+	{
+		public TFInternalException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when the runtime is currently unavailable.
+	/// </summary>
+	public class TFUnavailableException : TFException
+	{
+		public TFUnavailableException(string message) : base(message)
+		{
+		}
+	}
+
+	/// <summary>
+	/// Raised when unrecoverable data loss or corruption is encountered.
+	/// </summary>
+	public class TFDataLossException : TFException
+	{
+		public TFDataLossException(string message) : base(message)
+		{
+		}
 	}
 
 	/// <summary>
