@@ -108,6 +108,36 @@ namespace TensorFlow
 		}
 	}
 
+	internal class DefaultGraphStack
+	{
+		[ThreadStatic]
+		private static IList<TFGraph> stack;
+		private static object lockObj = new object();
+
+		internal TFGraph Instance => stack.Last();
+
+		internal static void SetGraph(TFGraph graph)
+		{
+			if (stack == null)
+			{
+				lock (lockObj)
+				{
+					if (stack == null)
+					{
+						stack = new List<TFGraph>();
+					}
+				}
+			}
+
+			stack.Add(graph);
+		}
+
+		internal static void RemoveGraph(TFGraph graph)
+		{
+			stack.Remove(graph);
+		}
+	}
+
 	/// <summary>
 	/// Base class for many TensorFlow data types that provides a common idiom to dispose and
 	/// release resources associated with the native data types.   Generally, you do not need to use this.
@@ -473,12 +503,13 @@ namespace TensorFlow
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFGraph"/> class.
 		/// </summary>
-		public TFGraph () : base (TF_NewGraph ())
+		public TFGraph () : this (TF_NewGraph ())
 		{
 		}
 
 		internal TFGraph (IntPtr handle) : base (handle)
 		{
+			DefaultGraphStack.SetGraph(this);
 		}
 
 		// extern void TF_DeleteGraph (TF_Graph *);
@@ -486,6 +517,7 @@ namespace TensorFlow
 		static extern unsafe void TF_DeleteGraph (TF_Graph graph);
 		internal override void NativeDispose (IntPtr handle)
 		{
+			DefaultGraphStack.RemoveGraph(this);
 			TF_DeleteGraph (handle);
 		}
 
