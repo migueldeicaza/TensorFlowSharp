@@ -114,7 +114,7 @@ namespace TensorFlow
 		private static IList<TFGraph> stack;
 		private static object lockObj = new object();
 
-		internal TFGraph Instance => stack.Last();
+		internal static TFGraph Instance => stack.Last();
 
 		internal static void SetGraph(TFGraph graph)
 		{
@@ -3171,6 +3171,50 @@ namespace TensorFlow
 		public override string ToString ()
 		{
 			return string.Format ("[{3} Index={1} Operation={2} (0x{0:X})]", (long) LLOperation, Index, Operation, OutputType);
+		}
+
+		/// <summary>
+		/// Plus operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator + (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Add (o1, o2);
+		}
+
+		/// <summary>
+		/// Multiplication operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator * (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Mul (o1, o2);
+		}
+
+		/// <summary>
+		/// Division operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator / (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Div (o1, o2);
+		}
+
+		/// <summary>
+		/// Subtraction operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator - (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Sub (o1, o2);
 		}
 	}
 
