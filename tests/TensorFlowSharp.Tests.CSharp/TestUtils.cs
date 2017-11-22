@@ -56,6 +56,8 @@ namespace TensorFlowSharp.Tests.CSharp
 				Assert.Equal ((double)expected, (double)actual, precision: precision);
 			} else if (expectedType == typeof (float)) {
 				Assert.Equal ((float)expected, (float)actual, precision: precision);
+			} else if (expectedType == typeof (int)) {
+				Assert.Equal ((int)expected, (int)actual);
 			} else {
 				Assert.True (Object.Equals (expected, actual));
 			}

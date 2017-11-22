@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="GradientTests.cs" />
     <Compile Include="ArrayTests.cs" />
+    <Compile Include="ShapeTests.cs" />
     <Compile Include="TensorTests.cs" />
     <Compile Include="ClipTests.cs" />
     <Compile Include="BitwiseOperationTests.cs" />

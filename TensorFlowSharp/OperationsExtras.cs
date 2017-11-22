@@ -64,6 +64,28 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Computes the product of elements across dimensions of a tensor.
+		/// </summary>
+		/// <returns>The reduced tensor.</returns>
+		/// <param name="input">The tensor to reduce. Should have numeric type.</param>
+		/// <param name="axis">The dimensions to reduce. If not se (the default), reduces all dimensions.</param>
+		/// <param name="keep_dims">If set to <c>true</c> retains reduced dimensions with length 1.</param>
+		/// <param name="operName">A name for the operation, optional.</param>
+		/// <remarks>
+		///   Reduces input_tensor along the dimensions given in axis.
+		/// Unless keep_dims is true, the rank of the tensor is reduced by 1 for each
+		/// entry in axis. If keep_dims is true, the reduced dimensions
+		/// are retained with length 1.
+		/// 
+		/// If axis has no entries, all dimensions are reduced, and a
+		/// tensor with a single element is returned.
+		/// </remarks>
+		public TFOutput ReduceProd (TFOutput input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
+		{
+			return Prod (input, this.ReduceDims (input, axis), keep_dims, operName);
+		}
+
+		/// <summary>
 		/// Computes the mean of elements across dimensions of a tensor.
 		/// </summary>
 		/// <returns>The reduced tensor.</returns>
@@ -88,6 +110,7 @@ namespace TensorFlow
 				input = this.Cast (input, TFDataType.Int8);
 			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
+
 
 		// Helper method to create a variable and track it.
 		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
