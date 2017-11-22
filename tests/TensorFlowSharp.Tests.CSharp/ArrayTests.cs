@@ -115,7 +115,45 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-        public static TFDataType TensorTypeFromType(Type type)
+
+		private static IEnumerable<object []> transposeData ()
+		{
+			yield return new object [] { new double [,] { { 1, 2 },
+														  { 3, 4 } }};
+			yield return new object [] { new double [,] { { 1, 2, 3 },
+														  { 4, 5, 6} }};
+			yield return new object [] { new double [,] { { 1 },
+														  { 3 } }};
+			yield return new object [] { new double [,] { { 1, 3 } }};
+		}
+
+		[Theory]
+		[MemberData (nameof (transposeData))]
+		public void Should_Transpose (double [,] x)
+		{
+			using (var graph = new TFGraph ())
+			using (var session = new TFSession (graph)) {
+				TFOutput a = graph.Placeholder (TFDataType.Double, new TFShape (2));
+
+				TFOutput r = graph.Transpose (a);
+
+				TFTensor [] result = session.Run (new [] { a }, new TFTensor [] { x }, new [] { r });
+
+				double [,] actual = (double [,])result [0].GetValue ();
+				double [,] expected = new double [x.GetLength (1), x.GetLength (0)];
+				for (int i = 0; i < expected.GetLength(0); i++) {
+					for (int j = 0; j < expected.GetLength(1); j++) {
+						expected [i, j] = x [j, i];
+					}
+				}
+
+				TestUtils.MatrixEqual (expected, actual, precision: 10);
+			}
+		}
+
+
+
+		public static TFDataType TensorTypeFromType(Type type)
         {
             if (type == typeof(float))
                 return TFDataType.Float;
