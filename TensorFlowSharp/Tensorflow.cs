@@ -784,6 +784,22 @@ namespace TensorFlow
 			return scope;
 		}
 
+		/// <summary>
+		/// Returns the current variable dependencies in use. New tensors and operations will be created
+		/// with an added input dependency to the operations specified in this property. To change this, 
+		/// use the WithDependencies method.
+		/// </summary>
+		/// <value>The current input dependencies to be used for new tensors and operations.</value>
+		public TFOperation [] CurrentDependencies { get; internal set; } = new TFOperation [0];
+
+		/// <summary>
+		/// Adds new dependencies for new tensors and operations created while the context is active.
+		/// </summary>
+		public TFDependencies WithDependencies (params TFOperation [] dependencies)
+		{
+			return new TFDependencies (this, dependencies);
+		}
+
 		Dictionary<string, int> values = new Dictionary<string, int> ();
 
 		internal string MakeName (string operName, string userName)
@@ -1225,7 +1241,7 @@ namespace TensorFlow
 			unsafe {
 				IntPtr res;
 				fixed (byte* p = &proto [0]) {
-					res = TF_FunctionImportFunctionDef (p, (IntPtr) proto.Length, cstatus.Handle);
+					res = TF_FunctionImportFunctionDef (p, (IntPtr)proto.Length, cstatus.Handle);
 					if (!cstatus.CheckMaybeRaise (status, last: false))
 						return null;
 				}
@@ -1234,6 +1250,41 @@ namespace TensorFlow
 		}
 	}
 
+	/// <summary>
+	/// TFGraph variable dependencies handle.
+	/// </summary>
+	/// <remarks>
+	/// Instances of this class, when disposed, restore <see cref="TFGraph.CurrentDependencies"/>
+	/// to the value it had before the <see cref="TFGraph.WithDependencies(TFOperation[])"/> method
+	/// was called.
+	/// </remarks>
+	/// <seealso cref="System.IDisposable" />
+	public class TFDependencies : IDisposable
+	{
+		TFGraph container;
+		TFOperation [] parentDependencies;
+		TFOperation [] dependencies;
+
+		internal TFDependencies (TFGraph container, TFOperation [] dependencies)
+		{
+			this.container = container;
+			this.parentDependencies = container.CurrentDependencies;
+			this.dependencies = dependencies;
+
+			container.CurrentDependencies = container.CurrentDependencies.Concat (dependencies).Distinct ().ToArray ();
+		}
+
+		/// <summary>
+		/// Pops the variable dependencies to the previous dependencies in use.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDependencies"/>
+		/// to restore the previous variable dependencies in use in the <see cref="T:TensorFlow.TFGraph"/>.
+		/// </remarks>
+		public void Dispose ()
+		{
+			container.CurrentDependencies = parentDependencies;
+		}
+	}
 
 	/// <summary>
 	/// TFGraph name scope handle
@@ -2789,6 +2840,9 @@ namespace TensorFlow
 		/// 64-bit signed integers (C# long)
 		/// </summary>
 		Int64 = 9,
+		/// <summary>
+		/// 8-bit boolean (C# bool)
+		/// </summary>
 		Bool = 10,
 		/// <summary>
 		/// Quantized 8-bit signed integer
@@ -2894,11 +2948,11 @@ namespace TensorFlow
 
 		/// <summary>
 		/// The caller does not have permission to execute the specified
-		// operation.  PermissionDenied must not be used for rejections
-		// caused by exhausting some resource (use ResourceExhausted
-		// instead for those errors).  PermissionDeniedmust not be
-		// used if the caller can not be identified (use Unauthenticated
-		// instead for those errors).
+		/// operation.  PermissionDenied must not be used for rejections
+		/// caused by exhausting some resource (use ResourceExhausted
+		/// instead for those errors).  PermissionDeniedmust not be
+		/// used if the caller can not be identified (use Unauthenticated
+		/// instead for those errors).
 		/// </summary>
 		PermissionDenied = 7,
 
@@ -2949,20 +3003,20 @@ namespace TensorFlow
 
 		/// <summary>
 		/// Operation tried to iterate past the valid input range.  E.g., seeking or
-		// reading past end of file.
-		//
-		// Unlike InvalidArgument, this error indicates a problem that may
-		// be fixed if the system state changes. For example, a 32-bit file
-		// system will generate InvalidArgument if asked to read at an
-		// offset that is not in the range [0,2^32-1], but it will generate
-		// OutOfRange if asked to read from an offset past the current
-		// file size.
-		//
-		// There is a fair bit of overlap between FailedPrecondition and
-		// OutOfRange.  We recommend using OutOfRane (the more specific
-		// error) when it applies so that callers who are iterating through
-		// a space can easily look for an OutOfRange error to detect when
-		// they are done.
+		/// reading past end of file.
+		///
+		/// Unlike InvalidArgument, this error indicates a problem that may
+		/// be fixed if the system state changes. For example, a 32-bit file
+		/// system will generate InvalidArgument if asked to read at an
+		/// offset that is not in the range [0,2^32-1], but it will generate
+		/// OutOfRange if asked to read from an offset past the current
+		/// file size.
+		///
+		/// There is a fair bit of overlap between FailedPrecondition and
+		/// OutOfRange.  We recommend using OutOfRane (the more specific
+		/// error) when it applies so that callers who are iterating through
+		/// a space can easily look for an OutOfRange error to detect when
+		/// they are done.
 		/// </summary>
 		OutOfRange = 11,
 
