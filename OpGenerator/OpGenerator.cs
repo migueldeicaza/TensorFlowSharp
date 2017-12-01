@@ -317,6 +317,10 @@ class OpGenerator
 				p ($"desc.AddInput ({ParamMap (arg.name)});");
 		}
 
+		pi ("foreach ( TFOperation control in CurrentDependencies )");
+		p ("desc.AddControlInput (control);");
+		pd ("");
+
 		// If we have attributes
 		if (required_attrs.Count > 0 || optional_attrs.Count > 0) {
 			foreach (var attr in required_attrs) {
