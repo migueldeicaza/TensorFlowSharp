@@ -568,6 +568,28 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		///   Shuffle dimensions of x according to a permutation.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Transpose'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
+		///     `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
+		/// </remarks>
+		public TFOutput Transpose (TFOutput x, string operName = null)
+		{
+			TFOutput rank = Rank (x);
+			TFOutput perm = Sub (Sub (rank, Const (1)), Range (Const (0), rank, Const (1)));
+
+			return Transpose (x: x, perm: perm, operName: operName);
+    }
+    
 		///   Returns <paramref name="true_fn"/> if the predicate <paramref name="pred"/> is <c>true</c> else <paramref name="false_fn"/>.
 		/// </summary>
 		/// <param name="pred">A scalar determining whether to return the result of true_fn or false_fn.</param>
