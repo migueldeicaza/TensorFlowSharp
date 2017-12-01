@@ -101,5 +101,84 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
+		private static IEnumerable<object []> reduceProdData ()
+		{
+			// Example from https://www.tensorflow.org/api_docs/python/tf/reduce_mean but adapted to return prod
+			var x = new double [,] { { 1, 1 },
+									 { 2, 2 } };
+
+			yield return new object [] { x, null, 4.0 };
+			yield return new object [] { x, 0, new double [] { 2, 2 } };
+			yield return new object [] { x, 1, new double [] { 1, 4 } };
+		}
+
+		[Theory]
+		[MemberData (nameof (reduceProdData))]
+		public void Should_ReduceProd (double [,] input, int? axis, object expected)
+		{
+			using (var graph = new TFGraph ())
+			using (var session = new TFSession (graph)) {
+				var tinput = graph.Placeholder (TFDataType.Double, new TFShape (2, 2));
+
+				TFTensor [] result;
+				if (axis != null) {
+					var taxis = graph.Const (axis.Value);
+					TFOutput y = graph.ReduceProd (tinput, taxis);
+					result = session.Run (new [] { tinput, taxis }, new TFTensor [] { input, axis }, new [] { y });
+
+					double [] actual = (double [])result [0].GetValue ();
+					TestUtils.MatrixEqual (expected, actual, precision: 8);
+				} else {
+					TFOutput y = graph.ReduceProd (tinput, axis: null);
+					result = session.Run (new [] { tinput }, new TFTensor [] { input }, new [] { y });
+
+					double actual = (double)result [0].GetValue ();
+					TestUtils.MatrixEqual (expected, actual, precision: 8);
+				}
+			}
+		}
+
+		private static IEnumerable<object []> reduceProdData2 ()
+		{
+			yield return new object [] { null, 170170.0 };
+			yield return new object [] { -3, new [] { 1.0 } };
+			yield return new object [] { -2, new [] { 22.0, 65.0, 119.0 } };
+			yield return new object [] { -1, new [] { 70.0, 2431.0 } };
+			yield return new object [] { 0, new [] { 22.0, 65.0, 119.0 } };
+			yield return new object [] { 1, new [] { 70.0, 2431.0 } };
+			yield return new object [] { 2, new [] { 1.0 } };
+			yield return new object [] { 3, new [] { 1.0 } };
+		}
+
+		[Theory]
+		[MemberData (nameof (reduceProdData2))]
+		public void Should_ReduceProd2 (int? axis, object expected)
+		{
+			using (var graph = new TFGraph ())
+			using (var session = new TFSession (graph)) {
+
+				double [,] test = {
+					{ 2,   5,  7 },
+					{ 11, 13, 17 },
+				};
+
+				var x = graph.Const (test);
+
+				if (axis == null || axis >= -2 && axis < 2) {
+					TFOutput y = graph.ReduceProd (x, axis: axis == null ? (TFOutput?)null : graph.Const(axis));
+
+					TFTensor [] result = session.Run (new TFOutput [] { }, new TFTensor [] { }, new [] { y });
+
+					object actual = result [0].GetValue ();
+					TestUtils.MatrixEqual (expected, actual, precision: 8);
+				} else {
+					Assert.Throws<TFException> (() => {
+						TFOutput y = graph.ReduceProd (x, axis: axis == null ? (TFOutput?)null : graph.Const (axis));
+						session.Run (new TFOutput [] { }, new TFTensor [] { }, new [] { y });
+					});
+				}
+			}
+		}
+
 	}
 }
