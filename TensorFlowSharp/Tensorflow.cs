@@ -3454,6 +3454,16 @@ namespace TensorFlow
 			Array.Copy (right.dims, 0, full, left.dims.Length, right.dims.Length);
 			return new TFShape (full);
 		}
+
+		/// <summary>
+		/// Performs an implicit conversion from <see cref="TFShape"/> to <see cref="TFTensor"/>.
+		/// </summary>
+		/// <param name="shape">The shape.</param>
+		/// <returns>The result of the conversion.</returns>
+		public static implicit operator TFTensor (TFShape shape)
+		{
+			return shape.AsTensor ();
+		}
 	}
 
 
