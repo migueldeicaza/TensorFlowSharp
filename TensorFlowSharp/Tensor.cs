@@ -1118,6 +1118,10 @@ namespace TensorFlow
 			}
 		}
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.</returns>
 		public override string ToString ()
 		{
 			var n = NumDims;
@@ -1133,14 +1137,6 @@ namespace TensorFlow
 			sb.Append ("]");
 			return sb.ToString ();
 		}
-
-
-
-
-
-
-
-
 
 		private static int [] getLength (Array array, bool deep = true, bool max = false)
 		{

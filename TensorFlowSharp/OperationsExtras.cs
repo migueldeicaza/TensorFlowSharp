@@ -64,6 +64,28 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Computes the product of elements across dimensions of a tensor.
+		/// </summary>
+		/// <returns>The reduced tensor.</returns>
+		/// <param name="input">The tensor to reduce. Should have numeric type.</param>
+		/// <param name="axis">The dimensions to reduce. If not se (the default), reduces all dimensions.</param>
+		/// <param name="keep_dims">If set to <c>true</c> retains reduced dimensions with length 1.</param>
+		/// <param name="operName">A name for the operation, optional.</param>
+		/// <remarks>
+		///   Reduces input_tensor along the dimensions given in axis.
+		/// Unless keep_dims is true, the rank of the tensor is reduced by 1 for each
+		/// entry in axis. If keep_dims is true, the reduced dimensions
+		/// are retained with length 1.
+		/// 
+		/// If axis has no entries, all dimensions are reduced, and a
+		/// tensor with a single element is returned.
+		/// </remarks>
+		public TFOutput ReduceProd (TFOutput input, TFOutput? axis = null, bool? keep_dims = false, string operName = null)
+		{
+			return Prod (input, this.ReduceDims (input, axis), keep_dims, operName);
+		}
+
+		/// <summary>
 		/// Computes the mean of elements across dimensions of a tensor.
 		/// </summary>
 		/// <returns>The reduced tensor.</returns>
@@ -88,6 +110,7 @@ namespace TensorFlow
 				input = this.Cast (input, TFDataType.Int8);
 			return this.Mean (input, this.ReduceDims (input, axis), keep_dims, operName);
 		}
+
 
 		// Helper method to create a variable and track it.
 		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
@@ -178,6 +201,8 @@ namespace TensorFlow
 		/// </remarks>
 		public TFOperation [] GetGlobalVariablesInitializer ()
 		{
+			if (pending_init_variables == null)
+				pending_init_variables = new List<TFOperation> ();
 			var res = pending_init_variables.ToArray ();
 			pending_init_variables.Clear ();
 			return res;
@@ -383,7 +408,7 @@ namespace TensorFlow
 		/// <remarks>
 		/// Given a tensor <paramref name="x"/>, this operation returns a tensor of the same type and shape
 		/// as <paramref name="x"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
-		/// Any values less than <paramref name="clib_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
+		/// Any values less than <paramref name="clip_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
 		/// <paramref name="clip_value_max"/> are set to <paramref name="clip_value_max"/>.
 		/// </remarks>
 		/// <param name="x">The tensor.</param>
@@ -543,6 +568,65 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		///   Shuffle dimensions of x according to a permutation.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Transpose'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
+		///     `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
+		/// </remarks>
+		public TFOutput Transpose (TFOutput x, string operName = null)
+		{
+			TFOutput rank = Rank (x);
+			TFOutput perm = Sub (Sub (rank, Const (1)), Range (Const (0), rank, Const (1)));
+
+			return Transpose (x: x, perm: perm, operName: operName);
+    }
+    
+		///   Returns <paramref name="true_fn"/> if the predicate <paramref name="pred"/> is <c>true</c> else <paramref name="false_fn"/>.
+		/// </summary>
+		/// <param name="pred">A scalar determining whether to return the result of true_fn or false_fn.</param>
+		/// <param name="true_fn">The callable to be performed if pred is true.</param>
+		/// <param name="false_fn">The callable to be performed if pred is false.</param>
+		/// <param name="operName">Optional name prefix for the returned tensors.</param>
+		/// <returns>TFOutput.</returns>
+		public TFOutput Cond (TFOutput pred, Func<TFOutput> true_fn, Func<TFOutput> false_fn, string operName = null)
+		{
+			using (WithScope (this.MakeName ("cond", operName))) {
+				// Add the Switch to the graph.
+				(TFOutput p_2, TFOutput p_1) = Switch (pred, pred);
+				TFOutput pivot_t = Identity (p_1, operName: "switch_t");
+				TFOutput pivot_f = Identity (p_2, operName: "switch_f");
+				pred = Identity (pred, operName: "pred_id");
+
+				TFOutput res_t;
+				TFOutput res_f;
+
+				// Build the graph for the true branch in a new context.
+				using (WithDependencies (pivot_t.Operation)) {
+					res_t = true_fn ();
+				}
+
+				// Build the graph for the false branch in a new context.
+				using (WithDependencies (pivot_f.Operation)) {
+					res_f = false_fn ();
+				}
+
+				// Add the final merge to the graph.
+				(TFOutput merges, TFOutput index) = Merge (new [] { res_f, res_t });
+
+				return merges;
+			}
+		}
+
+		/// <summary>
 		///   Return elements from x or y depending on condition.
 		/// </summary>
 		/// 
@@ -569,9 +653,9 @@ namespace TensorFlow
 		/// <remarks>
 		///  Packs the list of tensors in <paramref name="values"/> into a tensor with rank one higher than
 		///  each tensor in <paramref name="values"/>, by packing them along the <paramref name="axis"/> dimension.
-		///  Given a list of length <c>N</c> of tensors of shape </c>(A, B, C)</c>: if <c>axis == 0</c> then the 
-		///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1<c> then the <c>output<c>
-		///  tensor will have the shape <c>(A, N, B, C)<c>; etc.
+		///  Given a list of length <c>N</c> of tensors of shape <c>(A, B, C)</c>: if <c>axis == 0</c> then the 
+		///  <c>output</c> tensor will have the shape <c>(N, A, B, C)</c>; if <c>axis == 1</c> then the <c>output</c>
+		///  tensor will have the shape <c>(A, N, B, C)</c>; etc.
 		/// </remarks>
 		/// 
 		public TFOutput Stack (TFOutput [] values, int? axis = 0, string operName = "stack")
