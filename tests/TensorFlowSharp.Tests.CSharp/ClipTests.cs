@@ -6,7 +6,7 @@ namespace TensorFlowSharp.Tests.CSharp
 {
     public class ClipTests
     {
-        private static IEnumerable<object[]> clipByValueData()
+        public static IEnumerable<object[]> ClipByValueData()
         {
             yield return new object[]
             {
@@ -44,7 +44,7 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Theory]
-        [MemberData(nameof(clipByValueData))]
+        [MemberData(nameof(ClipByValueData))]
         public void Should_ClipByValue(double[,] m, double min, double max, double[,] expected)
         {
             using (var graph = new TFGraph())
@@ -68,7 +68,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 
-        private static IEnumerable<object[]> clipByNormData()
+        public static IEnumerable<object[]> ClipByNormData()
         {
             yield return new object[]
             {
@@ -136,7 +136,7 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Theory]
-        [MemberData(nameof(clipByNormData))]
+        [MemberData(nameof(ClipByNormData))]
         public void Should_ClipByNorm(double[,] m, double norm, int axis, double[,] expected)
         {
             using (var graph = new TFGraph())
@@ -171,7 +171,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 
-        private static IEnumerable<object[]> clipByAverageNormData()
+        public static IEnumerable<object[]> ClipByAverageNormData()
         {
             yield return new object[]
             {
@@ -239,7 +239,7 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Theory]
-        [MemberData(nameof(clipByAverageNormData))]
+        [MemberData(nameof(ClipByAverageNormData))]
         public void Should_ClipByAverageNorm(double[,] m, double norm, int axis, double[,] expected)
         {
             using (var graph = new TFGraph())

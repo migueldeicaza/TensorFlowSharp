@@ -7,7 +7,7 @@ namespace TensorFlowSharp.Tests.CSharp
 {
 	public class TensorTests
 	{
-		private static IEnumerable<object []> jaggedData ()
+		public static IEnumerable<object []> JaggedData ()
 		{
 			yield return new object [] {
 				new double [][] { new [] { 1.0, 2.0 }, new [] { 3.0, 4.0 } },
@@ -36,7 +36,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 		[Theory]
-		[MemberData (nameof (jaggedData))]
+		[MemberData (nameof (JaggedData))]
 		public void Should_MultidimensionalAndJaggedBeEqual (Array jagged, Array multidimensional, bool expected)
 		{
 			using (var graph = new TFGraph ())
@@ -51,7 +51,7 @@ namespace TensorFlowSharp.Tests.CSharp
 				else if (multidimensional.Rank == 3)
 					r = graph.All (y, graph.Const (new [] { 0, 1, 2 }));
 				else
-					throw new System.Exception ("If you want to test Ranks > 3 please handle this extra case manually.");
+					throw new Exception ("If you want to test Ranks > 3 please handle this extra case manually.");
 
 				TFTensor [] result = session.Run (new TFOutput [] { }, new TFTensor [] { }, new [] { r });
 
