@@ -18,18 +18,8 @@
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj" />
   </ItemGroup>
 
-<Target Name="_GenerateRestoreProjectPathWalk" DependsOnTargets="_GenerateRestoreProjectPathItems;_GetRestoreTargetFrameworksAsItems" Returns="@(_RestoreProjectPathItems)" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <!-- Walk project references  -->
-    <MSBuild Projects="@(_CurrentRestoreProjectPathItems)" Targets="_GenerateRestoreProjectPathWalk" ContinueOnError="$(RestoreContinueOnError)" Properties="TargetFramework=%(_RestoreTargetFrameworkItems.Identity);                   %(_MSBuildProjectReferenceExistent.SetConfiguration);                   %(_MSBuildProjectReferenceExistent.SetPlatform);                   $(_GenerateRestoreGraphProjectEntryInputProperties)" RemoveProperties="%(_MSBuildProjectReferenceExistent.GlobalPropertiesToRemove)">
-      <Output TaskParameter="TargetOutputs" ItemName="_GenerateRestoreProjectPathWalkOutputs" />
-    </MSBuild>
-    <!-- Include the current project in the result -->
-    <ItemGroup>
-      <_GenerateRestoreProjectPathWalkOutputs Include="$(MSBuildProjectFullPath)" />
-    </ItemGroup>
-    <!-- Remove duplicates -->
-    <RemoveDuplicates Inputs="@(_GenerateRestoreProjectPathWalkOutputs)">
-      <Output TaskParameter="Filtered" ItemName="_RestoreProjectPathItems" />
-    </RemoveDuplicates>
-  </Target>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.2.3" />
+  </ItemGroup>
+
 </Project>
