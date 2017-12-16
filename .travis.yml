@@ -4,6 +4,7 @@ script:
   - tsh_version=1.4.0-pre1
   - tests_output_path=$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netstandard2.0
   - cstests_output_path=$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netstandard2.0
+
   - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
   - tar xzvf $tsh_version native
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
@@ -11,8 +12,8 @@ script:
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $tests_output_path
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $cstests_output_path
-  - dotnet test "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj" -c Release
-  - dotnet test "tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj" -c Release
+  - cd tests\TensorFlowSharp.Tests.CSharp
+  - dotnet xunit -c Release
 mono: "5.4.1"
 dotnet: "2.0.0"
 os: "osx"
