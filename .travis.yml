@@ -10,9 +10,12 @@ script:
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
+
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $tests_output_path
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $cstests_output_path
-  - cd tests\TensorFlowSharp.Tests.CSharp
+  - cd $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp
+  - dotnet xunit -c Release
+  - cd $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests
   - dotnet xunit -c Release
 mono: "5.4.1"
 dotnet: "2.0.0"
