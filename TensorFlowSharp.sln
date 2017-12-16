@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{674EC1D7-9649-462E-A7A8-93D0DE84FE64}"
 EndProject
@@ -17,21 +17,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleInceptionInference",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleObjectDetection", "Examples\ExampleObjectDetection\ExampleObjectDetection.csproj", "{8A72AF3C-1BD9-4405-A679-93C8603FE114}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ImageCompression", "Examples\ImageCompression\ImageCompression.fsproj", "{A38FC9E4-A3FC-4DCB-B236-D3FE9EB423B4}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "ImageCompression", "Examples\ImageCompression\ImageCompression.fsproj", "{A38FC9E4-A3FC-4DCB-B236-D3FE9EB423B4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FExampleInceptionInference", "Examples\FExampleInceptionInference\FExampleInceptionInference.fsproj", "{096EEBB3-2C72-4DDB-B300-3442E7530794}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FExampleInceptionInference", "Examples\FExampleInceptionInference\FExampleInceptionInference.fsproj", "{096EEBB3-2C72-4DDB-B300-3442E7530794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn", "Learn\Learn.csproj", "{5AB14430-5039-4A82-8109-5C7289843012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Learn", "Learn\Learn.csproj", "{5AB14430-5039-4A82-8109-5C7289843012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpGenerator", "OpGenerator\OpGenerator.csproj", "{E735AF0D-7CAB-4840-9325-9CC371980DBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpGenerator", "OpGenerator\OpGenerator.csproj", "{E735AF0D-7CAB-4840-9325-9CC371980DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTest", "SampleTest\SampleTest.csproj", "{908853D0-F9D6-4157-AFFE-46A28A82EF19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleTest", "SampleTest\SampleTest.csproj", "{908853D0-F9D6-4157-AFFE-46A28A82EF19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp", "TensorFlowSharp\TensorFlowSharp.csproj", "{5782A1E3-00C3-4908-A7C4-1E7F6E94E744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TensorFlowSharp", "TensorFlowSharp\TensorFlowSharp.csproj", "{5782A1E3-00C3-4908-A7C4-1E7F6E94E744}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TensorFlowSharp.Tests", "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj", "{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp.Tests.CSharp", "tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj", "{2B6ED628-F36E-4A58-9C19-FC3467459A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TensorFlowSharp.Tests.CSharp", "tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj", "{FAFB9DA3-1257-4022-A285-AF2091329A47}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TensorFlowSharp.Tests", "tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj", "{64D35D3A-2228-4A7E-9134-16885D164BF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,14 +75,14 @@ Global
 		{5782A1E3-00C3-4908-A7C4-1E7F6E94E744}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5782A1E3-00C3-4908-A7C4-1E7F6E94E744}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5782A1E3-00C3-4908-A7C4-1E7F6E94E744}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAFB9DA3-1257-4022-A285-AF2091329A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAFB9DA3-1257-4022-A285-AF2091329A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAFB9DA3-1257-4022-A285-AF2091329A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAFB9DA3-1257-4022-A285-AF2091329A47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B6ED628-F36E-4A58-9C19-FC3467459A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6ED628-F36E-4A58-9C19-FC3467459A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6ED628-F36E-4A58-9C19-FC3467459A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6ED628-F36E-4A58-9C19-FC3467459A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64D35D3A-2228-4A7E-9134-16885D164BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D35D3A-2228-4A7E-9134-16885D164BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D35D3A-2228-4A7E-9134-16885D164BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D35D3A-2228-4A7E-9134-16885D164BF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,8 +93,8 @@ Global
 		{8A72AF3C-1BD9-4405-A679-93C8603FE114} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
 		{A38FC9E4-A3FC-4DCB-B236-D3FE9EB423B4} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
 		{096EEBB3-2C72-4DDB-B300-3442E7530794} = {674EC1D7-9649-462E-A7A8-93D0DE84FE64}
-		{3A10F7D2-8468-4E65-A8AB-D5E3AA33577B} = {6E72CAD1-7962-4256-AF2A-3B813FFC88EA}
-		{FAFB9DA3-1257-4022-A285-AF2091329A47} = {6E72CAD1-7962-4256-AF2A-3B813FFC88EA}
+		{2B6ED628-F36E-4A58-9C19-FC3467459A5B} = {6E72CAD1-7962-4256-AF2A-3B813FFC88EA}
+		{64D35D3A-2228-4A7E-9134-16885D164BF5} = {6E72CAD1-7962-4256-AF2A-3B813FFC88EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B7031D-FE57-405F-BC61-1C14F2D3DA61}
