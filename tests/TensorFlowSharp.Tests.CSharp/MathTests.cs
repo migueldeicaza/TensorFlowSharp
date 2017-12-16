@@ -29,7 +29,7 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
-		private static IEnumerable<object []> reduceMeanData ()
+		public static IEnumerable<object []> ReduceMeanData ()
 		{
 			// Example from https://www.tensorflow.org/api_docs/python/tf/reduce_mean
 			// # 'x' is [[1., 1.]
@@ -47,7 +47,7 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Theory]
-		[MemberData (nameof (reduceMeanData))]
+		[MemberData (nameof (ReduceMeanData))]
 		public void Should_ReduceMean (double [,] input, int? axis, object expected)
 		{
 			using (var graph = new TFGraph ())
@@ -72,7 +72,7 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
-		private static IEnumerable<object []> sigmoidCrossEntropyData ()
+		public static IEnumerable<object []> SigmoidCrossEntropyData ()
 		{
 			yield return new object [] { new [] { 1.0, 0.0, 1.0, 1.0 }, new [] { 1.0, 0.0, 1.0, 1.0 }, new [] { 0.31326168751822281, 0.69314718055994529, 0.31326168751822281, 0.31326168751822281 } };
 			yield return new object [] { new [] { 1.0, 0.0, 1.0, 1.0 }, new [] { -0.2, 4.2, 0.0, 0.0 }, new [] { 0.79813886938159184, 4.2148842546719187, 0.69314718055994529, 0.69314718055994529 } };
@@ -80,7 +80,7 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Theory]
-		[MemberData (nameof (sigmoidCrossEntropyData))]
+		[MemberData (nameof (SigmoidCrossEntropyData))]
 		public void Should_SigmoidCrossEntropyWithLogits (double [] labels, double [] logits, double [] expected) 
 		{
 			using (var graph = new TFGraph ())
@@ -101,7 +101,7 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
-		private static IEnumerable<object []> reduceProdData ()
+		public static IEnumerable<object []> ReduceProdData ()
 		{
 			// Example from https://www.tensorflow.org/api_docs/python/tf/reduce_mean but adapted to return prod
 			var x = new double [,] { { 1, 1 },
@@ -113,7 +113,7 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Theory]
-		[MemberData (nameof (reduceProdData))]
+		[MemberData (nameof (ReduceProdData))]
 		public void Should_ReduceProd (double [,] input, int? axis, object expected)
 		{
 			using (var graph = new TFGraph ())
@@ -138,7 +138,7 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
-		private static IEnumerable<object []> reduceProdData2 ()
+		public static IEnumerable<object []> ReduceProdData2 ()
 		{
 			yield return new object [] { null, 170170.0 };
 			yield return new object [] { -3, new [] { 1.0 } };
@@ -151,7 +151,7 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Theory]
-		[MemberData (nameof (reduceProdData2))]
+		[MemberData (nameof (ReduceProdData2))]
 		public void Should_ReduceProd2 (int? axis, object expected)
 		{
 			using (var graph = new TFGraph ())

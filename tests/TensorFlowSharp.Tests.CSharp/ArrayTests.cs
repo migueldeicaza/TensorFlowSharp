@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using TensorFlow;
@@ -10,7 +9,7 @@ namespace TensorFlowSharp.Tests.CSharp
     public class ArrayTests
     {
 
-        private static IEnumerable<object[]> stackData()
+        public static IEnumerable<object[]> StackData()
         {
             // Example from https://www.tensorflow.org/api_docs/python/tf/stack
 
@@ -34,7 +33,7 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Theory]
-        [MemberData(nameof(stackData))]
+        [MemberData(nameof(StackData))]
         public void Should_Stack(double[] x, double[] y, double[] z, int? axis, double[,] expected)
         {
             using (var graph = new TFGraph())
@@ -57,7 +56,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 
-        private static IEnumerable<object[]> rangeData()
+        public static IEnumerable<object[]> RangeData()
         {
             double[] x = { 1, 4 };
             double[] y = { 2, 5 };
@@ -84,7 +83,7 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Theory]
-        [MemberData(nameof(rangeData))]
+        [MemberData(nameof(RangeData))]
         public void Should_Range(object start, object limit, object delta, object expected)
         {
             // Examples from https://www.tensorflow.org/api_docs/python/tf/range
@@ -116,44 +115,44 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
 
-		private static IEnumerable<object []> transposeData ()
-		{
-			yield return new object [] { new double [,] { { 1, 2 },
-														  { 3, 4 } }};
-			yield return new object [] { new double [,] { { 1, 2, 3 },
-														  { 4, 5, 6} }};
-			yield return new object [] { new double [,] { { 1 },
-														  { 3 } }};
-			yield return new object [] { new double [,] { { 1, 3 } }};
-		}
+        public static IEnumerable<object []> TransposeData ()
+        {
+            yield return new object [] { new double [,] { { 1, 2 },
+                                                          { 3, 4 } }};
+            yield return new object [] { new double [,] { { 1, 2, 3 },
+                                                          { 4, 5, 6} }};
+            yield return new object [] { new double [,] { { 1 },
+                                                          { 3 } }};
+            yield return new object [] { new double [,] { { 1, 3 } }};
+        }
 
-		[Theory]
-		[MemberData (nameof (transposeData))]
-		public void Should_Transpose (double [,] x)
-		{
-			using (var graph = new TFGraph ())
-			using (var session = new TFSession (graph)) {
-				TFOutput a = graph.Placeholder (TFDataType.Double, new TFShape (2));
+        [Theory]
+        [MemberData (nameof (TransposeData))]
+        public void Should_Transpose (double [,] x)
+        {
+            using (var graph = new TFGraph ())
+            using (var session = new TFSession (graph)) {
+                TFOutput a = graph.Placeholder (TFDataType.Double, new TFShape (2));
 
-				TFOutput r = graph.Transpose (a);
+                TFOutput r = graph.Transpose (a);
 
-				TFTensor [] result = session.Run (new [] { a }, new TFTensor [] { x }, new [] { r });
+                TFTensor [] result = session.Run (new [] { a }, new TFTensor [] { x }, new [] { r });
 
-				double [,] actual = (double [,])result [0].GetValue ();
-				double [,] expected = new double [x.GetLength (1), x.GetLength (0)];
-				for (int i = 0; i < expected.GetLength(0); i++) {
-					for (int j = 0; j < expected.GetLength(1); j++) {
-						expected [i, j] = x [j, i];
-					}
-				}
+                double [,] actual = (double [,])result [0].GetValue ();
+                double [,] expected = new double [x.GetLength (1), x.GetLength (0)];
+                for (int i = 0; i < expected.GetLength(0); i++) {
+                    for (int j = 0; j < expected.GetLength(1); j++) {
+                        expected [i, j] = x [j, i];
+                    }
+                }
 
-				TestUtils.MatrixEqual (expected, actual, precision: 10);
-			}
-		}
+                TestUtils.MatrixEqual (expected, actual, precision: 10);
+            }
+        }
 
 
 
-		public static TFDataType TensorTypeFromType(Type type)
+        public static TFDataType TensorTypeFromType(Type type)
         {
             if (type == typeof(float))
                 return TFDataType.Float;
