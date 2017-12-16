@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Miguel de Icaza</Authors>
+    <PackageReleaseNotes>Adds support for TensorFlor 1.4		
+  		  
+ -This brings support for the TensorFlow 1.4 API.</PackageReleaseNotes>
+    <Product>.NET API for TensorFlow, Google's Machine Intelligence framework</Product>
+    <Description>.NET Bindings for TensorFlow</Description>
+    <PackageTags>machine-learning, tensorflow, xamarin, c#, f#</PackageTags>
+    <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
+    <Version>1.4.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
