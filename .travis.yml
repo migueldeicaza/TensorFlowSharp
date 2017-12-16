@@ -9,12 +9,12 @@ script:
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
 
-  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netstandard2.0/
-  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netstandard2.0/
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netcoreapp2.0/
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netcoreapp2.0/
   - cd $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp
   - dotnet xunit -c Release
   - cd $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests
   - dotnet xunit -c Release
 mono: "5.4.1"
-dotnet: "2.0.0"
+dotnet: "2.0.3"
 os: "osx"
