@@ -25,6 +25,17 @@ This brings support for the TensorFlow 1.4 API.</PackageReleaseNotes>
     <Content Include="TensorFlowSharp.targets">
       <PackagePath>build\TensorFlowSharp.targets</PackagePath>
     </Content>
+    <Content Include="..\native\android\armeabi-v7a\*.*" Exclude="..\native\android\armeabi-v7a\.gitkeep">
+      <Kind>None</Kind>
+      <PackagePath>native\android\armeabi-v7a\%(Filename)%(Extension)</PackagePath>
+    </Content>
+    <Content Include="..\native\android\arm64-v8a\*.*" Exclude="..\native\android\arm64-v8a\.gitkeep">
+      <Kind>None</Kind>
+      <PackagePath>native\android\arm64-v8a\%(Filename)%(Extension)</PackagePath>
+    </Content>
+    <Content Include="Android.targets">
+      <PackagePath>build\MonoAndroid10\TensorFlowSharp.targets</PackagePath>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
