@@ -30,6 +30,8 @@ To build the TensorFlow C library from source,
 This includes checking out the Tensorflow sources, installing Bazel, 
 and building the core.
 
+### For PC
+
 Once you do that, you will need to build the shared library.
 First, in the tensorflow directory, run:
 
@@ -67,6 +69,54 @@ On MacOS:
 
 ```bash
 sudo cp bazel-bin/tensorflow/libtensorflow.so /usr/local/lib/libtensorflow.dylib
+```
+
+### For Mobile
+
+*Notice*: If you build TensorFlow r1.4, we recommend that use Bazel 0.81 and Android NDK r14b.
+
+To export C-api from `libtensorflow_inferernce.so` on Android, you should edit `./tensorflow/contrib/android/jni/version_script.lds`.
+
+```diff
+VERS_1.0 {
+  # Export JNI symbols.
+  global:
+    Java_*;
+    JNI_OnLoad;
+    JNI_OnUnload;
++   *TF_*;
++   *TFE_*;
+  # Hide everything else.
+  local:
+    *;
+};
+```
+
+If you want that make `libtensorflow_inferernce.so` smaller, remove three-lines (`Java_*, JNI_, ...`).
+
+For Android armeabi-v7a:
+
+Run:
+
+```
+CC_OPT_FLAGS="-march=armv7-a -std=c++11" ./configure
+```
+
+and answer the various prompts about your build.
+
+Once configured, run:
+
+```
+bazel build -c opt //tensorflow/contrib/android:libtensorflow_inference.so --crosstooltop=//external:android/crosstool --host_crosstool_top=@‍bazel_tools/cpp:toolchain --cpu=armeabi-v7a
+```
+
+For Android arm64-v8a:
+
+Run:
+
+```
+CC_OPT_FLAGS="-std=c++11" ./configure
+bazel build --config=android_arm64 //tensorflow/contrib/android:libtensorflow_inference.so --crosstooltop=//external:android/crosstool --host_crosstool_top=@‍bazel_tools/cpp:toolchain --cpu=arm64_v8a
 ```
 
 ## Running the test
