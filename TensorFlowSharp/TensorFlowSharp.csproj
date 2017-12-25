@@ -10,7 +10,7 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlor 1.4
+    <PackageReleaseNotes>Adds support for TensorFlow 1.4
 
 This brings support for the TensorFlow 1.4 API.</PackageReleaseNotes>
   </PropertyGroup>
