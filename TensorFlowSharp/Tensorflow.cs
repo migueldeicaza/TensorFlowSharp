@@ -194,38 +194,6 @@ namespace TensorFlow
 		}
 	}
 
-	internal class RaiseExceptionOnNotOkStatus: IDisposable
-	{
-		private readonly TFStatus status = null;
-
-		private RaiseExceptionOnNotOkStatus ()
-		{
-			status = new TFStatus();
-		}
-
-		public static RaiseExceptionOnNotOkStatus GetInstance()
-		{
-			return new RaiseExceptionOnNotOkStatus();
-		}
-
-		public TFStatus Status => status;
-
-		public void Dispose()
-		{
-			try
-			{
-				if (!status.Ok) {
-					// TODO: make 
-					throw new TFException (status.StatusMessage);
-				}
-			}
-			finally
-			{
-				status.Dispose();
-			}
-		}
-	}
-
 	/// <summary>
 	/// TensorFlow Exception
 	/// </summary>
@@ -2231,35 +2199,6 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Lists available devices in this session.
-		/// </summary>
-		public IEnumerable<DeviceAttributes> ListDevices()
-		{
-			using (var raiseExceptionWrapper = RaiseExceptionOnNotOkStatus.GetInstance()) {
-				unsafe
-				{
-					var status = raiseExceptionWrapper.Status.Handle;
-					var rawDeviceList = TF_SessionListDevices (this.Handle, status);
-					var size = TF_DeviceListCount (rawDeviceList);
-
-					var list = new List<DeviceAttributes> ();
-					for (var i = 0; i < size; i++) {
-						var name = TF_DeviceListName (rawDeviceList, i, status);
-						var deviceType = (DeviceType) Enum.Parse (typeof(DeviceType), TF_DeviceListType (rawDeviceList, i, status)); 
-						var memory = TF_DeviceListMemoryBytes (rawDeviceList, i, status);
-
-						list.Add (new DeviceAttributes (name, deviceType, memory));
-					}
-
-					// TODO: Fix deleting.
-					// TF_DeleteDeviceList (rawDeviceList);
-
-					return list;
-				}
-			}
-		}
-
-		/// <summary>
 		/// Creates a new execution session associated with the specified session graph.
 		/// </summary>
 		/// <param name="graph">The Graph to which this session is associated.</param>
@@ -2307,6 +2246,30 @@ namespace TensorFlow
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteDeviceList (TF_DeviceList list);
+
+		/// <summary>
+		/// Lists available devices in this session.
+		/// </summary>
+		public IEnumerable<DeviceAttributes> ListDevices(TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+			var rawDeviceList = TF_SessionListDevices (this.Handle, cstatus.handle);
+			var size = TF_DeviceListCount (rawDeviceList);
+
+			var list = new List<DeviceAttributes> ();
+			for (var i = 0; i < size; i++) {
+				var name = TF_DeviceListName (rawDeviceList, i, cstatus.handle);
+				var deviceType = (DeviceType) Enum.Parse (typeof(DeviceType), TF_DeviceListType (rawDeviceList, i, cstatus.handle)); 
+				var memory = TF_DeviceListMemoryBytes (rawDeviceList, i, cstatus.handle);
+
+				list.Add (new DeviceAttributes (name, deviceType, memory));
+			}
+
+			// TODO: Fix deleting.
+			// TF_DeleteDeviceList (rawDeviceList);
+
+			return list;
+		}
 
 		/// <summary>
 		/// Creates a session and graph from a saved session model
