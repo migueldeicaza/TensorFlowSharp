@@ -1,17 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0264C321-34F4-46AF-819E-168D1E597232}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>TensorFlowSharp</RootNamespace>
-    <AssemblyName>TensorFlowSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ReleaseVersion>0.2</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.4.0</PackageVersion>
+    <PackageVersion>1.4.1-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -19,69 +18,34 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlor 1.4
+    <PackageReleaseNotes>Experimental build with .NET Standard packages.</PackageReleaseNotes>
+  </PropertyGroup>
 
-This brings support for the TensorFlow 1.4 API.</PackageReleaseNotes>
+  <PropertyGroup>
+    <IsOSX Condition="Exists('/Library/Frameworks') and Exists ('/etc')">true</IsOSX>
+    <IsLinux Condition="Exists ('/proc') and Exists ('/etc/')">true</IsLinux>
   </PropertyGroup>
+  
   <ItemGroup>
-    <_NativeFiles Include="..\native\*.*">
-      <InProject>false</InProject>
-    </_NativeFiles>
-    <PackageFile Include="@(_NativeFiles)">
-      <Kind>None</Kind>
-      <PackagePath>native\%(Filename)%(Extension)</PackagePath>
-    </PackageFile>
-    <PackageFile Include="TensorFlowSharp.targets">
-      <PackagePath>build\TensorFlowSharp.targets</PackagePath>
-    </PackageFile>
+    <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow.so" Condition="'$(IsLinux)' == 'true'">
+      <Link>libtensorflow.so</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow_framework.so" Condition="'$(IsLinux)' == 'true'">
+      <Link>libtensorflow_framework.so</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow.dylib" Condition="'$(IsOSX)' == 'true'">
+      <Link>libtensorflow.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow_framework.dylib" Condition="'$(IsOSX)' == 'true'">
+      <Link>libtensorflow_framework.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\native\libtensorflow.dll" Condition="'$(OS)' != 'Unix'">
+      <Link>libtensorflow.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
-    <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Queue.cs" />
-    <Compile Include="Tensorflow.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Operations.g.cs" />
-    <Compile Include="OperationsExtras.cs" />
-    <Compile Include="Buffer.cs" />
-    <Compile Include="Tensor.cs" />
-    <Compile Include="Variable.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NuGet.Build.Packaging">
-      <Version>*</Version>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.3.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
