@@ -588,8 +588,9 @@ namespace TensorFlow
 			TFOutput perm = Sub (Sub (rank, Const (1)), Range (Const (0), rank, Const (1)));
 
 			return Transpose (x: x, perm: perm, operName: operName);
-    }
-    
+		}
+
+		/// <summary>
 		///   Returns <paramref name="true_fn"/> if the predicate <paramref name="pred"/> is <c>true</c> else <paramref name="false_fn"/>.
 		/// </summary>
 		/// <param name="pred">A scalar determining whether to return the result of true_fn or false_fn.</param>
