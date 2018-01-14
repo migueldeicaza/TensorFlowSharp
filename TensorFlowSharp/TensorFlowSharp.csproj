@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <ReleaseVersion>0.2</ReleaseVersion>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.4.0</PackageVersion>
+    <PackageVersion>1.5.0-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -19,9 +19,14 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlor 1.4
+    <PackageReleaseNotes>Adds support for TensorFlor 1.5
 
-This brings support for the TensorFlow 1.4 API.</PackageReleaseNotes>
+* This brings support for the TensorFlow 1.5 API
+* New transpose overload without explicit perm parameter (Cesar Souza)
+* New ReduceProd method (Cesar Souza)
+* Supports for TensorFlow.Cond (Cesar Souza)
+
+</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <_NativeFiles Include="..\native\*.*">

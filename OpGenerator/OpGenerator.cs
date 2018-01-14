@@ -79,6 +79,8 @@ class OpGenerator
 			return "parameters";
 		case "ref":
 			return "reference";
+		case "event":
+			return "evnt";
 		}
 		return paramName;
 	}
