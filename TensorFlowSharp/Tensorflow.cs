@@ -1167,7 +1167,29 @@ namespace TensorFlow
 				return new TFFunction (fnHandle);
 			}
 		}
-		                              
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		unsafe extern static void TF_GraphVersions (TF_Graph graph, LLBuffer *output_version_def, TF_Status status);
+
+		/// <summary>
+		/// Returns the serialized VersionDef proto for this graph.
+		/// </summary>
+		/// <returns>The versions.</returns>
+		/// <param name="outputVersionDef">The buffer where the serialized protocol buffer will be stored.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		public void Versions (TFBuffer outputVersionDef, TFStatus status = null)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			if (outputVersionDef == null)
+				throw new ArgumentNullException (nameof (outputVersionDef));
+			
+			var cstatus = TFStatus.Setup (status);
+			unsafe {
+				TF_GraphVersions (handle, outputVersionDef.LLBuffer, cstatus.handle);
+			}
+			cstatus.CheckMaybeRaise (status);
+		}
 	}
 
 	//
@@ -2165,6 +2187,8 @@ namespace TensorFlow
 		/// </remarks>
 		public void RemapControlDependency (string srcName, TFOperation destination)
 		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();			
 			if (srcName == null)
 				throw new ArgumentNullException (nameof (srcName));
 			if (destination == null)
@@ -2173,6 +2197,45 @@ namespace TensorFlow
 				throw new ObjectDisposedException (nameof (destination));
 			TF_ImportGraphDefOptionsRemapControlDependency (handle, srcName, destination.Handle);
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsSetUniquifyNames (TF_ImportGraphDefOptions opts, byte uniquify);
+
+		/// <summary>
+		/// Set whether to uniquify imported operation names.
+		/// </summary>
+		/// <param name="uniquifyNames">If set to <c>true</c> imported operation names will be modified if their name already exists in the graph.
+		/// If set to <c>false</c> conflicting names will be treated as an error.
+		/// </param>
+		/// <remarks>
+		///  Note that this option has no effect if a prefix is set, since the prefix will guarantee all names are
+		///  Defaults to false.
+		/// </remarks>
+		public void SetUniquifyNames (bool uniquifyNames)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			
+			TF_ImportGraphDefOptionsSetUniquifyNames (handle, uniquifyNames ? (byte) 1 : (byte) 0);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		extern static void TF_ImportGraphDefOptionsSetUniquifyPrefix (TF_ImportGraphDefOptions opts, byte uniquify_prefix);
+
+		/// <summary>
+		/// Sets the uniquify prefix.  This option has no effect if no prefix is specified.
+		/// </summary>
+		/// <param name="uniquifyPrefix">If set to <c>true</c> the specified prefix will be modified if it already exists as an
+		/// operation name or prefix in the graph. 
+		/// If set to <c>false</c> a conflicting prefix will be treated as an error.
+		/// </param>
+		public void SetUniquifyPrefix (bool uniquifyPrefix)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			TF_ImportGraphDefOptionsSetUniquifyPrefix (handle, uniquifyPrefix ? (byte)1 : (byte)0);
+		}
+
 	}
 
 	/// <summary>
@@ -2892,7 +2955,15 @@ namespace TensorFlow
 		/// </summary>
 		Variant = 21,
 
+		/// <summary>
+		/// 32-bit unsigned integers
+		/// </summary>
+		UInt32 = 22,
 
+		/// <summary>
+		/// 64-bit unsigned integers
+		/// </summary>
+		UInt64 = 23
 	}
 
 	/// <summary>
