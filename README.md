@@ -29,7 +29,6 @@ nuget install TensorFlowSharp
 
 Or select it from the NuGet packages UI on Visual Studio.
 
-
 On Visual Studio, make sure that you are targeting .NET 4.6.1 or
 later, as this package uses some features of newer .NETs.  Otherwise,
 the package will not be added. Once you do this, you can just use the
@@ -123,7 +122,6 @@ module AddTwoNumbers =
     let multiplyResultValue = multiplyResults.GetValue()
     Console.WriteLine("a*b={0}", multiplyResultValue)
 ```
-
 
 # Working on TensorFlowSharp 
 
