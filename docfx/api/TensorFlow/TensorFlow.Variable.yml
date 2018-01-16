@@ -1,0 +1,186 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.Variable
+  id: Variable
+  children:
+  - TensorFlow.Variable.Assign
+  - TensorFlow.Variable.op_Implicit(TensorFlow.Variable to TensorFlow.TFOutput)
+  - TensorFlow.Variable.Read
+  - TensorFlow.Variable.VariableOp
+  langs:
+  - csharp
+  name: Variable
+  nameWithType: Variable
+  fullName: TensorFlow.Variable
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The Variable class holds the TFOutput nodes that are used to initialize, read and assign a value to a variable.
+  remarks: "A variable maintains state in the graph across calls to `run()`. You add a\n            variable to the graph by constructing an instance of the class `Variable`.\n            \n            The `Variable()` constructor requires an initial value for the variable,\n            which can be a `Tensor` of any type and shape. The initial value defines the\n            type and shape of the variable. After construction, the type and shape of\n            the variable are fixed. The value can be changed using one of the assign\n            methods.\n            \n            When a variable is created a VarHandleOp is created which is returned as \n            the VariableOp property, an assign operation is created that can be accessed\n            using the assignHandle and you can read the value of the variable using the\n            ReadHandle.\n            \n            When you launch the graph, variables have to be explicitly initialized before\n            you can run Ops that use their value. You can initialize a variable by\n            running its *initializer op*, restoring the variable from a save file, or\n            simply running an `assign` Op that assigns a value to the variable. In fact,\n            the variable *initializer op* is just an `assign` Op that assigns the\n            variable's initial value to the variable itself.\n            \n            There is an implicit conversion from the Variable into the VarHandleOp if\n            used."
+  syntax:
+    content: public class Variable
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.Variable.Assign
+  id: Assign
+  parent: TensorFlow.Variable
+  langs:
+  - csharp
+  name: Assign
+  nameWithType: Variable.Assign
+  fullName: Variable.Assign
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the AssignVariableOp that is used to assign the initial value to the variable from the graph.
+  syntax:
+    content: public TensorFlow.TFOperation Assign { get; }
+    return:
+      type: TensorFlow.TFOperation
+      description: The assign op.
+  overload: TensorFlow.Variable.Assign*
+  exceptions: []
+- uid: TensorFlow.Variable.op_Implicit(TensorFlow.Variable to TensorFlow.TFOutput)
+  id: op_Implicit(TensorFlow.Variable to TensorFlow.TFOutput)
+  parent: TensorFlow.Variable
+  langs:
+  - csharp
+  name: op_Implicit(Variable to TFOutput)
+  nameWithType: Variable.op_Implicit(Variable to TFOutput)
+  fullName: Variable.op_Implicit(Variable to TFOutput)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the VarHandleOp (the VariableOp property).
+  remarks: >-
+    This implicit operator exists to preserve the compatibility with code that
+                created Variables and expected the result to be the VariableOp.
+  syntax:
+    content: public static TensorFlow.TFOutput op_Implicit (TensorFlow.Variable variable);
+    parameters:
+    - id: variable
+      type: TensorFlow.Variable
+      description: Variable reference.
+    return:
+      type: TensorFlow.TFOutput
+      description: The variable handle created for the variable.
+  overload: TensorFlow.Variable.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.Variable.Read
+  id: Read
+  parent: TensorFlow.Variable
+  langs:
+  - csharp
+  name: Read
+  nameWithType: Variable.Read
+  fullName: Variable.Read
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the ReadVariableOp that is used to fetch the value of the variable from the graph.
+  syntax:
+    content: public TensorFlow.TFOutput Read { get; }
+    return:
+      type: TensorFlow.TFOutput
+      description: The read op.
+  overload: TensorFlow.Variable.Read*
+  exceptions: []
+- uid: TensorFlow.Variable.VariableOp
+  id: VariableOp
+  parent: TensorFlow.Variable
+  langs:
+  - csharp
+  name: VariableOp
+  nameWithType: Variable.VariableOp
+  fullName: Variable.VariableOp
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the VarHandleOp that was created using the shape of the initial value.
+  syntax:
+    content: public TensorFlow.TFOutput VariableOp { get; }
+    return:
+      type: TensorFlow.TFOutput
+      description: The variable op.
+  overload: TensorFlow.Variable.VariableOp*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.Variable.Assign
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: Assign
+  nameWithType: Variable.Assign
+  fullName: Variable.Assign
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.Variable.op_Implicit(TensorFlow.Variable to TensorFlow.TFOutput)
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: op_Implicit(Variable to TFOutput)
+  nameWithType: Variable.op_Implicit(Variable to TFOutput)
+  fullName: Variable.op_Implicit(Variable to TFOutput)
+- uid: TensorFlow.TFOutput
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.Variable
+  parent: TensorFlow
+  isExternal: false
+  name: Variable
+  nameWithType: Variable
+  fullName: TensorFlow.Variable
+- uid: TensorFlow.Variable.Read
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: Read
+  nameWithType: Variable.Read
+  fullName: Variable.Read
+- uid: TensorFlow.Variable.VariableOp
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: VariableOp
+  nameWithType: Variable.VariableOp
+  fullName: Variable.VariableOp
+- uid: TensorFlow.Variable.Assign*
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: Assign
+  nameWithType: Variable.Assign
+  fullName: Variable.Assign
+- uid: TensorFlow.Variable.op_Implicit*
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: op_Implicit
+  nameWithType: Variable.op_Implicit
+  fullName: Variable.op_Implicit
+- uid: TensorFlow.Variable.Read*
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: Read
+  nameWithType: Variable.Read
+  fullName: Variable.Read
+- uid: TensorFlow.Variable.VariableOp*
+  parent: TensorFlow.Variable
+  isExternal: false
+  name: VariableOp
+  nameWithType: Variable.VariableOp
+  fullName: Variable.VariableOp

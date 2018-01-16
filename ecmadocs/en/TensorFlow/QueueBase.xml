@@ -1,0 +1,165 @@
+<Type Name="QueueBase" FullName="TensorFlow.QueueBase">
+  <TypeSignature Language="C#" Value="public abstract class QueueBase" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit QueueBase extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Base class for queue implementations.
+            Port of Python implementation https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public QueueBase (TensorFlow.TFSession session);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFSession session) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="session" Type="TensorFlow.TFSession" />
+      </Parameters>
+      <Docs>
+        <param name="session">Session instance</param>
+        <summary>
+            A queue is a TensorFlow data structure that stores tensors across
+            multiple steps, and exposes operations that enqueue and dequeue
+            tensors.
+            Each queue element is a tuple of one or more tensors, where each
+            tuple component has a static dtype, and may have a static shape.The
+            queue implementations support versions of enqueue and dequeue that
+            handle single elements, versions that support enqueuing and
+            dequeuing a batch of elements at once.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dequeue">
+      <MemberSignature Language="C#" Value="public abstract TensorFlow.TFOutput[] Dequeue (Nullable&lt;long&gt; timeout_ms = null, string operationName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype TensorFlow.TFOutput[] Dequeue(valuetype System.Nullable`1&lt;int64&gt; timeout_ms, string operationName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout_ms" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="operationName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="timeout_ms">
+              Optional argument
+              If the queue is empty, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.
+            </param>
+        <param name="operationName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueV2'.
+            </param>
+        <summary>
+              Dequeues a tuple of one or more tensors from this queue.
+            </summary>
+        <returns>
+              One or more tensors that were dequeued as a tuple.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+            </returns>
+        <remarks>
+              This operation has k outputs, where k is the number of components
+              in the tuples stored in the given queue, and output i is the ith
+              component of the dequeued tuple.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Enqueue">
+      <MemberSignature Language="C#" Value="public abstract TensorFlow.TFOperation Enqueue (TensorFlow.TFOutput[] components, Nullable&lt;long&gt; timeout_ms = null, string operationName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class TensorFlow.TFOperation Enqueue(valuetype TensorFlow.TFOutput[] components, valuetype System.Nullable`1&lt;int64&gt; timeout_ms, string operationName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="components" Type="TensorFlow.TFOutput[]" />
+        <Parameter Name="timeout_ms" Type="System.Nullable&lt;System.Int64&gt;" />
+        <Parameter Name="operationName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="components">
+              One or more tensors from which the enqueued tensors should be taken.
+            </param>
+        <param name="timeout_ms">
+              Optional argument
+              If the queue is full, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.
+            </param>
+        <param name="operationName">
+              If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueueV2'.
+            </param>
+        <summary>
+              Enqueues a tuple of one or more tensors in this queue.
+            </summary>
+        <returns>
+              Returns the description of the operation
+            </returns>
+        <remarks>
+              The components input has k elements, which correspond to the components of
+              tuples stored in the given queue.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSize">
+      <MemberSignature Language="C#" Value="public abstract TensorFlow.TFOutput GetSize (string operationName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype TensorFlow.TFOutput GetSize(string operationName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="operationName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="operationName">
+        </param>
+        <summary>
+            Gets the size of this queue.
+            </summary>
+        <returns>queue size</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Session">
+      <MemberSignature Language="C#" Value="protected TensorFlow.TFSession Session { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.TFSession Session" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFSession</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The session that this QueueBased was created for.
+            </summary>
+        <value>The session.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

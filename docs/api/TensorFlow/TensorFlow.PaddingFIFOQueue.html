@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PaddingFIFOQueue
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PaddingFIFOQueue
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.PaddingFIFOQueue">
+  
+  
+  <h1 id="TensorFlow_PaddingFIFOQueue" data-uid="TensorFlow.PaddingFIFOQueue">Class PaddingFIFOQueue
+  </h1>
+  <div class="markdown level0 summary"><p>A FIFOQueue that supports batching variable-sized tensors by padding.
+            Port of Python implementation <a href="https://github.com/tensorflow/tensorflow/blob/b46340f40fe5e2ec9bfcd385b07cfb914055fb51/tensorflow/python/ops/data_flow_ops.py#L697">https://github.com/tensorflow/tensorflow/blob/b46340f40fe5e2ec9bfcd385b07cfb914055fb51/tensorflow/python/ops/data_flow_ops.py#L697</a></p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.QueueBase.html">QueueBase</a></div>
+    <div class="level2"><span class="xref">PaddingFIFOQueue</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.QueueBase.html#TensorFlow_QueueBase_Session">QueueBase.Session</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_PaddingFIFOQueue_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PaddingFIFOQueue : TensorFlow.QueueBase</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue__ctor_" data-uid="TensorFlow.PaddingFIFOQueue.#ctor*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue__ctor_TensorFlow_TFSession_TensorFlow_TFDataType___TensorFlow_TFShape___System_Nullable_System_Int32__System_String_System_String_" data-uid="TensorFlow.PaddingFIFOQueue.#ctor(TensorFlow.TFSession,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.Nullable{System.Int32},System.String,System.String)">PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable&lt;Int32&gt;, String, String)</h4>
+  <div class="markdown level1 summary"><p>Creates a queue that dequeues elements in a first-in first-out order.
+            A <code>PaddingFIFOQueue</code> has bounded capacity; supports multiple concurrent
+            producers and consumers; and provides exactly-once delivery.
+            A <code>PaddingFIFOQueue</code> holds a list of up to <code>capacity</code> elements.Each
+            element is a fixed-length tuple of tensors whose dtypes are
+            described by <code>dtypes</code>, and whose shapes are described by the <code>shapes</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PaddingFIFOQueue (TensorFlow.TFSession session, TensorFlow.TFDataType[] componentTypes, TensorFlow.TFShape[] shapes, Nullable&lt;int&gt; capacity = null, string container = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSession.html">TFSession</a></td>
+        <td><span class="parametername">session</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDataType.html">TFDataType</a>[]</td>
+        <td><span class="parametername">componentTypes</span></td>
+        <td><p>The type of each component in a tuple.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a>[]</td>
+        <td><span class="parametername">shapes</span></td>
+        <td><p>Optional argument
+              The shape of each component in a value. The length of this attr must
+              be either 0 or the same as the length of component_types.
+              Shapes of fixed rank but variable size are allowed by setting
+              any shape dimension to -1.  In this case, the inputs&#39; shape may vary along
+              the given dimension, and DequeueMany will pad the given dimension with
+              zeros up to the maximum shape of all elements in the given batch.
+              If the length of this attr is 0, different queue elements may have
+              different ranks and shapes, but only one element may be dequeued at a time.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">capacity</span></td>
+        <td><p>Optional argument. The upper bound on the number of elements in this queue. Negative numbers mean no limit.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">container</span></td>
+        <td><p>Optional argument. If non-empty, this queue is placed in the given container. Otherwise, a default container is used.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;PaddingFIFOQueueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_Dequeue_" data-uid="TensorFlow.PaddingFIFOQueue.Dequeue*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_Dequeue_System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.PaddingFIFOQueue.Dequeue(System.Nullable{System.Int64},System.String)">Dequeue(Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Dequeues a tuple of one or more tensors from the given queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TensorFlow.TFOutput[] Dequeue (Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is empty, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueDequeueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><p>One or more tensors that were dequeued as a tuple.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_PaddingFIFOQueue_Dequeue_System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This operation has k outputs, where k is the number of components
+              in the tuples stored in the given queue, and output i is the ith
+              component of the dequeued tuple.</p>
+</div>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_DequeueExecute_" data-uid="TensorFlow.PaddingFIFOQueue.DequeueExecute*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_DequeueExecute_System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.PaddingFIFOQueue.DequeueExecute(System.Nullable{System.Int64},System.String)">DequeueExecute(Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Dequeues a tuple of one or more tensors from this queue and runs the session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFTensor[] DequeueExecute (Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is empty, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueDequeueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><p>One or more tensors that were dequeued as a tuple.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_PaddingFIFOQueue_DequeueExecute_System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This operation has k outputs, where k is the number of components
+              in the tuples stored in the given queue, and output i is the ith
+              component of the dequeued tuple.</p>
+</div>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_DequeueExecute__1_" data-uid="TensorFlow.PaddingFIFOQueue.DequeueExecute``1*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_DequeueExecute__1_System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.PaddingFIFOQueue.DequeueExecute``1(System.Nullable{System.Int64},System.String)">DequeueExecute&lt;T&gt;(Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Dequeues elements from this queue and cast all elements to specific T type. It can be use when all elements in the queue of the same T type</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T[] DequeueExecute&lt;T&gt; (Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is empty, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueDequeueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_Enqueue_" data-uid="TensorFlow.PaddingFIFOQueue.Enqueue*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_Enqueue_TensorFlow_TFOutput___System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.PaddingFIFOQueue.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)">Enqueue(TFOutput[], Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Enqueues a tuple of one or more tensors in this queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TensorFlow.TFOperation Enqueue (TensorFlow.TFOutput[] components, Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">components</span></td>
+        <td><p>One or more tensors from which the enqueued tensors should be taken.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is full, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueEnqueueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><p>Returns the description of the operation</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_PaddingFIFOQueue_Enqueue_TensorFlow_TFOutput___System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The components input has k elements, which correspond to the components of
+              tuples stored in the given queue.</p>
+<pre><code>          N.B. If the queue is full, this operation will block until the given
+          element has been enqueued (or &#39;timeout_ms&#39; elapses, if specified).
+</code></pre></div>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_EnqueueExecute_" data-uid="TensorFlow.PaddingFIFOQueue.EnqueueExecute*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_EnqueueExecute_TensorFlow_TFOutput___TensorFlow_TFTensor___System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.PaddingFIFOQueue.EnqueueExecute(TensorFlow.TFOutput[],TensorFlow.TFTensor[],System.Nullable{System.Int64},System.String)">EnqueueExecute(TFOutput[], TFTensor[], Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Enqueues a tuple of one or more tensors in this queue and runs the session.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFTensor[] EnqueueExecute (TensorFlow.TFOutput[] components, TensorFlow.TFTensor[] inputValues, Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">components</span></td>
+        <td><p>One or more tensors from which the enqueued tensors should be taken.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><span class="parametername">inputValues</span></td>
+        <td><p>Values to enqueue</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is full, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueEnqueueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFTensor.html">TFTensor</a>[]</td>
+        <td><p>Returns the description of the operation</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_PaddingFIFOQueue_EnqueueExecute_TensorFlow_TFOutput___TensorFlow_TFTensor___System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The components input has k elements, which correspond to the components of
+              tuples stored in the given queue.</p>
+</div>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_GetSize_" data-uid="TensorFlow.PaddingFIFOQueue.GetSize*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_GetSize_System_String_" data-uid="TensorFlow.PaddingFIFOQueue.GetSize(System.String)">GetSize(String)</h4>
+  <div class="markdown level1 summary"><p>Gets the size of this queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TensorFlow.TFOutput GetSize (string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueSizeV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><p>queue size</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_PaddingFIFOQueue_GetSizeExecute_" data-uid="TensorFlow.PaddingFIFOQueue.GetSizeExecute*"></a>
+  <h4 id="TensorFlow_PaddingFIFOQueue_GetSizeExecute_System_String_" data-uid="TensorFlow.PaddingFIFOQueue.GetSizeExecute(System.String)">GetSizeExecute(String)</h4>
+  <div class="markdown level1 summary"><p>Uses provided session instance to obtain the size of this queue</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetSizeExecute (string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueSizeV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>number of elements in the queue</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

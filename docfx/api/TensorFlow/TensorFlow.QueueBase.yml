@@ -1,0 +1,309 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.QueueBase
+  id: QueueBase
+  children:
+  - TensorFlow.QueueBase.#ctor(TensorFlow.TFSession)
+  - TensorFlow.QueueBase.Dequeue(System.Nullable{System.Int64},System.String)
+  - TensorFlow.QueueBase.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  - TensorFlow.QueueBase.GetSize(System.String)
+  - TensorFlow.QueueBase.Session
+  langs:
+  - csharp
+  name: QueueBase
+  nameWithType: QueueBase
+  fullName: TensorFlow.QueueBase
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Base class for queue implementations.
+                Port of Python implementation https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py
+  syntax:
+    content: public abstract class QueueBase
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - TensorFlow.PaddingFIFOQueue
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.QueueBase.#ctor(TensorFlow.TFSession)
+  id: '#ctor(TensorFlow.TFSession)'
+  parent: TensorFlow.QueueBase
+  langs:
+  - csharp
+  name: QueueBase(TFSession)
+  nameWithType: QueueBase.QueueBase(TFSession)
+  fullName: QueueBase.QueueBase(TFSession)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    A queue is a TensorFlow data structure that stores tensors across
+                multiple steps, and exposes operations that enqueue and dequeue
+                tensors.
+                Each queue element is a tuple of one or more tensors, where each
+                tuple component has a static dtype, and may have a static shape.The
+                queue implementations support versions of enqueue and dequeue that
+                handle single elements, versions that support enqueuing and
+                dequeuing a batch of elements at once.
+  syntax:
+    content: public QueueBase (TensorFlow.TFSession session);
+    parameters:
+    - id: session
+      type: TensorFlow.TFSession
+      description: Session instance
+  overload: TensorFlow.QueueBase.#ctor*
+  exceptions: []
+- uid: TensorFlow.QueueBase.Dequeue(System.Nullable{System.Int64},System.String)
+  id: Dequeue(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.QueueBase
+  langs:
+  - csharp
+  name: Dequeue(Nullable<Int64>, String)
+  nameWithType: QueueBase.Dequeue(Nullable<Int64>, String)
+  fullName: QueueBase.Dequeue(Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Dequeues a tuple of one or more tensors from this queue.
+  remarks: >-
+    This operation has k outputs, where k is the number of components
+                  in the tuples stored in the given queue, and output i is the ith
+                  component of the dequeued tuple.
+  syntax:
+    content: public abstract TensorFlow.TFOutput[] Dequeue (Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is empty, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueV2'.
+    return:
+      type: TensorFlow.TFOutput[]
+      description: >-
+        One or more tensors that were dequeued as a tuple.
+                      The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+  overload: TensorFlow.QueueBase.Dequeue*
+  exceptions: []
+- uid: TensorFlow.QueueBase.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  id: Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.QueueBase
+  langs:
+  - csharp
+  name: Enqueue(TFOutput[], Nullable<Int64>, String)
+  nameWithType: QueueBase.Enqueue(TFOutput[], Nullable<Int64>, String)
+  fullName: QueueBase.Enqueue(TFOutput[], Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Enqueues a tuple of one or more tensors in this queue.
+  remarks: >-
+    The components input has k elements, which correspond to the components of
+                  tuples stored in the given queue.
+  syntax:
+    content: public abstract TensorFlow.TFOperation Enqueue (TensorFlow.TFOutput[] components, Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: components
+      type: TensorFlow.TFOutput[]
+      description: One or more tensors from which the enqueued tensors should be taken.
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is full, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueueV2'.
+    return:
+      type: TensorFlow.TFOperation
+      description: Returns the description of the operation
+  overload: TensorFlow.QueueBase.Enqueue*
+  exceptions: []
+- uid: TensorFlow.QueueBase.GetSize(System.String)
+  id: GetSize(System.String)
+  parent: TensorFlow.QueueBase
+  langs:
+  - csharp
+  name: GetSize(String)
+  nameWithType: QueueBase.GetSize(String)
+  fullName: QueueBase.GetSize(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the size of this queue.
+  syntax:
+    content: public abstract TensorFlow.TFOutput GetSize (string operationName = null);
+    parameters:
+    - id: operationName
+      type: System.String
+      description: To be added.
+    return:
+      type: TensorFlow.TFOutput
+      description: queue size
+  overload: TensorFlow.QueueBase.GetSize*
+  exceptions: []
+- uid: TensorFlow.QueueBase.Session
+  id: Session
+  parent: TensorFlow.QueueBase
+  langs:
+  - csharp
+  name: Session
+  nameWithType: QueueBase.Session
+  fullName: QueueBase.Session
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The session that this QueueBased was created for.
+  syntax:
+    content: protected TensorFlow.TFSession Session { get; }
+    return:
+      type: TensorFlow.TFSession
+      description: The session.
+  overload: TensorFlow.QueueBase.Session*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.QueueBase.#ctor(TensorFlow.TFSession)
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: QueueBase(TFSession)
+  nameWithType: QueueBase.QueueBase(TFSession)
+  fullName: QueueBase.QueueBase(TFSession)
+- uid: TensorFlow.TFSession
+  parent: TensorFlow
+  isExternal: false
+  name: TFSession
+  nameWithType: TFSession
+  fullName: TensorFlow.TFSession
+- uid: TensorFlow.QueueBase.Dequeue(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Dequeue(Nullable<Int64>, String)
+  nameWithType: QueueBase.Dequeue(Nullable<Int64>, String)
+  fullName: QueueBase.Dequeue(Nullable<Int64>, String)
+- uid: TensorFlow.TFOutput
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFOutput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput[]
+  nameWithType: TFOutput[]
+  fullName: TensorFlow.TFOutput[]
+  spec.csharp:
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: System.Nullable`1
+  name: Nullable
+  nameWithType: Nullable
+  fullName: System.Nullable
+- uid: System.Int64
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: System.Nullable{System.Int64}
+  parent: System
+  isExternal: true
+  name: Nullable<Int64>
+  nameWithType: Nullable<Int64>
+  fullName: System.Nullable<System.Int64>
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.QueueBase.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Enqueue(TFOutput[], Nullable<Int64>, String)
+  nameWithType: QueueBase.Enqueue(TFOutput[], Nullable<Int64>, String)
+  fullName: QueueBase.Enqueue(TFOutput[], Nullable<Int64>, String)
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.QueueBase.GetSize(System.String)
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: GetSize(String)
+  nameWithType: QueueBase.GetSize(String)
+  fullName: QueueBase.GetSize(String)
+- uid: TensorFlow.QueueBase.Session
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Session
+  nameWithType: QueueBase.Session
+  fullName: QueueBase.Session
+- uid: TensorFlow.QueueBase.#ctor*
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: QueueBase
+  nameWithType: QueueBase.QueueBase
+  fullName: QueueBase.QueueBase
+- uid: TensorFlow.QueueBase.Dequeue*
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Dequeue
+  nameWithType: QueueBase.Dequeue
+  fullName: QueueBase.Dequeue
+- uid: TensorFlow.QueueBase.Enqueue*
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Enqueue
+  nameWithType: QueueBase.Enqueue
+  fullName: QueueBase.Enqueue
+- uid: TensorFlow.QueueBase.GetSize*
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: GetSize
+  nameWithType: QueueBase.GetSize
+  fullName: QueueBase.GetSize
+- uid: TensorFlow.QueueBase.Session*
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Session
+  nameWithType: QueueBase.Session
+  fullName: QueueBase.Session

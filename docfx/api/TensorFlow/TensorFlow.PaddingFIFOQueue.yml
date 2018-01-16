@@ -1,0 +1,585 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.PaddingFIFOQueue
+  id: PaddingFIFOQueue
+  children:
+  - TensorFlow.PaddingFIFOQueue.#ctor(TensorFlow.TFSession,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.Nullable{System.Int32},System.String,System.String)
+  - TensorFlow.PaddingFIFOQueue.Dequeue(System.Nullable{System.Int64},System.String)
+  - TensorFlow.PaddingFIFOQueue.DequeueExecute(System.Nullable{System.Int64},System.String)
+  - TensorFlow.PaddingFIFOQueue.DequeueExecute``1(System.Nullable{System.Int64},System.String)
+  - TensorFlow.PaddingFIFOQueue.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  - TensorFlow.PaddingFIFOQueue.EnqueueExecute(TensorFlow.TFOutput[],TensorFlow.TFTensor[],System.Nullable{System.Int64},System.String)
+  - TensorFlow.PaddingFIFOQueue.GetSize(System.String)
+  - TensorFlow.PaddingFIFOQueue.GetSizeExecute(System.String)
+  langs:
+  - csharp
+  name: PaddingFIFOQueue
+  nameWithType: PaddingFIFOQueue
+  fullName: TensorFlow.PaddingFIFOQueue
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    A FIFOQueue that supports batching variable-sized tensors by padding.
+                Port of Python implementation https://github.com/tensorflow/tensorflow/blob/b46340f40fe5e2ec9bfcd385b07cfb914055fb51/tensorflow/python/ops/data_flow_ops.py#L697
+  syntax:
+    content: 'public class PaddingFIFOQueue : TensorFlow.QueueBase'
+  inheritance:
+  - System.Object
+  - TensorFlow.QueueBase
+  implements: []
+  inheritedMembers:
+  - TensorFlow.QueueBase.Session
+- uid: TensorFlow.PaddingFIFOQueue.#ctor(TensorFlow.TFSession,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.Nullable{System.Int32},System.String,System.String)
+  id: '#ctor(TensorFlow.TFSession,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.Nullable{System.Int32},System.String,System.String)'
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+  nameWithType: PaddingFIFOQueue.PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+  fullName: PaddingFIFOQueue.PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Creates a queue that dequeues elements in a first-in first-out order.
+                A `PaddingFIFOQueue` has bounded capacity; supports multiple concurrent
+                producers and consumers; and provides exactly-once delivery.
+                A `PaddingFIFOQueue` holds a list of up to `capacity` elements.Each
+                element is a fixed-length tuple of tensors whose dtypes are
+                described by `dtypes`, and whose shapes are described by the `shapes`
+  syntax:
+    content: public PaddingFIFOQueue (TensorFlow.TFSession session, TensorFlow.TFDataType[] componentTypes, TensorFlow.TFShape[] shapes, Nullable<int> capacity = null, string container = null, string operationName = null);
+    parameters:
+    - id: session
+      type: TensorFlow.TFSession
+      description: To be added.
+    - id: componentTypes
+      type: TensorFlow.TFDataType[]
+      description: The type of each component in a tuple.
+    - id: shapes
+      type: TensorFlow.TFShape[]
+      description: >-
+        Optional argument
+                      The shape of each component in a value. The length of this attr must
+                      be either 0 or the same as the length of component_types.
+                      Shapes of fixed rank but variable size are allowed by setting
+                      any shape dimension to -1.  In this case, the inputs' shape may vary along
+                      the given dimension, and DequeueMany will pad the given dimension with
+                      zeros up to the maximum shape of all elements in the given batch.
+                      If the length of this attr is 0, different queue elements may have
+                      different ranks and shapes, but only one element may be dequeued at a time.
+    - id: capacity
+      type: System.Nullable{System.Int32}
+      description: Optional argument. The upper bound on the number of elements in this queue. Negative numbers mean no limit.
+    - id: container
+      type: System.String
+      description: Optional argument. If non-empty, this queue is placed in the given container. Otherwise, a default container is used.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'PaddingFIFOQueueV2'.
+  overload: TensorFlow.PaddingFIFOQueue.#ctor*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.Dequeue(System.Nullable{System.Int64},System.String)
+  id: Dequeue(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: Dequeue(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.Dequeue(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.Dequeue(Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Dequeues a tuple of one or more tensors from the given queue.
+  remarks: >-
+    This operation has k outputs, where k is the number of components
+                  in the tuples stored in the given queue, and output i is the ith
+                  component of the dequeued tuple.
+  syntax:
+    content: public override TensorFlow.TFOutput[] Dequeue (Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is empty, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueV2'.
+    return:
+      type: TensorFlow.TFOutput[]
+      description: >-
+        One or more tensors that were dequeued as a tuple.
+                      The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+  overload: TensorFlow.PaddingFIFOQueue.Dequeue*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute(System.Nullable{System.Int64},System.String)
+  id: DequeueExecute(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: DequeueExecute(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.DequeueExecute(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.DequeueExecute(Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Dequeues a tuple of one or more tensors from this queue and runs the session.
+  remarks: >-
+    This operation has k outputs, where k is the number of components
+                  in the tuples stored in the given queue, and output i is the ith
+                  component of the dequeued tuple.
+  syntax:
+    content: public TensorFlow.TFTensor[] DequeueExecute (Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is empty, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueV2'.
+    return:
+      type: TensorFlow.TFTensor[]
+      description: >-
+        One or more tensors that were dequeued as a tuple.
+                      The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+  overload: TensorFlow.PaddingFIFOQueue.DequeueExecute*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute``1(System.Nullable{System.Int64},System.String)
+  id: DequeueExecute``1(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: DequeueExecute<T>(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.DequeueExecute<T>(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.DequeueExecute<T>(Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Dequeues elements from this queue and cast all elements to specific T type. It can be use when all elements in the queue of the same T type
+  syntax:
+    content: public T[] DequeueExecute<T> (Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is empty, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueDequeueV2'.
+    typeParameters:
+    - id: T
+      description: To be added.
+    return:
+      type: T[]
+      description: To be added.
+  overload: TensorFlow.PaddingFIFOQueue.DequeueExecute``1*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  id: Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: Enqueue(TFOutput[], Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.Enqueue(TFOutput[], Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.Enqueue(TFOutput[], Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Enqueues a tuple of one or more tensors in this queue.
+  remarks: "The components input has k elements, which correspond to the components of\n              tuples stored in the given queue.\n              \n              N.B. If the queue is full, this operation will block until the given\n              element has been enqueued (or 'timeout_ms' elapses, if specified)."
+  syntax:
+    content: public override TensorFlow.TFOperation Enqueue (TensorFlow.TFOutput[] components, Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: components
+      type: TensorFlow.TFOutput[]
+      description: One or more tensors from which the enqueued tensors should be taken.
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is full, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueueV2'.
+    return:
+      type: TensorFlow.TFOperation
+      description: Returns the description of the operation
+  overload: TensorFlow.PaddingFIFOQueue.Enqueue*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.EnqueueExecute(TensorFlow.TFOutput[],TensorFlow.TFTensor[],System.Nullable{System.Int64},System.String)
+  id: EnqueueExecute(TensorFlow.TFOutput[],TensorFlow.TFTensor[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Enqueues a tuple of one or more tensors in this queue and runs the session.
+  remarks: >-
+    The components input has k elements, which correspond to the components of
+                  tuples stored in the given queue.
+  syntax:
+    content: public TensorFlow.TFTensor[] EnqueueExecute (TensorFlow.TFOutput[] components, TensorFlow.TFTensor[] inputValues, Nullable<long> timeout_ms = null, string operationName = null);
+    parameters:
+    - id: components
+      type: TensorFlow.TFOutput[]
+      description: One or more tensors from which the enqueued tensors should be taken.
+    - id: inputValues
+      type: TensorFlow.TFTensor[]
+      description: Values to enqueue
+    - id: timeout_ms
+      type: System.Nullable{System.Int64}
+      description: >-
+        Optional argument
+                      If the queue is full, this operation will block for up to
+                      timeout_ms milliseconds.
+                      Note: This option is not supported yet.
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueEnqueueV2'.
+    return:
+      type: TensorFlow.TFTensor[]
+      description: Returns the description of the operation
+  overload: TensorFlow.PaddingFIFOQueue.EnqueueExecute*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.GetSize(System.String)
+  id: GetSize(System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: GetSize(String)
+  nameWithType: PaddingFIFOQueue.GetSize(String)
+  fullName: PaddingFIFOQueue.GetSize(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the size of this queue.
+  syntax:
+    content: public override TensorFlow.TFOutput GetSize (string operationName = null);
+    parameters:
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueSizeV2'.
+    return:
+      type: TensorFlow.TFOutput
+      description: queue size
+  overload: TensorFlow.PaddingFIFOQueue.GetSize*
+  exceptions: []
+- uid: TensorFlow.PaddingFIFOQueue.GetSizeExecute(System.String)
+  id: GetSizeExecute(System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  langs:
+  - csharp
+  name: GetSizeExecute(String)
+  nameWithType: PaddingFIFOQueue.GetSizeExecute(String)
+  fullName: PaddingFIFOQueue.GetSizeExecute(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Uses provided session instance to obtain the size of this queue
+  syntax:
+    content: public int GetSizeExecute (string operationName = null);
+    parameters:
+    - id: operationName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'QueueSizeV2'.
+    return:
+      type: System.Int32
+      description: number of elements in the queue
+  overload: TensorFlow.PaddingFIFOQueue.GetSizeExecute*
+  exceptions: []
+references:
+- uid: TensorFlow.QueueBase
+  parent: TensorFlow
+  isExternal: false
+  name: QueueBase
+  nameWithType: QueueBase
+  fullName: TensorFlow.QueueBase
+- uid: TensorFlow.PaddingFIFOQueue.#ctor(TensorFlow.TFSession,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.Nullable{System.Int32},System.String,System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+  nameWithType: PaddingFIFOQueue.PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+  fullName: PaddingFIFOQueue.PaddingFIFOQueue(TFSession, TFDataType[], TFShape[], Nullable<Int32>, String, String)
+- uid: TensorFlow.TFSession
+  parent: TensorFlow
+  isExternal: false
+  name: TFSession
+  nameWithType: TFSession
+  fullName: TensorFlow.TFSession
+- uid: TensorFlow.TFDataType
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFDataType[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType[]
+  nameWithType: TFDataType[]
+  fullName: TensorFlow.TFDataType[]
+  spec.csharp:
+  - uid: TensorFlow.TFDataType
+    name: TFDataType
+    nameWithType: TFDataType
+    fullName: TensorFlow.TFDataType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFShape
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
+- uid: TensorFlow.TFShape[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFShape[]
+  nameWithType: TFShape[]
+  fullName: TensorFlow.TFShape[]
+  spec.csharp:
+  - uid: TensorFlow.TFShape
+    name: TFShape
+    nameWithType: TFShape
+    fullName: TensorFlow.TFShape
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: System.Nullable`1
+  name: Nullable
+  nameWithType: Nullable
+  fullName: System.Nullable
+- uid: System.Int32
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Nullable{System.Int32}
+  parent: System
+  isExternal: true
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.PaddingFIFOQueue.Dequeue(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: Dequeue(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.Dequeue(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.Dequeue(Nullable<Int64>, String)
+- uid: TensorFlow.TFOutput
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.TFOutput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput[]
+  nameWithType: TFOutput[]
+  fullName: TensorFlow.TFOutput[]
+  spec.csharp:
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: System.Int64
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: System.Nullable{System.Int64}
+  parent: System
+  isExternal: true
+  name: Nullable<Int64>
+  nameWithType: Nullable<Int64>
+  fullName: System.Nullable<System.Int64>
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: DequeueExecute(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.DequeueExecute(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.DequeueExecute(Nullable<Int64>, String)
+- uid: TensorFlow.TFTensor
+  name: TFTensor
+  nameWithType: TFTensor
+  fullName: TensorFlow.TFTensor
+- uid: TensorFlow.TFTensor[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor[]
+  nameWithType: TFTensor[]
+  fullName: TensorFlow.TFTensor[]
+  spec.csharp:
+  - uid: TensorFlow.TFTensor
+    name: TFTensor
+    nameWithType: TFTensor
+    fullName: TensorFlow.TFTensor
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute``1(System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: DequeueExecute<T>(Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.DequeueExecute<T>(Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.DequeueExecute<T>(Nullable<Int64>, String)
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T[]
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  spec.csharp:
+  - uid: T
+    name: T
+    nameWithType: T
+    fullName: T
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.PaddingFIFOQueue.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: Enqueue(TFOutput[], Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.Enqueue(TFOutput[], Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.Enqueue(TFOutput[], Nullable<Int64>, String)
+- uid: TensorFlow.TFOperation
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.PaddingFIFOQueue.EnqueueExecute(TensorFlow.TFOutput[],TensorFlow.TFTensor[],System.Nullable{System.Int64},System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+  nameWithType: PaddingFIFOQueue.EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+  fullName: PaddingFIFOQueue.EnqueueExecute(TFOutput[], TFTensor[], Nullable<Int64>, String)
+- uid: TensorFlow.PaddingFIFOQueue.GetSize(System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: GetSize(String)
+  nameWithType: PaddingFIFOQueue.GetSize(String)
+  fullName: PaddingFIFOQueue.GetSize(String)
+- uid: TensorFlow.PaddingFIFOQueue.GetSizeExecute(System.String)
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: GetSizeExecute(String)
+  nameWithType: PaddingFIFOQueue.GetSizeExecute(String)
+  fullName: PaddingFIFOQueue.GetSizeExecute(String)
+- uid: TensorFlow.PaddingFIFOQueue.#ctor*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: PaddingFIFOQueue
+  nameWithType: PaddingFIFOQueue.PaddingFIFOQueue
+  fullName: PaddingFIFOQueue.PaddingFIFOQueue
+- uid: TensorFlow.PaddingFIFOQueue.Dequeue*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: Dequeue
+  nameWithType: PaddingFIFOQueue.Dequeue
+  fullName: PaddingFIFOQueue.Dequeue
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: DequeueExecute
+  nameWithType: PaddingFIFOQueue.DequeueExecute
+  fullName: PaddingFIFOQueue.DequeueExecute
+- uid: TensorFlow.PaddingFIFOQueue.DequeueExecute``1*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: DequeueExecute<T>
+  nameWithType: PaddingFIFOQueue.DequeueExecute<T>
+  fullName: PaddingFIFOQueue.DequeueExecute<T>
+- uid: TensorFlow.PaddingFIFOQueue.Enqueue*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: Enqueue
+  nameWithType: PaddingFIFOQueue.Enqueue
+  fullName: PaddingFIFOQueue.Enqueue
+- uid: TensorFlow.PaddingFIFOQueue.EnqueueExecute*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: EnqueueExecute
+  nameWithType: PaddingFIFOQueue.EnqueueExecute
+  fullName: PaddingFIFOQueue.EnqueueExecute
+- uid: TensorFlow.PaddingFIFOQueue.GetSize*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: GetSize
+  nameWithType: PaddingFIFOQueue.GetSize
+  fullName: PaddingFIFOQueue.GetSize
+- uid: TensorFlow.PaddingFIFOQueue.GetSizeExecute*
+  parent: TensorFlow.PaddingFIFOQueue
+  isExternal: false
+  name: GetSizeExecute
+  nameWithType: PaddingFIFOQueue.GetSizeExecute
+  fullName: PaddingFIFOQueue.GetSizeExecute
+- uid: TensorFlow.QueueBase.Session
+  parent: TensorFlow.QueueBase
+  isExternal: false
+  name: Session
+  nameWithType: QueueBase.Session
+  fullName: QueueBase.Session

@@ -1,0 +1,73 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFDependencies
+  id: TFDependencies
+  children:
+  - TensorFlow.TFDependencies.Dispose
+  langs:
+  - csharp
+  name: TFDependencies
+  nameWithType: TFDependencies
+  fullName: TensorFlow.TFDependencies
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: TFGraph variable dependencies handle.
+  remarks: >-
+    Instances of this class, when disposed, restore <xref href="TensorFlow.TFGraph.CurrentDependencies"></xref>
+                to the value it had before the <xref href="TensorFlow.TFGraph.WithDependencies(TensorFlow.TFOperation[])"></xref> method
+                was called.
+  syntax:
+    content: 'public class TFDependencies : IDisposable'
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers: []
+- uid: TensorFlow.TFDependencies.Dispose
+  id: Dispose
+  parent: TensorFlow.TFDependencies
+  langs:
+  - csharp
+  name: Dispose()
+  nameWithType: TFDependencies.Dispose()
+  fullName: TFDependencies.Dispose()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Pops the variable dependencies to the previous dependencies in use.
+  remarks: >-
+    Call <xref href="TensorFlow.TFDependencies.Dispose"></xref> when you are finished using the <xref href="TensorFlow.TFDependencies"></xref>
+                to restore the previous variable dependencies in use in the <xref href="TensorFlow.TFGraph"></xref>.
+  syntax:
+    content: public void Dispose ();
+    parameters: []
+  overload: TensorFlow.TFDependencies.Dispose*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFDependencies.Dispose
+  parent: TensorFlow.TFDependencies
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDependencies.Dispose()
+  fullName: TFDependencies.Dispose()
+- uid: TensorFlow.TFDependencies.Dispose*
+  parent: TensorFlow.TFDependencies
+  isExternal: false
+  name: Dispose
+  nameWithType: TFDependencies.Dispose
+  fullName: TFDependencies.Dispose
+- uid: System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable

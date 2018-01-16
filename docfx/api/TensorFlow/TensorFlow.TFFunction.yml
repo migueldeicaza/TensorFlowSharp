@@ -1,0 +1,168 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFFunction
+  id: TFFunction
+  children:
+  - TensorFlow.TFFunction.ImportFunctionDef(System.Byte[],TensorFlow.TFStatus)
+  - TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
+  langs:
+  - csharp
+  name: TFFunction
+  nameWithType: TFFunction
+  fullName: TensorFlow.TFFunction
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    A grouping of operations with defined inputs and outputs.
+                Once created and added to graphs, functions can be invoked by creating an
+                operation whose operation type matches the function name.
+  syntax:
+    content: 'public class TFFunction : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Dispose(System.Boolean)
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFFunction.ImportFunctionDef(System.Byte[],TensorFlow.TFStatus)
+  id: ImportFunctionDef(System.Byte[],TensorFlow.TFStatus)
+  parent: TensorFlow.TFFunction
+  langs:
+  - csharp
+  name: ImportFunctionDef(Byte[], TFStatus)
+  nameWithType: TFFunction.ImportFunctionDef(Byte[], TFStatus)
+  fullName: TFFunction.ImportFunctionDef(Byte[], TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Construct and return the function whose FunctionDef representation is
+                serialized in <code>proto</code> proto
+  syntax:
+    content: public TensorFlow.TFFunction ImportFunctionDef (byte[] proto, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: proto
+      type: System.Byte[]
+      description: Array containing the serialized FunctionDef in a protocol buffer.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFFunction
+      description: The function definition, or null on failure.
+  overload: TensorFlow.TFFunction.ImportFunctionDef*
+  exceptions: []
+- uid: TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
+  id: ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
+  parent: TensorFlow.TFFunction
+  langs:
+  - csharp
+  name: ToFunctionDef(TFBuffer, TFStatus)
+  nameWithType: TFFunction.ToFunctionDef(TFBuffer, TFStatus)
+  fullName: TFFunction.ToFunctionDef(TFBuffer, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Write out a serialized representation of the function as a FunctionDef protocol message to the provided <code>outputFuncDef</code>
+  syntax:
+    content: public void ToFunctionDef (TensorFlow.TFBuffer outputFuncDef, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: outputFuncDef
+      type: TensorFlow.TFBuffer
+      description: An allocated buffer where the function will be serialized.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+  overload: TensorFlow.TFFunction.ToFunctionDef*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFFunction.ImportFunctionDef(System.Byte[],TensorFlow.TFStatus)
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: ImportFunctionDef(Byte[], TFStatus)
+  nameWithType: TFFunction.ImportFunctionDef(Byte[], TFStatus)
+  fullName: TFFunction.ImportFunctionDef(Byte[], TFStatus)
+- uid: TensorFlow.TFFunction
+  parent: TensorFlow
+  isExternal: false
+  name: TFFunction
+  nameWithType: TFFunction
+  fullName: TensorFlow.TFFunction
+- uid: System.Byte
+  name: Byte
+  nameWithType: Byte
+  fullName: System.Byte
+- uid: System.Byte[]
+  parent: System
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: ToFunctionDef(TFBuffer, TFStatus)
+  nameWithType: TFFunction.ToFunctionDef(TFBuffer, TFStatus)
+  fullName: TFFunction.ToFunctionDef(TFBuffer, TFStatus)
+- uid: TensorFlow.TFBuffer
+  parent: TensorFlow
+  isExternal: false
+  name: TFBuffer
+  nameWithType: TFBuffer
+  fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFFunction.ImportFunctionDef*
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: ImportFunctionDef
+  nameWithType: TFFunction.ImportFunctionDef
+  fullName: TFFunction.ImportFunctionDef
+- uid: TensorFlow.TFFunction.ToFunctionDef*
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: ToFunctionDef
+  nameWithType: TFFunction.ToFunctionDef
+  fullName: TFFunction.ToFunctionDef
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposable.Dispose(Boolean)
+  fullName: TFDisposable.Dispose(Boolean)
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

@@ -1,0 +1,69 @@
+<Type Name="TFFunction" FullName="TensorFlow.TFFunction">
+  <TypeSignature Language="C#" Value="public class TFFunction : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFFunction extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            A grouping of operations with defined inputs and outputs.
+            Once created and added to graphs, functions can be invoked by creating an
+            operation whose operation type matches the function name.
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="ImportFunctionDef">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFFunction ImportFunctionDef (byte[] proto, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFFunction ImportFunctionDef(unsigned int8[] proto, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFFunction</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="proto" Type="System.Byte[]" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="proto">Array containing the serialized FunctionDef in a protocol buffer.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Construct and return the function whose FunctionDef representation is
+            serialized in <paramref name="proto" /> proto
+            </summary>
+        <returns>The function definition, or null on failure.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToFunctionDef">
+      <MemberSignature Language="C#" Value="public void ToFunctionDef (TensorFlow.TFBuffer outputFuncDef, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ToFunctionDef(class TensorFlow.TFBuffer outputFuncDef, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="outputFuncDef" Type="TensorFlow.TFBuffer" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="outputFuncDef">An allocated buffer where the function will be serialized.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Write out a serialized representation of the function as a FunctionDef protocol message to the provided <paramref name="outputFuncDef" /></summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

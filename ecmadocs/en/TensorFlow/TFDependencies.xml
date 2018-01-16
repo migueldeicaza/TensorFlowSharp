@@ -1,0 +1,49 @@
+<Type Name="TFDependencies" FullName="TensorFlow.TFDependencies">
+  <TypeSignature Language="C#" Value="public class TFDependencies : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFDependencies extends System.Object implements class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+            TFGraph variable dependencies handle.
+            </summary>
+    <remarks>
+            Instances of this class, when disposed, restore <see cref="P:TensorFlow.TFGraph.CurrentDependencies" />
+            to the value it had before the <see cref="M:TensorFlow.TFGraph.WithDependencies(TensorFlow.TFOperation[])" /> method
+            was called.
+            </remarks>
+    <altmember cref="T:System.IDisposable" />
+  </Docs>
+  <Members>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Pops the variable dependencies to the previous dependencies in use.
+            </summary>
+        <remarks>Call <see cref="M:TensorFlow.TFDependencies.Dispose" /> when you are finished using the <see cref="T:TensorFlow.TFDependencies" />
+            to restore the previous variable dependencies in use in the <see cref="T:TensorFlow.TFGraph" />.
+            </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

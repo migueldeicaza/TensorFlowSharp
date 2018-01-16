@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class QueueBase
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class QueueBase
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.QueueBase">
+  
+  
+  <h1 id="TensorFlow_QueueBase" data-uid="TensorFlow.QueueBase">Class QueueBase
+  </h1>
+  <div class="markdown level0 summary"><p>Base class for queue implementations.
+            Port of Python implementation <a href="https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py">https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py</a></p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">QueueBase</span></div>
+  </div>
+      <div class="level2"><a class="xref" href="TensorFlow.PaddingFIFOQueue.html">PaddingFIFOQueue</a></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_QueueBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class QueueBase</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_QueueBase__ctor_" data-uid="TensorFlow.QueueBase.#ctor*"></a>
+  <h4 id="TensorFlow_QueueBase__ctor_TensorFlow_TFSession_" data-uid="TensorFlow.QueueBase.#ctor(TensorFlow.TFSession)">QueueBase(TFSession)</h4>
+  <div class="markdown level1 summary"><p>A queue is a TensorFlow data structure that stores tensors across
+            multiple steps, and exposes operations that enqueue and dequeue
+            tensors.
+            Each queue element is a tuple of one or more tensors, where each
+            tuple component has a static dtype, and may have a static shape.The
+            queue implementations support versions of enqueue and dequeue that
+            handle single elements, versions that support enqueuing and
+            dequeuing a batch of elements at once.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public QueueBase (TensorFlow.TFSession session);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSession.html">TFSession</a></td>
+        <td><span class="parametername">session</span></td>
+        <td><p>Session instance</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_QueueBase_Session_" data-uid="TensorFlow.QueueBase.Session*"></a>
+  <h4 id="TensorFlow_QueueBase_Session" data-uid="TensorFlow.QueueBase.Session">Session</h4>
+  <div class="markdown level1 summary"><p>The session that this QueueBased was created for.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected TensorFlow.TFSession Session { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFSession.html">TFSession</a></td>
+        <td><p>The session.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_QueueBase_Dequeue_" data-uid="TensorFlow.QueueBase.Dequeue*"></a>
+  <h4 id="TensorFlow_QueueBase_Dequeue_System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.QueueBase.Dequeue(System.Nullable{System.Int64},System.String)">Dequeue(Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Dequeues a tuple of one or more tensors from this queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract TensorFlow.TFOutput[] Dequeue (Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is empty, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueDequeueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><p>One or more tensors that were dequeued as a tuple.
+              The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_QueueBase_Dequeue_System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This operation has k outputs, where k is the number of components
+              in the tuples stored in the given queue, and output i is the ith
+              component of the dequeued tuple.</p>
+</div>
+  
+  
+  <a id="TensorFlow_QueueBase_Enqueue_" data-uid="TensorFlow.QueueBase.Enqueue*"></a>
+  <h4 id="TensorFlow_QueueBase_Enqueue_TensorFlow_TFOutput___System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.QueueBase.Enqueue(TensorFlow.TFOutput[],System.Nullable{System.Int64},System.String)">Enqueue(TFOutput[], Nullable&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Enqueues a tuple of one or more tensors in this queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract TensorFlow.TFOperation Enqueue (TensorFlow.TFOutput[] components, Nullable&lt;long&gt; timeout_ms = null, string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><span class="parametername">components</span></td>
+        <td><p>One or more tensors from which the enqueued tensors should be taken.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">timeout_ms</span></td>
+        <td><p>Optional argument
+              If the queue is full, this operation will block for up to
+              timeout_ms milliseconds.
+              Note: This option is not supported yet.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;QueueEnqueueV2&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a></td>
+        <td><p>Returns the description of the operation</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_QueueBase_Enqueue_TensorFlow_TFOutput___System_Nullable_System_Int64__System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The components input has k elements, which correspond to the components of
+              tuples stored in the given queue.</p>
+</div>
+  
+  
+  <a id="TensorFlow_QueueBase_GetSize_" data-uid="TensorFlow.QueueBase.GetSize*"></a>
+  <h4 id="TensorFlow_QueueBase_GetSize_System_String_" data-uid="TensorFlow.QueueBase.GetSize(System.String)">GetSize(String)</h4>
+  <div class="markdown level1 summary"><p>Gets the size of this queue.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract TensorFlow.TFOutput GetSize (string operationName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operationName</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><p>queue size</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

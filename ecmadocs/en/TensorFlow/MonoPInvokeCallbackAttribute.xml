@@ -1,0 +1,45 @@
+<Type Name="MonoPInvokeCallbackAttribute" FullName="TensorFlow.MonoPInvokeCallbackAttribute">
+  <TypeSignature Language="C#" Value="public sealed class MonoPInvokeCallbackAttribute : Attribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit MonoPInvokeCallbackAttribute extends System.Attribute" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Attribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            This attribute can be applied to callback functions that will be invoked
+            from unmanaged code to managed code.
+            </summary>
+    <remarks>
+      <code>
+            [TensorFlow.MonoPInvokeCallback (typeof (BufferReleaseFunc))]
+            internal static void MyFreeFunc (IntPtr data, IntPtr length){..}
+            </code>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MonoPInvokeCallbackAttribute (Type t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Type t) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="t" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="t">T.</param>
+        <summary>
+            Use this constructor to annotate the type of the callback function that 
+            will be invoked from unmanaged code.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

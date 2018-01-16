@@ -1,0 +1,123 @@
+<Type Name="Variable" FullName="TensorFlow.Variable">
+  <TypeSignature Language="C#" Value="public class Variable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Variable extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            The Variable class holds the TFOutput nodes that are used to initialize, read and assign a value to a variable.   
+            </summary>
+    <remarks>
+            A variable maintains state in the graph across calls to `run()`. You add a
+            variable to the graph by constructing an instance of the class `Variable`.
+            
+            The `Variable()` constructor requires an initial value for the variable,
+            which can be a `Tensor` of any type and shape. The initial value defines the
+            type and shape of the variable. After construction, the type and shape of
+            the variable are fixed. The value can be changed using one of the assign
+            methods.
+            
+            When a variable is created a VarHandleOp is created which is returned as 
+            the VariableOp property, an assign operation is created that can be accessed
+            using the assignHandle and you can read the value of the variable using the
+            ReadHandle.
+            
+            When you launch the graph, variables have to be explicitly initialized before
+            you can run Ops that use their value. You can initialize a variable by
+            running its *initializer op*, restoring the variable from a save file, or
+            simply running an `assign` Op that assigns a value to the variable. In fact,
+            the variable *initializer op* is just an `assign` Op that assigns the
+            variable's initial value to the variable itself.
+            
+            There is an implicit conversion from the Variable into the VarHandleOp if
+            used.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Assign">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation Assign { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.TFOperation Assign" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Returns the AssignVariableOp that is used to assign the initial value to the variable from the graph.
+            </summary>
+        <value>The assign op.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFOutput op_Implicit (TensorFlow.Variable variable);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname valuetype TensorFlow.TFOutput op_Implicit(class TensorFlow.Variable variable) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="variable" Type="TensorFlow.Variable" />
+      </Parameters>
+      <Docs>
+        <param name="variable">Variable reference.</param>
+        <summary>
+            Returns the VarHandleOp (the VariableOp property).
+            </summary>
+        <returns>The variable handle created for the variable.</returns>
+        <remarks>
+            This implicit operator exists to preserve the compatibility with code that
+            created Variables and expected the result to be the VariableOp.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Read { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFOutput Read" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Returns the ReadVariableOp that is used to fetch the value of the variable from the graph.
+            </summary>
+        <value>The read op.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="VariableOp">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput VariableOp { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.TFOutput VariableOp" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Returns the VarHandleOp that was created using the shape of the initial value.
+            </summary>
+        <value>The variable op.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
