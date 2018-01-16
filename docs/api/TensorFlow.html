@@ -83,11 +83,22 @@
       <section><p>This attribute can be applied to callback functions that will be invoked
             from unmanaged code to managed code.</p>
 </section>
+      <h4><a class="xref" href="TensorFlow/TensorFlow.PaddingFIFOQueue.html">PaddingFIFOQueue</a></h4>
+      <section><p>A FIFOQueue that supports batching variable-sized tensors by padding.
+            Port of Python implementation <a href="https://github.com/tensorflow/tensorflow/blob/b46340f40fe5e2ec9bfcd385b07cfb914055fb51/tensorflow/python/ops/data_flow_ops.py#L697">https://github.com/tensorflow/tensorflow/blob/b46340f40fe5e2ec9bfcd385b07cfb914055fb51/tensorflow/python/ops/data_flow_ops.py#L697</a></p>
+</section>
+      <h4><a class="xref" href="TensorFlow/TensorFlow.QueueBase.html">QueueBase</a></h4>
+      <section><p>Base class for queue implementations.
+            Port of Python implementation <a href="https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py">https://github.com/tensorflow/tensorflow/blob/r1.3/tensorflow/python/ops/data_flow_ops.py</a></p>
+</section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFBuffer.html">TFBuffer</a></h4>
       <section><p>Holds a block of data, suitable to pass, or retrieve from TensorFlow.</p>
 </section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFCore.html">TFCore</a></h4>
       <section><p>Contains TensorFlow fundamental methods and utility functions.</p>
+</section>
+      <h4><a class="xref" href="TensorFlow/TensorFlow.TFDependencies.html">TFDependencies</a></h4>
+      <section><p>TFGraph variable dependencies handle.</p>
 </section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFDisposable.html">TFDisposable</a></h4>
       <section><p>Base class for many TensorFlow data types that provides a common idiom to dispose and
@@ -96,6 +107,11 @@
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFException.html">TFException</a></h4>
       <section><p>TensorFlow Exception</p>
 </section>
+      <h4><a class="xref" href="TensorFlow/TensorFlow.TFFunction.html">TFFunction</a></h4>
+      <section><p>A grouping of operations with defined inputs and outputs.
+            Once created and added to graphs, functions can be invoked by creating an
+            operation whose operation type matches the function name.</p>
+</section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFGraph.html">TFGraph</a></h4>
       <section><p>Represents a computation graph.  Graphs may be shared between sessions and are thread safe.</p>
 </section>
@@ -103,7 +119,8 @@
       <section><p>Contains options that are used to control how graph importing works.</p>
 </section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFLibrary.html">TFLibrary</a></h4>
-      <section></section>
+      <section><p>Represents a dynamically loaded library of TensorFlow operations, use to load and consume TensorFlow operations from an external library.</p>
+</section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFOperation.html">TFOperation</a></h4>
       <section><p>Represents a computation node in the graph.  Tensorflow operations are attached to a <span class="xref">Tensorflow.TFGraph</span>.</p>
 </section>
@@ -135,13 +152,17 @@
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFTensor.html">TFTensor</a></h4>
       <section><p>TFTensor holds a multi-dimensional array of elements of a single data type.</p>
 </section>
+      <h4><a class="xref" href="TensorFlow/TensorFlow.Variable.html">Variable</a></h4>
+      <section><p>The Variable class holds the TFOutput nodes that are used to initialize, read and assign a value to a variable.</p>
+</section>
     <h3 id="structs">Structs
   </h3>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFAttributeMetadata.html">TFAttributeMetadata</a></h4>
       <section><p>Low-level: this describes the tensorflow type information for an attribute in the low-level attributes used by operations.</p>
 </section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFInput.html">TFInput</a></h4>
-      <section></section>
+      <section><p>Represents a specific input of an operation.</p>
+</section>
       <h4><a class="xref" href="TensorFlow/TensorFlow.TFOutput.html">TFOutput</a></h4>
       <section><p>Represents a specific output of an operation on a tensor.</p>
 </section>

@@ -69,7 +69,7 @@ items:
     parameters:
     - id: output
       type: TensorFlow.TFOutput
-      description: To be added.
+      description: The other TFOutput that is having its operation attached.
     - id: index
       type: System.Int32
       description: The index of the output within the operation, if not specified, it defaults to zero.
@@ -87,6 +87,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: The index of the output within the operation.
   syntax:
     content: public int Index;
     return:
@@ -190,12 +191,13 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Returns a <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFOutput"></xref>.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: To be added.
+      description: A <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFOutput"></xref>.
   overload: TensorFlow.TFOutput.ToString*
   exceptions: []
 references:

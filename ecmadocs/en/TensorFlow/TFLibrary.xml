@@ -10,8 +10,13 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>
+            Represents a dynamically loaded library of TensorFlow operations, use to load and consume TensorFlow operations from an external library.
+            </summary>
+    <remarks>
+            Use the static method <see cref="M:Tensorflow.TFLibrary.FromFile" /> to load a dynamic library.
+            Once that function returns
+            </remarks>
   </Docs>
   <Members>
     <Member MemberName="FromFile">
@@ -29,11 +34,17 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="libraryFile">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="libraryFile">Name of the library to load, this is a platform specific name.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Load the library specified by and register the operations and
+            kernels present in that library.
+            </summary>
+        <returns>Handle to the loaded library.</returns>
+        <remarks>
+            The provided <paramref name="libraryFile" /> is passed to the operating system dynamic loader
+            and it will load the library using the operating system defined search paths and rules to load this.
+            </remarks>
       </Docs>
     </Member>
   </Members>

@@ -43,9 +43,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Creates a new execution session with an empty graph
+            </summary>
+        <remarks>
+            The created graph can be retrieved using the Graph property on the session.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -60,9 +64,11 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="graph">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="graph">The Graph to which this session is associated.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Creates a new execution session associated with the specified session graph.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -79,10 +85,12 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="graph">To be added.</param>
-        <param name="sessionOptions">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="graph">The Graph to which this session is associated.</param>
+        <param name="sessionOptions">Session options.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Creates a new execution session associated with the specified session graph with some configuration options.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -100,9 +108,13 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Closes the session.  Contacts any other processes associated with the session, if applicable.
+            </summary>
+        <remarks>
+            Can not be called after calling DeleteSession.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="DeleteSession">
@@ -144,16 +156,20 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="sessionOptions">To be added.</param>
-        <param name="runOptions">To be added.</param>
-        <param name="exportDir">To be added.</param>
-        <param name="tags">To be added.</param>
-        <param name="graph">To be added.</param>
-        <param name="metaGraphDef">To be added.</param>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sessionOptions">Session options to use for the new session.</param>
+        <param name="runOptions">Options to use to initialize the state (can be null).</param>
+        <param name="exportDir">must be set to the path of the exported SavedModel.</param>
+        <param name="tags">must include the set of tags used to identify one MetaGraphDef in the SavedModel.</param>
+        <param name="graph">This must be a newly created graph.</param>
+        <param name="metaGraphDef">On success, this will be populated on return with the contents of the MetaGraphDef (can be null).</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Creates a session and graph from a saved session model
+            </summary>
+        <returns>On success, this populates the provided <paramref name="graph" /> with the contents of the graph stored in the specified model and <paramref name="metaGraphDef" /> with the MetaGraphDef of the loaded model.</returns>
+        <remarks>
+            This function creates a new session using the specified <paramref name="sessionOptions" /> and then initializes
+            the state (restoring tensors and other assets) using <paramref name="runOptions" /></remarks>
       </Docs>
     </Member>
     <Member MemberName="GetRunner">

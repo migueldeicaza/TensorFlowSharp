@@ -1116,6 +1116,28 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="TensorTypeFromType">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFDataType TensorTypeFromType (Type type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype TensorFlow.TFDataType TensorTypeFromType(class System.Type type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="type">The system type to be converted.</param>
+        <summary>
+            Converts a system type to a <see cref="T:TensorFlow.TFDataType" />.
+            </summary>
+        <returns>The <see cref="T:TensorFlow.TFDataType" /> corresponding to the given type.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="ToString">
       <MemberSignature Language="C#" Value="public override string ToString ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
@@ -1128,8 +1150,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFTensor" />.
+            </summary>
+        <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFTensor" />.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TypeFromTensorType">
+      <MemberSignature Language="C#" Value="public static Type TypeFromTensorType (TensorFlow.TFDataType type);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Type TypeFromTensorType(valuetype TensorFlow.TFDataType type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type" Type="TensorFlow.TFDataType" />
+      </Parameters>
+      <Docs>
+        <param name="type">The <see cref="T:TensorFlow.TFDataType" /> to be converted.</param>
+        <summary>
+            Converts a <see cref="T:TensorFlow.TFDataType" /> to a system type.
+            </summary>
+        <returns>The system type corresponding to the given <paramref name="type" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

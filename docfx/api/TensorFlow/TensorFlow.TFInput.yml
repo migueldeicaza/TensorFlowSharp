@@ -16,6 +16,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Represents a specific input of an operation.
   syntax:
     content: public struct TFInput
   inheritance:
@@ -56,6 +57,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: The index of the output within the Operation
   syntax:
     content: public int Index;
     return:
@@ -93,6 +95,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: The operation that this input is for
   syntax:
     content: public IntPtr Operation;
     return:

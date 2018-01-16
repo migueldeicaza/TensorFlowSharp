@@ -24,6 +24,8 @@ items:
   - TensorFlow.TFDataType.String
   - TensorFlow.TFDataType.UInt16
   - TensorFlow.TFDataType.UInt8
+  - TensorFlow.TFDataType.Unknown
+  - TensorFlow.TFDataType.Variant
   langs:
   - csharp
   name: TFDataType
@@ -72,6 +74,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: 8-bit boolean (C# bool)
   syntax:
     content: Bool
     return:
@@ -185,6 +188,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Half floats - 16-bit half precision floating point.
   syntax:
     content: Half
     return:
@@ -374,6 +378,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Handle to a mutable resource.
   syntax:
     content: Resource
     return:
@@ -433,6 +438,44 @@ items:
   summary: 8 bit unsigned integers (C# byte)
   syntax:
     content: UInt8
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Unknown
+  id: Unknown
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Unknown
+  nameWithType: TFDataType.Unknown
+  fullName: TFDataType.Unknown
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The TFDataType has not been set
+  syntax:
+    content: Unknown
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.Variant
+  id: Variant
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: Variant
+  nameWithType: TFDataType.Variant
+  fullName: TFDataType.Variant
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Variant data type
+  syntax:
+    content: Variant
     return:
       type: TensorFlow.TFDataType
       description: To be added.
@@ -576,3 +619,15 @@ references:
   name: UInt8
   nameWithType: TFDataType.UInt8
   fullName: TFDataType.UInt8
+- uid: TensorFlow.TFDataType.Unknown
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Unknown
+  nameWithType: TFDataType.Unknown
+  fullName: TFDataType.Unknown
+- uid: TensorFlow.TFDataType.Variant
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: Variant
+  nameWithType: TFDataType.Variant
+  fullName: TFDataType.Variant

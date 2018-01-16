@@ -11,6 +11,7 @@ items:
   - TensorFlow.TFShape.Item(System.Int32)
   - TensorFlow.TFShape.NumDimensions
   - TensorFlow.TFShape.op_Addition(TensorFlow.TFShape,TensorFlow.TFShape)
+  - TensorFlow.TFShape.op_Implicit(TensorFlow.TFShape to TensorFlow.TFTensor)
   - TensorFlow.TFShape.Scalar
   - TensorFlow.TFShape.ToArray
   - TensorFlow.TFShape.ToIntArray
@@ -237,6 +238,30 @@ items:
       description: The <xref href="TensorFlow.TFShape"></xref> that is the sum of the values of <code>left</code> and <code>right</code>.
   overload: TensorFlow.TFShape.op_Addition*
   exceptions: []
+- uid: TensorFlow.TFShape.op_Implicit(TensorFlow.TFShape to TensorFlow.TFTensor)
+  id: op_Implicit(TensorFlow.TFShape to TensorFlow.TFTensor)
+  parent: TensorFlow.TFShape
+  langs:
+  - csharp
+  name: op_Implicit(TFShape to TFTensor)
+  nameWithType: TFShape.op_Implicit(TFShape to TFTensor)
+  fullName: TFShape.op_Implicit(TFShape to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Performs an implicit conversion from <xref href="TensorFlow.TFShape"></xref> to <xref href="TensorFlow.TFTensor"></xref>.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (TensorFlow.TFShape shape);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: The shape.
+    return:
+      type: TensorFlow.TFTensor
+      description: The result of the conversion.
+  overload: TensorFlow.TFShape.op_Implicit*
+  exceptions: []
 - uid: TensorFlow.TFShape.Scalar
   id: Scalar
   parent: TensorFlow.TFShape
@@ -311,12 +336,13 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Returns a <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFShape"></xref>.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: To be added.
+      description: A <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFShape"></xref>.
   overload: TensorFlow.TFShape.ToString*
   exceptions: []
 - uid: TensorFlow.TFShape.Unknown
@@ -436,6 +462,12 @@ references:
   name: TFShape
   nameWithType: TFShape
   fullName: TensorFlow.TFShape
+- uid: TensorFlow.TFShape.op_Implicit(TensorFlow.TFShape to TensorFlow.TFTensor)
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: op_Implicit(TFShape to TFTensor)
+  nameWithType: TFShape.op_Implicit(TFShape to TFTensor)
+  fullName: TFShape.op_Implicit(TFShape to TFTensor)
 - uid: TensorFlow.TFShape.Scalar
   parent: TensorFlow.TFShape
   isExternal: false
@@ -534,6 +566,12 @@ references:
   name: op_Addition
   nameWithType: TFShape.op_Addition
   fullName: TFShape.op_Addition
+- uid: TensorFlow.TFShape.op_Implicit*
+  parent: TensorFlow.TFShape
+  isExternal: false
+  name: op_Implicit
+  nameWithType: TFShape.op_Implicit
+  fullName: TFShape.op_Implicit
 - uid: TensorFlow.TFShape.Scalar*
   parent: TensorFlow.TFShape
   isExternal: false

@@ -59,7 +59,7 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="output">To be added.</param>
+        <param name="output">The other TFOutput that is having its operation attached.</param>
         <param name="index">The index of the output within the operation, if not specified, it defaults to zero.</param>
         <summary>
             Initializes a new TFOutput instance from another TFOutput
@@ -78,7 +78,9 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            The index of the output within the operation.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -172,8 +174,10 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFOutput" />.
+            </summary>
+        <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFOutput" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

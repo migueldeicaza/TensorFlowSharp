@@ -4,6 +4,10 @@
   items:
   - uid: TensorFlow.MonoPInvokeCallbackAttribute
     name: MonoPInvokeCallbackAttribute
+  - uid: TensorFlow.PaddingFIFOQueue
+    name: PaddingFIFOQueue
+  - uid: TensorFlow.QueueBase
+    name: QueueBase
   - uid: TensorFlow.TFAttributeMetadata
     name: TFAttributeMetadata
   - uid: TensorFlow.TFAttributeType
@@ -18,10 +22,14 @@
     name: TFCore
   - uid: TensorFlow.TFDataType
     name: TFDataType
+  - uid: TensorFlow.TFDependencies
+    name: TFDependencies
   - uid: TensorFlow.TFDisposable
     name: TFDisposable
   - uid: TensorFlow.TFException
     name: TFException
+  - uid: TensorFlow.TFFunction
+    name: TFFunction
   - uid: TensorFlow.TFGraph
     name: TFGraph
   - uid: TensorFlow.TFGraph.WhileConstructor
@@ -56,3 +64,5 @@
     name: TFTensor
   - uid: TensorFlow.TFTensor.Deallocator
     name: TFTensor.Deallocator
+  - uid: TensorFlow.Variable
+    name: Variable

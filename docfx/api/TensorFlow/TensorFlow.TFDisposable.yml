@@ -35,6 +35,7 @@ items:
   - System.Object
   derivedClasses:
   - TensorFlow.TFBuffer
+  - TensorFlow.TFFunction
   - TensorFlow.TFGraph
   - TensorFlow.TFImportGraphDefOptions
   - TensorFlow.TFLibrary

@@ -76,12 +76,13 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Returns a <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFAttributeMetadata"></xref>.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: To be added.
+      description: A <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFAttributeMetadata"></xref>.
   overload: TensorFlow.TFAttributeMetadata.ToString*
   exceptions: []
 - uid: TensorFlow.TFAttributeMetadata.TotalSize

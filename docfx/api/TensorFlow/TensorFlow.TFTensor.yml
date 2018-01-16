@@ -4,6 +4,7 @@ items:
   id: TFTensor
   children:
   - TensorFlow.TFTensor.#ctor(System.Array)
+  - TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
   - TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.Int32)
   - TensorFlow.TFTensor.#ctor(System.UInt16[])
   - TensorFlow.TFTensor.#ctor(System.UInt16)
@@ -11,47 +12,48 @@ items:
   - TensorFlow.TFTensor.#ctor(System.Single)
   - TensorFlow.TFTensor.#ctor(System.SByte[])
   - TensorFlow.TFTensor.#ctor(System.SByte)
-  - TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])
   - TensorFlow.TFTensor.#ctor(System.Numerics.Complex)
   - TensorFlow.TFTensor.#ctor(System.Int64[])
-  - TensorFlow.TFTensor.#ctor(System.Int64)
+  - TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])
   - TensorFlow.TFTensor.#ctor(System.Int32[])
-  - TensorFlow.TFTensor.#ctor(System.Int32)
-  - TensorFlow.TFTensor.#ctor(System.Int16[])
-  - TensorFlow.TFTensor.#ctor(System.Int16)
-  - TensorFlow.TFTensor.#ctor(System.Double[])
-  - TensorFlow.TFTensor.#ctor(System.Double)
-  - TensorFlow.TFTensor.#ctor(System.Byte[])
-  - TensorFlow.TFTensor.#ctor(System.Byte)
-  - TensorFlow.TFTensor.#ctor(System.Boolean[])
   - TensorFlow.TFTensor.#ctor(System.Boolean)
-  - TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
+  - TensorFlow.TFTensor.#ctor(System.Boolean[])
+  - TensorFlow.TFTensor.#ctor(System.Int64)
+  - TensorFlow.TFTensor.#ctor(System.Byte[])
+  - TensorFlow.TFTensor.#ctor(System.Double)
+  - TensorFlow.TFTensor.#ctor(System.Byte)
+  - TensorFlow.TFTensor.#ctor(System.Int16)
+  - TensorFlow.TFTensor.#ctor(System.Int16[])
+  - TensorFlow.TFTensor.#ctor(System.Int32)
+  - TensorFlow.TFTensor.#ctor(System.Double[])
   - TensorFlow.TFTensor.CreateString(System.Byte[])
   - TensorFlow.TFTensor.Data
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
   - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.SByte[],System.Int32,System.Int32)
-  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Single[],System.Int32,System.Int32)
   - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Single[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
+  - TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
   - TensorFlow.TFTensor.GetTensorDimension(System.Int32)
   - TensorFlow.TFTensor.GetValue(System.Boolean)
   - TensorFlow.TFTensor.NumDims
-  - TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
-  - TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
   - TensorFlow.TFTensor.op_Implicit(System.Single to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)
+  - TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)
   - TensorFlow.TFTensor.Shape
   - TensorFlow.TFTensor.TensorByteSize
   - TensorFlow.TFTensor.TensorType
+  - TensorFlow.TFTensor.TensorTypeFromType(System.Type)
   - TensorFlow.TFTensor.ToString
+  - TensorFlow.TFTensor.TypeFromTensorType(TensorFlow.TFDataType)
   langs:
   - csharp
   name: TFTensor
@@ -92,6 +94,42 @@ items:
     - id: array
       type: System.Array
       description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
+  id: '#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  fullName: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.
+  syntax:
+    content: public TFTensor (TensorFlow.TFDataType dataType, long[] dims, IntPtr data, UIntPtr dataSize, TensorFlow.TFTensor.Deallocator deallocator, IntPtr deallocatorData);
+    parameters:
+    - id: dataType
+      type: TensorFlow.TFDataType
+      description: Specifies the data type held by the tensor, as well as how to interpret the provided data.
+    - id: dims
+      type: System.Int64[]
+      description: Describes the tensor shape, an array that indicates .
+    - id: data
+      type: System.IntPtr
+      description: Pointer to the raw data that will be used to initialize the tensor.
+    - id: dataSize
+      type: System.UIntPtr
+      description: The size of the data being passed in.
+    - id: deallocator
+      type: TensorFlow.TFTensor+Deallocator
+      description: Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <xref href="TensorFlow.MonoPInvokeCallbackAttribute"></xref>.
+    - id: deallocatorData
+      type: System.IntPtr
+      description: An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
 - uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.Int32)
@@ -250,27 +288,6 @@ items:
       description: To be added.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])
-  id: '#ctor(System.Numerics.Complex[])'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Complex[])
-  nameWithType: TFTensor.TFTensor(Complex[])
-  fullName: TFTensor.TFTensor(Complex[])
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a 1 dimensional tensor from an array of complex numbers.
-  syntax:
-    content: public TFTensor (System.Numerics.Complex[] data);
-    parameters:
-    - id: data
-      type: System.Numerics.Complex[]
-      description: Data.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
 - uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex)
   id: '#ctor(System.Numerics.Complex)'
   parent: TensorFlow.TFTensor
@@ -313,25 +330,25 @@ items:
       description: Data.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Int64)
-  id: '#ctor(System.Int64)'
+- uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])
+  id: '#ctor(System.Numerics.Complex[])'
   parent: TensorFlow.TFTensor
   langs:
   - csharp
-  name: TFTensor(Int64)
-  nameWithType: TFTensor.TFTensor(Int64)
-  fullName: TFTensor.TFTensor(Int64)
+  name: TFTensor(Complex[])
+  nameWithType: TFTensor.TFTensor(Complex[])
+  fullName: TFTensor.TFTensor(Complex[])
   type: Constructor
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Creates a constant tensor with a single dimension from a long value.
+  summary: Creates a 1 dimensional tensor from an array of complex numbers.
   syntax:
-    content: public TFTensor (long value);
+    content: public TFTensor (System.Numerics.Complex[] data);
     parameters:
-    - id: value
-      type: System.Int64
-      description: To be added.
+    - id: data
+      type: System.Numerics.Complex[]
+      description: Data.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
 - uid: TensorFlow.TFTensor.#ctor(System.Int32[])
@@ -352,174 +369,6 @@ items:
     parameters:
     - id: data
       type: System.Int32[]
-      description: Data.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Int32)
-  id: '#ctor(System.Int32)'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Int32)
-  nameWithType: TFTensor.TFTensor(Int32)
-  fullName: TFTensor.TFTensor(Int32)
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a constant tensor with a single dimension from an integer value.
-  syntax:
-    content: public TFTensor (int value);
-    parameters:
-    - id: value
-      type: System.Int32
-      description: To be added.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Int16[])
-  id: '#ctor(System.Int16[])'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Int16[])
-  nameWithType: TFTensor.TFTensor(Int16[])
-  fullName: TFTensor.TFTensor(Int16[])
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a 1 dimensional tensor from an array of shorts.
-  syntax:
-    content: public TFTensor (short[] data);
-    parameters:
-    - id: data
-      type: System.Int16[]
-      description: Data.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Int16)
-  id: '#ctor(System.Int16)'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Int16)
-  nameWithType: TFTensor.TFTensor(Int16)
-  fullName: TFTensor.TFTensor(Int16)
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a constant tensor with a single dimension from a short value.
-  syntax:
-    content: public TFTensor (short value);
-    parameters:
-    - id: value
-      type: System.Int16
-      description: To be added.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Double[])
-  id: '#ctor(System.Double[])'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Double[])
-  nameWithType: TFTensor.TFTensor(Double[])
-  fullName: TFTensor.TFTensor(Double[])
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a 1 dimensional tensor from an array of doubles.
-  syntax:
-    content: public TFTensor (double[] data);
-    parameters:
-    - id: data
-      type: System.Double[]
-      description: Data.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Double)
-  id: '#ctor(System.Double)'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Double)
-  nameWithType: TFTensor.TFTensor(Double)
-  fullName: TFTensor.TFTensor(Double)
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a constant tensor with a single dimension from a double value.
-  syntax:
-    content: public TFTensor (double value);
-    parameters:
-    - id: value
-      type: System.Double
-      description: To be added.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Byte[])
-  id: '#ctor(System.Byte[])'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Byte[])
-  nameWithType: TFTensor.TFTensor(Byte[])
-  fullName: TFTensor.TFTensor(Byte[])
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a 1 dimensional tensor from an array of bytes.
-  syntax:
-    content: public TFTensor (byte[] data);
-    parameters:
-    - id: data
-      type: System.Byte[]
-      description: Data.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Byte)
-  id: '#ctor(System.Byte)'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Byte)
-  nameWithType: TFTensor.TFTensor(Byte)
-  fullName: TFTensor.TFTensor(Byte)
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a constant tensor with a single dimension from an byte value.
-  syntax:
-    content: public TFTensor (byte value);
-    parameters:
-    - id: value
-      type: System.Byte
-      description: To be added.
-  overload: TensorFlow.TFTensor.#ctor*
-  exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(System.Boolean[])
-  id: '#ctor(System.Boolean[])'
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: TFTensor(Boolean[])
-  nameWithType: TFTensor.TFTensor(Boolean[])
-  fullName: TFTensor.TFTensor(Boolean[])
-  type: Constructor
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a 1 dimensional tensor from an array of booleans.
-  syntax:
-    content: public TFTensor (bool[] data);
-    parameters:
-    - id: data
-      type: System.Boolean[]
       description: Data.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
@@ -544,40 +393,193 @@ items:
       description: To be added.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
-- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
-  id: '#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)'
+- uid: TensorFlow.TFTensor.#ctor(System.Boolean[])
+  id: '#ctor(System.Boolean[])'
   parent: TensorFlow.TFTensor
   langs:
   - csharp
-  name: TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
-  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
-  fullName: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  name: TFTensor(Boolean[])
+  nameWithType: TFTensor.TFTensor(Boolean[])
+  fullName: TFTensor.TFTensor(Boolean[])
   type: Constructor
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Low-level tensor constructor that creates a tensor from a buffer pointed to by an IntPtr.
+  summary: Creates a 1 dimensional tensor from an array of booleans.
   syntax:
-    content: public TFTensor (TensorFlow.TFDataType dataType, long[] dims, IntPtr data, UIntPtr dataSize, TensorFlow.TFTensor.Deallocator deallocator, IntPtr deallocatorData);
+    content: public TFTensor (bool[] data);
     parameters:
-    - id: dataType
-      type: TensorFlow.TFDataType
-      description: Specifies the data type held by the tensor, as well as how to interpret the provided data.
-    - id: dims
-      type: System.Int64[]
-      description: Describes the tensor shape, an array that indicates .
     - id: data
-      type: System.IntPtr
-      description: Pointer to the raw data that will be used to initialize the tensor.
-    - id: dataSize
-      type: System.UIntPtr
-      description: The size of the data being passed in.
-    - id: deallocator
-      type: TensorFlow.TFTensor+Deallocator
-      description: Deallocator method, it is invoked when the tensor is destroyed to release the data pointed to by <code>data</code>.   On platforms like iOS (or other static compilation platforms), yiou must annotate the method specified in the deallocator with a <xref href="TensorFlow.MonoPInvokeCallbackAttribute"></xref>.
-    - id: deallocatorData
-      type: System.IntPtr
-      description: An optional argument of data that is passed to the deallocator method when the tensor is destroyed, you can use this to pass context information.
+      type: System.Boolean[]
+      description: Data.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Int64)
+  id: '#ctor(System.Int64)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Int64)
+  nameWithType: TFTensor.TFTensor(Int64)
+  fullName: TFTensor.TFTensor(Int64)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a constant tensor with a single dimension from a long value.
+  syntax:
+    content: public TFTensor (long value);
+    parameters:
+    - id: value
+      type: System.Int64
+      description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Byte[])
+  id: '#ctor(System.Byte[])'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Byte[])
+  nameWithType: TFTensor.TFTensor(Byte[])
+  fullName: TFTensor.TFTensor(Byte[])
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a 1 dimensional tensor from an array of bytes.
+  syntax:
+    content: public TFTensor (byte[] data);
+    parameters:
+    - id: data
+      type: System.Byte[]
+      description: Data.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Double)
+  id: '#ctor(System.Double)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Double)
+  nameWithType: TFTensor.TFTensor(Double)
+  fullName: TFTensor.TFTensor(Double)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a constant tensor with a single dimension from a double value.
+  syntax:
+    content: public TFTensor (double value);
+    parameters:
+    - id: value
+      type: System.Double
+      description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Byte)
+  id: '#ctor(System.Byte)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Byte)
+  nameWithType: TFTensor.TFTensor(Byte)
+  fullName: TFTensor.TFTensor(Byte)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a constant tensor with a single dimension from an byte value.
+  syntax:
+    content: public TFTensor (byte value);
+    parameters:
+    - id: value
+      type: System.Byte
+      description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Int16)
+  id: '#ctor(System.Int16)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Int16)
+  nameWithType: TFTensor.TFTensor(Int16)
+  fullName: TFTensor.TFTensor(Int16)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a constant tensor with a single dimension from a short value.
+  syntax:
+    content: public TFTensor (short value);
+    parameters:
+    - id: value
+      type: System.Int16
+      description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Int16[])
+  id: '#ctor(System.Int16[])'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Int16[])
+  nameWithType: TFTensor.TFTensor(Int16[])
+  fullName: TFTensor.TFTensor(Int16[])
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a 1 dimensional tensor from an array of shorts.
+  syntax:
+    content: public TFTensor (short[] data);
+    parameters:
+    - id: data
+      type: System.Int16[]
+      description: Data.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Int32)
+  id: '#ctor(System.Int32)'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Int32)
+  nameWithType: TFTensor.TFTensor(Int32)
+  fullName: TFTensor.TFTensor(Int32)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a constant tensor with a single dimension from an integer value.
+  syntax:
+    content: public TFTensor (int value);
+    parameters:
+    - id: value
+      type: System.Int32
+      description: To be added.
+  overload: TensorFlow.TFTensor.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFTensor.#ctor(System.Double[])
+  id: '#ctor(System.Double[])'
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TFTensor(Double[])
+  nameWithType: TFTensor.TFTensor(Double[])
+  fullName: TFTensor.TFTensor(Double[])
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a 1 dimensional tensor from an array of doubles.
+  syntax:
+    content: public TFTensor (double[] data);
+    parameters:
+    - id: data
+      type: System.Double[]
+      description: Data.
   overload: TensorFlow.TFTensor.#ctor*
   exceptions: []
 - uid: TensorFlow.TFTensor.CreateString(System.Byte[])
@@ -628,234 +630,6 @@ items:
       description: To be added.
   overload: TensorFlow.TFTensor.Data*
   exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Byte[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of bytes
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, byte[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Byte[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Double[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of doubles
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, double[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Double[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Int16[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of shorts
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, short[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Int16[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Int32[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of ints
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, int[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Int32[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Int64[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of longs
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, long[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Int64[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: FromBuffer(TFShape, Complex[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of Complex numbers
-  remarks: >-
-    Use the FromBuffer method to create a tensor that has the specified dimensions
-                and is initialized with data from the data array.   The data is copied starting
-                at the start offset, for count bytes and is laid out into the tensor following the
-                specified dimensions.
-  syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, System.Numerics.Complex[] data, int start, int count);
-    parameters:
-    - id: shape
-      type: TensorFlow.TFShape
-      description: Represents the tensor shape.
-    - id: data
-      type: System.Numerics.Complex[]
-      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
-    - id: start
-      type: System.Int32
-      description: The offset into the provided data array where the data resides.
-    - id: count
-      type: System.Int32
-      description: The number of bytes to copy from count into the tensor.
-    return:
-      type: TensorFlow.TFTensor
-      description: To be added.
-  overload: TensorFlow.TFTensor.FromBuffer*
-  exceptions: []
 - uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.SByte[],System.Int32,System.Int32)
   id: FromBuffer(TensorFlow.TFShape,System.SByte[],System.Int32,System.Int32)
   parent: TensorFlow.TFTensor
@@ -882,6 +656,44 @@ items:
       description: Represents the tensor shape.
     - id: data
       type: System.SByte[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, UInt16[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of ushorts
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, ushort[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.UInt16[]
       description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
     - id: start
       type: System.Int32
@@ -932,32 +744,222 @@ items:
       description: To be added.
   overload: TensorFlow.TFTensor.FromBuffer*
   exceptions: []
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
-  id: FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
   parent: TensorFlow.TFTensor
   langs:
   - csharp
-  name: FromBuffer(TFShape, UInt16[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
+  name: FromBuffer(TFShape, Complex[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
   type: Method
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Creates a new tensor from a portion of an array of ushorts
+  summary: Creates a new tensor from a portion of an array of Complex numbers
   remarks: >-
     Use the FromBuffer method to create a tensor that has the specified dimensions
                 and is initialized with data from the data array.   The data is copied starting
                 at the start offset, for count bytes and is laid out into the tensor following the
                 specified dimensions.
   syntax:
-    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, ushort[] data, int start, int count);
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, System.Numerics.Complex[] data, int start, int count);
     parameters:
     - id: shape
       type: TensorFlow.TFShape
       description: Represents the tensor shape.
     - id: data
-      type: System.UInt16[]
+      type: System.Numerics.Complex[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, Byte[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of bytes
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, byte[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.Byte[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, Int32[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of ints
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, int[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.Int32[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, Int16[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of shorts
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, short[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.Int16[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, Double[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of doubles
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, double[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.Double[]
+      description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
+    - id: start
+      type: System.Int32
+      description: The offset into the provided data array where the data resides.
+    - id: count
+      type: System.Int32
+      description: The number of bytes to copy from count into the tensor.
+    return:
+      type: TensorFlow.TFTensor
+      description: To be added.
+  overload: TensorFlow.TFTensor.FromBuffer*
+  exceptions: []
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
+  id: FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: FromBuffer(TFShape, Int64[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Creates a new tensor from a portion of an array of longs
+  remarks: >-
+    Use the FromBuffer method to create a tensor that has the specified dimensions
+                and is initialized with data from the data array.   The data is copied starting
+                at the start offset, for count bytes and is laid out into the tensor following the
+                specified dimensions.
+  syntax:
+    content: public static TensorFlow.TFTensor FromBuffer (TensorFlow.TFShape shape, long[] data, int start, int count);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Represents the tensor shape.
+    - id: data
+      type: System.Int64[]
       description: The linear array of data, the data is shuffled to fit in the tensor with the specified dimensions.
     - id: start
       type: System.Int32
@@ -1050,6 +1052,150 @@ items:
       description: To be added.
   overload: TensorFlow.TFTensor.NumDims*
   exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Single to TensorFlow.TFTensor)
+  id: op_Implicit(System.Single to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Single to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Single to TFTensor)
+  fullName: TFTensor.op_Implicit(Single to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a float into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (float value);
+    parameters:
+    - id: value
+      type: System.Single
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the float value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
+  id: op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Complex to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Complex to TFTensor)
+  fullName: TFTensor.op_Implicit(Complex to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a Complex number into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (System.Numerics.Complex value);
+    parameters:
+    - id: value
+      type: System.Numerics.Complex
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the complex value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
+  id: op_Implicit(System.Int64 to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Int64 to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Int64 to TFTensor)
+  fullName: TFTensor.op_Implicit(Int64 to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a long into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (long value);
+    parameters:
+    - id: value
+      type: System.Int64
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the long value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
+  id: op_Implicit(System.Int32 to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Int32 to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Int32 to TFTensor)
+  fullName: TFTensor.op_Implicit(Int32 to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts an integer into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (int value);
+    parameters:
+    - id: value
+      type: System.Int32
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the integer value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
+  id: op_Implicit(System.Double to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Double to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Double to TFTensor)
+  fullName: TFTensor.op_Implicit(Double to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a double into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (double value);
+    parameters:
+    - id: value
+      type: System.Double
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the double value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
+- uid: TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
+  id: op_Implicit(System.Boolean to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: op_Implicit(Boolean to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Boolean to TFTensor)
+  fullName: TFTensor.op_Implicit(Boolean to TFTensor)
+  type: Operator
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a boolean into a 1-dimensional, 1-valued tensor.
+  syntax:
+    content: public static TensorFlow.TFTensor op_Implicit (bool value);
+    parameters:
+    - id: value
+      type: System.Boolean
+      description: Value to initialize the tensor with.
+    return:
+      type: TensorFlow.TFTensor
+      description: The tensor representing the integer value.
+  overload: TensorFlow.TFTensor.op_Implicit*
+  exceptions: []
 - uid: TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)
   id: op_Implicit(System.Array to TensorFlow.TFTensor)
   parent: TensorFlow.TFTensor
@@ -1079,30 +1225,6 @@ items:
       description: The tensor containing the data.
   overload: TensorFlow.TFTensor.op_Implicit*
   exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
-  id: op_Implicit(System.Boolean to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Boolean to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Boolean to TFTensor)
-  fullName: TFTensor.op_Implicit(Boolean to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts a boolean into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (bool value);
-    parameters:
-    - id: value
-      type: System.Boolean
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the integer value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
 - uid: TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)
   id: op_Implicit(System.Byte to TensorFlow.TFTensor)
   parent: TensorFlow.TFTensor
@@ -1125,126 +1247,6 @@ items:
     return:
       type: TensorFlow.TFTensor
       description: The tensor representing the byte value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
-  id: op_Implicit(System.Double to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Double to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Double to TFTensor)
-  fullName: TFTensor.op_Implicit(Double to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts a double into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (double value);
-    parameters:
-    - id: value
-      type: System.Double
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the double value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
-  id: op_Implicit(System.Int32 to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Int32 to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Int32 to TFTensor)
-  fullName: TFTensor.op_Implicit(Int32 to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts an integer into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (int value);
-    parameters:
-    - id: value
-      type: System.Int32
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the integer value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
-  id: op_Implicit(System.Int64 to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Int64 to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Int64 to TFTensor)
-  fullName: TFTensor.op_Implicit(Int64 to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts a long into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (long value);
-    parameters:
-    - id: value
-      type: System.Int64
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the long value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
-  id: op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Complex to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Complex to TFTensor)
-  fullName: TFTensor.op_Implicit(Complex to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts a Complex number into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (System.Numerics.Complex value);
-    parameters:
-    - id: value
-      type: System.Numerics.Complex
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the complex value.
-  overload: TensorFlow.TFTensor.op_Implicit*
-  exceptions: []
-- uid: TensorFlow.TFTensor.op_Implicit(System.Single to TensorFlow.TFTensor)
-  id: op_Implicit(System.Single to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  langs:
-  - csharp
-  name: op_Implicit(Single to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Single to TFTensor)
-  fullName: TFTensor.op_Implicit(Single to TFTensor)
-  type: Operator
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Converts a float into a 1-dimensional, 1-valued tensor.
-  syntax:
-    content: public static TensorFlow.TFTensor op_Implicit (float value);
-    parameters:
-    - id: value
-      type: System.Single
-      description: Value to initialize the tensor with.
-    return:
-      type: TensorFlow.TFTensor
-      description: The tensor representing the float value.
   overload: TensorFlow.TFTensor.op_Implicit*
   exceptions: []
 - uid: TensorFlow.TFTensor.Shape
@@ -1310,6 +1312,30 @@ items:
       description: The type of the tensor.
   overload: TensorFlow.TFTensor.TensorType*
   exceptions: []
+- uid: TensorFlow.TFTensor.TensorTypeFromType(System.Type)
+  id: TensorTypeFromType(System.Type)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TensorTypeFromType(Type)
+  nameWithType: TFTensor.TensorTypeFromType(Type)
+  fullName: TFTensor.TensorTypeFromType(Type)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a system type to a <xref href="TensorFlow.TFDataType"></xref>.
+  syntax:
+    content: public static TensorFlow.TFDataType TensorTypeFromType (Type type);
+    parameters:
+    - id: type
+      type: System.Type
+      description: The system type to be converted.
+    return:
+      type: TensorFlow.TFDataType
+      description: The <xref href="TensorFlow.TFDataType"></xref> corresponding to the given type.
+  overload: TensorFlow.TFTensor.TensorTypeFromType*
+  exceptions: []
 - uid: TensorFlow.TFTensor.ToString
   id: ToString
   parent: TensorFlow.TFTensor
@@ -1322,13 +1348,38 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Returns a <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFTensor"></xref>.
   syntax:
     content: public override string ToString ();
     parameters: []
     return:
       type: System.String
-      description: To be added.
+      description: A <xref href="System.String"></xref> that represents the current <xref href="TensorFlow.TFTensor"></xref>.
   overload: TensorFlow.TFTensor.ToString*
+  exceptions: []
+- uid: TensorFlow.TFTensor.TypeFromTensorType(TensorFlow.TFDataType)
+  id: TypeFromTensorType(TensorFlow.TFDataType)
+  parent: TensorFlow.TFTensor
+  langs:
+  - csharp
+  name: TypeFromTensorType(TFDataType)
+  nameWithType: TFTensor.TypeFromTensorType(TFDataType)
+  fullName: TFTensor.TypeFromTensorType(TFDataType)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Converts a <xref href="TensorFlow.TFDataType"></xref> to a system type.
+  syntax:
+    content: public static Type TypeFromTensorType (TensorFlow.TFDataType type);
+    parameters:
+    - id: type
+      type: TensorFlow.TFDataType
+      description: The <xref href="TensorFlow.TFDataType"></xref> to be converted.
+    return:
+      type: System.Type
+      description: The system type corresponding to the given <code>type</code>.
+  overload: TensorFlow.TFTensor.TypeFromTensorType*
   exceptions: []
 references:
 - uid: TensorFlow.TFDisposable
@@ -1349,12 +1400,12 @@ references:
   name: Array
   nameWithType: Array
   fullName: System.Array
-- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.Int32)
+- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(TFDataType, Int64[], Int32)
-  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], Int32)
-  fullName: TFTensor.TFTensor(TFDataType, Int64[], Int32)
+  name: TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
+  fullName: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
 - uid: TensorFlow.TFDataType
   parent: TensorFlow
   isExternal: false
@@ -1379,6 +1430,30 @@ references:
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: System.UIntPtr
+  parent: System
+  isExternal: true
+  name: UIntPtr
+  nameWithType: UIntPtr
+  fullName: System.UIntPtr
+- uid: TensorFlow.TFTensor
+  parent: TensorFlow
+  isExternal: false
+  name: TFTensor
+  nameWithType: TFTensor
+  fullName: TensorFlow.TFTensor+Deallocator
+- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(TFDataType, Int64[], Int32)
+  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], Int32)
+  fullName: TFTensor.TFTensor(TFDataType, Int64[], Int32)
 - uid: System.Int32
   parent: System
   isExternal: true
@@ -1475,16 +1550,30 @@ references:
   name: TFTensor(SByte)
   nameWithType: TFTensor.TFTensor(SByte)
   fullName: TFTensor.TFTensor(SByte)
+- uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(Complex)
+  nameWithType: TFTensor.TFTensor(Complex)
+  fullName: TFTensor.TFTensor(Complex)
+- uid: System.Numerics.Complex
+  parent: System.Numerics
+  isExternal: true
+  name: Complex
+  nameWithType: Complex
+  fullName: System.Numerics.Complex
+- uid: TensorFlow.TFTensor.#ctor(System.Int64[])
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(Int64[])
+  nameWithType: TFTensor.TFTensor(Int64[])
+  fullName: TFTensor.TFTensor(Int64[])
 - uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex[])
   parent: TensorFlow.TFTensor
   isExternal: false
   name: TFTensor(Complex[])
   nameWithType: TFTensor.TFTensor(Complex[])
   fullName: TFTensor.TFTensor(Complex[])
-- uid: System.Numerics.Complex
-  name: Complex
-  nameWithType: Complex
-  fullName: System.Numerics.Complex
 - uid: System.Numerics.Complex[]
   parent: System.Numerics
   isExternal: true
@@ -1499,24 +1588,6 @@ references:
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
-- uid: TensorFlow.TFTensor.#ctor(System.Numerics.Complex)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Complex)
-  nameWithType: TFTensor.TFTensor(Complex)
-  fullName: TFTensor.TFTensor(Complex)
-- uid: TensorFlow.TFTensor.#ctor(System.Int64[])
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Int64[])
-  nameWithType: TFTensor.TFTensor(Int64[])
-  fullName: TFTensor.TFTensor(Int64[])
-- uid: TensorFlow.TFTensor.#ctor(System.Int64)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Int64)
-  nameWithType: TFTensor.TFTensor(Int64)
-  fullName: TFTensor.TFTensor(Int64)
 - uid: TensorFlow.TFTensor.#ctor(System.Int32[])
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1537,72 +1608,44 @@ references:
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
-- uid: TensorFlow.TFTensor.#ctor(System.Int32)
+- uid: TensorFlow.TFTensor.#ctor(System.Boolean)
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(Int32)
-  nameWithType: TFTensor.TFTensor(Int32)
-  fullName: TFTensor.TFTensor(Int32)
-- uid: TensorFlow.TFTensor.#ctor(System.Int16[])
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Int16[])
-  nameWithType: TFTensor.TFTensor(Int16[])
-  fullName: TFTensor.TFTensor(Int16[])
-- uid: System.Int16
-  name: Int16
-  nameWithType: Int16
-  fullName: System.Int16
-- uid: System.Int16[]
+  name: TFTensor(Boolean)
+  nameWithType: TFTensor.TFTensor(Boolean)
+  fullName: TFTensor.TFTensor(Boolean)
+- uid: System.Boolean
   parent: System
   isExternal: true
-  name: Int16[]
-  nameWithType: Int16[]
-  fullName: System.Int16[]
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFTensor.#ctor(System.Boolean[])
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(Boolean[])
+  nameWithType: TFTensor.TFTensor(Boolean[])
+  fullName: TFTensor.TFTensor(Boolean[])
+- uid: System.Boolean[]
+  parent: System
+  isExternal: true
+  name: Boolean[]
+  nameWithType: Boolean[]
+  fullName: System.Boolean[]
   spec.csharp:
-  - uid: System.Int16
-    name: Int16
-    nameWithType: Int16
-    fullName: System.Int16
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
-- uid: TensorFlow.TFTensor.#ctor(System.Int16)
+- uid: TensorFlow.TFTensor.#ctor(System.Int64)
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(Int16)
-  nameWithType: TFTensor.TFTensor(Int16)
-  fullName: TFTensor.TFTensor(Int16)
-- uid: TensorFlow.TFTensor.#ctor(System.Double[])
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Double[])
-  nameWithType: TFTensor.TFTensor(Double[])
-  fullName: TFTensor.TFTensor(Double[])
-- uid: System.Double
-  name: Double
-  nameWithType: Double
-  fullName: System.Double
-- uid: System.Double[]
-  parent: System
-  isExternal: true
-  name: Double[]
-  nameWithType: Double[]
-  fullName: System.Double[]
-  spec.csharp:
-  - uid: System.Double
-    name: Double
-    nameWithType: Double
-    fullName: System.Double
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-- uid: TensorFlow.TFTensor.#ctor(System.Double)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: TFTensor(Double)
-  nameWithType: TFTensor.TFTensor(Double)
-  fullName: TFTensor.TFTensor(Double)
+  name: TFTensor(Int64)
+  nameWithType: TFTensor.TFTensor(Int64)
+  fullName: TFTensor.TFTensor(Int64)
 - uid: TensorFlow.TFTensor.#ctor(System.Byte[])
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1627,66 +1670,82 @@ references:
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
+- uid: TensorFlow.TFTensor.#ctor(System.Double)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(Double)
+  nameWithType: TFTensor.TFTensor(Double)
+  fullName: TFTensor.TFTensor(Double)
+- uid: System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: TensorFlow.TFTensor.#ctor(System.Byte)
   parent: TensorFlow.TFTensor
   isExternal: false
   name: TFTensor(Byte)
   nameWithType: TFTensor.TFTensor(Byte)
   fullName: TFTensor.TFTensor(Byte)
-- uid: TensorFlow.TFTensor.#ctor(System.Boolean[])
+- uid: TensorFlow.TFTensor.#ctor(System.Int16)
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(Boolean[])
-  nameWithType: TFTensor.TFTensor(Boolean[])
-  fullName: TFTensor.TFTensor(Boolean[])
-- uid: System.Boolean
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
-- uid: System.Boolean[]
+  name: TFTensor(Int16)
+  nameWithType: TFTensor.TFTensor(Int16)
+  fullName: TFTensor.TFTensor(Int16)
+- uid: System.Int16
   parent: System
   isExternal: true
-  name: Boolean[]
-  nameWithType: Boolean[]
-  fullName: System.Boolean[]
+  name: Int16
+  nameWithType: Int16
+  fullName: System.Int16
+- uid: TensorFlow.TFTensor.#ctor(System.Int16[])
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TFTensor(Int16[])
+  nameWithType: TFTensor.TFTensor(Int16[])
+  fullName: TFTensor.TFTensor(Int16[])
+- uid: System.Int16[]
+  parent: System
+  isExternal: true
+  name: Int16[]
+  nameWithType: Int16[]
+  fullName: System.Int16[]
   spec.csharp:
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
+  - uid: System.Int16
+    name: Int16
+    nameWithType: Int16
+    fullName: System.Int16
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
-- uid: TensorFlow.TFTensor.#ctor(System.Boolean)
+- uid: TensorFlow.TFTensor.#ctor(System.Int32)
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(Boolean)
-  nameWithType: TFTensor.TFTensor(Boolean)
-  fullName: TFTensor.TFTensor(Boolean)
-- uid: TensorFlow.TFTensor.#ctor(TensorFlow.TFDataType,System.Int64[],System.IntPtr,System.UIntPtr,TensorFlow.TFTensor.Deallocator,System.IntPtr)
+  name: TFTensor(Int32)
+  nameWithType: TFTensor.TFTensor(Int32)
+  fullName: TFTensor.TFTensor(Int32)
+- uid: TensorFlow.TFTensor.#ctor(System.Double[])
   parent: TensorFlow.TFTensor
   isExternal: false
-  name: TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
-  nameWithType: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
-  fullName: TFTensor.TFTensor(TFDataType, Int64[], IntPtr, UIntPtr, TFTensor+Deallocator, IntPtr)
-- uid: System.IntPtr
+  name: TFTensor(Double[])
+  nameWithType: TFTensor.TFTensor(Double[])
+  fullName: TFTensor.TFTensor(Double[])
+- uid: System.Double[]
   parent: System
   isExternal: true
-  name: IntPtr
-  nameWithType: IntPtr
-  fullName: System.IntPtr
-- uid: System.UIntPtr
-  parent: System
-  isExternal: true
-  name: UIntPtr
-  nameWithType: UIntPtr
-  fullName: System.UIntPtr
-- uid: TensorFlow.TFTensor
-  parent: TensorFlow
-  isExternal: false
-  name: TFTensor
-  nameWithType: TFTensor
-  fullName: TensorFlow.TFTensor+Deallocator
+  name: Double[]
+  nameWithType: Double[]
+  fullName: System.Double[]
+  spec.csharp:
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
 - uid: TensorFlow.TFTensor.CreateString(System.Byte[])
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1699,66 +1758,66 @@ references:
   name: Data
   nameWithType: TFTensor.Data
   fullName: TFTensor.Data
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Byte[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
-- uid: TensorFlow.TFShape
-  parent: TensorFlow
-  isExternal: false
-  name: TFShape
-  nameWithType: TFShape
-  fullName: TensorFlow.TFShape
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Double[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Int16[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Int32[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Int64[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: FromBuffer(TFShape, Complex[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
 - uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.SByte[],System.Int32,System.Int32)
   parent: TensorFlow.TFTensor
   isExternal: false
   name: FromBuffer(TFShape, SByte[], Int32, Int32)
   nameWithType: TFTensor.FromBuffer(TFShape, SByte[], Int32, Int32)
   fullName: TFTensor.FromBuffer(TFShape, SByte[], Int32, Int32)
-- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Single[],System.Int32,System.Int32)
-  parent: TensorFlow.TFTensor
+- uid: TensorFlow.TFShape
+  parent: TensorFlow
   isExternal: false
-  name: FromBuffer(TFShape, Single[], Int32, Int32)
-  nameWithType: TFTensor.FromBuffer(TFShape, Single[], Int32, Int32)
-  fullName: TFTensor.FromBuffer(TFShape, Single[], Int32, Int32)
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
 - uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.UInt16[],System.Int32,System.Int32)
   parent: TensorFlow.TFTensor
   isExternal: false
   name: FromBuffer(TFShape, UInt16[], Int32, Int32)
   nameWithType: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
   fullName: TFTensor.FromBuffer(TFShape, UInt16[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Single[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Single[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Single[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Single[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Numerics.Complex[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Complex[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Complex[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Byte[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Byte[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int32[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Int32[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int32[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int16[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Int16[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int16[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Double[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Double[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Double[], Int32, Int32)
+- uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Int64[],System.Int32,System.Int32)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: FromBuffer(TFShape, Int64[], Int32, Int32)
+  nameWithType: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
+  fullName: TFTensor.FromBuffer(TFShape, Int64[], Int32, Int32)
 - uid: TensorFlow.TFTensor.GetTensorDimension(System.Int32)
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1783,54 +1842,54 @@ references:
   name: NumDims
   nameWithType: TFTensor.NumDims
   fullName: TFTensor.NumDims
-- uid: TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Array to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Array to TFTensor)
-  fullName: TFTensor.op_Implicit(Array to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Boolean to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Boolean to TFTensor)
-  fullName: TFTensor.op_Implicit(Boolean to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Byte to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Byte to TFTensor)
-  fullName: TFTensor.op_Implicit(Byte to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Double to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Double to TFTensor)
-  fullName: TFTensor.op_Implicit(Double to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Int32 to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Int32 to TFTensor)
-  fullName: TFTensor.op_Implicit(Int32 to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Int64 to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Int64 to TFTensor)
-  fullName: TFTensor.op_Implicit(Int64 to TFTensor)
-- uid: TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
-  parent: TensorFlow.TFTensor
-  isExternal: false
-  name: op_Implicit(Complex to TFTensor)
-  nameWithType: TFTensor.op_Implicit(Complex to TFTensor)
-  fullName: TFTensor.op_Implicit(Complex to TFTensor)
 - uid: TensorFlow.TFTensor.op_Implicit(System.Single to TensorFlow.TFTensor)
   parent: TensorFlow.TFTensor
   isExternal: false
   name: op_Implicit(Single to TFTensor)
   nameWithType: TFTensor.op_Implicit(Single to TFTensor)
   fullName: TFTensor.op_Implicit(Single to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Numerics.Complex to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Complex to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Complex to TFTensor)
+  fullName: TFTensor.op_Implicit(Complex to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Int64 to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Int64 to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Int64 to TFTensor)
+  fullName: TFTensor.op_Implicit(Int64 to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Int32 to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Int32 to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Int32 to TFTensor)
+  fullName: TFTensor.op_Implicit(Int32 to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Double to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Double to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Double to TFTensor)
+  fullName: TFTensor.op_Implicit(Double to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Boolean to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Boolean to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Boolean to TFTensor)
+  fullName: TFTensor.op_Implicit(Boolean to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Array to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Array to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Array to TFTensor)
+  fullName: TFTensor.op_Implicit(Array to TFTensor)
+- uid: TensorFlow.TFTensor.op_Implicit(System.Byte to TensorFlow.TFTensor)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: op_Implicit(Byte to TFTensor)
+  nameWithType: TFTensor.op_Implicit(Byte to TFTensor)
+  fullName: TFTensor.op_Implicit(Byte to TFTensor)
 - uid: TensorFlow.TFTensor.Shape
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1849,6 +1908,18 @@ references:
   name: TensorType
   nameWithType: TFTensor.TensorType
   fullName: TFTensor.TensorType
+- uid: TensorFlow.TFTensor.TensorTypeFromType(System.Type)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TensorTypeFromType(Type)
+  nameWithType: TFTensor.TensorTypeFromType(Type)
+  fullName: TFTensor.TensorTypeFromType(Type)
+- uid: System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
 - uid: TensorFlow.TFTensor.ToString
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1861,6 +1932,12 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: TensorFlow.TFTensor.TypeFromTensorType(TensorFlow.TFDataType)
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TypeFromTensorType(TFDataType)
+  nameWithType: TFTensor.TypeFromTensorType(TFDataType)
+  fullName: TFTensor.TypeFromTensorType(TFDataType)
 - uid: TensorFlow.TFTensor.#ctor*
   parent: TensorFlow.TFTensor
   isExternal: false
@@ -1927,12 +2004,24 @@ references:
   name: TensorType
   nameWithType: TFTensor.TensorType
   fullName: TFTensor.TensorType
+- uid: TensorFlow.TFTensor.TensorTypeFromType*
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TensorTypeFromType
+  nameWithType: TFTensor.TensorTypeFromType
+  fullName: TFTensor.TensorTypeFromType
 - uid: TensorFlow.TFTensor.ToString*
   parent: TensorFlow.TFTensor
   isExternal: false
   name: ToString
   nameWithType: TFTensor.ToString
   fullName: TFTensor.ToString
+- uid: TensorFlow.TFTensor.TypeFromTensorType*
+  parent: TensorFlow.TFTensor
+  isExternal: false
+  name: TypeFromTensorType
+  nameWithType: TFTensor.TypeFromTensorType
+  fullName: TFTensor.TypeFromTensorType
 - uid: TensorFlow.TFDisposable.Dispose
   parent: TensorFlow.TFDisposable
   isExternal: false

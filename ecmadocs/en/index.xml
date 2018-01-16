@@ -43,6 +43,8 @@
   <Types>
     <Namespace Name="TensorFlow">
       <Type Name="MonoPInvokeCallbackAttribute" Kind="Class" />
+      <Type Name="PaddingFIFOQueue" Kind="Class" />
+      <Type Name="QueueBase" Kind="Class" />
       <Type Name="TFAttributeMetadata" Kind="Structure" />
       <Type Name="TFAttributeType" Kind="Enumeration" />
       <Type Name="TFBuffer" Kind="Class" />
@@ -50,8 +52,10 @@
       <Type Name="TFCode" Kind="Enumeration" />
       <Type Name="TFCore" Kind="Class" />
       <Type Name="TFDataType" Kind="Enumeration" />
+      <Type Name="TFDependencies" Kind="Class" />
       <Type Name="TFDisposable" Kind="Class" />
       <Type Name="TFException" Kind="Class" />
+      <Type Name="TFFunction" Kind="Class" />
       <Type Name="TFGraph" Kind="Class" />
       <Type Name="TFGraph+WhileConstructor" Kind="Delegate" />
       <Type Name="TFImportGraphDefOptions" Kind="Class" />
@@ -69,6 +73,7 @@
       <Type Name="TFStatus" Kind="Class" />
       <Type Name="TFTensor" Kind="Class" />
       <Type Name="TFTensor+Deallocator" Kind="Delegate" />
+      <Type Name="Variable" Kind="Class" />
     </Namespace>
   </Types>
   <Title>TensorFlowSharp</Title>

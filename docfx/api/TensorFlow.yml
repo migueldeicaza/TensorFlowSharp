@@ -4,6 +4,8 @@ items:
   id: TensorFlow
   children:
   - TensorFlow.MonoPInvokeCallbackAttribute
+  - TensorFlow.PaddingFIFOQueue
+  - TensorFlow.QueueBase
   - TensorFlow.TFAttributeMetadata
   - TensorFlow.TFAttributeType
   - TensorFlow.TFBuffer
@@ -11,8 +13,10 @@ items:
   - TensorFlow.TFCode
   - TensorFlow.TFCore
   - TensorFlow.TFDataType
+  - TensorFlow.TFDependencies
   - TensorFlow.TFDisposable
   - TensorFlow.TFException
+  - TensorFlow.TFFunction
   - TensorFlow.TFGraph
   - TensorFlow.TFGraph.WhileConstructor
   - TensorFlow.TFImportGraphDefOptions
@@ -30,6 +34,7 @@ items:
   - TensorFlow.TFStatus
   - TensorFlow.TFTensor
   - TensorFlow.TFTensor.Deallocator
+  - TensorFlow.Variable
   langs:
   - csharp
   name: TensorFlow
@@ -48,6 +53,18 @@ references:
   name: MonoPInvokeCallbackAttribute
   nameWithType: MonoPInvokeCallbackAttribute
   fullName: TensorFlow.MonoPInvokeCallbackAttribute
+- uid: TensorFlow.PaddingFIFOQueue
+  parent: TensorFlow
+  isExternal: false
+  name: PaddingFIFOQueue
+  nameWithType: PaddingFIFOQueue
+  fullName: TensorFlow.PaddingFIFOQueue
+- uid: TensorFlow.QueueBase
+  parent: TensorFlow
+  isExternal: false
+  name: QueueBase
+  nameWithType: QueueBase
+  fullName: TensorFlow.QueueBase
 - uid: TensorFlow.TFAttributeMetadata
   parent: TensorFlow
   isExternal: false
@@ -90,6 +107,12 @@ references:
   name: TFDataType
   nameWithType: TFDataType
   fullName: TensorFlow.TFDataType
+- uid: TensorFlow.TFDependencies
+  parent: TensorFlow
+  isExternal: false
+  name: TFDependencies
+  nameWithType: TFDependencies
+  fullName: TensorFlow.TFDependencies
 - uid: TensorFlow.TFDisposable
   parent: TensorFlow
   isExternal: false
@@ -102,6 +125,12 @@ references:
   name: TFException
   nameWithType: TFException
   fullName: TensorFlow.TFException
+- uid: TensorFlow.TFFunction
+  parent: TensorFlow
+  isExternal: false
+  name: TFFunction
+  nameWithType: TFFunction
+  fullName: TensorFlow.TFFunction
 - uid: TensorFlow.TFGraph
   parent: TensorFlow
   isExternal: false
@@ -204,3 +233,9 @@ references:
   name: TFTensor.Deallocator
   nameWithType: TFTensor.Deallocator
   fullName: TensorFlow.TFTensor.Deallocator
+- uid: TensorFlow.Variable
+  parent: TensorFlow
+  isExternal: false
+  name: Variable
+  nameWithType: Variable
+  fullName: TensorFlow.Variable

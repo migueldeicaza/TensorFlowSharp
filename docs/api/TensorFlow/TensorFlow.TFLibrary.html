@@ -72,7 +72,8 @@
   
   <h1 id="TensorFlow_TFLibrary" data-uid="TensorFlow.TFLibrary">Class TFLibrary
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents a dynamically loaded library of TensorFlow operations, use to load and consume TensorFlow operations from an external library.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -98,13 +99,19 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class TFLibrary : TensorFlow.TFDisposable</code></pre>
   </div>
+  <h5 id="TensorFlow_TFLibrary_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Use the static method <span class="xref">Tensorflow.TFLibrary.FromFile</span> to load a dynamic library.
+            Once that function returns</p>
+</div>
   <h3 id="methods">Methods
   </h3>
   
   
   <a id="TensorFlow_TFLibrary_FromFile_" data-uid="TensorFlow.TFLibrary.FromFile*"></a>
   <h4 id="TensorFlow_TFLibrary_FromFile_System_String_TensorFlow_TFStatus_" data-uid="TensorFlow.TFLibrary.FromFile(System.String,TensorFlow.TFStatus)">FromFile(String, TFStatus)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Load the library specified by and register the operations and
+            kernels present in that library.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -123,13 +130,13 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">libraryFile</span></td>
-        <td><p>To be added.</p>
+        <td><p>Name of the library to load, this is a platform specific name.</p>
 </td>
       </tr>
       <tr>
         <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
         <td><span class="parametername">status</span></td>
-        <td><p>To be added.</p>
+        <td><p>Status buffer, if specified a status code will be left here, if not specified, a <a class="xref" href="TensorFlow.TFException.html">TFException</a> exception is raised if there is an error.</p>
 </td>
       </tr>
     </tbody>
@@ -145,11 +152,15 @@
     <tbody>
       <tr>
         <td><a class="xref" href="TensorFlow.TFLibrary.html">TFLibrary</a></td>
-        <td><p>To be added.</p>
+        <td><p>Handle to the loaded library.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 id="TensorFlow_TFLibrary_FromFile_System_String_TensorFlow_TFStatus__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The provided <code>libraryFile</code> is passed to the operating system dynamic loader
+            and it will load the library using the operating system defined search paths and rules to load this.</p>
+</div>
 </article>
           </div>
           

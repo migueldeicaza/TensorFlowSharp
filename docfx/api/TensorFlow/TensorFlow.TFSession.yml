@@ -47,12 +47,14 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Creates a new execution session with an empty graph
+  remarks: The created graph can be retrieved using the Graph property on the session.
   syntax:
     content: public TFSession (TensorFlow.TFStatus status = null);
     parameters:
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
   overload: TensorFlow.TFSession.#ctor*
   exceptions: []
 - uid: TensorFlow.TFSession.#ctor(TensorFlow.TFGraph,TensorFlow.TFStatus)
@@ -67,15 +69,16 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Creates a new execution session associated with the specified session graph.
   syntax:
     content: public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFStatus status = null);
     parameters:
     - id: graph
       type: TensorFlow.TFGraph
-      description: To be added.
+      description: The Graph to which this session is associated.
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
   overload: TensorFlow.TFSession.#ctor*
   exceptions: []
 - uid: TensorFlow.TFSession.#ctor(TensorFlow.TFGraph,TensorFlow.TFSessionOptions,TensorFlow.TFStatus)
@@ -90,18 +93,19 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Creates a new execution session associated with the specified session graph with some configuration options.
   syntax:
     content: public TFSession (TensorFlow.TFGraph graph, TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFStatus status = null);
     parameters:
     - id: graph
       type: TensorFlow.TFGraph
-      description: To be added.
+      description: The Graph to which this session is associated.
     - id: sessionOptions
       type: TensorFlow.TFSessionOptions
-      description: To be added.
+      description: Session options.
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
   overload: TensorFlow.TFSession.#ctor*
   exceptions: []
 - uid: TensorFlow.TFSession.CloseSession(TensorFlow.TFStatus)
@@ -116,12 +120,14 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Closes the session.  Contacts any other processes associated with the session, if applicable.
+  remarks: Can not be called after calling DeleteSession.
   syntax:
     content: public void CloseSession (TensorFlow.TFStatus status = null);
     parameters:
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
   overload: TensorFlow.TFSession.CloseSession*
   exceptions: []
 - uid: TensorFlow.TFSession.DeleteSession(TensorFlow.TFStatus)
@@ -156,33 +162,37 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Creates a session and graph from a saved session model
+  remarks: >-
+    This function creates a new session using the specified <code>sessionOptions</code> and then initializes
+                the state (restoring tensors and other assets) using <code>runOptions</code>
   syntax:
     content: public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);
     parameters:
     - id: sessionOptions
       type: TensorFlow.TFSessionOptions
-      description: To be added.
+      description: Session options to use for the new session.
     - id: runOptions
       type: TensorFlow.TFBuffer
-      description: To be added.
+      description: Options to use to initialize the state (can be null).
     - id: exportDir
       type: System.String
-      description: To be added.
+      description: must be set to the path of the exported SavedModel.
     - id: tags
       type: System.String[]
-      description: To be added.
+      description: must include the set of tags used to identify one MetaGraphDef in the SavedModel.
     - id: graph
       type: TensorFlow.TFGraph
-      description: To be added.
+      description: This must be a newly created graph.
     - id: metaGraphDef
       type: TensorFlow.TFBuffer
-      description: To be added.
+      description: On success, this will be populated on return with the contents of the MetaGraphDef (can be null).
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
     return:
       type: TensorFlow.TFSession
-      description: To be added.
+      description: On success, this populates the provided <code>graph</code> with the contents of the graph stored in the specified model and <code>metaGraphDef</code> with the MetaGraphDef of the loaded model.
   overload: TensorFlow.TFSession.FromSavedModel*
   exceptions: []
 - uid: TensorFlow.TFSession.GetRunner

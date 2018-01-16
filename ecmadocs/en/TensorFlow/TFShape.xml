@@ -214,6 +214,28 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFTensor op_Implicit (TensorFlow.TFShape shape);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class TensorFlow.TFTensor op_Implicit(class TensorFlow.TFShape shape) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="shape" Type="TensorFlow.TFShape" />
+      </Parameters>
+      <Docs>
+        <param name="shape">The shape.</param>
+        <summary>
+            Performs an implicit conversion from <see cref="T:TensorFlow.TFShape" /> to <see cref="T:TensorFlow.TFTensor" />.
+            </summary>
+        <returns>The result of the conversion.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Scalar">
       <MemberSignature Language="C#" Value="public static TensorFlow.TFShape Scalar { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class TensorFlow.TFShape Scalar" />
@@ -282,8 +304,10 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFShape" />.
+            </summary>
+        <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:TensorFlow.TFShape" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

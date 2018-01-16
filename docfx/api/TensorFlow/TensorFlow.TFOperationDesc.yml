@@ -606,15 +606,16 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Specifies the device for the operation, if one is not provided, the operation is unconstrained.
   syntax:
     content: public TensorFlow.TFOperationDesc SetDevice (string device);
     parameters:
     - id: device
       type: System.String
-      description: To be added.
+      description: The device to constraint to in this operation.
     return:
       type: TensorFlow.TFOperationDesc
-      description: To be added.
+      description: This instance, allows for chaining operation invocations.
   overload: TensorFlow.TFOperationDesc.SetDevice*
   exceptions: []
 references:

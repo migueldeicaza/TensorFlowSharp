@@ -533,9 +533,11 @@
         <Parameter Name="device" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="device">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="device">The device to constraint to in this operation.</param>
+        <summary>
+            Specifies the device for the operation, if one is not provided, the operation is unconstrained.
+            </summary>
+        <returns>This instance, allows for chaining operation invocations.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -45,7 +45,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            8-bit boolean (C# bool)
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Complex">
@@ -139,7 +141,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Half floats - 16-bit half precision floating point.
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="Int16">
@@ -297,7 +301,9 @@
         <ReturnType>TensorFlow.TFDataType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Handle to a mutable resource.
+            </summary>
       </Docs>
     </Member>
     <Member MemberName="String">
@@ -345,6 +351,38 @@
       <Docs>
         <summary>
             8 bit unsigned integers (C# byte)
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Unknown">
+      <MemberSignature Language="C#" Value="Unknown" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFDataType Unknown = unsigned int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The TFDataType has not been set
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Variant">
+      <MemberSignature Language="C#" Value="Variant" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFDataType Variant = unsigned int32(21)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Variant data type
             </summary>
       </Docs>
     </Member>

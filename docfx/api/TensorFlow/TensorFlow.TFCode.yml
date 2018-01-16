@@ -46,6 +46,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: "The operation was aborted, typically due to a concurrency issue\n             like sequencer check failures, transaction aborts, etc.\n            \n             See litmus test above for deciding between FailedPrecondition,\n             Aborted and Unavailable"
   syntax:
     content: Aborted
     return:
@@ -64,6 +65,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Some entity that we attempted to create (e.g., file or directory) already exists.
   syntax:
     content: AlreadyExists
     return:
@@ -82,6 +84,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: The operation was cancelled (typically by the caller).
   syntax:
     content: Cancelled
     return:
@@ -100,6 +103,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Unrecoverable data loss or corruption.
   syntax:
     content: DataLoss
     return:
@@ -118,6 +122,12 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Deadline expired before operation could complete.  For operations
+                that change the state of the system, this error may be returned
+                even if the operation has completed successfully.  For example, a
+                successful response from a server could have been delayed long
+                enough for the deadline to expire.
   syntax:
     content: DeadlineExceeded
     return:
@@ -136,6 +146,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: "Operation was rejected because the system is not in a state\n             required for the operation's execution.  For example, directory\n             to be deleted may be non-empty, an rmdir operation is applied to\n             a non-directory, etc.\n            \n             A litmus test that may help a service implementor in deciding\n             between FailedPrecondition, Aborted, and Unavailable:\n             \n              (a) Use Unavailableif the client can retry just the failing call.\n              (b) Use Aborted if the client should retry at a higher-level\n                  (e.g., restarting a read-modify-write sequence).\n              (c) Use FailedPrecondition if the client should not retry until\n                  the system state has been explicitly fixed.  E.g., if an \"rmdir\"\n                  fails because the directory is non-empty, FailedPrecondition\n                  should be returned since the client should not retry unless\n                  they have first fixed up the directory by deleting files from it.\n              (d) Use FailedPrecondition if the client performs conditional\n                  REST Get/Update/Delete on a resource and the resource on the\n                  server does not match the condition. E.g., conflicting\n                  read-modify-write on the same resource."
   syntax:
     content: FailedPrecondition
     return:
@@ -154,6 +165,10 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Internal errors.  Means some invariants expected by underlying
+                system has been broken.  If you see one of these errors,
+                something is very broken.
   syntax:
     content: Internal
     return:
@@ -172,6 +187,11 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Client specified an invalid argument.  Note that this differs
+                from FailedPrecondition.  InvalidArgumentindicates arguments
+                that are problematic regardless of the state of the system
+                (e.g., a malformed file name).
   syntax:
     content: InvalidArgument
     return:
@@ -190,6 +210,10 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Some requested entity (e.g., file or directory) was not found.
+                For privacy reasons, this code may be returned when the client
+                does not have the access right to the entity.
   syntax:
     content: NotFound
     return:
@@ -208,6 +232,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Not an error; returned on success
   syntax:
     content: Ok
     return:
@@ -226,6 +251,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: "Operation tried to iterate past the valid input range.  E.g., seeking or\n             reading past end of file.\n            \n             Unlike InvalidArgument, this error indicates a problem that may\n             be fixed if the system state changes. For example, a 32-bit file\n             system will generate InvalidArgument if asked to read at an\n             offset that is not in the range [0,2^32-1], but it will generate\n             OutOfRange if asked to read from an offset past the current\n             file size.\n            \n             There is a fair bit of overlap between FailedPrecondition and\n             OutOfRange.  We recommend using OutOfRane (the more specific\n             error) when it applies so that callers who are iterating through\n             a space can easily look for an OutOfRange error to detect when\n             they are done."
   syntax:
     content: OutOfRange
     return:
@@ -244,6 +270,13 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    The caller does not have permission to execute the specified
+                operation.  PermissionDenied must not be used for rejections
+                caused by exhausting some resource (use ResourceExhausted
+                instead for those errors).  PermissionDeniedmust not be
+                used if the caller can not be identified (use Unauthenticated
+                instead for those errors).
   syntax:
     content: PermissionDenied
     return:
@@ -262,6 +295,9 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Some resource has been exhausted, perhaps a per-user quota, or
+                perhaps the entire file system is out of space.
   syntax:
     content: ResourceExhausted
     return:
@@ -280,6 +316,9 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    The request does not have valid authentication credentials for the
+                operation.
   syntax:
     content: Unauthenticated
     return:
@@ -298,6 +337,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: "The service is currently unavailable.  This is a most likely a\n             transient condition and may be corrected by retrying with\n             a backoff.\n            \n             See litmus test above for deciding between FailedPrecondition,\n             Aborted, and Unavailable."
   syntax:
     content: Unavailable
     return:
@@ -316,6 +356,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Operation is not implemented or not supported/enabled in this service.
   syntax:
     content: Unimplemented
     return:
@@ -334,6 +375,12 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: >-
+    Unknown error.  An example of where this error may be returned is
+                if a Status value received from another address space belongs to
+                an error-space that is not known in this address space.  Also
+                errors raised by APIs that do not return enough error information
+                may be converted to this error.
   syntax:
     content: Unknown
     return:
