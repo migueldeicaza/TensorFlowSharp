@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting Started With TensorFlowSharp </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting Started With TensorFlowSharp ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="getting-started-with-tensorflowsharp">Getting Started With TensorFlowSharp</h1>
+
+<p>TensorFlowSharp provides APIs for use in .NET programs, including C#
+and F#. These APIs are particularly well-suited to loading models
+created in Python and executing them within a .NET application. This
+guide explains how to install TensorFlow for .NET and use it in your application.</p>
+<p>TensorFlowSharp itself is a .NET API that calls into the native
+TensorFlow runtime.   </p>
+<h1 id="supported-platforms">Supported Platforms</h1>
+<p>The NuGet package that you obtain from NuGet.org comes with the native
+TensorFlow runtime for Windows (x64), Mac (x64) and Linux (x64).    </p>
+<p>If you desire to run TensorFlowSharp in other platforms, you can do so
+by downloading the appropriate TensorFlow dynamic library for your
+platform and placing this side-by-side the <code>TensorFlowSharp.dll</code> library.</p>
+<p>It is just not included by default as this would make the binary a lot larger.</p>
+<p>Additionally, up until version 1.5, TensorFlowSharp currently ships
+with .NET Desktop libraries that run on the .NET Desktop on Windows or
+on Linux and Mac using the Mono runtime.</p>
+<p>Support for running under .NET Core is waiting on the <a href="https://github.com/migueldeicaza/TensorFlowSharp/pull/188">migration of the
+package to the .NET Standard</a>.</p>
+<h1 id="using-tensorflowsharp-in-a-net-application">Using TensorFlowSharp in a .NET Application</h1>
+<p>To use TensorFlowSharp, you will need to create a .NET Desktop
+application on Windows or using Mono on Linux and Mac.   </p>
+<p>To use it, make sure that you download the TensorFlowSharp package
+from NuGet, either using the command line (<code>nuget install
+TensorFlowSharp</code>) or from your favorite .NET IDE.</p>
+<h1 id="getting-started">Getting started</h1>
+<p>Your best source of information right now are the SampleTest that
+exercises various APIs of TensorFlowSharp, or the stand-alone samples
+located in &quot;Examples&quot;.</p>
+<p>This API binding is closer design-wise to the Java and Go bindings
+which use explicit TensorFlow graphs and sessions.  Your application
+will typically create a graph (TFGraph) and setup the operations
+there, then create a session from it (TFSession), then use the session
+runner to setup inputs and outputs and execute the pipeline.</p>
+<p>Something like this:</p>
+<pre><code class="lang-csharp">using(var graph = new TFGraph ())
+{
+    graph.Import (File.ReadAllBytes (&quot;MySavedModel&quot;));
+    var session = new TFSession (graph);
+    var runner = session.GetRunner ();
+    runner.AddInput (graph [&quot;input&quot;] [0], tensor);
+    runner.Fetch (graph [&quot;output&quot;] [0]);
+
+    var output = runner.Run ();
+
+    // Fetch the results from output:
+    TFTensor result = output [0];
+}
+</code></pre><p>In scenarios where you do not need to setup the graph independently,
+the session will create one for you.  The following example shows how
+to abuse TensorFlow to compute the addition of two numbers:</p>
+<pre><code class="lang-csharp">using (var session = new TFSession())
+{
+    var graph = session.Graph;
+
+    var a = graph.Const(2);
+    var b = graph.Const(3);
+    Console.WriteLine(&quot;a=2 b=3&quot;);
+
+    // Add two constants
+    var addingResults = session.GetRunner().Run(graph.Add(a, b));
+    var addingResultValue = addingResults.GetValue();
+    Console.WriteLine(&quot;a+b={0}&quot;, addingResultValue);
+
+    // Multiply two constants
+    var multiplyResults = session.GetRunner().Run(graph.Mul(a, b));
+    var multiplyResultValue = multiplyResults.GetValue();
+    Console.WriteLine(&quot;a*b={0}&quot;, multiplyResultValue);
+}
+</code></pre><p>Here is an F# scripting version of the same example, you can use this in F# Interactive:</p>
+<pre><code>#r @&quot;packages\TensorFlowSharp.1.4.0\lib\net461\TensorFlowSharp.dll&quot;
+
+open System
+open System.IO
+open TensorFlow
+
+// set the path to find the native DLL
+Environment.SetEnvironmentVariable(&quot;Path&quot;, 
+    Environment.GetEnvironmentVariable(&quot;Path&quot;) + &quot;;&quot; + __SOURCE_DIRECTORY__ + @&quot;/packages/TensorFlowSharp.1.2.2/native&quot;)
+
+module AddTwoNumbers = 
+    let session = new TFSession()
+    let graph = session.Graph
+
+    let a = graph.Const(new TFTensor(2))
+    let b = graph.Const(new TFTensor(3))
+    Console.WriteLine(&quot;a=2 b=3&quot;)
+
+    // Add two constants
+    let addingResults = session.GetRunner().Run(graph.Add(a, b))
+    let addingResultValue = addingResults.GetValue()
+    Console.WriteLine(&quot;a+b={0}&quot;, addingResultValue)
+
+    // Multiply two constants
+    let multiplyResults = session.GetRunner().Run(graph.Mul(a, b))
+    let multiplyResultValue = multiplyResults.GetValue()
+    Console.WriteLine(&quot;a*b={0}&quot;, multiplyResultValue)
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/migueldeicaza/TensorFlowSharp/blob/master/docfx/articles/start.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
