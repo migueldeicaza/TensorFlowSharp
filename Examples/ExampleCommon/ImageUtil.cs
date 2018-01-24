@@ -16,7 +16,7 @@ namespace ExampleCommon
 			TFOutput input, output;
 
 			// Construct a graph to normalize the image
-			using (var graph = ConstructGraphToNormalizeImage (out graph, out input, out output, destinationDataType)){
+			using (var graph = ConstructGraphToNormalizeImage (out input, out output, destinationDataType)){
 				// Execute that graph to normalize this one image
 				using (var session = new TFSession (graph)) {
 					var normalized = session.Run (
