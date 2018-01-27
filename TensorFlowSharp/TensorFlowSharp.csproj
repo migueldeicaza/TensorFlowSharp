@@ -8,12 +8,13 @@
     <DebugType>full</DebugType>
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.5.0-pre2</PackageVersion>
+    <PackageVersion>1.5.0</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -21,13 +22,15 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlor 1.5
+    <PackageReleaseNotes>Adds support for TensorFlow 1.5
 
+* No longer a -pre release
+* Ships the latest official 1.5 packages (January 26th, Build #80 Mac, Linux, #59 Windows)
 * This brings support for the TensorFlow 1.5 API
 * New transpose overload without explicit perm parameter (Cesar Souza)
 * New ReduceProd method (Cesar Souza)
 * Supports for TensorFlow.Cond (Cesar Souza)
-    </PackageReleaseNotes>
+* Ships the latest official 1.5 packages.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
