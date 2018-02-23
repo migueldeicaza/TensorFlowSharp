@@ -10,15 +10,15 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(ShouldIncludeNativeTensorFlow)' != 'False' ">
-		<None Include="$(MSBuildThisFileDirectory)..\runtimes\linux\native\**\*" Condition="'$(IsLinux)' == 'true'">
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux\native\**\*" Condition="'$(IsLinux)' == 'true'">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(MSBuildThisFileDirectory)..\runtimes\osx\native\**\*" Condition="'$(IsOSX)' == 'true'">
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx\native\**\*" Condition="'$(IsOSX)' == 'true'">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(MSBuildThisFileDirectory)..\runtimes\win7-x64\native\**\*" Condition="'$(OS)' != 'Unix'">
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win7-x64\native\**\*" Condition="'$(OS)' != 'Unix'">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
