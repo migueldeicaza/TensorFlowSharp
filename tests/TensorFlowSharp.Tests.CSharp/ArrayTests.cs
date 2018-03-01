@@ -9,7 +9,7 @@ namespace TensorFlowSharp.Tests.CSharp
 {
 	public class ArrayTests
 	{
-	        [Fact]
+		[Fact]
 		public void BasicConstantZerosAndOnes ()
 		{
 			using (var g = new TFGraph ())
@@ -66,6 +66,7 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
+#if false
 		[Fact]
 		public void BasicConstantsOnSymmetricalShapes ()
 		{
@@ -118,7 +119,7 @@ namespace TensorFlowSharp.Tests.CSharp
 				}
 			}
 		}
-
+#endif
 		[Fact]
 		public void BasicConstantsUnSymmetrical ()
 		{
