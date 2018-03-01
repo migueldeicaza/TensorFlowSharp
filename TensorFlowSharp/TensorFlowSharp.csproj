@@ -14,7 +14,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.5.1</PackageVersion>
+    <PackageVersion>1.5.1-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -22,7 +22,12 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>Adds support for TensorFlow 1.5
+    <PackageReleaseNotes>1.5.1-pre1 adds:
+* Ones, Zeros, Const, RandomUniform
+* Updates the way the NuGet package distributes the native payload
+* ListDevices API
+
+Adds support for TensorFlow 1.5
 
 * No longer a -pre release
 * Ships the latest official 1.5 packages (January 26th, Build #80 Mac, Linux, #59 Windows)
