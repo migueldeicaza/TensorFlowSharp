@@ -837,6 +837,90 @@ namespace TensorFlow
 			throw new ArgumentOutOfRangeException (nameof(type), $"The given type could not be mapped to an existing {nameof(TFDataType)}.");
 		}
 
+		internal static (TFDataType dt, long size) TensorTypeAndSizeFromType (Type t)
+		{
+			var tc = Type.GetTypeCode (t);
+			TFDataType dt;
+			long size = 0;
+			switch (tc) {
+			case TypeCode.Boolean:
+				dt = TFDataType.Bool;
+				size = 1;
+				break;
+			case TypeCode.SByte:
+				dt = TFDataType.Int8;
+				size = 1;
+				break;
+			case TypeCode.Byte:
+				dt = TFDataType.UInt8;
+				size = 1;
+				break;
+			case TypeCode.Int16:
+				dt = TFDataType.Int16;
+				size = 2;
+				break;
+			case TypeCode.UInt16:
+				dt = TFDataType.UInt16;
+				size = 2;
+				break;
+			case TypeCode.Int32:
+				dt = TFDataType.Int32;
+				size = 4;
+				break;
+			case TypeCode.Int64:
+				dt = TFDataType.Int64;
+				size = 8;
+				break;
+			case TypeCode.Single:
+				dt = TFDataType.Float;
+				size = 4;
+				break;
+			case TypeCode.Double:
+				dt = TFDataType.Double;
+				size = 8;
+				break;
+			default:
+				// Check types that are not handled by the typecode
+				if (t.IsAssignableFrom (typeof (Complex))) {
+					size = 16;
+					dt = TFDataType.Complex128;
+				} else
+					throw new ArgumentException ($"The data type {t} is not supported");
+				break;
+			}
+			return (dt, size);
+		}
+
+		internal static unsafe object FetchSimple (TFDataType dt, object data)
+		{
+			switch (dt) {
+			case TFDataType.Float:
+				return Convert.ToSingle (data);
+			case TFDataType.Double:
+				return Convert.ToDouble (data);
+			case TFDataType.Int32:
+				return Convert.ToInt32 (data);
+			case TFDataType.UInt8:
+				return Convert.ToByte (data);
+			case TFDataType.Int16:
+				return Convert.ToInt16 (data);
+			case TFDataType.Int8:
+				return Convert.ToSByte (data);
+			case TFDataType.String:
+				throw new NotImplementedException ();
+			case TFDataType.Int64:
+				return Convert.ToInt64 (data);
+			case TFDataType.Bool:
+				return Convert.ToBoolean (data);
+			case TFDataType.UInt16:
+				return Convert.ToUInt16 (data);
+			case TFDataType.Complex128:
+				return (Complex)data;
+			default:
+				return null;
+			}
+		}
+
 		static unsafe object FetchSimple (TFDataType dt, IntPtr data)
 		{
 			switch (dt) {
@@ -864,6 +948,35 @@ namespace TensorFlow
 				return *(Complex*)data;
 			default:
 				return null;
+			}
+		}
+
+		//used to create multidementional arrays / tensor with a constant value
+		internal static unsafe void Set (Array target, TFDataType dt, long [] shape, int [] idx, int level, object value)
+		{
+			if (level < shape.Length - 1) {
+				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++)
+					Set (target, dt, shape, idx, level + 1, value);
+			} else {
+				for (idx [level] = 0; idx [level] < shape [level]; idx [level]++) {
+					switch (dt) {
+					case TFDataType.Float:
+					case TFDataType.Double:
+					case TFDataType.Int32:
+					case TFDataType.UInt8:
+					case TFDataType.Int16:
+					case TFDataType.Int8:
+					case TFDataType.Int64:
+					case TFDataType.Bool:
+					case TFDataType.Complex128:
+						target.SetValue (value, idx);
+						break;
+					case TFDataType.String:
+						throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+					default:
+						throw new NotImplementedException ();
+					}
+				}
 			}
 		}
 

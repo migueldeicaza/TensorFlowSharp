@@ -61,6 +61,29 @@ namespace SampleTest
 				var val = results.GetValue ();
 				Console.WriteLine ("a+b={0}", val);
 
+				// Test Zeros, Ones
+		                var o = g.Ones(new TFShape(4, 4));
+		                var r = g.RandomNormal(new TFShape(4, 4));
+		                var z = g.Zeros(new TFShape(4, 4));
+		                var m = g.Mul(o, r);
+		                var res1 = s.GetRunner().Run(m);
+		                var res2 = s.GetRunner().Run(g.Mul(g.Mul(o, r), z));
+		                
+		                //Test Constants
+		                var co = g.Constant(1.0, new TFShape(4, 4), TFDataType.Double);
+		                var cz = g.Constant(0.0, new TFShape(4, 4), TFDataType.Double);
+		                var cr = g.RandomNormal(new TFShape(4, 4));
+		                var cm = g.Mul(co, cr);
+		                var cres1 = s.GetRunner().Run(cm);
+		                var cres2 = s.GetRunner().Run(g.Mul(g.Mul(co, cr), cz));
+
+		                var so = g.Ones(new TFShape(4, 3));
+		                var sr = g.RandomNormal(new TFShape(3, 5));
+		                var sz = g.Zeros(new TFShape(5, 6));
+		                var sm = g.MatMul(so, sr);
+		                var sres1 = s.GetRunner().Run(sm);
+		                var sres2 = s.GetRunner().Run(g.MatMul(g.MatMul(so, sr), sz));
+
 				// Multiply two constants
 				results = s.GetRunner ().Run (g.Mul (a, b));
 				Console.WriteLine ("a*b={0}", results.GetValue ());
