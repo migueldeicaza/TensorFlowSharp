@@ -14,7 +14,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.5.0</PackageVersion>
+    <PackageVersion>1.5.1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -47,4 +47,7 @@
     <None Include="..\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Ops\" />
+  </ItemGroup>
 </Project>
