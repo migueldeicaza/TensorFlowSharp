@@ -5172,12 +5172,14 @@
         <Parameter Name="operName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="pred">To be added.</param>
-        <param name="true_fn">To be added.</param>
-        <param name="false_fn">To be added.</param>
-        <param name="operName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="pred">A scalar determining whether to return the result of true_fn or false_fn.</param>
+        <param name="true_fn">The callable to be performed if pred is true.</param>
+        <param name="false_fn">The callable to be performed if pred is false.</param>
+        <param name="operName">Optional name prefix for the returned tensors.</param>
+        <summary>
+              Returns <paramref name="true_fn" /> if the predicate <paramref name="pred" /> is <c>true</c> else <paramref name="false_fn" />.
+            </summary>
+        <returns>TFOutput.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

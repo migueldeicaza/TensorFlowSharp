@@ -5062,24 +5062,25 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Returns <code>true_fn</code> if the predicate <code>pred</code> is <code>true</code> else <code>false_fn</code>.
   syntax:
     content: public TensorFlow.TFOutput Cond (TensorFlow.TFOutput pred, Func<TensorFlow.TFOutput> true_fn, Func<TensorFlow.TFOutput> false_fn, string operName = null);
     parameters:
     - id: pred
       type: TensorFlow.TFOutput
-      description: To be added.
+      description: A scalar determining whether to return the result of true_fn or false_fn.
     - id: true_fn
       type: System.Func{TensorFlow.TFOutput}
-      description: To be added.
+      description: The callable to be performed if pred is true.
     - id: false_fn
       type: System.Func{TensorFlow.TFOutput}
-      description: To be added.
+      description: The callable to be performed if pred is false.
     - id: operName
       type: System.String
-      description: To be added.
+      description: Optional name prefix for the returned tensors.
     return:
       type: TensorFlow.TFOutput
-      description: To be added.
+      description: TFOutput.
   overload: TensorFlow.TFGraph.Cond*
   exceptions: []
 - uid: TensorFlow.TFGraph.ConditionalAccumulator(TensorFlow.TFDataType,TensorFlow.TFShape,System.String,System.String,System.String)
