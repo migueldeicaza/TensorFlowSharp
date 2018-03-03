@@ -119,7 +119,7 @@ namespace TensorFlowSharp.Tests.CSharp
 				}
 			}
 		}
-#endif
+
 		[Fact]
 		public void BasicConstantsUnSymmetrical ()
 		{
@@ -153,6 +153,7 @@ namespace TensorFlowSharp.Tests.CSharp
 				}
 			}
 		}
+#endif
 
         private static IEnumerable<object[]> stackData()
         {
