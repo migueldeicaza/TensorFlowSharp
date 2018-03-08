@@ -3469,7 +3469,7 @@ namespace TensorFlow
 	}
 
 	/// <summary>
-	/// Represents the shape of a tensor
+	/// Represents the shape of a tensor, it describes how many dimensions the tensor has in a given axis
 	/// </summary>
 	/// <remarks>
 	/// <para>

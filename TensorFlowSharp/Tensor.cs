@@ -23,8 +23,16 @@ namespace TensorFlow
 	/// <remarks>
 	/// <para>
 	/// You can create tensors with the various constructors in this class, or using
-	/// the implicit conversions from various data types into a TFTensor.
+	/// the implicit conversions from various data types into a TFTensor, including
+	/// the creation of tensors from simple constants (returning a tensor that reprensets
+	/// a scalar, that is, it is a 0D tensor), arrays (returning a tensor of a single
+	/// dimension, 1D) or arbitrary multidimensional arrays.
 	///</para>
+	/// <para>
+	///   Given a tensor, you can retrieve the number of dimensions in it via the
+	///   NumDims property, or you can retrieve the shape of a tensor, that is how many
+	///   elements on each dimension the tensor has, by fetching the Shape property.
+	/// </para>
 	/// <para>
 	/// The implicit conversions for basic types produce tensors of one dimesion with
 	/// a single element, while the implicit conversion from an array, expects a multi-dimensional
@@ -35,6 +43,22 @@ namespace TensorFlow
 	/// really represents a byte array.   You can create string tensors by using the <see cref="M:TensorFlow.TFTensor.CreateString"/> 
 	/// method that takes a byte array buffer as input.
 	/// </para>
+	/// <example>
+	/// <code>
+	///   TFTensor scalar = 1;           // Creates a 0D tensor, for the integer value 1
+	///   int d = scalar.NumDims;        // d will be equal to zero, as it is a 0D tensor
+	///   long [] shape = scalar.Shape   // returns an empty array, as it is a 0D tensor
+	///   
+	///   TFTensor list = new [] {1,2,3} // Creates a 1D tensor, or vector, for the values 1, 2, 3
+	///   d = list.NumDims;              // d will be one
+	///   shape = list.Shape;            // shape will be an array with a single value 3, representing that the dimension 0 has 3 elements
+	/// 
+	///                                  // Creates a 3D tensor, 
+	///   TFTensor cube = new [,,] { {{1,2,3},{4,5,6}}}
+	///   d = cube.NumDims               // d will be 3
+	///   shape = list.Shape             // shape will be [1,2,3] which is the shape of the above 3D array
+	/// </code>
+	/// </example>
 	/// </remarks>
 	public class TFTensor : TFDisposable
 	{
