@@ -243,7 +243,7 @@ namespace TensorFlow
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFStatus"/> class.
 		/// </summary>
-		public TFStatus () : base (TF_NewStatus ())
+		public 	TFStatus () : base (TF_NewStatus ())
 		{
 		}
 
@@ -1191,6 +1191,49 @@ namespace TensorFlow
 			}
 			cstatus.CheckMaybeRaise (status);
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		unsafe extern static int TF_GraphNumFunctions (TF_Graph graph);
+
+		/// <summary>
+		/// Returns the number of TF_Functions registered in this graph.
+		/// </summary>
+		/// <value>The number functions.</value>
+		public int NumFunctions => TF_GraphNumFunctions (Handle);
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern int TF_GraphGetFunctions (TF_Graph graph, IntPtr funcs, int max_func, TF_Status status);
+
+		/// <summary>
+		/// Returns an the functions that have been defined in the graph.
+		/// </summary>
+		/// <value>The functions.</value>
+		public TFFunction [] Functions {
+			get {
+				if (handle == null)
+					ObjectDisposedException ();
+				var n = NumFunctions;
+				unsafe {
+					TFFunction [] ret = null;
+					var size = sizeof (IntPtr);
+					var buffer = Marshal.AllocHGlobal (n * size);
+					using (var status = new TFStatus ()) {
+						int num = TF_GraphGetFunctions (handle, buffer, n, status.handle);
+						if (num > 0 && status.Ok) {
+							ret = new TFFunction [num];
+							var ofs = 0;
+							for (int i = 0; i < num; i++) {
+								var tfhandle = Marshal.ReadIntPtr (buffer, ofs);
+								ret [i] = new TFFunction (tfhandle);
+								ofs += size;
+							}
+						}
+					}
+					Marshal.FreeHGlobal (buffer);
+					return ret;
+				}
+			}
+		}
 	}
 
 	//
@@ -1794,6 +1837,28 @@ namespace TensorFlow
 
 			return new TFOperation (graph, h);
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_SetAttrFuncName (TF_OperationDescription desc,
+							      string attr_name, string value, IntPtr len);
+
+		/// <summary>
+		/// Sets an attribute on the function to the specified value.
+		/// </summary>
+		/// <param name="attrName">The attribute name.</param>
+		/// <param name="value">The value for the attribute.</param>
+		public void SetAttribute (string attrName, string value)
+		{
+			if (handle == IntPtr.Zero)
+				ObjectDisposedException ();
+			if (attrName == null)
+				throw new ArgumentNullException (nameof (attrName));
+			if (value == null)
+				throw new ArgumentNullException (nameof (value));
+
+			TF_SetAttrFuncName (handle, attrName, value, (IntPtr) value.Length);
+		}
+
 	}
 
 	/// <summary>

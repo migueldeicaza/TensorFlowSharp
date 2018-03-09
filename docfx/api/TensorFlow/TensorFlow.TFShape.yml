@@ -26,7 +26,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Represents the shape of a tensor
+  summary: Represents the shape of a tensor, it describes how many dimensions the tensor has in a given axis
   remarks: >-
     <p>
                 The shapes can be created by calling the constructor with the number of dimensions
