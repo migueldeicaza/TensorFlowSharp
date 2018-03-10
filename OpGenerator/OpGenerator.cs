@@ -22,6 +22,73 @@ using System.Text;
 using System.Runtime.InteropServices;
 using tensorflow;
 
+class ApiDefMap : IDisposable 
+{
+	[DllImport ("libtensorflow")]
+	unsafe extern static IntPtr TF_NewApiDefMap (IntPtr buffer, IntPtr status);
+
+	[DllImport ("libtensorflow")]
+	static extern void TF_DeleteApiDefMap (IntPtr handle);
+
+	[DllImport ("libtensorflow")]
+	static extern void TF_ApiDefMapPut (IntPtr handle, string text, IntPtr textLen, IntPtr status);
+
+	[DllImport ("libtensorflow")]
+	unsafe static extern OpGenerator.LLBuffer *TF_ApiDefMapGet (IntPtr handle, string name, IntPtr nameLen, IntPtr status);
+
+	// extern TF_Status * TF_NewStatus ();
+	[DllImport ("libtensorflow")]
+	static extern unsafe IntPtr TF_NewStatus ();
+
+	[DllImport ("libtensorflow")]
+	static extern unsafe int TF_GetCode (IntPtr s);
+
+	IntPtr handle;
+	IntPtr status;
+
+	unsafe public ApiDefMap (OpGenerator.LLBuffer* buffer)
+	{
+		status = TF_NewStatus ();
+
+		handle = TF_NewApiDefMap ((IntPtr)buffer, status);
+		if (TF_GetCode (status) != 0)
+			throw new ArgumentException ("Failure to call TF_NewApiDefMap");
+	}
+
+	void IDisposable.Dispose ()
+	{
+		Dispose (true);
+		GC.SuppressFinalize (this);
+	}
+
+	~ApiDefMap ()
+	{
+		Dispose (false);
+	}
+
+	void Dispose (bool disposing)
+	{
+		if (disposing) {
+			if (handle != IntPtr.Zero) {
+				TF_DeleteApiDefMap (handle);
+				handle = IntPtr.Zero;
+			}
+		}
+	}
+
+	public unsafe ApiDef Get (string name)
+	{
+		var ptr = TF_ApiDefMapGet (handle, name, (IntPtr)name.Length, status);
+		if (TF_GetCode (status) != 0)
+			return null;
+		var ret = new byte [(int)ptr->length];
+		Marshal.Copy (ptr->data, ret, 0, (int)ptr->length);
+		var str = new MemoryStream (ret);
+		return Serializer.Deserialize<ApiDef> (str);
+	}
+
+}
+
 class OpGenerator
 {
 	//
@@ -383,12 +450,14 @@ class OpGenerator
 
 	[DllImport ("libtensorflow")]
 	unsafe extern static LLBuffer *TF_GetAllOpList ();
+	ApiDefMap apimap;
 
 	MemoryStream GetOpsList ()
 	{
 		unsafe
 		{
 			LLBuffer* ptr = TF_GetAllOpList ();
+			apimap = new ApiDefMap (ptr);
 			var ret = new byte [(int)ptr->length];
 			Marshal.Copy (ptr->data, ret, 0, (int)ptr->length);
 			return new MemoryStream (ret);
@@ -397,7 +466,6 @@ class OpGenerator
 
 	void Run ()
 	{
-		
 		output = File.CreateText ("../../../TensorFlowSharp/Operations.g.cs");
 	     	var operations = Serializer.Deserialize<List<OpDef>> (GetOpsList ());
 		p ("using System;\n");
@@ -434,6 +502,7 @@ class OpGenerator
 				continue;
 			}
 #endif
+			var def = apimap.Get (oper.name);
 
 			// Undocumented operation, perhaps we should not surface
 			if (oper.summary == "")

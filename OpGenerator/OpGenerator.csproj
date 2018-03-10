@@ -45,6 +45,7 @@
     <Compile Include="OpGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Opdefs.cs" />
+    <Compile Include="api_def.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="New Folder\" />
