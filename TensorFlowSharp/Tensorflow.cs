@@ -1963,6 +1963,10 @@ namespace TensorFlow
 		// extern int TF_OperationNumControlInputs (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationNumControlInputs (TF_Operation oper);
+		/// <summary>
+		/// Gets the number of control inputs oto an operation
+		/// </summary>
+		/// <value>The number control inputs.</value>
 		public int NumControlInputs => TF_OperationNumControlInputs (handle);
 
 		// extern int TF_OperationGetControlInputs (TF_Operation *oper, TF_Operation **control_inputs, int max_control_inputs);
@@ -1972,13 +1976,21 @@ namespace TensorFlow
 		// extern int TF_OperationNumControlOutputs (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationNumControlOutputs (TF_Operation oper);
+
+		/// <summary>
+		/// Gets the number of operations that have this operation as a control input.
+		/// </summary>
 		public int NumControlOutputs => TF_OperationNumControlOutputs (handle);
 
 		// extern int TF_OperationGetControlOutputs (TF_Operation *oper, TF_Operation **control_outputs, int max_control_outputs);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe int TF_OperationGetControlOutputs (TF_Operation oper, [Out] [MarshalAs (UnmanagedType.LPArray, SizeParamIndex = 2)] IntPtr [] control_outputs, int max_control_outputs);
 
-		TFOperation [] ControlOutputs {
+		/// <summary>
+		/// Get the list of operations that have this operation as a control input.
+		/// </summary>
+		/// <value>The control outputs.</value>
+		public TFOperation [] ControlOutputs {
 			get {
 				var n = NumControlOutputs;
 				var arr = new IntPtr [n];
@@ -2130,24 +2142,55 @@ namespace TensorFlow
 		}
 	}
 
+
+	/// <summary>
+	/// Device type
+	/// </summary>
 	public enum DeviceType
 	{
-		CPU, GPU, TPU
+		/// <summary>
+		/// The device is the Central Processing Unit (CPU)
+		/// </summary>
+		CPU, 
+
+		/// <summary>
+		/// The device is a Graphics Processing Unit (GPU)
+		/// </summary>
+		GPU, 
+
+		/// <summary>
+		/// The device is a Tensor Processing Unit (TPU)
+		/// </summary>
+		TPU
 	}
 
+	/// <summary>
+	/// Describes the device attributes 
+	/// </summary>
 	public class DeviceAttributes
 	{
-		public DeviceAttributes (string name, DeviceType deviceType, long memoryLimitBytes)
+		internal DeviceAttributes (string name, DeviceType deviceType, long memoryLimitBytes)
 		{
 			Name = name;
 			DeviceType = deviceType;
 			MemoryLimitBytes = memoryLimitBytes;
 		}
-		
+
+		/// <summary>
+		/// The full name of the device (e.g. /job:worker/replica:0/...)
+		/// </summary>
 		public string Name { get; private set; }
 
+		/// <summary>
+		/// Gets the type of the device.
+		/// </summary>
+		/// <value>The type of the device.</value>
 		public DeviceType DeviceType { get; private  set; }
 
+		/// <summary>
+		/// The amount of memory associated with a given device.
+		/// </summary>
+		/// <value>The memory limit bytes.</value>
 		public long MemoryLimitBytes { get; private  set; }
 	} 
 
@@ -2429,6 +2472,7 @@ namespace TensorFlow
 		/// <summary>
 		/// Lists available devices in this session.
 		/// </summary>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public IEnumerable<DeviceAttributes> ListDevices(TFStatus status = null)
 		{
 			var cstatus = TFStatus.Setup (status);
@@ -2511,6 +2555,10 @@ namespace TensorFlow
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_DeleteSession (TF_Session session, TF_Status status);
 
+		/// <summary>
+		/// Deletes the session.
+		/// </summary>
+		/// <param name="status">Status.</param>
 		public void DeleteSession (TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)

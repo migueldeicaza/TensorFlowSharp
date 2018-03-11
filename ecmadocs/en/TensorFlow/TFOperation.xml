@@ -133,8 +133,10 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>
+            Gets the number of control inputs oto an operation
+            </summary>
+        <value>The number control inputs.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -149,7 +151,9 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>
+            Gets the number of operations that have this operation as a control input.
+            </summary>
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>

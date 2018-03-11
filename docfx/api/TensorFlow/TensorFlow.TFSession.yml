@@ -142,12 +142,13 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Deletes the session.
   syntax:
     content: public void DeleteSession (TensorFlow.TFStatus status = null);
     parameters:
     - id: status
       type: TensorFlow.TFStatus
-      description: To be added.
+      description: Status.
   overload: TensorFlow.TFSession.DeleteSession*
   exceptions: []
 - uid: TensorFlow.TFSession.FromSavedModel(TensorFlow.TFSessionOptions,TensorFlow.TFBuffer,System.String,System.String[],TensorFlow.TFGraph,TensorFlow.TFBuffer,TensorFlow.TFStatus)

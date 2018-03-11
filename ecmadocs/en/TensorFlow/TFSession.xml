@@ -131,8 +131,10 @@
         <Parameter Name="status" Type="TensorFlow.TFStatus" />
       </Parameters>
       <Docs>
-        <param name="status">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="status">Status.</param>
+        <summary>
+            Deletes the session.
+            </summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

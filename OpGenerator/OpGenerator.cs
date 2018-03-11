@@ -271,38 +271,55 @@ class OpGenerator
 		return sb.ToString ();
 	}
 
-	string Quote (string input)
-	{
-		var p = input.IndexOf ('`');
-		if (p == -1)
-			return input;
-		var res = new StringBuilder ();
-		bool open = true;
-		foreach (var c in input) {
-			if (c == '`') {
-				res.Append (open ? "<code>" : "</code>");
-				open = !open;
-			} else
-				res.Append (c);
-		}
-		return res.ToString ();
-	}
-
 	void Comment (string text)
 	{
 		if (text == null || text == "")
 			return;
 		var lines = text.Split ('\n');
-		bool open = true;
+		var open = true;
+
+		string Quote (string input)
+		{
+			var p = input.IndexOf ('`');
+			if (p == -1)
+				return input;
+			var res = new StringBuilder ();
+			foreach (var c in input) {
+				if (c == '`') {
+					res.Append (open ? "<c>" : "</c>");
+					open = !open;
+				} else
+					res.Append (c);
+			}
+			return res.ToString ();
+		}
+
+		bool blockOpen = true;
 		foreach (var line in lines) {
+			if (line.IndexOf ("in image height coordinates.") != -1) {
+				Console.WriteLine ("Hello");
+			}
+
 			var line2 = line.Trim ().Replace ("<", "&lt;").Replace (">", "&gt;").Replace ("&", "&amp;");
 
-			if (line == "```") {
-				p ("///    " + (open ? "<code>" : "</code>"));
-				open = !open;
-			} else {
-				p ($"///   {Quote (line2)}");
-			}
+			if (line2.StartsWith ("```")){
+				p ("///    " + (blockOpen ? "<code>" : "</code>"));
+				blockOpen = !blockOpen;
+				if (line2 == "```python" || line2 == "```c++" || line2 == "```")
+					continue;
+				// Handle some broken comments in the api specs, they sometimes missuse the 
+
+				line2 = line2.Substring (3);
+				if (line2.EndsWith ("```")){
+					var line3 = line2.Substring (0, line2.Length - 3);
+					p ($"///    {Quote (line3)}");
+					p ("///    " + (blockOpen ? "<code>" : "</code>"));
+					blockOpen = !blockOpen;
+					continue;
+				}
+			} 
+			p ($"///   {Quote (line2)}");
+
 		}
 	}
 

@@ -160,11 +160,12 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Gets the number of control inputs oto an operation
   syntax:
     content: public int NumControlInputs { get; }
     return:
       type: System.Int32
-      description: To be added.
+      description: The number control inputs.
   overload: TensorFlow.TFOperation.NumControlInputs*
   exceptions: []
 - uid: TensorFlow.TFOperation.NumControlOutputs
@@ -179,6 +180,7 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
+  summary: Gets the number of operations that have this operation as a control input.
   syntax:
     content: public int NumControlOutputs { get; }
     return:
