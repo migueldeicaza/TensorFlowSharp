@@ -52,8 +52,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `x`, this operation returns a tensor containing the absolute
-		///   value of each element in `x`. For example, if x is an input element and y is
+		///   Given a tensor <code>x</code>, this operation returns a tensor containing the absolute
+		///   value of each element in <code>x</code>. For example, if x is an input element and y is
 		///   an output element, this operation computes \\(y = |x|\\).
 		/// </remarks>
 		public TFOutput Abs (TFOutput x, string operName = null)
@@ -73,26 +73,26 @@ namespace TensorFlow {
 		///   Returns the element-wise sum of a list of tensors.
 		/// </summary>
 		/// <param name="inputs">
-		///   A list of `Tensor` objects, each with same shape and type.
+		///   A list of <code>Tensor</code> objects, each with same shape and type.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AccumulateNV2'.
 		/// </param>
 		/// <param name="shape">
-		///   Shape of elements of `inputs`.
+		///   Shape of elements of <code>inputs</code>.
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `tf.accumulate_n_v2` performs the same operation as `tf.add_n`, but does not
+		///   <code>tf.accumulate_n_v2</code> performs the same operation as <code>tf.add_n</code>, but does not
 		///   wait for all of its inputs to be ready before beginning to sum. This can
 		///   save memory if inputs are ready at different times, since minimum temporary
 		///   storage is proportional to the output size rather than the inputs size.
 		///   
-		///   Unlike the original `accumulate_n`, `accumulate_n_v2` is differentiable.
+		///   Unlike the original <code>accumulate_n</code>, <code>accumulate_n_v2</code> is differentiable.
 		///   
-		///   Returns a `Tensor` of same shape and type as the elements of `inputs`.
+		///   Returns a <code>Tensor</code> of same shape and type as the elements of <code>inputs</code>.
 		/// </remarks>
 		public TFOutput AccumulateNV2 (TFOutput[] inputs, TFShape shape, string operName = null)
 		{
@@ -303,7 +303,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Add` supports broadcasting. `AddN` does not. More about broadcasting
+		///   *NOTE*: <code>Add</code> supports broadcasting. <code>AddN</code> does not. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Add (TFOutput x, TFOutput y, string operName = null)
@@ -321,59 +321,59 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Add an `N`-minibatch `SparseTensor` to a `SparseTensorsMap`, return `N` handles.
+		///   Add an <code>N</code>-minibatch <code>SparseTensor</code> to a <code>SparseTensorsMap</code>, return <code>N</code> handles.
 		/// </summary>
 		/// <param name="sparse_indices">
-		///   2-D.  The `indices` of the minibatch `SparseTensor`.
-		///   `sparse_indices[:, 0]` must be ordered values in `[0, N)`.
+		///   2-D.  The <code>indices</code> of the minibatch <code>SparseTensor</code>.
+		///   <code>sparse_indices[:, 0]</code> must be ordered values in <code>[0, N)</code>.
 		/// </param>
 		/// <param name="sparse_values">
-		///   1-D.  The `values` of the minibatch `SparseTensor`.
+		///   1-D.  The <code>values</code> of the minibatch <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_shape">
-		///   1-D.  The `shape` of the minibatch `SparseTensor`.
-		///   The minibatch size `N == sparse_shape[0]`.
+		///   1-D.  The <code>shape</code> of the minibatch <code>SparseTensor</code>.
+		///   The minibatch size <code>N == sparse_shape[0]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AddManySparseToTensorsMap'.
 		/// </param>
 		/// <param name="container">
 		///   Optional argument
-		///   The container name for the `SparseTensorsMap` created by this op.
+		///   The container name for the <code>SparseTensorsMap</code> created by this op.
 		/// </param>
 		/// <param name="shared_name">
 		///   Optional argument
-		///   The shared name for the `SparseTensorsMap` created by this op.
+		///   The shared name for the <code>SparseTensorsMap</code> created by this op.
 		///   If blank, the new Operation's unique name is used.
 		/// </param>
 		/// <returns>
-		///   1-D.  The handles of the `SparseTensor` now stored in the
-		///   `SparseTensorsMap`.  Shape: `[N]`.
+		///   1-D.  The handles of the <code>SparseTensor</code> now stored in the
+		///   <code>SparseTensorsMap</code>.  Shape: <code>[N]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   A `SparseTensor` of rank `R` is represented by three tensors: `sparse_indices`,
-		///   `sparse_values`, and `sparse_shape`, where
+		///   A <code>SparseTensor</code> of rank <code>R</code> is represented by three tensors: <code>sparse_indices</code>,
+		///   <code>sparse_values</code>, and <code>sparse_shape</code>, where
 		///   
-		///   ```sparse_indices.shape[1] == sparse_shape.shape[0] == R```
+		///   <code></code><code>sparse_indices.shape[1] == sparse_shape.shape[0] == R</code><code></code>
 		///   
-		///   An `N`-minibatch of `SparseTensor` objects is represented as a `SparseTensor`
-		///   having a first `sparse_indices` column taking values between `[0, N)`, where
-		///   the minibatch size `N == sparse_shape[0]`.
+		///   An <code>N</code>-minibatch of <code>SparseTensor</code> objects is represented as a <code>SparseTensor</code>
+		///   having a first <code>sparse_indices</code> column taking values between <code>[0, N)</code>, where
+		///   the minibatch size <code>N == sparse_shape[0]</code>.
 		///   
-		///   The input `SparseTensor` must have rank `R` greater than 1, and the first
-		///   dimension is treated as the minibatch dimension.  Elements of the `SparseTensor`
+		///   The input <code>SparseTensor</code> must have rank <code>R</code> greater than 1, and the first
+		///   dimension is treated as the minibatch dimension.  Elements of the <code>SparseTensor</code>
 		///   must be sorted in increasing order of this first dimension.  The stored
-		///   `SparseTensor` objects pointed to by each row of the output `sparse_handles`
-		///   will have rank `R-1`.
+		///   <code>SparseTensor</code> objects pointed to by each row of the output <code>sparse_handles</code>
+		///   will have rank <code>R-1</code>.
 		///   
-		///   The `SparseTensor` values can then be read out as part of a minibatch by passing
-		///   the given keys as vector elements to `TakeManySparseFromTensorsMap`.  To ensure
-		///   the correct `SparseTensorsMap` is accessed, ensure that the same
-		///   `container` and `shared_name` are passed to that Op.  If no `shared_name`
+		///   The <code>SparseTensor</code> values can then be read out as part of a minibatch by passing
+		///   the given keys as vector elements to <code>TakeManySparseFromTensorsMap</code>.  To ensure
+		///   the correct <code>SparseTensorsMap</code> is accessed, ensure that the same
+		///   <code>container</code> and <code>shared_name</code> are passed to that Op.  If no <code>shared_name</code>
 		///   is provided here, instead use the *name* of the Operation created by calling
-		///   `AddManySparseToTensorsMap` as the `shared_name` passed to
-		///   `TakeManySparseFromTensorsMap`.  Ensure the Operations are colocated.
+		///   <code>AddManySparseToTensorsMap</code> as the <code>shared_name</code> passed to
+		///   <code>TakeManySparseFromTensorsMap</code>.  Ensure the Operations are colocated.
 		/// </remarks>
 		public TFOutput AddManySparseToTensorsMap (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape, string container = null, string shared_name = null, string operName = null)
 		{
@@ -422,49 +422,49 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Add a `SparseTensor` to a `SparseTensorsMap` return its handle.
+		///   Add a <code>SparseTensor</code> to a <code>SparseTensorsMap</code> return its handle.
 		/// </summary>
 		/// <param name="sparse_indices">
-		///   2-D.  The `indices` of the `SparseTensor`.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_values">
-		///   1-D.  The `values` of the `SparseTensor`.
+		///   1-D.  The <code>values</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_shape">
-		///   1-D.  The `shape` of the `SparseTensor`.
+		///   1-D.  The <code>shape</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AddSparseToTensorsMap'.
 		/// </param>
 		/// <param name="container">
 		///   Optional argument
-		///   The container name for the `SparseTensorsMap` created by this op.
+		///   The container name for the <code>SparseTensorsMap</code> created by this op.
 		/// </param>
 		/// <param name="shared_name">
 		///   Optional argument
-		///   The shared name for the `SparseTensorsMap` created by this op.
+		///   The shared name for the <code>SparseTensorsMap</code> created by this op.
 		///   If blank, the new Operation's unique name is used.
 		/// </param>
 		/// <returns>
-		///   0-D.  The handle of the `SparseTensor` now stored in the
-		///   `SparseTensorsMap`.
+		///   0-D.  The handle of the <code>SparseTensor</code> now stored in the
+		///   <code>SparseTensorsMap</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   A `SparseTensor` is represented by three tensors: `sparse_indices`,
-		///   `sparse_values`, and `sparse_shape`.
+		///   A <code>SparseTensor</code> is represented by three tensors: <code>sparse_indices</code>,
+		///   <code>sparse_values</code>, and <code>sparse_shape</code>.
 		///   
-		///   This operator takes the given `SparseTensor` and adds it to a container
-		///   object (a `SparseTensorsMap`).  A unique key within this container is generated
-		///   in the form of an `int64`, and this is the value that is returned.
+		///   This operator takes the given <code>SparseTensor</code> and adds it to a container
+		///   object (a <code>SparseTensorsMap</code>).  A unique key within this container is generated
+		///   in the form of an <code>int64</code>, and this is the value that is returned.
 		///   
-		///   The `SparseTensor` can then be read out as part of a minibatch by passing
-		///   the key as a vector element to `TakeManySparseFromTensorsMap`.  To ensure
-		///   the correct `SparseTensorsMap` is accessed, ensure that the same
-		///   `container` and `shared_name` are passed to that Op.  If no `shared_name`
+		///   The <code>SparseTensor</code> can then be read out as part of a minibatch by passing
+		///   the key as a vector element to <code>TakeManySparseFromTensorsMap</code>.  To ensure
+		///   the correct <code>SparseTensorsMap</code> is accessed, ensure that the same
+		///   <code>container</code> and <code>shared_name</code> are passed to that Op.  If no <code>shared_name</code>
 		///   is provided here, instead use the *name* of the Operation created by calling
-		///   `AddSparseToTensorsMap` as the `shared_name` passed to
-		///   `TakeManySparseFromTensorsMap`.  Ensure the Operations are colocated.
+		///   <code>AddSparseToTensorsMap</code> as the <code>shared_name</code> passed to
+		///   <code>TakeManySparseFromTensorsMap</code>.  Ensure the Operations are colocated.
 		/// </remarks>
 		public TFOutput AddSparseToTensorsMap (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape, string container = null, string shared_name = null, string operName = null)
 		{
@@ -501,7 +501,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Add` supports broadcasting. `AddN` does not. More about broadcasting
+		///   *NOTE*: <code>Add</code> supports broadcasting. <code>AddN</code> does not. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput AddV2 (TFOutput x, TFOutput y, string operName = null)
@@ -568,15 +568,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `images` is a tensor of at least 3 dimensions.  The last 3 dimensions are
-		///   interpreted as `[height, width, channels]`.  The other dimensions only
-		///   represent a collection of images, such as `[batch, height, width, channels].`
+		///   <code>images</code> is a tensor of at least 3 dimensions.  The last 3 dimensions are
+		///   interpreted as <code>[height, width, channels]</code>.  The other dimensions only
+		///   represent a collection of images, such as <code>[batch, height, width, channels].</code>
 		///   
 		///   Contrast is adjusted independently for each channel of each image.
 		///   
 		///   For each channel, the Op first computes the mean of the image pixels in the
 		///   channel and then adjusts each component of each pixel to
-		///   `(x - mean) * contrast_factor + mean`.
+		///   <code>(x - mean) * contrast_factor + mean</code>.
 		/// </remarks>
 		public TFOutput AdjustContrastv2 (TFOutput images, TFOutput contrast_factor, string operName = null)
 		{
@@ -609,7 +609,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `images` is a tensor of at least 3 dimensions.  The last dimension is
+		///   <code>images</code> is a tensor of at least 3 dimensions.  The last dimension is
 		///   interpretted as channels, and must be three.
 		///   
 		///   The input image is considered in the RGB colorspace. Conceptually, the RGB
@@ -647,7 +647,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `images` is a tensor of at least 3 dimensions.  The last dimension is
+		///   <code>images</code> is a tensor of at least 3 dimensions.  The last dimension is
 		///   interpretted as channels, and must be three.
 		///   
 		///   The input image is considered in the RGB colorspace. Conceptually, the RGB
@@ -676,7 +676,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'All'.
@@ -690,9 +690,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput All (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -806,19 +806,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input` of complex numbers, this operation returns a tensor of
-		///   type `float` that is the argument of each element in `input`. All elements in
-		///   `input` must be complex numbers of the form \\(a + bj\\), where *a*
+		///   Given a tensor <code>input</code> of complex numbers, this operation returns a tensor of
+		///   type <code>float</code> that is the argument of each element in <code>input</code>. All elements in
+		///   <code>input</code> must be complex numbers of the form \\(a + bj\\), where *a*
 		///   is the real part and *b* is the imaginary part.
 		///   
 		///   The argument returned by this operation is of the form \\(atan2(b, a)\\).
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
 		///   tf.angle(input) ==&amp;gt; [2.0132, 1.056]
-		///   ```
+		///    </code>
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.angle.
@@ -848,7 +848,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Any'.
@@ -862,9 +862,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Any (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -968,7 +968,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1099,13 +1099,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, m, and v tensors will be protected
+		///   If <code>True</code>, updating of the var, m, and v tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, uses the nesterov update.
+		///   If <code>True</code>, uses the nesterov update.
 		/// </param>
 		/// <returns>
 		///   Same as "var".
@@ -1174,7 +1174,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and m tensors is
+		///   If <code>True</code>, updating of the var and m tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1243,7 +1243,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   If <code>True</code>, updating of the var, mg, ms, and mom tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1327,7 +1327,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1399,7 +1399,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1411,7 +1411,7 @@ namespace TensorFlow {
 		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
 		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
 		///   linear += grad_with_shrinkage +
-		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
 		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
@@ -1457,7 +1457,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, the subtraction will be protected by a lock;
+		///   If <code>True</code>, the subtraction will be protected by a lock;
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
@@ -1505,13 +1505,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, the tensor passed to compute grad will be
+		///   If <code>True</code>, the tensor passed to compute grad will be
 		///   var - lr * momentum * accum, so in the end, the var you get is actually
 		///   var - lr * momentum * accum.
 		/// </param>
@@ -1577,7 +1577,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and m tensors is
+		///   If <code>True</code>, updating of the var and m tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1756,7 +1756,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   If <code>True</code>, updating of the var, ms, and mom tensors is protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -1838,7 +1838,7 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32 or int64, must be in the range `[-rank(input), rank(input))`.
+		///   int32 or int64, must be in the range <code>[-rank(input), rank(input))</code>.
 		///   Describes which dimension of the input Tensor to reduce across. For vectors,
 		///   use dimension = 0.
 		/// </param>
@@ -1877,7 +1877,7 @@ namespace TensorFlow {
 		/// <param name="input">
 		/// </param>
 		/// <param name="dimension">
-		///   int32 or int64, must be in the range `[-rank(input), rank(input))`.
+		///   int32 or int64, must be in the range <code>[-rank(input), rank(input))</code>.
 		///   Describes which dimension of the input Tensor to reduce across. For vectors,
 		///   use dimension = 0.
 		/// </param>
@@ -1978,8 +1978,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   If `condition` evaluates to false, print the list of tensors in `data`.
-		///   `summarize` determines how many entries of the tensors to print.
+		///   If <code>condition</code> evaluates to false, print the list of tensors in <code>data</code>.
+		///   <code>summarize</code> determines how many entries of the tensors to print.
 		/// </remarks>
 		public TFOperation Assert (TFOutput condition, TFOutput[] data, long? summarize = null, string operName = null)
 		{
@@ -2000,7 +2000,7 @@ namespace TensorFlow {
 		///   Update 'ref' by assigning 'value' to it.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node. May be uninitialized.
+		///   Should be from a <code>Variable</code> node. May be uninitialized.
 		/// </param>
 		/// <param name="value">
 		///   The value to be assigned to the variable.
@@ -2052,7 +2052,7 @@ namespace TensorFlow {
 		///   Update 'ref' by adding 'value' to it.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="value">
 		///   The value to be added to the variable.
@@ -2107,11 +2107,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   Any ReadVariableOp which depends directly or indirectly on this assign is
-		///   guaranteed to see the incremented value or a subsequent newer one.
-		///   
-		///   Outputs the incremented value, which can be used to totally order the
-		///   increments to this variable.
+		///   Any ReadVariableOp with a control dependency on this op is guaranteed to
+		///   see the incremented value or a subsequent newer one.
 		/// </remarks>
 		public TFOperation AssignAddVariableOp (TFOutput resource, TFOutput value, string operName = null)
 		{
@@ -2129,7 +2126,7 @@ namespace TensorFlow {
 		///   Update 'ref' by subtracting 'value' from it.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="value">
 		///   The value to be subtracted to the variable.
@@ -2184,11 +2181,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   Any ReadVariableOp which depends directly or indirectly on this assign is
-		///   guaranteed to see the incremented value or a subsequent newer one.
-		///   
-		///   Outputs the incremented value, which can be used to totally order the
-		///   increments to this variable.
+		///   Any ReadVariableOp with a control dependency on this op is guaranteed to
+		///   see the decremented value or a subsequent newer one.
 		/// </remarks>
 		public TFOperation AssignSubVariableOp (TFOutput resource, TFOutput value, string operName = null)
 		{
@@ -2325,7 +2319,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes arctangent of `y/x` element-wise, respecting signs of the arguments.
+		///   Computes arctangent of <code>y/x</code> element-wise, respecting signs of the arguments.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -2453,13 +2447,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with audio.
+		///   Outputs a <code>Summary</code> protocol buffer with audio.
 		/// </summary>
 		/// <param name="tag">
-		///   Scalar. Used to build the `tag` attribute of the summary values.
+		///   Scalar. Used to build the <code>tag</code> attribute of the summary values.
 		/// </param>
 		/// <param name="tensor">
-		///   2-D of shape `[batch_size, frames]`.
+		///   2-D of shape <code>[batch_size, frames]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AudioSummary'.
@@ -2472,21 +2466,21 @@ namespace TensorFlow {
 		///   The sample rate of the signal in hertz.
 		/// </param>
 		/// <returns>
-		///   Scalar. Serialized `Summary` protocol buffer.
+		///   Scalar. Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The summary has up to `max_outputs` summary values containing audio. The
-		///   audio is built from `tensor` which must be 3-D with shape `[batch_size,
-		///   frames, channels]` or 2-D with shape `[batch_size, frames]`. The values are
-		///   assumed to be in the range of `[-1.0, 1.0]` with a sample rate of `sample_rate`.
+		///   The summary has up to <code>max_outputs</code> summary values containing audio. The
+		///   audio is built from <code>tensor</code> which must be 3-D with shape <code>[batch_size,
+		///   frames, channels]<code> or 2-D with shape </code>[batch_size, frames]<code>. The values are
+		///   assumed to be in the range of <code>[-1.0, 1.0]</code> with a sample rate of <code>sample_rate</code>.
 		///   
-		///   The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
-		///   build the `tag` of the summary values:
+		///   The <code>tag</code> argument is a scalar <code>Tensor</code> of type <code>string</code>.  It is used to
+		///   build the <code>tag</code> of the summary values:
 		///   
-		///   *  If `max_outputs` is 1, the summary value tag is '*tag*/audio'.
-		///   *  If `max_outputs` is greater than 1, the summary value tags are
-		///      generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
+		///   *  If <code>max_outputs</code> is 1, the summary value tag is '*tag*/audio'.
+		///   *  If <code>max_outputs</code> is greater than 1, the summary value tags are
+		///   generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
 		/// </remarks>
 		public TFOutput AudioSummary (TFOutput tag, TFOutput tensor, float sample_rate, long? max_outputs = null, string operName = null)
 		{
@@ -2507,13 +2501,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with audio.
+		///   Outputs a <code>Summary</code> protocol buffer with audio.
 		/// </summary>
 		/// <param name="tag">
-		///   Scalar. Used to build the `tag` attribute of the summary values.
+		///   Scalar. Used to build the <code>tag</code> attribute of the summary values.
 		/// </param>
 		/// <param name="tensor">
-		///   2-D of shape `[batch_size, frames]`.
+		///   2-D of shape <code>[batch_size, frames]</code>.
 		/// </param>
 		/// <param name="sample_rate">
 		///   The sample rate of the signal in hertz.
@@ -2526,21 +2520,21 @@ namespace TensorFlow {
 		///   Max number of batch elements to generate audio for.
 		/// </param>
 		/// <returns>
-		///   Scalar. Serialized `Summary` protocol buffer.
+		///   Scalar. Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The summary has up to `max_outputs` summary values containing audio. The
-		///   audio is built from `tensor` which must be 3-D with shape `[batch_size,
-		///   frames, channels]` or 2-D with shape `[batch_size, frames]`. The values are
-		///   assumed to be in the range of `[-1.0, 1.0]` with a sample rate of `sample_rate`.
+		///   The summary has up to <code>max_outputs</code> summary values containing audio. The
+		///   audio is built from <code>tensor</code> which must be 3-D with shape <code>[batch_size,
+		///   frames, channels]<code> or 2-D with shape </code>[batch_size, frames]<code>. The values are
+		///   assumed to be in the range of <code>[-1.0, 1.0]</code> with a sample rate of <code>sample_rate</code>.
 		///   
-		///   The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
-		///   build the `tag` of the summary values:
+		///   The <code>tag</code> argument is a scalar <code>Tensor</code> of type <code>string</code>.  It is used to
+		///   build the <code>tag</code> of the summary values:
 		///   
-		///   *  If `max_outputs` is 1, the summary value tag is '*tag*/audio'.
-		///   *  If `max_outputs` is greater than 1, the summary value tags are
-		///      generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
+		///   *  If <code>max_outputs</code> is 1, the summary value tag is '*tag*/audio'.
+		///   *  If <code>max_outputs</code> is greater than 1, the summary value tags are
+		///   generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
 		/// </remarks>
 		public TFOutput AudioSummaryV2 (TFOutput tag, TFOutput tensor, TFOutput sample_rate, long? max_outputs = null, string operName = null)
 		{
@@ -2564,7 +2558,7 @@ namespace TensorFlow {
 		///   Performs average pooling on the input.
 		/// </summary>
 		/// <param name="value">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AvgPool'.
@@ -2573,15 +2567,15 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
-		///   The size of the sliding window for each dimension of `value`.
+		///   The size of the sliding window for each dimension of <code>value</code>.
 		/// </param>
 		/// <param name="strides">
-		///   The stride of the sliding window for each dimension of `value`.
+		///   The stride of the sliding window for each dimension of <code>value</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -2591,8 +2585,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Each entry in `output` is the mean of the corresponding size `ksize`
-		///   window in `value`.
+		///   Each entry in <code>output</code> is the mean of the corresponding size <code>ksize</code>
+		///   window in <code>value</code>.
 		/// </remarks>
 		public TFOutput AvgPool (TFOutput value, long[] ksize, long[] strides, string padding, string data_format = null, string operName = null)
 		{
@@ -2617,7 +2611,7 @@ namespace TensorFlow {
 		///   Performs 3D average pooling on the input.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, depth, rows, cols, channels]` tensor to pool over.
+		///   Shape <code>[batch, depth, rows, cols, channels]</code> tensor to pool over.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AvgPool3D'.
@@ -2626,17 +2620,17 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   1-D tensor of length 5. The size of the window for each dimension of
-		///   the input tensor. Must have `ksize[0] = ksize[4] = 1`.
+		///   the input tensor. Must have <code>ksize[0] = ksize[4] = 1</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -2671,7 +2665,7 @@ namespace TensorFlow {
 		///   The original input dimensions.
 		/// </param>
 		/// <param name="grad">
-		///   Output backprop of shape `[batch, depth, rows, cols, channels]`.
+		///   Output backprop of shape <code>[batch, depth, rows, cols, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AvgPool3DGrad'.
@@ -2680,17 +2674,17 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   1-D tensor of length 5. The size of the window for each dimension of
-		///   the input tensor. Must have `ksize[0] = ksize[4] = 1`.
+		///   the input tensor. Must have <code>ksize[0] = ksize[4] = 1</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -2723,11 +2717,11 @@ namespace TensorFlow {
 		///   Computes gradients of the average pooling function.
 		/// </summary>
 		/// <param name="orig_input_shape">
-		///   1-D.  Shape of the original input to `avg_pool`.
+		///   1-D.  Shape of the original input to <code>avg_pool</code>.
 		/// </param>
 		/// <param name="grad">
-		///   4-D with shape `[batch, height, width, channels]`.  Gradients w.r.t.
-		///   the output of `avg_pool`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Gradients w.r.t.
+		///   the output of <code>avg_pool</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AvgPoolGrad'.
@@ -2736,9 +2730,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the sliding window for each dimension of the input.
@@ -2750,7 +2744,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   4-D.  Gradients w.r.t. the input of `avg_pool`.
+		///   4-D.  Gradients w.r.t. the input of <code>avg_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput AvgPoolGrad (TFOutput orig_input_shape, TFOutput grad, long[] ksize, long[] strides, string padding, string data_format = null, string operName = null)
@@ -3059,7 +3053,116 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that batches `batch_size` elements from `input_dataset`.
+		///   Batches all input tensors nondeterministically.
+		/// </summary>
+		/// <param name="in_tensors">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Batch'.
+		/// </param>
+		/// <param name="allowed_batch_sizes">
+		///   Optional argument
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="batching_queue">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_batch_threads">
+		/// </param>
+		/// <param name="max_batch_size">
+		/// </param>
+		/// <param name="batch_timeout_micros">
+		/// </param>
+		/// <param name="grad_timeout_micros">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   batched_tensors:
+		///   batch_index:
+		///   id:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   When many instances of this Op are being run concurrently with the same
+		///   container/shared_name in the same device, some will output zero-shaped Tensors
+		///   and others will output Tensors of size up to max_batch_size.
+		///   
+		///   All Tensors in in_tensors are batched together (so, for example, labels and
+		///   features should be batched with a single instance of this operation.
+		///   
+		///   Each invocation of batch emits an <code>id</code> scalar which will be used to identify
+		///   this particular invocation when doing unbatch or its gradient.
+		///   
+		///   Each op which emits a non-empty batch will also emit a non-empty batch_index
+		///   Tensor, which, is a [K, 3] matrix where each row contains the invocation's id,
+		///   start, and length of elements of each set of Tensors present in batched_tensors.
+		///   
+		///   Batched tensors are concatenated along the first dimension, and all tensors in
+		///   in_tensors must have the first dimension of the same size.
+		///   
+		///   in_tensors: The tensors to be batched.
+		///   num_batch_threads: Number of scheduling threads for processing batches of work.
+		///   Determines the number of batches processed in parallel.
+		///   max_batch_size: Batch sizes will never be bigger than this.
+		///   batch_timeout_micros: Maximum number of microseconds to wait before outputting
+		///   an incomplete batch.
+		///   allowed_batch_sizes: Optional list of allowed batch sizes. If left empty, does
+		///   nothing. Otherwise, supplies a list of batch sizes, causing the op to pad
+		///   batches up to one of those sizes. The entries must increase monotonically, and
+		///   the final entry must equal max_batch_size.
+		///   grad_timeout_micros: The timeout to use for the gradient. See Unbatch.
+		///   batched_tensors: Either empty tensors or a batch of concatenated Tensors.
+		///   batch_index: If out_tensors is non-empty, has information to invert it.
+		///   container: Controls the scope of sharing of this batch.
+		///   id: always contains a scalar with a unique ID for this invocation of Batch.
+		///   shared_name: Concurrently running instances of batch in the same device with the
+		///   same container and shared_name will batch their elements together. If left
+		///   empty, the op name will be used as the shared name.
+		///   T: the types of tensors to be batched.
+		/// </remarks>
+		public (TFOutput[] batched_tensors, TFOutput batch_index, TFOutput id) Batch (TFOutput[] in_tensors, long num_batch_threads, long max_batch_size, long batch_timeout_micros, long grad_timeout_micros, long[] allowed_batch_sizes = null, string container = null, string shared_name = null, string batching_queue = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Batch", MakeName ("Batch", operName));
+			desc.AddInputs (in_tensors);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_batch_threads", num_batch_threads);
+			desc.SetAttr ("max_batch_size", max_batch_size);
+			desc.SetAttr ("batch_timeout_micros", batch_timeout_micros);
+			desc.SetAttr ("grad_timeout_micros", grad_timeout_micros);
+			if (allowed_batch_sizes != null)
+				desc.SetAttr ("allowed_batch_sizes", allowed_batch_sizes);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (batching_queue != null)
+				desc.SetAttr ("batching_queue", batching_queue);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("batched_tensors");
+			var batched_tensors = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				batched_tensors [i] = new TFOutput (op, _idx++);
+			
+			var batch_index = new TFOutput (op, _idx++);
+			var id = new TFOutput (op, _idx++);
+			return (batched_tensors, batch_index, id);
+		}
+
+		/// <summary>
+		///   Creates a dataset that batches <code>batch_size</code> elements from <code>input_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -3097,45 +3200,45 @@ namespace TensorFlow {
 		///   Multiplies slices of two tensors in batches.
 		/// </summary>
 		/// <param name="x">
-		///   2-D or higher with shape `[..., r_x, c_x]`.
+		///   2-D or higher with shape <code>[..., r_x, c_x]</code>.
 		/// </param>
 		/// <param name="y">
-		///   2-D or higher with shape `[..., r_y, c_y]`.
+		///   2-D or higher with shape <code>[..., r_y, c_y]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BatchMatMul'.
 		/// </param>
 		/// <param name="adj_x">
 		///   Optional argument
-		///   If `True`, adjoint the slices of `x`. Defaults to `False`.
+		///   If <code>True</code>, adjoint the slices of <code>x</code>. Defaults to <code>False</code>.
 		/// </param>
 		/// <param name="adj_y">
 		///   Optional argument
-		///   If `True`, adjoint the slices of `y`. Defaults to `False`.
+		///   If <code>True</code>, adjoint the slices of <code>y</code>. Defaults to <code>False</code>.
 		/// </param>
 		/// <returns>
-		///   3-D or higher with shape `[..., r_o, c_o]`
+		///   3-D or higher with shape <code>[..., r_o, c_o]</code>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Multiplies all slices of `Tensor` `x` and `y` (each slice can be
+		///   Multiplies all slices of <code>Tensor</code> <code>x</code> and <code>y</code> (each slice can be
 		///   viewed as an element of a batch), and arranges the individual results
 		///   in a single output tensor of the same batch size. Each of the
 		///   individual slices can optionally be adjointed (to adjoint a matrix
 		///   means to transpose and conjugate it) before multiplication by setting
-		///   the `adj_x` or `adj_y` flag to `True`, which are by default `False`.
+		///   the <code>adj_x</code> or <code>adj_y</code> flag to <code>True</code>, which are by default <code>False</code>.
 		///   
-		///   The input tensors `x` and `y` are 2-D or higher with shape `[..., r_x, c_x]`
-		///   and `[..., r_y, c_y]`.
+		///   The input tensors <code>x</code> and <code>y</code> are 2-D or higher with shape <code>[..., r_x, c_x]</code>
+		///   and <code>[..., r_y, c_y]</code>.
 		///   
-		///   The output tensor is 2-D or higher with shape `[..., r_o, c_o]`, where:
+		///   The output tensor is 2-D or higher with shape <code>[..., r_o, c_o]</code>, where:
 		///   
-		///       r_o = c_x if adj_x else r_x
-		///       c_o = r_y if adj_y else c_y
+		///   r_o = c_x if adj_x else r_x
+		///   c_o = r_y if adj_y else c_y
 		///   
 		///   It is computed as:
 		///   
-		///       output[..., :, :] = matrix(x[..., :, :]) * matrix(y[..., :, :])
+		///   output[..., :, :] = matrix(x[..., :, :]) * matrix(y[..., :, :])
 		/// </remarks>
 		public TFOutput BatchMatMul (TFOutput x, TFOutput y, bool? adj_x = null, bool? adj_y = null, string operName = null)
 		{
@@ -3196,7 +3299,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This op is deprecated. Prefer `tf.nn.batch_normalization`.
+		///   This op is deprecated. Prefer <code>tf.nn.batch_normalization</code>.
 		/// </remarks>
 		public TFOutput BatchNormWithGlobalNormalization (TFOutput t, TFOutput m, TFOutput v, TFOutput beta, TFOutput gamma, float variance_epsilon, bool scale_after_normalization, string operName = null)
 		{
@@ -3261,7 +3364,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   This op is deprecated. See `tf.nn.batch_normalization`.
+		///   This op is deprecated. See <code>tf.nn.batch_normalization</code>.
 		/// </remarks>
 		public (TFOutput dx, TFOutput dm, TFOutput dv, TFOutput db, TFOutput dg) BatchNormWithGlobalNormalizationGrad (TFOutput t, TFOutput m, TFOutput v, TFOutput gamma, TFOutput backprop, float variance_epsilon, bool scale_after_normalization, string operName = null)
 		{
@@ -3291,16 +3394,16 @@ namespace TensorFlow {
 		/// </summary>
 		/// <param name="input">
 		///   4-D tensor with shape
-		///   `[batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
-		///     depth]`. Note that the batch size of the input tensor must be divisible by
-		///   `block_size * block_size`.
+		///   <code>[batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
+		///   depth]<code>. Note that the batch size of the input tensor must be divisible by
+		///   <code>block_size * block_size</code>.
 		/// </param>
 		/// <param name="crops">
-		///   2-D tensor of non-negative integers with shape `[2, 2]`. It specifies
+		///   2-D tensor of non-negative integers with shape <code>[2, 2]</code>. It specifies
 		///   how many elements to crop from the intermediate result across the spatial
 		///   dimensions as follows:
 		///   
-		///       crops = [[crop_top, crop_bottom], [crop_left, crop_right]]
+		///   crops = [[crop_top, crop_bottom], [crop_left, crop_right]]
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BatchToSpace'.
@@ -3308,73 +3411,73 @@ namespace TensorFlow {
 		/// <param name="block_size">
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, height, width, depth]`, where:
+		///   4-D with shape <code>[batch, height, width, depth]</code>, where:
 		///   
-		///         height = height_pad - crop_top - crop_bottom
-		///         width = width_pad - crop_left - crop_right
+		///   height = height_pad - crop_top - crop_bottom
+		///   width = width_pad - crop_left - crop_right
 		///   
-		///   The attr `block_size` must be greater than one. It indicates the block size.
+		///   The attr <code>block_size</code> must be greater than one. It indicates the block size.
 		///   
 		///   Some examples:
 		///   
-		///   (1) For the following input of shape `[4, 1, 1, 1]` and block_size of 2:
+		///   (1) For the following input of shape <code>[4, 1, 1, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1]]], [[[2]]], [[[3]]], [[[4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 2, 2, 1]` and value:
+		///   The output tensor has shape <code>[1, 2, 2, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [2]], [[3], [4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   (2) For the following input of shape `[4, 1, 1, 3]` and block_size of 2:
+		///   (2) For the following input of shape <code>[4, 1, 1, 3]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   [[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]], [[10, 11, 12]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 2, 2, 3]` and value:
+		///   The output tensor has shape <code>[1, 2, 2, 3]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3], [4, 5, 6]],
-		///         [[7, 8, 9], [10, 11, 12]]]]
-		///   ```
+		///   [[7, 8, 9], [10, 11, 12]]]]
+		///    </code>
 		///   
-		///   (3) For the following input of shape `[4, 2, 2, 1]` and block_size of 2:
+		///   (3) For the following input of shape <code>[4, 2, 2, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]], [[9], [11]]],
-		///        [[[2], [4]], [[10], [12]]],
-		///        [[[5], [7]], [[13], [15]]],
-		///        [[[6], [8]], [[14], [16]]]]
-		///   ```
+		///   [[[2], [4]], [[10], [12]]],
+		///   [[[5], [7]], [[13], [15]]],
+		///   [[[6], [8]], [[14], [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 4, 4, 1]` and value:
+		///   The output tensor has shape <code>[1, 4, 4, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[1],   [2],  [3],  [4]],
-		///        [[5],   [6],  [7],  [8]],
-		///        [[9],  [10], [11],  [12]],
-		///        [[13], [14], [15],  [16]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]],
+		///   [[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]
+		///    </code>
 		///   
-		///   (4) For the following input of shape `[8, 1, 2, 1]` and block_size of 2:
+		///   (4) For the following input of shape <code>[8, 1, 2, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]]], [[[9], [11]]], [[[2], [4]]], [[[10], [12]]],
-		///        [[[5], [7]]], [[[13], [15]]], [[[6], [8]]], [[[14], [16]]]]
-		///   ```
+		///   [[[5], [7]]], [[[13], [15]]], [[[6], [8]]], [[[14], [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[2, 2, 4, 1]` and value:
+		///   The output tensor has shape <code>[2, 2, 4, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]], [[5], [7]]],
-		///        [[[2], [4]], [[10], [12]]],
-		///        [[[5], [7]], [[13], [15]]],
-		///        [[[6], [8]], [[14], [16]]]]
-		///   ```
+		///   [[[2], [4]], [[10], [12]]],
+		///   [[[5], [7]], [[13], [15]]],
+		///   [[[6], [8]], [[14], [16]]]]
+		///    </code>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -3382,9 +3485,9 @@ namespace TensorFlow {
 		///   
 		///   Rearranges (permutes) data from batch into blocks of spatial data, followed by
 		///   cropping. This is the reverse transformation of SpaceToBatch. More specifically,
-		///   this op outputs a copy of the input tensor where values from the `batch`
-		///   dimension are moved in spatial blocks to the `height` and `width` dimensions,
-		///   followed by cropping along the `height` and `width` dimensions.
+		///   this op outputs a copy of the input tensor where values from the <code>batch</code>
+		///   dimension are moved in spatial blocks to the <code>height</code> and <code>width</code> dimensions,
+		///   followed by cropping along the <code>height</code> and <code>width</code> dimensions.
 		/// </remarks>
 		public TFOutput BatchToSpace (TFOutput input, TFOutput crops, long block_size, string operName = null)
 		{
@@ -3405,122 +3508,122 @@ namespace TensorFlow {
 		///   BatchToSpace for N-D tensors of type T.
 		/// </summary>
 		/// <param name="input">
-		///   N-D with shape `input_shape = [batch] + spatial_shape + remaining_shape`,
+		///   N-D with shape <code>input_shape = [batch] + spatial_shape + remaining_shape</code>,
 		///   where spatial_shape has M dimensions.
 		/// </param>
 		/// <param name="block_shape">
-		///   1-D with shape `[M]`, all values must be &amp;gt;= 1.
+		///   1-D with shape <code>[M]</code>, all values must be &amp;gt;= 1.
 		/// </param>
 		/// <param name="crops">
-		///   2-D with shape `[M, 2]`, all values must be &amp;gt;= 0.
-		///     `crops[i] = [crop_start, crop_end]` specifies the amount to crop from input
-		///     dimension `i + 1`, which corresponds to spatial dimension `i`.  It is
-		///     required that
-		///     `crop_start[i] + crop_end[i] &amp;lt;= block_shape[i] * input_shape[i + 1]`.
+		///   2-D with shape <code>[M, 2]</code>, all values must be &amp;gt;= 0.
+		///   <code>crops[i] = [crop_start, crop_end]</code> specifies the amount to crop from input
+		///   dimension <code>i + 1</code>, which corresponds to spatial dimension <code>i</code>.  It is
+		///   required that
+		///   <code>crop_start[i] + crop_end[i] &amp;lt;= block_shape[i] * input_shape[i + 1]</code>.
 		///   
 		///   This operation is equivalent to the following steps:
 		///   
-		///   1. Reshape `input` to `reshaped` of shape:
-		///        [block_shape[0], ..., block_shape[M-1],
-		///         batch / prod(block_shape),
-		///         input_shape[1], ..., input_shape[N-1]]
+		///   1. Reshape <code>input</code> to <code>reshaped</code> of shape:
+		///   [block_shape[0], ..., block_shape[M-1],
+		///   batch / prod(block_shape),
+		///   input_shape[1], ..., input_shape[N-1]]
 		///   
-		///   2. Permute dimensions of `reshaped` to produce `permuted` of shape
-		///        [batch / prod(block_shape),
+		///   2. Permute dimensions of <code>reshaped</code> to produce <code>permuted</code> of shape
+		///   [batch / prod(block_shape),
 		///   
-		///         input_shape[1], block_shape[0],
-		///         ...,
-		///         input_shape[M], block_shape[M-1],
+		///   input_shape[1], block_shape[0],
+		///   ...,
+		///   input_shape[M], block_shape[M-1],
 		///   
-		///         input_shape[M+1], ..., input_shape[N-1]]
+		///   input_shape[M+1], ..., input_shape[N-1]]
 		///   
-		///   3. Reshape `permuted` to produce `reshaped_permuted` of shape
-		///        [batch / prod(block_shape),
+		///   3. Reshape <code>permuted</code> to produce <code>reshaped_permuted</code> of shape
+		///   [batch / prod(block_shape),
 		///   
-		///         input_shape[1] * block_shape[0],
-		///         ...,
-		///         input_shape[M] * block_shape[M-1],
+		///   input_shape[1] * block_shape[0],
+		///   ...,
+		///   input_shape[M] * block_shape[M-1],
 		///   
-		///         input_shape[M+1],
-		///         ...,
-		///         input_shape[N-1]]
+		///   input_shape[M+1],
+		///   ...,
+		///   input_shape[N-1]]
 		///   
-		///   4. Crop the start and end of dimensions `[1, ..., M]` of
-		///      `reshaped_permuted` according to `crops` to produce the output of shape:
-		///        [batch / prod(block_shape),
+		///   4. Crop the start and end of dimensions <code>[1, ..., M]</code> of
+		///   <code>reshaped_permuted</code> according to <code>crops</code> to produce the output of shape:
+		///   [batch / prod(block_shape),
 		///   
-		///         input_shape[1] * block_shape[0] - crops[0,0] - crops[0,1],
-		///         ...,
-		///         input_shape[M] * block_shape[M-1] - crops[M-1,0] - crops[M-1,1],
+		///   input_shape[1] * block_shape[0] - crops[0,0] - crops[0,1],
+		///   ...,
+		///   input_shape[M] * block_shape[M-1] - crops[M-1,0] - crops[M-1,1],
 		///   
-		///         input_shape[M+1], ..., input_shape[N-1]]
+		///   input_shape[M+1], ..., input_shape[N-1]]
 		///   
 		///   Some examples:
 		///   
-		///   (1) For the following input of shape `[4, 1, 1, 1]`, `block_shape = [2, 2]`, and
-		///       `crops = [[0, 0], [0, 0]]`:
+		///   (1) For the following input of shape <code>[4, 1, 1, 1]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>crops = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1]]], [[[2]]], [[[3]]], [[[4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 2, 2, 1]` and value:
+		///   The output tensor has shape <code>[1, 2, 2, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [2]], [[3], [4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   (2) For the following input of shape `[4, 1, 1, 3]`, `block_shape = [2, 2]`, and
-		///       `crops = [[0, 0], [0, 0]]`:
+		///   (2) For the following input of shape <code>[4, 1, 1, 3]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>crops = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   [[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]], [[10, 11, 12]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 2, 2, 3]` and value:
+		///   The output tensor has shape <code>[1, 2, 2, 3]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3], [4, 5, 6]],
-		///         [[7, 8, 9], [10, 11, 12]]]]
-		///   ```
+		///   [[7, 8, 9], [10, 11, 12]]]]
+		///    </code>
 		///   
-		///   (3) For the following input of shape `[4, 2, 2, 1]`, `block_shape = [2, 2]`, and
-		///       `crops = [[0, 0], [0, 0]]`:
+		///   (3) For the following input of shape <code>[4, 2, 2, 1]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>crops = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]], [[9], [11]]],
-		///        [[[2], [4]], [[10], [12]]],
-		///        [[[5], [7]], [[13], [15]]],
-		///        [[[6], [8]], [[14], [16]]]]
-		///   ```
+		///   [[[2], [4]], [[10], [12]]],
+		///   [[[5], [7]], [[13], [15]]],
+		///   [[[6], [8]], [[14], [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[1, 4, 4, 1]` and value:
+		///   The output tensor has shape <code>[1, 4, 4, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[1],   [2],  [3],  [4]],
-		///        [[5],   [6],  [7],  [8]],
-		///        [[9],  [10], [11],  [12]],
-		///        [[13], [14], [15],  [16]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]],
+		///   [[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]
+		///    </code>
 		///   
-		///   (4) For the following input of shape `[8, 1, 3, 1]`, `block_shape = [2, 2]`, and
-		///       `crops = [[0, 0], [2, 0]]`:
+		///   (4) For the following input of shape <code>[8, 1, 3, 1]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>crops = [[0, 0], [2, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[0], [1], [3]]], [[[0], [9], [11]]],
-		///        [[[0], [2], [4]]], [[[0], [10], [12]]],
-		///        [[[0], [5], [7]]], [[[0], [13], [15]]],
-		///        [[[0], [6], [8]]], [[[0], [14], [16]]]]
-		///   ```
+		///   [[[0], [2], [4]]], [[[0], [10], [12]]],
+		///   [[[0], [5], [7]]], [[[0], [13], [15]]],
+		///   [[[0], [6], [8]]], [[[0], [14], [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[2, 2, 4, 1]` and value:
+		///   The output tensor has shape <code>[2, 2, 4, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [3],  [4]],
-		///         [[5],   [6],  [7],  [8]]],
-		///        [[[9],  [10], [11],  [12]],
-		///         [[13], [14], [15],  [16]]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]]],
+		///   [[[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]]
+		///    </code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BatchToSpaceND'.
@@ -3529,11 +3632,11 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation reshapes the "batch" dimension 0 into `M + 1` dimensions of shape
-		///   `block_shape + [batch]`, interleaves these blocks back into the grid defined by
-		///   the spatial dimensions `[1, ..., M]`, to obtain a result with the same rank as
+		///   This operation reshapes the "batch" dimension 0 into <code>M + 1</code> dimensions of shape
+		///   <code>block_shape + [batch]</code>, interleaves these blocks back into the grid defined by
+		///   the spatial dimensions <code>[1, ..., M]</code>, to obtain a result with the same rank as
 		///   the input.  The spatial dimensions of this intermediate result are then
-		///   optionally cropped according to `crops` to produce the output.  This is the
+		///   optionally cropped according to <code>crops</code> to produce the output.  This is the
 		///   reverse of SpaceToBatch.  See below for a precise description.
 		/// </remarks>
 		public TFOutput BatchToSpaceND (TFOutput input, TFOutput block_shape, TFOutput crops, string operName = null)
@@ -3597,13 +3700,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Adds `bias` to `value`.
+		///   Adds <code>bias</code> to <code>value</code>.
 		/// </summary>
 		/// <param name="value">
 		///   Any number of dimensions.
 		/// </param>
 		/// <param name="bias">
-		///   1-D with size the last dimension of `value`.
+		///   1-D with size the last dimension of <code>value</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BiasAdd'.
@@ -3614,17 +3717,17 @@ namespace TensorFlow {
 		///   default format "NHWC", the bias tensor will be added to the last dimension
 		///   of the value tensor.
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		///   The tensor will be added to "in_channels", the third-to-the-last
-		///       dimension.
+		///   dimension.
 		/// </param>
 		/// <returns>
-		///   Broadcasted sum of `value` and `bias`.
+		///   Broadcasted sum of <code>value</code> and <code>bias</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This is a special case of `tf.add` where `bias` is restricted to be 1-D.
-		///   Broadcasting is supported, so `value` may have any number of dimensions.
+		///   This is a special case of <code>tf.add</code> where <code>bias</code> is restricted to be 1-D.
+		///   Broadcasting is supported, so <code>value</code> may have any number of dimensions.
 		/// </remarks>
 		public TFOutput BiasAdd (TFOutput value, TFOutput bias, string data_format = null, string operName = null)
 		{
@@ -3658,12 +3761,12 @@ namespace TensorFlow {
 		///   default format "NHWC", the bias tensor will be added to the last dimension
 		///   of the value tensor.
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		///   The tensor will be added to "in_channels", the third-to-the-last
-		///       dimension.
+		///   dimension.
 		/// </param>
 		/// <returns>
-		///   1-D with size the feature dimension of `out_backprop`.
+		///   1-D with size the feature dimension of <code>out_backprop</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -3688,26 +3791,26 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Adds `bias` to `value`.
+		///   Adds <code>bias</code> to <code>value</code>.
 		/// </summary>
 		/// <param name="value">
 		///   Any number of dimensions.
 		/// </param>
 		/// <param name="bias">
-		///   1-D with size the last dimension of `value`.
+		///   1-D with size the last dimension of <code>value</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BiasAddV1'.
 		/// </param>
 		/// <returns>
-		///   Broadcasted sum of `value` and `bias`.
+		///   Broadcasted sum of <code>value</code> and <code>bias</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This is a deprecated version of BiasAdd and will be soon removed.
 		///   
-		///   This is a special case of `tf.add` where `bias` is restricted to be 1-D.
-		///   Broadcasting is supported, so `value` may have any number of dimensions.
+		///   This is a special case of <code>tf.add</code> where <code>bias</code> is restricted to be 1-D.
+		///   Broadcasting is supported, so <code>value</code> may have any number of dimensions.
 		/// </remarks>
 		public TFOutput BiasAddV1 (TFOutput value, TFOutput bias, string operName = null)
 		{
@@ -3724,35 +3827,102 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   A Reader that outputs rows from a BigQuery table as tensorflow Examples.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BigQueryReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <param name="test_end_point">
+		///   Optional argument
+		///   Do not use. For testing purposes only.
+		/// </param>
+		/// <param name="project_id">
+		///   GCP project ID.
+		/// </param>
+		/// <param name="dataset_id">
+		///   BigQuery Dataset ID.
+		/// </param>
+		/// <param name="table_id">
+		///   Table to read.
+		/// </param>
+		/// <param name="columns">
+		///   List of columns to read. Leave empty to read all columns.
+		/// </param>
+		/// <param name="timestamp_millis">
+		///   Table snapshot timestamp in millis since epoch. Relative
+		///   (negative or zero) snapshot times are not allowed. For more details, see
+		///   'Table Decorators' in BigQuery docs.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BigQueryReader (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, string container = null, string shared_name = null, string test_end_point = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BigQueryReader", MakeName ("BigQueryReader", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("project_id", project_id);
+			desc.SetAttr ("dataset_id", dataset_id);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("columns", columns);
+			desc.SetAttr ("timestamp_millis", timestamp_millis);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (test_end_point != null)
+				desc.SetAttr ("test_end_point", test_end_point);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
+		}
+
+		/// <summary>
 		///   Counts the number of occurrences of each value in an integer array.
 		/// </summary>
 		/// <param name="arr">
-		///   int32 `Tensor`.
+		///   int32 <code>Tensor</code>.
 		/// </param>
 		/// <param name="size">
-		///   non-negative int32 scalar `Tensor`.
+		///   non-negative int32 scalar <code>Tensor</code>.
 		/// </param>
 		/// <param name="weights">
-		///   is an int32, int64, float32, or float64 `Tensor` with the same
-		///   shape as `arr`, or a length-0 `Tensor`, in which case it acts as all weights
+		///   is an int32, int64, float32, or float64 <code>Tensor</code> with the same
+		///   shape as <code>arr</code>, or a length-0 <code>Tensor</code>, in which case it acts as all weights
 		///   equal to 1.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Bincount'.
 		/// </param>
 		/// <returns>
-		///   1D `Tensor` with length equal to `size`. The counts or summed weights for
+		///   1D <code>Tensor</code> with length equal to <code>size</code>. The counts or summed weights for
 		///   each value in the range [0, size).
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Outputs a vector with length `size` and the same dtype as `weights`. If
-		///   `weights` are empty, then index `i` stores the number of times the value `i` is
-		///   counted in `arr`. If `weights` are non-empty, then index `i` stores the sum of
-		///   the value in `weights` at each index where the corresponding value in `arr` is
-		///   `i`.
+		///   Outputs a vector with length <code>size</code> and the same dtype as <code>weights</code>. If
+		///   <code>weights</code> are empty, then index <code>i</code> stores the number of times the value <code>i</code> is
+		///   counted in <code>arr</code>. If <code>weights</code> are non-empty, then index <code>i</code> stores the sum of
+		///   the value in <code>weights</code> at each index where the corresponding value in <code>arr</code> is
+		///   <code>i</code>.
 		///   
-		///   Values in `arr` outside of the range [0, size) are ignored.
+		///   Values in <code>arr</code> outside of the range [0, size) are ignored.
 		/// </remarks>
 		public TFOutput Bincount (TFOutput arr, TFOutput size, TFOutput weights, string operName = null)
 		{
@@ -3783,15 +3953,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input`, this operation returns a tensor that has the same buffer
-		///   data as `input` with datatype `type`.
+		///   Given a tensor <code>input</code>, this operation returns a tensor that has the same buffer
+		///   data as <code>input</code> with datatype <code>type</code>.
 		///   
-		///   If the input datatype `T` is larger than the output datatype `type` then the
-		///   shape changes from [...] to [..., sizeof(`T`)/sizeof(`type`)].
+		///   If the input datatype <code>T</code> is larger than the output datatype <code>type</code> then the
+		///   shape changes from [...] to [..., sizeof(<code>T</code>)/sizeof(<code>type</code>)].
 		///   
-		///   If `T` is smaller than `type`, the operator requires that the rightmost
-		///   dimension be equal to sizeof(`type`)/sizeof(`T`). The shape then goes from
-		///   [..., sizeof(`type`)/sizeof(`T`)] to [...].
+		///   If <code>T</code> is smaller than <code>type</code>, the operator requires that the rightmost
+		///   dimension be equal to sizeof(<code>type</code>)/sizeof(<code>T</code>). The shape then goes from
+		///   [..., sizeof(<code>type</code>)/sizeof(<code>T</code>)] to [...].
 		///   
 		///   *NOTE*: Bitcast is implemented as a low-level cast, so machines with different
 		///   endian orderings will give different results.
@@ -3811,7 +3981,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Elementwise computes the bitwise AND of `x` and `y`.
+		///   Elementwise computes the bitwise AND of <code>x</code> and <code>y</code>.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -3824,8 +3994,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The result will have those bits set, that are set in both `x` and `y`. The
-		///   computation is performed on the underlying representations of `x` and `y`.
+		///   The result will have those bits set, that are set in both <code>x</code> and <code>y</code>. The
+		///   computation is performed on the underlying representations of <code>x</code> and <code>y</code>.
 		/// </remarks>
 		public TFOutput BitwiseAnd (TFOutput x, TFOutput y, string operName = null)
 		{
@@ -3842,7 +4012,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Elementwise computes the bitwise OR of `x` and `y`.
+		///   Elementwise computes the bitwise OR of <code>x</code> and <code>y</code>.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -3855,8 +4025,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The result will have those bits set, that are set in `x`, `y` or both. The
-		///   computation is performed on the underlying representations of `x` and `y`.
+		///   The result will have those bits set, that are set in <code>x</code>, <code>y</code> or both. The
+		///   computation is performed on the underlying representations of <code>x</code> and <code>y</code>.
 		/// </remarks>
 		public TFOutput BitwiseOr (TFOutput x, TFOutput y, string operName = null)
 		{
@@ -3873,7 +4043,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Elementwise computes the bitwise XOR of `x` and `y`.
+		///   Elementwise computes the bitwise XOR of <code>x</code> and <code>y</code>.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -3886,8 +4056,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The result will have those bits set, that are different in `x` and `y`. The
-		///   computation is performed on the underlying representations of `x` and `y`.
+		///   The result will have those bits set, that are different in <code>x</code> and <code>y</code>. The
+		///   computation is performed on the underlying representations of <code>x</code> and <code>y</code>.
 		/// </remarks>
 		public TFOutput BitwiseXor (TFOutput x, TFOutput y, string operName = null)
 		{
@@ -3917,8 +4087,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given `s0` and `s1`, tensors that represent shapes, compute `r0`, the
-		///   broadcasted shape. `s0`, `s1` and `r0` are all integer vectors.
+		///   Given <code>s0</code> and <code>s1</code>, tensors that represent shapes, compute <code>r0</code>, the
+		///   broadcasted shape. <code>s0</code>, <code>s1</code> and <code>r0</code> are all integer vectors.
 		/// </remarks>
 		public TFOutput BroadcastArgs (TFOutput s0, TFOutput s1, string operName = null)
 		{
@@ -3946,8 +4116,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   r0: 
-		///   r1: 
+		///   r0:
+		///   r1:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -3990,15 +4160,15 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   For example, if the inputs are
-		///       boundaries = [0, 10, 100]
-		///       input = [[-5, 10000]
-		///                [150,   10]
-		///                [5,    100]]
+		///   boundaries = [0, 10, 100]
+		///   input = [[-5, 10000]
+		///   [150,   10]
+		///   [5,    100]]
 		///   
 		///   then the output will be
-		///       output = [[0, 3]
-		///                 [3, 2]
-		///                 [1, 3]]
+		///   output = [[0, 3]
+		///   [3, 2]
+		///   [1, 3]]
 		/// </remarks>
 		public TFOutput Bucketize (TFOutput input, float[] boundaries, string operName = null)
 		{
@@ -4015,7 +4185,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Records the bytes size of each element of `input_dataset` in a StatsAggregator.
+		///   Records the bytes size of each element of <code>input_dataset</code> in a StatsAggregator.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -4048,7 +4218,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that caches elements from `input_dataset`.
+		///   Creates a dataset that caches elements from <code>input_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -4154,8 +4324,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   When run, reports an `InvalidArgument` error if `tensor` has any values
-		///   that are not a number (NaN) or infinity (Inf). Otherwise, passes `tensor` as-is.
+		///   When run, reports an <code>InvalidArgument</code> error if <code>tensor</code> has any values
+		///   that are not a number (NaN) or infinity (Inf). Otherwise, passes <code>tensor</code> as-is.
 		/// </remarks>
 		public TFOutput CheckNumerics (TFOutput tensor, string message, string operName = null)
 		{
@@ -4175,17 +4345,17 @@ namespace TensorFlow {
 		///   Computes the Cholesky decomposition of one or more square matrices.
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cholesky'.
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices.
 		///   
 		///   The input has to be symmetric and positive definite. Only the lower-triangular
@@ -4193,7 +4363,7 @@ namespace TensorFlow {
 		///   will not be read.
 		///   
 		///   The output is a tensor of the same shape as the input
-		///   containing the Cholesky decompositions for all input submatrices `[..., :, :]`.
+		///   containing the Cholesky decompositions for all input submatrices <code>[..., :, :]</code>.
 		///   
 		///   **Note**: The gradient computation on GPU is faster for large matrices but
 		///   not for large batch dimensions when the submatrices are small. In this
@@ -4216,12 +4386,12 @@ namespace TensorFlow {
 		///   Computes the reverse mode backpropagated gradient of the Cholesky algorithm.
 		/// </summary>
 		/// <param name="l">
-		///   Output of batch Cholesky algorithm l = cholesky(A). Shape is `[..., M, M]`.
+		///   Output of batch Cholesky algorithm l = cholesky(A). Shape is <code>[..., M, M]</code>.
 		///   Algorithm depends only on lower triangular part of the innermost matrices of
 		///   this tensor.
 		/// </param>
 		/// <param name="grad">
-		///   df/dl where f is some scalar function. Shape is `[..., M, M]`.
+		///   df/dl where f is some scalar function. Shape is <code>[..., M, M]</code>.
 		///   Algorithm depends only on lower triangular part of the innermost matrices of
 		///   this tensor.
 		/// </param>
@@ -4229,7 +4399,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CholeskyGrad'.
 		/// </param>
 		/// <returns>
-		///   Symmetrized version of df/dA . Shape is `[..., M, M]`
+		///   Symmetrized version of df/dA . Shape is <code>[..., M, M]</code>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -4278,10 +4448,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compare values of `input` to `threshold` and pack resulting bits into a `uint8`.
+		///   Compare values of <code>input</code> to <code>threshold</code> and pack resulting bits into a <code>uint8</code>.
 		/// </summary>
 		/// <param name="input">
-		///   Values to compare against `threshold` and bitpack.
+		///   Values to compare against <code>threshold</code> and bitpack.
 		/// </param>
 		/// <param name="threshold">
 		///   Threshold to compare against.
@@ -4294,29 +4464,29 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Each comparison returns a boolean `true` (if `input_value &amp;gt; threshold`)
-		///   or and `false` otherwise.
+		///   Each comparison returns a boolean <code>true</code> (if <code>input_value &amp;gt; threshold</code>)
+		///   or and <code>false</code> otherwise.
 		///   
 		///   This operation is useful for Locality-Sensitive-Hashing (LSH) and other
-		///   algorithms that use hashing approximations of cosine and `L2` distances;
+		///   algorithms that use hashing approximations of cosine and <code>L2</code> distances;
 		///   codes can be generated from an input via:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   codebook_size = 50
 		///   codebook_bits = codebook_size * 32
 		///   codebook = tf.get_variable('codebook', [x.shape[-1].value, codebook_bits],
-		///                              dtype=x.dtype,
-		///                              initializer=tf.orthogonal_initializer())
+		///   dtype=x.dtype,
+		///   initializer=tf.orthogonal_initializer())
 		///   codes = compare_and_threshold(tf.matmul(x, codebook), threshold=0.)
 		///   codes = tf.bitcast(codes, tf.int32)  # go from uint8 to int32
 		///   # now codes has shape x.shape[:-1] + [codebook_size]
-		///   ```
+		///    <code>
 		///   
 		///   **NOTE**: Currently, the innermost dimension of the tensor must be divisible
 		///   by 8.
 		///   
-		///   Given an `input` shaped `[s0, s1, ..., s_n]`, the output is
-		///   a `uint8` tensor shaped `[s0, s1, ..., s_n / 8]`.
+		///   Given an <code>input</code> shaped <code>[s0, s1, ..., s_n]</code>, the output is
+		///   a <code>uint8</code> tensor shaped <code>[s0, s1, ..., s_n / 8]</code>.
 		/// </remarks>
 		public TFOutput CompareAndBitpack (TFOutput input, TFOutput threshold, string operName = null)
 		{
@@ -4349,20 +4519,20 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `real` representing the real part of a complex number, and a
-		///   tensor `imag` representing the imaginary part of a complex number, this
+		///   Given a tensor <code>real</code> representing the real part of a complex number, and a
+		///   tensor <code>imag</code> representing the imaginary part of a complex number, this
 		///   operation returns complex numbers elementwise of the form \\(a + bj\\), where
-		///   *a* represents the `real` part and *b* represents the `imag` part.
+		///   *a* represents the <code>real</code> part and *b* represents the <code>imag</code> part.
 		///   
-		///   The input tensors `real` and `imag` must have the same shape.
+		///   The input tensors <code>real</code> and <code>imag</code> must have the same shape.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'real' is [2.25, 3.25]
-		///   # tensor `imag` is [4.75, 5.75]
+		///   # tensor <code>imag</code> is [4.75, 5.75]
 		///   tf.complex(real, imag) ==&amp;gt; [[2.25 + 4.75j], [3.25 + 5.75j]]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Complex (TFOutput real, TFOutput imag, TFDataType? Tout = null, string operName = null)
 		{
@@ -4396,9 +4566,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `x` of complex numbers, this operation returns a tensor of type
-		///   `float` or `double` that is the absolute value of each element in `x`. All
-		///   elements in `x` must be complex numbers of the form \\(a + bj\\). The absolute
+		///   Given a tensor <code>x</code> of complex numbers, this operation returns a tensor of type
+		///   <code>float</code> or <code>double</code> that is the absolute value of each element in <code>x</code>. All
+		///   elements in <code>x</code> must be complex numbers of the form \\(a + bj\\). The absolute
 		///   value is computed as \\( \sqrt{a^2 + b^2}\\).
 		/// </remarks>
 		public TFOutput ComplexAbs (TFOutput x, TFDataType? Tout = null, string operName = null)
@@ -4488,16 +4658,16 @@ namespace TensorFlow {
 		///   range [0, rank(values)).
 		/// </param>
 		/// <param name="values">
-		///   The `N` Tensors to concatenate. Their ranks and types must match,
-		///   and their sizes must match in all dimensions except `concat_dim`.
+		///   The <code>N</code> Tensors to concatenate. Their ranks and types must match,
+		///   and their sizes must match in all dimensions except <code>concat_dim</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Concat'.
 		/// </param>
 		/// <returns>
-		///   A `Tensor` with the concatenation of values stacked along the
-		///   `concat_dim` dimension.  This tensor's shape matches that of `values` except
-		///   in `concat_dim` where it has the sum of the sizes.
+		///   A <code>Tensor</code> with the concatenation of values stacked along the
+		///   <code>concat_dim</code> dimension.  This tensor's shape matches that of <code>values</code> except
+		///   in <code>concat_dim</code> where it has the sum of the sizes.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Concat (TFOutput concat_dim, TFOutput[] values, string operName = null)
@@ -4515,7 +4685,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that concatenates `input_dataset` with `another_dataset`.
+		///   Creates a dataset that concatenates <code>input_dataset</code> with <code>another_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -4554,25 +4724,25 @@ namespace TensorFlow {
 		///   The dimension along which to concatenate.
 		/// </param>
 		/// <param name="shape">
-		///   The `N` int32 vectors representing shape of tensors being concatenated.
+		///   The <code>N</code> int32 vectors representing shape of tensors being concatenated.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConcatOffset'.
 		/// </param>
 		/// <returns>
-		///   The `N` int32 vectors representing the starting offset
+		///   The <code>N</code> int32 vectors representing the starting offset
 		///   of input tensors within the concatenated output.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'x' is [2, 2, 7]
 		///   # 'y' is [2, 3, 7]
 		///   # 'z' is [2, 5, 7]
 		///   concat_offset(2, [x, y, z]) =&amp;gt; [0, 0, 0], [0, 2, 0], [0, 5, 0]
-		///   ```
+		///    </code>
 		///   
 		///   This is typically used by gradient computations for a concat operation.
 		/// </remarks>
@@ -4599,8 +4769,8 @@ namespace TensorFlow {
 		///   Concatenates tensors along one dimension.
 		/// </summary>
 		/// <param name="values">
-		///   List of `N` Tensors to concatenate. Their ranks and types must match,
-		///   and their sizes must match in all dimensions except `concat_dim`.
+		///   List of <code>N</code> Tensors to concatenate. Their ranks and types must match,
+		///   and their sizes must match in all dimensions except <code>concat_dim</code>.
 		/// </param>
 		/// <param name="axis">
 		///   0-D.  The dimension along which to concatenate.  Must be in the
@@ -4610,9 +4780,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConcatV2'.
 		/// </param>
 		/// <returns>
-		///   A `Tensor` with the concatenation of values stacked along the
-		///   `concat_dim` dimension.  This tensor's shape matches that of `values` except
-		///   in `concat_dim` where it has the sum of the sizes.
+		///   A <code>Tensor</code> with the concatenation of values stacked along the
+		///   <code>concat_dim</code> dimension.  This tensor's shape matches that of <code>values</code> except
+		///   in <code>concat_dim</code> where it has the sum of the sizes.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ConcatV2 (TFOutput[] values, TFOutput axis, string operName = null)
@@ -4695,19 +4865,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input` of complex numbers, this operation returns a tensor of
-		///   complex numbers that are the complex conjugate of each element in `input`. The
-		///   complex numbers in `input` must be of the form \\(a + bj\\), where *a* is the
+		///   Given a tensor <code>input</code> of complex numbers, this operation returns a tensor of
+		///   complex numbers that are the complex conjugate of each element in <code>input</code>. The
+		///   complex numbers in <code>input</code> must be of the form \\(a + bj\\), where *a* is the
 		///   real part and *b* is the imaginary part.
 		///   
 		///   The complex conjugate returned by this operation is of the form \\(a - bj\\).
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
 		///   tf.conj(input) ==&amp;gt; [-2.25 - 4.75j, 3.25 - 5.75j]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Conj (TFOutput input, string operName = null)
 		{
@@ -4736,9 +4906,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
-		///     `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
-		///     `y[i,j,k,...,s,t,u] == conj(x[perm[i], perm[j], perm[k],...,perm[s], perm[t], perm[u]])`
+		///   The output <code>y</code> has the same rank as <code>x</code>. The shapes of <code>x</code> and <code>y</code> satisfy:
+		///   <code>y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]</code>
+		///   <code>y[i,j,k,...,s,t,u] == conj(x[perm[i], perm[j], perm[k],...,perm[s], perm[t], perm[u]])</code>
 		/// </remarks>
 		public TFOutput ConjugateTranspose (TFOutput x, TFOutput perm, string operName = null)
 		{
@@ -4761,7 +4931,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Const'.
 		/// </param>
 		/// <param name="value">
-		///   Attr `value` is the tensor to return.
+		///   Attr <code>value</code> is the tensor to return.
 		/// </param>
 		/// <param name="dtype">
 		/// </param>
@@ -4805,15 +4975,15 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes a 2-D convolution given 4-D `input` and `filter` tensors.
+		///   Computes a 2-D convolution given 4-D <code>input</code> and <code>filter</code> tensors.
 		/// </summary>
 		/// <param name="input">
 		///   A 4-D tensor. The dimension order is interpreted according to the value
-		///   of `data_format`, see below for details.
+		///   of <code>data_format</code>, see below for details.
 		/// </param>
 		/// <param name="filter">
 		///   A 4-D tensor of shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv2D'.
@@ -4825,53 +4995,53 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, height, width, channels].
+		///   [batch, height, width, channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, channels, height, width].
+		///   [batch, channels, height, width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
 		///   filter element on that dimension. The dimension order is determined by the
-		///   value of `data_format`, see above for details. Dilations in the batch and
+		///   value of <code>data_format</code>, see above for details. Dilations in the batch and
 		///   depth dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 4.  The stride of the sliding window for each
-		///   dimension of `input`. The dimension order is determined by the value of
-		///   `data_format`, see below for details.
+		///   dimension of <code>input</code>. The dimension order is determined by the value of
+		///   <code>data_format</code>, see below for details.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
 		///   A 4-D tensor. The dimension order is determined by the value of
-		///   `data_format`, see below for details.
+		///   <code>data_format</code>, see below for details.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given an input tensor of shape `[batch, in_height, in_width, in_channels]`
+		///   Given an input tensor of shape <code>[batch, in_height, in_width, in_channels]</code>
 		///   and a filter / kernel tensor of shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`, this op
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>, this op
 		///   performs the following:
 		///   
 		///   1. Flattens the filter to a 2-D matrix with shape
-		///      `[filter_height * filter_width * in_channels, output_channels]`.
+		///   <code>[filter_height * filter_width * in_channels, output_channels]</code>.
 		///   2. Extracts image patches from the input tensor to form a *virtual*
-		///      tensor of shape `[batch, out_height, out_width,
-		///      filter_height * filter_width * in_channels]`.
+		///   tensor of shape <code>[batch, out_height, out_width,
+		///   filter_height * filter_width * in_channels]<code>.
 		///   3. For each patch, right-multiplies the filter matrix and the image patch
-		///      vector.
+		///   vector.
 		///   
 		///   In detail, with the default NHWC format,
 		///   
-		///       output[b, i, j, k] =
-		///           sum_{di, dj, q} input[b, strides[1] * i + di, strides[2] * j + dj, q] *
-		///                           filter[di, dj, q, k]
+		///   output[b, i, j, k] =
+		///   sum_{di, dj, q} input[b, strides[1] * i + di, strides[2] * j + dj, q] *
+		///   filter[di, dj, q, k]
 		///   
-		///   Must have `strides[0] = strides[3] = 1`.  For the most common case of the same
-		///   horizontal and vertices strides, `strides = [1, stride, stride, 1]`.
+		///   Must have <code>strides[0] = strides[3] = 1</code>.  For the most common case of the same
+		///   horizontal and vertices strides, <code>strides = [1, stride, stride, 1]</code>.
 		/// </remarks>
 		public TFOutput Conv2D (TFOutput input, TFOutput filter, long[] strides, string padding, bool? use_cudnn_on_gpu = null, string data_format = null, long[] dilations = null, string operName = null)
 		{
@@ -4902,15 +5072,15 @@ namespace TensorFlow {
 		///   Computes the gradients of convolution with respect to the filter.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, in_channels]`.
+		///   4-D with shape <code>[batch, in_height, in_width, in_channels]</code>.
 		/// </param>
 		/// <param name="filter_sizes">
-		///   An integer vector representing the tensor shape of `filter`,
-		///   where `filter` is a 4-D
-		///   `[filter_height, filter_width, in_channels, out_channels]` tensor.
+		///   An integer vector representing the tensor shape of <code>filter</code>,
+		///   where <code>filter</code> is a 4-D
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code> tensor.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, out_height, out_width, out_channels]`.
+		///   4-D with shape <code>[batch, out_height, out_width, out_channels]</code>.
 		///   Gradients w.r.t. the output of the convolution.
 		/// </param>
 		/// <param name="operName">
@@ -4923,16 +5093,16 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
 		///   element on that dimension. The dimension order is determined by the value of
-		///   `data_format`, see above for details. Dilations in the batch and depth
+		///   <code>data_format</code>, see above for details. Dilations in the batch and depth
 		///   dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
@@ -4945,8 +5115,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`.  Gradient w.r.t.
-		///   the `filter` input of the convolution.
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>.  Gradient w.r.t.
+		///   the <code>filter</code> input of the convolution.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Conv2DBackpropFilter (TFOutput input, TFOutput filter_sizes, TFOutput out_backprop, long[] strides, string padding, bool? use_cudnn_on_gpu = null, string data_format = null, long[] dilations = null, string operName = null)
@@ -4979,15 +5149,15 @@ namespace TensorFlow {
 		///   Computes the gradients of convolution with respect to the input.
 		/// </summary>
 		/// <param name="input_sizes">
-		///   An integer vector representing the shape of `input`,
-		///   where `input` is a 4-D `[batch, height, width, channels]` tensor.
+		///   An integer vector representing the shape of <code>input</code>,
+		///   where <code>input</code> is a 4-D <code>[batch, height, width, channels]</code> tensor.
 		/// </param>
 		/// <param name="filter">
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`.
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, out_height, out_width, out_channels]`.
+		///   4-D with shape <code>[batch, out_height, out_width, out_channels]</code>.
 		///   Gradients w.r.t. the output of the convolution.
 		/// </param>
 		/// <param name="operName">
@@ -5000,16 +5170,16 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
 		///   element on that dimension. The dimension order is determined by the value of
-		///   `data_format`, see above for details. Dilations in the batch and depth
+		///   <code>data_format</code>, see above for details. Dilations in the batch and depth
 		///   dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
@@ -5021,7 +5191,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, in_height, in_width, in_channels]`.  Gradient
+		///   4-D with shape <code>[batch, in_height, in_width, in_channels]</code>.  Gradient
 		///   w.r.t. the input of the convolution.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
@@ -5052,14 +5222,14 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes a 3-D convolution given 5-D `input` and `filter` tensors.
+		///   Computes a 3-D convolution given 5-D <code>input</code> and <code>filter</code> tensors.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, in_depth, in_height, in_width, in_channels]`.
+		///   Shape <code>[batch, in_depth, in_height, in_width, in_channels]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   Shape `[filter_depth, filter_height, filter_width, in_channels,
-		///   out_channels]`. `in_channels` must match between `input` and `filter`.
+		///   Shape <code>[filter_depth, filter_height, filter_width, in_channels,
+		///   out_channels]<code>. </code>in_channels<code> must match between </code>input<code> and </code>filter<code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3D'.
@@ -5068,21 +5238,21 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 5.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
 		///   filter element on that dimension. The dimension order is determined by the
-		///   value of `data_format`, see above for details. Dilations in the batch and
+		///   value of <code>data_format</code>, see above for details. Dilations in the batch and
 		///   depth dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5123,22 +5293,22 @@ namespace TensorFlow {
 		///   Computes the gradients of 3-D convolution with respect to the filter.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, depth, rows, cols, in_channels]`.
+		///   Shape <code>[batch, depth, rows, cols, in_channels]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   Shape `[depth, rows, cols, in_channels, out_channels]`.
-		///   `in_channels` must match between `input` and `filter`.
+		///   Shape <code>[depth, rows, cols, in_channels, out_channels]</code>.
+		///   <code>in_channels</code> must match between <code>input</code> and <code>filter</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   Backprop signal of shape `[batch, out_depth, out_rows, out_cols,
-		///   out_channels]`.
+		///   Backprop signal of shape <code>[batch, out_depth, out_rows, out_cols,
+		///   out_channels]<code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropFilter'.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5167,17 +5337,17 @@ namespace TensorFlow {
 		///   Computes the gradients of 3-D convolution with respect to the filter.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, depth, rows, cols, in_channels]`.
+		///   Shape <code>[batch, depth, rows, cols, in_channels]</code>.
 		/// </param>
 		/// <param name="filter_sizes">
-		///   An integer vector representing the tensor shape of `filter`,
-		///   where `filter` is a 5-D
-		///   `[filter_depth, filter_height, filter_width, in_channels, out_channels]`
+		///   An integer vector representing the tensor shape of <code>filter</code>,
+		///   where <code>filter</code> is a 5-D
+		///   <code>[filter_depth, filter_height, filter_width, in_channels, out_channels]</code>
 		///   tensor.
 		/// </param>
 		/// <param name="out_backprop">
-		///   Backprop signal of shape `[batch, out_depth, out_rows, out_cols,
-		///   out_channels]`.
+		///   Backprop signal of shape <code>[batch, out_depth, out_rows, out_cols,
+		///   out_channels]<code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropFilterV2'.
@@ -5186,21 +5356,21 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 5.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
 		///   filter element on that dimension. The dimension order is determined by the
-		///   value of `data_format`, see above for details. Dilations in the batch and
+		///   value of <code>data_format</code>, see above for details. Dilations in the batch and
 		///   depth dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5235,22 +5405,22 @@ namespace TensorFlow {
 		///   Computes the gradients of 3-D convolution with respect to the input.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, depth, rows, cols, in_channels]`.
+		///   Shape <code>[batch, depth, rows, cols, in_channels]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   Shape `[depth, rows, cols, in_channels, out_channels]`.
-		///   `in_channels` must match between `input` and `filter`.
+		///   Shape <code>[depth, rows, cols, in_channels, out_channels]</code>.
+		///   <code>in_channels</code> must match between <code>input</code> and <code>filter</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   Backprop signal of shape `[batch, out_depth, out_rows, out_cols,
-		///   out_channels]`.
+		///   Backprop signal of shape <code>[batch, out_depth, out_rows, out_cols,
+		///   out_channels]<code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropInput'.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5279,17 +5449,17 @@ namespace TensorFlow {
 		///   Computes the gradients of 3-D convolution with respect to the input.
 		/// </summary>
 		/// <param name="input_sizes">
-		///   An integer vector representing the tensor shape of `input`,
-		///   where `input` is a 5-D
-		///   `[batch, depth, rows, cols, in_channels]` tensor.
+		///   An integer vector representing the tensor shape of <code>input</code>,
+		///   where <code>input</code> is a 5-D
+		///   <code>[batch, depth, rows, cols, in_channels]</code> tensor.
 		/// </param>
 		/// <param name="filter">
-		///   Shape `[depth, rows, cols, in_channels, out_channels]`.
-		///   `in_channels` must match between `input` and `filter`.
+		///   Shape <code>[depth, rows, cols, in_channels, out_channels]</code>.
+		///   <code>in_channels</code> must match between <code>input</code> and <code>filter</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   Backprop signal of shape `[batch, out_depth, out_rows, out_cols,
-		///   out_channels]`.
+		///   Backprop signal of shape <code>[batch, out_depth, out_rows, out_cols,
+		///   out_channels]<code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropInputV2'.
@@ -5298,21 +5468,21 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 5.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
 		///   filter element on that dimension. The dimension order is determined by the
-		///   value of `data_format`, see above for details. Dilations in the batch and
+		///   value of <code>data_format</code>, see above for details. Dilations in the batch and
 		///   depth dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -5395,7 +5565,7 @@ namespace TensorFlow {
 		///   Increments 'ref' until it reaches 'limit'.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a scalar `Variable` node.
+		///   Should be from a scalar <code>Variable</code> node.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CountUpTo'.
@@ -5514,32 +5684,67 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a handle to a CriticalSection resource.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CriticalSectionOp'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   the container this critical section is placed in.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   the name by which this critical section is referred to.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput CriticalSectionOp (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CriticalSectionOp", MakeName ("CriticalSectionOp", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resource = new TFOutput (op, _idx++);
+			return resource;
+		}
+
+		/// <summary>
 		///   Extracts crops from the input image tensor and bilinearly resizes them (possibly
 		/// </summary>
 		/// <param name="image">
-		///   A 4-D tensor of shape `[batch, image_height, image_width, depth]`.
-		///   Both `image_height` and `image_width` need to be positive.
+		///   A 4-D tensor of shape <code>[batch, image_height, image_width, depth]</code>.
+		///   Both <code>image_height</code> and <code>image_width</code> need to be positive.
 		/// </param>
 		/// <param name="boxes">
-		///   A 2-D tensor of shape `[num_boxes, 4]`. The `i`-th row of the tensor
-		///   specifies the coordinates of a box in the `box_ind[i]` image and is specified
-		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
-		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
-		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1]` in image height coordinates. We do allow `y1` &amp;gt; `y2`, in
+		///   A 2-D tensor of shape <code>[num_boxes, 4]</code>. The <code>i</code>-th row of the tensor
+		///   specifies the coordinates of a box in the <code>box_ind[i]</code> image and is specified
+		///   in normalized coordinates <code>[y1, x1, y2, x2]</code>. A normalized coordinate value of
+		///   <code>y</code> is mapped to the image coordinate at <code>y * (image_height - 1)</code>, so as the
+		///   <code>[0, 1]</code> interval of normalized image height is mapped to
+		///   <code>[0, image_height - 1]</code> in image height coordinates. We do allow <code>y1</code> &amp;gt; <code>y2</code>, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
-		///   outside the `[0, 1]` range are allowed, in which case we use
-		///   `extrapolation_value` to extrapolate the input image values.
+		///   outside the <code>[0, 1]</code> range are allowed, in which case we use
+		///   <code>extrapolation_value</code> to extrapolate the input image values.
 		/// </param>
 		/// <param name="box_ind">
-		///   A 1-D tensor of shape `[num_boxes]` with int32 values in `[0, batch)`.
-		///   The value of `box_ind[i]` specifies the image that the `i`-th box refers to.
+		///   A 1-D tensor of shape <code>[num_boxes]</code> with int32 values in <code>[0, batch)</code>.
+		///   The value of <code>box_ind[i]</code> specifies the image that the <code>i</code>-th box refers to.
 		/// </param>
 		/// <param name="crop_size">
-		///   A 1-D tensor of 2 elements, `size = [crop_height, crop_width]`. All
+		///   A 1-D tensor of 2 elements, <code>size = [crop_height, crop_width]</code>. All
 		///   cropped image patches are resized to this size. The aspect ratio of the image
-		///   content is not preserved. Both `crop_height` and `crop_width` need to be
+		///   content is not preserved. Both <code>crop_height</code> and <code>crop_width</code> need to be
 		///   positive.
 		/// </param>
 		/// <param name="operName">
@@ -5555,21 +5760,21 @@ namespace TensorFlow {
 		///   Value used for extrapolation, when applicable.
 		/// </param>
 		/// <returns>
-		///   A 4-D tensor of shape `[num_boxes, crop_height, crop_width, depth]`.
+		///   A 4-D tensor of shape <code>[num_boxes, crop_height, crop_width, depth]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   with aspect ratio change) to a common output size specified by `crop_size`. This
-		///   is more general than the `crop_to_bounding_box` op which extracts a fixed size
+		///   with aspect ratio change) to a common output size specified by <code>crop_size</code>. This
+		///   is more general than the <code>crop_to_bounding_box</code> op which extracts a fixed size
 		///   slice from the input image and does not allow resizing or aspect ratio change.
 		///   
-		///   Returns a tensor with `crops` from the input `image` at positions defined at the
-		///   bounding box locations in `boxes`. The cropped boxes are all resized (with
-		///   bilinear interpolation) to a fixed `size = [crop_height, crop_width]`. The
-		///   result is a 4-D tensor `[num_boxes, crop_height, crop_width, depth]`. The
-		///   resizing is corner aligned. In particular, if `boxes = [[0, 0, 1, 1]]`, the
-		///   method will give identical results to using `tf.image.resize_bilinear()`
-		///   with `align_corners=True`.
+		///   Returns a tensor with <code>crops</code> from the input <code>image</code> at positions defined at the
+		///   bounding box locations in <code>boxes</code>. The cropped boxes are all resized (with
+		///   bilinear interpolation) to a fixed <code>size = [crop_height, crop_width]</code>. The
+		///   result is a 4-D tensor <code>[num_boxes, crop_height, crop_width, depth]</code>. The
+		///   resizing is corner aligned. In particular, if <code>boxes = [[0, 0, 1, 1]]</code>, the
+		///   method will give identical results to using <code>tf.image.resize_bilinear()</code>
+		///   with <code>align_corners=True</code>.
 		/// </remarks>
 		public TFOutput CropAndResize (TFOutput image, TFOutput boxes, TFOutput box_ind, TFOutput crop_size, string method = null, float? extrapolation_value = null, string operName = null)
 		{
@@ -5597,27 +5802,27 @@ namespace TensorFlow {
 		///   Computes the gradient of the crop_and_resize op wrt the input boxes tensor.
 		/// </summary>
 		/// <param name="grads">
-		///   A 4-D tensor of shape `[num_boxes, crop_height, crop_width, depth]`.
+		///   A 4-D tensor of shape <code>[num_boxes, crop_height, crop_width, depth]</code>.
 		/// </param>
 		/// <param name="image">
-		///   A 4-D tensor of shape `[batch, image_height, image_width, depth]`.
-		///   Both `image_height` and `image_width` need to be positive.
+		///   A 4-D tensor of shape <code>[batch, image_height, image_width, depth]</code>.
+		///   Both <code>image_height</code> and <code>image_width</code> need to be positive.
 		/// </param>
 		/// <param name="boxes">
-		///   A 2-D tensor of shape `[num_boxes, 4]`. The `i`-th row of the tensor
-		///   specifies the coordinates of a box in the `box_ind[i]` image and is specified
-		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
-		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
-		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
+		///   A 2-D tensor of shape <code>[num_boxes, 4]</code>. The <code>i</code>-th row of the tensor
+		///   specifies the coordinates of a box in the <code>box_ind[i]</code> image and is specified
+		///   in normalized coordinates <code>[y1, x1, y2, x2]</code>. A normalized coordinate value of
+		///   <code>y</code> is mapped to the image coordinate at <code>y * (image_height - 1)</code>, so as the
+		///   <code>[0, 1]</code> interval of normalized image height is mapped to
+		///   <code>[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
-		///   outside the `[0, 1]` range are allowed, in which case we use
-		///   `extrapolation_value` to extrapolate the input image values.
+		///   outside the <code>[0, 1]</code> range are allowed, in which case we use
+		///   <code>extrapolation_value</code> to extrapolate the input image values.
 		/// </param>
 		/// <param name="box_ind">
-		///   A 1-D tensor of shape `[num_boxes]` with int32 values in `[0, batch)`.
-		///   The value of `box_ind[i]` specifies the image that the `i`-th box refers to.
+		///   A 1-D tensor of shape <code>[num_boxes]</code> with int32 values in <code>[0, batch)</code>.
+		///   The value of <code>box_ind[i]</code> specifies the image that the <code>i</code>-th box refers to.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CropAndResizeGradBoxes'.
@@ -5628,7 +5833,7 @@ namespace TensorFlow {
 		///   supported for now.
 		/// </param>
 		/// <returns>
-		///   A 2-D tensor of shape `[num_boxes, 4]`.
+		///   A 2-D tensor of shape <code>[num_boxes, 4]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput CropAndResizeGradBoxes (TFOutput grads, TFOutput image, TFOutput boxes, TFOutput box_ind, string method = null, string operName = null)
@@ -5654,27 +5859,27 @@ namespace TensorFlow {
 		///   Computes the gradient of the crop_and_resize op wrt the input image tensor.
 		/// </summary>
 		/// <param name="grads">
-		///   A 4-D tensor of shape `[num_boxes, crop_height, crop_width, depth]`.
+		///   A 4-D tensor of shape <code>[num_boxes, crop_height, crop_width, depth]</code>.
 		/// </param>
 		/// <param name="boxes">
-		///   A 2-D tensor of shape `[num_boxes, 4]`. The `i`-th row of the tensor
-		///   specifies the coordinates of a box in the `box_ind[i]` image and is specified
-		///   in normalized coordinates `[y1, x1, y2, x2]`. A normalized coordinate value of
-		///   `y` is mapped to the image coordinate at `y * (image_height - 1)`, so as the
-		///   `[0, 1]` interval of normalized image height is mapped to
-		///   `[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
+		///   A 2-D tensor of shape <code>[num_boxes, 4]</code>. The <code>i</code>-th row of the tensor
+		///   specifies the coordinates of a box in the <code>box_ind[i]</code> image and is specified
+		///   in normalized coordinates <code>[y1, x1, y2, x2]</code>. A normalized coordinate value of
+		///   <code>y</code> is mapped to the image coordinate at <code>y * (image_height - 1)</code>, so as the
+		///   <code>[0, 1]</code> interval of normalized image height is mapped to
+		///   <code>[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
-		///   outside the `[0, 1]` range are allowed, in which case we use
-		///   `extrapolation_value` to extrapolate the input image values.
+		///   outside the <code>[0, 1]</code> range are allowed, in which case we use
+		///   <code>extrapolation_value</code> to extrapolate the input image values.
 		/// </param>
 		/// <param name="box_ind">
-		///   A 1-D tensor of shape `[num_boxes]` with int32 values in `[0, batch)`.
-		///   The value of `box_ind[i]` specifies the image that the `i`-th box refers to.
+		///   A 1-D tensor of shape <code>[num_boxes]</code> with int32 values in <code>[0, batch)</code>.
+		///   The value of <code>box_ind[i]</code> specifies the image that the <code>i</code>-th box refers to.
 		/// </param>
 		/// <param name="image_size">
-		///   A 1-D tensor with value `[batch, image_height, image_width, depth]`
-		///   containing the original image size. Both `image_height` and `image_width` need
+		///   A 1-D tensor with value <code>[batch, image_height, image_width, depth]</code>
+		///   containing the original image size. Both <code>image_height</code> and <code>image_width</code> need
 		///   to be positive.
 		/// </param>
 		/// <param name="operName">
@@ -5688,7 +5893,7 @@ namespace TensorFlow {
 		/// <param name="T">
 		/// </param>
 		/// <returns>
-		///   A 4-D tensor of shape `[batch, image_height, image_width, depth]`.
+		///   A 4-D tensor of shape <code>[batch, image_height, image_width, depth]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput CropAndResizeGradImage (TFOutput grads, TFOutput boxes, TFOutput box_ind, TFOutput image_size, TFDataType T, string method = null, string operName = null)
@@ -5718,17 +5923,17 @@ namespace TensorFlow {
 		///   A tensor containing 3-element vectors.
 		/// </param>
 		/// <param name="b">
-		///   Another tensor, of same type and shape as `a`.
+		///   Another tensor, of same type and shape as <code>a</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cross'.
 		/// </param>
 		/// <returns>
-		///   Pairwise cross product of the vectors in `a` and `b`.
+		///   Pairwise cross product of the vectors in <code>a</code> and <code>b</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `a` and `b` must be the same shape; they can either be simple 3-element vectors,
+		///   <code>a</code> and <code>b</code> must be the same shape; they can either be simple 3-element vectors,
 		///   or any shape where the innermost dimension is 3. In the latter case, each pair
 		///   of corresponding 3-element vectors is cross-multiplied independently.
 		/// </remarks>
@@ -5750,10 +5955,10 @@ namespace TensorFlow {
 		///   Performs beam search decoding on the logits given in input.
 		/// </summary>
 		/// <param name="inputs">
-		///   3-D, shape: `(max_time x batch_size x num_classes)`, the logits.
+		///   3-D, shape: <code>(max_time x batch_size x num_classes)</code>, the logits.
 		/// </param>
 		/// <param name="sequence_length">
-		///   A vector containing sequence lengths, size `(batch)`.
+		///   A vector containing sequence lengths, size <code>(batch)</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CTCBeamSearchDecoder'.
@@ -5771,15 +5976,15 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   decoded_indices: A list (length: top_paths) of indices matrices.  Matrix j,
-		///   size `(total_decoded_outputs[j] x 2)`, has indices of a
-		///   `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The rows store: [batch, time].
+		///   size <code>(total_decoded_outputs[j] x 2)</code>, has indices of a
+		///   <code>SparseTensor&amp;lt;int64, 2&amp;gt;</code>.  The rows store: [batch, time].
 		///   decoded_values: A list (length: top_paths) of values vectors.  Vector j,
-		///   size `(length total_decoded_outputs[j])`, has the values of a
-		///   `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The vector stores the decoded classes for beam j.
+		///   size <code>(length total_decoded_outputs[j])</code>, has the values of a
+		///   <code>SparseTensor&amp;lt;int64, 2&amp;gt;</code>.  The vector stores the decoded classes for beam j.
 		///   decoded_shape: A list (length: top_paths) of shape vector.  Vector j,
-		///   size `(2)`, stores the shape of the decoded `SparseTensor[j]`.
-		///   Its values are: `[batch_size, max_decoded_length[j]]`.
-		///   log_probability: A matrix, shaped: `(batch_size x top_paths)`.  The
+		///   size <code>(2)</code>, stores the shape of the decoded <code>SparseTensor[j]</code>.
+		///   Its values are: <code>[batch_size, max_decoded_length[j]]</code>.
+		///   log_probability: A matrix, shaped: <code>(batch_size x top_paths)</code>.  The
 		///   sequence log-probabilities.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
@@ -5829,10 +6034,10 @@ namespace TensorFlow {
 		///   Performs greedy decoding on the logits given in inputs.
 		/// </summary>
 		/// <param name="inputs">
-		///   3-D, shape: `(max_time x batch_size x num_classes)`, the logits.
+		///   3-D, shape: <code>(max_time x batch_size x num_classes)</code>, the logits.
 		/// </param>
 		/// <param name="sequence_length">
-		///   A vector containing sequence lengths, size `(batch_size)`.
+		///   A vector containing sequence lengths, size <code>(batch_size)</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CTCGreedyDecoder'.
@@ -5843,13 +6048,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   decoded_indices: Indices matrix, size `(total_decoded_outputs x 2)`,
-		///   of a `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The rows store: [batch, time].
-		///   decoded_values: Values vector, size: `(total_decoded_outputs)`,
-		///   of a `SparseTensor&amp;lt;int64, 2&amp;gt;`.  The vector stores the decoded classes.
-		///   decoded_shape: Shape vector, size `(2)`, of the decoded SparseTensor.
-		///   Values are: `[batch_size, max_decoded_length]`.
-		///   log_probability: Matrix, size `(batch_size x 1)`, containing sequence
+		///   decoded_indices: Indices matrix, size <code>(total_decoded_outputs x 2)</code>,
+		///   of a <code>SparseTensor&amp;lt;int64, 2&amp;gt;</code>.  The rows store: [batch, time].
+		///   decoded_values: Values vector, size: <code>(total_decoded_outputs)</code>,
+		///   of a <code>SparseTensor&amp;lt;int64, 2&amp;gt;</code>.  The vector stores the decoded classes.
+		///   decoded_shape: Shape vector, size <code>(2)</code>, of the decoded SparseTensor.
+		///   Values are: <code>[batch_size, max_decoded_length]</code>.
+		///   log_probability: Matrix, size <code>(batch_size x 1)</code>, containing sequence
 		///   log-probabilities.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
@@ -5861,7 +6066,7 @@ namespace TensorFlow {
 		///   merge_repeated = False.
 		///   
 		///   Regardless of the value of merge_repeated, if the maximum index of a given
-		///   time and batch corresponds to the blank, index `(num_classes - 1)`, no new
+		///   time and batch corresponds to the blank, index <code>(num_classes - 1)</code>, no new
 		///   element is emitted.
 		/// </remarks>
 		public (TFOutput decoded_indices, TFOutput decoded_values, TFOutput decoded_shape, TFOutput log_probability) CTCGreedyDecoder (TFOutput inputs, TFOutput sequence_length, bool? merge_repeated = null, string operName = null)
@@ -5888,12 +6093,12 @@ namespace TensorFlow {
 		///   Calculates the CTC Loss (log probability) for each batch entry.  Also calculates
 		/// </summary>
 		/// <param name="inputs">
-		///   3-D, shape: `(max_time x batch_size x num_classes)`, the logits.
+		///   3-D, shape: <code>(max_time x batch_size x num_classes)</code>, the logits.
 		/// </param>
 		/// <param name="labels_indices">
-		///   The indices of a `SparseTensor&amp;lt;int32, 2&amp;gt;`.
-		///   `labels_indices(i, :) == [b, t]` means `labels_values(i)` stores the id for
-		///   `(batch b, time t)`.
+		///   The indices of a <code>SparseTensor&amp;lt;int32, 2&amp;gt;</code>.
+		///   <code>labels_indices(i, :) == [b, t]</code> means <code>labels_values(i)</code> stores the id for
+		///   <code>(batch b, time t)</code>.
 		/// </param>
 		/// <param name="labels_values">
 		///   The values (labels) associated with the given batch and time.
@@ -5924,8 +6129,8 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   loss: A vector (batch) containing log-probabilities.
-		///   gradient: The gradient of `loss`.  3-D, shape:
-		///   `(max_time x batch_size x num_classes)`.
+		///   gradient: The gradient of <code>loss</code>.  3-D, shape:
+		///   <code>(max_time x batch_size x num_classes)</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -5959,27 +6164,27 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compute the cumulative product of the tensor `x` along `axis`.
+		///   Compute the cumulative product of the tensor <code>x</code> along <code>axis</code>.
 		/// </summary>
 		/// <param name="x">
-		///   A `Tensor`. Must be one of the following types: `float32`, `float64`,
-		///   `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`,
-		///   `complex128`, `qint8`, `quint8`, `qint32`, `half`.
+		///   A <code>Tensor</code>. Must be one of the following types: <code>float32</code>, <code>float64</code>,
+		///   <code>int64</code>, <code>int32</code>, <code>uint8</code>, <code>uint16</code>, <code>int16</code>, <code>int8</code>, <code>complex64</code>,
+		///   <code>complex128</code>, <code>qint8</code>, <code>quint8</code>, <code>qint32</code>, <code>half</code>.
 		/// </param>
 		/// <param name="axis">
-		///   A `Tensor` of type `int32` (default: 0). Must be in the range
-		///   `[-rank(x), rank(x))`.
+		///   A <code>Tensor</code> of type <code>int32</code> (default: 0). Must be in the range
+		///   <code>[-rank(x), rank(x))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cumprod'.
 		/// </param>
 		/// <param name="exclusive">
 		///   Optional argument
-		///   If `True`, perform exclusive cumprod.
+		///   If <code>True</code>, perform exclusive cumprod.
 		/// </param>
 		/// <param name="reverse">
 		///   Optional argument
-		///   A `bool` (default: False).
+		///   A <code>bool</code> (default: False).
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -5988,31 +6193,31 @@ namespace TensorFlow {
 		///   By default, this op performs an inclusive cumprod, which means that the first
 		///   element of the input is identical to the first element of the output:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumprod([a, b, c])  # =&amp;gt; [a, a * b, a * b * c]
-		///   ```
+		///    <code>
 		///   
-		///   By setting the `exclusive` kwarg to `True`, an exclusive cumprod is
+		///   By setting the <code>exclusive</code> kwarg to <code>True</code>, an exclusive cumprod is
 		///   performed instead:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumprod([a, b, c], exclusive=True)  # =&amp;gt; [1, a, a * b]
-		///   ```
+		///    </code>
 		///   
-		///   By setting the `reverse` kwarg to `True`, the cumprod is performed in the
+		///   By setting the <code>reverse</code> kwarg to <code>True</code>, the cumprod is performed in the
 		///   opposite direction:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumprod([a, b, c], reverse=True)  # =&amp;gt; [a * b * c, b * c, c]
-		///   ```
+		///    <code>
 		///   
-		///   This is more efficient than using separate `tf.reverse` ops.
+		///   This is more efficient than using separate <code>tf.reverse</code> ops.
 		///   
-		///   The `reverse` and `exclusive` kwargs can also be combined:
+		///   The <code>reverse</code> and <code>exclusive</code> kwargs can also be combined:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumprod([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b * c, c, 1]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Cumprod (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
 		{
@@ -6035,27 +6240,27 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compute the cumulative sum of the tensor `x` along `axis`.
+		///   Compute the cumulative sum of the tensor <code>x</code> along <code>axis</code>.
 		/// </summary>
 		/// <param name="x">
-		///   A `Tensor`. Must be one of the following types: `float32`, `float64`,
-		///   `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`,
-		///   `complex128`, `qint8`, `quint8`, `qint32`, `half`.
+		///   A <code>Tensor</code>. Must be one of the following types: <code>float32</code>, <code>float64</code>,
+		///   <code>int64</code>, <code>int32</code>, <code>uint8</code>, <code>uint16</code>, <code>int16</code>, <code>int8</code>, <code>complex64</code>,
+		///   <code>complex128</code>, <code>qint8</code>, <code>quint8</code>, <code>qint32</code>, <code>half</code>.
 		/// </param>
 		/// <param name="axis">
-		///   A `Tensor` of type `int32` (default: 0). Must be in the range
-		///   `[-rank(x), rank(x))`.
+		///   A <code>Tensor</code> of type <code>int32</code> (default: 0). Must be in the range
+		///   <code>[-rank(x), rank(x))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cumsum'.
 		/// </param>
 		/// <param name="exclusive">
 		///   Optional argument
-		///   If `True`, perform exclusive cumsum.
+		///   If <code>True</code>, perform exclusive cumsum.
 		/// </param>
 		/// <param name="reverse">
 		///   Optional argument
-		///   A `bool` (default: False).
+		///   A <code>bool</code> (default: False).
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -6064,31 +6269,31 @@ namespace TensorFlow {
 		///   By default, this op performs an inclusive cumsum, which means that the first
 		///   element of the input is identical to the first element of the output:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumsum([a, b, c])  # =&amp;gt; [a, a + b, a + b + c]
-		///   ```
+		///    <code>
 		///   
-		///   By setting the `exclusive` kwarg to `True`, an exclusive cumsum is
+		///   By setting the <code>exclusive</code> kwarg to <code>True</code>, an exclusive cumsum is
 		///   performed instead:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumsum([a, b, c], exclusive=True)  # =&amp;gt; [0, a, a + b]
-		///   ```
+		///    </code>
 		///   
-		///   By setting the `reverse` kwarg to `True`, the cumsum is performed in the
+		///   By setting the <code>reverse</code> kwarg to <code>True</code>, the cumsum is performed in the
 		///   opposite direction:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumsum([a, b, c], reverse=True)  # =&amp;gt; [a + b + c, b + c, c]
-		///   ```
+		///    <code>
 		///   
-		///   This is more efficient than using separate `tf.reverse` ops.
+		///   This is more efficient than using separate <code>tf.reverse</code> ops.
 		///   
-		///   The `reverse` and `exclusive` kwargs can also be combined:
+		///   The <code>reverse</code> and <code>exclusive</code> kwargs can also be combined:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   tf.cumsum([a, b, c], exclusive=True, reverse=True)  # =&amp;gt; [b + c, c, 0]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Cumsum (TFOutput x, TFOutput axis, bool? exclusive = null, bool? reverse = null, string operName = null)
 		{
@@ -6114,7 +6319,8 @@ namespace TensorFlow {
 		///   Returns the dimension index in the destination data format given the one in
 		/// </summary>
 		/// <param name="x">
-		///   Scalar. Dimension index in source data format. Must be in the range [-4, 4).
+		///   A Tensor with each element as a dimension index in source data format.
+		///   Must be in the range [-4, 4).
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DataFormatDimMap'.
@@ -6128,7 +6334,7 @@ namespace TensorFlow {
 		///   destination data format.
 		/// </param>
 		/// <returns>
-		///   Scalar. Dimension index in destination data format.
+		///   A Tensor with each element as a dimension index in destination data format.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -6154,10 +6360,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the permuted vector in the destination data format given the one in
+		///   Returns the permuted vector/tensor in the destination data format given the
 		/// </summary>
 		/// <param name="x">
-		///   Vector in source data format. Must be of size 4.
+		///   Vector of size 4 or Tensor of shape (4, 2) in source data format.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DataFormatVecPermute'.
@@ -6171,11 +6377,11 @@ namespace TensorFlow {
 		///   destination data format.
 		/// </param>
 		/// <returns>
-		///   Vector in destination data format. Must be of size 4.
+		///   Vector of size 4 or Tensor of shape (4, 2) in destination data format.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   the source data format.
+		///   one in the source data format.
 		/// </remarks>
 		public TFOutput DataFormatVecPermute (TFOutput x, string src_format = null, string dst_format = null, string operName = null)
 		{
@@ -6210,7 +6416,7 @@ namespace TensorFlow {
 		/// <param name="output_shapes">
 		/// </param>
 		/// <returns>
-		///   The components of the single element of `input`.
+		///   The components of the single element of <code>input</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput[] DatasetToSingleElement (TFOutput dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
@@ -6247,10 +6453,40 @@ namespace TensorFlow {
 		/// <remarks>
 		///   This op is hidden from public in Python. It is used by TensorFlow Debugger to
 		///   register gradient tensors for gradient debugging.
+		///   This op operates on non-reference-type tensors.
 		/// </remarks>
 		public TFOutput DebugGradientIdentity (TFOutput input, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "DebugGradientIdentity", MakeName ("DebugGradientIdentity", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Identity op for gradient debugging.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DebugGradientRefIdentity'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op is hidden from public in Python. It is used by TensorFlow Debugger to
+		///   register gradient tensors for gradient debugging.
+		///   This op operates on reference-type tensors.
+		/// </remarks>
+		public TFOutput DebugGradientRefIdentity (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DebugGradientRefIdentity", MakeName ("DebugGradientRefIdentity", operName));
 			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
@@ -6305,11 +6541,11 @@ namespace TensorFlow {
 		///   option.)
 		/// </param>
 		/// <returns>
-		///   3-D with shape `[height, width, channels]`..
+		///   3-D with shape <code>[height, width, channels]</code>..
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The attr `channels` indicates the desired number of color channels for the
+		///   The attr <code>channels</code> indicates the desired number of color channels for the
 		///   decoded image.
 		///   
 		///   Accepted values are:
@@ -6321,7 +6557,7 @@ namespace TensorFlow {
 		///   If needed, the JPEG-encoded image is transformed to match the requested number
 		///   of color channels.
 		///   
-		///   The attr `ratio` allows downscaling the image by an integer factor during
+		///   The attr <code>ratio</code> allows downscaling the image by an integer factor during
 		///   decoding.  Allowed values are: 1, 2, 4, and 8.  This is much faster than
 		///   downscaling the image later.
 		///   
@@ -6404,11 +6640,11 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   3-D with shape `[height, width, channels]`. RGB order
+		///   3-D with shape <code>[height, width, channels]</code>. RGB order
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The attr `channels` indicates the desired number of color channels for the
+		///   The attr <code>channels</code> indicates the desired number of color channels for the
 		///   decoded image.
 		///   
 		///   Accepted values are:
@@ -6431,6 +6667,49 @@ namespace TensorFlow {
 			int _idx = 0;
 			var image = new TFOutput (op, _idx++);
 			return image;
+		}
+
+		/// <summary>
+		///   Decompress strings.
+		/// </summary>
+		/// <param name="bytes">
+		///   A Tensor of string which is compressed.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeCompressed'.
+		/// </param>
+		/// <param name="compression_type">
+		///   Optional argument
+		///   A scalar containing either (i) the empty string (no
+		///   compression), (ii) "ZLIB", or (iii) "GZIP".
+		/// </param>
+		/// <returns>
+		///   A Tensor with the same shape as input <code>bytes</code>, uncompressed
+		///   from bytes.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op decompresses each element of the <code>bytes</code> input <code>Tensor</code>, which
+		///   is assumed to be compressed using the given <code>compression_type</code>.
+		///   
+		///   The <code>output</code> is a string <code>Tensor</code> of the same shape as <code>bytes</code>,
+		///   each element containing the decompressed data from the corresponding
+		///   element in <code>bytes</code>.
+		/// </remarks>
+		public TFOutput DecodeCompressed (TFOutput bytes, string compression_type = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DecodeCompressed", MakeName ("DecodeCompressed", operName));
+			desc.AddInput (bytes);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (compression_type != null)
+				desc.SetAttr ("compression_type", compression_type);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -6508,17 +6787,17 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeGif'.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[num_frames, height, width, 3]`. RGB order
+		///   4-D with shape <code>[num_frames, height, width, 3]</code>. RGB order
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   GIF with frame or transparency compression are not supported
 		///   convert animated GIF from compressed to uncompressed by:
 		///   
-		///       convert $src.gif -coalesce $dst.gif
+		///   convert $src.gif -coalesce $dst.gif
 		///   
 		///   This op also supports decoding JPEGs and PNGs, though it is cleaner to use
-		///   `tf.image.decode_image`.
+		///   <code>tf.image.decode_image</code>.
 		/// </remarks>
 		public TFOutput DecodeGif (TFOutput contents, string operName = null)
 		{
@@ -6574,11 +6853,11 @@ namespace TensorFlow {
 		///   option.)
 		/// </param>
 		/// <returns>
-		///   3-D with shape `[height, width, channels]`..
+		///   3-D with shape <code>[height, width, channels]</code>..
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The attr `channels` indicates the desired number of color channels for the
+		///   The attr <code>channels</code> indicates the desired number of color channels for the
 		///   decoded image.
 		///   
 		///   Accepted values are:
@@ -6590,13 +6869,13 @@ namespace TensorFlow {
 		///   If needed, the JPEG-encoded image is transformed to match the requested number
 		///   of color channels.
 		///   
-		///   The attr `ratio` allows downscaling the image by an integer factor during
+		///   The attr <code>ratio</code> allows downscaling the image by an integer factor during
 		///   decoding.  Allowed values are: 1, 2, 4, and 8.  This is much faster than
 		///   downscaling the image later.
 		///   
 		///   
 		///   This op also supports decoding PNGs and non-animated GIFs since the interface is
-		///   the same, though it is cleaner to use `tf.image.decode_image`.
+		///   the same, though it is cleaner to use <code>tf.image.decode_image</code>.
 		/// </remarks>
 		public TFOutput DecodeJpeg (TFOutput contents, long? channels = null, long? ratio = null, bool? fancy_upscaling = null, bool? try_recover_truncated = null, float? acceptable_fraction = null, string dct_method = null, string operName = null)
 		{
@@ -6641,7 +6920,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Each string is a binary Example protocol buffer corresponding
-		///   to the respective element of `json_examples`.
+		///   to the respective element of <code>json_examples</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -6682,11 +6961,11 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   3-D with shape `[height, width, channels]`.
+		///   3-D with shape <code>[height, width, channels]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The attr `channels` indicates the desired number of color channels for the
+		///   The attr <code>channels</code> indicates the desired number of color channels for the
 		///   decoded image.
 		///   
 		///   Accepted values are:
@@ -6700,7 +6979,7 @@ namespace TensorFlow {
 		///   of color channels.
 		///   
 		///   This op also supports decoding JPEGs and non-animated GIFs since the interface
-		///   is the same, though it is cleaner to use `tf.image.decode_image`.
+		///   is the same, though it is cleaner to use <code>tf.image.decode_image</code>.
 		/// </remarks>
 		public TFOutput DecodePng (TFOutput contents, long? channels = null, TFDataType? dtype = null, string operName = null)
 		{
@@ -6732,16 +7011,16 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="little_endian">
 		///   Optional argument
-		///   Whether the input `bytes` are in little-endian order.
-		///   Ignored for `out_type` values that are stored in a single byte like
-		///   `uint8`.
+		///   Whether the input <code>bytes</code> are in little-endian order.
+		///   Ignored for <code>out_type</code> values that are stored in a single byte like
+		///   <code>uint8</code>.
 		/// </param>
 		/// <param name="out_type">
 		/// </param>
 		/// <returns>
-		///   A Tensor with one more dimension than the input `bytes`.  The
+		///   A Tensor with one more dimension than the input <code>bytes</code>.  The
 		///   added dimension will have size equal to the length of the elements
-		///   of `bytes` divided by the number of bytes to represent `out_type`.
+		///   of <code>bytes</code> divided by the number of bytes to represent <code>out_type</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput DecodeRaw (TFOutput bytes, TFDataType out_type, bool? little_endian = null, string operName = null)
@@ -6780,7 +7059,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   audio: 2-D with shape `[length, channels]`.
+		///   audio: 2-D with shape <code>[length, channels]</code>.
 		///   sample_rate: Scalar holding the sample rate found in the WAV header.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
@@ -6844,15 +7123,15 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies set operation along last dimension of 2 `Tensor` inputs.
+		///   Applies set operation along last dimension of 2 <code>Tensor</code> inputs.
 		/// </summary>
 		/// <param name="set1">
-		///   `Tensor` with rank `n`. 1st `n-1` dimensions must be the same as `set2`.
-		///   Dimension `n` contains values in a set, duplicates are allowed but ignored.
+		///   <code>Tensor</code> with rank <code>n</code>. 1st <code>n-1</code> dimensions must be the same as <code>set2</code>.
+		///   Dimension <code>n</code> contains values in a set, duplicates are allowed but ignored.
 		/// </param>
 		/// <param name="set2">
-		///   `Tensor` with rank `n`. 1st `n-1` dimensions must be the same as `set1`.
-		///   Dimension `n` contains values in a set, duplicates are allowed but ignored.
+		///   <code>Tensor</code> with rank <code>n</code>. 1st <code>n-1</code> dimensions must be the same as <code>set1</code>.
+		///   Dimension <code>n</code> contains values in a set, duplicates are allowed but ignored.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DenseToDenseSetOperation'.
@@ -6864,21 +7143,21 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   result_indices: 2D indices of a `SparseTensor`.
-		///   result_values: 1D values of a `SparseTensor`.
-		///   result_shape: 1D `Tensor` shape of a `SparseTensor`. `result_shape[0...n-1]` is
-		///   the same as the 1st `n-1` dimensions of `set1` and `set2`, `result_shape[n]`
-		///   is the max result set size across all `0...n-1` dimensions.
+		///   result_indices: 2D indices of a <code>SparseTensor</code>.
+		///   result_values: 1D values of a <code>SparseTensor</code>.
+		///   result_shape: 1D <code>Tensor</code> shape of a <code>SparseTensor</code>. <code>result_shape[0...n-1]</code> is
+		///   the same as the 1st <code>n-1</code> dimensions of <code>set1</code> and <code>set2</code>, <code>result_shape[n]</code>
+		///   is the max result set size across all <code>0...n-1</code> dimensions.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   See SetOperationOp::SetOperationFromContext for values of `set_operation`.
+		///   See SetOperationOp::SetOperationFromContext for values of <code>set_operation</code>.
 		///   
-		///   Output `result` is a `SparseTensor` represented by `result_indices`,
-		///   `result_values`, and `result_shape`. For `set1` and `set2` ranked `n`, this
-		///   has rank `n` and the same 1st `n-1` dimensions as `set1` and `set2`. The `nth`
-		///   dimension contains the result of `set_operation` applied to the corresponding
-		///   `[0...n-1]` dimension of `set`.
+		///   Output <code>result</code> is a <code>SparseTensor</code> represented by <code>result_indices</code>,
+		///   <code>result_values</code>, and <code>result_shape</code>. For <code>set1</code> and <code>set2</code> ranked <code>n</code>, this
+		///   has rank <code>n</code> and the same 1st <code>n-1</code> dimensions as <code>set1</code> and <code>set2</code>. The <code>nth</code>
+		///   dimension contains the result of <code>set_operation</code> applied to the corresponding
+		///   <code>[0...n-1]</code> dimension of <code>set</code>.
 		/// </remarks>
 		public (TFOutput result_indices, TFOutput result_values, TFOutput result_shape) DenseToDenseSetOperation (TFOutput set1, TFOutput set2, string set_operation, bool? validate_indices = null, string operName = null)
 		{
@@ -6901,7 +7180,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that yields a SparseTensor for each element of the input.
+		///   Creates a dataset that batches input elements into a SparseTensor.
 		/// </summary>
 		/// <param name="input_dataset">
 		///   A handle to an input dataset. Must have a single component.
@@ -6912,7 +7191,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="row_shape">
 		///   A vector representing the dense shape of each row in the produced
-		///   SparseTensor. The shape may be partially specified, using `-1` to indicate
+		///   SparseTensor. The shape may be partially specified, using <code>-1</code> to indicate
 		///   that a particular dimension should use the maximum size of all batch elements.
 		/// </param>
 		/// <param name="operName">
@@ -6943,24 +7222,24 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies set operation along last dimension of `Tensor` and `SparseTensor`.
+		///   Applies set operation along last dimension of <code>Tensor</code> and <code>SparseTensor</code>.
 		/// </summary>
 		/// <param name="set1">
-		///   `Tensor` with rank `n`. 1st `n-1` dimensions must be the same as `set2`.
-		///   Dimension `n` contains values in a set, duplicates are allowed but ignored.
+		///   <code>Tensor</code> with rank <code>n</code>. 1st <code>n-1</code> dimensions must be the same as <code>set2</code>.
+		///   Dimension <code>n</code> contains values in a set, duplicates are allowed but ignored.
 		/// </param>
 		/// <param name="set2_indices">
-		///   2D `Tensor`, indices of a `SparseTensor`. Must be in row-major
+		///   2D <code>Tensor</code>, indices of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set2_values">
-		///   1D `Tensor`, values of a `SparseTensor`. Must be in row-major
+		///   1D <code>Tensor</code>, values of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set2_shape">
-		///   1D `Tensor`, shape of a `SparseTensor`. `set2_shape[0...n-1]` must
-		///   be the same as the 1st `n-1` dimensions of `set1`, `result_shape[n]` is the
-		///   max set size across `n-1` dimensions.
+		///   1D <code>Tensor</code>, shape of a <code>SparseTensor</code>. <code>set2_shape[0...n-1]</code> must
+		///   be the same as the 1st <code>n-1</code> dimensions of <code>set1</code>, <code>result_shape[n]</code> is the
+		///   max set size across <code>n-1</code> dimensions.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DenseToSparseSetOperation'.
@@ -6972,29 +7251,29 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   result_indices: 2D indices of a `SparseTensor`.
-		///   result_values: 1D values of a `SparseTensor`.
-		///   result_shape: 1D `Tensor` shape of a `SparseTensor`. `result_shape[0...n-1]` is
-		///   the same as the 1st `n-1` dimensions of `set1` and `set2`, `result_shape[n]`
-		///   is the max result set size across all `0...n-1` dimensions.
+		///   result_indices: 2D indices of a <code>SparseTensor</code>.
+		///   result_values: 1D values of a <code>SparseTensor</code>.
+		///   result_shape: 1D <code>Tensor</code> shape of a <code>SparseTensor</code>. <code>result_shape[0...n-1]</code> is
+		///   the same as the 1st <code>n-1</code> dimensions of <code>set1</code> and <code>set2</code>, <code>result_shape[n]</code>
+		///   is the max result set size across all <code>0...n-1</code> dimensions.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   See SetOperationOp::SetOperationFromContext for values of `set_operation`.
+		///   See SetOperationOp::SetOperationFromContext for values of <code>set_operation</code>.
 		///   
-		///   Input `set2` is a `SparseTensor` represented by `set2_indices`, `set2_values`,
-		///   and `set2_shape`. For `set2` ranked `n`, 1st `n-1` dimensions must be the same
-		///   as `set1`. Dimension `n` contains values in a set, duplicates are allowed but
+		///   Input <code>set2</code> is a <code>SparseTensor</code> represented by <code>set2_indices</code>, <code>set2_values</code>,
+		///   and <code>set2_shape</code>. For <code>set2</code> ranked <code>n</code>, 1st <code>n-1</code> dimensions must be the same
+		///   as <code>set1</code>. Dimension <code>n</code> contains values in a set, duplicates are allowed but
 		///   ignored.
 		///   
-		///   If `validate_indices` is `True`, this op validates the order and range of `set2`
+		///   If <code>validate_indices</code> is <code>True</code>, this op validates the order and range of <code>set2</code>
 		///   indices.
 		///   
-		///   Output `result` is a `SparseTensor` represented by `result_indices`,
-		///   `result_values`, and `result_shape`. For `set1` and `set2` ranked `n`, this
-		///   has rank `n` and the same 1st `n-1` dimensions as `set1` and `set2`. The `nth`
-		///   dimension contains the result of `set_operation` applied to the corresponding
-		///   `[0...n-1]` dimension of `set`.
+		///   Output <code>result</code> is a <code>SparseTensor</code> represented by <code>result_indices</code>,
+		///   <code>result_values</code>, and <code>result_shape</code>. For <code>set1</code> and <code>set2</code> ranked <code>n</code>, this
+		///   has rank <code>n</code> and the same 1st <code>n-1</code> dimensions as <code>set1</code> and <code>set2</code>. The <code>nth</code>
+		///   dimension contains the result of <code>set_operation</code> applied to the corresponding
+		///   <code>[0...n-1]</code> dimension of <code>set</code>.
 		/// </remarks>
 		public (TFOutput result_indices, TFOutput result_values, TFOutput result_shape) DenseToSparseSetOperation (TFOutput set1, TFOutput set2_indices, TFOutput set2_values, TFOutput set2_shape, string set_operation, bool? validate_indices = null, string operName = null)
 		{
@@ -7038,93 +7317,93 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Rearranges data from depth into blocks of spatial data.
 		///   This is the reverse transformation of SpaceToDepth. More specifically,
-		///   this op outputs a copy of the input tensor where values from the `depth`
-		///   dimension are moved in spatial blocks to the `height` and `width` dimensions.
-		///   The attr `block_size` indicates the input block size and how the data is moved.
+		///   this op outputs a copy of the input tensor where values from the <code>depth</code>
+		///   dimension are moved in spatial blocks to the <code>height</code> and <code>width</code> dimensions.
+		///   The attr <code>block_size</code> indicates the input block size and how the data is moved.
 		///   
-		///     * Chunks of data of size `block_size * block_size` from depth are rearranged
-		///       into non-overlapping blocks of size `block_size x block_size`
-		///     * The width the output tensor is `input_depth * block_size`, whereas the
-		///       height is `input_height * block_size`.
-		///     * The Y, X coordinates within each block of the output image are determined
-		///       by the high order component of the input channel index.
-		///     * The depth of the input tensor must be divisible by
-		///       `block_size * block_size`.
+		///   * Chunks of data of size <code>block_size * block_size</code> from depth are rearranged
+		///   into non-overlapping blocks of size <code>block_size x block_size</code>
+		///   * The width the output tensor is <code>input_depth * block_size</code>, whereas the
+		///   height is <code>input_height * block_size</code>.
+		///   * The Y, X coordinates within each block of the output image are determined
+		///   by the high order component of the input channel index.
+		///   * The depth of the input tensor must be divisible by
+		///   <code>block_size * block_size</code>.
 		///   
-		///   The `data_format` attr specifies the layout of the input and output tensors
+		///   The <code>data_format</code> attr specifies the layout of the input and output tensors
 		///   with the following options:
-		///     "NHWC": `[ batch, height, width, channels ]`
-		///     "NCHW": `[ batch, channels, height, width ]`
-		///     "NCHW_VECT_C":
-		///         `qint8 [ batch, channels / 4, height, width, 4 ]`
+		///   "NHWC": <code>[ batch, height, width, channels ]</code>
+		///   "NCHW": <code>[ batch, channels, height, width ]</code>
+		///   "NCHW_VECT_C":
+		///   <code>qint8 [ batch, channels / 4, height, width, 4 ]</code>
 		///   
 		///   It is useful to consider the operation as transforming a 6-D Tensor.
 		///   e.g. for data_format = NHWC,
-		///        Each element in the input tensor can be specified via 6 coordinates,
-		///        ordered by decreasing memory layout significance as:
-		///        n,iY,iX,bY,bX,oC  (where n=batch index, iX, iY means X or Y coordinates
-		///                           within the input image, bX, bY means coordinates
-		///                           within the output block, oC means output channels).
-		///        The output would be the input transposed to the following layout:
-		///        n,iY,bY,iX,bX,oC
+		///   Each element in the input tensor can be specified via 6 coordinates,
+		///   ordered by decreasing memory layout significance as:
+		///   n,iY,iX,bY,bX,oC  (where n=batch index, iX, iY means X or Y coordinates
+		///   within the input image, bX, bY means coordinates
+		///   within the output block, oC means output channels).
+		///   The output would be the input transposed to the following layout:
+		///   n,iY,bY,iX,bX,oC
 		///   
 		///   This operation is useful for resizing the activations between convolutions
 		///   (but keeping all data), e.g. instead of pooling. It is also useful for training
 		///   purely convolutional models.
 		///   
-		///   For example, given an input of shape `[1, 1, 1, 4]`, data_format = "NHWC" and
+		///   For example, given an input of shape <code>[1, 1, 1, 4]</code>, data_format = "NHWC" and
 		///   block_size = 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3, 4]]]]
 		///   
-		///   ```
+		///    </code>
 		///   
-		///   This operation will output a tensor of shape `[1, 2, 2, 1]`:
+		///   This operation will output a tensor of shape <code>[1, 2, 2, 1]</code>:
 		///   
-		///   ```
-		///      [[[[1], [2]],
-		///        [[3], [4]]]]
-		///   ```
+		///    <code>
+		///   [[[[1], [2]],
+		///   [[3], [4]]]]
+		///    </code>
 		///   
-		///   Here, the input has a batch of 1 and each batch element has shape `[1, 1, 4]`,
+		///   Here, the input has a batch of 1 and each batch element has shape <code>[1, 1, 4]</code>,
 		///   the corresponding output will have 2x2 elements and will have a depth of
-		///   1 channel (1 = `4 / (block_size * block_size)`).
-		///   The output element shape is `[2, 2, 1]`.
+		///   1 channel (1 = <code>4 / (block_size * block_size)</code>).
+		///   The output element shape is <code>[2, 2, 1]</code>.
 		///   
-		///   For an input tensor with larger depth, here of shape `[1, 1, 1, 12]`, e.g.
+		///   For an input tensor with larger depth, here of shape <code>[1, 1, 1, 12]</code>, e.g.
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]]]
-		///   ```
+		///    </code>
 		///   
 		///   This operation, for block size of 2, will return the following tensor of shape
-		///   `[1, 2, 2, 3]`
+		///   <code>[1, 2, 2, 3]</code>
 		///   
-		///   ```
-		///      [[[[1, 2, 3], [4, 5, 6]],
-		///        [[7, 8, 9], [10, 11, 12]]]]
+		///    <code>
+		///   [[[[1, 2, 3], [4, 5, 6]],
+		///   [[7, 8, 9], [10, 11, 12]]]]
 		///   
-		///   ```
+		///    </code>
 		///   
-		///   Similarly, for the following input of shape `[1 2 2 4]`, and a block size of 2:
+		///   Similarly, for the following input of shape <code>[1 2 2 4]</code>, and a block size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x =  [[[[1, 2, 3, 4],
-		///          [5, 6, 7, 8]],
-		///         [[9, 10, 11, 12],
-		///          [13, 14, 15, 16]]]]
-		///   ```
+		///   [5, 6, 7, 8]],
+		///   [[9, 10, 11, 12],
+		///   [13, 14, 15, 16]]]]
+		///    </code>
 		///   
-		///   the operator will return the following tensor of shape `[1 4 4 1]`:
+		///   the operator will return the following tensor of shape <code>[1 4 4 1]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[ [1],   [2],  [5],  [6]],
-		///         [ [3],   [4],  [7],  [8]],
-		///         [ [9],  [10], [13],  [14]],
-		///         [ [11], [12], [15],  [16]]]]
+		///   [ [3],   [4],  [7],  [8]],
+		///   [ [9],  [10], [13],  [14]],
+		///   [ [11], [12], [15],  [16]]]]
 		///   
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput DepthToSpace (TFOutput input, long block_size, string data_format = null, string operName = null)
 		{
@@ -7144,7 +7423,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes a 2-D depthwise convolution given 4-D `input` and `filter` tensors.
+		///   Computes a 2-D depthwise convolution given 4-D <code>input</code> and <code>filter</code> tensors.
 		/// </summary>
 		/// <param name="input">
 		/// </param>
@@ -7157,21 +7436,21 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, height, width, channels].
+		///   [batch, height, width, channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, channels, height, width].
+		///   [batch, channels, height, width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
 		///   element on that dimension. The dimension order is determined by the value of
-		///   `data_format`, see above for details. Dilations in the batch and depth
+		///   <code>data_format</code>, see above for details. Dilations in the batch and depth
 		///   dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4.  The stride of the sliding window for each dimension
-		///   of `input`.
+		///   of <code>input</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -7180,24 +7459,24 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given an input tensor of shape `[batch, in_height, in_width, in_channels]`
+		///   Given an input tensor of shape <code>[batch, in_height, in_width, in_channels]</code>
 		///   and a filter / kernel tensor of shape
-		///   `[filter_height, filter_width, in_channels, channel_multiplier]`, containing
-		///   `in_channels` convolutional filters of depth 1, `depthwise_conv2d` applies
+		///   <code>[filter_height, filter_width, in_channels, channel_multiplier]</code>, containing
+		///   <code>in_channels</code> convolutional filters of depth 1, <code>depthwise_conv2d</code> applies
 		///   a different filter to each input channel (expanding from 1 channel to
-		///   `channel_multiplier` channels for each), then concatenates the results
-		///   together. Thus, the output has `in_channels * channel_multiplier` channels.
+		///   <code>channel_multiplier</code> channels for each), then concatenates the results
+		///   together. Thus, the output has <code>in_channels * channel_multiplier</code> channels.
 		///   
-		///   ```
+		///    <code>
 		///   for k in 0..in_channels-1
-		///     for q in 0..channel_multiplier-1
-		///       output[b, i, j, k * channel_multiplier + q] =
-		///         sum_{di, dj} input[b, strides[1] * i + di, strides[2] * j + dj, k] *
-		///                           filter[di, dj, k, q]
-		///   ```
+		///   for q in 0..channel_multiplier-1
+		///   output[b, i, j, k * channel_multiplier + q] =
+		///   sum_{di, dj} input[b, strides[1] * i + di, strides[2] * j + dj, k] *
+		///   filter[di, dj, k, q]
+		///    </code>
 		///   
-		///   Must have `strides[0] = strides[3] = 1`.  For the most common case of the same
-		///   horizontal and vertices strides, `strides = [1, stride, stride, 1]`.
+		///   Must have <code>strides[0] = strides[3] = 1</code>.  For the most common case of the same
+		///   horizontal and vertices strides, <code>strides = [1, stride, stride, 1]</code>.
 		/// </remarks>
 		public TFOutput DepthwiseConv2dNative (TFOutput input, TFOutput filter, long[] strides, string padding, string data_format = null, long[] dilations = null, string operName = null)
 		{
@@ -7225,19 +7504,19 @@ namespace TensorFlow {
 		///   Computes the gradients of depthwise convolution with respect to the filter.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape based on `data_format`.  For example, if
-		///   `data_format` is 'NHWC' then `input` is a 4-D `[batch, in_height,
-		///   in_width, in_channels]` tensor.
+		///   4-D with shape based on <code>data_format</code>.  For example, if
+		///   <code>data_format</code> is 'NHWC' then <code>input</code> is a 4-D <code>[batch, in_height,
+		///   in_width, in_channels]<code> tensor.
 		/// </param>
 		/// <param name="filter_sizes">
-		///   An integer vector representing the tensor shape of `filter`,
-		///   where `filter` is a 4-D
-		///   `[filter_height, filter_width, in_channels, depthwise_multiplier]` tensor.
+		///   An integer vector representing the tensor shape of <code>filter</code>,
+		///   where <code>filter</code> is a 4-D
+		///   <code>[filter_height, filter_width, in_channels, depthwise_multiplier]</code> tensor.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape  based on `data_format`.
-		///   For example, if `data_format` is 'NHWC' then
-		///   out_backprop shape is `[batch, out_height, out_width, out_channels]`.
+		///   4-D with shape  based on <code>data_format</code>.
+		///   For example, if <code>data_format</code> is 'NHWC' then
+		///   out_backprop shape is <code>[batch, out_height, out_width, out_channels]</code>.
 		///   Gradients w.r.t. the output of the convolution.
 		/// </param>
 		/// <param name="operName">
@@ -7247,16 +7526,16 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, height, width, channels].
+		///   [batch, height, width, channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, channels, height, width].
+		///   [batch, channels, height, width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
 		///   element on that dimension. The dimension order is determined by the value of
-		///   `data_format`, see above for details. Dilations in the batch and depth
+		///   <code>data_format</code>, see above for details. Dilations in the batch and depth
 		///   dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
@@ -7268,8 +7547,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`.  Gradient w.r.t.
-		///   the `filter` input of the convolution.
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>.  Gradient w.r.t.
+		///   the <code>filter</code> input of the convolution.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput DepthwiseConv2dNativeBackpropFilter (TFOutput input, TFOutput filter_sizes, TFOutput out_backprop, long[] strides, string padding, string data_format = null, long[] dilations = null, string operName = null)
@@ -7299,18 +7578,18 @@ namespace TensorFlow {
 		///   Computes the gradients of depthwise convolution with respect to the input.
 		/// </summary>
 		/// <param name="input_sizes">
-		///   An integer vector representing the shape of `input`, based
-		///   on `data_format`.  For example, if `data_format` is 'NHWC' then
-		///    `input` is a 4-D `[batch, height, width, channels]` tensor.
+		///   An integer vector representing the shape of <code>input</code>, based
+		///   on <code>data_format</code>.  For example, if <code>data_format</code> is 'NHWC' then
+		///   <code>input</code> is a 4-D <code>[batch, height, width, channels]</code> tensor.
 		/// </param>
 		/// <param name="filter">
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, depthwise_multiplier]`.
+		///   <code>[filter_height, filter_width, in_channels, depthwise_multiplier]</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape  based on `data_format`.
-		///   For example, if `data_format` is 'NHWC' then
-		///   out_backprop shape is `[batch, out_height, out_width, out_channels]`.
+		///   4-D with shape  based on <code>data_format</code>.
+		///   For example, if <code>data_format</code> is 'NHWC' then
+		///   out_backprop shape is <code>[batch, out_height, out_width, out_channels]</code>.
 		///   Gradients w.r.t. the output of the convolution.
 		/// </param>
 		/// <param name="operName">
@@ -7320,16 +7599,16 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, height, width, channels].
+		///   [batch, height, width, channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, channels, height, width].
+		///   [batch, channels, height, width].
 		/// </param>
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each filter
 		///   element on that dimension. The dimension order is determined by the value of
-		///   `data_format`, see above for details. Dilations in the batch and depth
+		///   <code>data_format</code>, see above for details. Dilations in the batch and depth
 		///   dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
@@ -7340,9 +7619,9 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   4-D with shape according to `data_format`.  For example, if
-		///   `data_format` is 'NHWC', output shape is `[batch, in_height,
-		///   in_width, in_channels]`.  Gradient w.r.t. the input of the
+		///   4-D with shape according to <code>data_format</code>.  For example, if
+		///   <code>data_format</code> is 'NHWC', output shape is <code>[batch, in_height,
+		///   in_width, in_channels]<code>.  Gradient w.r.t. the input of the
 		///   convolution.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
@@ -7396,11 +7675,11 @@ namespace TensorFlow {
 		///   
 		///   In 'MIN_COMBINED' mode, each value of the tensor will undergo the following:
 		///   
-		///   ```
+		///    <code>
 		///   if T == qint8, in[i] += (range(T) + 1)/ 2.0
 		///   out[i] = min_range + (in[i]* (max_range - min_range) / range(T))
-		///   ```
-		///   here `range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()`
+		///    </code>
+		///   here <code>range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()</code>
 		///   
 		///   *MIN_COMBINED Mode Example*
 		///   
@@ -7414,55 +7693,55 @@ namespace TensorFlow {
 		///   
 		///   If the mode is 'MIN_FIRST', then this approach is used:
 		///   
-		///   ```c++
+		///   <code></code><code>c++
 		///   num_discrete_values = 1 &amp;lt;&amp;lt; (# of bits in T)
 		///   range_adjust = num_discrete_values / (num_discrete_values - 1)
 		///   range = (range_max - range_min) * range_adjust
 		///   range_scale = range / num_discrete_values
 		///   const double offset_input = static_cast&amp;lt;double&amp;gt;(input) - lowest_quantized;
 		///   result = range_min + ((input - numeric_limits&amp;lt;T&amp;gt;::min()) * range_scale)
-		///   ```
+		///    <code>
 		///   
 		///   *SCALED mode Example*
 		///   
-		///   `SCALED` mode matches the quantization approach used in
-		///   `QuantizeAndDequantize{V2|V3}`.
+		///   <code>SCALED</code> mode matches the quantization approach used in
+		///   <code>QuantizeAndDequantize{V2|V3}</code>.
 		///   
-		///   If the mode is `SCALED`, we do not use the full range of the output type,
+		///   If the mode is <code>SCALED</code>, we do not use the full range of the output type,
 		///   choosing to elide the lowest possible value for symmetry (e.g., output range is
 		///   -127 to 127, not -128 to 127 for signed 8 bit quantization), so that 0.0 maps to
 		///   0.
 		///   
 		///   We first find the range of values in our tensor. The
 		///   range we use is always centered on 0, so we find m such that
-		///   ```c++
-		///     m = max(abs(input_min), abs(input_max))
-		///   ```
+		///   <code></code><code>c++
+		///   m = max(abs(input_min), abs(input_max))
+		///    </code>
 		///   
-		///   Our input tensor range is then `[-m, m]`.
+		///   Our input tensor range is then <code>[-m, m]</code>.
 		///   
-		///   Next, we choose our fixed-point quantization buckets, `[min_fixed, max_fixed]`.
+		///   Next, we choose our fixed-point quantization buckets, <code>[min_fixed, max_fixed]</code>.
 		///   If T is signed, this is
-		///   ```
-		///     num_bits = sizeof(T) * 8
-		///     [min_fixed, max_fixed] =
-		///         [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1]
-		///   ```
+		///    <code>
+		///   num_bits = sizeof(T) * 8
+		///   [min_fixed, max_fixed] =
+		///   [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1]
+		///    </code>
 		///   
 		///   Otherwise, if T is unsigned, the fixed-point range is
-		///   ```
-		///     [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1]
-		///   ```
+		///    <code>
+		///   [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1]
+		///    </code>
 		///   
 		///   From this we compute our scaling factor, s:
-		///   ```c++
-		///     s = (2 * m) / (max_fixed - min_fixed)
-		///   ```
+		///   <code></code><code>c++
+		///   s = (2 * m) / (max_fixed - min_fixed)
+		///    <code>
 		///   
 		///   Now we can dequantize the elements of our tensor:
-		///   ```c++
+		///   <code></code><code>c++
 		///   result = input * s
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Dequantize (TFOutput input, TFOutput min_range, TFOutput max_range, string mode = null, string operName = null)
 		{
@@ -7511,67 +7790,67 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Deserialize and concatenate `SparseTensors` from a serialized minibatch.
+		///   Deserialize and concatenate <code>SparseTensors</code> from a serialized minibatch.
 		/// </summary>
 		/// <param name="serialized_sparse">
-		///   2-D, The `N` serialized `SparseTensor` objects.
+		///   2-D, The <code>N</code> serialized <code>SparseTensor</code> objects.
 		///   Must have 3 columns.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DeserializeManySparse'.
 		/// </param>
 		/// <param name="dtype">
-		///   The `dtype` of the serialized `SparseTensor` objects.
+		///   The <code>dtype</code> of the serialized <code>SparseTensor</code> objects.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sparse_indices: 
-		///   sparse_values: 
-		///   sparse_shape: 
+		///   sparse_indices:
+		///   sparse_values:
+		///   sparse_shape:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The input `serialized_sparse` must be a string matrix of shape `[N x 3]` where
-		///   `N` is the minibatch size and the rows correspond to packed outputs of
-		///   `SerializeSparse`.  The ranks of the original `SparseTensor` objects
-		///   must all match.  When the final `SparseTensor` is created, it has rank one
-		///   higher than the ranks of the incoming `SparseTensor` objects
+		///   The input <code>serialized_sparse</code> must be a string matrix of shape <code>[N x 3]</code> where
+		///   <code>N</code> is the minibatch size and the rows correspond to packed outputs of
+		///   <code>SerializeSparse</code>.  The ranks of the original <code>SparseTensor</code> objects
+		///   must all match.  When the final <code>SparseTensor</code> is created, it has rank one
+		///   higher than the ranks of the incoming <code>SparseTensor</code> objects
 		///   (they have been concatenated along a new row dimension).
 		///   
-		///   The output `SparseTensor` object's shape values for all dimensions but the
-		///   first are the max across the input `SparseTensor` objects' shape values
-		///   for the corresponding dimensions.  Its first shape value is `N`, the minibatch
+		///   The output <code>SparseTensor</code> object's shape values for all dimensions but the
+		///   first are the max across the input <code>SparseTensor</code> objects' shape values
+		///   for the corresponding dimensions.  Its first shape value is <code>N</code>, the minibatch
 		///   size.
 		///   
-		///   The input `SparseTensor` objects' indices are assumed ordered in
+		///   The input <code>SparseTensor</code> objects' indices are assumed ordered in
 		///   standard lexicographic order.  If this is not the case, after this
-		///   step run `SparseReorder` to restore index ordering.
+		///   step run <code>SparseReorder</code> to restore index ordering.
 		///   
-		///   For example, if the serialized input is a `[2 x 3]` matrix representing two
-		///   original `SparseTensor` objects:
+		///   For example, if the serialized input is a <code>[2 x 3]</code> matrix representing two
+		///   original <code>SparseTensor</code> objects:
 		///   
-		///       index = [ 0]
-		///               [10]
-		///               [20]
-		///       values = [1, 2, 3]
-		///       shape = [50]
+		///   index = [ 0]
+		///   [10]
+		///   [20]
+		///   values = [1, 2, 3]
+		///   shape = [50]
 		///   
 		///   and
 		///   
-		///       index = [ 2]
-		///               [10]
-		///       values = [4, 5]
-		///       shape = [30]
+		///   index = [ 2]
+		///   [10]
+		///   values = [4, 5]
+		///   shape = [30]
 		///   
-		///   then the final deserialized `SparseTensor` will be:
+		///   then the final deserialized <code>SparseTensor</code> will be:
 		///   
-		///       index = [0  0]
-		///               [0 10]
-		///               [0 20]
-		///               [1  2]
-		///               [1 10]
-		///       values = [1, 2, 3, 4, 5]
-		///       shape = [2 50]
+		///   index = [0  0]
+		///   [0 10]
+		///   [0 20]
+		///   [1  2]
+		///   [1 10]
+		///   values = [1, 2, 3, 4, 5]
+		///   shape = [2 50]
 		/// </remarks>
 		public (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape) DeserializeManySparse (TFOutput serialized_sparse, TFDataType dtype, string operName = null)
 		{
@@ -7590,67 +7869,67 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Deserialize `SparseTensor` objects.
+		///   Deserialize <code>SparseTensor</code> objects.
 		/// </summary>
 		/// <param name="serialized_sparse">
-		///   The serialized `SparseTensor` objects. The last dimension
+		///   The serialized <code>SparseTensor</code> objects. The last dimension
 		///   must have 3 columns.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DeserializeSparse'.
 		/// </param>
 		/// <param name="dtype">
-		///   The `dtype` of the serialized `SparseTensor` objects.
+		///   The <code>dtype</code> of the serialized <code>SparseTensor</code> objects.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sparse_indices: 
-		///   sparse_values: 
-		///   sparse_shape: 
+		///   sparse_indices:
+		///   sparse_values:
+		///   sparse_shape:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The input `serialized_sparse` must have the shape `[?, ?, ..., ?, 3]` where
-		///   the last dimension stores serialized `SparseTensor` objects and the other N
+		///   The input <code>serialized_sparse</code> must have the shape <code>[?, ?, ..., ?, 3]</code> where
+		///   the last dimension stores serialized <code>SparseTensor</code> objects and the other N
 		///   dimensions (N &amp;gt;= 0) correspond to a batch. The ranks of the original
-		///   `SparseTensor` objects must all match. When the final `SparseTensor` is
-		///   created, its rank is the rank of the incoming `SparseTensor` objects plus N;
+		///   <code>SparseTensor</code> objects must all match. When the final <code>SparseTensor</code> is
+		///   created, its rank is the rank of the incoming <code>SparseTensor</code> objects plus N;
 		///   the sparse tensors have been concatenated along new dimensions, one for each
 		///   batch.
 		///   
-		///   The output `SparseTensor` object's shape values for the original dimensions
-		///   are the max across the input `SparseTensor` objects' shape values for the
+		///   The output <code>SparseTensor</code> object's shape values for the original dimensions
+		///   are the max across the input <code>SparseTensor</code> objects' shape values for the
 		///   corresponding dimensions. The new dimensions match the size of the batch.
 		///   
-		///   The input `SparseTensor` objects' indices are assumed ordered in
+		///   The input <code>SparseTensor</code> objects' indices are assumed ordered in
 		///   standard lexicographic order.  If this is not the case, after this
-		///   step run `SparseReorder` to restore index ordering.
+		///   step run <code>SparseReorder</code> to restore index ordering.
 		///   
-		///   For example, if the serialized input is a `[2 x 3]` matrix representing two
-		///   original `SparseTensor` objects:
+		///   For example, if the serialized input is a <code>[2 x 3]</code> matrix representing two
+		///   original <code>SparseTensor</code> objects:
 		///   
-		///       index = [ 0]
-		///               [10]
-		///               [20]
-		///       values = [1, 2, 3]
-		///       shape = [50]
+		///   index = [ 0]
+		///   [10]
+		///   [20]
+		///   values = [1, 2, 3]
+		///   shape = [50]
 		///   
 		///   and
 		///   
-		///       index = [ 2]
-		///               [10]
-		///       values = [4, 5]
-		///       shape = [30]
+		///   index = [ 2]
+		///   [10]
+		///   values = [4, 5]
+		///   shape = [30]
 		///   
-		///   then the final deserialized `SparseTensor` will be:
+		///   then the final deserialized <code>SparseTensor</code> will be:
 		///   
-		///       index = [0  0]
-		///               [0 10]
-		///               [0 20]
-		///               [1  2]
-		///               [1 10]
-		///       values = [1, 2, 3, 4, 5]
-		///       shape = [2 50]
+		///   index = [0  0]
+		///   [0 10]
+		///   [0 20]
+		///   [1  2]
+		///   [1 10]
+		///   values = [1, 2, 3, 4, 5]
+		///   shape = [2 50]
 		/// </remarks>
 		public (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape) DeserializeSparse (TFOutput serialized_sparse, TFDataType dtype, string operName = null)
 		{
@@ -7755,23 +8034,23 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a `diagonal`, this operation returns a tensor with the `diagonal` and
+		///   Given a <code>diagonal</code>, this operation returns a tensor with the <code>diagonal</code> and
 		///   everything else padded with zeros. The diagonal is computed as follows:
 		///   
-		///   Assume `diagonal` has dimensions [D1,..., Dk], then the output is a tensor of
+		///   Assume <code>diagonal</code> has dimensions [D1,..., Dk], then the output is a tensor of
 		///   rank 2k with dimensions [D1,..., Dk, D1,..., Dk] where:
 		///   
-		///   `output[i1,..., ik, i1,..., ik] = diagonal[i1, ..., ik]` and 0 everywhere else.
+		///   <code>output[i1,..., ik, i1,..., ik] = diagonal[i1, ..., ik]</code> and 0 everywhere else.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'diagonal' is [1, 2, 3, 4]
 		///   tf.diag(diagonal) ==&amp;gt; [[1, 0, 0, 0]
-		///                          [0, 2, 0, 0]
-		///                          [0, 0, 3, 0]
-		///                          [0, 0, 0, 4]]
-		///   ```
+		///   [0, 2, 0, 0]
+		///   [0, 0, 3, 0]
+		///   [0, 0, 0, 4]]
+		///    </code>
 		/// </remarks>
 		public TFOutput Diag (TFOutput diagonal, string operName = null)
 		{
@@ -7800,24 +8079,24 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a tensor with the `diagonal` part
-		///   of the `input`. The `diagonal` part is computed as follows:
+		///   This operation returns a tensor with the <code>diagonal</code> part
+		///   of the <code>input</code>. The <code>diagonal</code> part is computed as follows:
 		///   
-		///   Assume `input` has dimensions `[D1,..., Dk, D1,..., Dk]`, then the output is a
-		///   tensor of rank `k` with dimensions `[D1,..., Dk]` where:
+		///   Assume <code>input</code> has dimensions <code>[D1,..., Dk, D1,..., Dk]</code>, then the output is a
+		///   tensor of rank <code>k</code> with dimensions <code>[D1,..., Dk]</code> where:
 		///   
-		///   `diagonal[i1,..., ik] = input[i1, ..., ik, i1,..., ik]`.
+		///   <code>diagonal[i1,..., ik] = input[i1, ..., ik, i1,..., ik]</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'input' is [[1, 0, 0, 0]
-		///                 [0, 2, 0, 0]
-		///                 [0, 0, 3, 0]
-		///                 [0, 0, 0, 4]]
+		///   [0, 2, 0, 0]
+		///   [0, 0, 3, 0]
+		///   [0, 0, 0, 4]]
 		///   
 		///   tf.diag_part(input) ==&amp;gt; [1, 2, 3, 4]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput DiagPart (TFOutput input, string operName = null)
 		{
@@ -7844,7 +8123,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `Gamma(x)`), element-wise.
+		///   <code>Gamma(x)</code>), element-wise.
 		/// </remarks>
 		public TFOutput Digamma (TFOutput x, string operName = null)
 		{
@@ -7860,56 +8139,56 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the grayscale dilation of 4-D `input` and 3-D `filter` tensors.
+		///   Computes the grayscale dilation of 4-D <code>input</code> and 3-D <code>filter</code> tensors.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, depth]`.
+		///   4-D with shape <code>[batch, in_height, in_width, depth]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   3-D with shape `[filter_height, filter_width, depth]`.
+		///   3-D with shape <code>[filter_height, filter_width, depth]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Dilation2D'.
 		/// </param>
 		/// <param name="strides">
 		///   The stride of the sliding window for each dimension of the input
-		///   tensor. Must be: `[1, stride_height, stride_width, 1]`.
+		///   tensor. Must be: <code>[1, stride_height, stride_width, 1]</code>.
 		/// </param>
 		/// <param name="rates">
 		///   The input stride for atrous morphological dilation. Must be:
-		///   `[1, rate_height, rate_width, 1]`.
+		///   <code>[1, rate_height, rate_width, 1]</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, out_height, out_width, depth]`.
+		///   4-D with shape <code>[batch, out_height, out_width, depth]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The `input` tensor has shape `[batch, in_height, in_width, depth]` and the
-		///   `filter` tensor has shape `[filter_height, filter_width, depth]`, i.e., each
+		///   The <code>input</code> tensor has shape <code>[batch, in_height, in_width, depth]</code> and the
+		///   <code>filter</code> tensor has shape <code>[filter_height, filter_width, depth]</code>, i.e., each
 		///   input channel is processed independently of the others with its own structuring
-		///   function. The `output` tensor has shape
-		///   `[batch, out_height, out_width, depth]`. The spatial dimensions of the output
-		///   tensor depend on the `padding` algorithm. We currently only support the default
-		///   "NHWC" `data_format`.
+		///   function. The <code>output</code> tensor has shape
+		///   <code>[batch, out_height, out_width, depth]</code>. The spatial dimensions of the output
+		///   tensor depend on the <code>padding</code> algorithm. We currently only support the default
+		///   "NHWC" <code>data_format</code>.
 		///   
 		///   In detail, the grayscale morphological 2-D dilation is the max-sum correlation
-		///   (for consistency with `conv2d`, we use unmirrored filters):
+		///   (for consistency with <code>conv2d</code>, we use unmirrored filters):
 		///   
-		///       output[b, y, x, c] =
-		///          max_{dy, dx} input[b,
-		///                             strides[1] * y + rates[1] * dy,
-		///                             strides[2] * x + rates[2] * dx,
-		///                             c] +
-		///                       filter[dy, dx, c]
+		///   output[b, y, x, c] =
+		///   max_{dy, dx} input[b,
+		///   strides[1] * y + rates[1] * dy,
+		///   strides[2] * x + rates[2] * dx,
+		///   c] +
+		///   filter[dy, dx, c]
 		///   
 		///   Max-pooling is a special case when the filter has size equal to the pooling
 		///   kernel size and contains all zeros.
 		///   
-		///   Note on duality: The dilation of `input` by the `filter` is equal to the
-		///   negation of the erosion of `-input` by the reflected `filter`.
+		///   Note on duality: The dilation of <code>input</code> by the <code>filter</code> is equal to the
+		///   negation of the erosion of <code>-input</code> by the reflected <code>filter</code>.
 		/// </remarks>
 		public TFOutput Dilation2D (TFOutput input, TFOutput filter, long[] strides, long[] rates, string padding, string operName = null)
 		{
@@ -7932,30 +8211,30 @@ namespace TensorFlow {
 		///   Computes the gradient of morphological 2-D dilation with respect to the filter.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, depth]`.
+		///   4-D with shape <code>[batch, in_height, in_width, depth]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   3-D with shape `[filter_height, filter_width, depth]`.
+		///   3-D with shape <code>[filter_height, filter_width, depth]</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, out_height, out_width, depth]`.
+		///   4-D with shape <code>[batch, out_height, out_width, depth]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Dilation2DBackpropFilter'.
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4. The stride of the sliding window for each dimension of
-		///   the input tensor. Must be: `[1, stride_height, stride_width, 1]`.
+		///   the input tensor. Must be: <code>[1, stride_height, stride_width, 1]</code>.
 		/// </param>
 		/// <param name="rates">
 		///   1-D of length 4. The input stride for atrous morphological dilation.
-		///   Must be: `[1, rate_height, rate_width, 1]`.
+		///   Must be: <code>[1, rate_height, rate_width, 1]</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   3-D with shape `[filter_height, filter_width, depth]`.
+		///   3-D with shape <code>[filter_height, filter_width, depth]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Dilation2DBackpropFilter (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, long[] rates, string padding, string operName = null)
@@ -7980,30 +8259,30 @@ namespace TensorFlow {
 		///   Computes the gradient of morphological 2-D dilation with respect to the input.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, depth]`.
+		///   4-D with shape <code>[batch, in_height, in_width, depth]</code>.
 		/// </param>
 		/// <param name="filter">
-		///   3-D with shape `[filter_height, filter_width, depth]`.
+		///   3-D with shape <code>[filter_height, filter_width, depth]</code>.
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, out_height, out_width, depth]`.
+		///   4-D with shape <code>[batch, out_height, out_width, depth]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Dilation2DBackpropInput'.
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4. The stride of the sliding window for each dimension of
-		///   the input tensor. Must be: `[1, stride_height, stride_width, 1]`.
+		///   the input tensor. Must be: <code>[1, stride_height, stride_width, 1]</code>.
 		/// </param>
 		/// <param name="rates">
 		///   1-D of length 4. The input stride for atrous morphological dilation.
-		///   Must be: `[1, rate_height, rate_width, 1]`.
+		///   Must be: <code>[1, rate_height, rate_width, 1]</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, in_height, in_width, depth]`.
+		///   4-D with shape <code>[batch, in_height, in_width, depth]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Dilation2DBackpropInput (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, long[] rates, string padding, string operName = null)
@@ -8038,7 +8317,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Div` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Div</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Div (TFOutput x, TFOutput y, string operName = null)
@@ -8059,30 +8338,30 @@ namespace TensorFlow {
 		///   Draw bounding boxes on a batch of images.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, depth]`. A batch of images.
+		///   4-D with shape <code>[batch, height, width, depth]</code>. A batch of images.
 		/// </param>
 		/// <param name="boxes">
-		///   3-D with shape `[batch, num_bounding_boxes, 4]` containing bounding
+		///   3-D with shape <code>[batch, num_bounding_boxes, 4]</code> containing bounding
 		///   boxes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DrawBoundingBoxes'.
 		/// </param>
 		/// <returns>
-		///   4-D with the same shape as `images`. The batch of input images with
+		///   4-D with the same shape as <code>images</code>. The batch of input images with
 		///   bounding boxes drawn on the images.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Outputs a copy of `images` but draws on top of the pixels zero or more bounding
-		///   boxes specified by the locations in `boxes`. The coordinates of the each
-		///   bounding box in `boxes` are encoded as `[y_min, x_min, y_max, x_max]`. The
-		///   bounding box coordinates are floats in `[0.0, 1.0]` relative to the width and
+		///   Outputs a copy of <code>images</code> but draws on top of the pixels zero or more bounding
+		///   boxes specified by the locations in <code>boxes</code>. The coordinates of the each
+		///   bounding box in <code>boxes</code> are encoded as <code>[y_min, x_min, y_max, x_max]</code>. The
+		///   bounding box coordinates are floats in <code>[0.0, 1.0]</code> relative to the width and
 		///   height of the underlying image.
 		///   
 		///   For example, if an image is 100 x 200 pixels (height x width) and the bounding
-		///   box is `[0.1, 0.2, 0.5, 0.9]`, the upper-left and bottom-right coordinates of
-		///   the bounding box will be `(40, 10)` to `(100, 50)` (in (x,y) coordinates).
+		///   box is <code>[0.1, 0.2, 0.5, 0.9]</code>, the upper-left and bottom-right coordinates of
+		///   the bounding box will be <code>(40, 10)</code> to <code>(100, 50)</code> (in (x,y) coordinates).
 		///   
 		///   Parts of the bounding box may fall outside the image.
 		/// </remarks>
@@ -8101,12 +8380,12 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Partitions `data` into `num_partitions` tensors using indices from `partitions`.
+		///   Partitions <code>data</code> into <code>num_partitions</code> tensors using indices from <code>partitions</code>.
 		/// </summary>
 		/// <param name="data">
 		/// </param>
 		/// <param name="partitions">
-		///   Any shape.  Indices in the range `[0, num_partitions)`.
+		///   Any shape.  Indices in the range <code>[0, num_partitions)</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DynamicPartition'.
@@ -8118,39 +8397,39 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   For each index tuple `js` of size `partitions.ndim`, the slice `data[js, ...]`
-		///   becomes part of `outputs[partitions[js]]`.  The slices with `partitions[js] = i`
-		///   are placed in `outputs[i]` in lexicographic order of `js`, and the first
-		///   dimension of `outputs[i]` is the number of entries in `partitions` equal to `i`.
+		///   For each index tuple <code>js</code> of size <code>partitions.ndim</code>, the slice <code>data[js, ...]</code>
+		///   becomes part of <code>outputs[partitions[js]]</code>.  The slices with <code>partitions[js] = i</code>
+		///   are placed in <code>outputs[i]</code> in lexicographic order of <code>js</code>, and the first
+		///   dimension of <code>outputs[i]</code> is the number of entries in <code>partitions</code> equal to <code>i</code>.
 		///   In detail,
 		///   
-		///   ```python
-		///       outputs[i].shape = [sum(partitions == i)] + data.shape[partitions.ndim:]
+		///   <code></code><code>python
+		///   outputs[i].shape = [sum(partitions == i)] + data.shape[partitions.ndim:]
 		///   
-		///       outputs[i] = pack([data[js, ...] for js if partitions[js] == i])
-		///   ```
+		///   outputs[i] = pack([data[js, ...] for js if partitions[js] == i])
+		///    <code>
 		///   
-		///   `data.shape` must start with `partitions.shape`.
+		///   <code>data.shape</code> must start with <code>partitions.shape</code>.
 		///   
 		///   For example:
 		///   
-		///   ```python
-		///       # Scalar partitions.
-		///       partitions = 1
-		///       num_partitions = 2
-		///       data = [10, 20]
-		///       outputs[0] = []  # Empty with shape [0, 2]
-		///       outputs[1] = [[10, 20]]
+		///   <code></code><code>python
+		///   # Scalar partitions.
+		///   partitions = 1
+		///   num_partitions = 2
+		///   data = [10, 20]
+		///   outputs[0] = []  # Empty with shape [0, 2]
+		///   outputs[1] = [[10, 20]]
 		///   
-		///       # Vector partitions.
-		///       partitions = [0, 0, 1, 1, 0]
-		///       num_partitions = 2
-		///       data = [10, 20, 30, 40, 50]
-		///       outputs[0] = [10, 20, 50]
-		///       outputs[1] = [30, 40]
-		///   ```
+		///   # Vector partitions.
+		///   partitions = [0, 0, 1, 1, 0]
+		///   num_partitions = 2
+		///   data = [10, 20, 30, 40, 50]
+		///   outputs[0] = [10, 20, 50]
+		///   outputs[1] = [30, 40]
+		///    </code>
 		///   
-		///   See `dynamic_stitch` for an example on how to merge partitions back.
+		///   See <code>dynamic_stitch</code> for an example on how to merge partitions back.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/DynamicPartition.png" alt&amp;gt;
@@ -8177,7 +8456,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Interleave the values from the `data` tensors into a single tensor.
+		///   Interleave the values from the <code>data</code> tensors into a single tensor.
 		/// </summary>
 		/// <param name="indices">
 		/// </param>
@@ -8192,62 +8471,62 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Builds a merged tensor such that
 		///   
-		///   ```python
-		///       merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
-		///   ```
+		///   <code></code><code>python
+		///   merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
+		///    <code>
 		///   
-		///   For example, if each `indices[m]` is scalar or vector, we have
+		///   For example, if each <code>indices[m]</code> is scalar or vector, we have
 		///   
-		///   ```python
-		///       # Scalar indices:
-		///       merged[indices[m], ...] = data[m][...]
+		///   <code></code><code>python
+		///   # Scalar indices:
+		///   merged[indices[m], ...] = data[m][...]
 		///   
-		///       # Vector indices:
-		///       merged[indices[m][i], ...] = data[m][i, ...]
-		///   ```
+		///   # Vector indices:
+		///   merged[indices[m][i], ...] = data[m][i, ...]
+		///    </code>
 		///   
-		///   Each `data[i].shape` must start with the corresponding `indices[i].shape`,
-		///   and the rest of `data[i].shape` must be constant w.r.t. `i`.  That is, we
-		///   must have `data[i].shape = indices[i].shape + constant`.  In terms of this
-		///   `constant`, the output shape is
+		///   Each <code>data[i].shape</code> must start with the corresponding <code>indices[i].shape</code>,
+		///   and the rest of <code>data[i].shape</code> must be constant w.r.t. <code>i</code>.  That is, we
+		///   must have <code>data[i].shape = indices[i].shape + constant</code>.  In terms of this
+		///   <code>constant</code>, the output shape is
 		///   
-		///       merged.shape = [max(indices)] + constant
+		///   merged.shape = [max(indices)] + constant
 		///   
-		///   Values are merged in order, so if an index appears in both `indices[m][i]` and
-		///   `indices[n][j]` for `(m,i) &amp;lt; (n,j)` the slice `data[n][j]` will appear in the
+		///   Values are merged in order, so if an index appears in both <code>indices[m][i]</code> and
+		///   <code>indices[n][j]</code> for <code>(m,i) &amp;lt; (n,j)</code> the slice <code>data[n][j]</code> will appear in the
 		///   merged result. If you do not need this guarantee, ParallelDynamicStitch might
 		///   perform better on some devices.
 		///   
 		///   For example:
 		///   
-		///   ```python
-		///       indices[0] = 6
-		///       indices[1] = [4, 1]
-		///       indices[2] = [[5, 2], [0, 3]]
-		///       data[0] = [61, 62]
-		///       data[1] = [[41, 42], [11, 12]]
-		///       data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
-		///       merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
-		///                 [51, 52], [61, 62]]
-		///   ```
+		///   <code></code><code>python
+		///   indices[0] = 6
+		///   indices[1] = [4, 1]
+		///   indices[2] = [[5, 2], [0, 3]]
+		///   data[0] = [61, 62]
+		///   data[1] = [[41, 42], [11, 12]]
+		///   data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
+		///   merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
+		///   [51, 52], [61, 62]]
+		///    <code>
 		///   
-		///   This method can be used to merge partitions created by `dynamic_partition`
+		///   This method can be used to merge partitions created by <code>dynamic_partition</code>
 		///   as illustrated on the following example:
 		///   
-		///   ```python
-		///       # Apply function (increments x_i) on elements for which a certain condition
-		///       # apply (x_i != -1 in this example).
-		///       x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
-		///       condition_mask=tf.not_equal(x,tf.constant(-1.))
-		///       partitioned_data = tf.dynamic_partition(
-		///           x, tf.cast(condition_mask, tf.int32) , 2)
-		///       partitioned_data[1] = partitioned_data[1] + 1.0
-		///       condition_indices = tf.dynamic_partition(
-		///           tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
-		///       x = tf.dynamic_stitch(condition_indices, partitioned_data)
-		///       # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
-		///       # unchanged.
-		///   ```
+		///   <code></code><code>python
+		///   # Apply function (increments x_i) on elements for which a certain condition
+		///   # apply (x_i != -1 in this example).
+		///   x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
+		///   condition_mask=tf.not_equal(x,tf.constant(-1.))
+		///   partitioned_data = tf.dynamic_partition(
+		///   x, tf.cast(condition_mask, tf.int32) , 2)
+		///   partitioned_data[1] = partitioned_data[1] + 1.0
+		///   condition_indices = tf.dynamic_partition(
+		///   tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
+		///   x = tf.dynamic_stitch(condition_indices, partitioned_data)
+		///   # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
+		///   # unchanged.
+		///    </code>
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/DynamicStitch.png" alt&amp;gt;
@@ -8307,39 +8586,39 @@ namespace TensorFlow {
 		///   
 		///   For the example input:
 		///   
-		///       // hypothesis represents a 2x1 matrix with variable-length values:
-		///       //   (0,0) = ["a"]
-		///       //   (1,0) = ["b"]
-		///       hypothesis_indices = [[0, 0, 0],
-		///                             [1, 0, 0]]
-		///       hypothesis_values = ["a", "b"]
-		///       hypothesis_shape = [2, 1, 1]
+		///   // hypothesis represents a 2x1 matrix with variable-length values:
+		///   //   (0,0) = ["a"]
+		///   //   (1,0) = ["b"]
+		///   hypothesis_indices = [[0, 0, 0],
+		///   [1, 0, 0]]
+		///   hypothesis_values = ["a", "b"]
+		///   hypothesis_shape = [2, 1, 1]
 		///   
-		///       // truth represents a 2x2 matrix with variable-length values:
-		///       //   (0,0) = []
-		///       //   (0,1) = ["a"]
-		///       //   (1,0) = ["b", "c"]
-		///       //   (1,1) = ["a"]
-		///       truth_indices = [[0, 1, 0],
-		///                        [1, 0, 0],
-		///                        [1, 0, 1],
-		///                        [1, 1, 0]]
-		///       truth_values = ["a", "b", "c", "a"]
-		///       truth_shape = [2, 2, 2]
-		///       normalize = true
+		///   // truth represents a 2x2 matrix with variable-length values:
+		///   //   (0,0) = []
+		///   //   (0,1) = ["a"]
+		///   //   (1,0) = ["b", "c"]
+		///   //   (1,1) = ["a"]
+		///   truth_indices = [[0, 1, 0],
+		///   [1, 0, 0],
+		///   [1, 0, 1],
+		///   [1, 1, 0]]
+		///   truth_values = ["a", "b", "c", "a"]
+		///   truth_shape = [2, 2, 2]
+		///   normalize = true
 		///   
 		///   The output will be:
 		///   
-		///       // output is a 2x2 matrix with edit distances normalized by truth lengths.
-		///       output = [[inf, 1.0],  // (0,0): no truth, (0,1): no hypothesis
-		///                 [0.5, 1.0]]  // (1,0): addition, (1,1): no hypothesis
+		///   // output is a 2x2 matrix with edit distances normalized by truth lengths.
+		///   output = [[inf, 1.0],  // (0,0): no truth, (0,1): no hypothesis
+		///   [0.5, 1.0]]  // (1,0): addition, (1,1): no hypothesis
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   The inputs are variable-length sequences provided by SparseTensors
-		///     (hypothesis_indices, hypothesis_values, hypothesis_shape)
+		///   (hypothesis_indices, hypothesis_values, hypothesis_shape)
 		///   and
-		///     (truth_indices, truth_values, truth_shape).
+		///   (truth_indices, truth_values, truth_shape).
 		///   
 		///   The inputs are:
 		/// </remarks>
@@ -8365,7 +8644,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes exponential linear: `exp(features) - 1` if &amp;lt; 0, `features` otherwise.
+		///   Computes exponential linear: <code>exp(features) - 1</code> if &amp;lt; 0, <code>features</code> otherwise.
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -8405,8 +8684,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EluGrad'.
 		/// </param>
 		/// <returns>
-		///   The gradients: `gradients * (outputs + 1)` if outputs &amp;lt; 0,
-		///   `gradients` otherwise.
+		///   The gradients: <code>gradients * (outputs + 1)</code> if outputs &amp;lt; 0,
+		///   <code>gradients</code> otherwise.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput EluGrad (TFOutput gradients, TFOutput outputs, string operName = null)
@@ -8421,6 +8700,41 @@ namespace TensorFlow {
 			int _idx = 0;
 			var backprops = new TFOutput (op, _idx++);
 			return backprops;
+		}
+
+		/// <summary>
+		///   Creates and returns an empty tensor list.
+		/// </summary>
+		/// <param name="element_shape">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EmptyTensorList'.
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   All list elements must be tensors of dtype element_dtype and shape compatible
+		///   with element_shape.
+		///   
+		///   handle: an empty tensor list.
+		///   element_dtype: the type of elements in the list.
+		///   element_shape: a shape compatible with that of elements in the list.
+		/// </remarks>
+		public TFOutput EmptyTensorList (TFOutput element_shape, TFDataType element_dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EmptyTensorList", MakeName ("EmptyTensorList", operName));
+			desc.AddInput (element_shape);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -8468,7 +8782,7 @@ namespace TensorFlow {
 		///   JPEG-encode an image.
 		/// </summary>
 		/// <param name="image">
-		///   3-D with shape `[height, width, channels]`.
+		///   3-D with shape <code>[height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EncodeJpeg'.
@@ -8495,8 +8809,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="density_unit">
 		///   Optional argument
-		///   Unit used to specify `x_density` and `y_density`:
-		///   pixels per inch (`'in'`) or centimeter (`'cm'`).
+		///   Unit used to specify <code>x_density</code> and <code>y_density</code>:
+		///   pixels per inch (<code>'in'</code>) or centimeter (<code>'cm'</code>).
 		/// </param>
 		/// <param name="x_density">
 		///   Optional argument
@@ -8515,19 +8829,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `image` is a 3-D uint8 Tensor of shape `[height, width, channels]`.
+		///   <code>image</code> is a 3-D uint8 Tensor of shape <code>[height, width, channels]</code>.
 		///   
-		///   The attr `format` can be used to override the color format of the encoded
+		///   The attr <code>format</code> can be used to override the color format of the encoded
 		///   output.  Values can be:
 		///   
-		///   *   `''`: Use a default format based on the number of channels in the image.
-		///   *   `grayscale`: Output a grayscale JPEG image.  The `channels` dimension
-		///       of `image` must be 1.
-		///   *   `rgb`: Output an RGB JPEG image. The `channels` dimension
-		///       of `image` must be 3.
+		///   *   <code>''</code>: Use a default format based on the number of channels in the image.
+		///   *   <code>grayscale</code>: Output a grayscale JPEG image.  The <code>channels</code> dimension
+		///   of <code>image</code> must be 1.
+		///   *   <code>rgb</code>: Output an RGB JPEG image. The <code>channels</code> dimension
+		///   of <code>image</code> must be 3.
 		///   
-		///   If `format` is not specified or is the empty string, a default format is picked
-		///   in function of the number of channels in `image`:
+		///   If <code>format</code> is not specified or is the empty string, a default format is picked
+		///   in function of the number of channels in <code>image</code>:
 		///   
 		///   *   1: Output a grayscale image.
 		///   *   3: Output an RGB image.
@@ -8576,7 +8890,7 @@ namespace TensorFlow {
 		///   PNG-encode an image.
 		/// </summary>
 		/// <param name="image">
-		///   3-D with shape `[height, width, channels]`.
+		///   3-D with shape <code>[height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EncodePng'.
@@ -8590,15 +8904,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `image` is a 3-D uint8 or uint16 Tensor of shape `[height, width, channels]`
-		///   where `channels` is:
+		///   <code>image</code> is a 3-D uint8 or uint16 Tensor of shape <code>[height, width, channels]</code>
+		///   where <code>channels</code> is:
 		///   
 		///   *   1: for grayscale.
 		///   *   2: for grayscale + alpha.
 		///   *   3: for RGB.
 		///   *   4: for RGBA.
 		///   
-		///   The ZLIB compression level, `compression`, can be -1 for the PNG-encoder
+		///   The ZLIB compression level, <code>compression</code>, can be -1 for the PNG-encoder
 		///   default or a value from 0 to 9.  9 is the highest compression level, generating
 		///   the smallest output, but is slower.
 		/// </remarks>
@@ -8622,7 +8936,7 @@ namespace TensorFlow {
 		///   Encode audio data using the WAV file format.
 		/// </summary>
 		/// <param name="audio">
-		///   2-D with shape `[length, channels]`.
+		///   2-D with shape <code>[length, channels]</code>.
 		/// </param>
 		/// <param name="sample_rate">
 		///   Scalar containing the sample frequency.
@@ -8640,8 +8954,8 @@ namespace TensorFlow {
 		///   values in the range -1.0f to 1.0f, and any outside that value will be clamped to
 		///   that range.
 		///   
-		///   `audio` is a 2-D float Tensor of shape `[length, channels]`.
-		///   `sample_rate` is a scalar Tensor holding the rate to use (e.g. 44100).
+		///   <code>audio</code> is a 2-D float Tensor of shape <code>[length, channels]</code>.
+		///   <code>sample_rate</code> is a scalar Tensor holding the rate to use (e.g. 44100).
 		/// </remarks>
 		public TFOutput EncodeWav (TFOutput audio, TFOutput sample_rate, string operName = null)
 		{
@@ -8658,7 +8972,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates or finds a child frame, and makes `data` available to the child frame.
+		///   Creates or finds a child frame, and makes <code>data</code> available to the child frame.
 		/// </summary>
 		/// <param name="data">
 		///   The tensor to be made available to the child frame.
@@ -8678,14 +8992,14 @@ namespace TensorFlow {
 		///   The name of the child frame.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This op is used together with `Exit` to create loops in the graph.
-		///   The unique `frame_name` is used by the `Executor` to identify frames. If
-		///   `is_constant` is true, `output` is a constant in the child frame; otherwise
-		///   it may be changed in the child frame. At most `parallel_iterations` iterations
+		///   This op is used together with <code>Exit</code> to create loops in the graph.
+		///   The unique <code>frame_name</code> is used by the <code>Executor</code> to identify frames. If
+		///   <code>is_constant</code> is true, <code>output</code> is a constant in the child frame; otherwise
+		///   it may be changed in the child frame. At most <code>parallel_iterations</code> iterations
 		///   are run in parallel in the child frame.
 		/// </remarks>
 		public TFOutput Enter (TFOutput data, string frame_name, bool? is_constant = null, long? parallel_iterations = null, string operName = null)
@@ -8722,7 +9036,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Equal` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Equal</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Equal (TFOutput x, TFOutput y, string operName = null)
@@ -8740,7 +9054,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the Gauss error function of `x` element-wise.
+		///   Computes the Gauss error function of <code>x</code> element-wise.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -8764,7 +9078,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the complementary error function of `x` element-wise.
+		///   Computes the complementary error function of <code>x</code> element-wise.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -8797,11 +9111,11 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Exit'.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Exit makes its input `data` available to the parent frame.
+		///   Exit makes its input <code>data</code> available to the parent frame.
 		/// </remarks>
 		public TFOutput Exit (TFOutput data, string operName = null)
 		{
@@ -8847,31 +9161,31 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="dim">
 		///   0-D (scalar). Specifies the dimension index at which to
-		///   expand the shape of `input`. Must be in the range
-		///   `[-rank(input) - 1, rank(input)]`.
+		///   expand the shape of <code>input</code>. Must be in the range
+		///   <code>[-rank(input) - 1, rank(input)]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExpandDims'.
 		/// </param>
 		/// <returns>
-		///   Contains the same data as `input`, but its shape has an additional
+		///   Contains the same data as <code>input</code>, but its shape has an additional
 		///   dimension of size 1 added.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input`, this operation inserts a dimension of 1 at the
-		///   dimension index `dim` of `input`'s shape. The dimension index `dim` starts at
-		///   zero; if you specify a negative number for `dim` it is counted backward from
+		///   Given a tensor <code>input</code>, this operation inserts a dimension of 1 at the
+		///   dimension index <code>axis</code> of <code>input</code>'s shape. The dimension index <code>axis</code> starts at
+		///   zero; if you specify a negative number for <code>axis</code> it is counted backward from
 		///   the end.
 		///   
 		///   This operation is useful if you want to add a batch dimension to a single
-		///   element. For example, if you have a single image of shape `[height, width,
-		///   channels]`, you can make it a batch of 1 image with `expand_dims(image, 0)`,
-		///   which will make the shape `[1, height, width, channels]`.
+		///   element. For example, if you have a single image of shape <code>[height, width,
+		///   channels]<code>, you can make it a batch of 1 image with </code>expand_dims(image, 0)<code>,
+		///   which will make the shape <code>[1, height, width, channels]</code>.
 		///   
 		///   Other examples:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is a tensor of shape [2]
 		///   shape(expand_dims(t, 0)) ==&amp;gt; [1, 2]
 		///   shape(expand_dims(t, 1)) ==&amp;gt; [2, 1]
@@ -8881,13 +9195,13 @@ namespace TensorFlow {
 		///   shape(expand_dims(t2, 0)) ==&amp;gt; [1, 2, 3, 5]
 		///   shape(expand_dims(t2, 2)) ==&amp;gt; [2, 3, 1, 5]
 		///   shape(expand_dims(t2, 3)) ==&amp;gt; [2, 3, 5, 1]
-		///   ```
+		///    </code>
 		///   
 		///   This operation requires that:
 		///   
-		///   `-1-input.dims() &amp;lt;= dim &amp;lt;= input.dims()`
+		///   <code>-1-input.dims() &amp;lt;= dim &amp;lt;= input.dims()</code>
 		///   
-		///   This operation is related to `squeeze()`, which removes dimensions of
+		///   This operation is related to <code>squeeze()</code>, which removes dimensions of
 		///   size 1.
 		/// </remarks>
 		public TFOutput ExpandDims (TFOutput input, TFOutput dim, string operName = null)
@@ -8935,7 +9249,7 @@ namespace TensorFlow {
 		///   Extracts a glimpse from the input tensor.
 		/// </summary>
 		/// <param name="input">
-		///   A 4-D float tensor of shape `[batch_size, height, width, channels]`.
+		///   A 4-D float tensor of shape <code>[batch_size, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
 		///   A 1-D tensor of 2 elements containing the size of the glimpses
@@ -8943,7 +9257,7 @@ namespace TensorFlow {
 		///   by the glimpse width.
 		/// </param>
 		/// <param name="offsets">
-		///   A 2-D integer tensor of shape `[batch_size, 2]` containing
+		///   A 2-D integer tensor of shape <code>[batch_size, 2]</code> containing
 		///   the y, x locations of the center of each window.
 		/// </param>
 		/// <param name="operName">
@@ -8966,32 +9280,32 @@ namespace TensorFlow {
 		///   uniform distribution or a Gaussian distribution.
 		/// </param>
 		/// <returns>
-		///   A tensor representing the glimpses `[batch_size,
-		///   glimpse_height, glimpse_width, channels]`.
+		///   A tensor representing the glimpses <code>[batch_size,
+		///   glimpse_height, glimpse_width, channels]<code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   Returns a set of windows called glimpses extracted at location
-		///   `offsets` from the input tensor. If the windows only partially
+		///   <code>offsets</code> from the input tensor. If the windows only partially
 		///   overlaps the inputs, the non overlapping areas will be filled with
 		///   random noise.
 		///   
-		///   The result is a 4-D tensor of shape `[batch_size, glimpse_height,
-		///   glimpse_width, channels]`. The channels and batch dimensions are the
+		///   The result is a 4-D tensor of shape <code>[batch_size, glimpse_height,
+		///   glimpse_width, channels]<code>. The channels and batch dimensions are the
 		///   same as that of the input tensor. The height and width of the output
-		///   windows are specified in the `size` parameter.
+		///   windows are specified in the <code>size</code> parameter.
 		///   
-		///   The argument `normalized` and `centered` controls how the windows are built:
+		///   The argument <code>normalized</code> and <code>centered</code> controls how the windows are built:
 		///   
 		///   * If the coordinates are normalized but not centered, 0.0 and 1.0
-		///     correspond to the minimum and maximum of each height and width
-		///     dimension.
+		///   correspond to the minimum and maximum of each height and width
+		///   dimension.
 		///   * If the coordinates are both normalized and centered, they range from
-		///     -1.0 to 1.0. The coordinates (-1.0, -1.0) correspond to the upper
-		///     left corner, the lower right corner is located at (1.0, 1.0) and the
-		///     center is at (0, 0).
+		///   -1.0 to 1.0. The coordinates (-1.0, -1.0) correspond to the upper
+		///   left corner, the lower right corner is located at (1.0, 1.0) and the
+		///   center is at (0, 0).
 		///   * If the coordinates are not normalized they are interpreted as
-		///     numbers of pixels.
+		///   numbers of pixels.
 		/// </remarks>
 		public TFOutput ExtractGlimpse (TFOutput input, TFOutput size, TFOutput offsets, bool? centered = null, bool? normalized = null, bool? uniform_noise = null, string operName = null)
 		{
@@ -9018,45 +9332,45 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Extract `patches` from `images` and put them in the "depth" output dimension.
+		///   Extract <code>patches</code> from <code>images</code> and put them in the "depth" output dimension.
 		/// </summary>
 		/// <param name="images">
-		///   4-D Tensor with shape `[batch, in_rows, in_cols, depth]`.
+		///   4-D Tensor with shape <code>[batch, in_rows, in_cols, depth]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExtractImagePatches'.
 		/// </param>
 		/// <param name="ksizes">
-		///   The size of the sliding window for each dimension of `images`.
+		///   The size of the sliding window for each dimension of <code>images</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4. How far the centers of two consecutive patches are in
-		///   the images. Must be: `[1, stride_rows, stride_cols, 1]`.
+		///   the images. Must be: <code>[1, stride_rows, stride_cols, 1]</code>.
 		/// </param>
 		/// <param name="rates">
-		///   1-D of length 4. Must be: `[1, rate_rows, rate_cols, 1]`. This is the
+		///   1-D of length 4. Must be: <code>[1, rate_rows, rate_cols, 1]</code>. This is the
 		///   input stride, specifying how far two consecutive patch samples are in the
 		///   input. Equivalent to extracting patches with
-		///   `patch_sizes_eff = patch_sizes + (patch_sizes - 1) * (rates - 1)`, followed by
-		///   subsampling them spatially by a factor of `rates`. This is equivalent to
-		///   `rate` in dilated (a.k.a. Atrous) convolutions.
+		///   <code>patch_sizes_eff = patch_sizes + (patch_sizes - 1) * (rates - 1)</code>, followed by
+		///   subsampling them spatially by a factor of <code>rates</code>. This is equivalent to
+		///   <code>rate</code> in dilated (a.k.a. Atrous) convolutions.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		///   
 		///   We specify the size-related attributes as:
 		///   
-		///   ```python
-		///         ksizes = [1, ksize_rows, ksize_cols, 1]
-		///         strides = [1, strides_rows, strides_cols, 1]
-		///         rates = [1, rates_rows, rates_cols, 1]
-		///   ```
+		///   <code></code><code>python
+		///   ksizes = [1, ksize_rows, ksize_cols, 1]
+		///   strides = [1, strides_rows, strides_cols, 1]
+		///   rates = [1, rates_rows, rates_cols, 1]
+		///    <code>
 		/// </param>
 		/// <returns>
-		///   4-D Tensor with shape `[batch, out_rows, out_cols, ksize_rows *
-		///   ksize_cols * depth]` containing image patches with size
-		///   `ksize_rows x ksize_cols x depth` vectorized in the "depth" dimension. Note
-		///   `out_rows` and `out_cols` are the dimensions of the output patches.
+		///   4-D Tensor with shape <code>[batch, out_rows, out_cols, ksize_rows *
+		///   ksize_cols * depth]<code> containing image patches with size
+		///   <code>ksize_rows x ksize_cols x depth</code> vectorized in the "depth" dimension. Note
+		///   <code>out_rows</code> and <code>out_cols</code> are the dimensions of the output patches.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ExtractImagePatches (TFOutput images, long[] ksizes, long[] strides, long[] rates, string padding, string operName = null)
@@ -9158,11 +9472,11 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Attributes `[min; max]` define the clamping range for the `inputs` data.
-		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
-		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
-		///   then de-quantized and output as floats in `[min; max]` interval.
-		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   Attributes <code>[min; max]</code> define the clamping range for the <code>inputs</code> data.
+		///   <code>inputs</code> values are quantized into the quantization range (<code>[0; 2^num_bits - 1]</code>
+		///   when <code>narrow_range</code> is false and <code>[1; 2^num_bits - 1]</code> when it is true) and
+		///   then de-quantized and output as floats in <code>[min; max]</code> interval.
+		///   <code>num_bits</code> is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
 		///   Quantization is called fake since the output is still in floating point.
 		/// </remarks>
@@ -9217,7 +9531,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Backpropagated gradients below the FakeQuantWithMinMaxArgs operation:
-		///   `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
+		///   <code>gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput FakeQuantWithMinMaxArgsGradient (TFOutput gradients, TFOutput inputs, float? min = null, float? max = null, long? num_bits = null, bool? narrow_range = null, string operName = null)
@@ -9247,7 +9561,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Fake-quantize the 'inputs' tensor of type float via global float scalars `min`
+		///   Fake-quantize the 'inputs' tensor of type float via global float scalars <code>min</code>
 		/// </summary>
 		/// <param name="inputs">
 		/// </param>
@@ -9268,15 +9582,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   and `max` to 'outputs' tensor of same shape as `inputs`.
+		///   and <code>max</code> to 'outputs' tensor of same shape as <code>inputs</code>.
 		///   
-		///   `[min; max]` define the clamping range for the `inputs` data.
-		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
-		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
-		///   then de-quantized and output as floats in `[min; max]` interval.
-		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   <code>[min; max]</code> define the clamping range for the <code>inputs</code> data.
+		///   <code>inputs</code> values are quantized into the quantization range (<code>[0; 2^num_bits - 1]</code>
+		///   when <code>narrow_range</code> is false and <code>[1; 2^num_bits - 1]</code> when it is true) and
+		///   then de-quantized and output as floats in <code>[min; max]</code> interval.
+		///   <code>num_bits</code> is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
-		///   This operation has a gradient and thus allows for training `min` and `max`
+		///   This operation has a gradient and thus allows for training <code>min</code> and <code>max</code>
 		///   values.
 		/// </remarks>
 		public TFOutput FakeQuantWithMinMaxVars (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
@@ -9328,11 +9642,11 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   backprops_wrt_input: Backpropagated gradients w.r.t. inputs:
-		///   `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
+		///   <code>gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)</code>.
 		///   backprop_wrt_min: Backpropagated gradients w.r.t. min parameter:
-		///   `sum(gradients * (inputs &amp;lt; min))`.
+		///   <code>sum(gradients * (inputs &amp;lt; min))</code>.
 		///   backprop_wrt_max: Backpropagated gradients w.r.t. max parameter:
-		///   `sum(gradients * (inputs &amp;gt; max))`.
+		///   <code>sum(gradients * (inputs &amp;gt; max))</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
@@ -9360,7 +9674,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Fake-quantize the 'inputs' tensor of type float and one of the shapes: `[d]`,
+		///   Fake-quantize the 'inputs' tensor of type float and one of the shapes: <code>[d]</code>,
 		/// </summary>
 		/// <param name="inputs">
 		/// </param>
@@ -9381,16 +9695,16 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `[b, d]` `[b, h, w, d]` via per-channel floats `min` and `max` of shape `[d]`
-		///   to 'outputs' tensor of same shape as `inputs`.
+		///   <code>[b, d]</code> <code>[b, h, w, d]</code> via per-channel floats <code>min</code> and <code>max</code> of shape <code>[d]</code>
+		///   to 'outputs' tensor of same shape as <code>inputs</code>.
 		///   
-		///   `[min; max]` define the clamping range for the `inputs` data.
-		///   `inputs` values are quantized into the quantization range (`[0; 2^num_bits - 1]`
-		///   when `narrow_range` is false and `[1; 2^num_bits - 1]` when it is true) and
-		///   then de-quantized and output as floats in `[min; max]` interval.
-		///   `num_bits` is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   <code>[min; max]</code> define the clamping range for the <code>inputs</code> data.
+		///   <code>inputs</code> values are quantized into the quantization range (<code>[0; 2^num_bits - 1]</code>
+		///   when <code>narrow_range</code> is false and <code>[1; 2^num_bits - 1]</code> when it is true) and
+		///   then de-quantized and output as floats in <code>[min; max]</code> interval.
+		///   <code>num_bits</code> is the bitwidth of the quantization; between 2 and 8, inclusive.
 		///   
-		///   This operation has a gradient and thus allows for training `min` and `max`
+		///   This operation has a gradient and thus allows for training <code>min</code> and <code>max</code>
 		///   values.
 		/// </remarks>
 		public TFOutput FakeQuantWithMinMaxVarsPerChannel (TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
@@ -9419,12 +9733,12 @@ namespace TensorFlow {
 		/// </summary>
 		/// <param name="gradients">
 		///   Backpropagated gradients above the FakeQuantWithMinMaxVars operation,
-		///   shape one of: `[d]`, `[b, d]`,  `[b, h, w, d]`.
+		///   shape one of: <code>[d]</code>, <code>[b, d]</code>,  <code>[b, h, w, d]</code>.
 		/// </param>
 		/// <param name="inputs">
 		///   Values passed as inputs to the FakeQuantWithMinMaxVars operation, shape
-		///     same as `gradients`.
-		///   min, max: Quantization interval, floats of shape `[d]`.
+		///   same as <code>gradients</code>.
+		///   min, max: Quantization interval, floats of shape <code>[d]</code>.
 		/// </param>
 		/// <param name="min">
 		/// </param>
@@ -9444,12 +9758,12 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   backprops_wrt_input: Backpropagated gradients w.r.t. inputs, shape same as
-		///   `inputs`:
-		///     `gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)`.
-		///   backprop_wrt_min: Backpropagated gradients w.r.t. min parameter, shape `[d]`:
-		///   `sum_per_d(gradients * (inputs &amp;lt; min))`.
-		///   backprop_wrt_max: Backpropagated gradients w.r.t. max parameter, shape `[d]`:
-		///   `sum_per_d(gradients * (inputs &amp;gt; max))`.
+		///   <code>inputs</code>:
+		///   <code>gradients * (inputs &amp;gt;= min &amp;&amp; inputs &amp;lt;= max)</code>.
+		///   backprop_wrt_min: Backpropagated gradients w.r.t. min parameter, shape <code>[d]</code>:
+		///   <code>sum_per_d(gradients * (inputs &amp;lt; min))</code>.
+		///   backprop_wrt_max: Backpropagated gradients w.r.t. max parameter, shape <code>[d]</code>:
+		///   <code>sum_per_d(gradients * (inputs &amp;gt; max))</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput backprops_wrt_input, TFOutput backprop_wrt_min, TFOutput backprop_wrt_max) FakeQuantWithMinMaxVarsPerChannelGradient (TFOutput gradients, TFOutput inputs, TFOutput min, TFOutput max, long? num_bits = null, bool? narrow_range = null, string operName = null)
@@ -9510,8 +9824,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FFT'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most
-		///     dimension of `input` is replaced with its 1D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most
+		///   dimension of <code>input</code> is replaced with its 1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.fft
@@ -9520,7 +9834,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 1-dimensional discrete Fourier transform over the inner-most
-		///   dimension of `input`.
+		///   dimension of <code>input</code>.
 		/// </remarks>
 		public TFOutput FFT (TFOutput input, string operName = null)
 		{
@@ -9545,8 +9859,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FFT2D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most 2
-		///     dimensions of `input` are replaced with their 2D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most 2
+		///   dimensions of <code>input</code> are replaced with their 2D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.fft2
@@ -9555,7 +9869,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 2-dimensional discrete Fourier transform over the inner-most
-		///   2 dimensions of `input`.
+		///   2 dimensions of <code>input</code>.
 		/// </remarks>
 		public TFOutput FFT2D (TFOutput input, string operName = null)
 		{
@@ -9580,8 +9894,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FFT3D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most 3
-		///     dimensions of `input` are replaced with their 3D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most 3
+		///   dimensions of <code>input</code> are replaced with their 3D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.fftn with 3 dimensions.
@@ -9590,7 +9904,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 3-dimensional discrete Fourier transform over the inner-most 3
-		///   dimensions of `input`.
+		///   dimensions of <code>input</code>.
 		/// </remarks>
 		public TFOutput FFT3D (TFOutput input, string operName = null)
 		{
@@ -9745,15 +10059,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation creates a tensor of shape `dims` and fills it with `value`.
+		///   This operation creates a tensor of shape <code>dims</code> and fills it with <code>value</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # Output tensor has shape [2, 3].
 		///   fill([2, 3], 9) ==&amp;gt; [[9, 9, 9]
-		///                        [9, 9, 9]]
-		///   ```
+		///   [9, 9, 9]]
+		///    </code>
 		/// </remarks>
 		public TFOutput Fill (TFOutput dims, TFOutput value, string operName = null)
 		{
@@ -10134,7 +10448,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `FloorDiv` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>FloorDiv</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput FloorDiv (TFOutput x, TFOutput y, string operName = null)
@@ -10152,7 +10466,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns element-wise remainder of division. When `x &amp;lt; 0` xor `y &amp;lt; 0` is
+		///   Returns element-wise remainder of division. When <code>x &amp;lt; 0</code> xor <code>y &amp;lt; 0</code> is
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -10166,9 +10480,9 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   true, this follows Python semantics in that the result here is consistent
-		///   with a flooring divide. E.g. `floor(x / y) * y + mod(x, y) = x`.
+		///   with a flooring divide. E.g. <code>floor(x / y) * y + mod(x, y) = x</code>.
 		///   
-		///   *NOTE*: `FloorMod` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>FloorMod</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput FloorMod (TFOutput x, TFOutput y, string operName = null)
@@ -10212,7 +10526,7 @@ namespace TensorFlow {
 		///   Performs fractional average pooling on the input.
 		/// </summary>
 		/// <param name="value">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FractionalAvgPool'.
@@ -10229,9 +10543,9 @@ namespace TensorFlow {
 		///   When set to True, it means when pooling, the values at the boundary
 		///   of adjacent pooling cells are used by both cells. For example:
 		///   
-		///   `index  0  1  2  3  4`
+		///   <code>index  0  1  2  3  4</code>
 		///   
-		///   `value  20 5  16 3  7`
+		///   <code>value  20 5  16 3  7</code>
 		///   
 		///   If the pooling sequence is [0, 2, 4], then 16, at index 2 will be used twice.
 		///   The result would be [41/3, 26/3] for fractional avg pooling.
@@ -10253,7 +10567,7 @@ namespace TensorFlow {
 		///   An second seed to avoid seed collision.
 		/// </param>
 		/// <param name="pooling_ratio">
-		///   Pooling ratio for each dimension of `value`, currently only
+		///   Pooling ratio for each dimension of <code>value</code>, currently only
 		///   supports row and col dimension and should be &amp;gt;= 1.0. For example, a valid
 		///   pooling ratio looks like [1.0, 1.44, 1.73, 1.0]. The first and last elements
 		///   must be 1.0 because we don't allow pooling on batch and channels
@@ -10308,11 +10622,11 @@ namespace TensorFlow {
 		///   Computes gradient of the FractionalAvgPool function.
 		/// </summary>
 		/// <param name="orig_input_tensor_shape">
-		///   Original input tensor shape for `fractional_avg_pool`
+		///   Original input tensor shape for <code>fractional_avg_pool</code>
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, height, width, channels]`.  Gradients
-		///   w.r.t. the output of `fractional_avg_pool`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Gradients
+		///   w.r.t. the output of <code>fractional_avg_pool</code>.
 		/// </param>
 		/// <param name="row_pooling_sequence">
 		///   row pooling sequence, form pooling region with
@@ -10330,15 +10644,15 @@ namespace TensorFlow {
 		///   When set to True, it means when pooling, the values at the boundary
 		///   of adjacent pooling cells are used by both cells. For example:
 		///   
-		///   `index  0  1  2  3  4`
+		///   <code>index  0  1  2  3  4</code>
 		///   
-		///   `value  20 5  16 3  7`
+		///   <code>value  20 5  16 3  7</code>
 		///   
 		///   If the pooling sequence is [0, 2, 4], then 16, at index 2 will be used twice.
 		///   The result would be [41/3, 26/3] for fractional avg pooling.
 		/// </param>
 		/// <returns>
-		///   4-D.  Gradients w.r.t. the input of `fractional_avg_pool`.
+		///   4-D.  Gradients w.r.t. the input of <code>fractional_avg_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -10371,7 +10685,7 @@ namespace TensorFlow {
 		///   Performs fractional max pooling on the input.
 		/// </summary>
 		/// <param name="value">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FractionalMaxPool'.
@@ -10388,9 +10702,9 @@ namespace TensorFlow {
 		///   When set to True, it means when pooling, the values at the boundary
 		///   of adjacent pooling cells are used by both cells. For example:
 		///   
-		///   `index  0  1  2  3  4`
+		///   <code>index  0  1  2  3  4</code>
 		///   
-		///   `value  20 5  16 3  7`
+		///   <code>value  20 5  16 3  7</code>
 		///   
 		///   If the pooling sequence is [0, 2, 4], then 16, at index 2 will be used twice.
 		///   The result would be [20, 16] for fractional max pooling.
@@ -10412,7 +10726,7 @@ namespace TensorFlow {
 		///   An second seed to avoid seed collision.
 		/// </param>
 		/// <param name="pooling_ratio">
-		///   Pooling ratio for each dimension of `value`, currently only
+		///   Pooling ratio for each dimension of <code>value</code>, currently only
 		///   supports row and col dimension and should be &amp;gt;= 1.0. For example, a valid
 		///   pooling ratio looks like [1.0, 1.44, 1.73, 1.0]. The first and last elements
 		///   must be 1.0 because we don't allow pooling on batch and channels
@@ -10491,14 +10805,14 @@ namespace TensorFlow {
 		///   Computes gradient of the FractionalMaxPool function.
 		/// </summary>
 		/// <param name="orig_input">
-		///   Original input for `fractional_max_pool`
+		///   Original input for <code>fractional_max_pool</code>
 		/// </param>
 		/// <param name="orig_output">
-		///   Original output for `fractional_max_pool`
+		///   Original output for <code>fractional_max_pool</code>
 		/// </param>
 		/// <param name="out_backprop">
-		///   4-D with shape `[batch, height, width, channels]`.  Gradients
-		///   w.r.t. the output of `fractional_max_pool`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Gradients
+		///   w.r.t. the output of <code>fractional_max_pool</code>.
 		/// </param>
 		/// <param name="row_pooling_sequence">
 		///   row pooling sequence, form pooling region with
@@ -10516,15 +10830,15 @@ namespace TensorFlow {
 		///   When set to True, it means when pooling, the values at the boundary
 		///   of adjacent pooling cells are used by both cells. For example:
 		///   
-		///   `index  0  1  2  3  4`
+		///   <code>index  0  1  2  3  4</code>
 		///   
-		///   `value  20 5  16 3  7`
+		///   <code>value  20 5  16 3  7</code>
 		///   
 		///   If the pooling sequence is [0, 2, 4], then 16, at index 2 will be used twice.
 		///   The result would be [20, 16] for fractional max pooling.
 		/// </param>
 		/// <returns>
-		///   4-D.  Gradients w.r.t. the input of `fractional_max_pool`.
+		///   4-D.  Gradients w.r.t. the input of <code>fractional_max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput FractionalMaxPoolGrad (TFOutput orig_input, TFOutput orig_output, TFOutput out_backprop, TFOutput row_pooling_sequence, TFOutput col_pooling_sequence, bool? overlapping = null, string operName = null)
@@ -10889,15 +11203,15 @@ namespace TensorFlow {
 		///   Performs a padding as a preprocess during a convolution.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, in_channels]`.
+		///   4-D with shape <code>[batch, in_height, in_width, in_channels]</code>.
 		/// </param>
 		/// <param name="paddings">
 		///   A two-column matrix specifying the padding sizes. The number of
-		///   rows must be the same as the rank of `input`.
+		///   rows must be the same as the rank of <code>input</code>.
 		/// </param>
 		/// <param name="filter">
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`.
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FusedPadConv2D'.
@@ -10906,7 +11220,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4.  The stride of the sliding window for each dimension
-		///   of `input`. Must be in the same order as the dimension specified with format.
+		///   of <code>input</code>. Must be in the same order as the dimension specified with format.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -10949,34 +11263,33 @@ namespace TensorFlow {
 		///   Performs a resize and padding as a preprocess during a convolution.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, in_height, in_width, in_channels]`.
+		///   4-D with shape <code>[batch, in_height, in_width, in_channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="paddings">
 		///   A two-column matrix specifying the padding sizes. The number of
-		///   rows must be the same as the rank of `input`.
+		///   rows must be the same as the rank of <code>input</code>.
 		/// </param>
 		/// <param name="filter">
 		///   4-D with shape
-		///   `[filter_height, filter_width, in_channels, out_channels]`.
+		///   <code>[filter_height, filter_width, in_channels, out_channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FusedResizeAndPadConv2D'.
 		/// </param>
 		/// <param name="resize_align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1),
-		///   which exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <param name="mode">
 		/// </param>
 		/// <param name="strides">
 		///   1-D of length 4.  The stride of the sliding window for each dimension
-		///   of `input`. Must be in the same order as the dimension specified with format.
+		///   of <code>input</code>. Must be in the same order as the dimension specified with format.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -11019,7 +11332,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather slices from `params` according to `indices`.
+		///   Gather slices from <code>params</code> according to <code>indices</code>.
 		/// </summary>
 		/// <param name="parameters">
 		/// </param>
@@ -11035,25 +11348,25 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` must be an integer tensor of any dimension (usually 0-D or 1-D).
-		///   Produces an output tensor with shape `indices.shape + params.shape[1:]` where:
+		///   <code>indices</code> must be an integer tensor of any dimension (usually 0-D or 1-D).
+		///   Produces an output tensor with shape <code>indices.shape + params.shape[1:]</code> where:
 		///   
-		///   ```python
-		///       # Scalar indices
-		///       output[:, ..., :] = params[indices, :, ... :]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   output[:, ..., :] = params[indices, :, ... :]
 		///   
-		///       # Vector indices
-		///       output[i, :, ..., :] = params[indices[i], :, ... :]
+		///   # Vector indices
+		///   output[i, :, ..., :] = params[indices[i], :, ... :]
 		///   
-		///       # Higher rank indices
-		///       output[i, ..., j, :, ... :] = params[indices[i, ..., j], :, ..., :]
-		///   ```
+		///   # Higher rank indices
+		///   output[i, ..., j, :, ... :] = params[indices[i, ..., j], :, ..., :]
+		///    <code>
 		///   
-		///   If `indices` is a permutation and `len(indices) == params.shape[0]` then
-		///   this operation will permute `params` accordingly.
+		///   If <code>indices</code> is a permutation and <code>len(indices) == params.shape[0]</code> then
+		///   this operation will permute <code>params</code> accordingly.
 		///   
-		///   `validate_indices`: DEPRECATED. If this operation is assigned to CPU, values in
-		///   `indices` are always validated to be within range. If assigned to GPU,
+		///   <code>validate_indices</code>: DEPRECATED. If this operation is assigned to CPU, values in
+		///   <code>indices</code> are always validated to be within range. If assigned to GPU,
 		///   out-of-bound indices result in safe but unspecified behavior, which may include
 		///   raising an error.
 		///   
@@ -11079,7 +11392,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather slices from `params` into a Tensor with shape specified by `indices`.
+		///   Gather slices from <code>params</code> into a Tensor with shape specified by <code>indices</code>.
 		/// </summary>
 		/// <param name="parameters">
 		///   The tensor from which to gather values.
@@ -11091,109 +11404,113 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GatherNd'.
 		/// </param>
 		/// <returns>
-		///   Values from `params` gathered from indices given by `indices`, with
-		///   shape `indices.shape[:-1] + params.shape[indices.shape[-1]:]`.
+		///   Values from <code>params</code> gathered from indices given by <code>indices</code>, with
+		///   shape <code>indices.shape[:-1] + params.shape[indices.shape[-1]:]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` is an K-dimensional integer tensor, best thought of as a
-		///   (K-1)-dimensional tensor of indices into `params`, where each element defines a
-		///   slice of `params`:
+		///   <code>indices</code> is an K-dimensional integer tensor, best thought of as a
+		///   (K-1)-dimensional tensor of indices into <code>params</code>, where each element defines a
+		///   slice of <code>params</code>:
 		///   
-		///       output[i_0, ..., i_{K-2}] = params[indices[i0, ..., i_{K-2}]]
+		///   output[i_0, ..., i_{K-2}] = params[indices[i0, ..., i_{K-2}]]
 		///   
-		///   Whereas in @{tf.gather} `indices` defines slices into the first
-		///   dimension of `params`, in `tf.gather_nd`, `indices` defines slices into the
-		///   first `N` dimensions of `params`, where `N = indices.shape[-1]`.
+		///   Whereas in @{tf.gather} <code>indices</code> defines slices into the first
+		///   dimension of <code>params</code>, in <code>tf.gather_nd</code>, <code>indices</code> defines slices into the
+		///   first <code>N</code> dimensions of <code>params</code>, where <code>N = indices.shape[-1]</code>.
 		///   
-		///   The last dimension of `indices` can be at most the rank of
-		///   `params`:
+		///   The last dimension of <code>indices</code> can be at most the rank of
+		///   <code>params</code>:
 		///   
-		///       indices.shape[-1] &amp;lt;= params.rank
+		///   indices.shape[-1] &amp;lt;= params.rank
 		///   
-		///   The last dimension of `indices` corresponds to elements
-		///   (if `indices.shape[-1] == params.rank`) or slices
-		///   (if `indices.shape[-1] &amp;lt; params.rank`) along dimension `indices.shape[-1]`
-		///   of `params`.  The output tensor has shape
+		///   The last dimension of <code>indices</code> corresponds to elements
+		///   (if <code>indices.shape[-1] == params.rank</code>) or slices
+		///   (if <code>indices.shape[-1] &amp;lt; params.rank</code>) along dimension <code>indices.shape[-1]</code>
+		///   of <code>params</code>.  The output tensor has shape
 		///   
-		///       indices.shape[:-1] + params.shape[indices.shape[-1]:]
+		///   indices.shape[:-1] + params.shape[indices.shape[-1]:]
+		///   
+		///   Note that on CPU, if an out of bound index is found, an error is returned.
+		///   On GPU, if an out of bound index is found, a 0 is stored in the
+		///   corresponding output value.
 		///   
 		///   Some examples below.
 		///   
 		///   Simple indexing into a matrix:
 		///   
-		///   ```python
-		///       indices = [[0, 0], [1, 1]]
-		///       params = [['a', 'b'], ['c', 'd']]
-		///       output = ['a', 'd']
-		///   ```
+		///   <code></code><code>python
+		///   indices = [[0, 0], [1, 1]]
+		///   params = [['a', 'b'], ['c', 'd']]
+		///   output = ['a', 'd']
+		///    <code>
 		///   
 		///   Slice indexing into a matrix:
 		///   
-		///   ```python
-		///       indices = [[1], [0]]
-		///       params = [['a', 'b'], ['c', 'd']]
-		///       output = [['c', 'd'], ['a', 'b']]
-		///   ```
+		///   <code></code><code>python
+		///   indices = [[1], [0]]
+		///   params = [['a', 'b'], ['c', 'd']]
+		///   output = [['c', 'd'], ['a', 'b']]
+		///    </code>
 		///   
 		///   Indexing into a 3-tensor:
 		///   
-		///   ```python
-		///       indices = [[1]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = [[['a1', 'b1'], ['c1', 'd1']]]
+		///   <code></code><code>python
+		///   indices = [[1]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = [[['a1', 'b1'], ['c1', 'd1']]]
 		///   
 		///   
-		///       indices = [[0, 1], [1, 0]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = [['c0', 'd0'], ['a1', 'b1']]
+		///   indices = [[0, 1], [1, 0]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = [['c0', 'd0'], ['a1', 'b1']]
 		///   
 		///   
-		///       indices = [[0, 0, 1], [1, 0, 1]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = ['b0', 'b1']
-		///   ```
+		///   indices = [[0, 0, 1], [1, 0, 1]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = ['b0', 'b1']
+		///    <code>
 		///   
 		///   Batched indexing into a matrix:
 		///   
-		///   ```python
-		///       indices = [[[0, 0]], [[0, 1]]]
-		///       params = [['a', 'b'], ['c', 'd']]
-		///       output = [['a'], ['b']]
-		///   ```
+		///   <code></code><code>python
+		///   indices = [[[0, 0]], [[0, 1]]]
+		///   params = [['a', 'b'], ['c', 'd']]
+		///   output = [['a'], ['b']]
+		///    </code>
 		///   
 		///   Batched slice indexing into a matrix:
 		///   
-		///   ```python
-		///       indices = [[[1]], [[0]]]
-		///       params = [['a', 'b'], ['c', 'd']]
-		///       output = [[['c', 'd']], [['a', 'b']]]
-		///   ```
+		///   <code></code><code>python
+		///   indices = [[[1]], [[0]]]
+		///   params = [['a', 'b'], ['c', 'd']]
+		///   output = [[['c', 'd']], [['a', 'b']]]
+		///    <code>
 		///   
 		///   Batched indexing into a 3-tensor:
 		///   
-		///   ```python
-		///       indices = [[[1]], [[0]]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = [[[['a1', 'b1'], ['c1', 'd1']]],
-		///                 [[['a0', 'b0'], ['c0', 'd0']]]]
+		///   <code></code><code>python
+		///   indices = [[[1]], [[0]]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = [[[['a1', 'b1'], ['c1', 'd1']]],
+		///   [[['a0', 'b0'], ['c0', 'd0']]]]
 		///   
-		///       indices = [[[0, 1], [1, 0]], [[0, 0], [1, 1]]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = [[['c0', 'd0'], ['a1', 'b1']],
-		///                 [['a0', 'b0'], ['c1', 'd1']]]
+		///   indices = [[[0, 1], [1, 0]], [[0, 0], [1, 1]]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = [[['c0', 'd0'], ['a1', 'b1']],
+		///   [['a0', 'b0'], ['c1', 'd1']]]
 		///   
 		///   
-		///       indices = [[[0, 0, 1], [1, 0, 1]], [[0, 1, 1], [1, 1, 0]]]
-		///       params = [[['a0', 'b0'], ['c0', 'd0']],
-		///                 [['a1', 'b1'], ['c1', 'd1']]]
-		///       output = [['b0', 'b1'], ['d0', 'c1']]
-		///   ```
+		///   indices = [[[0, 0, 1], [1, 0, 1]], [[0, 1, 1], [1, 1, 0]]]
+		///   params = [[['a0', 'b0'], ['c0', 'd0']],
+		///   [['a1', 'b1'], ['c1', 'd1']]]
+		///   output = [['b0', 'b1'], ['d0', 'c1']]
+		///    </code>
 		/// </remarks>
 		public TFOutput GatherNd (TFOutput parameters, TFOutput indices, string operName = null)
 		{
@@ -11210,49 +11527,53 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather slices from `params` axis `axis` according to `indices`.
+		///   Gather slices from <code>params</code> axis <code>axis</code> according to <code>indices</code>.
 		/// </summary>
 		/// <param name="parameters">
 		///   The tensor from which to gather values. Must be at least rank
-		///   `axis + 1`.
+		///   <code>axis + 1</code>.
 		/// </param>
 		/// <param name="indices">
-		///   Index tensor. Must be in range `[0, params.shape[axis])`.
+		///   Index tensor. Must be in range <code>[0, params.shape[axis])</code>.
 		/// </param>
 		/// <param name="axis">
-		///   The axis in `params` to gather `indices` from. Defaults to the first
+		///   The axis in <code>params</code> to gather <code>indices</code> from. Defaults to the first
 		///   dimension. Supports negative indexes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GatherV2'.
 		/// </param>
 		/// <returns>
-		///   Values from `params` gathered from indices given by `indices`, with
-		///   shape `params.shape[:axis] + indices.shape + params.shape[axis + 1:]`.
+		///   Values from <code>params</code> gathered from indices given by <code>indices</code>, with
+		///   shape <code>params.shape[:axis] + indices.shape + params.shape[axis + 1:]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` must be an integer tensor of any dimension (usually 0-D or 1-D).
-		///   Produces an output tensor with shape `params.shape[:axis] + indices.shape +
-		///   params.shape[axis + 1:]` where:
+		///   <code>indices</code> must be an integer tensor of any dimension (usually 0-D or 1-D).
+		///   Produces an output tensor with shape <code>params.shape[:axis] + indices.shape +
+		///   params.shape[axis + 1:]<code> where:
 		///   
-		///   ```python
-		///       # Scalar indices (output is rank(params) - 1).
-		///       output[a_0, ..., a_n, b_0, ..., b_n] =
-		///         params[a_0, ..., a_n, indices, b_0, ..., b_n]
+		///   <code></code><code>python
+		///   # Scalar indices (output is rank(params) - 1).
+		///   output[a_0, ..., a_n, b_0, ..., b_n] =
+		///   params[a_0, ..., a_n, indices, b_0, ..., b_n]
 		///   
-		///       # Vector indices (output is rank(params)).
-		///       output[a_0, ..., a_n, i, b_0, ..., b_n] =
-		///         params[a_0, ..., a_n, indices[i], b_0, ..., b_n]
+		///   # Vector indices (output is rank(params)).
+		///   output[a_0, ..., a_n, i, b_0, ..., b_n] =
+		///   params[a_0, ..., a_n, indices[i], b_0, ..., b_n]
 		///   
-		///       # Higher rank indices (output is rank(params) + rank(indices) - 1).
-		///       output[a_0, ..., a_n, i, ..., j, b_0, ... b_n] =
-		///         params[a_0, ..., a_n, indices[i, ..., j], b_0, ..., b_n]
-		///   ```
+		///   # Higher rank indices (output is rank(params) + rank(indices) - 1).
+		///   output[a_0, ..., a_n, i, ..., j, b_0, ... b_n] =
+		///   params[a_0, ..., a_n, indices[i, ..., j], b_0, ..., b_n]
+		///    <code>
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/Gather.png" alt&amp;gt;
 		///   &amp;lt;/div&amp;gt;
+		///   
+		///   Note that on CPU, if an out of bound index is found, an error is returned.
+		///   On GPU, if an out of bound index is found, a 0 is stored in the
+		///   corresponding output value.
 		/// </remarks>
 		public TFOutput GatherV2 (TFOutput parameters, TFOutput indices, TFOutput axis, string operName = null)
 		{
@@ -11267,6 +11588,65 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Generates serialized partition messages suitable for batch reads.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GenerateBigQueryReaderPartitions'.
+		/// </param>
+		/// <param name="test_end_point">
+		///   Optional argument
+		///   Do not use. For testing purposes only.
+		/// </param>
+		/// <param name="project_id">
+		///   GCP project ID.
+		/// </param>
+		/// <param name="dataset_id">
+		///   BigQuery Dataset ID.
+		/// </param>
+		/// <param name="table_id">
+		///   Table to read.
+		/// </param>
+		/// <param name="columns">
+		///   List of columns to read. Leave empty to read all columns.
+		/// </param>
+		/// <param name="timestamp_millis">
+		///   Table snapshot timestamp in millis since epoch. Relative
+		///   (negative or zero) snapshot times are not allowed. For more details, see
+		///   'Table Decorators' in BigQuery docs.
+		/// </param>
+		/// <param name="num_partitions">
+		///   Number of partitions to split the table into.
+		/// </param>
+		/// <returns>
+		///   Serialized table partitions.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op should not be used directly by clients. Instead, the
+		///   bigquery_reader_ops.py file defines a clean interface to the reader.
+		/// </remarks>
+		public TFOutput GenerateBigQueryReaderPartitions (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, long num_partitions, string test_end_point = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "GenerateBigQueryReaderPartitions", MakeName ("GenerateBigQueryReaderPartitions", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("project_id", project_id);
+			desc.SetAttr ("dataset_id", dataset_id);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("columns", columns);
+			desc.SetAttr ("timestamp_millis", timestamp_millis);
+			desc.SetAttr ("num_partitions", num_partitions);
+			if (test_end_point != null)
+				desc.SetAttr ("test_end_point", test_end_point);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var partitions = new TFOutput (op, _idx++);
+			return partitions;
 		}
 
 		/// <summary>
@@ -11301,22 +11681,22 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   length `num_new_vocab`, where `remapping[i]` contains the row number in the old
-		///   vocabulary that corresponds to row `i` in the new vocabulary (starting at line
-		///   `new_vocab_offset` and up to `num_new_vocab` entities), or `-1` if entry `i`
+		///   length <code>num_new_vocab</code>, where <code>remapping[i]</code> contains the row number in the old
+		///   vocabulary that corresponds to row <code>i</code> in the new vocabulary (starting at line
+		///   <code>new_vocab_offset</code> and up to <code>num_new_vocab</code> entities), or <code>-1</code> if entry <code>i</code>
 		///   in the new vocabulary is not in the old vocabulary.  The old vocabulary is
-		///   constrained to the first `old_vocab_size` entries if `old_vocab_size` is not the
+		///   constrained to the first <code>old_vocab_size</code> entries if <code>old_vocab_size</code> is not the
 		///   default value of -1.
 		///   
-		///   `num_vocab_offset` enables
+		///   <code>num_vocab_offset</code> enables
 		///   use in the partitioned variable case, and should generally be set through
 		///   examining partitioning info.  The format of the files should be a text file,
 		///   with each line containing a single entity within the vocabulary.
 		///   
-		///   For example, with `new_vocab_file` a text file containing each of the following
-		///   elements on a single line: `[f0, f1, f2, f3]`, old_vocab_file = [f1, f0, f3],
-		///   `num_new_vocab = 3, new_vocab_offset = 1`, the returned remapping would be
-		///   `[0, -1, 2]`.
+		///   For example, with <code>new_vocab_file</code> a text file containing each of the following
+		///   elements on a single line: <code>[f0, f1, f2, f3]</code>, old_vocab_file = [f1, f0, f3],
+		///   <code>num_new_vocab = 3, new_vocab_offset = 1</code>, the returned remapping would be
+		///   <code>[0, -1, 2]</code>.
 		///   
 		///   The op also returns a count of how many entries in the new vocabulary
 		///   were present in the old vocabulary, which is used to calculate the number of
@@ -11448,7 +11828,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Greater` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Greater</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Greater (TFOutput x, TFOutput y, string operName = null)
@@ -11479,7 +11859,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `GreaterEqual` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>GreaterEqual</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput GreaterEqual (TFOutput x, TFOutput y, string operName = null)
@@ -11650,15 +12030,15 @@ namespace TensorFlow {
 		///   Return histogram of values.
 		/// </summary>
 		/// <param name="values">
-		///   Numeric `Tensor`.
+		///   Numeric <code>Tensor</code>.
 		/// </param>
 		/// <param name="value_range">
-		///   Shape [2] `Tensor` of same `dtype` as `values`.
+		///   Shape [2] <code>Tensor</code> of same <code>dtype</code> as <code>values</code>.
 		///   values &amp;lt;= value_range[0] will be mapped to hist[0],
 		///   values &amp;gt;= value_range[1] will be mapped to hist[-1].
 		/// </param>
 		/// <param name="nbins">
-		///   Scalar `int32 Tensor`.  Number of histogram bins.
+		///   Scalar <code>int32 Tensor</code>.  Number of histogram bins.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HistogramFixedWidth'.
@@ -11667,25 +12047,25 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   A 1-D `Tensor` holding histogram of values.
+		///   A 1-D <code>Tensor</code> holding histogram of values.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given the tensor `values`, this operation returns a rank 1 histogram counting
-		///   the number of entries in `values` that fall into every bin.  The bins are
-		///   equal width and determined by the arguments `value_range` and `nbins`.
+		///   Given the tensor <code>values</code>, this operation returns a rank 1 histogram counting
+		///   the number of entries in <code>values</code> that fall into every bin.  The bins are
+		///   equal width and determined by the arguments <code>value_range</code> and <code>nbins</code>.
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   # Bins will be:  (-inf, 1), [1, 2), [2, 3), [3, 4), [4, inf)
 		///   nbins = 5
 		///   value_range = [0.0, 5.0]
 		///   new_values = [-1.0, 0.0, 1.5, 2.0, 5.0, 15]
 		///   
 		///   with tf.get_default_session() as sess:
-		///     hist = tf.histogram_fixed_width(new_values, value_range, nbins=5)
-		///     variables.global_variables_initializer().run()
-		///     sess.run(hist) =&amp;gt; [2, 1, 1, 0, 2]
-		///   ```
+		///   hist = tf.histogram_fixed_width(new_values, value_range, nbins=5)
+		///   variables.global_variables_initializer().run()
+		///   sess.run(hist) =&amp;gt; [2, 1, 1, 0, 2]
+		///    <code>
 		/// </remarks>
 		public TFOutput HistogramFixedWidth (TFOutput values, TFOutput value_range, TFOutput nbins, TFDataType? dtype = null, string operName = null)
 		{
@@ -11706,10 +12086,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with a histogram.
+		///   Outputs a <code>Summary</code> protocol buffer with a histogram.
 		/// </summary>
 		/// <param name="tag">
-		///   Scalar.  Tag to use for the `Summary.Value`.
+		///   Scalar.  Tag to use for the <code>Summary.Value</code>.
 		/// </param>
 		/// <param name="values">
 		///   Any shape. Values to use to build the histogram.
@@ -11718,15 +12098,15 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HistogramSummary'.
 		/// </param>
 		/// <returns>
-		///   Scalar. Serialized `Summary` protocol buffer.
+		///   Scalar. Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   The generated
-		///   [`Summary`](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
-		///   has one summary value containing a histogram for `values`.
+		///   [<code>Summary</code>](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
+		///   has one summary value containing a histogram for <code>values</code>.
 		///   
-		///   This op reports an `InvalidArgument` error if any value is not finite.
+		///   This op reports an <code>InvalidArgument</code> error if any value is not finite.
 		/// </remarks>
 		public TFOutput HistogramSummary (TFOutput tag, TFOutput values, string operName = null)
 		{
@@ -11752,15 +12132,15 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HSVToRGB'.
 		/// </param>
 		/// <returns>
-		///   `images` converted to RGB.
+		///   <code>images</code> converted to RGB.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Outputs a tensor of the same shape as the `images` tensor, containing the RGB
-		///   value of the pixels. The output is only well defined if the value in `images`
-		///   are in `[0,1]`.
+		///   Outputs a tensor of the same shape as the <code>images</code> tensor, containing the RGB
+		///   value of the pixels. The output is only well defined if the value in <code>images</code>
+		///   are in <code>[0,1]</code>.
 		///   
-		///   See `rgb_to_hsv` for a description of the HSV encoding.
+		///   See <code>rgb_to_hsv</code> for a description of the HSV encoding.
 		/// </remarks>
 		public TFOutput HSVToRGB (TFOutput images, string operName = null)
 		{
@@ -11817,15 +12197,15 @@ namespace TensorFlow {
 		///   example, suppose y = f(x) and we wish to apply a custom function g for backprop
 		///   such that dx = g(dy). In Python,
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   with tf.get_default_graph().gradient_override_map(
-		///       {'IdentityN': 'OverrideGradientWithG'}):
-		///     y, _ = identity_n([f(x), x])
+		///   {'IdentityN': 'OverrideGradientWithG'}):
+		///   y, _ = identity_n([f(x), x])
 		///   
 		///   @tf.RegisterGradient('OverrideGradientWithG')
 		///   def ApplyG(op, dy, _):
-		///     return [None, g(dy)]  # Do not backprop to f(x).
-		///   ```
+		///   return [None, g(dy)]  # Do not backprop to f(x).
+		///    <code>
 		/// </remarks>
 		public TFOutput[] IdentityN (TFOutput[] input, string operName = null)
 		{
@@ -11939,8 +12319,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IFFT'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most
-		///     dimension of `input` is replaced with its inverse 1D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most
+		///   dimension of <code>input</code> is replaced with its inverse 1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.ifft
@@ -11949,7 +12329,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 1-dimensional discrete Fourier transform over the
-		///   inner-most dimension of `input`.
+		///   inner-most dimension of <code>input</code>.
 		/// </remarks>
 		public TFOutput IFFT (TFOutput input, string operName = null)
 		{
@@ -11974,8 +12354,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IFFT2D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most 2
-		///     dimensions of `input` are replaced with their inverse 2D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most 2
+		///   dimensions of <code>input</code> are replaced with their inverse 2D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.ifft2
@@ -11984,7 +12364,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 2-dimensional discrete Fourier transform over the
-		///   inner-most 2 dimensions of `input`.
+		///   inner-most 2 dimensions of <code>input</code>.
 		/// </remarks>
 		public TFOutput IFFT2D (TFOutput input, string operName = null)
 		{
@@ -12009,8 +12389,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IFFT3D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as `input`. The inner-most 3
-		///     dimensions of `input` are replaced with their inverse 3D Fourier transform.
+		///   A complex64 tensor of the same shape as <code>input</code>. The inner-most 3
+		///   dimensions of <code>input</code> are replaced with their inverse 3D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.ifftn with 3 dimensions.
@@ -12019,7 +12399,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 3-dimensional discrete Fourier transform over the
-		///   inner-most 3 dimensions of `input`.
+		///   inner-most 3 dimensions of <code>input</code>.
 		/// </remarks>
 		public TFOutput IFFT3D (TFOutput input, string operName = null)
 		{
@@ -12035,7 +12415,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compute the lower regularized incomplete Gamma function `Q(a, x)`.
+		///   Compute the lower regularized incomplete Gamma function <code>Q(a, x)</code>.
 		/// </summary>
 		/// <param name="a">
 		/// </param>
@@ -12059,7 +12439,7 @@ namespace TensorFlow {
 		///   
 		///   is the lower incomplete Gamma function.
 		///   
-		///   Note, above `Q(a, x)` (`Igammac`) is the upper regularized complete
+		///   Note, above <code>Q(a, x)</code> (<code>Igammac</code>) is the upper regularized complete
 		///   Gamma function.
 		/// </remarks>
 		public TFOutput Igamma (TFOutput a, TFOutput x, string operName = null)
@@ -12077,7 +12457,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compute the upper regularized incomplete Gamma function `Q(a, x)`.
+		///   Compute the upper regularized incomplete Gamma function <code>Q(a, x)</code>.
 		/// </summary>
 		/// <param name="a">
 		/// </param>
@@ -12100,7 +12480,7 @@ namespace TensorFlow {
 		///   
 		///   is the upper incomplete Gama function.
 		///   
-		///   Note, above `P(a, x)` (`Igamma`) is the lower regularized complete
+		///   Note, above <code>P(a, x)</code> (<code>Igamma</code>) is the lower regularized complete
 		///   Gamma function.
 		/// </remarks>
 		public TFOutput Igammac (TFOutput a, TFOutput x, string operName = null)
@@ -12118,7 +12498,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that contains the elements of `input_dataset` ignoring errors.
+		///   Creates a dataset that contains the elements of <code>input_dataset</code> ignoring errors.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -12162,17 +12542,17 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input` of complex numbers, this operation returns a tensor of
-		///   type `float` that is the imaginary part of each element in `input`. All
-		///   elements in `input` must be complex numbers of the form \\(a + bj\\), where *a*
+		///   Given a tensor <code>input</code> of complex numbers, this operation returns a tensor of
+		///   type <code>float</code> that is the imaginary part of each element in <code>input</code>. All
+		///   elements in <code>input</code> must be complex numbers of the form \\(a + bj\\), where *a*
 		///   is the real part and *b* is the imaginary part returned by this operation.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
 		///   tf.imag(input) ==&amp;gt; [4.75, 5.75]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Imag (TFOutput input, TFDataType? Tout = null, string operName = null)
 		{
@@ -12191,14 +12571,14 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with images.
+		///   Outputs a <code>Summary</code> protocol buffer with images.
 		/// </summary>
 		/// <param name="tag">
-		///   Scalar. Used to build the `tag` attribute of the summary values.
+		///   Scalar. Used to build the <code>tag</code> attribute of the summary values.
 		/// </param>
 		/// <param name="tensor">
-		///   4-D of shape `[batch_size, height, width, channels]` where
-		///   `channels` is 1, 3, or 4.
+		///   4-D of shape <code>[batch_size, height, width, channels]</code> where
+		///   <code>channels</code> is 1, 3, or 4.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ImageSummary'.
@@ -12212,40 +12592,40 @@ namespace TensorFlow {
 		///   Color to use for pixels with non-finite values.
 		/// </param>
 		/// <returns>
-		///   Scalar. Serialized `Summary` protocol buffer.
+		///   Scalar. Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The summary has up to `max_images` summary values containing images. The
-		///   images are built from `tensor` which must be 4-D with shape `[batch_size,
-		///   height, width, channels]` and where `channels` can be:
+		///   The summary has up to <code>max_images</code> summary values containing images. The
+		///   images are built from <code>tensor</code> which must be 4-D with shape <code>[batch_size,
+		///   height, width, channels]<code> and where </code>channels<code> can be:
 		///   
-		///   *  1: `tensor` is interpreted as Grayscale.
-		///   *  3: `tensor` is interpreted as RGB.
-		///   *  4: `tensor` is interpreted as RGBA.
+		///   *  1: <code>tensor</code> is interpreted as Grayscale.
+		///   *  3: <code>tensor</code> is interpreted as RGB.
+		///   *  4: <code>tensor</code> is interpreted as RGBA.
 		///   
 		///   The images have the same number of channels as the input tensor. For float
 		///   input, the values are normalized one image at a time to fit in the range
-		///   `[0, 255]`.  `uint8` values are unchanged.  The op uses two different
+		///   <code>[0, 255]</code>.  <code>uint8</code> values are unchanged.  The op uses two different
 		///   normalization algorithms:
 		///   
 		///   *  If the input values are all positive, they are rescaled so the largest one
-		///      is 255.
+		///   is 255.
 		///   
 		///   *  If any input value is negative, the values are shifted so input value 0.0
-		///      is at 127.  They are then rescaled so that either the smallest value is 0,
-		///      or the largest one is 255.
+		///   is at 127.  They are then rescaled so that either the smallest value is 0,
+		///   or the largest one is 255.
 		///   
-		///   The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
-		///   build the `tag` of the summary values:
+		///   The <code>tag</code> argument is a scalar <code>Tensor</code> of type <code>string</code>.  It is used to
+		///   build the <code>tag</code> of the summary values:
 		///   
-		///   *  If `max_images` is 1, the summary value tag is '*tag*/image'.
-		///   *  If `max_images` is greater than 1, the summary value tags are
-		///      generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
+		///   *  If <code>max_images</code> is 1, the summary value tag is '*tag*/image'.
+		///   *  If <code>max_images</code> is greater than 1, the summary value tags are
+		///   generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
 		///   
-		///   The `bad_color` argument is the color to use in the generated images for
-		///   non-finite input values.  It is a `unit8` 1-D tensor of length `channels`.
-		///   Each element must be in the range `[0, 255]` (It represents the value of a
+		///   The <code>bad_color</code> argument is the color to use in the generated images for
+		///   non-finite input values.  It is a <code>unit8</code> 1-D tensor of length <code>channels</code>.
+		///   Each element must be in the range <code>[0, 255]</code> (It represents the value of a
 		///   pixel in the output image).  Non-finite values in the input tensor are
 		///   replaced by this tensor in the output image.  The default value is the color
 		///   red.
@@ -12308,7 +12688,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `tf.Event` protocol buffer.
+		///   Outputs a <code>tf.Event</code> protocol buffer.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -12390,11 +12770,11 @@ namespace TensorFlow {
 		///   Delimiter to separate fields in a line.
 		/// </param>
 		/// <param name="key_index">
-		///   Column index in a line to get the table `key` values from.
+		///   Column index in a line to get the table <code>key</code> values from.
 		/// </param>
 		/// <param name="value_index">
 		///   Column index that represents information of a line to get the table
-		///   `value` values from.
+		///   <code>value</code> values from.
 		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
@@ -12402,14 +12782,14 @@ namespace TensorFlow {
 		/// <remarks>
 		///   It inserts one key-value pair into the table for each line of the file.
 		///   The key and value is extracted from the whole line content, elements from the
-		///   split line based on `delimiter` or the line number (starting from zero).
-		///   Where to extract the key and value from a line is specified by `key_index` and
-		///   `value_index`.
+		///   split line based on <code>delimiter</code> or the line number (starting from zero).
+		///   Where to extract the key and value from a line is specified by <code>key_index</code> and
+		///   <code>value_index</code>.
 		///   
-		///   - A value of -1 means use the line number(starting from zero), expects `int64`.
-		///   - A value of -2 means use the whole line content, expects `string`.
+		///   - A value of -1 means use the line number(starting from zero), expects <code>int64</code>.
+		///   - A value of -2 means use the whole line content, expects <code>string</code>.
 		///   - A value &amp;gt;= 0 means use the index (starting at zero) of the split line based
-		///     on `delimiter`.
+		///   on <code>delimiter</code>.
 		/// </remarks>
 		public TFOperation InitializeTableFromTextFile (TFOutput table_handle, TFOutput filename, long key_index, long value_index, long? vocab_size = null, string delimiter = null, string operName = null)
 		{
@@ -12452,11 +12832,11 @@ namespace TensorFlow {
 		///   Delimiter to separate fields in a line.
 		/// </param>
 		/// <param name="key_index">
-		///   Column index in a line to get the table `key` values from.
+		///   Column index in a line to get the table <code>key</code> values from.
 		/// </param>
 		/// <param name="value_index">
 		///   Column index that represents information of a line to get the table
-		///   `value` values from.
+		///   <code>value</code> values from.
 		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
@@ -12464,14 +12844,14 @@ namespace TensorFlow {
 		/// <remarks>
 		///   It inserts one key-value pair into the table for each line of the file.
 		///   The key and value is extracted from the whole line content, elements from the
-		///   split line based on `delimiter` or the line number (starting from zero).
-		///   Where to extract the key and value from a line is specified by `key_index` and
-		///   `value_index`.
+		///   split line based on <code>delimiter</code> or the line number (starting from zero).
+		///   Where to extract the key and value from a line is specified by <code>key_index</code> and
+		///   <code>value_index</code>.
 		///   
-		///   - A value of -1 means use the line number(starting from zero), expects `int64`.
-		///   - A value of -2 means use the whole line content, expects `string`.
+		///   - A value of -1 means use the line number(starting from zero), expects <code>int64</code>.
+		///   - A value of -2 means use the whole line content, expects <code>string</code>.
 		///   - A value &amp;gt;= 0 means use the index (starting at zero) of the split line based
-		///     on `delimiter`.
+		///   on <code>delimiter</code>.
 		/// </remarks>
 		public TFOperation InitializeTableFromTextFileV2 (TFOutput table_handle, TFOutput filename, long key_index, long value_index, long? vocab_size = null, string delimiter = null, string operName = null)
 		{
@@ -12525,13 +12905,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Says whether the targets are in the top `K` predictions.
+		///   Says whether the targets are in the top <code>K</code> predictions.
 		/// </summary>
 		/// <param name="predictions">
-		///   A `batch_size` x `classes` tensor.
+		///   A <code>batch_size</code> x <code>classes</code> tensor.
 		/// </param>
 		/// <param name="targets">
-		///   A `batch_size` vector of class ids.
+		///   A <code>batch_size</code> vector of class ids.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InTopK'.
@@ -12540,22 +12920,22 @@ namespace TensorFlow {
 		///   Number of top elements to look at for computing precision.
 		/// </param>
 		/// <returns>
-		///   Computed Precision at `k` as a `bool Tensor`.
+		///   Computed Precision at <code>k</code> as a <code>bool Tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This outputs a `batch_size` bool array, an entry `out[i]` is `true` if the
-		///   prediction for the target class is among the top `k` predictions among
-		///   all predictions for example `i`. Note that the behavior of `InTopK` differs
-		///   from the `TopK` op in its handling of ties; if multiple classes have the
-		///   same prediction value and straddle the top-`k` boundary, all of those
-		///   classes are considered to be in the top `k`.
+		///   This outputs a <code>batch_size</code> bool array, an entry <code>out[i]</code> is <code>true</code> if the
+		///   prediction for the target class is among the top <code>k</code> predictions among
+		///   all predictions for example <code>i</code>. Note that the behavior of <code>InTopK</code> differs
+		///   from the <code>TopK</code> op in its handling of ties; if multiple classes have the
+		///   same prediction value and straddle the top-<code>k</code> boundary, all of those
+		///   classes are considered to be in the top <code>k</code>.
 		///   
 		///   More formally, let
 		///   
-		///     \\(predictions_i\\) be the predictions for all classes for example `i`,
-		///     \\(targets_i\\) be the target class for example `i`,
-		///     \\(out_i\\) be the output for example `i`,
+		///   \\(predictions_i\\) be the predictions for all classes for example <code>i</code>,
+		///   \\(targets_i\\) be the target class for example <code>i</code>,
+		///   \\(out_i\\) be the output for example <code>i</code>,
 		///   
 		///   $$out_i = predictions_{i, targets_i} \in TopKIncludingTies(predictions_i)$$
 		/// </remarks>
@@ -12575,13 +12955,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Says whether the targets are in the top `K` predictions.
+		///   Says whether the targets are in the top <code>K</code> predictions.
 		/// </summary>
 		/// <param name="predictions">
-		///   A `batch_size` x `classes` tensor.
+		///   A <code>batch_size</code> x <code>classes</code> tensor.
 		/// </param>
 		/// <param name="targets">
-		///   A `batch_size` vector of class ids.
+		///   A <code>batch_size</code> vector of class ids.
 		/// </param>
 		/// <param name="k">
 		///   Number of top elements to look at for computing precision.
@@ -12590,22 +12970,22 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InTopKV2'.
 		/// </param>
 		/// <returns>
-		///   Computed precision at `k` as a `bool Tensor`.
+		///   Computed precision at <code>k</code> as a <code>bool Tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This outputs a `batch_size` bool array, an entry `out[i]` is `true` if the
-		///   prediction for the target class is among the top `k` predictions among
-		///   all predictions for example `i`. Note that the behavior of `InTopK` differs
-		///   from the `TopK` op in its handling of ties; if multiple classes have the
-		///   same prediction value and straddle the top-`k` boundary, all of those
-		///   classes are considered to be in the top `k`.
+		///   This outputs a <code>batch_size</code> bool array, an entry <code>out[i]</code> is <code>true</code> if the
+		///   prediction for the target class is among the top <code>k</code> predictions among
+		///   all predictions for example <code>i</code>. Note that the behavior of <code>InTopK</code> differs
+		///   from the <code>TopK</code> op in its handling of ties; if multiple classes have the
+		///   same prediction value and straddle the top-<code>k</code> boundary, all of those
+		///   classes are considered to be in the top <code>k</code>.
 		///   
 		///   More formally, let
 		///   
-		///     \\(predictions_i\\) be the predictions for all classes for example `i`,
-		///     \\(targets_i\\) be the target class for example `i`,
-		///     \\(out_i\\) be the output for example `i`,
+		///   \\(predictions_i\\) be the predictions for all classes for example <code>i</code>,
+		///   \\(targets_i\\) be the target class for example <code>i</code>,
+		///   \\(out_i\\) be the output for example <code>i</code>,
 		///   
 		///   $$out_i = predictions_{i, targets_i} \in TopKIncludingTies(predictions_i)$$
 		/// </remarks>
@@ -12663,7 +13043,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The result will have exactly those bits set, that are not set in `x`. The
+		///   The result will have exactly those bits set, that are not set in <code>x</code>. The
 		///   computation is performed on the underlying representation of x.
 		/// </remarks>
 		public TFOutput Invert (TFOutput x, string operName = null)
@@ -12694,20 +13074,20 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   This operation computes the inverse of an index permutation. It takes a 1-D
-		///   integer tensor `x`, which represents the indices of a zero-based array, and
+		///   integer tensor <code>x</code>, which represents the indices of a zero-based array, and
 		///   swaps each value with its index position. In other words, for an output tensor
-		///   `y` and an input tensor `x`, this operation computes the following:
+		///   <code>y</code> and an input tensor <code>x</code>, this operation computes the following:
 		///   
-		///   `y[x[i]] = i for i in [0, 1, ..., len(x) - 1]`
+		///   <code>y[x[i]] = i for i in [0, 1, ..., len(x) - 1]</code>
 		///   
 		///   The values must include 0. There can be no duplicate values or negative values.
 		///   
 		///   For example:
 		///   
-		///   ```
-		///   # tensor `x` is [3, 4, 0, 2, 1]
+		///    <code>
+		///   # tensor <code>x</code> is [3, 4, 0, 2, 1]
 		///   invert_permutation(x) ==&amp;gt; [2, 4, 3, 0, 1]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput InvertPermutation (TFOutput x, string operName = null)
 		{
@@ -12723,7 +13103,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient for the inverse of `x` wrt its input.
+		///   Computes the gradient for the inverse of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -12736,7 +13116,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = -dy * y*y`, where `y = 1/x`, and `dy`
+		///   Specifically, <code>grad = -dy * y*y</code>, where <code>y = 1/x</code>, and <code>dy</code>
 		///   is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput InvGrad (TFOutput y, TFOutput dy, string operName = null)
@@ -12766,9 +13146,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IRFFT'.
 		/// </param>
 		/// <returns>
-		///   A float32 tensor of the same rank as `input`. The inner-most
-		///     dimension of `input` is replaced with the `fft_length` samples of its inverse
-		///     1D Fourier transform.
+		///   A float32 tensor of the same rank as <code>input</code>. The inner-most
+		///   dimension of <code>input</code> is replaced with the <code>fft_length</code> samples of its inverse
+		///   1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.irfft
@@ -12777,17 +13157,17 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 1-dimensional discrete Fourier transform of a real-valued
-		///   signal over the inner-most dimension of `input`.
+		///   signal over the inner-most dimension of <code>input</code>.
 		///   
-		///   The inner-most dimension of `input` is assumed to be the result of `RFFT`: the
-		///   `fft_length / 2 + 1` unique components of the DFT of a real-valued signal. If
-		///   `fft_length` is not provided, it is computed from the size of the inner-most
-		///   dimension of `input` (`fft_length = 2 * (inner - 1)`). If the FFT length used to
-		///   compute `input` is odd, it should be provided since it cannot be inferred
+		///   The inner-most dimension of <code>input</code> is assumed to be the result of <code>RFFT</code>: the
+		///   <code>fft_length / 2 + 1</code> unique components of the DFT of a real-valued signal. If
+		///   <code>fft_length</code> is not provided, it is computed from the size of the inner-most
+		///   dimension of <code>input</code> (<code>fft_length = 2 * (inner - 1)</code>). If the FFT length used to
+		///   compute <code>input</code> is odd, it should be provided since it cannot be inferred
 		///   properly.
 		///   
-		///   Along the axis `IRFFT` is computed on, if `fft_length / 2 + 1` is smaller
-		///   than the corresponding dimension of `input`, the dimension is cropped. If it is
+		///   Along the axis <code>IRFFT</code> is computed on, if <code>fft_length / 2 + 1</code> is smaller
+		///   than the corresponding dimension of <code>input</code>, the dimension is cropped. If it is
 		///   larger, the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT (TFOutput input, TFOutput fft_length, string operName = null)
@@ -12817,9 +13197,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IRFFT2D'.
 		/// </param>
 		/// <returns>
-		///   A float32 tensor of the same rank as `input`. The inner-most 2
-		///     dimensions of `input` are replaced with the `fft_length` samples of their
-		///     inverse 2D Fourier transform.
+		///   A float32 tensor of the same rank as <code>input</code>. The inner-most 2
+		///   dimensions of <code>input</code> are replaced with the <code>fft_length</code> samples of their
+		///   inverse 2D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.irfft2
@@ -12828,18 +13208,18 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 2-dimensional discrete Fourier transform of a real-valued
-		///   signal over the inner-most 2 dimensions of `input`.
+		///   signal over the inner-most 2 dimensions of <code>input</code>.
 		///   
-		///   The inner-most 2 dimensions of `input` are assumed to be the result of `RFFT2D`:
-		///   The inner-most dimension contains the `fft_length / 2 + 1` unique components of
-		///   the DFT of a real-valued signal. If `fft_length` is not provided, it is computed
-		///   from the size of the inner-most 2 dimensions of `input`. If the FFT length used
-		///   to compute `input` is odd, it should be provided since it cannot be inferred
+		///   The inner-most 2 dimensions of <code>input</code> are assumed to be the result of <code>RFFT2D</code>:
+		///   The inner-most dimension contains the <code>fft_length / 2 + 1</code> unique components of
+		///   the DFT of a real-valued signal. If <code>fft_length</code> is not provided, it is computed
+		///   from the size of the inner-most 2 dimensions of <code>input</code>. If the FFT length used
+		///   to compute <code>input</code> is odd, it should be provided since it cannot be inferred
 		///   properly.
 		///   
-		///   Along each axis `IRFFT2D` is computed on, if `fft_length` (or
-		///   `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
-		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   Along each axis <code>IRFFT2D</code> is computed on, if <code>fft_length</code> (or
+		///   <code>fft_length / 2 + 1</code> for the inner-most dimension) is smaller than the
+		///   corresponding dimension of <code>input</code>, the dimension is cropped. If it is larger,
 		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT2D (TFOutput input, TFOutput fft_length, string operName = null)
@@ -12869,9 +13249,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IRFFT3D'.
 		/// </param>
 		/// <returns>
-		///   A float32 tensor of the same rank as `input`. The inner-most 3
-		///     dimensions of `input` are replaced with the `fft_length` samples of their
-		///     inverse 3D real Fourier transform.
+		///   A float32 tensor of the same rank as <code>input</code>. The inner-most 3
+		///   dimensions of <code>input</code> are replaced with the <code>fft_length</code> samples of their
+		///   inverse 3D real Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.irfftn with 3 dimensions.
@@ -12880,18 +13260,18 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the inverse 3-dimensional discrete Fourier transform of a real-valued
-		///   signal over the inner-most 3 dimensions of `input`.
+		///   signal over the inner-most 3 dimensions of <code>input</code>.
 		///   
-		///   The inner-most 3 dimensions of `input` are assumed to be the result of `RFFT3D`:
-		///   The inner-most dimension contains the `fft_length / 2 + 1` unique components of
-		///   the DFT of a real-valued signal. If `fft_length` is not provided, it is computed
-		///   from the size of the inner-most 3 dimensions of `input`. If the FFT length used
-		///   to compute `input` is odd, it should be provided since it cannot be inferred
+		///   The inner-most 3 dimensions of <code>input</code> are assumed to be the result of <code>RFFT3D</code>:
+		///   The inner-most dimension contains the <code>fft_length / 2 + 1</code> unique components of
+		///   the DFT of a real-valued signal. If <code>fft_length</code> is not provided, it is computed
+		///   from the size of the inner-most 3 dimensions of <code>input</code>. If the FFT length used
+		///   to compute <code>input</code> is odd, it should be provided since it cannot be inferred
 		///   properly.
 		///   
-		///   Along each axis `IRFFT3D` is computed on, if `fft_length` (or
-		///   `fft_length / 2 + 1` for the inner-most dimension) is smaller than the
-		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   Along each axis <code>IRFFT3D</code> is computed on, if <code>fft_length</code> (or
+		///   <code>fft_length / 2 + 1</code> for the inner-most dimension) is smaller than the
+		///   corresponding dimension of <code>input</code>, the dimension is cropped. If it is larger,
 		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput IRFFT3D (TFOutput input, TFOutput fft_length, string operName = null)
@@ -12999,7 +13379,7 @@ namespace TensorFlow {
 		///   Checks whether a tensor has been initialized.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node. May be uninitialized.
+		///   Should be from a <code>Variable</code> node. May be uninitialized.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IsVariableInitialized'.
@@ -13136,6 +13516,47 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Gets the next output from the given iterator.
+		/// </summary>
+		/// <param name="iterator">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorGetNextSync'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation is a synchronous version IteratorGetNext. It should only be used
+		///   in situations where the iterator does not block the calling thread, or where
+		///   the calling thread is not a member of the thread pool used to execute parallel
+		///   operations (e.g. in eager mode).
+		/// </remarks>
+		public TFOutput[] IteratorGetNextSync (TFOutput iterator, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IteratorGetNextSync", MakeName ("IteratorGetNextSync", operName));
+			desc.AddInput (iterator);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
+		}
+
+		/// <summary>
 		///   Associates the given iterator with the given statistics aggregator.
 		/// </summary>
 		/// <param name="iterator_handle">
@@ -13161,7 +13582,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Converts the given `resource_handle` representing an iterator to a string.
+		///   Converts the given <code>resource_handle</code> representing an iterator to a string.
 		/// </summary>
 		/// <param name="resource_handle">
 		///   A handle to an iterator resource.
@@ -13200,9 +13621,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Computes half the L2 norm of a tensor without the `sqrt`:
+		///   Computes half the L2 norm of a tensor without the <code>sqrt</code>:
 		///   
-		///       output = sum(t ** 2) / 2
+		///   output = sum(t ** 2) / 2
 		/// </remarks>
 		public TFOutput L2Loss (TFOutput t, string operName = null)
 		{
@@ -13218,7 +13639,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Records the latency of producing `input_dataset` elements in a StatsAggregator.
+		///   Records the latency of producing <code>input_dataset</code> elements in a StatsAggregator.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -13334,7 +13755,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Elementwise computes the bitwise left-shift of `x` and `y`.
+		///   Elementwise computes the bitwise left-shift of <code>x</code> and <code>y</code>.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -13347,7 +13768,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   If `y` is negative, or greater than or equal to the width of `x` in bits the
+		///   If <code>y</code> is negative, or greater than or equal to the width of <code>x</code> in bits the
 		///   result is implementation defined.
 		/// </remarks>
 		public TFOutput LeftShift (TFOutput x, TFOutput y, string operName = null)
@@ -13378,7 +13799,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Less` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Less</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Less (TFOutput x, TFOutput y, string operName = null)
@@ -13409,7 +13830,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `LessEqual` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>LessEqual</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput LessEqual (TFOutput x, TFOutput y, string operName = null)
@@ -13427,7 +13848,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the log of the absolute value of `Gamma(x)` element-wise.
+		///   Computes the log of the absolute value of <code>Gamma(x)</code> element-wise.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -13470,15 +13891,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   A sequence of `num` evenly-spaced values are generated beginning at `start`.
-		///   If `num &amp;gt; 1`, the values in the sequence increase by `stop - start / num - 1`,
-		///   so that the last one is exactly `stop`.
+		///   A sequence of <code>num</code> evenly-spaced values are generated beginning at <code>start</code>.
+		///   If <code>num &amp;gt; 1</code>, the values in the sequence increase by <code>stop - start / num - 1</code>,
+		///   so that the last one is exactly <code>stop</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   tf.linspace(10.0, 12.0, 3, name="linspace") =&amp;gt; [ 10.0  11.0  12.0]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput LinSpace (TFOutput start, TFOutput stop, TFOutput num, string operName = null)
 		{
@@ -13512,32 +13933,32 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 1-D. Values present in `x` but not in `y`.
-		///   idx: 1-D. Positions of `x` values preserved in `out`.
+		///   output: 1-D. Values present in <code>x</code> but not in <code>y</code>.
+		///   idx: 1-D. Positions of <code>x</code> values preserved in <code>out</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Given a list `x` and a list `y`, this operation returns a list `out` that
-		///   represents all values that are in `x` but not in `y`. The returned list `out`
-		///   is sorted in the same order that the numbers appear in `x` (duplicates are
-		///   preserved). This operation also returns a list `idx` that represents the
-		///   position of each `out` element in `x`. In other words:
+		///   Given a list <code>x</code> and a list <code>y</code>, this operation returns a list <code>out</code> that
+		///   represents all values that are in <code>x</code> but not in <code>y</code>. The returned list <code>out</code>
+		///   is sorted in the same order that the numbers appear in <code>x</code> (duplicates are
+		///   preserved). This operation also returns a list <code>idx</code> that represents the
+		///   position of each <code>out</code> element in <code>x</code>. In other words:
 		///   
-		///   `out[i] = x[idx[i]] for i in [0, 1, ..., len(out) - 1]`
+		///   <code>out[i] = x[idx[i]] for i in [0, 1, ..., len(out) - 1]</code>
 		///   
 		///   For example, given this input:
 		///   
-		///   ```
+		///    <code>
 		///   x = [1, 2, 3, 4, 5, 6]
 		///   y = [1, 3, 5]
-		///   ```
+		///    </code>
 		///   
 		///   This operation would return:
 		///   
-		///   ```
+		///    <code>
 		///   out ==&amp;gt; [2, 4, 6]
 		///   idx ==&amp;gt; [1, 3, 5]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public (TFOutput output, TFOutput idx) ListDiff (TFOutput x, TFOutput y, TFDataType? out_idx = null, string operName = null)
 		{
@@ -13596,28 +14017,28 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Loads a 2-D (matrix) `Tensor` with name `old_tensor_name` from the checkpoint
+		///   Loads a 2-D (matrix) <code>Tensor</code> with name <code>old_tensor_name</code> from the checkpoint
 		/// </summary>
 		/// <param name="ckpt_path">
-		///   Path to the TensorFlow checkpoint (version 2, `TensorBundle`) from
-		///   which the old matrix `Tensor` will be loaded.
+		///   Path to the TensorFlow checkpoint (version 2, <code>TensorBundle</code>) from
+		///   which the old matrix <code>Tensor</code> will be loaded.
 		/// </param>
 		/// <param name="old_tensor_name">
-		///   Name of the 2-D `Tensor` to load from checkpoint.
+		///   Name of the 2-D <code>Tensor</code> to load from checkpoint.
 		/// </param>
 		/// <param name="row_remapping">
-		///   An int `Tensor` of row remappings (generally created by
-		///   `generate_vocab_remapping`).  Even if no row remapping is needed, this must
+		///   An int <code>Tensor</code> of row remappings (generally created by
+		///   <code>generate_vocab_remapping</code>).  Even if no row remapping is needed, this must
 		///   still be an index-valued Tensor (e.g. [0, 1, 2, ...]), or a shifted
-		///   index-valued `Tensor` (e.g. [8, 9, 10, ...], for partitioned `Variables`).
+		///   index-valued <code>Tensor</code> (e.g. [8, 9, 10, ...], for partitioned <code>Variables</code>).
 		/// </param>
 		/// <param name="col_remapping">
-		///   An int `Tensor` of column remappings (generally created by
-		///   `generate_vocab_remapping`).  May be a size-0 `Tensor` if only row remapping
+		///   An int <code>Tensor</code> of column remappings (generally created by
+		///   <code>generate_vocab_remapping</code>).  May be a size-0 <code>Tensor</code> if only row remapping
 		///   is to be done (e.g. column ordering is the same).
 		/// </param>
 		/// <param name="initializing_values">
-		///   A float `Tensor` containing  values to fill in for cells
+		///   A float <code>Tensor</code> containing  values to fill in for cells
 		///   in the output matrix that are not loaded from the checkpoint. Length must be
 		///   exactly the same as the number of missing / new cells.
 		/// </param>
@@ -13642,29 +14063,29 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   at `ckpt_path` and potentially reorders its rows and columns using the
+		///   at <code>ckpt_path</code> and potentially reorders its rows and columns using the
 		///   specified remappings.
 		///   
 		///   Most users should use one of the wrapper initializers (such as
-		///   `tf.contrib.framework.load_and_remap_matrix_initializer`) instead of this
+		///   <code>tf.contrib.framework.load_and_remap_matrix_initializer</code>) instead of this
 		///   function directly.
 		///   
 		///   The remappings are 1-D tensors with the following properties:
 		///   
-		///   * `row_remapping` must have exactly `num_rows` entries. Row `i` of the output
-		///     matrix will be initialized from the row corresponding to index
-		///     `row_remapping[i]` in the old `Tensor` from the checkpoint.
-		///   * `col_remapping` must have either 0 entries (indicating that no column
-		///     reordering is needed) or `num_cols` entries. If specified, column `j` of the
-		///     output matrix will be initialized from the column corresponding to index
-		///     `col_remapping[j]` in the old `Tensor` from the checkpoint.
+		///   * <code>row_remapping</code> must have exactly <code>num_rows</code> entries. Row <code>i</code> of the output
+		///   matrix will be initialized from the row corresponding to index
+		///   <code>row_remapping[i]</code> in the old <code>Tensor</code> from the checkpoint.
+		///   * <code>col_remapping</code> must have either 0 entries (indicating that no column
+		///   reordering is needed) or <code>num_cols</code> entries. If specified, column <code>j</code> of the
+		///   output matrix will be initialized from the column corresponding to index
+		///   <code>col_remapping[j]</code> in the old <code>Tensor</code> from the checkpoint.
 		///   * A value of -1 in either of the remappings signifies a "missing" entry. In that
-		///     case, values from the `initializing_values` tensor will be used to fill that
-		///     missing row or column. If `row_remapping` has `r` missing entries and
-		///     `col_remapping` has `c` missing entries, then the following condition must be
-		///     true:
+		///   case, values from the <code>initializing_values</code> tensor will be used to fill that
+		///   missing row or column. If <code>row_remapping</code> has <code>r</code> missing entries and
+		///   <code>col_remapping</code> has <code>c</code> missing entries, then the following condition must be
+		///   true:
 		///   
-		///   `(r * num_cols) + (c * num_rows) - (r * c) == len(initializing_values)`
+		///   <code>(r * num_cols) + (c * num_rows) - (r * c) == len(initializing_values)</code>
 		///   
 		///   The remapping tensors can be generated using the GenerateVocabRemapping op.
 		///   
@@ -13674,8 +14095,8 @@ namespace TensorFlow {
 		///   matrix will look like the following:
 		///   
 		///   [[w(1, 0),  w(1, 2),  0.5],
-		///    [w(0, 0),  w(0, 2), -0.5],
-		///    [0.25,    -0.25,      42]]
+		///   [w(0, 0),  w(0, 2), -0.5],
+		///   [0.25,    -0.25,      42]]
 		/// </remarks>
 		public TFOutput LoadAndRemapMatrix (TFOutput ckpt_path, TFOutput old_tensor_name, TFOutput row_remapping, TFOutput col_remapping, TFOutput initializing_values, long num_rows, long num_cols, long? max_rows_in_memory = null, string operName = null)
 		{
@@ -13767,7 +14188,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `LogicalAnd` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>LogicalAnd</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput LogicalAnd (TFOutput x, TFOutput y, string operName = null)
@@ -13822,7 +14243,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `LogicalOr` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>LogicalOr</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput LogicalOr (TFOutput x, TFOutput y, string operName = null)
@@ -13843,25 +14264,25 @@ namespace TensorFlow {
 		///   Computes the sign and the log of the absolute value of the determinant of
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[N, M, M]`.
+		///   Shape is <code>[N, M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LogMatrixDeterminant'.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sign: The signs of the log determinants of the inputs. Shape is `[N]`.
+		///   sign: The signs of the log determinants of the inputs. Shape is <code>[N]</code>.
 		///   log_abs_determinant: The logs of the absolute values of the determinants
-		///   of the N input matrices.  Shape is `[N]`.
+		///   of the N input matrices.  Shape is <code>[N]</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   one or more square matrices.
 		///   
-		///   The input is a tensor of shape `[N, M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[N, M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices. The outputs are two tensors containing the signs and
 		///   absolute values of the log determinants for all N input submatrices
-		///   `[..., :, :]` such that the determinant = sign*exp(log_abs_determinant).
+		///   <code>[..., :, :]</code> such that the determinant = sign*exp(log_abs_determinant).
 		///   The log_abs_determinant is computed as det(P)*sum(log(diag(LU))) where LU
 		///   is the LU decomposition of the input and P is the corresponding
 		///   permutation matrix.
@@ -13884,19 +14305,19 @@ namespace TensorFlow {
 		///   Computes log softmax activations.
 		/// </summary>
 		/// <param name="logits">
-		///   2-D with shape `[batch_size, num_classes]`.
+		///   2-D with shape <code>[batch_size, num_classes]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LogSoftmax'.
 		/// </param>
 		/// <returns>
-		///   Same shape as `logits`.
+		///   Same shape as <code>logits</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   For each batch `i` and class `j` we have
+		///   For each batch <code>i</code> and class <code>j</code> we have
 		///   
-		///       logsoftmax[i, j] = logits[i, j] - log(sum(exp(logits[i])))
+		///   logsoftmax[i, j] = logits[i, j] - log(sum(exp(logits[i])))
 		/// </remarks>
 		public TFOutput LogSoftmax (TFOutput logits, string operName = null)
 		{
@@ -14010,7 +14431,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   keys: Vector of all keys present in the table.
-		///   values: Tensor of all values in the table. Indexed in parallel with `keys`.
+		///   values: Tensor of all values in the table. Indexed in parallel with <code>keys</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput keys, TFOutput values) LookupTableExport (TFOutput table_handle, TFDataType Tkeys, TFDataType Tvalues, string operName = null)
@@ -14045,7 +14466,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   keys: Vector of all keys present in the table.
-		///   values: Tensor of all values in the table. Indexed in parallel with `keys`.
+		///   values: Tensor of all values in the table. Indexed in parallel with <code>keys</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput keys, TFOutput values) LookupTableExportV2 (TFOutput table_handle, TFDataType Tkeys, TFDataType Tvalues, string operName = null)
@@ -14079,15 +14500,15 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableFind'.
 		/// </param>
 		/// <returns>
-		///   Same shape as `keys`.  Values found in the table, or `default_values`
+		///   Same shape as <code>keys</code>.  Values found in the table, or <code>default_values</code>
 		///   for missing keys.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must of the same type as the keys of the table.
-		///   The output `values` is of the type of the table values.
+		///   The tensor <code>keys</code> must of the same type as the keys of the table.
+		///   The output <code>values</code> is of the type of the table values.
 		///   
-		///   The scalar `default_value` is the value output for keys not present in the
+		///   The scalar <code>default_value</code> is the value output for keys not present in the
 		///   table. It must also be of the same type as the table values.
 		/// </remarks>
 		public TFOutput LookupTableFind (TFOutput table_handle, TFOutput keys, TFOutput default_value, string operName = null)
@@ -14120,15 +14541,15 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LookupTableFindV2'.
 		/// </param>
 		/// <returns>
-		///   Same shape as `keys`.  Values found in the table, or `default_values`
+		///   Same shape as <code>keys</code>.  Values found in the table, or <code>default_values</code>
 		///   for missing keys.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must of the same type as the keys of the table.
-		///   The output `values` is of the type of the table values.
+		///   The tensor <code>keys</code> must of the same type as the keys of the table.
+		///   The output <code>values</code> is of the type of the table values.
 		///   
-		///   The scalar `default_value` is the value output for keys not present in the
+		///   The scalar <code>default_value</code> is the value output for keys not present in the
 		///   table. It must also be of the same type as the table values.
 		/// </remarks>
 		public TFOutput LookupTableFindV2 (TFOutput table_handle, TFOutput keys, TFOutput default_value, string operName = null)
@@ -14165,8 +14586,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must be of the same type as the keys of the table.
-		///   The tensor `values` must be of the type of the table values.
+		///   The tensor <code>keys</code> must be of the same type as the keys of the table.
+		///   The tensor <code>values</code> must be of the type of the table values.
 		/// </remarks>
 		public TFOperation LookupTableImport (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
 		{
@@ -14200,8 +14621,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must be of the same type as the keys of the table.
-		///   The tensor `values` must be of the type of the table values.
+		///   The tensor <code>keys</code> must be of the same type as the keys of the table.
+		///   The tensor <code>values</code> must be of the type of the table values.
 		/// </remarks>
 		public TFOperation LookupTableImportV2 (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
 		{
@@ -14235,8 +14656,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must be of the same type as the keys of the table.
-		///   The tensor `values` must be of the type of the table values.
+		///   The tensor <code>keys</code> must be of the same type as the keys of the table.
+		///   The tensor <code>values</code> must be of the type of the table values.
 		/// </remarks>
 		public TFOperation LookupTableInsert (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
 		{
@@ -14270,8 +14691,8 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The tensor `keys` must be of the same type as the keys of the table.
-		///   The tensor `values` must be of the type of the table values.
+		///   The tensor <code>keys</code> must be of the same type as the keys of the table.
+		///   The tensor <code>values</code> must be of the type of the table values.
 		/// </remarks>
 		public TFOperation LookupTableInsertV2 (TFOutput table_handle, TFOutput keys, TFOutput values, string operName = null)
 		{
@@ -14348,7 +14769,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoopCond'.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `input`.
+		///   The same tensor as <code>input</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -14397,14 +14818,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The 4-D `input` tensor is treated as a 3-D array of 1-D vectors (along the last
+		///   The 4-D <code>input</code> tensor is treated as a 3-D array of 1-D vectors (along the last
 		///   dimension), and each vector is normalized independently.  Within a given vector,
 		///   each component is divided by the weighted, squared sum of inputs within
-		///   `depth_radius`.  In detail,
+		///   <code>depth_radius</code>.  In detail,
 		///   
-		///       sqr_sum[a, b, c, d] =
-		///           sum(input[a, b, c, d - depth_radius : d + depth_radius + 1] ** 2)
-		///       output = input / (bias + alpha * sqr_sum) ** beta
+		///   sqr_sum[a, b, c, d] =
+		///   sum(input[a, b, c, d - depth_radius : d + depth_radius + 1] ** 2)
+		///   output = input / (bias + alpha * sqr_sum) ** beta
 		///   
 		///   For details, see [Krizhevsky et al., ImageNet classification with deep
 		///   convolutional neural networks (NIPS 2012)](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks).
@@ -14438,13 +14859,13 @@ namespace TensorFlow {
 		///   Gradients for Local Response Normalization.
 		/// </summary>
 		/// <param name="input_grads">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="input_image">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="output_image">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LRNGrad'.
@@ -14497,7 +14918,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Makes a new iterator from the given `dataset` and stores it in `iterator`.
+		///   Makes a new iterator from the given <code>dataset</code> and stores it in <code>iterator</code>.
 		/// </summary>
 		/// <param name="dataset">
 		/// </param>
@@ -14511,7 +14932,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   This operation may be executed multiple times. Each execution will reset the
-		///   iterator in `iterator` to the first element of `dataset`.
+		///   iterator in <code>iterator</code> to the first element of <code>dataset</code>.
 		/// </remarks>
 		public TFOperation MakeIterator (TFOutput dataset, TFOutput iterator, string operName = null)
 		{
@@ -14880,8 +15301,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   key: 
-		///   values: 
+		///   key:
+		///   values:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -14936,6 +15357,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Note that this routine only supports wildcard characters in the
 		///   basename portion of the pattern, not in the directory portion.
+		///   Note also that the order of filenames returned can be non-deterministic.
 		/// </remarks>
 		public TFOutput MatchingFiles (TFOutput pattern, string operName = null)
 		{
@@ -15004,7 +15426,7 @@ namespace TensorFlow {
 		///   Copy a tensor setting everything outside a central band in each innermost matrix
 		/// </summary>
 		/// <param name="input">
-		///   Rank `k` tensor.
+		///   Rank <code>k</code> tensor.
 		/// </param>
 		/// <param name="num_lower">
 		///   0-D tensor. Number of subdiagonals to keep. If negative, keep entire
@@ -15018,49 +15440,49 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixBandPart'.
 		/// </param>
 		/// <returns>
-		///   Rank `k` tensor of the same shape as input. The extracted banded tensor.
+		///   Rank <code>k</code> tensor of the same shape as input. The extracted banded tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   to zero.
 		///   
-		///   The `band` part is computed as follows:
-		///   Assume `input` has `k` dimensions `[I, J, K, ..., M, N]`, then the output is a
+		///   The <code>band</code> part is computed as follows:
+		///   Assume <code>input</code> has <code>k</code> dimensions <code>[I, J, K, ..., M, N]</code>, then the output is a
 		///   tensor with the same shape where
 		///   
-		///   `band[i, j, k, ..., m, n] = in_band(m, n) * input[i, j, k, ..., m, n]`.
+		///   <code>band[i, j, k, ..., m, n] = in_band(m, n) * input[i, j, k, ..., m, n]</code>.
 		///   
 		///   The indicator function
 		///   
-		///   `in_band(m, n) = (num_lower &amp;lt; 0 || (m-n) &amp;lt;= num_lower)) &amp;&amp;
-		///                    (num_upper &amp;lt; 0 || (n-m) &amp;lt;= num_upper)`.
+		///   <code>in_band(m, n) = (num_lower &amp;lt; 0 || (m-n) &amp;lt;= num_lower)) &amp;&amp;
+		///   (num_upper &amp;lt; 0 || (n-m) &amp;lt;= num_upper)<code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # if 'input' is [[ 0,  1,  2, 3]
-		///                    [-1,  0,  1, 2]
-		///                    [-2, -1,  0, 1]
-		///                    [-3, -2, -1, 0]],
+		///   [-1,  0,  1, 2]
+		///   [-2, -1,  0, 1]
+		///   [-3, -2, -1, 0]],
 		///   
 		///   tf.matrix_band_part(input, 1, -1) ==&amp;gt; [[ 0,  1,  2, 3]
-		///                                          [-1,  0,  1, 2]
-		///                                          [ 0, -1,  0, 1]
-		///                                          [ 0,  0, -1, 0]],
+		///   [-1,  0,  1, 2]
+		///   [ 0, -1,  0, 1]
+		///   [ 0,  0, -1, 0]],
 		///   
 		///   tf.matrix_band_part(input, 2, 1) ==&amp;gt; [[ 0,  1,  0, 0]
-		///                                         [-1,  0,  1, 0]
-		///                                         [-2, -1,  0, 1]
-		///                                         [ 0, -2, -1, 0]]
-		///   ```
+		///   [-1,  0,  1, 0]
+		///   [-2, -1,  0, 1]
+		///   [ 0, -2, -1, 0]]
+		///    </code>
 		///   
 		///   Useful special cases:
 		///   
-		///   ```
-		///    tf.matrix_band_part(input, 0, -1) ==&amp;gt; Upper triangular part.
-		///    tf.matrix_band_part(input, -1, 0) ==&amp;gt; Lower triangular part.
-		///    tf.matrix_band_part(input, 0, 0) ==&amp;gt; Diagonal.
-		///   ```
+		///    <code>
+		///   tf.matrix_band_part(input, 0, -1) ==&amp;gt; Upper triangular part.
+		///   tf.matrix_band_part(input, -1, 0) ==&amp;gt; Lower triangular part.
+		///   tf.matrix_band_part(input, 0, 0) ==&amp;gt; Diagonal.
+		///    </code>
 		/// </remarks>
 		public TFOutput MatrixBandPart (TFOutput input, TFOutput num_lower, TFOutput num_upper, string operName = null)
 		{
@@ -15081,19 +15503,19 @@ namespace TensorFlow {
 		///   Computes the determinant of one or more square matrices.
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixDeterminant'.
 		/// </param>
 		/// <returns>
-		///   Shape is `[...]`.
+		///   Shape is <code>[...]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices. The output is a tensor containing the determinants
-		///   for all input submatrices `[..., :, :]`.
+		///   for all input submatrices <code>[..., :, :]</code>.
 		/// </remarks>
 		public TFOutput MatrixDeterminant (TFOutput input, string operName = null)
 		{
@@ -15112,42 +15534,42 @@ namespace TensorFlow {
 		///   Returns a batched diagonal tensor with a given batched diagonal values.
 		/// </summary>
 		/// <param name="diagonal">
-		///   Rank `k`, where `k &amp;gt;= 1`.
+		///   Rank <code>k</code>, where <code>k &amp;gt;= 1</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixDiag'.
 		/// </param>
 		/// <returns>
-		///   Rank `k+1`, with `output.shape = diagonal.shape + [diagonal.shape[-1]]`.
+		///   Rank <code>k+1</code>, with <code>output.shape = diagonal.shape + [diagonal.shape[-1]]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a `diagonal`, this operation returns a tensor with the `diagonal` and
+		///   Given a <code>diagonal</code>, this operation returns a tensor with the <code>diagonal</code> and
 		///   everything else padded with zeros. The diagonal is computed as follows:
 		///   
-		///   Assume `diagonal` has `k` dimensions `[I, J, K, ..., N]`, then the output is a
-		///   tensor of rank `k+1` with dimensions [I, J, K, ..., N, N]` where:
+		///   Assume <code>diagonal</code> has <code>k</code> dimensions <code>[I, J, K, ..., N]</code>, then the output is a
+		///   tensor of rank <code>k+1</code> with dimensions [I, J, K, ..., N, N]<code> where:
 		///   
-		///   `output[i, j, k, ..., m, n] = 1{m=n} * diagonal[i, j, k, ..., n]`.
+		///   <code>output[i, j, k, ..., m, n] = 1{m=n} * diagonal[i, j, k, ..., n]</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'diagonal' is [[1, 2, 3, 4], [5, 6, 7, 8]]
 		///   
 		///   and diagonal.shape = (2, 4)
 		///   
 		///   tf.matrix_diag(diagonal) ==&amp;gt; [[[1, 0, 0, 0]
-		///                                        [0, 2, 0, 0]
-		///                                        [0, 0, 3, 0]
-		///                                        [0, 0, 0, 4]],
-		///                                       [[5, 0, 0, 0]
-		///                                        [0, 6, 0, 0]
-		///                                        [0, 0, 7, 0]
-		///                                        [0, 0, 0, 8]]]
+		///   [0, 2, 0, 0]
+		///   [0, 0, 3, 0]
+		///   [0, 0, 0, 4]],
+		///   [[5, 0, 0, 0]
+		///   [0, 6, 0, 0]
+		///   [0, 0, 7, 0]
+		///   [0, 0, 0, 8]]]
 		///   
 		///   which has shape (2, 4, 4)
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput MatrixDiag (TFOutput diagonal, string operName = null)
 		{
@@ -15166,45 +15588,45 @@ namespace TensorFlow {
 		///   Returns the batched diagonal part of a batched tensor.
 		/// </summary>
 		/// <param name="input">
-		///   Rank `k` tensor where `k &amp;gt;= 2`.
+		///   Rank <code>k</code> tensor where <code>k &amp;gt;= 2</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixDiagPart'.
 		/// </param>
 		/// <returns>
 		///   The extracted diagonal(s) having shape
-		///   `diagonal.shape = input.shape[:-2] + [min(input.shape[-2:])]`.
+		///   <code>diagonal.shape = input.shape[:-2] + [min(input.shape[-2:])]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a tensor with the `diagonal` part
-		///   of the batched `input`. The `diagonal` part is computed as follows:
+		///   This operation returns a tensor with the <code>diagonal</code> part
+		///   of the batched <code>input</code>. The <code>diagonal</code> part is computed as follows:
 		///   
-		///   Assume `input` has `k` dimensions `[I, J, K, ..., M, N]`, then the output is a
-		///   tensor of rank `k - 1` with dimensions `[I, J, K, ..., min(M, N)]` where:
+		///   Assume <code>input</code> has <code>k</code> dimensions <code>[I, J, K, ..., M, N]</code>, then the output is a
+		///   tensor of rank <code>k - 1</code> with dimensions <code>[I, J, K, ..., min(M, N)]</code> where:
 		///   
-		///   `diagonal[i, j, k, ..., n] = input[i, j, k, ..., n, n]`.
+		///   <code>diagonal[i, j, k, ..., n] = input[i, j, k, ..., n, n]</code>.
 		///   
 		///   The input must be at least a matrix.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'input' is [[[1, 0, 0, 0]
-		///                  [0, 2, 0, 0]
-		///                  [0, 0, 3, 0]
-		///                  [0, 0, 0, 4]],
-		///                 [[5, 0, 0, 0]
-		///                  [0, 6, 0, 0]
-		///                  [0, 0, 7, 0]
-		///                  [0, 0, 0, 8]]]
+		///   [0, 2, 0, 0]
+		///   [0, 0, 3, 0]
+		///   [0, 0, 0, 4]],
+		///   [[5, 0, 0, 0]
+		///   [0, 6, 0, 0]
+		///   [0, 0, 7, 0]
+		///   [0, 0, 0, 8]]]
 		///   
 		///   and input.shape = (2, 4, 4)
 		///   
 		///   tf.matrix_diag_part(input) ==&amp;gt; [[1, 2, 3, 4], [5, 6, 7, 8]]
 		///   
 		///   which has shape (2, 4)
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput MatrixDiagPart (TFOutput input, string operName = null)
 		{
@@ -15223,13 +15645,13 @@ namespace TensorFlow {
 		///   Computes the matrix exponential of one or more square matrices:
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixExponential'.
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		///   
 		///   @compatibility(scipy)
 		///   Equivalent to scipy.linalg.expm
@@ -15244,9 +15666,9 @@ namespace TensorFlow {
 		///   Nicholas J. Higham, "The scaling and squaring method for the matrix exponential
 		///   revisited," SIAM J. Matrix Anal. Applic., 26:1179-1193, 2005.
 		///   
-		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices. The output is a tensor of the same shape as the input
-		///   containing the exponential for all input submatrices `[..., :, :]`.
+		///   containing the exponential for all input submatrices <code>[..., :, :]</code>.
 		/// </remarks>
 		public TFOutput MatrixExponential (TFOutput input, string operName = null)
 		{
@@ -15265,7 +15687,7 @@ namespace TensorFlow {
 		///   Computes the inverse of one or more square invertible matrices or their
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixInverse'.
@@ -15274,7 +15696,7 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.linalg.inv
@@ -15284,9 +15706,9 @@ namespace TensorFlow {
 		/// <remarks>
 		///   adjoints (conjugate transposes).
 		///   
-		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices. The output is a tensor of the same shape as the input
-		///   containing the inverse for all input submatrices `[..., :, :]`.
+		///   containing the inverse for all input submatrices <code>[..., :, :]</code>.
 		///   
 		///   The op uses LU decomposition with partial pivoting to compute the inverses.
 		///   
@@ -15311,34 +15733,81 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Computes the matrix logarithm of one or more square matrices:
+		/// </summary>
+		/// <param name="input">
+		///   Shape is <code>[..., M, M]</code>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixLogarithm'.
+		/// </param>
+		/// <returns>
+		///   Shape is <code>[..., M, M]</code>.
+		///   
+		///   @compatibility(scipy)
+		///   Equivalent to scipy.linalg.logm
+		///   @end_compatibility
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   log(exp(A)) = A
+		///   
+		///   This op is only defined for complex matrices. If A is positive-definite and
+		///   real, then casting to a complex matrix, taking the logarithm and casting back
+		///   to a real matrix will give the correct result.
+		///   
+		///   This function computes the matrix logarithm using the Schur-Parlett algorithm.
+		///   Details of the algorithm can be found in Section 11.6.2 of:
+		///   Nicholas J. Higham, Functions of Matrices: Theory and Computation, SIAM 2008.
+		///   ISBN 978-0-898716-46-7.
+		///   
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
+		///   form square matrices. The output is a tensor of the same shape as the input
+		///   containing the exponential for all input submatrices <code>[..., :, :]</code>.
+		/// </remarks>
+		public TFOutput MatrixLogarithm (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MatrixLogarithm", MakeName ("MatrixLogarithm", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Returns a batched matrix tensor with new batched diagonal values.
 		/// </summary>
 		/// <param name="input">
-		///   Rank `k+1`, where `k &amp;gt;= 1`.
+		///   Rank <code>k+1</code>, where <code>k &amp;gt;= 1</code>.
 		/// </param>
 		/// <param name="diagonal">
-		///   Rank `k`, where `k &amp;gt;= 1`.
+		///   Rank <code>k</code>, where <code>k &amp;gt;= 1</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixSetDiag'.
 		/// </param>
 		/// <returns>
-		///   Rank `k+1`, with `output.shape = input.shape`.
+		///   Rank <code>k+1</code>, with <code>output.shape = input.shape</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given `input` and `diagonal`, this operation returns a tensor with the
-		///   same shape and values as `input`, except for the main diagonal of the
-		///   innermost matrices.  These will be overwritten by the values in `diagonal`.
+		///   Given <code>input</code> and <code>diagonal</code>, this operation returns a tensor with the
+		///   same shape and values as <code>input</code>, except for the main diagonal of the
+		///   innermost matrices.  These will be overwritten by the values in <code>diagonal</code>.
 		///   
 		///   The output is computed as follows:
 		///   
-		///   Assume `input` has `k+1` dimensions `[I, J, K, ..., M, N]` and `diagonal` has
-		///   `k` dimensions `[I, J, K, ..., min(M, N)]`.  Then the output is a
-		///   tensor of rank `k+1` with dimensions `[I, J, K, ..., M, N]` where:
+		///   Assume <code>input</code> has <code>k+1</code> dimensions <code>[I, J, K, ..., M, N]</code> and <code>diagonal</code> has
+		///   <code>k</code> dimensions <code>[I, J, K, ..., min(M, N)]</code>.  Then the output is a
+		///   tensor of rank <code>k+1</code> with dimensions <code>[I, J, K, ..., M, N]</code> where:
 		///   
-		///     * `output[i, j, k, ..., m, n] = diagonal[i, j, k, ..., n]` for `m == n`.
-		///     * `output[i, j, k, ..., m, n] = input[i, j, k, ..., m, n]` for `m != n`.
+		///   * <code>output[i, j, k, ..., m, n] = diagonal[i, j, k, ..., n]</code> for <code>m == n</code>.
+		///   * <code>output[i, j, k, ..., m, n] = input[i, j, k, ..., m, n]</code> for <code>m != n</code>.
 		/// </remarks>
 		public TFOutput MatrixSetDiag (TFOutput input, TFOutput diagonal, string operName = null)
 		{
@@ -15358,30 +15827,30 @@ namespace TensorFlow {
 		///   Solves systems of linear equations.
 		/// </summary>
 		/// <param name="matrix">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="rhs">
-		///   Shape is `[..., M, K]`.
+		///   Shape is <code>[..., M, K]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixSolve'.
 		/// </param>
 		/// <param name="adjoint">
 		///   Optional argument
-		///   Boolean indicating whether to solve with `matrix` or its (block-wise)
+		///   Boolean indicating whether to solve with <code>matrix</code> or its (block-wise)
 		///   adjoint.
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M, K]`.
+		///   Shape is <code>[..., M, K]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `Matrix` is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
-		///   form square matrices. `Rhs` is a tensor of shape `[..., M, K]`. The `output` is
-		///   a tensor shape `[..., M, K]`.  If `adjoint` is `False` then each output matrix
-		///   satisfies `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]`.
-		///   If `adjoint` is `True` then each output matrix satisfies
-		///   `adjoint(matrix[..., :, :]) * output[..., :, :] = rhs[..., :, :]`.
+		///   <code>Matrix</code> is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
+		///   form square matrices. <code>Rhs</code> is a tensor of shape <code>[..., M, K]</code>. The <code>output</code> is
+		///   a tensor shape <code>[..., M, K]</code>.  If <code>adjoint</code> is <code>False</code> then each output matrix
+		///   satisfies <code>matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]</code>.
+		///   If <code>adjoint</code> is <code>True</code> then each output matrix satisfies
+		///   <code>adjoint(matrix[..., :, :]) * output[..., :, :] = rhs[..., :, :]</code>.
 		/// </remarks>
 		public TFOutput MatrixSolve (TFOutput matrix, TFOutput rhs, bool? adjoint = null, string operName = null)
 		{
@@ -15404,10 +15873,10 @@ namespace TensorFlow {
 		///   Solves one or more linear least-squares problems.
 		/// </summary>
 		/// <param name="matrix">
-		///   Shape is `[..., M, N]`.
+		///   Shape is <code>[..., M, N]</code>.
 		/// </param>
 		/// <param name="rhs">
-		///   Shape is `[..., M, K]`.
+		///   Shape is <code>[..., M, K]</code>.
 		/// </param>
 		/// <param name="l2_regularizer">
 		///   Scalar tensor.
@@ -15423,31 +15892,31 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., N, K]`.
+		///   Shape is <code>[..., N, K]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `matrix` is a tensor of shape `[..., M, N]` whose inner-most 2 dimensions
-		///   form real or complex matrices of size `[M, N]`. `Rhs` is a tensor of the same
-		///   type as `matrix` and shape `[..., M, K]`.
-		///   The output is a tensor shape `[..., N, K]` where each output matrix solves
+		///   <code>matrix</code> is a tensor of shape <code>[..., M, N]</code> whose inner-most 2 dimensions
+		///   form real or complex matrices of size <code>[M, N]</code>. <code>Rhs</code> is a tensor of the same
+		///   type as <code>matrix</code> and shape <code>[..., M, K]</code>.
+		///   The output is a tensor shape <code>[..., N, K]</code> where each output matrix solves
 		///   each of the equations
-		///   `matrix[..., :, :]` * `output[..., :, :]` = `rhs[..., :, :]`
+		///   <code>matrix[..., :, :]</code> * <code>output[..., :, :]</code> = <code>rhs[..., :, :]</code>
 		///   in the least squares sense.
 		///   
 		///   We use the following notation for (complex) matrix and right-hand sides
 		///   in the batch:
 		///   
-		///   `matrix`=\\(A \in \mathbb{C}^{m \times n}\\),
-		///   `rhs`=\\(B  \in \mathbb{C}^{m \times k}\\),
-		///   `output`=\\(X  \in \mathbb{C}^{n \times k}\\),
-		///   `l2_regularizer`=\\(\lambda \in \mathbb{R}\\).
+		///   <code>matrix</code>=\\(A \in \mathbb{C}^{m \times n}\\),
+		///   <code>rhs</code>=\\(B  \in \mathbb{C}^{m \times k}\\),
+		///   <code>output</code>=\\(X  \in \mathbb{C}^{n \times k}\\),
+		///   <code>l2_regularizer</code>=\\(\lambda \in \mathbb{R}\\).
 		///   
-		///   If `fast` is `True`, then the solution is computed by solving the normal
+		///   If <code>fast</code> is <code>True</code>, then the solution is computed by solving the normal
 		///   equations using Cholesky decomposition. Specifically, if \\(m \ge n\\) then
 		///   \\(X = (A^H A + \lambda I)^{-1} A^H B\\), which solves the least-squares
 		///   problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||A Z - B||_F^2 +
-		///   \lambda ||Z||_F^2\\). If \\(m \lt n\\) then `output` is computed as
+		///   \lambda ||Z||_F^2\\). If \\(m \lt n\\) then <code>output</code> is computed as
 		///   \\(X = A^H (A A^H + \lambda I)^{-1} B\\), which (for \\(\lambda = 0\\)) is the
 		///   minimum-norm solution to the under-determined linear system, i.e.
 		///   \\(X = \mathrm{argmin}_{Z \in \mathbb{C}^{n \times k} } ||Z||_F^2 \\),
@@ -15456,11 +15925,11 @@ namespace TensorFlow {
 		///   \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach} } }\\) or\\(\lambda\\) is
 		///   sufficiently large.
 		///   
-		///   If `fast` is `False` an algorithm based on the numerically robust complete
+		///   If <code>fast</code> is <code>False</code> an algorithm based on the numerically robust complete
 		///   orthogonal decomposition is used. This computes the minimum-norm
 		///   least-squares solution, even when \\(A\\) is rank deficient. This path is
-		///   typically 6-7 times slower than the fast path. If `fast` is `False` then
-		///   `l2_regularizer` is ignored.
+		///   typically 6-7 times slower than the fast path. If <code>fast</code> is <code>False</code> then
+		///   <code>l2_regularizer</code> is ignored.
 		/// </remarks>
 		public TFOutput MatrixSolveLs (TFOutput matrix, TFOutput rhs, TFOutput l2_regularizer, bool? fast = null, string operName = null)
 		{
@@ -15484,48 +15953,48 @@ namespace TensorFlow {
 		///   Solves systems of linear equations with upper or lower triangular matrices by
 		/// </summary>
 		/// <param name="matrix">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="rhs">
-		///   Shape is `[..., M, K]`.
+		///   Shape is <code>[..., M, K]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixTriangularSolve'.
 		/// </param>
 		/// <param name="lower">
 		///   Optional argument
-		///   Boolean indicating whether the innermost matrices in `matrix` are
+		///   Boolean indicating whether the innermost matrices in <code>matrix</code> are
 		///   lower or upper triangular.
 		/// </param>
 		/// <param name="adjoint">
 		///   Optional argument
-		///   Boolean indicating whether to solve with `matrix` or its (block-wise)
-		///            adjoint.
+		///   Boolean indicating whether to solve with <code>matrix</code> or its (block-wise)
+		///   adjoint.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.linalg.triangular_solve
 		///   @end_compatibility
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M, K]`.
+		///   Shape is <code>[..., M, K]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   backsubstitution.
 		///   
-		///   `matrix` is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions form
-		///   square matrices. If `lower` is `True` then the strictly upper triangular part
+		///   <code>matrix</code> is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions form
+		///   square matrices. If <code>lower</code> is <code>True</code> then the strictly upper triangular part
 		///   of each inner-most matrix is assumed to be zero and not accessed.
-		///   If `lower` is False then the strictly lower triangular part of each inner-most
+		///   If <code>lower</code> is False then the strictly lower triangular part of each inner-most
 		///   matrix is assumed to be zero and not accessed.
-		///   `rhs` is a tensor of shape `[..., M, K]`.
+		///   <code>rhs</code> is a tensor of shape <code>[..., M, K]</code>.
 		///   
-		///   The output is a tensor of shape `[..., M, K]`. If `adjoint` is
-		///   `True` then the innermost matrices in `output` satisfy matrix equations
-		///   `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]`.
-		///   If `adjoint` is `False` then the strictly then the  innermost matrices in
-		///   `output` satisfy matrix equations
-		///   `adjoint(matrix[..., i, k]) * output[..., k, j] = rhs[..., i, j]`.
+		///   The output is a tensor of shape <code>[..., M, K]</code>. If <code>adjoint</code> is
+		///   <code>True</code> then the innermost matrices in <code>output</code> satisfy matrix equations
+		///   <code>matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]</code>.
+		///   If <code>adjoint</code> is <code>False</code> then the strictly then the  innermost matrices in
+		///   <code>output</code> satisfy matrix equations
+		///   <code>adjoint(matrix[..., i, k]) * output[..., k, j] = rhs[..., i, j]</code>.
 		/// </remarks>
 		public TFOutput MatrixTriangularSolve (TFOutput matrix, TFOutput rhs, bool? lower = null, bool? adjoint = null, string operName = null)
 		{
@@ -15555,7 +16024,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Max'.
@@ -15569,9 +16038,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Max (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -15605,7 +16074,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Maximum` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Maximum</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Maximum (TFOutput x, TFOutput y, string operName = null)
@@ -15635,9 +16104,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the window for each dimension of the input tensor.
@@ -15676,7 +16145,7 @@ namespace TensorFlow {
 		///   Performs 3D max pooling on the input.
 		/// </summary>
 		/// <param name="input">
-		///   Shape `[batch, depth, rows, cols, channels]` tensor to pool over.
+		///   Shape <code>[batch, depth, rows, cols, channels]</code> tensor to pool over.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPool3D'.
@@ -15685,17 +16154,17 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   1-D tensor of length 5. The size of the window for each dimension of
-		///   the input tensor. Must have `ksize[0] = ksize[4] = 1`.
+		///   the input tensor. Must have <code>ksize[0] = ksize[4] = 1</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -15733,7 +16202,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   Output backprop of shape `[batch, depth, rows, cols, channels]`.
+		///   Output backprop of shape <code>[batch, depth, rows, cols, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPool3DGrad'.
@@ -15742,17 +16211,17 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   1-D tensor of length 5. The size of the window for each dimension of
-		///   the input tensor. Must have `ksize[0] = ksize[4] = 1`.
+		///   the input tensor. Must have <code>ksize[0] = ksize[4] = 1</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -15791,7 +16260,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   Output backprop of shape `[batch, depth, rows, cols, channels]`.
+		///   Output backprop of shape <code>[batch, depth, rows, cols, channels]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPool3DGradGrad'.
@@ -15800,23 +16269,23 @@ namespace TensorFlow {
 		///   Optional argument
 		///   The data format of the input and output data. With the
 		///   default format "NDHWC", the data is stored in the order of:
-		///       [batch, in_depth, in_height, in_width, in_channels].
+		///   [batch, in_depth, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCDHW", the data storage order is:
-		///       [batch, in_channels, in_depth, in_height, in_width].
+		///   [batch, in_channels, in_depth, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   1-D tensor of length 5. The size of the window for each dimension of
-		///   the input tensor. Must have `ksize[0] = ksize[4] = 1`.
+		///   the input tensor. Must have <code>ksize[0] = ksize[4] = 1</code>.
 		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
-		///   dimension of `input`. Must have `strides[0] = strides[4] = 1`.
+		///   dimension of <code>input</code>. Must have <code>strides[0] = strides[4] = 1</code>.
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients of gradients w.r.t. the input to `max_pool`.
+		///   Gradients of gradients w.r.t. the input to <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPool3DGradGrad (TFOutput orig_input, TFOutput orig_output, TFOutput grad, long[] ksize, long[] strides, string padding, string data_format = null, string operName = null)
@@ -15850,7 +16319,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   4-D.  Gradients w.r.t. the output of `max_pool`.
+		///   4-D.  Gradients w.r.t. the output of <code>max_pool</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGrad'.
@@ -15859,9 +16328,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the window for each dimension of the input tensor.
@@ -15874,7 +16343,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients w.r.t. the input to `max_pool`.
+		///   Gradients w.r.t. the input to <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGrad (TFOutput orig_input, TFOutput orig_output, TFOutput grad, long[] ksize, long[] strides, string padding, string data_format = null, string operName = null)
@@ -15908,7 +16377,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   4-D.  Gradients of gradients w.r.t. the input of `max_pool`.
+		///   4-D.  Gradients of gradients w.r.t. the input of <code>max_pool</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGradGrad'.
@@ -15917,9 +16386,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the window for each dimension of the input tensor.
@@ -15932,7 +16401,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients of gradients w.r.t. the input to `max_pool`.
+		///   Gradients of gradients w.r.t. the input to <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGradGrad (TFOutput orig_input, TFOutput orig_output, TFOutput grad, long[] ksize, long[] strides, string padding, string data_format = null, string operName = null)
@@ -15966,7 +16435,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   4-D.  Gradients of gradients w.r.t. the input of `max_pool`.
+		///   4-D.  Gradients of gradients w.r.t. the input of <code>max_pool</code>.
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the window for each dimension of the input tensor.
@@ -15982,15 +16451,15 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients of gradients w.r.t. the input to `max_pool`.
+		///   Gradients of gradients w.r.t. the input to <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGradGradV2 (TFOutput orig_input, TFOutput orig_output, TFOutput grad, TFOutput ksize, TFOutput strides, string padding, string data_format = null, string operName = null)
@@ -16021,11 +16490,11 @@ namespace TensorFlow {
 		///   The original input.
 		/// </param>
 		/// <param name="grad">
-		///   4-D with shape `[batch, height, width, channels]`.  Gradients w.r.t. the
-		///   input of `max_pool`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Gradients w.r.t. the
+		///   input of <code>max_pool</code>.
 		/// </param>
 		/// <param name="argmax">
-		///   The indices of the maximum values chosen for each output of `max_pool`.
+		///   The indices of the maximum values chosen for each output of <code>max_pool</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGradGradWithArgmax'.
@@ -16041,7 +16510,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients of gradients w.r.t. the input of `max_pool`.
+		///   Gradients of gradients w.r.t. the input of <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGradGradWithArgmax (TFOutput input, TFOutput grad, TFOutput argmax, long[] ksize, long[] strides, string padding, string operName = null)
@@ -16072,7 +16541,7 @@ namespace TensorFlow {
 		///   The original output tensor.
 		/// </param>
 		/// <param name="grad">
-		///   4-D.  Gradients w.r.t. the output of `max_pool`.
+		///   4-D.  Gradients w.r.t. the output of <code>max_pool</code>.
 		/// </param>
 		/// <param name="ksize">
 		///   The size of the window for each dimension of the input tensor.
@@ -16088,15 +16557,15 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients w.r.t. the input to `max_pool`.
+		///   Gradients w.r.t. the input to <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGradV2 (TFOutput orig_input, TFOutput orig_output, TFOutput grad, TFOutput ksize, TFOutput strides, string padding, string data_format = null, string operName = null)
@@ -16127,11 +16596,11 @@ namespace TensorFlow {
 		///   The original input.
 		/// </param>
 		/// <param name="grad">
-		///   4-D with shape `[batch, height, width, channels]`.  Gradients w.r.t. the
-		///   output of `max_pool`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Gradients w.r.t. the
+		///   output of <code>max_pool</code>.
 		/// </param>
 		/// <param name="argmax">
-		///   The indices of the maximum values chosen for each output of `max_pool`.
+		///   The indices of the maximum values chosen for each output of <code>max_pool</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolGradWithArgmax'.
@@ -16147,7 +16616,7 @@ namespace TensorFlow {
 		///   The type of padding algorithm to use.
 		/// </param>
 		/// <returns>
-		///   Gradients w.r.t. the input of `max_pool`.
+		///   Gradients w.r.t. the input of <code>max_pool</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput MaxPoolGradWithArgmax (TFOutput input, TFOutput grad, TFOutput argmax, long[] ksize, long[] strides, string padding, string operName = null)
@@ -16188,9 +16657,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Specify the data format of the input and output data. With the
 		///   default format "NHWC", the data is stored in the order of:
-		///       [batch, in_height, in_width, in_channels].
+		///   [batch, in_height, in_width, in_channels].
 		///   Alternatively, the format could be "NCHW", the data storage order of:
-		///       [batch, in_channels, in_height, in_width].
+		///   [batch, in_channels, in_height, in_width].
 		/// </param>
 		/// <param name="padding">
 		///   The type of padding algorithm to use.
@@ -16222,7 +16691,7 @@ namespace TensorFlow {
 		///   Performs max pooling on the input and outputs both max values and indices.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, height, width, channels]`.  Input to pool over.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.  Input to pool over.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MaxPoolWithArgmax'.
@@ -16247,11 +16716,11 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The indices in `argmax` are flattened, so that a maximum value at position
-		///   `[b, y, x, c]` becomes flattened index
-		///   `((b * height + y) * width + x) * channels + c`.
+		///   The indices in <code>argmax</code> are flattened, so that a maximum value at position
+		///   <code>[b, y, x, c]</code> becomes flattened index
+		///   <code>((b * height + y) * width + x) * channels + c</code>.
 		///   
-		///   The indices returned are always in `[0, height) x [0, width)` before flattening,
+		///   The indices returned are always in <code>[0, height) x [0, width)</code> before flattening,
 		///   even if padding is involved and the mathematically correct answer is outside
 		///   (either negative or too large).  This is a bug, but fixing it is difficult to do
 		///   in a safe backwards compatible way, especially due to flattening.
@@ -16284,7 +16753,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Mean'.
@@ -16298,9 +16767,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Mean (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -16321,7 +16790,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Forwards the value of an available tensor from `inputs` to `output`.
+		///   Forwards the value of an available tensor from <code>inputs</code> to <code>output</code>.
 		/// </summary>
 		/// <param name="inputs">
 		///   The input tensors, exactly one of which will become available.
@@ -16332,15 +16801,15 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   output: Will be set to the available input tensor.
-		///   value_index: The index of the chosen input tensor in `inputs`.
+		///   value_index: The index of the chosen input tensor in <code>inputs</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   `Merge` waits for at least one of the tensors in `inputs` to become available.
-		///   It is usually combined with `Switch` to implement branching.
+		///   <code>Merge</code> waits for at least one of the tensors in <code>inputs</code> to become available.
+		///   It is usually combined with <code>Switch</code> to implement branching.
 		///   
-		///   `Merge` forwards the first tensor to become available to `output`, and sets
-		///   `value_index` to its index in `inputs`.
+		///   <code>Merge</code> forwards the first tensor to become available to <code>output</code>, and sets
+		///   <code>value_index</code> to its index in <code>inputs</code>.
 		/// </remarks>
 		public (TFOutput output, TFOutput value_index) Merge (TFOutput[] inputs, string operName = null)
 		{
@@ -16360,23 +16829,23 @@ namespace TensorFlow {
 		///   Merges summaries.
 		/// </summary>
 		/// <param name="inputs">
-		///   Can be of any shape.  Each must contain serialized `Summary` protocol
+		///   Can be of any shape.  Each must contain serialized <code>Summary</code> protocol
 		///   buffers.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MergeSummary'.
 		/// </param>
 		/// <returns>
-		///   Scalar. Serialized `Summary` protocol buffer.
+		///   Scalar. Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This op creates a
-		///   [`Summary`](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
+		///   [<code>Summary</code>](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
 		///   protocol buffer that contains the union of all the values in the input
 		///   summaries.
 		///   
-		///   When the Op is run, it reports an `InvalidArgument` error if multiple values
+		///   When the Op is run, it reports an <code>InvalidArgument</code> error if multiple values
 		///   in the summaries to merge use the same tag.
 		/// </remarks>
 		public TFOutput MergeSummary (TFOutput[] inputs, string operName = null)
@@ -16513,7 +16982,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Min'.
@@ -16527,9 +16996,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Min (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -16563,7 +17032,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Minimum` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Minimum</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Minimum (TFOutput x, TFOutput y, string operName = null)
@@ -16588,48 +17057,48 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="paddings">
 		///   A two-column matrix specifying the padding sizes. The number of
-		///   rows must be the same as the rank of `input`.
+		///   rows must be the same as the rank of <code>input</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MirrorPad'.
 		/// </param>
 		/// <param name="mode">
-		///   Either `REFLECT` or `SYMMETRIC`. In reflect mode the padded regions
+		///   Either <code>REFLECT</code> or <code>SYMMETRIC</code>. In reflect mode the padded regions
 		///   do not include the borders, while in symmetric mode the padded regions
-		///   do include the borders. For example, if `input` is `[1, 2, 3]` and `paddings`
-		///   is `[0, 2]`, then the output is `[1, 2, 3, 2, 1]` in reflect mode, and
-		///   it is `[1, 2, 3, 3, 2]` in symmetric mode.
+		///   do include the borders. For example, if <code>input</code> is <code>[1, 2, 3]</code> and <code>paddings</code>
+		///   is <code>[0, 2]</code>, then the output is <code>[1, 2, 3, 2, 1]</code> in reflect mode, and
+		///   it is <code>[1, 2, 3, 3, 2]</code> in symmetric mode.
 		/// </param>
 		/// <returns>
 		///   The padded tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation pads a `input` with mirrored values according to the `paddings`
-		///   you specify. `paddings` is an integer tensor with shape `[n, 2]`, where n is
-		///   the rank of `input`. For each dimension D of `input`, `paddings[D, 0]` indicates
-		///   how many values to add before the contents of `input` in that dimension, and
-		///   `paddings[D, 1]` indicates how many values to add after the contents of `input`
-		///   in that dimension. Both `paddings[D, 0]` and `paddings[D, 1]` must be no greater
-		///   than `input.dim_size(D)` (or `input.dim_size(D) - 1`) if `copy_border` is true
+		///   This operation pads a <code>input</code> with mirrored values according to the <code>paddings</code>
+		///   you specify. <code>paddings</code> is an integer tensor with shape <code>[n, 2]</code>, where n is
+		///   the rank of <code>input</code>. For each dimension D of <code>input</code>, <code>paddings[D, 0]</code> indicates
+		///   how many values to add before the contents of <code>input</code> in that dimension, and
+		///   <code>paddings[D, 1]</code> indicates how many values to add after the contents of <code>input</code>
+		///   in that dimension. Both <code>paddings[D, 0]</code> and <code>paddings[D, 1]</code> must be no greater
+		///   than <code>input.dim_size(D)</code> (or <code>input.dim_size(D) - 1</code>) if <code>copy_border</code> is true
 		///   (if false, respectively).
 		///   
 		///   The padded size of each dimension D of the output is:
 		///   
-		///   `paddings(D, 0) + input.dim_size(D) + paddings(D, 1)`
+		///   <code>paddings(D, 0) + input.dim_size(D) + paddings(D, 1)</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[1, 2, 3], [4, 5, 6]].
 		///   # 'paddings' is [[1, 1]], [2, 2]].
 		///   # 'mode' is SYMMETRIC.
 		///   # rank of 't' is 2.
 		///   pad(t, paddings) ==&amp;gt; [[2, 1, 1, 2, 3, 3, 2]
-		///                         [2, 1, 1, 2, 3, 3, 2]
-		///                         [5, 4, 4, 5, 6, 6, 5]
-		///                         [5, 4, 4, 5, 6, 6, 5]]
-		///   ```
+		///   [2, 1, 1, 2, 3, 3, 2]
+		///   [5, 4, 4, 5, 6, 6, 5]
+		///   [5, 4, 4, 5, 6, 6, 5]]
+		///    </code>
 		/// </remarks>
 		public TFOutput MirrorPad (TFOutput input, TFOutput paddings, string mode, string operName = null)
 		{
@@ -16647,44 +17116,44 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gradient op for `MirrorPad` op. This op folds a mirror-padded tensor.
+		///   Gradient op for <code>MirrorPad</code> op. This op folds a mirror-padded tensor.
 		/// </summary>
 		/// <param name="input">
 		///   The input tensor to be folded.
 		/// </param>
 		/// <param name="paddings">
 		///   A two-column matrix specifying the padding sizes. The number of
-		///   rows must be the same as the rank of `input`.
+		///   rows must be the same as the rank of <code>input</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MirrorPadGrad'.
 		/// </param>
 		/// <param name="mode">
-		///   The mode used in the `MirrorPad` op.
+		///   The mode used in the <code>MirrorPad</code> op.
 		/// </param>
 		/// <returns>
 		///   The folded tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation folds the padded areas of `input` by `MirrorPad` according to the
-		///   `paddings` you specify. `paddings` must be the same as `paddings` argument
-		///   given to the corresponding `MirrorPad` op.
+		///   This operation folds the padded areas of <code>input</code> by <code>MirrorPad</code> according to the
+		///   <code>paddings</code> you specify. <code>paddings</code> must be the same as <code>paddings</code> argument
+		///   given to the corresponding <code>MirrorPad</code> op.
 		///   
 		///   The folded size of each dimension D of the output is:
 		///   
-		///   `input.dim_size(D) - paddings(D, 0) - paddings(D, 1)`
+		///   <code>input.dim_size(D) - paddings(D, 0) - paddings(D, 1)</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[1, 2, 3], [4, 5, 6], [7, 8, 9]].
 		///   # 'paddings' is [[0, 1]], [0, 1]].
 		///   # 'mode' is SYMMETRIC.
 		///   # rank of 't' is 2.
 		///   pad(t, paddings) ==&amp;gt; [[ 1,  5]
-		///                         [11, 28]]
-		///   ```
+		///   [11, 28]]
+		///    </code>
 		/// </remarks>
 		public TFOutput MirrorPadGrad (TFOutput input, TFOutput paddings, string mode, string operName = null)
 		{
@@ -16716,9 +17185,9 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   the result here is consistent with a truncating divide. E.g.
-		///   `tf.truncatediv(x, y) * y + truncate_mod(x, y) = x`.
+		///   <code>tf.truncatediv(x, y) * y + truncate_mod(x, y) = x</code>.
 		///   
-		///   *NOTE*: `Mod` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Mod</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Mod (TFOutput x, TFOutput y, string operName = null)
@@ -16749,7 +17218,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Mul` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Multiply</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Mul (TFOutput x, TFOutput y, string operName = null)
@@ -16770,7 +17239,7 @@ namespace TensorFlow {
 		///   Draws samples from a multinomial distribution.
 		/// </summary>
 		/// <param name="logits">
-		///   2-D Tensor with shape `[batch_size, num_classes]`.  Each slice `[i, :]`
+		///   2-D Tensor with shape <code>[batch_size, num_classes]</code>.  Each slice <code>[i, :]</code>
 		///   represents the unnormalized log probabilities for all classes.
 		/// </param>
 		/// <param name="num_samples">
@@ -16792,8 +17261,8 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   2-D Tensor with shape `[batch_size, num_samples]`.  Each slice `[i, :]`
-		///   contains the drawn class labels with range `[0, num_classes)`.
+		///   2-D Tensor with shape <code>[batch_size, num_samples]</code>.  Each slice <code>[i, :]</code>
+		///   contains the drawn class labels with range <code>[0, num_classes)</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Multinomial (TFOutput logits, TFOutput num_samples, long? seed = null, long? seed2 = null, TFDataType? output_dtype = null, string operName = null)
@@ -17314,7 +17783,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NextIteration'.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput NextIteration (TFOutput data, string operName = null)
@@ -17334,10 +17803,10 @@ namespace TensorFlow {
 		///   Greedily selects a subset of bounding boxes in descending order of score,
 		/// </summary>
 		/// <param name="boxes">
-		///   A 2-D float tensor of shape `[num_boxes, 4]`.
+		///   A 2-D float tensor of shape <code>[num_boxes, 4]</code>.
 		/// </param>
 		/// <param name="scores">
-		///   A 1-D float tensor of shape `[num_boxes]` representing a single
+		///   A 1-D float tensor of shape <code>[num_boxes]</code> representing a single
 		///   score corresponding to each box (each row of boxes).
 		/// </param>
 		/// <param name="max_output_size">
@@ -17353,8 +17822,8 @@ namespace TensorFlow {
 		///   overlap too much with respect to IOU.
 		/// </param>
 		/// <returns>
-		///   A 1-D integer tensor of shape `[M]` representing the selected
-		///   indices from the boxes tensor, where `M &amp;lt;= max_output_size`.
+		///   A 1-D integer tensor of shape <code>[M]</code> representing the selected
+		///   indices from the boxes tensor, where <code>M &amp;lt;= max_output_size</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -17370,10 +17839,10 @@ namespace TensorFlow {
 		///   The output of this operation is a set of integers indexing into the input
 		///   collection of bounding boxes representing the selected boxes.  The bounding
 		///   box coordinates corresponding to the selected indices can then be obtained
-		///   using the `tf.gather operation`.  For example:
-		///     selected_indices = tf.image.non_max_suppression(
-		///         boxes, scores, max_output_size, iou_threshold)
-		///     selected_boxes = tf.gather(boxes, selected_indices)
+		///   using the <code>tf.gather operation</code>.  For example:
+		///   selected_indices = tf.image.non_max_suppression(
+		///   boxes, scores, max_output_size, iou_threshold)
+		///   selected_boxes = tf.gather(boxes, selected_indices)
 		/// </remarks>
 		public TFOutput NonMaxSuppression (TFOutput boxes, TFOutput scores, TFOutput max_output_size, float? iou_threshold = null, string operName = null)
 		{
@@ -17397,10 +17866,10 @@ namespace TensorFlow {
 		///   Greedily selects a subset of bounding boxes in descending order of score,
 		/// </summary>
 		/// <param name="boxes">
-		///   A 2-D float tensor of shape `[num_boxes, 4]`.
+		///   A 2-D float tensor of shape <code>[num_boxes, 4]</code>.
 		/// </param>
 		/// <param name="scores">
-		///   A 1-D float tensor of shape `[num_boxes]` representing a single
+		///   A 1-D float tensor of shape <code>[num_boxes]</code> representing a single
 		///   score corresponding to each box (each row of boxes).
 		/// </param>
 		/// <param name="max_output_size">
@@ -17415,8 +17884,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NonMaxSuppressionV2'.
 		/// </param>
 		/// <returns>
-		///   A 1-D integer tensor of shape `[M]` representing the selected
-		///   indices from the boxes tensor, where `M &amp;lt;= max_output_size`.
+		///   A 1-D integer tensor of shape <code>[M]</code> representing the selected
+		///   indices from the boxes tensor, where <code>M &amp;lt;= max_output_size</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -17433,11 +17902,11 @@ namespace TensorFlow {
 		///   The output of this operation is a set of integers indexing into the input
 		///   collection of bounding boxes representing the selected boxes.  The bounding
 		///   box coordinates corresponding to the selected indices can then be obtained
-		///   using the `tf.gather operation`.  For example:
+		///   using the <code>tf.gather operation</code>.  For example:
 		///   
-		///     selected_indices = tf.image.non_max_suppression_v2(
-		///         boxes, scores, max_output_size, iou_threshold)
-		///     selected_boxes = tf.gather(boxes, selected_indices)
+		///   selected_indices = tf.image.non_max_suppression_v2(
+		///   boxes, scores, max_output_size, iou_threshold)
+		///   selected_boxes = tf.gather(boxes, selected_indices)
 		/// </remarks>
 		public TFOutput NonMaxSuppressionV2 (TFOutput boxes, TFOutput scores, TFOutput max_output_size, TFOutput iou_threshold, string operName = null)
 		{
@@ -17488,7 +17957,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `NotEqual` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>NotEqual</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput NotEqual (TFOutput x, TFOutput y, string operName = null)
@@ -17506,14 +17975,14 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Finds values of the `n`-th order statistic for the last dimension.
+		///   Finds values of the <code>n</code>-th order statistic for the last dimension.
 		/// </summary>
 		/// <param name="input">
-		///   1-D or higher with last dimension at least `n+1`.
+		///   1-D or higher with last dimension at least <code>n+1</code>.
 		/// </param>
 		/// <param name="n">
 		///   0-D. Position of sorted vector to select along the last dimension (along
-		///   each row for matrices). Valid range of n is `[0, input.shape[:-1])`
+		///   each row for matrices). Valid range of n is <code>[0, input.shape[:-1])</code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NthElement'.
@@ -17524,7 +17993,7 @@ namespace TensorFlow {
 		///   versa.
 		/// </param>
 		/// <returns>
-		///   The `n`-th order statistic along each last dimensional slice.
+		///   The <code>n</code>-th order statistic along each last dimensional slice.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -17534,7 +18003,7 @@ namespace TensorFlow {
 		///   For matrices (resp. higher rank input), computes the entries which is the
 		///   nth-smallest value in each row (resp. vector along the last dimension). Thus,
 		///   
-		///       values.shape = input.shape[:-1]
+		///   values.shape = input.shape[:-1]
 		/// </remarks>
 		public TFOutput NthElement (TFOutput input, TFOutput n, bool? reverse = null, string operName = null)
 		{
@@ -17563,10 +18032,10 @@ namespace TensorFlow {
 		///   A scalar defining the depth of the one hot dimension.
 		/// </param>
 		/// <param name="on_value">
-		///   A scalar defining the value to fill in output when `indices[j] = i`.
+		///   A scalar defining the value to fill in output when <code>indices[j] = i</code>.
 		/// </param>
 		/// <param name="off_value">
-		///   A scalar defining the value to fill in output when `indices[j] != i`.
+		///   A scalar defining the value to fill in output when <code>indices[j] != i</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OneHot'.
@@ -17580,28 +18049,28 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The locations represented by indices in `indices` take value `on_value`,
-		///   while all other locations take value `off_value`.
+		///   The locations represented by indices in <code>indices</code> take value <code>on_value</code>,
+		///   while all other locations take value <code>off_value</code>.
 		///   
-		///   If the input `indices` is rank `N`, the output will have rank `N+1`,
-		///   The new axis is created at dimension `axis` (default: the new axis is
+		///   If the input <code>indices</code> is rank <code>N</code>, the output will have rank <code>N+1</code>,
+		///   The new axis is created at dimension <code>axis</code> (default: the new axis is
 		///   appended at the end).
 		///   
-		///   If `indices` is a scalar the output shape will be a vector of length `depth`.
+		///   If <code>indices</code> is a scalar the output shape will be a vector of length <code>depth</code>.
 		///   
-		///   If `indices` is a vector of length `features`, the output shape will be:
-		///   ```
-		///     features x depth if axis == -1
-		///     depth x features if axis == 0
-		///   ```
+		///   If <code>indices</code> is a vector of length <code>features</code>, the output shape will be:
+		///    <code>
+		///   features x depth if axis == -1
+		///   depth x features if axis == 0
+		///    </code>
 		///   
-		///   If `indices` is a matrix (batch) with shape `[batch, features]`,
+		///   If <code>indices</code> is a matrix (batch) with shape <code>[batch, features]</code>,
 		///   the output shape will be:
-		///   ```
-		///     batch x features x depth if axis == -1
-		///     batch x depth x features if axis == 1
-		///     depth x batch x features if axis == 0
-		///   ```
+		///    <code>
+		///   batch x features x depth if axis == -1
+		///   batch x depth x features if axis == 1
+		///   depth x batch x features if axis == 0
+		///    </code>
 		///   
 		///   
 		///   Examples
@@ -17609,65 +18078,65 @@ namespace TensorFlow {
 		///   
 		///   Suppose that
 		///   
-		///   ```
-		///     indices = [0, 2, -1, 1]
-		///     depth = 3
-		///     on_value = 5.0
-		///     off_value = 0.0
-		///     axis = -1
-		///   ```
+		///    <code>
+		///   indices = [0, 2, -1, 1]
+		///   depth = 3
+		///   on_value = 5.0
+		///   off_value = 0.0
+		///   axis = -1
+		///    </code>
 		///   
-		///   Then output is `[4 x 3]`:
+		///   Then output is <code>[4 x 3]</code>:
 		///   
-		///       ```output =
-		///         [5.0 0.0 0.0]  // one_hot(0)
-		///         [0.0 0.0 5.0]  // one_hot(2)
-		///         [0.0 0.0 0.0]  // one_hot(-1)
-		///         [0.0 5.0 0.0]  // one_hot(1)
-		///       ```
+		///   <code></code><code>output =
+		///   [5.0 0.0 0.0]  // one_hot(0)
+		///   [0.0 0.0 5.0]  // one_hot(2)
+		///   [0.0 0.0 0.0]  // one_hot(-1)
+		///   [0.0 5.0 0.0]  // one_hot(1)
+		///   <code></code><code>
 		///   
 		///   Suppose that
 		///   
-		///   ```
-		///     indices = [0, 2, -1, 1]
-		///     depth = 3
-		///     on_value = 0.0
-		///     off_value = 3.0
-		///     axis = 0
-		///   ```
+		///    <code>
+		///   indices = [0, 2, -1, 1]
+		///   depth = 3
+		///   on_value = 0.0
+		///   off_value = 3.0
+		///   axis = 0
+		///    </code>
 		///   
-		///   Then output is `[3 x 4]`:
+		///   Then output is <code>[3 x 4]</code>:
 		///   
-		///       ```output =
-		///         [0.0 3.0 3.0 3.0]
-		///         [3.0 3.0 3.0 0.0]
-		///         [3.0 3.0 3.0 3.0]
-		///         [3.0 0.0 3.0 3.0]
-		///       //  ^                one_hot(0)
-		///       //      ^            one_hot(2)
-		///       //          ^        one_hot(-1)
-		///       //              ^    one_hot(1)
-		///       ```
+		///   <code></code><code>output =
+		///   [0.0 3.0 3.0 3.0]
+		///   [3.0 3.0 3.0 0.0]
+		///   [3.0 3.0 3.0 3.0]
+		///   [3.0 0.0 3.0 3.0]
+		///   //  ^                one_hot(0)
+		///   //      ^            one_hot(2)
+		///   //          ^        one_hot(-1)
+		///   //              ^    one_hot(1)
+		///   <code></code><code>
 		///   Suppose that
 		///   
-		///   ```
-		///     indices = [[0, 2], [1, -1]]
-		///     depth = 3
-		///     on_value = 1.0
-		///     off_value = 0.0
-		///     axis = -1
-		///   ```
+		///    <code>
+		///   indices = [[0, 2], [1, -1]]
+		///   depth = 3
+		///   on_value = 1.0
+		///   off_value = 0.0
+		///   axis = -1
+		///    </code>
 		///   
-		///   Then output is `[2 x 2 x 3]`:
+		///   Then output is <code>[2 x 2 x 3]</code>:
 		///   
-		///       ```output =
-		///         [
-		///           [1.0, 0.0, 0.0]  // one_hot(0)
-		///           [0.0, 0.0, 1.0]  // one_hot(2)
-		///         ][
-		///           [0.0, 1.0, 0.0]  // one_hot(1)
-		///           [0.0, 0.0, 0.0]  // one_hot(-1)
-		///         ]```
+		///   <code></code><code>output =
+		///   [
+		///   [1.0, 0.0, 0.0]  // one_hot(0)
+		///   [0.0, 0.0, 1.0]  // one_hot(2)
+		///   ][
+		///   [0.0, 1.0, 0.0]  // one_hot(1)
+		///   [0.0, 0.0, 0.0]  // one_hot(-1)
+		///   ]<code></code><code>
 		/// </remarks>
 		public TFOutput OneHot (TFOutput indices, TFOutput depth, TFOutput on_value, TFOutput off_value, long? axis = null, string operName = null)
 		{
@@ -18073,8 +18542,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   key: 
-		///   values: 
+		///   key:
+		///   values:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -18114,7 +18583,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Packs a list of `N` rank-`R` tensors into one rank-`(R+1)` tensor.
+		///   Packs a list of <code>N</code> rank-<code>R</code> tensors into one rank-<code>(R+1)</code> tensor.
 		/// </summary>
 		/// <param name="values">
 		///   Must be of same shape and type.
@@ -18125,32 +18594,32 @@ namespace TensorFlow {
 		/// <param name="axis">
 		///   Optional argument
 		///   Dimension along which to pack.  Negative values wrap around, so the
-		///   valid range is `[-(R+1), R+1)`.
+		///   valid range is <code>[-(R+1), R+1)</code>.
 		/// </param>
 		/// <returns>
 		///   The packed tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Packs the `N` tensors in `values` into a tensor with rank one higher than each
-		///   tensor in `values`, by packing them along the `axis` dimension.
-		///   Given a list of tensors of shape `(A, B, C)`;
+		///   Packs the <code>N</code> tensors in <code>values</code> into a tensor with rank one higher than each
+		///   tensor in <code>values</code>, by packing them along the <code>axis</code> dimension.
+		///   Given a list of tensors of shape <code>(A, B, C)</code>;
 		///   
-		///   if `axis == 0` then the `output` tensor will have the shape `(N, A, B, C)`.
-		///   if `axis == 1` then the `output` tensor will have the shape `(A, N, B, C)`.
+		///   if <code>axis == 0</code> then the <code>output</code> tensor will have the shape <code>(N, A, B, C)</code>.
+		///   if <code>axis == 1</code> then the <code>output</code> tensor will have the shape <code>(A, N, B, C)</code>.
 		///   Etc.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'x' is [1, 4]
 		///   # 'y' is [2, 5]
 		///   # 'z' is [3, 6]
 		///   pack([x, y, z]) =&amp;gt; [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
 		///   pack([x, y, z], axis=1) =&amp;gt; [[1, 2, 3], [4, 5, 6]]
-		///   ```
+		///    </code>
 		///   
-		///   This is the opposite of `unpack`.
+		///   This is the opposite of <code>unpack</code>.
 		/// </remarks>
 		public TFOutput Pack (TFOutput[] values, long? axis = null, string operName = null)
 		{
@@ -18182,28 +18651,28 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation pads a `input` with zeros according to the `paddings` you
-		///   specify. `paddings` is an integer tensor with shape `[Dn, 2]`, where n is the
-		///   rank of `input`. For each dimension D of `input`, `paddings[D, 0]` indicates
-		///   how many zeros to add before the contents of `input` in that dimension, and
-		///   `paddings[D, 1]` indicates how many zeros to add after the contents of `input`
+		///   This operation pads a <code>input</code> with zeros according to the <code>paddings</code> you
+		///   specify. <code>paddings</code> is an integer tensor with shape <code>[Dn, 2]</code>, where n is the
+		///   rank of <code>input</code>. For each dimension D of <code>input</code>, <code>paddings[D, 0]</code> indicates
+		///   how many zeros to add before the contents of <code>input</code> in that dimension, and
+		///   <code>paddings[D, 1]</code> indicates how many zeros to add after the contents of <code>input</code>
 		///   in that dimension.
 		///   
 		///   The padded size of each dimension D of the output is:
 		///   
-		///   `paddings(D, 0) + input.dim_size(D) + paddings(D, 1)`
+		///   <code>paddings(D, 0) + input.dim_size(D) + paddings(D, 1)</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[1, 1], [2, 2]]
 		///   # 'paddings' is [[1, 1], [2, 2]]
 		///   # rank of 't' is 2
 		///   pad(t, paddings) ==&amp;gt; [[0, 0, 0, 0, 0, 0]
-		///                         [0, 0, 1, 1, 0, 0]
-		///                         [0, 0, 2, 2, 0, 0]
-		///                         [0, 0, 0, 0, 0, 0]]
-		///   ```
+		///   [0, 0, 1, 1, 0, 0]
+		///   [0, 0, 2, 2, 0, 0]
+		///   [0, 0, 0, 0, 0, 0]]
+		///    </code>
 		/// </remarks>
 		public TFOutput Pad (TFOutput input, TFOutput paddings, string operName = null)
 		{
@@ -18220,7 +18689,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that batches and pads `batch_size` elements from the input.
+		///   Creates a dataset that batches and pads <code>batch_size</code> elements from the input.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -18231,7 +18700,7 @@ namespace TensorFlow {
 		/// <param name="padded_shapes">
 		///   A list of int64 tensors representing the desired padded shapes
 		///   of the corresponding output components. These shapes may be partially
-		///   specified, using `-1` to indicate that a particular dimension should be
+		///   specified, using <code>-1</code> to indicate that a particular dimension should be
 		///   padded to the maximum size of all batch elements.
 		/// </param>
 		/// <param name="padding_values">
@@ -18417,30 +18886,30 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation pads `input` according to the `paddings` and `constant_values`
-		///   you specify. `paddings` is an integer tensor with shape `[Dn, 2]`, where n is
-		///   the rank of `input`. For each dimension D of `input`, `paddings[D, 0]` indicates
-		///   how many padding values to add before the contents of `input` in that dimension,
-		///   and `paddings[D, 1]` indicates how many padding values to add after the contents
-		///   of `input` in that dimension. `constant_values` is a scalar tensor of the same
-		///   type as `input` that indicates the value to use for padding `input`.
+		///   This operation pads <code>input</code> according to the <code>paddings</code> and <code>constant_values</code>
+		///   you specify. <code>paddings</code> is an integer tensor with shape <code>[Dn, 2]</code>, where n is
+		///   the rank of <code>input</code>. For each dimension D of <code>input</code>, <code>paddings[D, 0]</code> indicates
+		///   how many padding values to add before the contents of <code>input</code> in that dimension,
+		///   and <code>paddings[D, 1]</code> indicates how many padding values to add after the contents
+		///   of <code>input</code> in that dimension. <code>constant_values</code> is a scalar tensor of the same
+		///   type as <code>input</code> that indicates the value to use for padding <code>input</code>.
 		///   
 		///   The padded size of each dimension D of the output is:
 		///   
-		///   `paddings(D, 0) + input.dim_size(D) + paddings(D, 1)`
+		///   <code>paddings(D, 0) + input.dim_size(D) + paddings(D, 1)</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[1, 1], [2, 2]]
 		///   # 'paddings' is [[1, 1], [2, 2]]
 		///   # 'constant_values' is 0
 		///   # rank of 't' is 2
 		///   pad(t, paddings) ==&amp;gt; [[0, 0, 0, 0, 0, 0]
-		///                         [0, 0, 1, 1, 0, 0]
-		///                         [0, 0, 2, 2, 0, 0]
-		///                         [0, 0, 0, 0, 0, 0]]
-		///   ```
+		///   [0, 0, 1, 1, 0, 0]
+		///   [0, 0, 2, 2, 0, 0]
+		///   [0, 0, 0, 0, 0, 0]]
+		///    </code>
 		/// </remarks>
 		public TFOutput PadV2 (TFOutput input, TFOutput paddings, TFOutput constant_values, string operName = null)
 		{
@@ -18458,7 +18927,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Concatenates a list of `N` tensors along the first dimension.
+		///   Concatenates a list of <code>N</code> tensors along the first dimension.
 		/// </summary>
 		/// <param name="values">
 		///   Tensors to be concatenated. All must have size 1 in the first dimension
@@ -18480,12 +18949,12 @@ namespace TensorFlow {
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'x' is [[1, 4]]
 		///   # 'y' is [[2, 5]]
 		///   # 'z' is [[3, 6]]
 		///   parallel_concat([x, y, z]) =&amp;gt; [[1, 4], [2, 5], [3, 6]]  # Pack along first dim.
-		///   ```
+		///    </code>
 		///   
 		///   The difference between concat and parallel_concat is that concat requires all
 		///   of the inputs be computed before the operation will begin but doesn't require
@@ -18508,7 +18977,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Interleave the values from the `data` tensors into a single tensor.
+		///   Interleave the values from the <code>data</code> tensors into a single tensor.
 		/// </summary>
 		/// <param name="indices">
 		/// </param>
@@ -18523,61 +18992,61 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Builds a merged tensor such that
 		///   
-		///   ```python
-		///       merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
-		///   ```
+		///   <code></code><code>python
+		///   merged[indices[m][i, ..., j], ...] = data[m][i, ..., j, ...]
+		///    <code>
 		///   
-		///   For example, if each `indices[m]` is scalar or vector, we have
+		///   For example, if each <code>indices[m]</code> is scalar or vector, we have
 		///   
-		///   ```python
-		///       # Scalar indices:
-		///       merged[indices[m], ...] = data[m][...]
+		///   <code></code><code>python
+		///   # Scalar indices:
+		///   merged[indices[m], ...] = data[m][...]
 		///   
-		///       # Vector indices:
-		///       merged[indices[m][i], ...] = data[m][i, ...]
-		///   ```
+		///   # Vector indices:
+		///   merged[indices[m][i], ...] = data[m][i, ...]
+		///    </code>
 		///   
-		///   Each `data[i].shape` must start with the corresponding `indices[i].shape`,
-		///   and the rest of `data[i].shape` must be constant w.r.t. `i`.  That is, we
-		///   must have `data[i].shape = indices[i].shape + constant`.  In terms of this
-		///   `constant`, the output shape is
+		///   Each <code>data[i].shape</code> must start with the corresponding <code>indices[i].shape</code>,
+		///   and the rest of <code>data[i].shape</code> must be constant w.r.t. <code>i</code>.  That is, we
+		///   must have <code>data[i].shape = indices[i].shape + constant</code>.  In terms of this
+		///   <code>constant</code>, the output shape is
 		///   
-		///       merged.shape = [max(indices)] + constant
+		///   merged.shape = [max(indices)] + constant
 		///   
-		///   Values may be merged in parallel, so if an index appears in both `indices[m][i]`
-		///   and `indices[n][j]`, the result may be invalid. This differs from the normal
+		///   Values may be merged in parallel, so if an index appears in both <code>indices[m][i]</code>
+		///   and <code>indices[n][j]</code>, the result may be invalid. This differs from the normal
 		///   DynamicStitch operator that defines the behavior in that case.
 		///   
 		///   For example:
 		///   
-		///   ```python
-		///       indices[0] = 6
-		///       indices[1] = [4, 1]
-		///       indices[2] = [[5, 2], [0, 3]]
-		///       data[0] = [61, 62]
-		///       data[1] = [[41, 42], [11, 12]]
-		///       data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
-		///       merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
-		///                 [51, 52], [61, 62]]
-		///   ```
+		///   <code></code><code>python
+		///   indices[0] = 6
+		///   indices[1] = [4, 1]
+		///   indices[2] = [[5, 2], [0, 3]]
+		///   data[0] = [61, 62]
+		///   data[1] = [[41, 42], [11, 12]]
+		///   data[2] = [[[51, 52], [21, 22]], [[1, 2], [31, 32]]]
+		///   merged = [[1, 2], [11, 12], [21, 22], [31, 32], [41, 42],
+		///   [51, 52], [61, 62]]
+		///    <code>
 		///   
-		///   This method can be used to merge partitions created by `dynamic_partition`
+		///   This method can be used to merge partitions created by <code>dynamic_partition</code>
 		///   as illustrated on the following example:
 		///   
-		///   ```python
-		///       # Apply function (increments x_i) on elements for which a certain condition
-		///       # apply (x_i != -1 in this example).
-		///       x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
-		///       condition_mask=tf.not_equal(x,tf.constant(-1.))
-		///       partitioned_data = tf.dynamic_partition(
-		///           x, tf.cast(condition_mask, tf.int32) , 2)
-		///       partitioned_data[1] = partitioned_data[1] + 1.0
-		///       condition_indices = tf.dynamic_partition(
-		///           tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
-		///       x = tf.dynamic_stitch(condition_indices, partitioned_data)
-		///       # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
-		///       # unchanged.
-		///   ```
+		///   <code></code><code>python
+		///   # Apply function (increments x_i) on elements for which a certain condition
+		///   # apply (x_i != -1 in this example).
+		///   x=tf.constant([0.1, -1., 5.2, 4.3, -1., 7.4])
+		///   condition_mask=tf.not_equal(x,tf.constant(-1.))
+		///   partitioned_data = tf.dynamic_partition(
+		///   x, tf.cast(condition_mask, tf.int32) , 2)
+		///   partitioned_data[1] = partitioned_data[1] + 1.0
+		///   condition_indices = tf.dynamic_partition(
+		///   tf.range(tf.shape(x)[0]), tf.cast(condition_mask, tf.int32) , 2)
+		///   x = tf.dynamic_stitch(condition_indices, partitioned_data)
+		///   # Here x=[1.1, -1., 6.2, 5.3, -1, 8.4], the -1. values remain
+		///   # unchanged.
+		///    </code>
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/DynamicStitch.png" alt&amp;gt;
@@ -18621,7 +19090,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -18722,10 +19191,10 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sparse_indices: 
-		///   sparse_values: 
-		///   sparse_shapes: 
-		///   dense_values: 
+		///   sparse_indices:
+		///   sparse_values:
+		///   sparse_shapes:
+		///   dense_values:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput[] sparse_indices, TFOutput[] sparse_values, TFOutput[] sparse_shapes, TFOutput[] dense_values) ParseExample (TFOutput serialized, TFOutput names, TFOutput[] sparse_keys, TFOutput[] dense_keys, TFOutput[] dense_defaults, TFDataType[] sparse_types, TFShape[] dense_shapes, string operName = null)
@@ -18739,6 +19208,103 @@ namespace TensorFlow {
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
+			desc.SetAttrType ("sparse_types", sparse_types);
+			desc.SetAttrShape ("dense_shapes", dense_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("sparse_indices");
+			var sparse_indices = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				sparse_indices [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("sparse_values");
+			var sparse_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				sparse_values [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("sparse_shapes");
+			var sparse_shapes = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				sparse_shapes [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("dense_values");
+			var dense_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				dense_values [i] = new TFOutput (op, _idx++);
+			
+			return (sparse_indices, sparse_values, sparse_shapes, dense_values);
+		}
+
+		/// <summary>
+		///   Transforms a tf.Example proto (as a string) into typed tensors.
+		/// </summary>
+		/// <param name="serialized">
+		///   A vector containing a batch of binary serialized Example protos.
+		/// </param>
+		/// <param name="dense_defaults">
+		///   A list of Tensors (some may be empty), whose length matches
+		///   the length of <code>dense_keys</code>. dense_defaults[j] provides default values
+		///   when the example's feature_map lacks dense_key[j].  If an empty Tensor is
+		///   provided for dense_defaults[j], then the Feature dense_keys[j] is required.
+		///   The input type is inferred from dense_defaults[j], even when it's empty.
+		///   If dense_defaults[j] is not empty, and dense_shapes[j] is fully defined,
+		///   then the shape of dense_defaults[j] must match that of dense_shapes[j].
+		///   If dense_shapes[j] has an undefined major dimension (variable strides dense
+		///   feature), dense_defaults[j] must contain a single element:
+		///   the padding element.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ParseSingleExample'.
+		/// </param>
+		/// <param name="num_sparse">
+		///   The number of sparse features to be parsed from the example. This
+		///   must match the lengths of <code>sparse_keys</code> and <code>sparse_types</code>.
+		/// </param>
+		/// <param name="sparse_keys">
+		///   A list of <code>num_sparse</code> strings.
+		///   The keys expected in the Examples' features associated with sparse values.
+		/// </param>
+		/// <param name="dense_keys">
+		///   The keys expected in the Examples' features associated with dense
+		///   values.
+		/// </param>
+		/// <param name="sparse_types">
+		///   A list of <code>num_sparse</code> types; the data types of data in each
+		///   Feature given in sparse_keys.
+		///   Currently the ParseSingleExample op supports DT_FLOAT (FloatList),
+		///   DT_INT64 (Int64List), and DT_STRING (BytesList).
+		/// </param>
+		/// <param name="dense_shapes">
+		///   The shapes of data in each Feature given in dense_keys.
+		///   The length of this list must match the length of <code>dense_keys</code>.  The
+		///   number of elements in the Feature corresponding to dense_key[j] must
+		///   always equal dense_shapes[j].NumEntries().  If dense_shapes[j] ==
+		///   (D0, D1, ..., DN) then the shape of output Tensor dense_values[j]
+		///   will be (D0, D1, ..., DN): In the case dense_shapes[j] = (-1, D1,
+		///   ..., DN), the shape of the output Tensor dense_values[j] will be (M,
+		///   D1, .., DN), where M is the number of blocks of elements of length
+		///   D1 * .... * DN, in the input.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   sparse_indices:
+		///   sparse_values:
+		///   sparse_shapes:
+		///   dense_values:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput[] sparse_indices, TFOutput[] sparse_values, TFOutput[] sparse_shapes, TFOutput[] dense_values) ParseSingleExample (TFOutput serialized, TFOutput[] dense_defaults, long num_sparse, string[] sparse_keys, string[] dense_keys, TFDataType[] sparse_types, TFShape[] dense_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ParseSingleExample", MakeName ("ParseSingleExample", operName));
+			desc.AddInput (serialized);
+			desc.AddInputs (dense_defaults);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_sparse", num_sparse);
+			desc.SetAttr ("sparse_keys", sparse_keys);
+			desc.SetAttr ("dense_keys", dense_keys);
 			desc.SetAttrType ("sparse_types", sparse_types);
 			desc.SetAttrShape ("dense_shapes", dense_shapes);
 			var op = desc.FinishOperation ();
@@ -18854,14 +19420,14 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   context_sparse_indices: 
-		///   context_sparse_values: 
-		///   context_sparse_shapes: 
-		///   context_dense_values: 
-		///   feature_list_sparse_indices: 
-		///   feature_list_sparse_values: 
-		///   feature_list_sparse_shapes: 
-		///   feature_list_dense_values: 
+		///   context_sparse_indices:
+		///   context_sparse_values:
+		///   context_sparse_shapes:
+		///   context_dense_values:
+		///   feature_list_sparse_indices:
+		///   feature_list_sparse_values:
+		///   feature_list_sparse_shapes:
+		///   feature_list_dense_values:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput[] context_sparse_indices, TFOutput[] context_sparse_values, TFOutput[] context_sparse_shapes, TFOutput[] context_dense_values, TFOutput[] feature_list_sparse_indices, TFOutput[] feature_list_sparse_values, TFOutput[] feature_list_sparse_shapes, TFOutput[] feature_list_dense_values) ParseSingleSequenceExample (TFOutput serialized, TFOutput feature_list_dense_missing_assumed_empty, TFOutput[] context_sparse_keys, TFOutput[] context_dense_keys, TFOutput[] feature_list_sparse_keys, TFOutput[] feature_list_dense_keys, TFOutput[] context_dense_defaults, TFOutput debug_name, TFDataType[] context_sparse_types = null, TFDataType[] feature_list_dense_types = null, TFShape[] context_dense_shapes = null, TFDataType[] feature_list_sparse_types = null, TFShape[] feature_list_dense_shapes = null, string operName = null)
@@ -18953,7 +19519,7 @@ namespace TensorFlow {
 		///   type of the serialized tensor and no implicit conversion will take place.
 		/// </param>
 		/// <returns>
-		///   A Tensor of type `out_type`.
+		///   A Tensor of type <code>out_type</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ParseTensor (TFOutput serialized, TFDataType out_type, string operName = null)
@@ -19046,10 +19612,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   A placeholder op that passes through `input` when its output is not fed.
+		///   A placeholder op that passes through <code>input</code> when its output is not fed.
 		/// </summary>
 		/// <param name="input">
-		///   The default value to produce when `output` is not fed.
+		///   The default value to produce when <code>output</code> is not fed.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PlaceholderWithDefault'.
@@ -19058,7 +19624,7 @@ namespace TensorFlow {
 		///   The (possibly partial) shape of the tensor.
 		/// </param>
 		/// <returns>
-		///   A placeholder tensor that defaults to `input` if it is not fed.
+		///   A placeholder tensor that defaults to <code>input</code> if it is not fed.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput PlaceholderWithDefault (TFOutput input, TFShape shape, string operName = null)
@@ -19122,11 +19688,11 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   For each entry in `x`, calculates the number of `1` (on) bits in the binary
+		///   For each entry in <code>x</code>, calculates the number of <code>1</code> (on) bits in the binary
 		///   representation of that entry.
 		///   
-		///   **NOTE**: It is more efficient to first `tf.bitcast` your tensors into
-		///   `int32` or `int64` and perform the bitcount on the result, than to feed in
+		///   **NOTE**: It is more efficient to first <code>tf.bitcast</code> your tensors into
+		///   <code>int32</code> or <code>int64</code> and perform the bitcount on the result, than to feed in
 		///   8- or 16-bit inputs and then aggregate the resulting counts.
 		/// </remarks>
 		public TFOutput PopulationCount (TFOutput x, string operName = null)
@@ -19156,14 +19722,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `x` and a tensor `y`, this operation computes \\(x^y\\) for
-		///   corresponding elements in `x` and `y`. For example:
+		///   Given a tensor <code>x</code> and a tensor <code>y</code>, this operation computes \\(x^y\\) for
+		///   corresponding elements in <code>x</code> and <code>y</code>. For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'x' is [[2, 2]], [3, 3]]
 		///   # tensor 'y' is [[8, 16], [2, 3]]
 		///   tf.pow(x, y) ==&amp;gt; [[256, 65536], [9, 27]]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Pow (TFOutput x, TFOutput y, string operName = null)
 		{
@@ -19180,7 +19746,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that asynchronously prefetches elements from `input_dataset`.
+		///   Creates a dataset that asynchronously prefetches elements from <code>input_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
@@ -19261,7 +19827,7 @@ namespace TensorFlow {
 		///   Prints a list of tensors.
 		/// </summary>
 		/// <param name="input">
-		///   The tensor passed to `output`
+		///   The tensor passed to <code>output</code>
 		/// </param>
 		/// <param name="data">
 		///   A list of tensors to print out when op is evaluated.
@@ -19275,18 +19841,18 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="first_n">
 		///   Optional argument
-		///   Only log `first_n` number of times. -1 disables logging.
+		///   Only log <code>first_n</code> number of times. -1 disables logging.
 		/// </param>
 		/// <param name="summarize">
 		///   Optional argument
 		///   Only print this many entries of each tensor.
 		/// </param>
 		/// <returns>
-		///   = The unmodified `input` tensor
+		///   = The unmodified <code>input</code> tensor
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Passes `input` through to `output` and prints `data` when evaluating.
+		///   Passes <code>input</code> through to <code>output</code> and prints <code>data</code> when evaluating.
 		/// </remarks>
 		public TFOutput Print (TFOutput input, TFOutput[] data, string message = null, long? first_n = null, long? summarize = null, string operName = null)
 		{
@@ -19453,7 +20019,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Prod'.
@@ -19467,9 +20033,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Prod (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -19493,37 +20059,37 @@ namespace TensorFlow {
 		///   Computes the QR decompositions of one or more matrices.
 		/// </summary>
 		/// <param name="input">
-		///   A tensor of shape `[..., M, N]` whose inner-most 2 dimensions
-		///   form matrices of size `[M, N]`. Let `P` be the minimum of `M` and `N`.
+		///   A tensor of shape <code>[..., M, N]</code> whose inner-most 2 dimensions
+		///   form matrices of size <code>[M, N]</code>. Let <code>P</code> be the minimum of <code>M</code> and <code>N</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Qr'.
 		/// </param>
 		/// <param name="full_matrices">
 		///   Optional argument
-		///   If true, compute full-sized `q` and `r`. If false
-		///   (the default), compute only the leading `P` columns of `q`.
+		///   If true, compute full-sized <code>q</code> and <code>r</code>. If false
+		///   (the default), compute only the leading <code>P</code> columns of <code>q</code>.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   q: Orthonormal basis for range of `a`. If `full_matrices` is `False` then
-		///   shape is `[..., M, P]`; if `full_matrices` is `True` then shape is
-		///   `[..., M, M]`.
-		///   r: Triangular factor. If `full_matrices` is `False` then shape is
-		///   `[..., P, N]`. If `full_matrices` is `True` then shape is `[..., M, N]`.
+		///   q: Orthonormal basis for range of <code>a</code>. If <code>full_matrices</code> is <code>False</code> then
+		///   shape is <code>[..., M, P]</code>; if <code>full_matrices</code> is <code>True</code> then shape is
+		///   <code>[..., M, M]</code>.
+		///   r: Triangular factor. If <code>full_matrices</code> is <code>False</code> then shape is
+		///   <code>[..., P, N]</code>. If <code>full_matrices</code> is <code>True</code> then shape is <code>[..., M, N]</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Computes the QR decomposition of each inner matrix in `tensor` such that
-		///   `tensor[..., :, :] = q[..., :, :] * r[..., :,:])`
+		///   Computes the QR decomposition of each inner matrix in <code>tensor</code> such that
+		///   <code>tensor[..., :, :] = q[..., :, :] * r[..., :,:])</code>
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   # a is a tensor.
 		///   # q is a tensor of orthonormal matrices.
 		///   # r is a tensor of upper triangular matrices.
 		///   q, r = qr(a)
 		///   q_full, r_full = qr(a, full_matrices=True)
-		///   ```
+		///    <code>
 		/// </remarks>
 		public (TFOutput q, TFOutput r) Qr (TFOutput input, bool? full_matrices = null, string operName = null)
 		{
@@ -19631,9 +20197,9 @@ namespace TensorFlow {
 		/// <remarks>
 		///   This op simulates the precision loss from the quantized forward pass by:
 		///   1. Quantizing the tensor to fixed point numbers, which should match the target
-		///      quantization method when it is used in inference.
+		///   quantization method when it is used in inference.
 		///   2. Dequantizing it back to floating point numbers for the following ops, most
-		///      likely matmul.
+		///   likely matmul.
 		///   
 		///   There are different ways to quantize. This version does not use the full range
 		///   of the output type, choosing to elide the lowest possible value for symmetry
@@ -19651,21 +20217,21 @@ namespace TensorFlow {
 		///   Next, we choose our fixed-point quantization buckets, [min_fixed, max_fixed].
 		///   If signed_input is true, this is
 		///   
-		///     [min_fixed, max_fixed ] =
-		///         [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1].
+		///   [min_fixed, max_fixed ] =
+		///   [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1].
 		///   
 		///   Otherwise, if signed_input is false, the fixed-point range is
 		///   
-		///     [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1].
+		///   [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1].
 		///   
 		///   From this we compute our scaling factor, s:
 		///   
-		///     s = (max_fixed - min_fixed) / (2 * m).
+		///   s = (max_fixed - min_fixed) / (2 * m).
 		///   
 		///   Now we can quantize and dequantize the elements of our tensor.  An element e
 		///   is transformed into e':
 		///   
-		///     e' = (e * s).round_to_nearest() / s.
+		///   e' = (e * s).round_to_nearest() / s.
 		///   
 		///   Note that we have a different number of buckets in the signed vs. unsigned
 		///   cases.  For example, if num_bits == 8, we get 254 buckets in the signed case
@@ -19673,8 +20239,8 @@ namespace TensorFlow {
 		///   
 		///   For example, suppose num_bits = 8 and m = 1.  Then
 		///   
-		///     [min_fixed, max_fixed] = [-127, 127], and
-		///     s = (127 + 127) / 2 = 127.
+		///   [min_fixed, max_fixed] = [-127, 127], and
+		///   s = (127 + 127) / 2 = 127.
 		///   
 		///   Given the vector {-1, -0.5, 0, 0.3}, this is quantized to
 		///   {-127, -63, 0, 38}, and dequantized to {-1, -63.0/127, 0, 38.0/127}.
@@ -19760,16 +20326,16 @@ namespace TensorFlow {
 		/// <param name="y">
 		/// </param>
 		/// <param name="min_x">
-		///   The float value that the lowest quantized `x` value represents.
+		///   The float value that the lowest quantized <code>x</code> value represents.
 		/// </param>
 		/// <param name="max_x">
-		///   The float value that the highest quantized `x` value represents.
+		///   The float value that the highest quantized <code>x</code> value represents.
 		/// </param>
 		/// <param name="min_y">
-		///   The float value that the lowest quantized `y` value represents.
+		///   The float value that the lowest quantized <code>y</code> value represents.
 		/// </param>
 		/// <param name="max_y">
-		///   The float value that the highest quantized `y` value represents.
+		///   The float value that the highest quantized <code>y</code> value represents.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedAdd'.
@@ -19779,11 +20345,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   z: 
+		///   z:
 		///   min_z: The float value that the lowest quantized output value represents.
 		///   max_z: The float value that the highest quantized output value represents.
 		///   
-		///   *NOTE*: `QuantizedAdd` supports limited forms of broadcasting. More about
+		///   *NOTE*: <code>QuantizedAdd</code> supports limited forms of broadcasting. More about
 		///   broadcasting [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
@@ -19814,7 +20380,7 @@ namespace TensorFlow {
 		///   Produces the average pool of the input tensor for quantized types.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="min_input">
 		///   The float value that the lowest quantized input value represents.
@@ -19838,7 +20404,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   min_output: The float value that the lowest quantized output value represents.
 		///   max_output: The float value that the highest quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -19932,14 +20498,14 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   result: 
-		///   result_min: 
-		///   result_max: 
+		///   result:
+		///   result_min:
+		///   result_max:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   This op is deprecated and will be removed in the future. Prefer
-		///   `tf.nn.batch_normalization`.
+		///   <code>tf.nn.batch_normalization</code>.
 		/// </remarks>
 		public (TFOutput result, TFOutput result_min, TFOutput result_max) QuantizedBatchNormWithGlobalNormalization (TFOutput t, TFOutput t_min, TFOutput t_max, TFOutput m, TFOutput m_min, TFOutput m_max, TFOutput v, TFOutput v_min, TFOutput v_max, TFOutput beta, TFOutput beta_min, TFOutput beta_max, TFOutput gamma, TFOutput gamma_min, TFOutput gamma_max, TFDataType out_type, float variance_epsilon, bool scale_after_normalization, string operName = null)
 		{
@@ -20000,7 +20566,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   min_out: The float value that the lowest quantized output value represents.
 		///   max_out: The float value that the highest quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -20037,8 +20603,8 @@ namespace TensorFlow {
 		///   range [0, rank(values)).
 		/// </param>
 		/// <param name="values">
-		///   The `N` Tensors to concatenate. Their ranks and types must match,
-		///   and their sizes must match in all dimensions except `concat_dim`.
+		///   The <code>N</code> Tensors to concatenate. Their ranks and types must match,
+		///   and their sizes must match in all dimensions except <code>concat_dim</code>.
 		/// </param>
 		/// <param name="input_mins">
 		///   The minimum scalar values for each of the input tensors.
@@ -20051,9 +20617,9 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: A `Tensor` with the concatenation of values stacked along the
-		///   `concat_dim` dimension.  This tensor's shape matches that of `values` except
-		///   in `concat_dim` where it has the sum of the sizes.
+		///   output: A <code>Tensor</code> with the concatenation of values stacked along the
+		///   <code>concat_dim</code> dimension.  This tensor's shape matches that of <code>values</code> except
+		///   in <code>concat_dim</code> where it has the sum of the sizes.
 		///   output_min: The float value that the minimum quantized output value represents.
 		///   output_max: The float value that the maximum quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -20105,9 +20671,9 @@ namespace TensorFlow {
 		/// <param name="dilations">
 		///   Optional argument
 		///   1-D tensor of length 4.  The dilation factor for each dimension of
-		///   `input`. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
+		///   <code>input</code>. If set to k &amp;gt; 1, there will be k-1 skipped cells between each
 		///   filter element on that dimension. The dimension order is determined by the
-		///   value of `data_format`, see above for details. Dilations in the batch and
+		///   value of <code>data_format</code>, see above for details. Dilations in the batch and
 		///   depth dimensions must be 1.
 		/// </param>
 		/// <param name="strides">
@@ -20119,7 +20685,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   min_output: The float value that the lowest quantized output value represents.
 		///   max_output: The float value that the highest quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -20175,17 +20741,17 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="output_range_given">
 		///   Optional argument
-		///   If True, `given_y_min` and `given_y_min`
-		///   and `given_y_max` are used as the output range. Otherwise,
+		///   If True, <code>given_y_min</code> and <code>given_y_min</code>
+		///   and <code>given_y_max</code> are used as the output range. Otherwise,
 		///   the implementation computes the output range.
 		/// </param>
 		/// <param name="given_y_min">
 		///   Optional argument
-		///   Output in `y_min` if `output_range_given` is True.
+		///   Output in <code>y_min</code> if <code>output_range_given</code> is True.
 		/// </param>
 		/// <param name="given_y_max">
 		///   Optional argument
-		///   Output in `y_max` if `output_range_given` is True.
+		///   Output in <code>y_max</code> if <code>output_range_given</code> is True.
 		/// </param>
 		/// <param name="variance_epsilon">
 		///   Optional argument
@@ -20193,7 +20759,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="min_separation">
 		///   Optional argument
-		///   Minimum value of `y_max - y_min`
+		///   Minimum value of <code>y_max - y_min</code>
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
@@ -20235,7 +20801,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Perform a quantized matrix multiplication of  `a` by the matrix `b`.
+		///   Perform a quantized matrix multiplication of  <code>a</code> by the matrix <code>b</code>.
 		/// </summary>
 		/// <param name="a">
 		///   Must be a two-dimensional tensor.
@@ -20244,16 +20810,16 @@ namespace TensorFlow {
 		///   Must be a two-dimensional tensor.
 		/// </param>
 		/// <param name="min_a">
-		///   The float value that the lowest quantized `a` value represents.
+		///   The float value that the lowest quantized <code>a</code> value represents.
 		/// </param>
 		/// <param name="max_a">
-		///   The float value that the highest quantized `a` value represents.
+		///   The float value that the highest quantized <code>a</code> value represents.
 		/// </param>
 		/// <param name="min_b">
-		///   The float value that the lowest quantized `b` value represents.
+		///   The float value that the lowest quantized <code>b</code> value represents.
 		/// </param>
 		/// <param name="max_b">
-		///   The float value that the highest quantized `b` value represents.
+		///   The float value that the highest quantized <code>b</code> value represents.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedMatMul'.
@@ -20263,11 +20829,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="transpose_a">
 		///   Optional argument
-		///   If true, `a` is transposed before multiplication.
+		///   If true, <code>a</code> is transposed before multiplication.
 		/// </param>
 		/// <param name="transpose_b">
 		///   Optional argument
-		///   If true, `b` is transposed before multiplication.
+		///   If true, <code>b</code> is transposed before multiplication.
 		/// </param>
 		/// <param name="Tactivation">
 		///   Optional argument
@@ -20276,15 +20842,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   min_out: The float value that the lowest quantized output value represents.
 		///   max_out: The float value that the highest quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   The inputs must be two-dimensional matrices and the inner dimension of
-		///   `a` (after being transposed if `transpose_a` is non-zero) must match the
-		///   outer dimension of `b` (after being transposed if `transposed_b` is
+		///   <code>a</code> (after being transposed if <code>transpose_a</code> is non-zero) must match the
+		///   outer dimension of <code>b</code> (after being transposed if <code>transposed_b</code> is
 		///   non-zero).
 		/// </remarks>
 		public (TFOutput output, TFOutput min_out, TFOutput max_out) QuantizedMatMul (TFOutput a, TFOutput b, TFOutput min_a, TFOutput max_a, TFOutput min_b, TFOutput max_b, TFDataType? Toutput = null, bool? transpose_a = null, bool? transpose_b = null, TFDataType? Tactivation = null, string operName = null)
@@ -20347,7 +20913,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   min_output: The float value that the lowest quantized output value represents.
 		///   max_output: The float value that the highest quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -20380,16 +20946,16 @@ namespace TensorFlow {
 		/// <param name="y">
 		/// </param>
 		/// <param name="min_x">
-		///   The float value that the lowest quantized `x` value represents.
+		///   The float value that the lowest quantized <code>x</code> value represents.
 		/// </param>
 		/// <param name="max_x">
-		///   The float value that the highest quantized `x` value represents.
+		///   The float value that the highest quantized <code>x</code> value represents.
 		/// </param>
 		/// <param name="min_y">
-		///   The float value that the lowest quantized `y` value represents.
+		///   The float value that the lowest quantized <code>y</code> value represents.
 		/// </param>
 		/// <param name="max_y">
-		///   The float value that the highest quantized `y` value represents.
+		///   The float value that the highest quantized <code>y</code> value represents.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizedMul'.
@@ -20399,11 +20965,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   z: 
+		///   z:
 		///   min_z: The float value that the lowest quantized output value represents.
 		///   max_z: The float value that the highest quantized output value represents.
 		///   
-		///   *NOTE*: `QuantizedMul` supports limited forms of broadcasting. More about
+		///   *NOTE*: <code>QuantizedMul</code> supports limited forms of broadcasting. More about
 		///   broadcasting [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
@@ -20449,7 +21015,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   output_min: The float value that the minimum quantized output value represents.
 		///   output_max: The float value that the maximum quantized output value represents.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -20497,7 +21063,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes Quantized Rectified Linear: `max(features, 0)`
+		///   Computes Quantized Rectified Linear: <code>max(features, 0)</code>
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -20541,7 +21107,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes Quantized Rectified Linear 6: `min(max(features, 0), 6)`
+		///   Computes Quantized Rectified Linear 6: <code>min(max(features, 0), 6)</code>
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -20585,7 +21151,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes Quantized Rectified Linear X: `min(max(features, 0), max_value)`
+		///   Computes Quantized Rectified Linear X: <code>min(max(features, 0), max_value)</code>
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -20650,13 +21216,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   output_min: This value is copied from input_min.
 		///   output_max: This value is copied from input_max.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   ```
+		///    <code>
 		/// </remarks>
 		public (TFOutput output, TFOutput output_min, TFOutput output_max) QuantizedReshape (TFOutput tensor, TFOutput shape, TFOutput input_min, TFOutput input_max, string operName = null)
 		{
@@ -20677,13 +21243,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Resize quantized `images` to `size` using quantized bilinear interpolation.
+		///   Resize quantized <code>images</code> to <code>size</code> using quantized bilinear interpolation.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   = A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="min">
@@ -20695,16 +21261,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   resized_images: 4-D with shape
-		///   `[batch, new_height, new_width, channels]`.
-		///   out_min: 
-		///   out_max: 
+		///   <code>[batch, new_height, new_width, channels]</code>.
+		///   out_min:
+		///   out_max:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -20769,11 +21334,11 @@ namespace TensorFlow {
 		///   
 		///   In 'MIN_COMBINED' mode, each value of the tensor will undergo the following:
 		///   
-		///   ```
+		///    <code>
 		///   out[i] = (in[i] - min_range) * range(T) / (max_range - min_range)
 		///   if T == qint8, out[i] -= (range(T) + 1) / 2.0
-		///   ```
-		///   here `range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()`
+		///    </code>
+		///   here <code>range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()</code>
 		///   
 		///   *MIN_COMBINED Mode Example*
 		///   
@@ -20788,16 +21353,16 @@ namespace TensorFlow {
 		///   
 		///   If the mode is 'MIN_FIRST', then this approach is used:
 		///   
-		///   ```
+		///    <code>
 		///   num_discrete_values = 1 &amp;lt;&amp;lt; (# of bits in T)
 		///   range_adjust = num_discrete_values / (num_discrete_values - 1)
 		///   range = (range_max - range_min) * range_adjust
 		///   range_scale = num_discrete_values / range
 		///   quantized = round(input * range_scale) - round(range_min * range_scale) +
-		///     numeric_limits&amp;lt;T&amp;gt;::min()
+		///   numeric_limits&amp;lt;T&amp;gt;::min()
 		///   quantized = max(quantized, numeric_limits&amp;lt;T&amp;gt;::min())
 		///   quantized = min(quantized, numeric_limits&amp;lt;T&amp;gt;::max())
-		///   ```
+		///    </code>
 		///   
 		///   The biggest difference between this and MIN_COMBINED is that the minimum range
 		///   is rounded first, before it's subtracted from the rounded value. With
@@ -20806,44 +21371,44 @@ namespace TensorFlow {
 		///   
 		///   *SCALED mode Example*
 		///   
-		///   `SCALED` mode matches the quantization approach used in
-		///   `QuantizeAndDequantize{V2|V3}`.
+		///   <code>SCALED</code> mode matches the quantization approach used in
+		///   <code>QuantizeAndDequantize{V2|V3}</code>.
 		///   
-		///   If the mode is `SCALED`, we do not use the full range of the output type,
+		///   If the mode is <code>SCALED</code>, we do not use the full range of the output type,
 		///   choosing to elide the lowest possible value for symmetry (e.g., output range is
 		///   -127 to 127, not -128 to 127 for signed 8 bit quantization), so that 0.0 maps to
 		///   0.
 		///   
 		///   We first find the range of values in our tensor. The
 		///   range we use is always centered on 0, so we find m such that
-		///   ```c++
-		///     m = max(abs(input_min), abs(input_max))
-		///   ```
+		///   <code></code><code>c++
+		///   m = max(abs(input_min), abs(input_max))
+		///    <code>
 		///   
-		///   Our input tensor range is then `[-m, m]`.
+		///   Our input tensor range is then <code>[-m, m]</code>.
 		///   
-		///   Next, we choose our fixed-point quantization buckets, `[min_fixed, max_fixed]`.
+		///   Next, we choose our fixed-point quantization buckets, <code>[min_fixed, max_fixed]</code>.
 		///   If T is signed, this is
-		///   ```
-		///     num_bits = sizeof(T) * 8
-		///     [min_fixed, max_fixed] =
-		///         [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1]
-		///   ```
+		///    </code>
+		///   num_bits = sizeof(T) * 8
+		///   [min_fixed, max_fixed] =
+		///   [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1]
+		///    <code>
 		///   
 		///   Otherwise, if T is unsigned, the fixed-point range is
-		///   ```
-		///     [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1]
-		///   ```
+		///    </code>
+		///   [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1]
+		///    <code>
 		///   
 		///   From this we compute our scaling factor, s:
-		///   ```c++
-		///     s = (max_fixed - min_fixed) / (2 * m)
-		///   ```
+		///   <code></code><code>c++
+		///   s = (max_fixed - min_fixed) / (2 * m)
+		///    </code>
 		///   
 		///   Now we can quantize the elements of our tensor:
-		///   ```c++
+		///   <code></code><code>c++
 		///   result = round(input * s)
-		///   ```
+		///    <code>
 		///   
 		///   One thing to watch out for is that the operator may choose to adjust the
 		///   requested minimum and maximum values slightly during the quantization process,
@@ -21007,7 +21572,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		///   Dequeues <code>n</code> tuples of one or more tensors from the given queue.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a queue.
@@ -21032,18 +21597,18 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   If the queue is closed and there are fewer than `n` elements, then an
+		///   If the queue is closed and there are fewer than <code>n</code> elements, then an
 		///   OutOfRange error is returned.
 		///   
 		///   This operation concatenates queue-element component tensors along the
 		///   0th dimension to make a single component tensor.  All of the components
-		///   in the dequeued tuple will have size `n` in the 0th dimension.
+		///   in the dequeued tuple will have size <code>n</code> in the 0th dimension.
 		///   
-		///   This operation has `k` outputs, where `k` is the number of components in
-		///   the tuples stored in the given queue, and output `i` is the ith
+		///   This operation has <code>k</code> outputs, where <code>k</code> is the number of components in
+		///   the tuples stored in the given queue, and output <code>i</code> is the ith
 		///   component of the dequeued tuple.
 		///   
-		///   N.B. If the queue is empty, this operation will block until `n` elements
+		///   N.B. If the queue is empty, this operation will block until <code>n</code> elements
 		///   have been dequeued (or 'timeout_ms' elapses, if specified).
 		/// </remarks>
 		public TFOutput[] QueueDequeueMany (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
@@ -21070,7 +21635,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		///   Dequeues <code>n</code> tuples of one or more tensors from the given queue.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a queue.
@@ -21095,18 +21660,18 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   If the queue is closed and there are fewer than `n` elements, then an
+		///   If the queue is closed and there are fewer than <code>n</code> elements, then an
 		///   OutOfRange error is returned.
 		///   
 		///   This operation concatenates queue-element component tensors along the
 		///   0th dimension to make a single component tensor.  All of the components
-		///   in the dequeued tuple will have size `n` in the 0th dimension.
+		///   in the dequeued tuple will have size <code>n</code> in the 0th dimension.
 		///   
-		///   This operation has `k` outputs, where `k` is the number of components in
-		///   the tuples stored in the given queue, and output `i` is the ith
+		///   This operation has <code>k</code> outputs, where <code>k</code> is the number of components in
+		///   the tuples stored in the given queue, and output <code>i</code> is the ith
 		///   component of the dequeued tuple.
 		///   
-		///   N.B. If the queue is empty, this operation will block until `n` elements
+		///   N.B. If the queue is empty, this operation will block until <code>n</code> elements
 		///   have been dequeued (or 'timeout_ms' elapses, if specified).
 		/// </remarks>
 		public TFOutput[] QueueDequeueManyV2 (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
@@ -21133,7 +21698,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		///   Dequeues <code>n</code> tuples of one or more tensors from the given queue.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a queue.
@@ -21161,19 +21726,19 @@ namespace TensorFlow {
 		///   This operation is not supported by all queues.  If a queue does not support
 		///   DequeueUpTo, then an Unimplemented error is returned.
 		///   
-		///   If the queue is closed and there are more than 0 but less than `n`
+		///   If the queue is closed and there are more than 0 but less than <code>n</code>
 		///   elements remaining, then instead of returning an OutOfRange error like
-		///   QueueDequeueMany, less than `n` elements are returned immediately.  If
+		///   QueueDequeueMany, less than <code>n</code> elements are returned immediately.  If
 		///   the queue is closed and there are 0 elements left in the queue, then
 		///   an OutOfRange error is returned just like in QueueDequeueMany.
 		///   Otherwise the behavior is identical to QueueDequeueMany:
 		///   
 		///   This operation concatenates queue-element component tensors along the
 		///   0th dimension to make a single component tensor.  All of the components
-		///   in the dequeued tuple will have size `n` in the 0th dimension.
+		///   in the dequeued tuple will have size <code>n</code> in the 0th dimension.
 		///   
-		///   This operation has k outputs, where `k` is the number of components in
-		///   the tuples stored in the given queue, and output `i` is the ith
+		///   This operation has k outputs, where <code>k</code> is the number of components in
+		///   the tuples stored in the given queue, and output <code>i</code> is the ith
 		///   component of the dequeued tuple.
 		/// </remarks>
 		public TFOutput[] QueueDequeueUpTo (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
@@ -21200,7 +21765,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Dequeues `n` tuples of one or more tensors from the given queue.
+		///   Dequeues <code>n</code> tuples of one or more tensors from the given queue.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a queue.
@@ -21228,9 +21793,9 @@ namespace TensorFlow {
 		///   This operation is not supported by all queues.  If a queue does not support
 		///   DequeueUpTo, then an Unimplemented error is returned.
 		///   
-		///   If the queue is closed and there are more than 0 but less than `n`
+		///   If the queue is closed and there are more than 0 but less than <code>n</code>
 		///   elements remaining, then instead of returning an OutOfRange error like
-		///   QueueDequeueMany, less than `n` elements are returned immediately.  If
+		///   QueueDequeueMany, less than <code>n</code> elements are returned immediately.  If
 		///   the queue is closed and there are 0 elements left in the queue, then
 		///   an OutOfRange error is returned just like in QueueDequeueMany.
 		///   Otherwise the behavior is identical to QueueDequeueMany:
@@ -21239,8 +21804,8 @@ namespace TensorFlow {
 		///   0th dimension to make a single component tensor.  All of the components
 		///   in the dequeued tuple will have size n in the 0th dimension.
 		///   
-		///   This operation has `k` outputs, where `k` is the number of components in
-		///   the tuples stored in the given queue, and output `i` is the ith
+		///   This operation has <code>k</code> outputs, where <code>k</code> is the number of components in
+		///   the tuples stored in the given queue, and output <code>i</code> is the ith
 		///   component of the dequeued tuple.
 		/// </remarks>
 		public TFOutput[] QueueDequeueUpToV2 (TFOutput handle, TFOutput n, TFDataType[] component_types, long? timeout_ms = null, string operName = null)
@@ -21611,13 +22176,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Randomly crop `image`.
+		///   Randomly crop <code>image</code>.
 		/// </summary>
 		/// <param name="image">
-		///   3-D of shape `[height, width, channels]`.
+		///   3-D of shape <code>[height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   1-D of length 2 containing: `crop_height`, `crop_width`..
+		///   1-D of length 2 containing: <code>crop_height</code>, <code>crop_width</code>..
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RandomCrop'.
@@ -21633,14 +22198,14 @@ namespace TensorFlow {
 		///   An second seed to avoid seed collision.
 		/// </param>
 		/// <returns>
-		///   3-D of shape `[crop_height, crop_width, channels].`
+		///   3-D of shape <code>[crop_height, crop_width, channels].</code>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `size` is a 1-D int64 tensor with 2 elements representing the crop height and
+		///   <code>size</code> is a 1-D int64 tensor with 2 elements representing the crop height and
 		///   width.  The values must be non negative.
 		///   
-		///   This Op picks a random location in `image` and crops a `height` by `width`
+		///   This Op picks a random location in <code>image</code> and crops a <code>height</code> by <code>width</code>
 		///   rectangle from that location.  The random location is picked so the cropped
 		///   area will fit inside the original image.
 		/// </remarks>
@@ -21717,7 +22282,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -21726,9 +22291,9 @@ namespace TensorFlow {
 		///   A second seed to avoid seed collision.
 		/// </param>
 		/// <returns>
-		///   A tensor with shape `shape + shape(alpha)`. Each slice
-		///   `[:, ..., :, i0, i1, ...iN]` contains the samples drawn for
-		///   `alpha[i0, i1, ...iN]`. The dtype of the output matches the dtype of alpha.
+		///   A tensor with shape <code>shape + shape(alpha)</code>. Each slice
+		///   <code>[:, ..., :, i0, i1, ...iN]</code> contains the samples drawn for
+		///   <code>alpha[i0, i1, ...iN]</code>. The dtype of the output matches the dtype of alpha.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -21811,7 +22376,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -21823,9 +22388,9 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   A tensor with shape `shape + shape(rate)`. Each slice
-		///   `[:, ..., :, i0, i1, ...iN]` contains the samples drawn for
-		///   `rate[i0, i1, ...iN]`.
+		///   A tensor with shape <code>shape + shape(rate)</code>. Each slice
+		///   <code>[:, ..., :, i0, i1, ...iN]</code> contains the samples drawn for
+		///   <code>rate[i0, i1, ...iN]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -21873,7 +22438,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -21882,20 +22447,20 @@ namespace TensorFlow {
 		///   A second seed to avoid seed collision.
 		/// </param>
 		/// <returns>
-		///   A tensor of same shape and type as `value`, shuffled along its first
+		///   A tensor of same shape and type as <code>value</code>, shuffled along its first
 		///   dimension.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///     The tensor is shuffled along dimension 0, such that each `value[j]` is mapped
-		///     to one and only one `output[i]`. For example, a mapping that might occur for a
-		///     3x2 tensor is:
+		///   The tensor is shuffled along dimension 0, such that each <code>value[j]</code> is mapped
+		///   to one and only one <code>output[i]</code>. For example, a mapping that might occur for a
+		///   3x2 tensor is:
 		///   
-		///   ```
+		///    <code>
 		///   [[1, 2],       [[5, 6],
-		///    [3, 4],  ==&amp;gt;   [1, 2],
-		///    [5, 6]]        [3, 4]]
-		///   ```
+		///   [3, 4],  ==&amp;gt;   [1, 2],
+		///   [5, 6]]        [3, 4]]
+		///    </code>
 		/// </remarks>
 		public TFOutput RandomShuffle (TFOutput value, long? seed = null, long? seed2 = null, string operName = null)
 		{
@@ -22095,7 +22660,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -22144,7 +22709,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -22160,7 +22725,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The generated values follow a uniform distribution in the range `[0, 1)`. The
+		///   The generated values follow a uniform distribution in the range <code>[0, 1)</code>. The
 		///   lower bound 0 is included in the range, while the upper bound 1 is excluded.
 		/// </remarks>
 		public TFOutput RandomUniform (TFOutput shape, TFDataType dtype, long? seed = null, long? seed2 = null, string operName = null)
@@ -22200,7 +22765,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -22213,13 +22778,13 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The generated values are uniform integers in the range `[minval, maxval)`.
-		///   The lower bound `minval` is included in the range, while the upper bound
-		///   `maxval` is excluded.
+		///   The generated values are uniform integers in the range <code>[minval, maxval)</code>.
+		///   The lower bound <code>minval</code> is included in the range, while the upper bound
+		///   <code>maxval</code> is excluded.
 		///   
-		///   The random integers are slightly biased unless `maxval - minval` is an exact
-		///   power of two.  The bias is small for values of `maxval - minval` significantly
-		///   smaller than the range of the output (either `2^32` or `2^64`).
+		///   The random integers are slightly biased unless <code>maxval - minval</code> is an exact
+		///   power of two.  The bias is small for values of <code>maxval - minval</code> significantly
+		///   smaller than the range of the output (either <code>2^32</code> or <code>2^64</code>).
 		/// </remarks>
 		public TFOutput RandomUniformInt (TFOutput shape, TFOutput minval, TFOutput maxval, long? seed = null, long? seed2 = null, string operName = null)
 		{
@@ -22252,7 +22817,7 @@ namespace TensorFlow {
 		///   0-D (scalar). Upper limit of sequence, exclusive.
 		/// </param>
 		/// <param name="delta">
-		///   0-D (scalar). Optional. Default is 1. Number that increments `start`.
+		///   0-D (scalar). Optional. Default is 1. Number that increments <code>start</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Range'.
@@ -22262,17 +22827,17 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation creates a sequence of numbers that begins at `start` and
-		///   extends by increments of `delta` up to but not including `limit`.
+		///   This operation creates a sequence of numbers that begins at <code>start</code> and
+		///   extends by increments of <code>delta</code> up to but not including <code>limit</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'start' is 3
 		///   # 'limit' is 18
 		///   # 'delta' is 3
 		///   tf.range(start, limit, delta) ==&amp;gt; [3, 6, 9, 12, 15]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Range (TFOutput start, TFOutput limit, TFOutput delta, string operName = null)
 		{
@@ -22340,15 +22905,15 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns an integer representing the rank of `input`.
+		///   This operation returns an integer representing the rank of <code>input</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]
 		///   # shape of tensor 't' is [2, 2, 3]
 		///   rank(t) ==&amp;gt; 3
-		///   ```
+		///    </code>
 		///   
 		///   **Note**: The rank of a tensor is not the same as the rank of a matrix. The rank
 		///   of a tensor is the number of indices required to uniquely select each element
@@ -22514,16 +23079,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns up to `num_records` (key, value) pairs produced by a Reader.
+		///   Returns up to <code>num_records</code> (key, value) pairs produced by a Reader.
 		/// </summary>
 		/// <param name="reader_handle">
-		///   Handle to a `Reader`.
+		///   Handle to a <code>Reader</code>.
 		/// </param>
 		/// <param name="queue_handle">
-		///   Handle to a `Queue`, with string work items.
+		///   Handle to a <code>Queue</code>, with string work items.
 		/// </param>
 		/// <param name="num_records">
-		///   number of records to read from `Reader`.
+		///   number of records to read from <code>Reader</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderReadUpTo'.
@@ -22538,7 +23103,7 @@ namespace TensorFlow {
 		///   Will dequeue from the input queue if necessary (e.g. when the
 		///   Reader needs to start reading from a new file since it has finished
 		///   with the previous file).
-		///   It may return less than `num_records` even before the last batch.
+		///   It may return less than <code>num_records</code> even before the last batch.
 		/// </remarks>
 		public (TFOutput keys, TFOutput values) ReaderReadUpTo (TFOutput reader_handle, TFOutput queue_handle, TFOutput num_records, string operName = null)
 		{
@@ -22557,16 +23122,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns up to `num_records` (key, value) pairs produced by a Reader.
+		///   Returns up to <code>num_records</code> (key, value) pairs produced by a Reader.
 		/// </summary>
 		/// <param name="reader_handle">
-		///   Handle to a `Reader`.
+		///   Handle to a <code>Reader</code>.
 		/// </param>
 		/// <param name="queue_handle">
-		///   Handle to a `Queue`, with string work items.
+		///   Handle to a <code>Queue</code>, with string work items.
 		/// </param>
 		/// <param name="num_records">
-		///   number of records to read from `Reader`.
+		///   number of records to read from <code>Reader</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReaderReadUpToV2'.
@@ -22581,7 +23146,7 @@ namespace TensorFlow {
 		///   Will dequeue from the input queue if necessary (e.g. when the
 		///   Reader needs to start reading from a new file since it has finished
 		///   with the previous file).
-		///   It may return less than `num_records` even before the last batch.
+		///   It may return less than <code>num_records</code> even before the last batch.
 		/// </remarks>
 		public (TFOutput keys, TFOutput values) ReaderReadUpToV2 (TFOutput reader_handle, TFOutput queue_handle, TFOutput num_records, string operName = null)
 		{
@@ -22881,17 +23446,17 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input` of complex numbers, this operation returns a tensor of
-		///   type `float` that is the real part of each element in `input`. All elements in
-		///   `input` must be complex numbers of the form \\(a + bj\\), where *a* is the real
-		///    part returned by this operation and *b* is the imaginary part.
+		///   Given a tensor <code>input</code> of complex numbers, this operation returns a tensor of
+		///   type <code>float</code> that is the real part of each element in <code>input</code>. All elements in
+		///   <code>input</code> must be complex numbers of the form \\(a + bj\\), where *a* is the real
+		///   part returned by this operation and *b* is the imaginary part.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'input' is [-2.25 + 4.75j, 3.25 + 5.75j]
 		///   tf.real(input) ==&amp;gt; [-2.25, 3.25]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Real (TFOutput input, TFDataType? Tout = null, string operName = null)
 		{
@@ -22923,9 +23488,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   If `x` and `y` are reals, this will return the floating-point division.
+		///   If <code>x</code> and <code>y</code> are reals, this will return the floating-point division.
 		///   
-		///   *NOTE*: `Div` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Div</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput RealDiv (TFOutput x, TFOutput y, string operName = null)
@@ -22970,7 +23535,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient for the inverse of `x` wrt its input.
+		///   Computes the gradient for the inverse of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -22983,7 +23548,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = -dy * y*y`, where `y = 1/x`, and `dy`
+		///   Specifically, <code>grad = -dy * y*y</code>, where <code>y = 1/x</code>, and <code>dy</code>
 		///   is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput ReciprocalGrad (TFOutput y, TFOutput dy, string operName = null)
@@ -23078,15 +23643,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce over.  Dimensions are reduced in the
-		///   order specified.  Omitting `reduction_indices` is equivalent to passing
-		///   `[n-1, n-2, ..., 0]`.  Negative indices from `-n` to `-1` are supported.
+		///   order specified.  Omitting <code>reduction_indices</code> is equivalent to passing
+		///   <code>[n-1, n-2, ..., 0]</code>.  Negative indices from <code>-n</code> to <code>-1</code> are supported.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReduceJoin'.
 		/// </param>
 		/// <param name="keep_dims">
 		///   Optional argument
-		///   If `True`, retain reduced dimensions with length `1`.
+		///   If <code>True</code>, retain reduced dimensions with length <code>1</code>.
 		/// </param>
 		/// <param name="separator">
 		///   Optional argument
@@ -23094,19 +23659,19 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has shape equal to that of the input with reduced dimensions removed or
-		///   set to `1` depending on `keep_dims`.
+		///   set to <code>1</code> depending on <code>keep_dims</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   Computes the string join across dimensions in the given string Tensor of shape
-		///   `[d_0, d_1, ..., d_n-1]`.  Returns a new Tensor created by joining the input
+		///   <code>[d_0, d_1, ..., d_n-1]</code>.  Returns a new Tensor created by joining the input
 		///   strings with the given separator (default: empty string).  Negative indices are
-		///   counted backwards from the end, with `-1` being equivalent to `n - 1`.
+		///   counted backwards from the end, with <code>-1</code> being equivalent to <code>n - 1</code>.
 		///   
 		///   For example:
 		///   
-		///   ```python
-		///   # tensor `a` is [["a", "b"], ["c", "d"]]
+		///   <code></code><code>python
+		///   # tensor <code>a</code> is [["a", "b"], ["c", "d"]]
 		///   tf.reduce_join(a, 0) ==&amp;gt; ["ac", "bd"]
 		///   tf.reduce_join(a, 1) ==&amp;gt; ["ab", "cd"]
 		///   tf.reduce_join(a, -2) = tf.reduce_join(a, 0) ==&amp;gt; ["ac", "bd"]
@@ -23117,7 +23682,7 @@ namespace TensorFlow {
 		///   tf.reduce_join(a, [0, 1]) ==&amp;gt; ["acbd"]
 		///   tf.reduce_join(a, [1, 0]) ==&amp;gt; ["abcd"]
 		///   tf.reduce_join(a, []) ==&amp;gt; ["abcd"]
-		///   ```
+		///    <code>
 		/// </remarks>
 		public TFOutput ReduceJoin (TFOutput inputs, TFOutput reduction_indices, bool? keep_dims = null, string separator = null, string operName = null)
 		{
@@ -23140,7 +23705,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates or finds a child frame, and makes `data` available to the child frame.
+		///   Creates or finds a child frame, and makes <code>data</code> available to the child frame.
 		/// </summary>
 		/// <param name="data">
 		///   The tensor to be made available to the child frame.
@@ -23160,13 +23725,13 @@ namespace TensorFlow {
 		///   The name of the child frame.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The unique `frame_name` is used by the `Executor` to identify frames. If
-		///   `is_constant` is true, `output` is a constant in the child frame; otherwise
-		///   it may be changed in the child frame. At most `parallel_iterations` iterations
+		///   The unique <code>frame_name</code> is used by the <code>Executor</code> to identify frames. If
+		///   <code>is_constant</code> is true, <code>output</code> is a constant in the child frame; otherwise
+		///   it may be changed in the child frame. At most <code>parallel_iterations</code> iterations
 		///   are run in parallel in the child frame.
 		/// </remarks>
 		public TFOutput RefEnter (TFOutput data, string frame_name, bool? is_constant = null, long? parallel_iterations = null, string operName = null)
@@ -23199,11 +23764,11 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefExit'.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Exit makes its input `data` available to the parent frame.
+		///   Exit makes its input <code>data</code> available to the parent frame.
 		/// </remarks>
 		public TFOutput RefExit (TFOutput data, string operName = null)
 		{
@@ -23243,7 +23808,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Forwards the value of an available tensor from `inputs` to `output`.
+		///   Forwards the value of an available tensor from <code>inputs</code> to <code>output</code>.
 		/// </summary>
 		/// <param name="inputs">
 		///   The input tensors, exactly one of which will become available.
@@ -23254,15 +23819,15 @@ namespace TensorFlow {
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
 		///   output: Will be set to the available input tensor.
-		///   value_index: The index of the chosen input tensor in `inputs`.
+		///   value_index: The index of the chosen input tensor in <code>inputs</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   `Merge` waits for at least one of the tensors in `inputs` to become available.
-		///   It is usually combined with `Switch` to implement branching.
+		///   <code>Merge</code> waits for at least one of the tensors in <code>inputs</code> to become available.
+		///   It is usually combined with <code>Switch</code> to implement branching.
 		///   
-		///   `Merge` forwards the first tensor for become available to `output`, and sets
-		///   `value_index` to its index in `inputs`.
+		///   <code>Merge</code> forwards the first tensor for become available to <code>output</code>, and sets
+		///   <code>value_index</code> to its index in <code>inputs</code>.
 		/// </remarks>
 		public (TFOutput output, TFOutput value_index) RefMerge (TFOutput[] inputs, string operName = null)
 		{
@@ -23288,7 +23853,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefNextIteration'.
 		/// </param>
 		/// <returns>
-		///   The same tensor as `data`.
+		///   The same tensor as <code>data</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput RefNextIteration (TFOutput data, string operName = null)
@@ -23305,13 +23870,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Forwards the `index`th element of `inputs` to `output`.
+		///   Forwards the <code>index</code>th element of <code>inputs</code> to <code>output</code>.
 		/// </summary>
 		/// <param name="index">
 		///   A scalar that determines the input that gets selected.
 		/// </param>
 		/// <param name="inputs">
-		///   A list of ref tensors, one of which will be forwarded to `output`.
+		///   A list of ref tensors, one of which will be forwarded to <code>output</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RefSelect'.
@@ -23335,7 +23900,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Forwards the ref tensor `data` to the output port determined by `pred`.
+		///   Forwards the ref tensor <code>data</code> to the output port determined by <code>pred</code>.
 		/// </summary>
 		/// <param name="data">
 		///   The ref tensor to be forwarded to the appropriate output.
@@ -23348,15 +23913,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_false: If `pred` is false, data will be forwarded to this output.
-		///   output_true: If `pred` is true, data will be forwarded to this output.
+		///   output_false: If <code>pred</code> is false, data will be forwarded to this output.
+		///   output_true: If <code>pred</code> is true, data will be forwarded to this output.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   If `pred` is true, the `data` input is forwarded to `output_true`. Otherwise,
-		///   the data goes to `output_false`.
+		///   If <code>pred</code> is true, the <code>data</code> input is forwarded to <code>output_true</code>. Otherwise,
+		///   the data goes to <code>output_false</code>.
 		///   
-		///   See also `Switch` and `Merge`.
+		///   See also <code>Switch</code> and <code>Merge</code>.
 		/// </remarks>
 		public (TFOutput output_false, TFOutput output_true) RefSwitch (TFOutput data, TFOutput pred, string operName = null)
 		{
@@ -23374,7 +23939,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes rectified linear: `max(features, 0)`.
+		///   Computes rectified linear: <code>max(features, 0)</code>.
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -23398,7 +23963,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes rectified linear 6: `min(max(features, 0), 6)`.
+		///   Computes rectified linear 6: <code>min(max(features, 0), 6)</code>.
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -23436,7 +24001,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   The gradients:
-		///   `gradients * (features &amp;gt; 0) * (features &amp;lt; 6)`.
+		///   <code>gradients * (features &amp;gt; 0) * (features &amp;lt; 6)</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput Relu6Grad (TFOutput gradients, TFOutput features, string operName = null)
@@ -23467,7 +24032,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReluGrad'.
 		/// </param>
 		/// <returns>
-		///   `gradients * (features &amp;gt; 0)`.
+		///   <code>gradients * (features &amp;gt; 0)</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ReluGrad (TFOutput gradients, TFOutput features, string operName = null)
@@ -23533,13 +24098,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that emits the outputs of `input_dataset` `count` times.
+		///   Creates a dataset that emits the outputs of <code>input_dataset</code> <code>count</code> times.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
 		/// <param name="count">
-		///   A scalar representing the number of times that `input_dataset` should
-		///   be repeated. A value of `-1` indicates that it should be repeated infinitely.
+		///   A scalar representing the number of times that <code>input_dataset</code> should
+		///   be repeated. A value of <code>-1</code> indicates that it should be repeated infinitely.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RepeatDataset'.
@@ -23633,7 +24198,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output: 
+		///   output:
 		///   output_min: The requested_output_min value is copied into this output.
 		///   output_max: The requested_output_max value is copied into this output.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
@@ -23681,31 +24246,31 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given `tensor`, this operation returns a tensor that has the same values
-		///   as `tensor` with shape `shape`.
+		///   Given <code>tensor</code>, this operation returns a tensor that has the same values
+		///   as <code>tensor</code> with shape <code>shape</code>.
 		///   
-		///   If one component of `shape` is the special value -1, the size of that dimension
-		///   is computed so that the total size remains constant.  In particular, a `shape`
-		///   of `[-1]` flattens into 1-D.  At most one component of `shape` can be -1.
+		///   If one component of <code>shape</code> is the special value -1, the size of that dimension
+		///   is computed so that the total size remains constant.  In particular, a <code>shape</code>
+		///   of <code>[-1]</code> flattens into 1-D.  At most one component of <code>shape</code> can be -1.
 		///   
-		///   If `shape` is 1-D or higher, then the operation returns a tensor with shape
-		///   `shape` filled with the values of `tensor`. In this case, the number of elements
-		///   implied by `shape` must be the same as the number of elements in `tensor`.
+		///   If <code>shape</code> is 1-D or higher, then the operation returns a tensor with shape
+		///   <code>shape</code> filled with the values of <code>tensor</code>. In this case, the number of elements
+		///   implied by <code>shape</code> must be the same as the number of elements in <code>tensor</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 't' is [1, 2, 3, 4, 5, 6, 7, 8, 9]
 		///   # tensor 't' has shape [9]
 		///   reshape(t, [3, 3]) ==&amp;gt; [[1, 2, 3],
-		///                           [4, 5, 6],
-		///                           [7, 8, 9]]
+		///   [4, 5, 6],
+		///   [7, 8, 9]]
 		///   
 		///   # tensor 't' is [[[1, 1], [2, 2]],
 		///   #                [[3, 3], [4, 4]]]
 		///   # tensor 't' has shape [2, 2, 2]
 		///   reshape(t, [2, 4]) ==&amp;gt; [[1, 1, 2, 2],
-		///                           [3, 3, 4, 4]]
+		///   [3, 3, 4, 4]]
 		///   
 		///   # tensor 't' is [[[1, 1, 1],
 		///   #                 [2, 2, 2]],
@@ -23721,22 +24286,22 @@ namespace TensorFlow {
 		///   
 		///   # -1 is inferred to be 9:
 		///   reshape(t, [2, -1]) ==&amp;gt; [[1, 1, 1, 2, 2, 2, 3, 3, 3],
-		///                            [4, 4, 4, 5, 5, 5, 6, 6, 6]]
+		///   [4, 4, 4, 5, 5, 5, 6, 6, 6]]
 		///   # -1 is inferred to be 2:
 		///   reshape(t, [-1, 9]) ==&amp;gt; [[1, 1, 1, 2, 2, 2, 3, 3, 3],
-		///                            [4, 4, 4, 5, 5, 5, 6, 6, 6]]
+		///   [4, 4, 4, 5, 5, 5, 6, 6, 6]]
 		///   # -1 is inferred to be 3:
 		///   reshape(t, [ 2, -1, 3]) ==&amp;gt; [[[1, 1, 1],
-		///                                 [2, 2, 2],
-		///                                 [3, 3, 3]],
-		///                                [[4, 4, 4],
-		///                                 [5, 5, 5],
-		///                                 [6, 6, 6]]]
+		///   [2, 2, 2],
+		///   [3, 3, 3]],
+		///   [[4, 4, 4],
+		///   [5, 5, 5],
+		///   [6, 6, 6]]]
 		///   
 		///   # tensor 't' is [7]
-		///   # shape `[]` reshapes to a scalar
+		///   # shape <code>[]</code> reshapes to a scalar
 		///   reshape(t, []) ==&amp;gt; 7
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Reshape (TFOutput tensor, TFOutput shape, string operName = null)
 		{
@@ -23753,13 +24318,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Resize `images` to `size` using area interpolation.
+		///   Resize <code>images</code> to <code>size</code> using area interpolation.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   = A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="operName">
@@ -23767,13 +24332,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[batch, new_height, new_width, channels]`.
+		///   <code>[batch, new_height, new_width, channels]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -23802,13 +24366,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Resize `images` to `size` using bicubic interpolation.
+		///   Resize <code>images</code> to <code>size</code> using bicubic interpolation.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   = A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="operName">
@@ -23816,13 +24380,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[batch, new_height, new_width, channels]`.
+		///   <code>[batch, new_height, new_width, channels]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -23849,10 +24412,10 @@ namespace TensorFlow {
 		///   Computes the gradient of bicubic interpolation.
 		/// </summary>
 		/// <param name="grads">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="original_image">
-		///   4-D with shape `[batch, orig_height, orig_width, channels]`,
+		///   4-D with shape <code>[batch, orig_height, orig_width, channels]</code>,
 		///   The image tensor that was resized.
 		/// </param>
 		/// <param name="operName">
@@ -23860,12 +24423,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale grads by (orig_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of grads and original_image. If false, rescale by
-		///   orig_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and grad tensors are
+		///   aligned. Defaults to false.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, orig_height, orig_width, channels]`.
+		///   4-D with shape <code>[batch, orig_height, orig_width, channels]</code>.
 		///   Gradients with respect to the input image. Input image must have been
 		///   float or double.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -23888,13 +24450,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Resize `images` to `size` using bilinear interpolation.
+		///   Resize <code>images</code> to <code>size</code> using bilinear interpolation.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   = A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="operName">
@@ -23902,13 +24464,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[batch, new_height, new_width, channels]`.
+		///   <code>[batch, new_height, new_width, channels]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -23935,10 +24496,10 @@ namespace TensorFlow {
 		///   Computes the gradient of bilinear interpolation.
 		/// </summary>
 		/// <param name="grads">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="original_image">
-		///   4-D with shape `[batch, orig_height, orig_width, channels]`,
+		///   4-D with shape <code>[batch, orig_height, orig_width, channels]</code>,
 		///   The image tensor that was resized.
 		/// </param>
 		/// <param name="operName">
@@ -23946,12 +24507,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale grads by (orig_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of grads and original_image. If false, rescale by
-		///   orig_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and grad tensors are
+		///   aligned. Defaults to false.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, orig_height, orig_width, channels]`.
+		///   4-D with shape <code>[batch, orig_height, orig_width, channels]</code>.
 		///   Gradients with respect to the input image. Input image must have been
 		///   float or double.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -23974,13 +24534,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Resize `images` to `size` using nearest neighbor interpolation.
+		///   Resize <code>images</code> to <code>size</code> using nearest neighbor interpolation.
 		/// </summary>
 		/// <param name="images">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `new_height, new_width`.  The
+		///   = A 1-D int32 Tensor of 2 elements: <code>new_height, new_width</code>.  The
 		///   new size for the images.
 		/// </param>
 		/// <param name="operName">
@@ -23988,13 +24548,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale input by (new_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of images and resized images. If false, rescale
-		///   by new_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and output tensors are
+		///   aligned, preserving the values at the corner pixels. Defaults to false.
 		/// </param>
 		/// <returns>
 		///   4-D with shape
-		///   `[batch, new_height, new_width, channels]`.
+		///   <code>[batch, new_height, new_width, channels]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput ResizeNearestNeighbor (TFOutput images, TFOutput size, bool? align_corners = null, string operName = null)
@@ -24018,10 +24577,10 @@ namespace TensorFlow {
 		///   Computes the gradient of nearest neighbor interpolation.
 		/// </summary>
 		/// <param name="grads">
-		///   4-D with shape `[batch, height, width, channels]`.
+		///   4-D with shape <code>[batch, height, width, channels]</code>.
 		/// </param>
 		/// <param name="size">
-		///   = A 1-D int32 Tensor of 2 elements: `orig_height, orig_width`. The
+		///   = A 1-D int32 Tensor of 2 elements: <code>orig_height, orig_width</code>. The
 		///   original input size.
 		/// </param>
 		/// <param name="operName">
@@ -24029,12 +24588,11 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="align_corners">
 		///   Optional argument
-		///   If true, rescale grads by (orig_height - 1) / (height - 1), which
-		///   exactly aligns the 4 corners of grads and original_image. If false, rescale by
-		///   orig_height / height. Treat similarly the width dimension.
+		///   If true, the centers of the 4 corner pixels of the input and grad tensors are
+		///   aligned. Defaults to false.
 		/// </param>
 		/// <returns>
-		///   4-D with shape `[batch, orig_height, orig_width, channels]`. Gradients
+		///   4-D with shape <code>[batch, orig_height, orig_width, channels]</code>. Gradients
 		///   with respect to the input image.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
@@ -24136,7 +24694,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24261,13 +24819,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, m, and v tensors will be protected
+		///   If <code>True</code>, updating of the var, m, and v tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, uses the nesterov update.
+		///   If <code>True</code>, uses the nesterov update.
 		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
@@ -24333,7 +24891,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and m tensors is
+		///   If <code>True</code>, updating of the var and m tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24399,7 +24957,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   If <code>True</code>, updating of the var, mg, ms, and mom tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24480,7 +25038,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24549,7 +25107,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24560,7 +25118,7 @@ namespace TensorFlow {
 		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
 		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
 		///   linear += grad_with_shrinkage +
-		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
 		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
@@ -24604,7 +25162,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, the subtraction will be protected by a lock;
+		///   If <code>True</code>, the subtraction will be protected by a lock;
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
@@ -24649,13 +25207,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, the tensor passed to compute grad will be
+		///   If <code>True</code>, the tensor passed to compute grad will be
 		///   var - lr * momentum * accum, so in the end, the var you get is actually
 		///   var - lr * momentum * accum.
 		/// </param>
@@ -24718,7 +25276,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and m tensors is
+		///   If <code>True</code>, updating of the var and m tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24888,7 +25446,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   If <code>True</code>, updating of the var, ms, and mom tensors is protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -24932,7 +25490,7 @@ namespace TensorFlow {
 		///   Increments variable pointed to by 'resource' until it reaches 'limit'.
 		/// </summary>
 		/// <param name="resource">
-		///   Should be from a scalar `Variable` node.
+		///   Should be from a scalar <code>Variable</code> node.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceCountUpTo'.
@@ -24964,7 +25522,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather slices from the variable pointed to by `resource` according to `indices`.
+		///   Gather slices from the variable pointed to by <code>resource</code> according to <code>indices</code>.
 		/// </summary>
 		/// <param name="resource">
 		/// </param>
@@ -24982,19 +25540,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` must be an integer tensor of any dimension (usually 0-D or 1-D).
-		///   Produces an output tensor with shape `indices.shape + params.shape[1:]` where:
+		///   <code>indices</code> must be an integer tensor of any dimension (usually 0-D or 1-D).
+		///   Produces an output tensor with shape <code>indices.shape + params.shape[1:]</code> where:
 		///   
-		///   ```python
-		///       # Scalar indices
-		///       output[:, ..., :] = params[indices, :, ... :]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   output[:, ..., :] = params[indices, :, ... :]
 		///   
-		///       # Vector indices
-		///       output[i, :, ..., :] = params[indices[i], :, ... :]
+		///   # Vector indices
+		///   output[i, :, ..., :] = params[indices[i], :, ... :]
 		///   
-		///       # Higher rank indices
-		///       output[i, ..., j, :, ... :] = params[indices[i, ..., j], :, ..., :]
-		///   ```
+		///   # Higher rank indices
+		///   output[i, ..., j, :, ... :] = params[indices[i, ..., j], :, ..., :]
+		///    <code>
 		/// </remarks>
 		public TFOutput ResourceGather (TFOutput resource, TFOutput indices, TFDataType dtype, bool? validate_indices = null, string operName = null)
 		{
@@ -25015,16 +25573,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Adds sparse updates to the variable referenced by `resource`.
+		///   Adds sparse updates to the variable referenced by <code>resource</code>.
 		/// </summary>
 		/// <param name="resource">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to add to `ref`.
+		///   A tensor of updated values to add to <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterAdd'.
@@ -25035,19 +25593,19 @@ namespace TensorFlow {
 		/// <remarks>
 		///   This operation computes
 		///   
-		///       # Scalar indices
-		///       ref[indices, ...] += updates[...]
+		///   # Scalar indices
+		///   ref[indices, ...] += updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] += updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] += updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]
 		///   
-		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   Duplicate entries are handled correctly: if multiple <code>indices</code> reference
 		///   the same location, their contributions add.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
@@ -25067,7 +25625,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies sparse `updates` to individual values or slices within a given
+		///   Applies sparse <code>updates</code> to individual values or slices within a given
 		/// </summary>
 		/// <param name="reference">
 		///   A resource handle. Must be from a VarHandleOp.
@@ -25093,38 +25651,38 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   variable according to `indices`.
+		///   variable according to <code>indices</code>.
 		///   
-		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   <code>ref</code> is a <code>Tensor</code> with rank <code>P</code> and <code>indices</code> is a <code>Tensor</code> of rank <code>Q</code>.
 		///   
-		///   `indices` must be integer tensor, containing indices into `ref`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   <code>indices</code> must be integer tensor, containing indices into <code>ref</code>.
+		///   It must be shape <code>[d_0, ..., d_{Q-2}, K]</code> where <code>0 &amp;lt; K &amp;lt;= P</code>.
 		///   
-		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
-		///   dimension of `ref`.
+		///   The innermost dimension of <code>indices</code> (with length <code>K</code>) corresponds to
+		///   indices into elements (if <code>K = P</code>) or slices (if <code>K &amp;lt; P</code>) along the <code>K</code>th
+		///   dimension of <code>ref</code>.
 		///   
-		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   <code>updates</code> is <code>Tensor</code> of rank <code>Q-1+P-K</code> with shape:
 		///   
-		///   ```
+		///    <code>
 		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///   ```
+		///    </code>
 		///   
 		///   For example, say we want to update 4 scattered elements to a rank-1 tensor to
 		///   8 elements. In Python, that update would look like this:
 		///   
-		///   ```python
-		///       ref = tfe.Variable([1, 2, 3, 4, 5, 6, 7, 8])
-		///       indices = tf.constant([[4], [3], [1] ,[7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       update = tf.scatter_nd_update(ref, indices, updates)
-		///       with tf.Session() as sess:
-		///         print sess.run(update)
-		///   ```
+		///   <code></code><code>python
+		///   ref = tfe.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///   indices = tf.constant([[4], [3], [1] ,[7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   update = tf.scatter_nd_update(ref, indices, updates)
+		///   with tf.Session() as sess:
+		///   print sess.run(update)
+		///    <code>
 		///   
 		///   The resulting update to ref would look like this:
 		///   
-		///       [1, 11, 3, 10, 9, 6, 7, 12]
+		///   [1, 11, 3, 10, 9, 6, 7, 12]
 		///   
 		///   See @{tf.scatter_nd} for more details about how to make updates to
 		///   slices.
@@ -25146,16 +25704,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Assigns sparse updates to the variable referenced by `resource`.
+		///   Assigns sparse updates to the variable referenced by <code>resource</code>.
 		/// </summary>
 		/// <param name="resource">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to add to `ref`.
+		///   A tensor of updated values to add to <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterUpdate'.
@@ -25166,14 +25724,14 @@ namespace TensorFlow {
 		/// <remarks>
 		///   This operation computes
 		///   
-		///       # Scalar indices
-		///       ref[indices, ...] = updates[...]
+		///   # Scalar indices
+		///   ref[indices, ...] = updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] = updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] = updates[i, ..., j, ...]
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = updates[i, ..., j, ...]
 		/// </remarks>
 		public TFOperation ResourceScatterUpdate (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
 		{
@@ -25269,7 +25827,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -25399,7 +25957,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   If <code>True</code>, updating of the var, mg, ms, and mom tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -25482,7 +26040,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -25556,7 +26114,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -25568,7 +26126,7 @@ namespace TensorFlow {
 		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
 		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
 		///   linear += grad_with_shrinkage +
-		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
 		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
@@ -25622,13 +26180,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, the tensor passed to compute grad will be
+		///   If <code>True</code>, the tensor passed to compute grad will be
 		///   var - lr * momentum * accum, so in the end, the var you get is actually
 		///   var - lr * momentum * accum.
 		/// </param>
@@ -25817,7 +26375,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   If <code>True</code>, updating of the var, ms, and mom tensors is protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -25859,7 +26417,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Assign `value` to the sliced l-value reference of `ref`.
+		///   Assign <code>value</code> to the sliced l-value reference of <code>ref</code>.
 		/// </summary>
 		/// <param name="reference">
 		/// </param>
@@ -25893,12 +26451,12 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The values of `value` are assigned to the positions in the variable
-		///   `ref` that are selected by the slice parameters. The slice parameters
-		///   `begin, `end`, `strides`, etc. work exactly as in `StridedSlice`.
+		///   The values of <code>value</code> are assigned to the positions in the variable
+		///   <code>ref</code> that are selected by the slice parameters. The slice parameters
+		///   <code>begin, </code>end<code>, </code>strides<code>, etc. work exactly as in </code>StridedSlice<code>.
 		///   
-		///   NOTE this op currently does not support broadcasting and so `value`'s
-		///   shape must be exactly the shape produced by the slice of `ref`.
+		///   NOTE this op currently does not support broadcasting and so <code>value</code>'s
+		///   shape must be exactly the shape produced by the slice of <code>ref</code>.
 		/// </remarks>
 		public TFOperation ResourceStridedSliceAssign (TFOutput reference, TFOutput begin, TFOutput end, TFOutput strides, TFOutput value, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -25947,7 +26505,7 @@ namespace TensorFlow {
 		/// <param name="preferred_shard">
 		///   Optional argument
 		///   Index of file to open first if multiple files match
-		///   `file_pattern`.
+		///   <code>file_pattern</code>.
 		/// </param>
 		/// <param name="dt">
 		///   The type of the tensor to be restored.
@@ -25958,21 +26516,21 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Reads a tensor stored in one or several files. If there are several files (for
-		///   instance because a tensor was saved as slices), `file_pattern` may contain
-		///   wildcard symbols (`*` and `?`) in the filename portion only, not in the
+		///   instance because a tensor was saved as slices), <code>file_pattern</code> may contain
+		///   wildcard symbols (<code>*</code> and <code>?</code>) in the filename portion only, not in the
 		///   directory portion.
 		///   
-		///   If a `file_pattern` matches several files, `preferred_shard` can be used to hint
+		///   If a <code>file_pattern</code> matches several files, <code>preferred_shard</code> can be used to hint
 		///   in which file the requested tensor is likely to be found. This op will first
-		///   open the file at index `preferred_shard` in the list of matching files and try
+		///   open the file at index <code>preferred_shard</code> in the list of matching files and try
 		///   to restore tensors from that file.  Only if some tensors or tensor slices are
 		///   not found in that first file, then the Op opens all the files. Setting
-		///   `preferred_shard` to match the value passed as the `shard` input
-		///   of a matching `Save` Op may speed up Restore.  This attribute only affects
+		///   <code>preferred_shard</code> to match the value passed as the <code>shard</code> input
+		///   of a matching <code>Save</code> Op may speed up Restore.  This attribute only affects
 		///   performance, not correctness.  The default value -1 means files are processed in
 		///   order.
 		///   
-		///   See also `RestoreSlice`.
+		///   See also <code>RestoreSlice</code>.
 		/// </remarks>
 		public TFOutput Restore (TFOutput file_pattern, TFOutput tensor_name, TFDataType dt, long? preferred_shard = null, string operName = null)
 		{
@@ -26013,7 +26571,7 @@ namespace TensorFlow {
 		/// <param name="preferred_shard">
 		///   Optional argument
 		///   Index of file to open first if multiple files match
-		///   `file_pattern`. See the documentation for `Restore`.
+		///   <code>file_pattern</code>. See the documentation for <code>Restore</code>.
 		/// </param>
 		/// <param name="dt">
 		///   The type of the tensor to be restored.
@@ -26023,12 +26581,12 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This is like `Restore` except that restored tensor can be listed as filling
-		///   only a slice of a larger tensor.  `shape_and_slice` specifies the shape of the
+		///   This is like <code>Restore</code> except that restored tensor can be listed as filling
+		///   only a slice of a larger tensor.  <code>shape_and_slice</code> specifies the shape of the
 		///   larger tensor and the slice that the restored tensor covers.
 		///   
-		///   The `shape_and_slice` input has the same format as the
-		///   elements of the `shapes_and_slices` input of the `SaveSlices` op.
+		///   The <code>shape_and_slice</code> input has the same format as the
+		///   elements of the <code>shapes_and_slices</code> input of the <code>SaveSlices</code> op.
 		/// </remarks>
 		public TFOutput RestoreSlice (TFOutput file_pattern, TFOutput tensor_name, TFOutput shape_and_slice, TFDataType dt, long? preferred_shard = null, string operName = null)
 		{
@@ -26077,9 +26635,9 @@ namespace TensorFlow {
 		/// <remarks>
 		///   For backward compatibility with the V1 format, this Op currently allows
 		///   restoring from a V1 checkpoint as well:
-		///     - This Op first attempts to find the V2 index file pointed to by "prefix", and
-		///       if found proceed to read it as a V2 checkpoint;
-		///     - Otherwise the V1 read path is invoked.
+		///   - This Op first attempts to find the V2 index file pointed to by "prefix", and
+		///   if found proceed to read it as a V2 checkpoint;
+		///   - Otherwise the V1 read path is invoked.
 		///   Relying on this behavior is not recommended, as the ability to fall back to read
 		///   V1 might be deprecated and eventually removed.
 		///   
@@ -26123,22 +26681,22 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Reverse'.
 		/// </param>
 		/// <returns>
-		///   The same shape as `tensor`.
+		///   The same shape as <code>tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a `tensor`, and a `bool` tensor `dims` representing the dimensions
-		///   of `tensor`, this operation reverses each dimension i of `tensor` where
-		///   `dims[i]` is `True`.
+		///   Given a <code>tensor</code>, and a <code>bool</code> tensor <code>dims</code> representing the dimensions
+		///   of <code>tensor</code>, this operation reverses each dimension i of <code>tensor</code> where
+		///   <code>dims[i]</code> is <code>True</code>.
 		///   
-		///   `tensor` can have up to 8 dimensions. The number of dimensions
-		///   of `tensor` must equal the number of elements in `dims`. In other words:
+		///   <code>tensor</code> can have up to 8 dimensions. The number of dimensions
+		///   of <code>tensor</code> must equal the number of elements in <code>dims</code>. In other words:
 		///   
-		///   `rank(tensor) = size(dims)`
+		///   <code>rank(tensor) = size(dims)</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 't' is [[[[ 0,  1,  2,  3],
 		///   #                  [ 4,  5,  6,  7],
 		///   #                  [ 8,  9, 10, 11]],
@@ -26149,28 +26707,28 @@ namespace TensorFlow {
 		///   
 		///   # 'dims' is [False, False, False, True]
 		///   reverse(t, dims) ==&amp;gt; [[[[ 3,  2,  1,  0],
-		///                           [ 7,  6,  5,  4],
-		///                           [ 11, 10, 9, 8]],
-		///                          [[15, 14, 13, 12],
-		///                           [19, 18, 17, 16],
-		///                           [23, 22, 21, 20]]]]
+		///   [ 7,  6,  5,  4],
+		///   [ 11, 10, 9, 8]],
+		///   [[15, 14, 13, 12],
+		///   [19, 18, 17, 16],
+		///   [23, 22, 21, 20]]]]
 		///   
 		///   # 'dims' is [False, True, False, False]
 		///   reverse(t, dims) ==&amp;gt; [[[[12, 13, 14, 15],
-		///                           [16, 17, 18, 19],
-		///                           [20, 21, 22, 23]
-		///                          [[ 0,  1,  2,  3],
-		///                           [ 4,  5,  6,  7],
-		///                           [ 8,  9, 10, 11]]]]
+		///   [16, 17, 18, 19],
+		///   [20, 21, 22, 23]
+		///   [[ 0,  1,  2,  3],
+		///   [ 4,  5,  6,  7],
+		///   [ 8,  9, 10, 11]]]]
 		///   
 		///   # 'dims' is [False, False, True, False]
 		///   reverse(t, dims) ==&amp;gt; [[[[8, 9, 10, 11],
-		///                           [4, 5, 6, 7],
-		///                           [0, 1, 2, 3]]
-		///                          [[20, 21, 22, 23],
-		///                           [16, 17, 18, 19],
-		///                           [12, 13, 14, 15]]]]
-		///   ```
+		///   [4, 5, 6, 7],
+		///   [0, 1, 2, 3]]
+		///   [[20, 21, 22, 23],
+		///   [16, 17, 18, 19],
+		///   [12, 13, 14, 15]]]]
+		///    </code>
 		/// </remarks>
 		public TFOutput Reverse (TFOutput tensor, TFOutput dims, string operName = null)
 		{
@@ -26193,8 +26751,8 @@ namespace TensorFlow {
 		///   The input to reverse.
 		/// </param>
 		/// <param name="seq_lengths">
-		///   1-D with length `input.dims(batch_dim)` and
-		///   `max(seq_lengths) &amp;lt;= input.dims(seq_dim)`
+		///   1-D with length <code>input.dims(batch_dim)</code> and
+		///   <code>max(seq_lengths) &amp;lt;= input.dims(seq_dim)</code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReverseSequence'.
@@ -26207,24 +26765,24 @@ namespace TensorFlow {
 		///   The dimension which is partially reversed.
 		/// </param>
 		/// <returns>
-		///   The partially reversed input. It has the same shape as `input`.
+		///   The partially reversed input. It has the same shape as <code>input</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This op first slices `input` along the dimension `batch_dim`, and for each
-		///   slice `i`, reverses the first `seq_lengths[i]` elements along
-		///   the dimension `seq_dim`.
+		///   This op first slices <code>input</code> along the dimension <code>batch_dim</code>, and for each
+		///   slice <code>i</code>, reverses the first <code>seq_lengths[i]</code> elements along
+		///   the dimension <code>seq_dim</code>.
 		///   
-		///   The elements of `seq_lengths` must obey `seq_lengths[i] &amp;lt;= input.dims[seq_dim]`,
-		///   and `seq_lengths` must be a vector of length `input.dims[batch_dim]`.
+		///   The elements of <code>seq_lengths</code> must obey <code>seq_lengths[i] &amp;lt;= input.dims[seq_dim]</code>,
+		///   and <code>seq_lengths</code> must be a vector of length <code>input.dims[batch_dim]</code>.
 		///   
-		///   The output slice `i` along dimension `batch_dim` is then given by input
-		///   slice `i`, with the first `seq_lengths[i]` slices along dimension
-		///   `seq_dim` reversed.
+		///   The output slice <code>i</code> along dimension <code>batch_dim</code> is then given by input
+		///   slice <code>i</code>, with the first <code>seq_lengths[i]</code> slices along dimension
+		///   <code>seq_dim</code> reversed.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # Given this:
 		///   batch_dim = 0
 		///   seq_dim = 1
@@ -26242,11 +26800,11 @@ namespace TensorFlow {
 		///   output[1, 2:, :, ...] = input[1, 2:, :, ...]
 		///   output[2, 3:, :, ...] = input[2, 3:, :, ...]
 		///   output[3, 2:, :, ...] = input[3, 2:, :, ...]
-		///   ```
+		///    </code>
 		///   
 		///   In contrast, if:
 		///   
-		///   ```
+		///    <code>
 		///   # Given this:
 		///   batch_dim = 2
 		///   seq_dim = 0
@@ -26264,7 +26822,7 @@ namespace TensorFlow {
 		///   output[2:, :, 1, :, ...] = input[2:, :, 1, :, ...]
 		///   output[3:, :, 2, :, ...] = input[3:, :, 2, :, ...]
 		///   output[2:, :, 3, :, ...] = input[2:, :, 3, :, ...]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput ReverseSequence (TFOutput input, TFOutput seq_lengths, long seq_dim, long? batch_dim = null, string operName = null)
 		{
@@ -26292,30 +26850,30 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="axis">
 		///   1-D. The indices of the dimensions to reverse. Must be in the range
-		///   `[-rank(tensor), rank(tensor))`.
+		///   <code>[-rank(tensor), rank(tensor))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ReverseV2'.
 		/// </param>
 		/// <returns>
-		///   The same shape as `tensor`.
+		///   The same shape as <code>tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   NOTE `tf.reverse` has now changed behavior in preparation for 1.0.
-		///   `tf.reverse_v2` is currently an alias that will be deprecated before TF 1.0.
+		///   NOTE <code>tf.reverse</code> has now changed behavior in preparation for 1.0.
+		///   <code>tf.reverse_v2</code> is currently an alias that will be deprecated before TF 1.0.
 		///   
-		///   Given a `tensor`, and a `int32` tensor `axis` representing the set of
-		///   dimensions of `tensor` to reverse. This operation reverses each dimension
-		///   `i` for which there exists `j` s.t. `axis[j] == i`.
+		///   Given a <code>tensor</code>, and a <code>int32</code> tensor <code>axis</code> representing the set of
+		///   dimensions of <code>tensor</code> to reverse. This operation reverses each dimension
+		///   <code>i</code> for which there exists <code>j</code> s.t. <code>axis[j] == i</code>.
 		///   
-		///   `tensor` can have up to 8 dimensions. The number of dimensions specified
-		///   in `axis` may be 0 or more entries. If an index is specified more than
+		///   <code>tensor</code> can have up to 8 dimensions. The number of dimensions specified
+		///   in <code>axis</code> may be 0 or more entries. If an index is specified more than
 		///   once, a InvalidArgument error is raised.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 't' is [[[[ 0,  1,  2,  3],
 		///   #                  [ 4,  5,  6,  7],
 		///   #                  [ 8,  9, 10, 11]],
@@ -26326,28 +26884,28 @@ namespace TensorFlow {
 		///   
 		///   # 'dims' is [3] or 'dims' is [-1]
 		///   reverse(t, dims) ==&amp;gt; [[[[ 3,  2,  1,  0],
-		///                           [ 7,  6,  5,  4],
-		///                           [ 11, 10, 9, 8]],
-		///                          [[15, 14, 13, 12],
-		///                           [19, 18, 17, 16],
-		///                           [23, 22, 21, 20]]]]
+		///   [ 7,  6,  5,  4],
+		///   [ 11, 10, 9, 8]],
+		///   [[15, 14, 13, 12],
+		///   [19, 18, 17, 16],
+		///   [23, 22, 21, 20]]]]
 		///   
 		///   # 'dims' is '[1]' (or 'dims' is '[-3]')
 		///   reverse(t, dims) ==&amp;gt; [[[[12, 13, 14, 15],
-		///                           [16, 17, 18, 19],
-		///                           [20, 21, 22, 23]
-		///                          [[ 0,  1,  2,  3],
-		///                           [ 4,  5,  6,  7],
-		///                           [ 8,  9, 10, 11]]]]
+		///   [16, 17, 18, 19],
+		///   [20, 21, 22, 23]
+		///   [[ 0,  1,  2,  3],
+		///   [ 4,  5,  6,  7],
+		///   [ 8,  9, 10, 11]]]]
 		///   
 		///   # 'dims' is '[2]' (or 'dims' is '[-2]')
 		///   reverse(t, dims) ==&amp;gt; [[[[8, 9, 10, 11],
-		///                           [4, 5, 6, 7],
-		///                           [0, 1, 2, 3]]
-		///                          [[20, 21, 22, 23],
-		///                           [16, 17, 18, 19],
-		///                           [12, 13, 14, 15]]]]
-		///   ```
+		///   [4, 5, 6, 7],
+		///   [0, 1, 2, 3]]
+		///   [[20, 21, 22, 23],
+		///   [16, 17, 18, 19],
+		///   [12, 13, 14, 15]]]]
+		///    </code>
 		/// </remarks>
 		public TFOutput ReverseV2 (TFOutput tensor, TFOutput axis, string operName = null)
 		{
@@ -26376,9 +26934,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RFFT'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same rank as `input`. The inner-most
-		///     dimension of `input` is replaced with the `fft_length / 2 + 1` unique
-		///     frequency components of its 1D Fourier transform.
+		///   A complex64 tensor of the same rank as <code>input</code>. The inner-most
+		///   dimension of <code>input</code> is replaced with the <code>fft_length / 2 + 1</code> unique
+		///   frequency components of its 1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.rfft
@@ -26387,14 +26945,14 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 1-dimensional discrete Fourier transform of a real-valued signal
-		///   over the inner-most dimension of `input`.
+		///   over the inner-most dimension of <code>input</code>.
 		///   
-		///   Since the DFT of a real signal is Hermitian-symmetric, `RFFT` only returns the
-		///   `fft_length / 2 + 1` unique components of the FFT: the zero-frequency term,
-		///   followed by the `fft_length / 2` positive-frequency terms.
+		///   Since the DFT of a real signal is Hermitian-symmetric, <code>RFFT</code> only returns the
+		///   <code>fft_length / 2 + 1</code> unique components of the FFT: the zero-frequency term,
+		///   followed by the <code>fft_length / 2</code> positive-frequency terms.
 		///   
-		///   Along the axis `RFFT` is computed on, if `fft_length` is smaller than the
-		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   Along the axis <code>RFFT</code> is computed on, if <code>fft_length</code> is smaller than the
+		///   corresponding dimension of <code>input</code>, the dimension is cropped. If it is larger,
 		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT (TFOutput input, TFOutput fft_length, string operName = null)
@@ -26424,10 +26982,10 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RFFT2D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same rank as `input`. The inner-most 2
-		///     dimensions of `input` are replaced with their 2D Fourier transform. The
-		///     inner-most dimension contains `fft_length / 2 + 1` unique frequency
-		///     components.
+		///   A complex64 tensor of the same rank as <code>input</code>. The inner-most 2
+		///   dimensions of <code>input</code> are replaced with their 2D Fourier transform. The
+		///   inner-most dimension contains <code>fft_length / 2 + 1</code> unique frequency
+		///   components.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.rfft2
@@ -26436,15 +26994,15 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 2-dimensional discrete Fourier transform of a real-valued signal
-		///   over the inner-most 2 dimensions of `input`.
+		///   over the inner-most 2 dimensions of <code>input</code>.
 		///   
-		///   Since the DFT of a real signal is Hermitian-symmetric, `RFFT2D` only returns the
-		///   `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
-		///   of `output`: the zero-frequency term, followed by the `fft_length / 2`
+		///   Since the DFT of a real signal is Hermitian-symmetric, <code>RFFT2D</code> only returns the
+		///   <code>fft_length / 2 + 1</code> unique components of the FFT for the inner-most dimension
+		///   of <code>output</code>: the zero-frequency term, followed by the <code>fft_length / 2</code>
 		///   positive-frequency terms.
 		///   
-		///   Along each axis `RFFT2D` is computed on, if `fft_length` is smaller than the
-		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   Along each axis <code>RFFT2D</code> is computed on, if <code>fft_length</code> is smaller than the
+		///   corresponding dimension of <code>input</code>, the dimension is cropped. If it is larger,
 		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT2D (TFOutput input, TFOutput fft_length, string operName = null)
@@ -26474,10 +27032,10 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RFFT3D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same rank as `input`. The inner-most 3
-		///     dimensions of `input` are replaced with the their 3D Fourier transform. The
-		///     inner-most dimension contains `fft_length / 2 + 1` unique frequency
-		///     components.
+		///   A complex64 tensor of the same rank as <code>input</code>. The inner-most 3
+		///   dimensions of <code>input</code> are replaced with the their 3D Fourier transform. The
+		///   inner-most dimension contains <code>fft_length / 2 + 1</code> unique frequency
+		///   components.
 		///   
 		///   @compatibility(numpy)
 		///   Equivalent to np.fft.rfftn with 3 dimensions.
@@ -26486,15 +27044,15 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the 3-dimensional discrete Fourier transform of a real-valued signal
-		///   over the inner-most 3 dimensions of `input`.
+		///   over the inner-most 3 dimensions of <code>input</code>.
 		///   
-		///   Since the DFT of a real signal is Hermitian-symmetric, `RFFT3D` only returns the
-		///   `fft_length / 2 + 1` unique components of the FFT for the inner-most dimension
-		///   of `output`: the zero-frequency term, followed by the `fft_length / 2`
+		///   Since the DFT of a real signal is Hermitian-symmetric, <code>RFFT3D</code> only returns the
+		///   <code>fft_length / 2 + 1</code> unique components of the FFT for the inner-most dimension
+		///   of <code>output</code>: the zero-frequency term, followed by the <code>fft_length / 2</code>
 		///   positive-frequency terms.
 		///   
-		///   Along each axis `RFFT3D` is computed on, if `fft_length` is smaller than the
-		///   corresponding dimension of `input`, the dimension is cropped. If it is larger,
+		///   Along each axis <code>RFFT3D</code> is computed on, if <code>fft_length</code> is smaller than the
+		///   corresponding dimension of <code>input</code>, the dimension is cropped. If it is larger,
 		///   the dimension is padded with zeros.
 		/// </remarks>
 		public TFOutput RFFT3D (TFOutput input, TFOutput fft_length, string operName = null)
@@ -26521,16 +27079,16 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RGBToHSV'.
 		/// </param>
 		/// <returns>
-		///   `images` converted to HSV.
+		///   <code>images</code> converted to HSV.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Outputs a tensor of the same shape as the `images` tensor, containing the HSV
-		///   value of the pixels. The output is only well defined if the value in `images`
-		///   are in `[0,1]`.
+		///   Outputs a tensor of the same shape as the <code>images</code> tensor, containing the HSV
+		///   value of the pixels. The output is only well defined if the value in <code>images</code>
+		///   are in <code>[0,1]</code>.
 		///   
-		///   `output[..., 0]` contains hue, `output[..., 1]` contains saturation, and
-		///   `output[..., 2]` contains value. All HSV values are in `[0,1]`. A hue of 0
+		///   <code>output[..., 0]</code> contains hue, <code>output[..., 1]</code> contains saturation, and
+		///   <code>output[..., 2]</code> contains value. All HSV values are in <code>[0,1]</code>. A hue of 0
 		///   corresponds to pure red, hue 1/3 is pure green, and 2/3 is pure blue.
 		/// </remarks>
 		public TFOutput RGBToHSV (TFOutput images, string operName = null)
@@ -26547,7 +27105,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Elementwise computes the bitwise right-shift of `x` and `y`.
+		///   Elementwise computes the bitwise right-shift of <code>x</code> and <code>y</code>.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -26563,7 +27121,7 @@ namespace TensorFlow {
 		///   Performs a logical shift for unsigned integer types, and an arithmetic shift
 		///   for signed integer types.
 		///   
-		///   If `y` is negative, or greater than or equal to than the width of `x` in bits
+		///   If <code>y</code> is negative, or greater than or equal to than the width of <code>x</code> in bits
 		///   the result is implementation defined.
 		/// </remarks>
 		public TFOutput RightShift (TFOutput x, TFOutput y, string operName = null)
@@ -26596,11 +27154,11 @@ namespace TensorFlow {
 		///   the even representable is chosen.
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   rint(-1.5) ==&amp;gt; -2.0
 		///   rint(0.5000001) ==&amp;gt; 1.0
 		///   rint([-1.7, -1.5, -0.2, 0.2, 1.5, 1.7, 2.0]) ==&amp;gt; [-2., -2., -0., 0., 2., 2., 2.]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Rint (TFOutput x, string operName = null)
 		{
@@ -26613,6 +27171,69 @@ namespace TensorFlow {
 			int _idx = 0;
 			var y = new TFOutput (op, _idx++);
 			return y;
+		}
+
+		/// <summary>
+		///   Rolls the elements of a tensor along an axis.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="shift">
+		///   Dimension must be 0-D or 1-D. <code>shift[i]</code> specifies the number of places by which
+		///   elements are shifted positively (towards larger indices) along the dimension
+		///   specified by <code>axis[i]</code>. Negative shifts will roll the elements in the opposite
+		///   direction.
+		/// </param>
+		/// <param name="axis">
+		///   Dimension must be 0-D or 1-D. <code>axis[i]</code> specifies the dimension that the shift
+		///   <code>shift[i]</code> should occur. If the same axis is referenced more than once, the
+		///   total shift for that axis will be the sum of all the shifts that belong to that
+		///   axis.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Roll'.
+		/// </param>
+		/// <returns>
+		///   Has the same shape and size as the input. The elements are shifted
+		///   positively (towards larger indices) by the offsets of <code>shift</code> along the
+		///   dimensions of <code>axis</code>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The elements are shifted positively (towards larger indices) by the offset of
+		///   <code>shift</code> along the dimension of <code>axis</code>. Negative <code>shift</code> values will shift
+		///   elements in the opposite direction. Elements that roll passed the last position
+		///   will wrap around to the first and vice versa. Multiple shifts along multiple
+		///   axes may be specified.
+		///   
+		///   For example:
+		///   
+		///    <code>
+		///   # 't' is [0, 1, 2, 3, 4]
+		///   roll(t, shift=2, axis=0) ==&amp;gt; [3, 4, 0, 1, 2]
+		///   
+		///   # shifting along multiple dimensions
+		///   # 't' is [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]
+		///   roll(t, shift=[1, -2], axis=[0, 1]) ==&amp;gt; [[7, 8, 9, 5, 6], [2, 3, 4, 0, 1]]
+		///   
+		///   # shifting along the same axis multiple times
+		///   # 't' is [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]
+		///   roll(t, shift=[2, -3], axis=[1, 1]) ==&amp;gt; [[1, 2, 3, 4, 0], [6, 7, 8, 9, 5]]
+		///    </code>
+		/// </remarks>
+		public TFOutput Roll (TFOutput input, TFOutput shift, TFOutput axis, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Roll", MakeName ("Roll", operName));
+			desc.AddInput (input);
+			desc.AddInput (shift);
+			desc.AddInput (axis);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -26671,7 +27292,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient for the rsqrt of `x` wrt its input.
+		///   Computes the gradient for the rsqrt of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -26684,7 +27305,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = dy * -0.5 * y^3`, where `y = rsqrt(x)`, and `dy`
+		///   Specifically, <code>grad = dy * -0.5 * y^3</code>, where <code>y = rsqrt(x)</code>, and <code>dy</code>
 		///   is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput RsqrtGrad (TFOutput y, TFOutput dy, string operName = null)
@@ -26705,10 +27326,10 @@ namespace TensorFlow {
 		///   Generate a single randomly distorted bounding box for an image.
 		/// </summary>
 		/// <param name="image_size">
-		///   1-D, containing `[height, width, channels]`.
+		///   1-D, containing <code>[height, width, channels]</code>.
 		/// </param>
 		/// <param name="bounding_boxes">
-		///   3-D with shape `[batch, N, 4]` describing the N bounding boxes
+		///   3-D with shape <code>[batch, N, 4]</code> describing the N bounding boxes
 		///   associated with the image.
 		/// </param>
 		/// <param name="operName">
@@ -26716,8 +27337,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to non-zero, the random number
-		///   generator is seeded by the given `seed`.  Otherwise, it is seeded by a random
+		///   If either <code>seed</code> or <code>seed2</code> are set to non-zero, the random number
+		///   generator is seeded by the given <code>seed</code>.  Otherwise, it is seeded by a random
 		///   seed.
 		/// </param>
 		/// <param name="seed2">
@@ -26744,7 +27365,7 @@ namespace TensorFlow {
 		/// <param name="max_attempts">
 		///   Optional argument
 		///   Number of attempts at generating a cropped region of the image
-		///   of the specified constraints. After `max_attempts` failures, return the entire
+		///   of the specified constraints. After <code>max_attempts</code> failures, return the entire
 		///   image.
 		/// </param>
 		/// <param name="use_image_if_no_bounding_boxes">
@@ -26755,12 +27376,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   begin: 1-D, containing `[offset_height, offset_width, 0]`. Provide as input to
-		///   `tf.slice`.
-		///   size: 1-D, containing `[target_height, target_width, -1]`. Provide as input to
-		///   `tf.slice`.
-		///   bboxes: 3-D with shape `[1, 1, 4]` containing the distorted bounding box.
-		///   Provide as input to `tf.image.draw_bounding_boxes`.
+		///   begin: 1-D, containing <code>[offset_height, offset_width, 0]</code>. Provide as input to
+		///   <code>tf.slice</code>.
+		///   size: 1-D, containing <code>[target_height, target_width, -1]</code>. Provide as input to
+		///   <code>tf.slice</code>.
+		///   bboxes: 3-D with shape <code>[1, 1, 4]</code> containing the distorted bounding box.
+		///   Provide as input to <code>tf.image.draw_bounding_boxes</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -26768,39 +27389,39 @@ namespace TensorFlow {
 		///   in image recognition or object localization tasks. A common technique for
 		///   training such a system is to randomly distort an image while preserving
 		///   its content, i.e. *data augmentation*. This Op outputs a randomly distorted
-		///   localization of an object, i.e. bounding box, given an `image_size`,
-		///   `bounding_boxes` and a series of constraints.
+		///   localization of an object, i.e. bounding box, given an <code>image_size</code>,
+		///   <code>bounding_boxes</code> and a series of constraints.
 		///   
 		///   The output of this Op is a single bounding box that may be used to crop the
-		///   original image. The output is returned as 3 tensors: `begin`, `size` and
-		///   `bboxes`. The first 2 tensors can be fed directly into `tf.slice` to crop the
-		///   image. The latter may be supplied to `tf.image.draw_bounding_boxes` to visualize
+		///   original image. The output is returned as 3 tensors: <code>begin</code>, <code>size</code> and
+		///   <code>bboxes</code>. The first 2 tensors can be fed directly into <code>tf.slice</code> to crop the
+		///   image. The latter may be supplied to <code>tf.image.draw_bounding_boxes</code> to visualize
 		///   what the bounding box looks like.
 		///   
-		///   Bounding boxes are supplied and returned as `[y_min, x_min, y_max, x_max]`. The
-		///   bounding box coordinates are floats in `[0.0, 1.0]` relative to the width and
+		///   Bounding boxes are supplied and returned as <code>[y_min, x_min, y_max, x_max]</code>. The
+		///   bounding box coordinates are floats in <code>[0.0, 1.0]</code> relative to the width and
 		///   height of the underlying image.
 		///   
 		///   For example,
 		///   
-		///   ```python
-		///       # Generate a single distorted bounding box.
-		///       begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
-		///           tf.shape(image),
-		///           bounding_boxes=bounding_boxes)
+		///   <code></code><code>python
+		///   # Generate a single distorted bounding box.
+		///   begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
+		///   tf.shape(image),
+		///   bounding_boxes=bounding_boxes)
 		///   
-		///       # Draw the bounding box in an image summary.
-		///       image_with_box = tf.image.draw_bounding_boxes(tf.expand_dims(image, 0),
-		///                                                     bbox_for_draw)
-		///       tf.image_summary('images_with_box', image_with_box)
+		///   # Draw the bounding box in an image summary.
+		///   image_with_box = tf.image.draw_bounding_boxes(tf.expand_dims(image, 0),
+		///   bbox_for_draw)
+		///   tf.summary.image('images_with_box', image_with_box)
 		///   
-		///       # Employ the bounding box to distort the image.
-		///       distorted_image = tf.slice(image, begin, size)
-		///   ```
+		///   # Employ the bounding box to distort the image.
+		///   distorted_image = tf.slice(image, begin, size)
+		///    <code>
 		///   
 		///   Note that if no bounding box information is available, setting
-		///   `use_image_if_no_bounding_boxes = true` will assume there is a single implicit
-		///   bounding box covering the whole image. If `use_image_if_no_bounding_boxes` is
+		///   <code>use_image_if_no_bounding_boxes = true</code> will assume there is a single implicit
+		///   bounding box covering the whole image. If <code>use_image_if_no_bounding_boxes</code> is
 		///   false and no bounding boxes are supplied, an error is raised.
 		/// </remarks>
 		public (TFOutput begin, TFOutput size, TFOutput bboxes) SampleDistortedBoundingBox (TFOutput image_size, TFOutput bounding_boxes, long? seed = null, long? seed2 = null, float? min_object_covered = null, float[] aspect_ratio_range = null, float[] area_range = null, long? max_attempts = null, bool? use_image_if_no_bounding_boxes = null, string operName = null)
@@ -26844,10 +27465,10 @@ namespace TensorFlow {
 		///   Generate a single randomly distorted bounding box for an image.
 		/// </summary>
 		/// <param name="image_size">
-		///   1-D, containing `[height, width, channels]`.
+		///   1-D, containing <code>[height, width, channels]</code>.
 		/// </param>
 		/// <param name="bounding_boxes">
-		///   3-D with shape `[batch, N, 4]` describing the N bounding boxes
+		///   3-D with shape <code>[batch, N, 4]</code> describing the N bounding boxes
 		///   associated with the image.
 		/// </param>
 		/// <param name="min_object_covered">
@@ -26861,8 +27482,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to non-zero, the random number
-		///   generator is seeded by the given `seed`.  Otherwise, it is seeded by a random
+		///   If either <code>seed</code> or <code>seed2</code> are set to non-zero, the random number
+		///   generator is seeded by the given <code>seed</code>.  Otherwise, it is seeded by a random
 		///   seed.
 		/// </param>
 		/// <param name="seed2">
@@ -26882,7 +27503,7 @@ namespace TensorFlow {
 		/// <param name="max_attempts">
 		///   Optional argument
 		///   Number of attempts at generating a cropped region of the image
-		///   of the specified constraints. After `max_attempts` failures, return the entire
+		///   of the specified constraints. After <code>max_attempts</code> failures, return the entire
 		///   image.
 		/// </param>
 		/// <param name="use_image_if_no_bounding_boxes">
@@ -26893,12 +27514,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   begin: 1-D, containing `[offset_height, offset_width, 0]`. Provide as input to
-		///   `tf.slice`.
-		///   size: 1-D, containing `[target_height, target_width, -1]`. Provide as input to
-		///   `tf.slice`.
-		///   bboxes: 3-D with shape `[1, 1, 4]` containing the distorted bounding box.
-		///   Provide as input to `tf.image.draw_bounding_boxes`.
+		///   begin: 1-D, containing <code>[offset_height, offset_width, 0]</code>. Provide as input to
+		///   <code>tf.slice</code>.
+		///   size: 1-D, containing <code>[target_height, target_width, -1]</code>. Provide as input to
+		///   <code>tf.slice</code>.
+		///   bboxes: 3-D with shape <code>[1, 1, 4]</code> containing the distorted bounding box.
+		///   Provide as input to <code>tf.image.draw_bounding_boxes</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -26906,39 +27527,39 @@ namespace TensorFlow {
 		///   in image recognition or object localization tasks. A common technique for
 		///   training such a system is to randomly distort an image while preserving
 		///   its content, i.e. *data augmentation*. This Op outputs a randomly distorted
-		///   localization of an object, i.e. bounding box, given an `image_size`,
-		///   `bounding_boxes` and a series of constraints.
+		///   localization of an object, i.e. bounding box, given an <code>image_size</code>,
+		///   <code>bounding_boxes</code> and a series of constraints.
 		///   
 		///   The output of this Op is a single bounding box that may be used to crop the
-		///   original image. The output is returned as 3 tensors: `begin`, `size` and
-		///   `bboxes`. The first 2 tensors can be fed directly into `tf.slice` to crop the
-		///   image. The latter may be supplied to `tf.image.draw_bounding_boxes` to visualize
+		///   original image. The output is returned as 3 tensors: <code>begin</code>, <code>size</code> and
+		///   <code>bboxes</code>. The first 2 tensors can be fed directly into <code>tf.slice</code> to crop the
+		///   image. The latter may be supplied to <code>tf.image.draw_bounding_boxes</code> to visualize
 		///   what the bounding box looks like.
 		///   
-		///   Bounding boxes are supplied and returned as `[y_min, x_min, y_max, x_max]`. The
-		///   bounding box coordinates are floats in `[0.0, 1.0]` relative to the width and
+		///   Bounding boxes are supplied and returned as <code>[y_min, x_min, y_max, x_max]</code>. The
+		///   bounding box coordinates are floats in <code>[0.0, 1.0]</code> relative to the width and
 		///   height of the underlying image.
 		///   
 		///   For example,
 		///   
-		///   ```python
-		///       # Generate a single distorted bounding box.
-		///       begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
-		///           tf.shape(image),
-		///           bounding_boxes=bounding_boxes)
+		///   <code></code><code>python
+		///   # Generate a single distorted bounding box.
+		///   begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
+		///   tf.shape(image),
+		///   bounding_boxes=bounding_boxes)
 		///   
-		///       # Draw the bounding box in an image summary.
-		///       image_with_box = tf.image.draw_bounding_boxes(tf.expand_dims(image, 0),
-		///                                                     bbox_for_draw)
-		///       tf.image_summary('images_with_box', image_with_box)
+		///   # Draw the bounding box in an image summary.
+		///   image_with_box = tf.image.draw_bounding_boxes(tf.expand_dims(image, 0),
+		///   bbox_for_draw)
+		///   tf.summary.image('images_with_box', image_with_box)
 		///   
-		///       # Employ the bounding box to distort the image.
-		///       distorted_image = tf.slice(image, begin, size)
-		///   ```
+		///   # Employ the bounding box to distort the image.
+		///   distorted_image = tf.slice(image, begin, size)
+		///    <code>
 		///   
 		///   Note that if no bounding box information is available, setting
-		///   `use_image_if_no_bounding_boxes = true` will assume there is a single implicit
-		///   bounding box covering the whole image. If `use_image_if_no_bounding_boxes` is
+		///   <code>use_image_if_no_bounding_boxes = true</code> will assume there is a single implicit
+		///   bounding box covering the whole image. If <code>use_image_if_no_bounding_boxes</code> is
 		///   false and no bounding boxes are supplied, an error is raised.
 		/// </remarks>
 		public (TFOutput begin, TFOutput size, TFOutput bboxes) SampleDistortedBoundingBoxV2 (TFOutput image_size, TFOutput bounding_boxes, TFOutput min_object_covered, long? seed = null, long? seed2 = null, float[] aspect_ratio_range = null, float[] area_range = null, long? max_attempts = null, bool? use_image_if_no_bounding_boxes = null, string operName = null)
@@ -26984,10 +27605,10 @@ namespace TensorFlow {
 		///   the tensor.
 		/// </param>
 		/// <param name="tensor_names">
-		///   Shape `[N]`. The names of the tensors to be saved.
+		///   Shape <code>[N]</code>. The names of the tensors to be saved.
 		/// </param>
 		/// <param name="data">
-		///   `N` tensors to save.
+		///   <code>N</code> tensors to save.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Save'.
@@ -26996,10 +27617,10 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The size of `tensor_names` must match the number of tensors in `data`. `data[i]`
-		///   is written to `filename` with name `tensor_names[i]`.
+		///   The size of <code>tensor_names</code> must match the number of tensors in <code>data</code>. <code>data[i]</code>
+		///   is written to <code>filename</code> with name <code>tensor_names[i]</code>.
 		///   
-		///   See also `SaveSlices`.
+		///   See also <code>SaveSlices</code>.
 		/// </remarks>
 		public TFOperation Save (TFOutput filename, TFOutput tensor_names, TFOutput[] data, string operName = null)
 		{
@@ -27022,14 +27643,14 @@ namespace TensorFlow {
 		///   tensor.
 		/// </param>
 		/// <param name="tensor_names">
-		///   Shape `[N]`. The names of the tensors to be saved.
+		///   Shape <code>[N]</code>. The names of the tensors to be saved.
 		/// </param>
 		/// <param name="shapes_and_slices">
-		///   Shape `[N]`.  The shapes and slice specifications to use when
+		///   Shape <code>[N]</code>.  The shapes and slice specifications to use when
 		///   saving the tensors.
 		/// </param>
 		/// <param name="data">
-		///   `N` tensors to save.
+		///   <code>N</code> tensors to save.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SaveSlices'.
@@ -27038,27 +27659,27 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   This is like `Save` except that tensors can be listed in the saved file as being
-		///   a slice of a larger tensor.  `shapes_and_slices` specifies the shape of the
-		///   larger tensor and the slice that this tensor covers. `shapes_and_slices` must
-		///   have as many elements as `tensor_names`.
+		///   This is like <code>Save</code> except that tensors can be listed in the saved file as being
+		///   a slice of a larger tensor.  <code>shapes_and_slices</code> specifies the shape of the
+		///   larger tensor and the slice that this tensor covers. <code>shapes_and_slices</code> must
+		///   have as many elements as <code>tensor_names</code>.
 		///   
-		///   Elements of the `shapes_and_slices` input must either be:
+		///   Elements of the <code>shapes_and_slices</code> input must either be:
 		///   
 		///   *  The empty string, in which case the corresponding tensor is
-		///      saved normally.
-		///   *  A string of the form `dim0 dim1 ... dimN-1 slice-spec` where the
-		///      `dimI` are the dimensions of the larger tensor and `slice-spec`
-		///      specifies what part is covered by the tensor to save.
+		///   saved normally.
+		///   *  A string of the form <code>dim0 dim1 ... dimN-1 slice-spec</code> where the
+		///   <code>dimI</code> are the dimensions of the larger tensor and <code>slice-spec</code>
+		///   specifies what part is covered by the tensor to save.
 		///   
-		///   `slice-spec` itself is a `:`-separated list: `slice0:slice1:...:sliceN-1`
-		///   where each `sliceI` is either:
+		///   <code>slice-spec</code> itself is a <code>:</code>-separated list: <code>slice0:slice1:...:sliceN-1</code>
+		///   where each <code>sliceI</code> is either:
 		///   
-		///   *  The string `-` meaning that the slice covers all indices of this dimension
-		///   *  `start,length` where `start` and `length` are integers.  In that
-		///      case the slice covers `length` indices starting at `start`.
+		///   *  The string <code>-</code> meaning that the slice covers all indices of this dimension
+		///   *  <code>start,length</code> where <code>start</code> and <code>length</code> are integers.  In that
+		///   case the slice covers <code>length</code> indices starting at <code>start</code>.
 		///   
-		///   See also `Save`.
+		///   See also <code>Save</code>.
 		/// </remarks>
 		public TFOperation SaveSlices (TFOutput filename, TFOutput tensor_names, TFOutput shapes_and_slices, TFOutput[] data, string operName = null)
 		{
@@ -27089,7 +27710,7 @@ namespace TensorFlow {
 		///   Empty strings indicate that they are non-partitioned tensors.
 		/// </param>
 		/// <param name="tensors">
-		///   `N` tensors to save.
+		///   <code>N</code> tensors to save.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SaveV2'.
@@ -27117,24 +27738,24 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with scalar values.
+		///   Outputs a <code>Summary</code> protocol buffer with scalar values.
 		/// </summary>
 		/// <param name="tags">
 		///   Tags for the summary.
 		/// </param>
 		/// <param name="values">
-		///   Same shape as `tags.  Values for the summary.
+		///   Same shape as <code>tags.  Values for the summary.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScalarSummary'.
 		/// </param>
 		/// <returns>
-		///   Scalar.  Serialized `Summary` protocol buffer.
+		///   Scalar.  Serialized <code>Summary</code> protocol buffer.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The input `tags` and `values` must have the same shape.  The generated summary
-		///   has a summary value for each tag-value pair in `tags` and `values`.
+		///   The input <code>tags</code> and <code>values</code> must have the same shape.  The generated summary
+		///   has a summary value for each tag-value pair in <code>tags</code> and <code>values</code>.
 		/// </remarks>
 		public TFOutput ScalarSummary (TFOutput tags, TFOutput values, string operName = null)
 		{
@@ -27154,13 +27775,13 @@ namespace TensorFlow {
 		///   Adds sparse updates to a variable reference.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to add to `ref`.
+		///   A tensor of updated values to add to <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterAdd'.
@@ -27171,29 +27792,29 @@ namespace TensorFlow {
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
-		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   = Same as <code>ref</code>.  Returned as a convenience for operations that want
 		///   to use the updated values after the update is done.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This operation computes
 		///   
-		///       # Scalar indices
-		///       ref[indices, ...] += updates[...]
+		///   # Scalar indices
+		///   ref[indices, ...] += updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] += updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] += updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] += updates[i, ..., j, ...]
 		///   
-		///   This operation outputs `ref` after the update is done.
+		///   This operation outputs <code>ref</code> after the update is done.
 		///   This makes it easier to chain operations that need to use the reset value.
 		///   
-		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   Duplicate entries are handled correctly: if multiple <code>indices</code> reference
 		///   the same location, their contributions add.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterAdd.png" alt&amp;gt;
@@ -27221,13 +27842,13 @@ namespace TensorFlow {
 		///   Divides a variable reference by sparse updates.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of values that `ref` is divided by.
+		///   A tensor of values that <code>ref</code> is divided by.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterDiv'.
@@ -27238,31 +27859,31 @@ namespace TensorFlow {
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
-		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   = Same as <code>ref</code>.  Returned as a convenience for operations that want
 		///   to use the updated values after the update is done.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This operation computes
 		///   
-		///   ```python
-		///       # Scalar indices
-		///       ref[indices, ...] /= updates[...]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   ref[indices, ...] /= updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] /= updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] /= updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] /= updates[i, ..., j, ...]
-		///   ```
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] /= updates[i, ..., j, ...]
+		///    <code>
 		///   
-		///   This operation outputs `ref` after the update is done.
+		///   This operation outputs <code>ref</code> after the update is done.
 		///   This makes it easier to chain operations that need to use the reset value.
 		///   
-		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   Duplicate entries are handled correctly: if multiple <code>indices</code> reference
 		///   the same location, their contributions divide.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		/// </remarks>
 		public TFOutput ScatterDiv (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
@@ -27286,13 +27907,13 @@ namespace TensorFlow {
 		///   Multiplies sparse updates into a variable reference.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to multiply to `ref`.
+		///   A tensor of updated values to multiply to <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterMul'.
@@ -27303,31 +27924,31 @@ namespace TensorFlow {
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
-		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   = Same as <code>ref</code>.  Returned as a convenience for operations that want
 		///   to use the updated values after the update is done.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This operation computes
 		///   
-		///   ```python
-		///       # Scalar indices
-		///       ref[indices, ...] *= updates[...]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   ref[indices, ...] *= updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] *= updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] *= updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] *= updates[i, ..., j, ...]
-		///   ```
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] *= updates[i, ..., j, ...]
+		///    <code>
 		///   
-		///   This operation outputs `ref` after the update is done.
+		///   This operation outputs <code>ref</code> after the update is done.
 		///   This makes it easier to chain operations that need to use the reset value.
 		///   
-		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   Duplicate entries are handled correctly: if multiple <code>indices</code> reference
 		///   the same location, their contributions multiply.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		/// </remarks>
 		public TFOutput ScatterMul (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
@@ -27348,7 +27969,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Scatter `updates` into a new (initially zero) tensor according to `indices`.
+		///   Scatter <code>updates</code> into a new (initially zero) tensor according to <code>indices</code>.
 		/// </summary>
 		/// <param name="indices">
 		///   Index tensor.
@@ -27368,25 +27989,25 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Creates a new tensor by applying sparse `updates` to individual
-		///   values or slices within a zero tensor of the given `shape` according to
+		///   Creates a new tensor by applying sparse <code>updates</code> to individual
+		///   values or slices within a zero tensor of the given <code>shape</code> according to
 		///   indices.  This operator is the inverse of the @{tf.gather_nd} operator which
 		///   extracts values or slices from a given tensor.
 		///   
 		///   **WARNING**: The order in which updates are applied is nondeterministic, so the
-		///   output will be nondeterministic if `indices` contains duplicates.
+		///   output will be nondeterministic if <code>indices</code> contains duplicates.
 		///   
-		///   `indices` is an integer tensor containing indices into a new tensor of shape
-		///   `shape`.  The last dimension of `indices` can be at most the rank of `shape`:
+		///   <code>indices</code> is an integer tensor containing indices into a new tensor of shape
+		///   <code>shape</code>.  The last dimension of <code>indices</code> can be at most the rank of <code>shape</code>:
 		///   
-		///       indices.shape[-1] &amp;lt;= shape.rank
+		///   indices.shape[-1] &amp;lt;= shape.rank
 		///   
-		///   The last dimension of `indices` corresponds to indices into elements
-		///   (if `indices.shape[-1] = shape.rank`) or slices
-		///   (if `indices.shape[-1] &amp;lt; shape.rank`) along dimension `indices.shape[-1]` of
-		///   `shape`.  `updates` is a tensor with shape
+		///   The last dimension of <code>indices</code> corresponds to indices into elements
+		///   (if <code>indices.shape[-1] = shape.rank</code>) or slices
+		///   (if <code>indices.shape[-1] &amp;lt; shape.rank</code>) along dimension <code>indices.shape[-1]</code> of
+		///   <code>shape</code>.  <code>updates</code> is a tensor with shape
 		///   
-		///       indices.shape[:-1] + shape[indices.shape[-1]:]
+		///   indices.shape[:-1] + shape[indices.shape[-1]:]
 		///   
 		///   The simplest form of scatter is to insert individual elements in a tensor by
 		///   index. For example, say we want to insert 4 scattered elements in a rank-1
@@ -27398,18 +28019,18 @@ namespace TensorFlow {
 		///   
 		///   In Python, this scatter operation would look like this:
 		///   
-		///   ```python
-		///       indices = tf.constant([[4], [3], [1], [7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       shape = tf.constant([8])
-		///       scatter = tf.scatter_nd(indices, updates, shape)
-		///       with tf.Session() as sess:
-		///         print(sess.run(scatter))
-		///   ```
+		///   <code></code><code>python
+		///   indices = tf.constant([[4], [3], [1], [7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   shape = tf.constant([8])
+		///   scatter = tf.scatter_nd(indices, updates, shape)
+		///   with tf.Session() as sess:
+		///   print(sess.run(scatter))
+		///    <code>
 		///   
 		///   The resulting tensor would look like this:
 		///   
-		///       [0, 11, 0, 10, 9, 0, 0, 12]
+		///   [0, 11, 0, 10, 9, 0, 0, 12]
 		///   
 		///   We can also, insert entire slices of a higher rank tensor all at once. For
 		///   example, if we wanted to insert two slices in the first dimension of a
@@ -27421,24 +28042,27 @@ namespace TensorFlow {
 		///   
 		///   In Python, this scatter operation would look like this:
 		///   
-		///   ```python
-		///       indices = tf.constant([[0], [2]])
-		///       updates = tf.constant([[[5, 5, 5, 5], [6, 6, 6, 6],
-		///                               [7, 7, 7, 7], [8, 8, 8, 8]],
-		///                              [[5, 5, 5, 5], [6, 6, 6, 6],
-		///                               [7, 7, 7, 7], [8, 8, 8, 8]]])
-		///       shape = tf.constant([4, 4, 4])
-		///       scatter = tf.scatter_nd(indices, updates, shape)
-		///       with tf.Session() as sess:
-		///         print(sess.run(scatter))
-		///   ```
+		///   <code></code><code>python
+		///   indices = tf.constant([[0], [2]])
+		///   updates = tf.constant([[[5, 5, 5, 5], [6, 6, 6, 6],
+		///   [7, 7, 7, 7], [8, 8, 8, 8]],
+		///   [[5, 5, 5, 5], [6, 6, 6, 6],
+		///   [7, 7, 7, 7], [8, 8, 8, 8]]])
+		///   shape = tf.constant([4, 4, 4])
+		///   scatter = tf.scatter_nd(indices, updates, shape)
+		///   with tf.Session() as sess:
+		///   print(sess.run(scatter))
+		///    </code>
 		///   
 		///   The resulting tensor would look like this:
 		///   
-		///       [[[5, 5, 5, 5], [6, 6, 6, 6], [7, 7, 7, 7], [8, 8, 8, 8]],
-		///        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-		///        [[5, 5, 5, 5], [6, 6, 6, 6], [7, 7, 7, 7], [8, 8, 8, 8]],
-		///        [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]
+		///   [[[5, 5, 5, 5], [6, 6, 6, 6], [7, 7, 7, 7], [8, 8, 8, 8]],
+		///   [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+		///   [[5, 5, 5, 5], [6, 6, 6, 6], [7, 7, 7, 7], [8, 8, 8, 8]],
+		///   [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]
+		///   
+		///   Note that on CPU, if an out of bound index is found, an error is returned.
+		///   On GPU, if an out of bound index is found, the index is ignored.
 		/// </remarks>
 		public TFOutput ScatterNd (TFOutput indices, TFOutput updates, TFOutput shape, string operName = null)
 		{
@@ -27456,7 +28080,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies sparse addition between `updates` and individual values or slices
+		///   Applies sparse addition between <code>updates</code> and individual values or slices
 		/// </summary>
 		/// <param name="reference">
 		///   A mutable Tensor. Should be from a Variable node.
@@ -27484,36 +28108,36 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   within a given variable according to `indices`.
+		///   within a given variable according to <code>indices</code>.
 		///   
-		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   <code>ref</code> is a <code>Tensor</code> with rank <code>P</code> and <code>indices</code> is a <code>Tensor</code> of rank <code>Q</code>.
 		///   
-		///   `indices` must be integer tensor, containing indices into `ref`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   <code>indices</code> must be integer tensor, containing indices into <code>ref</code>.
+		///   It must be shape <code>[d_0, ..., d_{Q-2}, K]</code> where <code>0 &amp;lt; K &amp;lt;= P</code>.
 		///   
-		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
-		///   dimension of `ref`.
+		///   The innermost dimension of <code>indices</code> (with length <code>K</code>) corresponds to
+		///   indices into elements (if <code>K = P</code>) or slices (if <code>K &amp;lt; P</code>) along the <code>K</code>th
+		///   dimension of <code>ref</code>.
 		///   
-		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   <code>updates</code> is <code>Tensor</code> of rank <code>Q-1+P-K</code> with shape:
 		///   
-		///   ```
+		///    <code>
 		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///   ```
+		///    </code>
 		///   
 		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
 		///   elements. In Python, that addition would look like this:
 		///   
-		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
-		///       indices = tf.constant([[4], [3], [1], [7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       add = tf.scatter_nd_add(ref, indices, updates)
-		///       with tf.Session() as sess:
-		///         print sess.run(add)
+		///   ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///   indices = tf.constant([[4], [3], [1], [7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   add = tf.scatter_nd_add(ref, indices, updates)
+		///   with tf.Session() as sess:
+		///   print sess.run(add)
 		///   
 		///   The resulting update to ref would look like this:
 		///   
-		///       [1, 13, 3, 14, 14, 6, 7, 20]
+		///   [1, 13, 3, 14, 14, 6, 7, 20]
 		///   
 		///   See @{tf.scatter_nd} for more details about how to make updates to
 		///   slices.
@@ -27537,61 +28161,61 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies sparse addition to `input` using individual values or slices
+		///   Applies sparse addition to <code>input</code> using individual values or slices
 		/// </summary>
 		/// <param name="input">
 		///   A Tensor.
 		/// </param>
 		/// <param name="indices">
-		///   A Tensor. Must be one of the following types: `int32`, `int64`.
-		///   A tensor of indices into `input`.
+		///   A Tensor. Must be one of the following types: <code>int32</code>, <code>int64</code>.
+		///   A tensor of indices into <code>input</code>.
 		/// </param>
 		/// <param name="updates">
 		///   A Tensor. Must have the same type as ref. A tensor of updated values
-		///   to add to `input`.
+		///   to add to <code>input</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterNdNonAliasingAdd'.
 		/// </param>
 		/// <returns>
-		///   A `Tensor` with the same shape as `input`, containing values of `input`
-		///   updated with `updates`.
+		///   A <code>Tensor</code> with the same shape as <code>input</code>, containing values of <code>input</code>
+		///   updated with <code>updates</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   from `updates` according to indices `indices`.  The updates are non-aliasing:
-		///   `input` is only modified in-place if no other operations will use it.
-		///   Otherwise, a copy of `input` is made.  This operation has a gradient with
-		///   respect to both `input` and `updates`.
+		///   from <code>updates</code> according to indices <code>indices</code>.  The updates are non-aliasing:
+		///   <code>input</code> is only modified in-place if no other operations will use it.
+		///   Otherwise, a copy of <code>input</code> is made.  This operation has a gradient with
+		///   respect to both <code>input</code> and <code>updates</code>.
 		///   
-		///   `input` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   <code>input</code> is a <code>Tensor</code> with rank <code>P</code> and <code>indices</code> is a <code>Tensor</code> of rank <code>Q</code>.
 		///   
-		///   `indices` must be integer tensor, containing indices into `input`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   <code>indices</code> must be integer tensor, containing indices into <code>input</code>.
+		///   It must be shape <code>[d_0, ..., d_{Q-2}, K]</code> where <code>0 &amp;lt; K &amp;lt;= P</code>.
 		///   
-		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or `(P-K)`-dimensional slices
-		///   (if `K &amp;lt; P`) along the `K`th dimension of `input`.
+		///   The innermost dimension of <code>indices</code> (with length <code>K</code>) corresponds to
+		///   indices into elements (if <code>K = P</code>) or <code>(P-K)</code>-dimensional slices
+		///   (if <code>K &amp;lt; P</code>) along the <code>K</code>th dimension of <code>input</code>.
 		///   
-		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   <code>updates</code> is <code>Tensor</code> of rank <code>Q-1+P-K</code> with shape:
 		///   
-		///   ```
+		///    <code>
 		///   [d_0, ..., d_{Q-2}, input.shape[K], ..., input.shape[P-1]].
-		///   ```
+		///    </code>
 		///   
 		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
 		///   elements. In Python, that addition would look like this:
 		///   
-		///       input = tf.constant([1, 2, 3, 4, 5, 6, 7, 8])
-		///       indices = tf.constant([[4], [3], [1], [7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       output = tf.scatter_nd_non_aliasing_add(input, indices, updates)
-		///       with tf.Session() as sess:
-		///         print(sess.run(output))
+		///   input = tf.constant([1, 2, 3, 4, 5, 6, 7, 8])
+		///   indices = tf.constant([[4], [3], [1], [7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   output = tf.scatter_nd_non_aliasing_add(input, indices, updates)
+		///   with tf.Session() as sess:
+		///   print(sess.run(output))
 		///   
-		///   The resulting value `output` would look like this:
+		///   The resulting value <code>output</code> would look like this:
 		///   
-		///       [1, 13, 3, 14, 14, 6, 7, 20]
+		///   [1, 13, 3, 14, 14, 6, 7, 20]
 		///   
 		///   See @{tf.scatter_nd} for more details about how to make updates to slices.
 		/// </remarks>
@@ -27611,7 +28235,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies sparse subtraction between `updates` and individual values or slices
+		///   Applies sparse subtraction between <code>updates</code> and individual values or slices
 		/// </summary>
 		/// <param name="reference">
 		///   A mutable Tensor. Should be from a Variable node.
@@ -27639,36 +28263,36 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   within a given variable according to `indices`.
+		///   within a given variable according to <code>indices</code>.
 		///   
-		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   <code>ref</code> is a <code>Tensor</code> with rank <code>P</code> and <code>indices</code> is a <code>Tensor</code> of rank <code>Q</code>.
 		///   
-		///   `indices` must be integer tensor, containing indices into `ref`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   <code>indices</code> must be integer tensor, containing indices into <code>ref</code>.
+		///   It must be shape <code>[d_0, ..., d_{Q-2}, K]</code> where <code>0 &amp;lt; K &amp;lt;= P</code>.
 		///   
-		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
-		///   dimension of `ref`.
+		///   The innermost dimension of <code>indices</code> (with length <code>K</code>) corresponds to
+		///   indices into elements (if <code>K = P</code>) or slices (if <code>K &amp;lt; P</code>) along the <code>K</code>th
+		///   dimension of <code>ref</code>.
 		///   
-		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   <code>updates</code> is <code>Tensor</code> of rank <code>Q-1+P-K</code> with shape:
 		///   
-		///   ```
+		///    <code>
 		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///   ```
+		///    </code>
 		///   
 		///   For example, say we want to subtract 4 scattered elements from a rank-1 tensor
 		///   with 8 elements. In Python, that subtraction would look like this:
 		///   
-		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
-		///       indices = tf.constant([[4], [3], [1], [7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       sub = tf.scatter_nd_sub(ref, indices, updates)
-		///       with tf.Session() as sess:
-		///         print sess.run(sub)
+		///   ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///   indices = tf.constant([[4], [3], [1], [7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   sub = tf.scatter_nd_sub(ref, indices, updates)
+		///   with tf.Session() as sess:
+		///   print sess.run(sub)
 		///   
 		///   The resulting update to ref would look like this:
 		///   
-		///       [1, -9, 3, -6, -4, 6, 7, -4]
+		///   [1, -9, 3, -6, -4, 6, 7, -4]
 		///   
 		///   See @{tf.scatter_nd} for more details about how to make updates to
 		///   slices.
@@ -27692,7 +28316,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies sparse `updates` to individual values or slices within a given
+		///   Applies sparse <code>updates</code> to individual values or slices within a given
 		/// </summary>
 		/// <param name="reference">
 		///   A mutable Tensor. Should be from a Variable node.
@@ -27720,38 +28344,38 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   variable according to `indices`.
+		///   variable according to <code>indices</code>.
 		///   
-		///   `ref` is a `Tensor` with rank `P` and `indices` is a `Tensor` of rank `Q`.
+		///   <code>ref</code> is a <code>Tensor</code> with rank <code>P</code> and <code>indices</code> is a <code>Tensor</code> of rank <code>Q</code>.
 		///   
-		///   `indices` must be integer tensor, containing indices into `ref`.
-		///   It must be shape `[d_0, ..., d_{Q-2}, K]` where `0 &amp;lt; K &amp;lt;= P`.
+		///   <code>indices</code> must be integer tensor, containing indices into <code>ref</code>.
+		///   It must be shape <code>[d_0, ..., d_{Q-2}, K]</code> where <code>0 &amp;lt; K &amp;lt;= P</code>.
 		///   
-		///   The innermost dimension of `indices` (with length `K`) corresponds to
-		///   indices into elements (if `K = P`) or slices (if `K &amp;lt; P`) along the `K`th
-		///   dimension of `ref`.
+		///   The innermost dimension of <code>indices</code> (with length <code>K</code>) corresponds to
+		///   indices into elements (if <code>K = P</code>) or slices (if <code>K &amp;lt; P</code>) along the <code>K</code>th
+		///   dimension of <code>ref</code>.
 		///   
-		///   `updates` is `Tensor` of rank `Q-1+P-K` with shape:
+		///   <code>updates</code> is <code>Tensor</code> of rank <code>Q-1+P-K</code> with shape:
 		///   
-		///   ```
+		///    <code>
 		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///   ```
+		///    </code>
 		///   
 		///   For example, say we want to update 4 scattered elements to a rank-1 tensor to
 		///   8 elements. In Python, that update would look like this:
 		///   
-		///   ```python
-		///       ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
-		///       indices = tf.constant([[4], [3], [1] ,[7]])
-		///       updates = tf.constant([9, 10, 11, 12])
-		///       update = tf.scatter_nd_update(ref, indices, updates)
-		///       with tf.Session() as sess:
-		///         print sess.run(update)
-		///   ```
+		///   <code></code><code>python
+		///   ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///   indices = tf.constant([[4], [3], [1] ,[7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   update = tf.scatter_nd_update(ref, indices, updates)
+		///   with tf.Session() as sess:
+		///   print sess.run(update)
+		///    <code>
 		///   
 		///   The resulting update to ref would look like this:
 		///   
-		///       [1, 11, 3, 10, 9, 6, 7, 12]
+		///   [1, 11, 3, 10, 9, 6, 7, 12]
 		///   
 		///   See @{tf.scatter_nd} for more details about how to make updates to
 		///   slices.
@@ -27778,13 +28402,13 @@ namespace TensorFlow {
 		///   Subtracts sparse updates to a variable reference.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to subtract from `ref`.
+		///   A tensor of updated values to subtract from <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterSub'.
@@ -27795,29 +28419,29 @@ namespace TensorFlow {
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
-		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   = Same as <code>ref</code>.  Returned as a convenience for operations that want
 		///   to use the updated values after the update is done.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   ```python
-		///       # Scalar indices
-		///       ref[indices, ...] -= updates[...]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   ref[indices, ...] -= updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] -= updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] -= updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] -= updates[i, ..., j, ...]
-		///   ```
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] -= updates[i, ..., j, ...]
+		///    <code>
 		///   
-		///   This operation outputs `ref` after the update is done.
+		///   This operation outputs <code>ref</code> after the update is done.
 		///   This makes it easier to chain operations that need to use the reset value.
 		///   
-		///   Duplicate entries are handled correctly: if multiple `indices` reference
+		///   Duplicate entries are handled correctly: if multiple <code>indices</code> reference
 		///   the same location, their (negated) contributions add.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterSub.png" alt&amp;gt;
@@ -27845,13 +28469,13 @@ namespace TensorFlow {
 		///   Applies sparse updates to a variable reference.
 		/// </summary>
 		/// <param name="reference">
-		///   Should be from a `Variable` node.
+		///   Should be from a <code>Variable</code> node.
 		/// </param>
 		/// <param name="indices">
-		///   A tensor of indices into the first dimension of `ref`.
+		///   A tensor of indices into the first dimension of <code>ref</code>.
 		/// </param>
 		/// <param name="updates">
-		///   A tensor of updated values to store in `ref`.
+		///   A tensor of updated values to store in <code>ref</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterUpdate'.
@@ -27862,32 +28486,32 @@ namespace TensorFlow {
 		///   otherwise the behavior is undefined, but may exhibit less contention.
 		/// </param>
 		/// <returns>
-		///   = Same as `ref`.  Returned as a convenience for operations that want
+		///   = Same as <code>ref</code>.  Returned as a convenience for operations that want
 		///   to use the updated values after the update is done.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This operation computes
 		///   
-		///   ```python
-		///       # Scalar indices
-		///       ref[indices, ...] = updates[...]
+		///   <code></code><code>python
+		///   # Scalar indices
+		///   ref[indices, ...] = updates[...]
 		///   
-		///       # Vector indices (for each i)
-		///       ref[indices[i], ...] = updates[i, ...]
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = updates[i, ...]
 		///   
-		///       # High rank indices (for each i, ..., j)
-		///       ref[indices[i, ..., j], ...] = updates[i, ..., j, ...]
-		///   ```
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = updates[i, ..., j, ...]
+		///    <code>
 		///   
-		///   This operation outputs `ref` after the update is done.
+		///   This operation outputs <code>ref</code> after the update is done.
 		///   This makes it easier to chain operations that need to use the reset value.
 		///   
-		///   If values in `ref` is to be updated more than once, because there are
-		///   duplicate entries in `indices`, the order at which the updates happen
+		///   If values in <code>ref</code> is to be updated more than once, because there are
+		///   duplicate entries in <code>indices</code>, the order at which the updates happen
 		///   for each value is undefined.
 		///   
-		///   Requires `updates.shape = indices.shape + ref.shape[1:]`.
+		///   Requires <code>updates.shape = indices.shape + ref.shape[1:]</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterUpdate.png" alt&amp;gt;
@@ -28109,7 +28733,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -28117,7 +28741,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -28125,10 +28749,10 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   \\(output_i = \max_j(data_j)\\) where `max` is over `j` such
-		///   that `segment_ids[j] == i`.
+		///   \\(output_i = \max_j(data_j)\\) where <code>max</code> is over <code>j</code> such
+		///   that <code>segment_ids[j] == i</code>.
 		///   
-		///   If the max is empty for a given segment ID `i`, `output[i] = 0`.
+		///   If the max is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/SegmentMax.png" alt&amp;gt;
@@ -28154,7 +28778,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -28162,7 +28786,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -28170,11 +28794,11 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   \\(output_i = \frac{\sum_j data_j}{N}\\) where `mean` is
-		///   over `j` such that `segment_ids[j] == i` and `N` is the total number of
+		///   \\(output_i = \frac{\sum_j data_j}{N}\\) where <code>mean</code> is
+		///   over <code>j</code> such that <code>segment_ids[j] == i</code> and <code>N</code> is the total number of
 		///   values summed.
 		///   
-		///   If the mean is empty for a given segment ID `i`, `output[i] = 0`.
+		///   If the mean is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/SegmentMean.png" alt&amp;gt;
@@ -28200,7 +28824,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -28208,7 +28832,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -28216,10 +28840,10 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   \\(output_i = \min_j(data_j)\\) where `min` is over `j` such
-		///   that `segment_ids[j] == i`.
+		///   \\(output_i = \min_j(data_j)\\) where <code>min</code> is over <code>j</code> such
+		///   that <code>segment_ids[j] == i</code>.
 		///   
-		///   If the min is empty for a given segment ID `i`, `output[i] = 0`.
+		///   If the min is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/SegmentMin.png" alt&amp;gt;
@@ -28245,7 +28869,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -28253,7 +28877,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -28261,10 +28885,10 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   \\(output_i = \prod_j data_j\\) where the product is over `j` such
-		///   that `segment_ids[j] == i`.
+		///   \\(output_i = \prod_j data_j\\) where the product is over <code>j</code> such
+		///   that <code>segment_ids[j] == i</code>.
 		///   
-		///   If the product is empty for a given segment ID `i`, `output[i] = 1`.
+		///   If the product is empty for a given segment ID <code>i</code>, <code>output[i] = 1</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/SegmentProd.png" alt&amp;gt;
@@ -28290,7 +28914,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -28298,7 +28922,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -28306,10 +28930,10 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   \\(output_i = \sum_j data_j\\) where sum is over `j` such
-		///   that `segment_ids[j] == i`.
+		///   \\(output_i = \sum_j data_j\\) where sum is over <code>j</code> such
+		///   that <code>segment_ids[j] == i</code>.
 		///   
-		///   If the sum is empty for a given segment ID `i`, `output[i] = 0`.
+		///   If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/SegmentSum.png" alt&amp;gt;
@@ -28330,46 +28954,46 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Selects elements from `t` or `e`, depending on `condition`.
+		///   Selects elements from <code>x</code> or <code>y</code>, depending on <code>condition</code>.
 		/// </summary>
 		/// <param name="condition">
 		/// </param>
 		/// <param name="t">
-		///   = A `Tensor` which may have the same shape as `condition`.
-		///   If `condition` is rank 1, `t` may have higher rank,
-		///   but its first dimension must match the size of `condition`.
+		///   = A <code>Tensor</code> which may have the same shape as <code>condition</code>.
+		///   If <code>condition</code> is rank 1, <code>x</code> may have higher rank,
+		///   but its first dimension must match the size of <code>condition</code>.
 		/// </param>
 		/// <param name="e">
-		///   = A `Tensor` with the same type and shape as `t`.
+		///   = A <code>Tensor</code> with the same type and shape as <code>x</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Select'.
 		/// </param>
 		/// <returns>
-		///   = A `Tensor` with the same type and shape as `t` and `e`.
+		///   = A <code>Tensor</code> with the same type and shape as <code>x</code> and <code>y</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The `t`, and `e` tensors must all have the same shape, and the
+		///   The <code>x</code>, and <code>y</code> tensors must all have the same shape, and the
 		///   output will also have that shape.
 		///   
-		///   The `condition` tensor must be a scalar if `t` and `e` are scalars.
-		///   If `t` and `e` are vectors or higher rank, then `condition` must be either a
-		///   scalar, a vector with size matching the first dimension of `t`, or must have
-		///   the same shape as `t`.
+		///   The <code>condition</code> tensor must be a scalar if <code>x</code> and <code>y</code> are scalars.
+		///   If <code>x</code> and <code>y</code> are vectors or higher rank, then <code>condition</code> must be either a
+		///   scalar, a vector with size matching the first dimension of <code>x</code>, or must have
+		///   the same shape as <code>x</code>.
 		///   
-		///   The `condition` tensor acts as a mask that chooses, based on the value at each
+		///   The <code>condition</code> tensor acts as a mask that chooses, based on the value at each
 		///   element, whether the corresponding element / row in the output should be
-		///   taken from `t` (if true) or `e` (if false).
+		///   taken from <code>x</code> (if true) or <code>y</code> (if false).
 		///   
-		///   If `condition` is a vector and `t` and `e` are higher rank matrices, then
-		///   it chooses which row (outer dimension) to copy from `t` and `e`.
-		///   If `condition` has the same shape as `t` and `e`, then it chooses which
-		///   element to copy from `t` and `e`.
+		///   If <code>condition</code> is a vector and <code>x</code> and <code>y</code> are higher rank matrices, then
+		///   it chooses which row (outer dimension) to copy from <code>x</code> and <code>y</code>.
+		///   If <code>condition</code> has the same shape as <code>x</code> and <code>y</code>, then it chooses which
+		///   element to copy from <code>x</code> and <code>y</code>.
 		///   
 		///   For example:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   # 'condition' tensor is [[True,  False]
 		///   #                        [False, True]]
 		///   # 't' is [[1, 2],
@@ -28385,9 +29009,9 @@ namespace TensorFlow {
 		///   # 'e' is [[5, 6],
 		///   #         [7, 8]]
 		///   select(condition, t, e) ==&amp;gt; [[1, 2],
-		///                                [7, 8]]
+		///   [7, 8]]
 		///   
-		///   ```
+		///    <code>
 		/// </remarks>
 		public TFOutput Select (TFOutput condition, TFOutput t, TFOutput e, string operName = null)
 		{
@@ -28408,17 +29032,17 @@ namespace TensorFlow {
 		///   Computes the Eigen Decomposition of a batch of square self-adjoint matrices.
 		/// </summary>
 		/// <param name="input">
-		///   Shape is `[..., M, M]`.
+		///   Shape is <code>[..., M, M]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SelfAdjointEig'.
 		/// </param>
 		/// <returns>
-		///   Shape is `[..., M+1, M]`.
+		///   Shape is <code>[..., M+1, M]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+		///   The input is a tensor of shape <code>[..., M, M]</code> whose inner-most 2 dimensions
 		///   form square matrices, with the same constraints as the single matrix
 		///   SelfAdjointEig.
 		///   
@@ -28442,33 +29066,33 @@ namespace TensorFlow {
 		///   Computes the eigen decomposition of one or more square self-adjoint matrices.
 		/// </summary>
 		/// <param name="input">
-		///   `Tensor` input of shape `[N, N]`.
+		///   <code>Tensor</code> input of shape <code>[N, N]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SelfAdjointEigV2'.
 		/// </param>
 		/// <param name="compute_v">
 		///   Optional argument
-		///   If `True` then eigenvectors will be computed and returned in `v`.
+		///   If <code>True</code> then eigenvectors will be computed and returned in <code>v</code>.
 		///   Otherwise, only the eigenvalues will be computed.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   e: Eigenvalues. Shape is `[N]`.
-		///   v: Eigenvectors. Shape is `[N, N]`.
+		///   e: Eigenvalues. Shape is <code>[N]</code>.
+		///   v: Eigenvectors. Shape is <code>[N, N]</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   Computes the eigenvalues and (optionally) eigenvectors of each inner matrix in
-		///   `input` such that `input[..., :, :] = v[..., :, :] * diag(e[..., :])`.
+		///   <code>input</code> such that <code>input[..., :, :] = v[..., :, :] * diag(e[..., :])</code>.
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   # a is a tensor.
 		///   # e is a tensor of eigenvalues.
 		///   # v is a tensor of eigenvectors.
 		///   e, v = self_adjoint_eig(a)
 		///   e = self_adjoint_eig(a, compute_v=False)
-		///   ```
+		///    <code>
 		/// </remarks>
 		public (TFOutput e, TFOutput v) SelfAdjointEigV2 (TFOutput input, bool? compute_v = null, string operName = null)
 		{
@@ -28488,7 +29112,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes scaled exponential linear: `scale * alpha * (exp(features) - 1)`
+		///   Computes scaled exponential linear: <code>scale * alpha * (exp(features) - 1)</code>
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -28499,7 +29123,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   if &amp;lt; 0, `scale * features` otherwise.
+		///   if &amp;lt; 0, <code>scale * features</code> otherwise.
 		///   
 		///   See [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
 		/// </remarks>
@@ -28529,8 +29153,8 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SeluGrad'.
 		/// </param>
 		/// <returns>
-		///   The gradients: `gradients * (outputs + scale * alpha)`
-		///   if outputs &amp;lt; 0, `scale * gradients` otherwise.
+		///   The gradients: <code>gradients * (outputs + scale * alpha)</code>
+		///   if outputs &amp;lt; 0, <code>scale * gradients</code> otherwise.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput SeluGrad (TFOutput gradients, TFOutput outputs, string operName = null)
@@ -28548,7 +29172,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Converts the given `resource_handle` representing an iterator to a variant tensor.
+		///   Converts the given <code>resource_handle</code> representing an iterator to a variant tensor.
 		/// </summary>
 		/// <param name="resource_handle">
 		///   A handle to an iterator resource.
@@ -28575,36 +29199,36 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Serialize an `N`-minibatch `SparseTensor` into an `[N, 3]` `Tensor` object.
+		///   Serialize an <code>N</code>-minibatch <code>SparseTensor</code> into an <code>[N, 3]</code> <code>Tensor</code> object.
 		/// </summary>
 		/// <param name="sparse_indices">
-		///   2-D.  The `indices` of the minibatch `SparseTensor`.
+		///   2-D.  The <code>indices</code> of the minibatch <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_values">
-		///   1-D.  The `values` of the minibatch `SparseTensor`.
+		///   1-D.  The <code>values</code> of the minibatch <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_shape">
-		///   1-D.  The `shape` of the minibatch `SparseTensor`.
+		///   1-D.  The <code>shape</code> of the minibatch <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SerializeManySparse'.
 		/// </param>
 		/// <param name="out_type">
 		///   Optional argument
-		///   The `dtype` to use for serialization; the supported types are `string`
-		///   (default) and `variant`.
+		///   The <code>dtype</code> to use for serialization; the supported types are <code>string</code>
+		///   (default) and <code>variant</code>.
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The `SparseTensor` must have rank `R` greater than 1, and the first dimension
-		///   is treated as the minibatch dimension.  Elements of the `SparseTensor`
+		///   The <code>SparseTensor</code> must have rank <code>R</code> greater than 1, and the first dimension
+		///   is treated as the minibatch dimension.  Elements of the <code>SparseTensor</code>
 		///   must be sorted in increasing order of this first dimension.  The serialized
-		///   `SparseTensor` objects going into each row of `serialized_sparse` will have
-		///   rank `R-1`.
+		///   <code>SparseTensor</code> objects going into each row of <code>serialized_sparse</code> will have
+		///   rank <code>R-1</code>.
 		///   
-		///   The minibatch size `N` is extracted from `sparse_shape[0]`.
+		///   The minibatch size <code>N</code> is extracted from <code>sparse_shape[0]</code>.
 		/// </remarks>
 		public TFOutput SerializeManySparse (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape, TFDataType? out_type = null, string operName = null)
 		{
@@ -28625,24 +29249,24 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Serialize a `SparseTensor` into a `[3]` `Tensor` object.
+		///   Serialize a <code>SparseTensor</code> into a <code>[3]</code> <code>Tensor</code> object.
 		/// </summary>
 		/// <param name="sparse_indices">
-		///   2-D.  The `indices` of the `SparseTensor`.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_values">
-		///   1-D.  The `values` of the `SparseTensor`.
+		///   1-D.  The <code>values</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="sparse_shape">
-		///   1-D.  The `shape` of the `SparseTensor`.
+		///   1-D.  The <code>shape</code> of the <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SerializeSparse'.
 		/// </param>
 		/// <param name="out_type">
 		///   Optional argument
-		///   The `dtype` to use for serialization; the supported types are `string`
-		///   (default) and `variant`.
+		///   The <code>dtype</code> to use for serialization; the supported types are <code>string</code>
+		///   (default) and <code>variant</code>.
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -28669,7 +29293,7 @@ namespace TensorFlow {
 		///   Transforms a Tensor into a serialized TensorProto proto.
 		/// </summary>
 		/// <param name="tensor">
-		///   A Tensor of type `T`.
+		///   A Tensor of type <code>T</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SerializeTensor'.
@@ -28692,16 +29316,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Number of unique elements along last dimension of input `set`.
+		///   Number of unique elements along last dimension of input <code>set</code>.
 		/// </summary>
 		/// <param name="set_indices">
-		///   2D `Tensor`, indices of a `SparseTensor`.
+		///   2D <code>Tensor</code>, indices of a <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="set_values">
-		///   1D `Tensor`, values of a `SparseTensor`.
+		///   1D <code>Tensor</code>, values of a <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="set_shape">
-		///   1D `Tensor`, shape of a `SparseTensor`.
+		///   1D <code>Tensor</code>, shape of a <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SetSize'.
@@ -28710,17 +29334,17 @@ namespace TensorFlow {
 		///   Optional argument
 		/// </param>
 		/// <returns>
-		///   For `set` ranked `n`, this is a `Tensor` with rank `n-1`, and the same 1st
-		///   `n-1` dimensions as `set`. Each value is the number of unique elements in
-		///   the corresponding `[0...n-1]` dimension of `set`.
+		///   For <code>set</code> ranked <code>n</code>, this is a <code>Tensor</code> with rank <code>n-1</code>, and the same 1st
+		///   <code>n-1</code> dimensions as <code>set</code>. Each value is the number of unique elements in
+		///   the corresponding <code>[0...n-1]</code> dimension of <code>set</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Input `set` is a `SparseTensor` represented by `set_indices`, `set_values`,
-		///   and `set_shape`. The last dimension contains values in a set, duplicates are
+		///   Input <code>set</code> is a <code>SparseTensor</code> represented by <code>set_indices</code>, <code>set_values</code>,
+		///   and <code>set_shape</code>. The last dimension contains values in a set, duplicates are
 		///   allowed but ignored.
 		///   
-		///   If `validate_indices` is `True`, this op validates the order and range of `set`
+		///   If <code>validate_indices</code> is <code>True</code>, this op validates the order and range of <code>set</code>
 		///   indices.
 		/// </remarks>
 		public TFOutput SetSize (TFOutput set_indices, TFOutput set_values, TFOutput set_shape, bool? validate_indices = null, string operName = null)
@@ -28756,14 +29380,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a 1-D integer tensor representing the shape of `input`.
+		///   This operation returns a 1-D integer tensor representing the shape of <code>input</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]
 		///   shape(t) ==&amp;gt; [2, 2, 3]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Shape (TFOutput input, TFDataType? out_type = null, string operName = null)
 		{
@@ -28796,7 +29420,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns N 1-D integer tensors representing shape of `input[i]s`.
+		///   This operation returns N 1-D integer tensors representing shape of <code>input[i]s</code>.
 		/// </remarks>
 		public TFOutput[] ShapeN (TFOutput[] input, TFDataType? out_type = null, string operName = null)
 		{
@@ -28835,7 +29459,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///      %s-%05d-of-%05d, basename, shard, num_shards.
+		///   %s-%05d-of-%05d, basename, shard, num_shards.
 		/// </remarks>
 		public TFOutput ShardedFilename (TFOutput basename, TFOutput shard, TFOutput num_shards, string operName = null)
 		{
@@ -28880,18 +29504,72 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that shuffles elements from `input_dataset` pseudorandomly.
+		///   Creates a dataset that shuffles and repeats elements from <code>input_dataset</code>
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
 		/// <param name="buffer_size">
 		///   The number of output elements to buffer in an iterator over
-		///   this dataset. Compare with the `min_after_dequeue` attr when creating a
-		///   `RandomShuffleQueue`.
+		///   this dataset. Compare with the <code>min_after_dequeue</code> attr when creating a
+		///   <code>RandomShuffleQueue</code>.
 		/// </param>
 		/// <param name="seed">
-		///   A scalar seed for the random number generator. If either seed or
-		///   seed2 is set to be non-zero, the random number generator is seeded
+		///   A scalar seed for the random number generator. If either <code>seed</code> or
+		///   <code>seed2</code> is set to be non-zero, the random number generator is seeded
+		///   by the given seed.  Otherwise, a random seed is used.
+		/// </param>
+		/// <param name="seed2">
+		///   A second scalar seed to avoid seed collision.
+		/// </param>
+		/// <param name="count">
+		///   A scalar representing the number of times the underlying dataset
+		///   should be repeated. The default is <code>-1</code>, which results in infinite repetition.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ShuffleAndRepeatDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   pseudorandomly.
+		/// </remarks>
+		public TFOutput ShuffleAndRepeatDataset (TFOutput input_dataset, TFOutput buffer_size, TFOutput seed, TFOutput seed2, TFOutput count, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ShuffleAndRepeatDataset", MakeName ("ShuffleAndRepeatDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (buffer_size);
+			desc.AddInput (seed);
+			desc.AddInput (seed2);
+			desc.AddInput (count);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Creates a dataset that shuffles elements from <code>input_dataset</code> pseudorandomly.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="buffer_size">
+		///   The number of output elements to buffer in an iterator over
+		///   this dataset. Compare with the <code>min_after_dequeue</code> attr when creating a
+		///   <code>RandomShuffleQueue</code>.
+		/// </param>
+		/// <param name="seed">
+		///   A scalar seed for the random number generator. If either <code>seed</code> or
+		///   <code>seed2</code> is set to be non-zero, the random number generator is seeded
 		///   by the given seed.  Otherwise, a random seed is used.
 		/// </param>
 		/// <param name="seed2">
@@ -28904,7 +29582,7 @@ namespace TensorFlow {
 		///   Optional argument
 		///   If true, each iterator over this dataset will be given
 		///   a different pseudorandomly generated seed, based on a sequence seeded by the
-		///   `seed` and `seed2` inputs. If false, each iterator will be given the same
+		///   <code>seed</code> and <code>seed2</code> inputs. If false, each iterator will be given the same
 		///   seed, and repeated iteration over this dataset will yield the exact same
 		///   sequence of results.
 		/// </param>
@@ -28937,7 +29615,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes sigmoid of `x` element-wise.
+		///   Computes sigmoid of <code>x</code> element-wise.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -28948,7 +29626,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `y = 1 / (1 + exp(-x))`.
+		///   Specifically, <code>y = 1 / (1 + exp(-x))</code>.
 		/// </remarks>
 		public TFOutput Sigmoid (TFOutput x, string operName = null)
 		{
@@ -28964,7 +29642,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient of the sigmoid of `x` wrt its input.
+		///   Computes the gradient of the sigmoid of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -28977,8 +29655,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = dy * y * (1 - y)`, where `y = sigmoid(x)`, and
-		///   `dy` is the corresponding input gradient.
+		///   Specifically, <code>grad = dy * y * (1 - y)</code>, where <code>y = sigmoid(x)</code>, and
+		///   <code>dy</code> is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput SigmoidGrad (TFOutput y, TFOutput dy, string operName = null)
 		{
@@ -29006,9 +29684,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `y = sign(x) = -1` if `x &amp;lt; 0`; 0 if `x == 0`; 1 if `x &amp;gt; 0`.
+		///   <code>y = sign(x) = -1</code> if <code>x &amp;lt; 0</code>; 0 if <code>x == 0</code>; 1 if <code>x &amp;gt; 0</code>.
 		///   
-		///   For complex numbers, `y = sign(x) = x / |x|` if `x != 0`, otherwise `y = 0`.
+		///   For complex numbers, <code>y = sign(x) = x / |x|</code> if <code>x != 0</code>, otherwise <code>y = 0</code>.
 		/// </remarks>
 		public TFOutput Sign (TFOutput x, string operName = null)
 		{
@@ -29087,14 +29765,14 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   This operation returns an integer representing the number of elements in
-		///   `input`.
+		///   <code>input</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[[1, 1,, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]]
 		///   size(t) ==&amp;gt; 12
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Size (TFOutput input, TFDataType? out_type = null, string operName = null)
 		{
@@ -29113,12 +29791,12 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that skips `count` elements from the `input_dataset`.
+		///   Creates a dataset that skips <code>count</code> elements from the <code>input_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
 		/// <param name="count">
-		///   A scalar representing the number of elements from the `input_dataset`
+		///   A scalar representing the number of elements from the <code>input_dataset</code>
 		///   that should be skipped.  If count is -1, skips everything.
 		/// </param>
 		/// <param name="operName">
@@ -29240,7 +29918,7 @@ namespace TensorFlow {
 		///   'begin'.
 		///   
 		///   *Requirements*:
-		///     0 &amp;lt;= begin[i] &amp;lt;= begin[i] + size[i] &amp;lt;= Di  for i in [0, n)
+		///   0 &amp;lt;= begin[i] &amp;lt;= begin[i] + size[i] &amp;lt;= Di  for i in [0, n)
 		/// </remarks>
 		public TFOutput Slice (TFOutput input, TFOutput begin, TFOutput size, string operName = null)
 		{
@@ -29285,19 +29963,19 @@ namespace TensorFlow {
 		///   Computes softmax activations.
 		/// </summary>
 		/// <param name="logits">
-		///   2-D with shape `[batch_size, num_classes]`.
+		///   2-D with shape <code>[batch_size, num_classes]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Softmax'.
 		/// </param>
 		/// <returns>
-		///   Same shape as `logits`.
+		///   Same shape as <code>logits</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   For each batch `i` and class `j` we have
+		///   For each batch <code>i</code> and class <code>j</code> we have
 		///   
-		///       softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))
+		///   softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))
 		/// </remarks>
 		public TFOutput Softmax (TFOutput logits, string operName = null)
 		{
@@ -29351,7 +30029,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes softplus: `log(exp(features) + 1)`.
+		///   Computes softplus: <code>log(exp(features) + 1)</code>.
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -29387,7 +30065,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SoftplusGrad'.
 		/// </param>
 		/// <returns>
-		///   The gradients: `gradients / (1 + exp(-features))`.
+		///   The gradients: <code>gradients / (1 + exp(-features))</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput SoftplusGrad (TFOutput gradients, TFOutput features, string operName = null)
@@ -29405,7 +30083,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes softsign: `features / (abs(features) + 1)`.
+		///   Computes softsign: <code>features / (abs(features) + 1)</code>.
 		/// </summary>
 		/// <param name="features">
 		/// </param>
@@ -29441,7 +30119,7 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SoftsignGrad'.
 		/// </param>
 		/// <returns>
-		///   The gradients: `gradients / (1 + abs(features)) ** 2`.
+		///   The gradients: <code>gradients / (1 + abs(features)) ** 2</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput SoftsignGrad (TFOutput gradients, TFOutput features, string operName = null)
@@ -29462,91 +30140,91 @@ namespace TensorFlow {
 		///   SpaceToBatch for 4-D tensors of type T.
 		/// </summary>
 		/// <param name="input">
-		///   4-D with shape `[batch, height, width, depth]`.
+		///   4-D with shape <code>[batch, height, width, depth]</code>.
 		/// </param>
 		/// <param name="paddings">
-		///   2-D tensor of non-negative integers with shape `[2, 2]`. It specifies
-		///     the padding of the input with zeros across the spatial dimensions as follows:
+		///   2-D tensor of non-negative integers with shape <code>[2, 2]</code>. It specifies
+		///   the padding of the input with zeros across the spatial dimensions as follows:
 		///   
-		///         paddings = [[pad_top, pad_bottom], [pad_left, pad_right]]
+		///   paddings = [[pad_top, pad_bottom], [pad_left, pad_right]]
 		///   
-		///     The effective spatial dimensions of the zero-padded input tensor will be:
+		///   The effective spatial dimensions of the zero-padded input tensor will be:
 		///   
-		///         height_pad = pad_top + height + pad_bottom
-		///         width_pad = pad_left + width + pad_right
+		///   height_pad = pad_top + height + pad_bottom
+		///   width_pad = pad_left + width + pad_right
 		///   
-		///   The attr `block_size` must be greater than one. It indicates the block size.
+		///   The attr <code>block_size</code> must be greater than one. It indicates the block size.
 		///   
-		///     * Non-overlapping blocks of size `block_size x block size` in the height and
-		///       width dimensions are rearranged into the batch dimension at each location.
-		///     * The batch of the output tensor is `batch * block_size * block_size`.
-		///     * Both height_pad and width_pad must be divisible by block_size.
+		///   * Non-overlapping blocks of size <code>block_size x block size</code> in the height and
+		///   width dimensions are rearranged into the batch dimension at each location.
+		///   * The batch of the output tensor is <code>batch * block_size * block_size</code>.
+		///   * Both height_pad and width_pad must be divisible by block_size.
 		///   
 		///   The shape of the output will be:
 		///   
-		///       [batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
-		///        depth]
+		///   [batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
+		///   depth]
 		///   
 		///   Some examples:
 		///   
-		///   (1) For the following input of shape `[1, 2, 2, 1]` and block_size of 2:
+		///   (1) For the following input of shape <code>[1, 2, 2, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [2]], [[3], [4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 1, 1, 1]` and value:
+		///   The output tensor has shape <code>[4, 1, 1, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1]]], [[[2]]], [[[3]]], [[[4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   (2) For the following input of shape `[1, 2, 2, 3]` and block_size of 2:
+		///   (2) For the following input of shape <code>[1, 2, 2, 3]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3], [4, 5, 6]],
-		///         [[7, 8, 9], [10, 11, 12]]]]
-		///   ```
+		///   [[7, 8, 9], [10, 11, 12]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 1, 1, 3]` and value:
+		///   The output tensor has shape <code>[4, 1, 1, 3]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   [[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]], [[10, 11, 12]]]
-		///   ```
+		///    </code>
 		///   
-		///   (3) For the following input of shape `[1, 4, 4, 1]` and block_size of 2:
+		///   (3) For the following input of shape <code>[1, 4, 4, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [3],  [4]],
-		///         [[5],   [6],  [7],  [8]],
-		///         [[9],  [10], [11],  [12]],
-		///         [[13], [14], [15],  [16]]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]],
+		///   [[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 2, 2, 1]` and value:
+		///   The output tensor has shape <code>[4, 2, 2, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]], [[9], [11]]],
-		///        [[[2], [4]], [[10], [12]]],
-		///        [[[5], [7]], [[13], [15]]],
-		///        [[[6], [8]], [[14], [16]]]]
-		///   ```
+		///   [[[2], [4]], [[10], [12]]],
+		///   [[[5], [7]], [[13], [15]]],
+		///   [[[6], [8]], [[14], [16]]]]
+		///    </code>
 		///   
-		///   (4) For the following input of shape `[2, 2, 4, 1]` and block_size of 2:
+		///   (4) For the following input of shape <code>[2, 2, 4, 1]</code> and block_size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [3],  [4]],
-		///         [[5],   [6],  [7],  [8]]],
-		///        [[[9],  [10], [11],  [12]],
-		///         [[13], [14], [15],  [16]]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]]],
+		///   [[[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[8, 1, 2, 1]` and value:
+		///   The output tensor has shape <code>[8, 1, 2, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]]], [[[9], [11]]], [[[2], [4]]], [[[10], [12]]],
-		///        [[[5], [7]]], [[[13], [15]]], [[[6], [8]]], [[[14], [16]]]]
-		///   ```
+		///   [[[5], [7]]], [[[13], [15]]], [[[6], [8]]], [[[14], [16]]]]
+		///    </code>
 		///   
 		///   Among others, this operation is useful for reducing atrous convolution into
 		///   regular convolution.
@@ -29564,8 +30242,8 @@ namespace TensorFlow {
 		///   
 		///   Zero-pads and then rearranges (permutes) blocks of spatial data into batch.
 		///   More specifically, this op outputs a copy of the input tensor where values from
-		///   the `height` and `width` dimensions are moved to the `batch` dimension. After
-		///   the zero-padding, both `height` and `width` of the input must be divisible by the
+		///   the <code>height</code> and <code>width</code> dimensions are moved to the <code>batch</code> dimension. After
+		///   the zero-padding, both <code>height</code> and <code>width</code> of the input must be divisible by the
 		///   block size.
 		/// </remarks>
 		public TFOutput SpaceToBatch (TFOutput input, TFOutput paddings, long block_size, string operName = null)
@@ -29587,118 +30265,118 @@ namespace TensorFlow {
 		///   SpaceToBatch for N-D tensors of type T.
 		/// </summary>
 		/// <param name="input">
-		///   N-D with shape `input_shape = [batch] + spatial_shape + remaining_shape`,
-		///   where spatial_shape has `M` dimensions.
+		///   N-D with shape <code>input_shape = [batch] + spatial_shape + remaining_shape</code>,
+		///   where spatial_shape has <code>M</code> dimensions.
 		/// </param>
 		/// <param name="block_shape">
-		///   1-D with shape `[M]`, all values must be &amp;gt;= 1.
+		///   1-D with shape <code>[M]</code>, all values must be &amp;gt;= 1.
 		/// </param>
 		/// <param name="paddings">
-		///   2-D with shape `[M, 2]`, all values must be &amp;gt;= 0.
-		///     `paddings[i] = [pad_start, pad_end]` specifies the padding for input dimension
-		///     `i + 1`, which corresponds to spatial dimension `i`.  It is required that
-		///     `block_shape[i]` divides `input_shape[i + 1] + pad_start + pad_end`.
+		///   2-D with shape <code>[M, 2]</code>, all values must be &amp;gt;= 0.
+		///   <code>paddings[i] = [pad_start, pad_end]</code> specifies the padding for input dimension
+		///   <code>i + 1</code>, which corresponds to spatial dimension <code>i</code>.  It is required that
+		///   <code>block_shape[i]</code> divides <code>input_shape[i + 1] + pad_start + pad_end</code>.
 		///   
 		///   This operation is equivalent to the following steps:
 		///   
-		///   1. Zero-pad the start and end of dimensions `[1, ..., M]` of the
-		///      input according to `paddings` to produce `padded` of shape `padded_shape`.
+		///   1. Zero-pad the start and end of dimensions <code>[1, ..., M]</code> of the
+		///   input according to <code>paddings</code> to produce <code>padded</code> of shape <code>padded_shape</code>.
 		///   
-		///   2. Reshape `padded` to `reshaped_padded` of shape:
+		///   2. Reshape <code>padded</code> to <code>reshaped_padded</code> of shape:
 		///   
-		///        [batch] +
-		///        [padded_shape[1] / block_shape[0],
-		///          block_shape[0],
-		///         ...,
-		///         padded_shape[M] / block_shape[M-1],
-		///         block_shape[M-1]] +
-		///        remaining_shape
+		///   [batch] +
+		///   [padded_shape[1] / block_shape[0],
+		///   block_shape[0],
+		///   ...,
+		///   padded_shape[M] / block_shape[M-1],
+		///   block_shape[M-1]] +
+		///   remaining_shape
 		///   
-		///   3. Permute dimensions of `reshaped_padded` to produce
-		///      `permuted_reshaped_padded` of shape:
+		///   3. Permute dimensions of <code>reshaped_padded</code> to produce
+		///   <code>permuted_reshaped_padded</code> of shape:
 		///   
-		///        block_shape +
-		///        [batch] +
-		///        [padded_shape[1] / block_shape[0],
-		///         ...,
-		///         padded_shape[M] / block_shape[M-1]] +
-		///        remaining_shape
+		///   block_shape +
+		///   [batch] +
+		///   [padded_shape[1] / block_shape[0],
+		///   ...,
+		///   padded_shape[M] / block_shape[M-1]] +
+		///   remaining_shape
 		///   
-		///   4. Reshape `permuted_reshaped_padded` to flatten `block_shape` into the batch
-		///      dimension, producing an output tensor of shape:
+		///   4. Reshape <code>permuted_reshaped_padded</code> to flatten <code>block_shape</code> into the batch
+		///   dimension, producing an output tensor of shape:
 		///   
-		///        [batch * prod(block_shape)] +
-		///        [padded_shape[1] / block_shape[0],
-		///         ...,
-		///         padded_shape[M] / block_shape[M-1]] +
-		///        remaining_shape
+		///   [batch * prod(block_shape)] +
+		///   [padded_shape[1] / block_shape[0],
+		///   ...,
+		///   padded_shape[M] / block_shape[M-1]] +
+		///   remaining_shape
 		///   
 		///   Some examples:
 		///   
-		///   (1) For the following input of shape `[1, 2, 2, 1]`, `block_shape = [2, 2]`, and
-		///       `paddings = [[0, 0], [0, 0]]`:
+		///   (1) For the following input of shape <code>[1, 2, 2, 1]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>paddings = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [2]], [[3], [4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 1, 1, 1]` and value:
+		///   The output tensor has shape <code>[4, 1, 1, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1]]], [[[2]]], [[[3]]], [[[4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   (2) For the following input of shape `[1, 2, 2, 3]`, `block_shape = [2, 2]`, and
-		///       `paddings = [[0, 0], [0, 0]]`:
+		///   (2) For the following input of shape <code>[1, 2, 2, 3]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>paddings = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3], [4, 5, 6]],
-		///         [[7, 8, 9], [10, 11, 12]]]]
-		///   ```
+		///   [[7, 8, 9], [10, 11, 12]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 1, 1, 3]` and value:
+		///   The output tensor has shape <code>[4, 1, 1, 3]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   [[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]], [[10, 11, 12]]]
-		///   ```
+		///    </code>
 		///   
-		///   (3) For the following input of shape `[1, 4, 4, 1]`, `block_shape = [2, 2]`, and
-		///       `paddings = [[0, 0], [0, 0]]`:
+		///   (3) For the following input of shape <code>[1, 4, 4, 1]</code>, <code>block_shape = [2, 2]</code>, and
+		///   <code>paddings = [[0, 0], [0, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [3],  [4]],
-		///         [[5],   [6],  [7],  [8]],
-		///         [[9],  [10], [11],  [12]],
-		///         [[13], [14], [15],  [16]]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]],
+		///   [[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[4, 2, 2, 1]` and value:
+		///   The output tensor has shape <code>[4, 2, 2, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [3]], [[9], [11]]],
-		///        [[[2], [4]], [[10], [12]]],
-		///        [[[5], [7]], [[13], [15]]],
-		///        [[[6], [8]], [[14], [16]]]]
-		///   ```
+		///   [[[2], [4]], [[10], [12]]],
+		///   [[[5], [7]], [[13], [15]]],
+		///   [[[6], [8]], [[14], [16]]]]
+		///    </code>
 		///   
-		///   (4) For the following input of shape `[2, 2, 4, 1]`, block_shape = `[2, 2]`, and
-		///       paddings = `[[0, 0], [2, 0]]`:
+		///   (4) For the following input of shape <code>[2, 2, 4, 1]</code>, block_shape = <code>[2, 2]</code>, and
+		///   paddings = <code>[[0, 0], [2, 0]]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [3],  [4]],
-		///         [[5],   [6],  [7],  [8]]],
-		///        [[[9],  [10], [11],  [12]],
-		///         [[13], [14], [15],  [16]]]]
-		///   ```
+		///   [[5],   [6],  [7],  [8]]],
+		///   [[[9],  [10], [11],  [12]],
+		///   [[13], [14], [15],  [16]]]]
+		///    </code>
 		///   
-		///   The output tensor has shape `[8, 1, 3, 1]` and value:
+		///   The output tensor has shape <code>[8, 1, 3, 1]</code> and value:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[0], [1], [3]]], [[[0], [9], [11]]],
-		///        [[[0], [2], [4]]], [[[0], [10], [12]]],
-		///        [[[0], [5], [7]]], [[[0], [13], [15]]],
-		///        [[[0], [6], [8]]], [[[0], [14], [16]]]]
-		///   ```
+		///   [[[0], [2], [4]]], [[[0], [10], [12]]],
+		///   [[[0], [5], [7]]], [[[0], [13], [15]]],
+		///   [[[0], [6], [8]]], [[[0], [14], [16]]]]
+		///    </code>
 		///   
 		///   Among others, this operation is useful for reducing atrous convolution into
 		///   regular convolution.
@@ -29710,13 +30388,13 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation divides "spatial" dimensions `[1, ..., M]` of the input into a
-		///   grid of blocks of shape `block_shape`, and interleaves these blocks with the
+		///   This operation divides "spatial" dimensions <code>[1, ..., M]</code> of the input into a
+		///   grid of blocks of shape <code>block_shape</code>, and interleaves these blocks with the
 		///   "batch" dimension (0) such that in the output, the spatial dimensions
-		///   `[1, ..., M]` correspond to the position within the grid, and the batch
+		///   <code>[1, ..., M]</code> correspond to the position within the grid, and the batch
 		///   dimension combines both the position within a spatial block and the original
 		///   batch position.  Prior to division into blocks, the spatial dimensions of the
-		///   input are optionally zero padded according to `paddings`.  See below for a
+		///   input are optionally zero padded according to <code>paddings</code>.  See below for a
 		///   precise description.
 		/// </remarks>
 		public TFOutput SpaceToBatchND (TFOutput input, TFOutput block_shape, TFOutput paddings, string operName = null)
@@ -29753,88 +30431,88 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Rearranges blocks of spatial data, into depth. More specifically,
-		///   this op outputs a copy of the input tensor where values from the `height`
-		///   and `width` dimensions are moved to the `depth` dimension.
-		///   The attr `block_size` indicates the input block size.
+		///   this op outputs a copy of the input tensor where values from the <code>height</code>
+		///   and <code>width</code> dimensions are moved to the <code>depth</code> dimension.
+		///   The attr <code>block_size</code> indicates the input block size.
 		///   
-		///     * Non-overlapping blocks of size `block_size x block size` are rearranged
-		///       into depth at each location.
-		///     * The depth of the output tensor is `block_size * block_size * input_depth`.
-		///     * The Y, X coordinates within each block of the input become the high order
-		///       component of the output channel index.
-		///     * The input tensor's height and width must be divisible by block_size.
+		///   * Non-overlapping blocks of size <code>block_size x block size</code> are rearranged
+		///   into depth at each location.
+		///   * The depth of the output tensor is <code>block_size * block_size * input_depth</code>.
+		///   * The Y, X coordinates within each block of the input become the high order
+		///   component of the output channel index.
+		///   * The input tensor's height and width must be divisible by block_size.
 		///   
-		///   The `data_format` attr specifies the layout of the input and output tensors
+		///   The <code>data_format</code> attr specifies the layout of the input and output tensors
 		///   with the following options:
-		///     "NHWC": `[ batch, height, width, channels ]`
-		///     "NCHW": `[ batch, channels, height, width ]`
-		///     "NCHW_VECT_C":
-		///         `qint8 [ batch, channels / 4, height, width, 4 ]`
+		///   "NHWC": <code>[ batch, height, width, channels ]</code>
+		///   "NCHW": <code>[ batch, channels, height, width ]</code>
+		///   "NCHW_VECT_C":
+		///   <code>qint8 [ batch, channels / 4, height, width, 4 ]</code>
 		///   
 		///   It is useful to consider the operation as transforming a 6-D Tensor.
 		///   e.g. for data_format = NHWC,
-		///        Each element in the input tensor can be specified via 6 coordinates,
-		///        ordered by decreasing memory layout significance as:
-		///        n,oY,bY,oX,bX,iC  (where n=batch index, oX, oY means X or Y coordinates
-		///                           within the output image, bX, bY means coordinates
-		///                           within the input block, iC means input channels).
-		///        The output would be a transpose to the following layout:
-		///        n,oY,oX,bY,bX,iC
+		///   Each element in the input tensor can be specified via 6 coordinates,
+		///   ordered by decreasing memory layout significance as:
+		///   n,oY,bY,oX,bX,iC  (where n=batch index, oX, oY means X or Y coordinates
+		///   within the output image, bX, bY means coordinates
+		///   within the input block, iC means input channels).
+		///   The output would be a transpose to the following layout:
+		///   n,oY,oX,bY,bX,iC
 		///   
 		///   This operation is useful for resizing the activations between convolutions
 		///   (but keeping all data), e.g. instead of pooling. It is also useful for training
 		///   purely convolutional models.
 		///   
-		///   For example, given an input of shape `[1, 2, 2, 1]`, data_format = "NHWC" and
+		///   For example, given an input of shape <code>[1, 2, 2, 1]</code>, data_format = "NHWC" and
 		///   block_size = 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1], [2]],
-		///         [[3], [4]]]]
-		///   ```
+		///   [[3], [4]]]]
+		///    </code>
 		///   
-		///   This operation will output a tensor of shape `[1, 1, 1, 4]`:
+		///   This operation will output a tensor of shape <code>[1, 1, 1, 4]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1, 2, 3, 4]]]]
-		///   ```
+		///    </code>
 		///   
-		///   Here, the input has a batch of 1 and each batch element has shape `[2, 2, 1]`,
+		///   Here, the input has a batch of 1 and each batch element has shape <code>[2, 2, 1]</code>,
 		///   the corresponding output will have a single element (i.e. width and height are
 		///   both 1) and will have a depth of 4 channels (1 * block_size * block_size).
-		///   The output element shape is `[1, 1, 4]`.
+		///   The output element shape is <code>[1, 1, 4]</code>.
 		///   
-		///   For an input tensor with larger depth, here of shape `[1, 2, 2, 3]`, e.g.
+		///   For an input tensor with larger depth, here of shape <code>[1, 2, 2, 3]</code>, e.g.
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3], [4, 5, 6]],
-		///         [[7, 8, 9], [10, 11, 12]]]]
-		///   ```
+		///   [[7, 8, 9], [10, 11, 12]]]]
+		///    </code>
 		///   
 		///   This operation, for block_size of 2, will return the following tensor of shape
-		///   `[1, 1, 1, 12]`
+		///   <code>[1, 1, 1, 12]</code>
 		///   
-		///   ```
+		///    <code>
 		///   [[[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]]]
-		///   ```
+		///    </code>
 		///   
-		///   Similarly, for the following input of shape `[1 4 4 1]`, and a block size of 2:
+		///   Similarly, for the following input of shape <code>[1 4 4 1]</code>, and a block size of 2:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1],   [2],  [5],  [6]],
-		///         [[3],   [4],  [7],  [8]],
-		///         [[9],  [10], [13],  [14]],
-		///         [[11], [12], [15],  [16]]]]
-		///   ```
+		///   [[3],   [4],  [7],  [8]],
+		///   [[9],  [10], [13],  [14]],
+		///   [[11], [12], [15],  [16]]]]
+		///    </code>
 		///   
-		///   the operator will return the following tensor of shape `[1 2 2 4]`:
+		///   the operator will return the following tensor of shape <code>[1 2 2 4]</code>:
 		///   
-		///   ```
+		///    <code>
 		///   x = [[[[1, 2, 3, 4],
-		///          [5, 6, 7, 8]],
-		///         [[9, 10, 11, 12],
-		///          [13, 14, 15, 16]]]]
-		///   ```
+		///   [5, 6, 7, 8]],
+		///   [[9, 10, 11, 12],
+		///   [13, 14, 15, 16]]]]
+		///    </code>
 		/// </remarks>
 		public TFOutput SpaceToDepth (TFOutput input, long block_size, string data_format = null, string operName = null)
 		{
@@ -29953,25 +30631,25 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Adds two `SparseTensor` objects to produce another `SparseTensor`.
+		///   Adds two <code>SparseTensor</code> objects to produce another <code>SparseTensor</code>.
 		/// </summary>
 		/// <param name="a_indices">
-		///   2-D.  The `indices` of the first `SparseTensor`, size `[nnz, ndims]` Matrix.
+		///   2-D.  The <code>indices</code> of the first <code>SparseTensor</code>, size <code>[nnz, ndims]</code> Matrix.
 		/// </param>
 		/// <param name="a_values">
-		///   1-D.  The `values` of the first `SparseTensor`, size `[nnz]` Vector.
+		///   1-D.  The <code>values</code> of the first <code>SparseTensor</code>, size <code>[nnz]</code> Vector.
 		/// </param>
 		/// <param name="a_shape">
-		///   1-D.  The `shape` of the first `SparseTensor`, size `[ndims]` Vector.
+		///   1-D.  The <code>shape</code> of the first <code>SparseTensor</code>, size <code>[ndims]</code> Vector.
 		/// </param>
 		/// <param name="b_indices">
-		///   2-D.  The `indices` of the second `SparseTensor`, size `[nnz, ndims]` Matrix.
+		///   2-D.  The <code>indices</code> of the second <code>SparseTensor</code>, size <code>[nnz, ndims]</code> Matrix.
 		/// </param>
 		/// <param name="b_values">
-		///   1-D.  The `values` of the second `SparseTensor`, size `[nnz]` Vector.
+		///   1-D.  The <code>values</code> of the second <code>SparseTensor</code>, size <code>[nnz]</code> Vector.
 		/// </param>
 		/// <param name="b_shape">
-		///   1-D.  The `shape` of the second `SparseTensor`, size `[ndims]` Vector.
+		///   1-D.  The <code>shape</code> of the second <code>SparseTensor</code>, size <code>[ndims]</code> Vector.
 		/// </param>
 		/// <param name="thresh">
 		///   0-D.  The magnitude threshold that determines if an output value/index
@@ -29982,25 +30660,25 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sum_indices: 
-		///   sum_values: 
-		///   sum_shape: 
+		///   sum_indices:
+		///   sum_values:
+		///   sum_shape:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The input `SparseTensor` objects' indices are assumed ordered in standard
+		///   The input <code>SparseTensor</code> objects' indices are assumed ordered in standard
 		///   lexicographic order.  If this is not the case, before this step run
-		///   `SparseReorder` to restore index ordering.
+		///   <code>SparseReorder</code> to restore index ordering.
 		///   
-		///   By default, if two values sum to zero at some index, the output `SparseTensor`
+		///   By default, if two values sum to zero at some index, the output <code>SparseTensor</code>
 		///   would still include that particular location in its index, storing a zero in the
-		///   corresponding value slot.  To override this, callers can specify `thresh`,
-		///   indicating that if the sum has a magnitude strictly smaller than `thresh`, its
+		///   corresponding value slot.  To override this, callers can specify <code>thresh</code>,
+		///   indicating that if the sum has a magnitude strictly smaller than <code>thresh</code>, its
 		///   corresponding value and index would then not be included.  In particular,
-		///   `thresh == 0` (default) means everything is kept and actual thresholding happens
+		///   <code>thresh == 0</code> (default) means everything is kept and actual thresholding happens
 		///   only for a positive value.
 		///   
-		///   In the following shapes, `nnz` is the count after taking `thresh` into account.
+		///   In the following shapes, <code>nnz</code> is the count after taking <code>thresh</code> into account.
 		/// </remarks>
 		public (TFOutput sum_indices, TFOutput sum_values, TFOutput sum_shape) SparseAdd (TFOutput a_indices, TFOutput a_values, TFOutput a_shape, TFOutput b_indices, TFOutput b_values, TFOutput b_shape, TFOutput thresh, string operName = null)
 		{
@@ -30027,33 +30705,33 @@ namespace TensorFlow {
 		///   The gradient operator for the SparseAdd op.
 		/// </summary>
 		/// <param name="backprop_val_grad">
-		///   1-D with shape `[nnz(sum)]`.  The gradient with respect to
+		///   1-D with shape <code>[nnz(sum)]</code>.  The gradient with respect to
 		///   the non-empty values of the sum.
 		/// </param>
 		/// <param name="a_indices">
-		///   2-D.  The `indices` of the `SparseTensor` A, size `[nnz(A), ndims]`.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code> A, size <code>[nnz(A), ndims]</code>.
 		/// </param>
 		/// <param name="b_indices">
-		///   2-D.  The `indices` of the `SparseTensor` B, size `[nnz(B), ndims]`.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code> B, size <code>[nnz(B), ndims]</code>.
 		/// </param>
 		/// <param name="sum_indices">
-		///   2-D.  The `indices` of the sum `SparseTensor`, size
-		///   `[nnz(sum), ndims]`.
+		///   2-D.  The <code>indices</code> of the sum <code>SparseTensor</code>, size
+		///   <code>[nnz(sum), ndims]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseAddGrad'.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   a_val_grad: 1-D with shape `[nnz(A)]`. The gradient with respect to the
+		///   a_val_grad: 1-D with shape <code>[nnz(A)]</code>. The gradient with respect to the
 		///   non-empty values of A.
-		///   b_val_grad: 1-D with shape `[nnz(B)]`. The gradient with respect to the
+		///   b_val_grad: 1-D with shape <code>[nnz(B)]</code>. The gradient with respect to the
 		///   non-empty values of B.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   The SparseAdd op calculates A + B, where A, B, and the sum are all represented
-		///   as `SparseTensor` objects.  This op takes in the upstream gradient w.r.t.
+		///   as <code>SparseTensor</code> objects.  This op takes in the upstream gradient w.r.t.
 		///   non-empty values of the sum, and outputs the gradients w.r.t. the non-empty
 		///   values of A and B.
 		/// </remarks>
@@ -30158,7 +30836,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -30294,7 +30972,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, mg, ms, and mom tensors is
+		///   If <code>True</code>, updating of the var, mg, ms, and mom tensors is
 		///   protected by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -30380,7 +31058,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -30457,7 +31135,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -30470,7 +31148,7 @@ namespace TensorFlow {
 		///   grad_with_shrinkage = grad + 2 * l2_shrinkage * var
 		///   accum_new = accum + grad_with_shrinkage * grad_with_shrinkage
 		///   linear += grad_with_shrinkage +
-		///       (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
+		///   (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
 		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
 		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
 		///   accum = accum_new
@@ -30526,13 +31204,13 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var and accum tensors will be protected
+		///   If <code>True</code>, updating of the var and accum tensors will be protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
 		/// <param name="use_nesterov">
 		///   Optional argument
-		///   If `True`, the tensor passed to compute grad will be
+		///   If <code>True</code>, the tensor passed to compute grad will be
 		///   var - lr * momentum * accum, so in the end, the var you get is actually
 		///   var - lr * momentum * accum.
 		/// </param>
@@ -30730,7 +31408,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="use_locking">
 		///   Optional argument
-		///   If `True`, updating of the var, ms, and mom tensors is protected
+		///   If <code>True</code>, updating of the var, ms, and mom tensors is protected
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
@@ -30775,38 +31453,38 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Concatenates a list of `SparseTensor` along the specified dimension.
+		///   Concatenates a list of <code>SparseTensor</code> along the specified dimension.
 		/// </summary>
 		/// <param name="indices">
-		///   2-D.  Indices of each input `SparseTensor`.
+		///   2-D.  Indices of each input <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="values">
-		///   1-D.  Non-empty values of each `SparseTensor`.
+		///   1-D.  Non-empty values of each <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="shapes">
-		///   1-D.  Shapes of each `SparseTensor`.
+		///   1-D.  Shapes of each <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseConcat'.
 		/// </param>
 		/// <param name="concat_dim">
 		///   Dimension to concatenate along. Must be in range [-rank, rank),
-		///   where rank is the number of dimensions in each input `SparseTensor`.
+		///   where rank is the number of dimensions in each input <code>SparseTensor</code>.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 2-D.  Indices of the concatenated `SparseTensor`.
-		///   output_values: 1-D.  Non-empty values of the concatenated `SparseTensor`.
-		///   output_shape: 1-D.  Shape of the concatenated `SparseTensor`.
+		///   output_indices: 2-D.  Indices of the concatenated <code>SparseTensor</code>.
+		///   output_values: 1-D.  Non-empty values of the concatenated <code>SparseTensor</code>.
+		///   output_shape: 1-D.  Shape of the concatenated <code>SparseTensor</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   Concatenation is with respect to the dense versions of these sparse tensors.
-		///   It is assumed that each input is a `SparseTensor` whose elements are ordered
+		///   It is assumed that each input is a <code>SparseTensor</code> whose elements are ordered
 		///   along increasing dimension number.
 		///   
 		///   All inputs' shapes must match, except for the concat dimension.  The
-		///   `indices`, `values`, and `shapes` lists must have the same length.
+		///   <code>indices</code>, <code>values</code>, and <code>shapes</code> lists must have the same length.
 		///   
 		///   The output shape is identical to the inputs', except along the concat
 		///   dimension, where it is the sum of the inputs' sizes along that dimension.
@@ -30814,34 +31492,34 @@ namespace TensorFlow {
 		///   The output elements will be resorted to preserve the sort order along
 		///   increasing dimension number.
 		///   
-		///   This op runs in `O(M log M)` time, where `M` is the total number of non-empty
+		///   This op runs in <code>O(M log M)</code> time, where <code>M</code> is the total number of non-empty
 		///   values across all inputs. This is due to the need for an internal sort in
 		///   order to concatenate efficiently across an arbitrary dimension.
 		///   
-		///   For example, if `concat_dim = 1` and the inputs are
+		///   For example, if <code>concat_dim = 1</code> and the inputs are
 		///   
-		///       sp_inputs[0]: shape = [2, 3]
-		///       [0, 2]: "a"
-		///       [1, 0]: "b"
-		///       [1, 1]: "c"
+		///   sp_inputs[0]: shape = [2, 3]
+		///   [0, 2]: "a"
+		///   [1, 0]: "b"
+		///   [1, 1]: "c"
 		///   
-		///       sp_inputs[1]: shape = [2, 4]
-		///       [0, 1]: "d"
-		///       [0, 2]: "e"
+		///   sp_inputs[1]: shape = [2, 4]
+		///   [0, 1]: "d"
+		///   [0, 2]: "e"
 		///   
 		///   then the output will be
 		///   
-		///       shape = [2, 7]
-		///       [0, 2]: "a"
-		///       [0, 4]: "d"
-		///       [0, 5]: "e"
-		///       [1, 0]: "b"
-		///       [1, 1]: "c"
+		///   shape = [2, 7]
+		///   [0, 2]: "a"
+		///   [0, 4]: "d"
+		///   [0, 5]: "e"
+		///   [1, 0]: "b"
+		///   [1, 1]: "c"
 		///   
 		///   Graphically this is equivalent to doing
 		///   
-		///       [    a] concat [  d e  ] = [    a   d e  ]
-		///       [b c  ]        [       ]   [b c          ]
+		///   [    a] concat [  d e  ] = [    a   d e  ]
+		///   [b c  ]        [       ]   [b c          ]
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_values, TFOutput output_shape) SparseConcat (TFOutput[] indices, TFOutput[] values, TFOutput[] shapes, long concat_dim, string operName = null)
 		{
@@ -30919,16 +31597,16 @@ namespace TensorFlow {
 		///   Generates sparse cross from a list of sparse and dense tensors.
 		/// </summary>
 		/// <param name="indices">
-		///   2-D.  Indices of each input `SparseTensor`.
+		///   2-D.  Indices of each input <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="values">
-		///   1-D.   values of each `SparseTensor`.
+		///   1-D.   values of each <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="shapes">
-		///   1-D.   Shapes of each `SparseTensor`.
+		///   1-D.   Shapes of each <code>SparseTensor</code>.
 		/// </param>
 		/// <param name="dense_inputs">
-		///   2-D.    Columns represented by dense `Tensor`.
+		///   2-D.    Columns represented by dense <code>Tensor</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseCross'.
@@ -30942,7 +31620,7 @@ namespace TensorFlow {
 		///   output = hashed_value%num_buckets if num_buckets &amp;gt; 0 else hashed_value.
 		/// </param>
 		/// <param name="hash_key">
-		///   Specify the hash_key that will be used by the `FingerprintCat64`
+		///   Specify the hash_key that will be used by the <code>FingerprintCat64</code>
 		///   function to combine the crosses fingerprints.
 		/// </param>
 		/// <param name="out_type">
@@ -30951,49 +31629,49 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 2-D.  Indices of the concatenated `SparseTensor`.
+		///   output_indices: 2-D.  Indices of the concatenated <code>SparseTensor</code>.
 		///   output_values: 1-D.  Non-empty values of the concatenated or hashed
-		///   `SparseTensor`.
-		///   output_shape: 1-D.  Shape of the concatenated `SparseTensor`.
+		///   <code>SparseTensor</code>.
+		///   output_shape: 1-D.  Shape of the concatenated <code>SparseTensor</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The op takes two lists, one of 2D `SparseTensor` and one of 2D `Tensor`, each
-		///   representing features of one feature column. It outputs a 2D `SparseTensor` with
+		///   The op takes two lists, one of 2D <code>SparseTensor</code> and one of 2D <code>Tensor</code>, each
+		///   representing features of one feature column. It outputs a 2D <code>SparseTensor</code> with
 		///   the batchwise crosses of these features.
 		///   
 		///   For example, if the inputs are
 		///   
-		///       inputs[0]: SparseTensor with shape = [2, 2]
-		///       [0, 0]: "a"
-		///       [1, 0]: "b"
-		///       [1, 1]: "c"
+		///   inputs[0]: SparseTensor with shape = [2, 2]
+		///   [0, 0]: "a"
+		///   [1, 0]: "b"
+		///   [1, 1]: "c"
 		///   
-		///       inputs[1]: SparseTensor with shape = [2, 1]
-		///       [0, 0]: "d"
-		///       [1, 0]: "e"
+		///   inputs[1]: SparseTensor with shape = [2, 1]
+		///   [0, 0]: "d"
+		///   [1, 0]: "e"
 		///   
-		///       inputs[2]: Tensor [["f"], ["g"]]
+		///   inputs[2]: Tensor [["f"], ["g"]]
 		///   
 		///   then the output will be
 		///   
-		///       shape = [2, 2]
-		///       [0, 0]: "a_X_d_X_f"
-		///       [1, 0]: "b_X_e_X_g"
-		///       [1, 1]: "c_X_e_X_g"
+		///   shape = [2, 2]
+		///   [0, 0]: "a_X_d_X_f"
+		///   [1, 0]: "b_X_e_X_g"
+		///   [1, 1]: "c_X_e_X_g"
 		///   
 		///   if hashed_output=true then the output will be
 		///   
-		///       shape = [2, 2]
-		///       [0, 0]: FingerprintCat64(
-		///                   Fingerprint64("f"), FingerprintCat64(
-		///                       Fingerprint64("d"), Fingerprint64("a")))
-		///       [1, 0]: FingerprintCat64(
-		///                   Fingerprint64("g"), FingerprintCat64(
-		///                       Fingerprint64("e"), Fingerprint64("b")))
-		///       [1, 1]: FingerprintCat64(
-		///                   Fingerprint64("g"), FingerprintCat64(
-		///                       Fingerprint64("e"), Fingerprint64("c")))
+		///   shape = [2, 2]
+		///   [0, 0]: FingerprintCat64(
+		///   Fingerprint64("f"), FingerprintCat64(
+		///   Fingerprint64("d"), Fingerprint64("a")))
+		///   [1, 0]: FingerprintCat64(
+		///   Fingerprint64("g"), FingerprintCat64(
+		///   Fingerprint64("e"), Fingerprint64("b")))
+		///   [1, 1]: FingerprintCat64(
+		///   Fingerprint64("g"), FingerprintCat64(
+		///   Fingerprint64("e"), Fingerprint64("c")))
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_values, TFOutput output_shape) SparseCross (TFOutput[] indices, TFOutput[] values, TFOutput[] shapes, TFOutput[] dense_inputs, bool hashed_output, long num_buckets, long hash_key, TFDataType out_type, TFDataType internal_type, string operName = null)
 		{
@@ -31022,30 +31700,30 @@ namespace TensorFlow {
 		///   Adds up a SparseTensor and a dense Tensor, using these special rules:
 		/// </summary>
 		/// <param name="sp_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="sp_values">
-		///   1-D.  `N` non-empty values corresponding to `sp_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>sp_indices</code>.
 		/// </param>
 		/// <param name="sp_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="dense">
-		///   `R`-D.  The dense Tensor operand.
+		///   <code>R</code>-D.  The dense Tensor operand.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseDenseCwiseAdd'.
 		/// </param>
 		/// <returns>
-		///   1-D.  The `N` values that are operated on.
+		///   1-D.  The <code>N</code> values that are operated on.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   (1) Broadcasts the dense side to have the same shape as the sparse side, if
-		///       eligible;
+		///   eligible;
 		///   (2) Then, only the dense values pointed to by the indices of the SparseTensor
-		///       participate in the cwise addition.
+		///   participate in the cwise addition.
 		///   
 		///   By these rules, the result is a logical SparseTensor with exactly the same
 		///   indices and shape, but possibly with different non-zero values.  The output of
@@ -31071,23 +31749,23 @@ namespace TensorFlow {
 		///   Component-wise divides a SparseTensor by a dense Tensor.
 		/// </summary>
 		/// <param name="sp_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="sp_values">
-		///   1-D.  `N` non-empty values corresponding to `sp_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>sp_indices</code>.
 		/// </param>
 		/// <param name="sp_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="dense">
-		///   `R`-D.  The dense Tensor operand.
+		///   <code>R</code>-D.  The dense Tensor operand.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseDenseCwiseDiv'.
 		/// </param>
 		/// <returns>
-		///   1-D.  The `N` values that are operated on.
+		///   1-D.  The <code>N</code> values that are operated on.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -31114,23 +31792,23 @@ namespace TensorFlow {
 		///   Component-wise multiplies a SparseTensor by a dense Tensor.
 		/// </summary>
 		/// <param name="sp_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="sp_values">
-		///   1-D.  `N` non-empty values corresponding to `sp_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>sp_indices</code>.
 		/// </param>
 		/// <param name="sp_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="dense">
-		///   `R`-D.  The dense Tensor operand.
+		///   <code>R</code>-D.  The dense Tensor operand.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseDenseCwiseMul'.
 		/// </param>
 		/// <returns>
-		///   1-D.  The `N` values that are operated on.
+		///   1-D.  The <code>N</code> values that are operated on.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -31158,7 +31836,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Fills empty rows in the input 2-D `SparseTensor` with a default value.
+		///   Fills empty rows in the input 2-D <code>SparseTensor</code> with a default value.
 		/// </summary>
 		/// <param name="indices">
 		///   2-D. the indices of the sparse tensor.
@@ -31170,8 +31848,8 @@ namespace TensorFlow {
 		///   1-D. the shape of the sparse tensor.
 		/// </param>
 		/// <param name="default_value">
-		///   0-D. default value to insert into location `[row, 0, ..., 0]`
-		///     for rows missing from the input sparse tensor.
+		///   0-D. default value to insert into location <code>[row, 0, ..., 0]</code>
+		///   for rows missing from the input sparse tensor.
 		///   output indices: 2-D. the indices of the filled sparse tensor.
 		/// </param>
 		/// <param name="operName">
@@ -31179,7 +31857,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 
+		///   output_indices:
 		///   output_values: 1-D. the values of the filled sparse tensor.
 		///   empty_row_indicator: 1-D. whether the dense row was missing in the
 		///   input sparse tensor.
@@ -31187,42 +31865,42 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The input `SparseTensor` is represented via the tuple of inputs
-		///   (`indices`, `values`, `dense_shape`).  The output `SparseTensor` has the
-		///   same `dense_shape` but with indices `output_indices` and values
-		///   `output_values`.
+		///   The input <code>SparseTensor</code> is represented via the tuple of inputs
+		///   (<code>indices</code>, <code>values</code>, <code>dense_shape</code>).  The output <code>SparseTensor</code> has the
+		///   same <code>dense_shape</code> but with indices <code>output_indices</code> and values
+		///   <code>output_values</code>.
 		///   
 		///   This op inserts a single entry for every row that doesn't have any values.
-		///   The index is created as `[row, 0, ..., 0]` and the inserted value
-		///   is `default_value`.
+		///   The index is created as <code>[row, 0, ..., 0]</code> and the inserted value
+		///   is <code>default_value</code>.
 		///   
-		///   For example, suppose `sp_input` has shape `[5, 6]` and non-empty values:
+		///   For example, suppose <code>sp_input</code> has shape <code>[5, 6]</code> and non-empty values:
 		///   
-		///       [0, 1]: a
-		///       [0, 3]: b
-		///       [2, 0]: c
-		///       [3, 1]: d
+		///   [0, 1]: a
+		///   [0, 3]: b
+		///   [2, 0]: c
+		///   [3, 1]: d
 		///   
-		///   Rows 1 and 4 are empty, so the output will be of shape `[5, 6]` with values:
+		///   Rows 1 and 4 are empty, so the output will be of shape <code>[5, 6]</code> with values:
 		///   
-		///       [0, 1]: a
-		///       [0, 3]: b
-		///       [1, 0]: default_value
-		///       [2, 0]: c
-		///       [3, 1]: d
-		///       [4, 0]: default_value
+		///   [0, 1]: a
+		///   [0, 3]: b
+		///   [1, 0]: default_value
+		///   [2, 0]: c
+		///   [3, 1]: d
+		///   [4, 0]: default_value
 		///   
-		///   The output `SparseTensor` will be in row-major order and will have the
+		///   The output <code>SparseTensor</code> will be in row-major order and will have the
 		///   same shape as the input.
 		///   
-		///   This op also returns an indicator vector shaped `[dense_shape[0]]` such that
+		///   This op also returns an indicator vector shaped <code>[dense_shape[0]]</code> such that
 		///   
-		///       empty_row_indicator[i] = True iff row i was an empty row.
+		///   empty_row_indicator[i] = True iff row i was an empty row.
 		///   
-		///   And a reverse index map vector shaped `[indices.shape[0]]` that is used during
+		///   And a reverse index map vector shaped <code>[indices.shape[0]]</code> that is used during
 		///   backpropagation,
 		///   
-		///       reverse_index_map[j] = out_j s.t. indices[j, :] == output_indices[out_j, :]
+		///   reverse_index_map[j] = out_j s.t. indices[j, :] == output_indices[out_j, :]
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_values, TFOutput empty_row_indicator, TFOutput reverse_index_map) SparseFillEmptyRows (TFOutput indices, TFOutput values, TFOutput dense_shape, TFOutput default_value, string operName = null)
 		{
@@ -31262,14 +31940,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Takes vectors reverse_index_map, shaped `[N]`, and grad_values,
-		///   shaped `[N_full]`, where `N_full &amp;gt;= N` and copies data into either
-		///   `d_values` or `d_default_value`.  Here `d_values` is shaped `[N]` and
-		///   `d_default_value` is a scalar.
+		///   Takes vectors reverse_index_map, shaped <code>[N]</code>, and grad_values,
+		///   shaped <code>[N_full]</code>, where <code>N_full &amp;gt;= N</code> and copies data into either
+		///   <code>d_values</code> or <code>d_default_value</code>.  Here <code>d_values</code> is shaped <code>[N]</code> and
+		///   <code>d_default_value</code> is a scalar.
 		///   
-		///     d_values[j] = grad_values[reverse_index_map[j]]
-		///     d_default_value = sum_{k : 0 .. N_full - 1} (
-		///        grad_values[k] * 1{k not in reverse_index_map})
+		///   d_values[j] = grad_values[reverse_index_map[j]]
+		///   d_default_value = sum_{k : 0 .. N_full - 1} (
+		///   grad_values[k] * 1{k not in reverse_index_map})
 		/// </remarks>
 		public (TFOutput d_values, TFOutput d_default_value) SparseFillEmptyRowsGrad (TFOutput reverse_index_map, TFOutput grad_values, string operName = null)
 		{
@@ -31350,17 +32028,17 @@ namespace TensorFlow {
 		///   Computes the max of elements across dimensions of a SparseTensor.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="input_values">
-		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>input_indices</code>.
 		/// </param>
 		/// <param name="input_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="reduction_axes">
-		///   1-D.  Length-`K` vector containing the reduction axes.
+		///   1-D.  Length-<code>K</code> vector containing the reduction axes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMax'.
@@ -31370,20 +32048,20 @@ namespace TensorFlow {
 		///   If true, retain reduced dimensions with length 1.
 		/// </param>
 		/// <returns>
-		///   `R-K`-D.  The reduced Tensor.
+		///   <code>R-K</code>-D.  The reduced Tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This Op takes a SparseTensor and is the sparse counterpart to
-		///   `tf.reduce_max()`.  In particular, this Op also returns a dense `Tensor`
+		///   <code>tf.reduce_max()</code>.  In particular, this Op also returns a dense <code>Tensor</code>
 		///   instead of a sparse one.
 		///   
-		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   Reduces <code>sp_input</code> along the dimensions given in <code>reduction_axes</code>.  Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>reduction_axes</code>. If <code>keep_dims</code> is true, the reduced dimensions are retained
 		///   with length 1.
 		///   
-		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   If <code>reduction_axes</code> has no entries, all dimensions are reduced, and a tensor
 		///   with a single element is returned.  Additionally, the axes can be negative,
 		///   which are interpreted according to the indexing rules in Python.
 		/// </remarks>
@@ -31410,17 +32088,17 @@ namespace TensorFlow {
 		///   Computes the max of elements across dimensions of a SparseTensor.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="input_values">
-		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>input_indices</code>.
 		/// </param>
 		/// <param name="input_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="reduction_axes">
-		///   1-D.  Length-`K` vector containing the reduction axes.
+		///   1-D.  Length-<code>K</code> vector containing the reduction axes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceMaxSparse'.
@@ -31431,22 +32109,22 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 
-		///   output_values: 
-		///   output_shape: 
+		///   output_indices:
+		///   output_values:
+		///   output_shape:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   This Op takes a SparseTensor and is the sparse counterpart to
-		///   `tf.reduce_max()`.  In contrast to SparseReduceMax, this Op returns a
+		///   <code>tf.reduce_max()</code>.  In contrast to SparseReduceMax, this Op returns a
 		///   SparseTensor.
 		///   
-		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   Reduces <code>sp_input</code> along the dimensions given in <code>reduction_axes</code>.  Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>reduction_axes</code>. If <code>keep_dims</code> is true, the reduced dimensions are retained
 		///   with length 1.
 		///   
-		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   If <code>reduction_axes</code> has no entries, all dimensions are reduced, and a tensor
 		///   with a single element is returned.  Additionally, the axes can be negative,
 		///   which are interpreted according to the indexing rules in Python.
 		/// </remarks>
@@ -31475,17 +32153,17 @@ namespace TensorFlow {
 		///   Computes the sum of elements across dimensions of a SparseTensor.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="input_values">
-		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>input_indices</code>.
 		/// </param>
 		/// <param name="input_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="reduction_axes">
-		///   1-D.  Length-`K` vector containing the reduction axes.
+		///   1-D.  Length-<code>K</code> vector containing the reduction axes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceSum'.
@@ -31495,20 +32173,20 @@ namespace TensorFlow {
 		///   If true, retain reduced dimensions with length 1.
 		/// </param>
 		/// <returns>
-		///   `R-K`-D.  The reduced Tensor.
+		///   <code>R-K</code>-D.  The reduced Tensor.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   This Op takes a SparseTensor and is the sparse counterpart to
-		///   `tf.reduce_sum()`.  In particular, this Op also returns a dense `Tensor`
+		///   <code>tf.reduce_sum()</code>.  In particular, this Op also returns a dense <code>Tensor</code>
 		///   instead of a sparse one.
 		///   
-		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   Reduces <code>sp_input</code> along the dimensions given in <code>reduction_axes</code>.  Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>reduction_axes</code>. If <code>keep_dims</code> is true, the reduced dimensions are retained
 		///   with length 1.
 		///   
-		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   If <code>reduction_axes</code> has no entries, all dimensions are reduced, and a tensor
 		///   with a single element is returned.  Additionally, the axes can be negative,
 		///   which are interpreted according to the indexing rules in Python.
 		/// </remarks>
@@ -31535,17 +32213,17 @@ namespace TensorFlow {
 		///   Computes the sum of elements across dimensions of a SparseTensor.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="input_values">
-		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>input_indices</code>.
 		/// </param>
 		/// <param name="input_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="reduction_axes">
-		///   1-D.  Length-`K` vector containing the reduction axes.
+		///   1-D.  Length-<code>K</code> vector containing the reduction axes.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReduceSumSparse'.
@@ -31556,22 +32234,22 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 
-		///   output_values: 
-		///   output_shape: 
+		///   output_indices:
+		///   output_values:
+		///   output_shape:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   This Op takes a SparseTensor and is the sparse counterpart to
-		///   `tf.reduce_sum()`.  In contrast to SparseReduceSum, this Op returns a
+		///   <code>tf.reduce_sum()</code>.  In contrast to SparseReduceSum, this Op returns a
 		///   SparseTensor.
 		///   
-		///   Reduces `sp_input` along the dimensions given in `reduction_axes`.  Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_axes`. If `keep_dims` is true, the reduced dimensions are retained
+		///   Reduces <code>sp_input</code> along the dimensions given in <code>reduction_axes</code>.  Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>reduction_axes</code>. If <code>keep_dims</code> is true, the reduced dimensions are retained
 		///   with length 1.
 		///   
-		///   If `reduction_axes` has no entries, all dimensions are reduced, and a tensor
+		///   If <code>reduction_axes</code> has no entries, all dimensions are reduced, and a tensor
 		///   with a single element is returned.  Additionally, the axes can be negative,
 		///   which are interpreted according to the indexing rules in Python.
 		/// </remarks>
@@ -31600,11 +32278,11 @@ namespace TensorFlow {
 		///   Reorders a SparseTensor into the canonical, row-major ordering.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, possibly not in canonical ordering.
 		/// </param>
 		/// <param name="input_values">
-		///   1-D.  `N` non-empty values corresponding to `input_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>input_indices</code>.
 		/// </param>
 		/// <param name="input_shape">
 		///   1-D.  Shape of the input SparseTensor.
@@ -31614,9 +32292,9 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 2-D.  `N x R` matrix with the same indices as input_indices, but
+		///   output_indices: 2-D.  <code>N x R</code> matrix with the same indices as input_indices, but
 		///   in canonical row-major ordering.
-		///   output_values: 1-D.  `N` non-empty values corresponding to `output_indices`.
+		///   output_values: 1-D.  <code>N</code> non-empty values corresponding to <code>output_indices</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -31626,8 +32304,8 @@ namespace TensorFlow {
 		///   
 		///   Reordering does not affect the shape of the SparseTensor.
 		///   
-		///   If the tensor has rank `R` and `N` non-empty values, `input_indices` has
-		///   shape `[N, R]`, input_values has length `N`, and input_shape has length `R`.
+		///   If the tensor has rank <code>R</code> and <code>N</code> non-empty values, <code>input_indices</code> has
+		///   shape <code>[N, R]</code>, input_values has length <code>N</code>, and input_shape has length <code>R</code>.
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_values) SparseReorder (TFOutput input_indices, TFOutput input_values, TFOutput input_shape, string operName = null)
 		{
@@ -31649,43 +32327,43 @@ namespace TensorFlow {
 		///   Reshapes a SparseTensor to represent values in a new dense shape.
 		/// </summary>
 		/// <param name="input_indices">
-		///   2-D.  `N x R_in` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R_in</code> matrix with the indices of non-empty values in a
 		///   SparseTensor.
 		/// </param>
 		/// <param name="input_shape">
-		///   1-D.  `R_in` vector with the input SparseTensor's dense shape.
+		///   1-D.  <code>R_in</code> vector with the input SparseTensor's dense shape.
 		/// </param>
 		/// <param name="new_shape">
-		///   1-D.  `R_out` vector with the requested new dense shape.
+		///   1-D.  <code>R_out</code> vector with the requested new dense shape.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseReshape'.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 2-D.  `N x R_out` matrix with the updated indices of non-empty
+		///   output_indices: 2-D.  <code>N x R_out</code> matrix with the updated indices of non-empty
 		///   values in the output SparseTensor.
-		///   output_shape: 1-D.  `R_out` vector with the full dense shape of the output
-		///   SparseTensor.  This is the same as `new_shape` but with any -1 dimensions
+		///   output_shape: 1-D.  <code>R_out</code> vector with the full dense shape of the output
+		///   SparseTensor.  This is the same as <code>new_shape</code> but with any -1 dimensions
 		///   filled in.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
 		///   This operation has the same semantics as reshape on the represented dense
-		///   tensor.  The `input_indices` are recomputed based on the requested `new_shape`.
+		///   tensor.  The <code>input_indices</code> are recomputed based on the requested <code>new_shape</code>.
 		///   
-		///   If one component of `new_shape` is the special value -1, the size of that
+		///   If one component of <code>new_shape</code> is the special value -1, the size of that
 		///   dimension is computed so that the total dense size remains constant.  At
-		///   most one component of `new_shape` can be -1.  The number of dense elements
-		///   implied by `new_shape` must be the same as the number of dense elements
-		///   originally implied by `input_shape`.
+		///   most one component of <code>new_shape</code> can be -1.  The number of dense elements
+		///   implied by <code>new_shape</code> must be the same as the number of dense elements
+		///   originally implied by <code>input_shape</code>.
 		///   
 		///   Reshaping does not affect the order of values in the SparseTensor.
 		///   
-		///   If the input tensor has rank `R_in` and `N` non-empty values, and `new_shape`
-		///   has length `R_out`, then `input_indices` has shape `[N, R_in]`,
-		///   `input_shape` has length `R_in`, `output_indices` has shape `[N, R_out]`, and
-		///   `output_shape` has length `R_out`.
+		///   If the input tensor has rank <code>R_in</code> and <code>N</code> non-empty values, and <code>new_shape</code>
+		///   has length <code>R_out</code>, then <code>input_indices</code> has shape <code>[N, R_in]</code>,
+		///   <code>input_shape</code> has length <code>R_in</code>, <code>output_indices</code> has shape <code>[N, R_out]</code>, and
+		///   <code>output_shape</code> has length <code>R_out</code>.
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_shape) SparseReshape (TFOutput input_indices, TFOutput input_shape, TFOutput new_shape, string operName = null)
 		{
@@ -31709,7 +32387,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -31719,15 +32397,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
-		///   Like `SegmentMean`, but `segment_ids` can have rank less than `data`'s first
-		///   dimension, selecting a subset of dimension 0, specified by `indices`.
+		///   Like <code>SegmentMean</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first
+		///   dimension, selecting a subset of dimension 0, specified by <code>indices</code>.
 		/// </remarks>
 		public TFOutput SparseSegmentMean (TFOutput data, TFOutput indices, TFOutput segment_ids, string operName = null)
 		{
@@ -31791,7 +32469,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -31804,12 +32482,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which has size
-		///   `num_segments`.
+		///   <code>num_segments</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Like `SparseSegmentMean`, but allows missing ids in `segment_ids`. If an id is
-		///   misisng, the `output` tensor at that position will be zeroed.
+		///   Like <code>SparseSegmentMean</code>, but allows missing ids in <code>segment_ids</code>. If an id is
+		///   misisng, the <code>output</code> tensor at that position will be zeroed.
 		///   
 		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
 		///   segments.
@@ -31836,7 +32514,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -31846,7 +32524,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -31917,7 +32595,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -31930,14 +32608,14 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   N is the size of the segment being reduced.
 		///   
-		///   Like `SparseSegmentSqrtN`, but allows missing ids in `segment_ids`. If an id is
-		///   misisng, the `output` tensor at that position will be zeroed.
+		///   Like <code>SparseSegmentSqrtN</code>, but allows missing ids in <code>segment_ids</code>. If an id is
+		///   misisng, the <code>output</code> tensor at that position will be zeroed.
 		///   
 		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
 		///   segments.
@@ -31964,7 +32642,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -31974,19 +32652,19 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `k`, the number of segments.
+		///   has size <code>k</code>, the number of segments.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
-		///   Like `SegmentSum`, but `segment_ids` can have rank less than `data`'s first
-		///   dimension, selecting a subset of dimension 0, specified by `indices`.
+		///   Like <code>SegmentSum</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first
+		///   dimension, selecting a subset of dimension 0, specified by <code>indices</code>.
 		///   
 		///   For example:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])
 		///   
 		///   # Select two rows, one segment.
@@ -32005,7 +32683,7 @@ namespace TensorFlow {
 		///   
 		///   # Which is equivalent to:
 		///   tf.segment_sum(c, tf.constant([0, 0, 1]))
-		///   ```
+		///    <code>
 		/// </remarks>
 		public TFOutput SparseSegmentSum (TFOutput data, TFOutput indices, TFOutput segment_ids, string operName = null)
 		{
@@ -32028,7 +32706,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="indices">
-		///   A 1-D tensor. Has same rank as `segment_ids`.
+		///   A 1-D tensor. Has same rank as <code>segment_ids</code>.
 		/// </param>
 		/// <param name="segment_ids">
 		///   A 1-D tensor. Values should be sorted and can be repeated.
@@ -32041,36 +32719,36 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `num_segments`.
+		///   has size <code>num_segments</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Like `SparseSegmentSum`, but allows missing ids in `segment_ids`. If an id is
-		///   misisng, the `output` tensor at that position will be zeroed.
+		///   Like <code>SparseSegmentSum</code>, but allows missing ids in <code>segment_ids</code>. If an id is
+		///   misisng, the <code>output</code> tensor at that position will be zeroed.
 		///   
 		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   For example:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])
 		///   
 		///   tf.sparse_segment_sum_with_num_segments(
-		///       c, tf.constant([0, 1]), tf.constant([0, 0]), num_segments=3)
+		///   c, tf.constant([0, 1]), tf.constant([0, 0]), num_segments=3)
 		///   # =&amp;gt; [[0 0 0 0]
 		///   #     [0 0 0 0]
 		///   #     [0 0 0 0]]
 		///   
 		///   tf.sparse_segment_sum_with_num_segments(c,
-		///                                           tf.constant([0, 1]),
-		///                                           tf.constant([0, 2],
-		///                                           num_segments=4))
+		///   tf.constant([0, 1]),
+		///   tf.constant([0, 2],
+		///   num_segments=4))
 		///   # =&amp;gt; [[ 1  2  3  4]
 		///   #     [ 0  0  0  0]
 		///   #     [-1 -2 -3 -4]
 		///   #     [ 0  0  0  0]]
-		///   ```
+		///    <code>
 		/// </remarks>
 		public TFOutput SparseSegmentSumWithNumSegments (TFOutput data, TFOutput indices, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -32089,7 +32767,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Slice a `SparseTensor` based on the `start` and `size`.
+		///   Slice a <code>SparseTensor</code> based on the <code>start</code> and <code>size</code>.
 		/// </summary>
 		/// <param name="indices">
 		///   2-D tensor represents the indices of the sparse tensor.
@@ -32113,7 +32791,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 
+		///   output_indices:
 		///   output_values: A list of 1-D tensors represents the values of the output sparse
 		///   tensors.
 		///   output_shape: A list of 1-D tensors represents the shape of the output sparse
@@ -32123,19 +32801,19 @@ namespace TensorFlow {
 		/// <remarks>
 		///   For example, if the input is
 		///   
-		///       input_tensor = shape = [2, 7]
-		///       [    a   d e  ]
-		///       [b c          ]
+		///   input_tensor = shape = [2, 7]
+		///   [    a   d e  ]
+		///   [b c          ]
 		///   
 		///   Graphically the output tensors are:
 		///   
-		///       sparse_slice([0, 0], [2, 4]) = shape = [2, 4]
-		///       [    a  ]
-		///       [b c    ]
+		///   sparse_slice([0, 0], [2, 4]) = shape = [2, 4]
+		///   [    a  ]
+		///   [b c    ]
 		///   
-		///       sparse_slice([0, 4], [2, 3]) = shape = [2, 3]
-		///       [ d e  ]
-		///       [      ]
+		///   sparse_slice([0, 4], [2, 3]) = shape = [2, 3]
+		///   [ d e  ]
+		///   [      ]
 		/// </remarks>
 		public (TFOutput output_indices, TFOutput output_values, TFOutput output_shape) SparseSlice (TFOutput indices, TFOutput values, TFOutput shape, TFOutput start, TFOutput size, string operName = null)
 		{
@@ -32157,14 +32835,14 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies softmax to a batched N-D `SparseTensor`.
+		///   Applies softmax to a batched N-D <code>SparseTensor</code>.
 		/// </summary>
 		/// <param name="sp_indices">
-		///   2-D.  `NNZ x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>NNZ x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, in canonical ordering.
 		/// </param>
 		/// <param name="sp_values">
-		///   1-D.  `NNZ` non-empty values corresponding to `sp_indices`.
+		///   1-D.  <code>NNZ</code> non-empty values corresponding to <code>sp_indices</code>.
 		/// </param>
 		/// <param name="sp_shape">
 		///   1-D.  Shape of the input SparseTensor.
@@ -32173,24 +32851,24 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseSoftmax'.
 		/// </param>
 		/// <returns>
-		///   1-D.  The `NNZ` values for the result `SparseTensor`.
+		///   1-D.  The <code>NNZ</code> values for the result <code>SparseTensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The inputs represent an N-D SparseTensor  with logical shape `[..., B, C]`
-		///   (where `N &amp;gt;= 2`), and with indices sorted in the canonical lexicographic order.
+		///   The inputs represent an N-D SparseTensor  with logical shape <code>[..., B, C]</code>
+		///   (where <code>N &amp;gt;= 2</code>), and with indices sorted in the canonical lexicographic order.
 		///   
-		///   This op is equivalent to applying the normal `tf.nn.softmax()` to each innermost
-		///   logical submatrix with shape `[B, C]`, but with the catch that *the implicitly
+		///   This op is equivalent to applying the normal <code>tf.nn.softmax()</code> to each innermost
+		///   logical submatrix with shape <code>[B, C]</code>, but with the catch that *the implicitly
 		///   zero elements do not participate*.  Specifically, the algorithm is equivalent
 		///   to the following:
 		///   
-		///     (1) Applies `tf.nn.softmax()` to a densified view of each innermost submatrix
-		///         with shape `[B, C]`, along the size-C dimension;
-		///     (2) Masks out the original implicitly-zero locations;
-		///     (3) Renormalizes the remaining elements.
+		///   (1) Applies <code>tf.nn.softmax()</code> to a densified view of each innermost submatrix
+		///   with shape <code>[B, C]</code>, along the size-C dimension;
+		///   (2) Masks out the original implicitly-zero locations;
+		///   (3) Renormalizes the remaining elements.
 		///   
-		///   Hence, the `SparseTensor` result has exactly the same non-zero indices and
+		///   Hence, the <code>SparseTensor</code> result has exactly the same non-zero indices and
 		///   shape.
 		/// </remarks>
 		public TFOutput SparseSoftmax (TFOutput sp_indices, TFOutput sp_values, TFOutput sp_shape, string operName = null)
@@ -32228,7 +32906,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Unlike `SoftmaxCrossEntropyWithLogits`, this operation does not accept
+		///   Unlike <code>SoftmaxCrossEntropyWithLogits</code>, this operation does not accept
 		///   a matrix of label probabilities, but rather a single label per row
 		///   of features.  This label is considered to have probability 1.0 for the
 		///   given row.
@@ -32254,23 +32932,23 @@ namespace TensorFlow {
 		///   Returns the element-wise max of two SparseTensors.
 		/// </summary>
 		/// <param name="a_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, in the canonical lexicographic ordering.
 		/// </param>
 		/// <param name="a_values">
-		///   1-D.  `N` non-empty values corresponding to `a_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>a_indices</code>.
 		/// </param>
 		/// <param name="a_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="b_indices">
-		///   counterpart to `a_indices` for the other operand.
+		///   counterpart to <code>a_indices</code> for the other operand.
 		/// </param>
 		/// <param name="b_values">
-		///   counterpart to `a_values` for the other operand; must be of the same dtype.
+		///   counterpart to <code>a_values</code> for the other operand; must be of the same dtype.
 		/// </param>
 		/// <param name="b_shape">
-		///   counterpart to `a_shape` for the other operand; the two shapes must be equal.
+		///   counterpart to <code>a_shape</code> for the other operand; the two shapes must be equal.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseSparseMaximum'.
@@ -32307,23 +32985,23 @@ namespace TensorFlow {
 		///   Returns the element-wise min of two SparseTensors.
 		/// </summary>
 		/// <param name="a_indices">
-		///   2-D.  `N x R` matrix with the indices of non-empty values in a
+		///   2-D.  <code>N x R</code> matrix with the indices of non-empty values in a
 		///   SparseTensor, in the canonical lexicographic ordering.
 		/// </param>
 		/// <param name="a_values">
-		///   1-D.  `N` non-empty values corresponding to `a_indices`.
+		///   1-D.  <code>N</code> non-empty values corresponding to <code>a_indices</code>.
 		/// </param>
 		/// <param name="a_shape">
 		///   1-D.  Shape of the input SparseTensor.
 		/// </param>
 		/// <param name="b_indices">
-		///   counterpart to `a_indices` for the other operand.
+		///   counterpart to <code>a_indices</code> for the other operand.
 		/// </param>
 		/// <param name="b_values">
-		///   counterpart to `a_values` for the other operand; must be of the same dtype.
+		///   counterpart to <code>a_values</code> for the other operand; must be of the same dtype.
 		/// </param>
 		/// <param name="b_shape">
-		///   counterpart to `a_shape` for the other operand; the two shapes must be equal.
+		///   counterpart to <code>a_shape</code> for the other operand; the two shapes must be equal.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseSparseMinimum'.
@@ -32357,11 +33035,11 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Split a `SparseTensor` into `num_split` tensors along one dimension.
+		///   Split a <code>SparseTensor</code> into <code>num_split</code> tensors along one dimension.
 		/// </summary>
 		/// <param name="split_dim">
 		///   0-D.  The dimension along which to split.  Must be in the range
-		///   `[0, rank(shape))`.
+		///   <code>[0, rank(shape))</code>.
 		/// </param>
 		/// <param name="indices">
 		///   2-D tensor represents the indices of the sparse tensor.
@@ -32382,7 +33060,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_indices: 
+		///   output_indices:
 		///   output_values: A list of 1-D tensors represents the values of the output sparse
 		///   tensors.
 		///   output_shape: A list of 1-D tensors represents the shape of the output sparse
@@ -32390,23 +33068,23 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   If the `shape[split_dim]` is not an integer multiple of `num_split`. Slices
-		///   `[0 : shape[split_dim] % num_split]` gets one extra dimension.
-		///   For example, if `split_dim = 1` and `num_split = 2` and the input is
+		///   If the <code>shape[split_dim]</code> is not an integer multiple of <code>num_split</code>. Slices
+		///   <code>[0 : shape[split_dim] % num_split]</code> gets one extra dimension.
+		///   For example, if <code>split_dim = 1</code> and <code>num_split = 2</code> and the input is
 		///   
-		///       input_tensor = shape = [2, 7]
-		///       [    a   d e  ]
-		///       [b c          ]
+		///   input_tensor = shape = [2, 7]
+		///   [    a   d e  ]
+		///   [b c          ]
 		///   
 		///   Graphically the output tensors are:
 		///   
-		///       output_tensor[0] = shape = [2, 4]
-		///       [    a  ]
-		///       [b c    ]
+		///   output_tensor[0] = shape = [2, 4]
+		///   [    a  ]
+		///   [b c    ]
 		///   
-		///       output_tensor[1] = shape = [2, 3]
-		///       [ d e  ]
-		///       [      ]
+		///   output_tensor[1] = shape = [2, 3]
+		///   [ d e  ]
+		///   [      ]
 		/// </remarks>
 		public (TFOutput[] output_indices, TFOutput[] output_values, TFOutput[] output_shape) SparseSplit (TFOutput split_dim, TFOutput indices, TFOutput values, TFOutput shape, long num_split, string operName = null)
 		{
@@ -32441,19 +33119,19 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Adds up a `SparseTensor` and a dense `Tensor`, producing a dense `Tensor`.
+		///   Adds up a <code>SparseTensor</code> and a dense <code>Tensor</code>, producing a dense <code>Tensor</code>.
 		/// </summary>
 		/// <param name="a_indices">
-		///   2-D.  The `indices` of the `SparseTensor`, with shape `[nnz, ndims]`.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code>, with shape <code>[nnz, ndims]</code>.
 		/// </param>
 		/// <param name="a_values">
-		///   1-D.  The `values` of the `SparseTensor`, with shape `[nnz]`.
+		///   1-D.  The <code>values</code> of the <code>SparseTensor</code>, with shape <code>[nnz]</code>.
 		/// </param>
 		/// <param name="a_shape">
-		///   1-D.  The `shape` of the `SparseTensor`, with shape `[ndims]`.
+		///   1-D.  The <code>shape</code> of the <code>SparseTensor</code>, with shape <code>[ndims]</code>.
 		/// </param>
 		/// <param name="b">
-		///   `ndims`-D Tensor.  With shape `a_shape`.
+		///   <code>ndims</code>-D Tensor.  With shape <code>a_shape</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseTensorDenseAdd'.
@@ -32462,7 +33140,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This Op does not require `a_indices` be sorted in standard lexicographic order.
+		///   This Op does not require <code>a_indices</code> be sorted in standard lexicographic order.
 		/// </remarks>
 		public TFOutput SparseTensorDenseAdd (TFOutput a_indices, TFOutput a_values, TFOutput a_shape, TFOutput b, string operName = null)
 		{
@@ -32484,13 +33162,13 @@ namespace TensorFlow {
 		///   Multiply SparseTensor (of rank 2) "A" by dense matrix "B".
 		/// </summary>
 		/// <param name="a_indices">
-		///   2-D.  The `indices` of the `SparseTensor`, size `[nnz, 2]` Matrix.
+		///   2-D.  The <code>indices</code> of the <code>SparseTensor</code>, size <code>[nnz, 2]</code> Matrix.
 		/// </param>
 		/// <param name="a_values">
-		///   1-D.  The `values` of the `SparseTensor`, size `[nnz]` Vector.
+		///   1-D.  The <code>values</code> of the <code>SparseTensor</code>, size <code>[nnz]</code> Vector.
 		/// </param>
 		/// <param name="a_shape">
-		///   1-D.  The `shape` of the `SparseTensor`, size `[2]` Vector.
+		///   1-D.  The <code>shape</code> of the <code>SparseTensor</code>, size <code>[2]</code> Vector.
 		/// </param>
 		/// <param name="b">
 		///   2-D.  A dense Matrix.
@@ -32516,11 +33194,11 @@ namespace TensorFlow {
 		///   input format is recommended for optimal behavior:
 		///   
 		///   if adjoint_a == false:
-		///     A should be sorted in lexicographically increasing order.  Use SparseReorder
-		///     if you're not sure.
+		///   A should be sorted in lexicographically increasing order.  Use SparseReorder
+		///   if you're not sure.
 		///   if adjoint_a == true:
-		///     A should be sorted in order of increasing dimension 1 (i.e., "column major"
-		///     order instead of "row major" order).
+		///   A should be sorted in order of increasing dimension 1 (i.e., "column major"
+		///   order instead of "row major" order).
 		/// </remarks>
 		public TFOutput SparseTensorDenseMatMul (TFOutput a_indices, TFOutput a_values, TFOutput a_shape, TFOutput b, bool? adjoint_a = null, bool? adjoint_b = null, string operName = null)
 		{
@@ -32578,19 +33256,19 @@ namespace TensorFlow {
 		///   Converts a sparse representation into a dense tensor.
 		/// </summary>
 		/// <param name="sparse_indices">
-		///   0-D, 1-D, or 2-D.  `sparse_indices[i]` contains the complete
-		///   index where `sparse_values[i]` will be placed.
+		///   0-D, 1-D, or 2-D.  <code>sparse_indices[i]</code> contains the complete
+		///   index where <code>sparse_values[i]</code> will be placed.
 		/// </param>
 		/// <param name="output_shape">
 		///   1-D.  Shape of the dense output tensor.
 		/// </param>
 		/// <param name="sparse_values">
-		///   1-D.  Values corresponding to each row of `sparse_indices`,
+		///   1-D.  Values corresponding to each row of <code>sparse_indices</code>,
 		///   or a scalar value to be used for all sparse indices.
 		/// </param>
 		/// <param name="default_value">
 		///   Scalar value to set for indices not specified in
-		///   `sparse_indices`.
+		///   <code>sparse_indices</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseToDense'.
@@ -32601,13 +33279,13 @@ namespace TensorFlow {
 		///   lexicographic order and that there are no repeats.
 		/// </param>
 		/// <returns>
-		///   Dense output tensor of shape `output_shape`.
+		///   Dense output tensor of shape <code>output_shape</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Builds an array `dense` with shape `output_shape` such that
+		///   Builds an array <code>dense</code> with shape <code>output_shape</code> such that
 		///   
-		///   ```
+		///    <code>
 		///   # If sparse_indices is scalar
 		///   dense[i] = (i == sparse_indices ? sparse_values : default_value)
 		///   
@@ -32616,13 +33294,13 @@ namespace TensorFlow {
 		///   
 		///   # If sparse_indices is an n by d matrix, then for each i in [0, n)
 		///   dense[sparse_indices[i][0], ..., sparse_indices[i][d-1]] = sparse_values[i]
-		///   ```
+		///    </code>
 		///   
-		///   All other values in `dense` are set to `default_value`.  If `sparse_values` is a
+		///   All other values in <code>dense</code> are set to <code>default_value</code>.  If <code>sparse_values</code> is a
 		///   scalar, all sparse indices are set to this single value.
 		///   
 		///   Indices should be sorted in lexicographic order, and indices must not
-		///   contain any repeats. If `validate_indices` is true, these properties
+		///   contain any repeats. If <code>validate_indices</code> is true, these properties
 		///   are checked during execution.
 		/// </remarks>
 		public TFOutput SparseToDense (TFOutput sparse_indices, TFOutput output_shape, TFOutput sparse_values, TFOutput default_value, bool? validate_indices = null, string operName = null)
@@ -32645,33 +33323,33 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Applies set operation along last dimension of 2 `SparseTensor` inputs.
+		///   Applies set operation along last dimension of 2 <code>SparseTensor</code> inputs.
 		/// </summary>
 		/// <param name="set1_indices">
-		///   2D `Tensor`, indices of a `SparseTensor`. Must be in row-major
+		///   2D <code>Tensor</code>, indices of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set1_values">
-		///   1D `Tensor`, values of a `SparseTensor`. Must be in row-major
+		///   1D <code>Tensor</code>, values of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set1_shape">
-		///   1D `Tensor`, shape of a `SparseTensor`. `set1_shape[0...n-1]` must
-		///   be the same as `set2_shape[0...n-1]`, `set1_shape[n]` is the
-		///   max set size across `0...n-1` dimensions.
+		///   1D <code>Tensor</code>, shape of a <code>SparseTensor</code>. <code>set1_shape[0...n-1]</code> must
+		///   be the same as <code>set2_shape[0...n-1]</code>, <code>set1_shape[n]</code> is the
+		///   max set size across <code>0...n-1</code> dimensions.
 		/// </param>
 		/// <param name="set2_indices">
-		///   2D `Tensor`, indices of a `SparseTensor`. Must be in row-major
+		///   2D <code>Tensor</code>, indices of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set2_values">
-		///   1D `Tensor`, values of a `SparseTensor`. Must be in row-major
+		///   1D <code>Tensor</code>, values of a <code>SparseTensor</code>. Must be in row-major
 		///   order.
 		/// </param>
 		/// <param name="set2_shape">
-		///   1D `Tensor`, shape of a `SparseTensor`. `set2_shape[0...n-1]` must
-		///   be the same as `set1_shape[0...n-1]`, `set2_shape[n]` is the
-		///   max set size across `0...n-1` dimensions.
+		///   1D <code>Tensor</code>, shape of a <code>SparseTensor</code>. <code>set2_shape[0...n-1]</code> must
+		///   be the same as <code>set1_shape[0...n-1]</code>, <code>set2_shape[n]</code> is the
+		///   max set size across <code>0...n-1</code> dimensions.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseToSparseSetOperation'.
@@ -32683,37 +33361,37 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   result_indices: 2D indices of a `SparseTensor`.
-		///   result_values: 1D values of a `SparseTensor`.
-		///   result_shape: 1D `Tensor` shape of a `SparseTensor`. `result_shape[0...n-1]` is
-		///   the same as the 1st `n-1` dimensions of `set1` and `set2`, `result_shape[n]`
-		///   is the max result set size across all `0...n-1` dimensions.
+		///   result_indices: 2D indices of a <code>SparseTensor</code>.
+		///   result_values: 1D values of a <code>SparseTensor</code>.
+		///   result_shape: 1D <code>Tensor</code> shape of a <code>SparseTensor</code>. <code>result_shape[0...n-1]</code> is
+		///   the same as the 1st <code>n-1</code> dimensions of <code>set1</code> and <code>set2</code>, <code>result_shape[n]</code>
+		///   is the max result set size across all <code>0...n-1</code> dimensions.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   See SetOperationOp::SetOperationFromContext for values of `set_operation`.
+		///   See SetOperationOp::SetOperationFromContext for values of <code>set_operation</code>.
 		///   
-		///   If `validate_indices` is `True`, `SparseToSparseSetOperation` validates the
-		///   order and range of `set1` and `set2` indices.
+		///   If <code>validate_indices</code> is <code>True</code>, <code>SparseToSparseSetOperation</code> validates the
+		///   order and range of <code>set1</code> and <code>set2</code> indices.
 		///   
-		///   Input `set1` is a `SparseTensor` represented by `set1_indices`, `set1_values`,
-		///   and `set1_shape`. For `set1` ranked `n`, 1st `n-1` dimensions must be the same
-		///   as `set2`. Dimension `n` contains values in a set, duplicates are allowed but
+		///   Input <code>set1</code> is a <code>SparseTensor</code> represented by <code>set1_indices</code>, <code>set1_values</code>,
+		///   and <code>set1_shape</code>. For <code>set1</code> ranked <code>n</code>, 1st <code>n-1</code> dimensions must be the same
+		///   as <code>set2</code>. Dimension <code>n</code> contains values in a set, duplicates are allowed but
 		///   ignored.
 		///   
-		///   Input `set2` is a `SparseTensor` represented by `set2_indices`, `set2_values`,
-		///   and `set2_shape`. For `set2` ranked `n`, 1st `n-1` dimensions must be the same
-		///   as `set1`. Dimension `n` contains values in a set, duplicates are allowed but
+		///   Input <code>set2</code> is a <code>SparseTensor</code> represented by <code>set2_indices</code>, <code>set2_values</code>,
+		///   and <code>set2_shape</code>. For <code>set2</code> ranked <code>n</code>, 1st <code>n-1</code> dimensions must be the same
+		///   as <code>set1</code>. Dimension <code>n</code> contains values in a set, duplicates are allowed but
 		///   ignored.
 		///   
-		///   If `validate_indices` is `True`, this op validates the order and range of `set1`
-		///   and `set2` indices.
+		///   If <code>validate_indices</code> is <code>True</code>, this op validates the order and range of <code>set1</code>
+		///   and <code>set2</code> indices.
 		///   
-		///   Output `result` is a `SparseTensor` represented by `result_indices`,
-		///   `result_values`, and `result_shape`. For `set1` and `set2` ranked `n`, this
-		///   has rank `n` and the same 1st `n-1` dimensions as `set1` and `set2`. The `nth`
-		///   dimension contains the result of `set_operation` applied to the corresponding
-		///   `[0...n-1]` dimension of `set`.
+		///   Output <code>result</code> is a <code>SparseTensor</code> represented by <code>result_indices</code>,
+		///   <code>result_values</code>, and <code>result_shape</code>. For <code>set1</code> and <code>set2</code> ranked <code>n</code>, this
+		///   has rank <code>n</code> and the same 1st <code>n-1</code> dimensions as <code>set1</code> and <code>set2</code>. The <code>nth</code>
+		///   dimension contains the result of <code>set_operation</code> applied to the corresponding
+		///   <code>[0...n-1]</code> dimension of <code>set</code>.
 		/// </remarks>
 		public (TFOutput result_indices, TFOutput result_values, TFOutput result_shape) SparseToSparseSetOperation (TFOutput set1_indices, TFOutput set1_values, TFOutput set1_shape, TFOutput set2_indices, TFOutput set2_values, TFOutput set2_shape, string set_operation, bool? validate_indices = null, string operName = null)
 		{
@@ -32740,11 +33418,11 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Splits a tensor into `num_split` tensors along one dimension.
+		///   Splits a tensor into <code>num_split</code> tensors along one dimension.
 		/// </summary>
 		/// <param name="split_dim">
 		///   0-D.  The dimension along which to split.  Must be in the range
-		///   `[-rank(value), rank(value))`.
+		///   <code>[-rank(value), rank(value))</code>.
 		/// </param>
 		/// <param name="value">
 		///   The tensor to split.
@@ -32754,12 +33432,12 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="num_split">
 		///   The number of ways to split.  Must evenly divide
-		///   `value.shape[split_dim]`.
+		///   <code>value.shape[split_dim]</code>.
 		/// </param>
 		/// <returns>
-		///   They are identically shaped tensors, whose shape matches that of `value`
-		///   except along `split_dim`, where their sizes are
-		///   `values.shape[split_dim] / num_split`.
+		///   They are identically shaped tensors, whose shape matches that of <code>value</code>
+		///   except along <code>axis</code>, where their sizes are
+		///   <code>values.shape[split_dim] / num_split</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput[] Split (TFOutput split_dim, TFOutput value, long num_split, string operName = null)
@@ -32783,7 +33461,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Splits a tensor into `num_split` tensors along one dimension.
+		///   Splits a tensor into <code>num_split</code> tensors along one dimension.
 		/// </summary>
 		/// <param name="value">
 		///   The tensor to split.
@@ -32795,7 +33473,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="split_dim">
 		///   0-D.  The dimension along which to split.  Must be in the range
-		///   `[-rank(value), rank(value))`.
+		///   <code>[-rank(value), rank(value))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SplitV'.
@@ -32803,9 +33481,9 @@ namespace TensorFlow {
 		/// <param name="num_split">
 		/// </param>
 		/// <returns>
-		///   Tensors whose shape matches that of `value`
-		///   except along `split_dim`, where their sizes are
-		///   `size_splits[i]`.
+		///   Tensors whose shape matches that of <code>value</code>
+		///   except along <code>axis</code>, where their sizes are
+		///   <code>size_splits[i]</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		public TFOutput[] SplitV (TFOutput value, TFOutput size_splits, TFOutput split_dim, long num_split, string operName = null)
@@ -32896,7 +33574,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient for the sqrt of `x` wrt its input.
+		///   Computes the gradient for the sqrt of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -32909,7 +33587,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = dy * 0.5 / y`, where `y = sqrt(x)`, and `dy`
+		///   Specifically, <code>grad = dy * 0.5 / y</code>, where <code>y = sqrt(x)</code>, and <code>dy</code>
 		///   is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput SqrtGrad (TFOutput y, TFOutput dy, string operName = null)
@@ -32967,7 +33645,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `SquaredDifference` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>SquaredDifference</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput SquaredDifference (TFOutput x, TFOutput y, string operName = null)
@@ -32988,7 +33666,7 @@ namespace TensorFlow {
 		///   Removes dimensions of size 1 from the shape of a tensor.
 		/// </summary>
 		/// <param name="input">
-		///   The `input` to squeeze.
+		///   The <code>input</code> to squeeze.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Squeeze'.
@@ -32997,32 +33675,32 @@ namespace TensorFlow {
 		///   Optional argument
 		///   If specified, only squeezes the dimensions listed. The dimension
 		///   index starts at 0. It is an error to squeeze a dimension that is not 1. Must
-		///   be in the range `[-rank(input), rank(input))`.
+		///   be in the range <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <returns>
-		///   Contains the same data as `input`, but has one or more dimensions of
+		///   Contains the same data as <code>input</code>, but has one or more dimensions of
 		///   size 1 removed.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Given a tensor `input`, this operation returns a tensor of the same type with
+		///   Given a tensor <code>input</code>, this operation returns a tensor of the same type with
 		///   all dimensions of size 1 removed. If you don't want to remove all size 1
 		///   dimensions, you can remove specific size 1 dimensions by specifying
-		///   `squeeze_dims`.
+		///   <code>axis</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is a tensor of shape [1, 2, 1, 3, 1, 1]
 		///   shape(squeeze(t)) ==&amp;gt; [2, 3]
-		///   ```
+		///    </code>
 		///   
 		///   Or, to remove specific size 1 dimensions:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is a tensor of shape [1, 2, 1, 3, 1, 1]
 		///   shape(squeeze(t, [2, 4])) ==&amp;gt; [1, 2, 3, 1]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Squeeze (TFOutput input, long[] squeeze_dims = null, string operName = null)
 		{
@@ -33219,7 +33897,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="swap_memory">
 		///   Optional argument
-		///   Swap `elem` to CPU. Default to false.
+		///   Swap <code>elem</code> to CPU. Default to false.
 		/// </param>
 		/// <returns>
 		///   The same tensor as the input 'elem'.
@@ -33518,7 +34196,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   The generated values will have mean 0 and standard deviation 1.
 		///   
-		///   The outputs are a deterministic function of `shape` and `seed`.
+		///   The outputs are a deterministic function of <code>shape</code> and <code>seed</code>.
 		/// </remarks>
 		public TFOutput StatelessRandomNormal (TFOutput shape, TFOutput seed, TFDataType? dtype = null, string operName = null)
 		{
@@ -33558,10 +34236,10 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The generated values follow a uniform distribution in the range `[0, 1)`. The
+		///   The generated values follow a uniform distribution in the range <code>[0, 1)</code>. The
 		///   lower bound 0 is included in the range, while the upper bound 1 is excluded.
 		///   
-		///   The outputs are a deterministic function of `shape` and `seed`.
+		///   The outputs are a deterministic function of <code>shape</code> and <code>seed</code>.
 		/// </remarks>
 		public TFOutput StatelessRandomUniform (TFOutput shape, TFOutput seed, TFDataType? dtype = null, string operName = null)
 		{
@@ -33605,7 +34283,7 @@ namespace TensorFlow {
 		///   deviation 1, except that values whose magnitude is more than 2 standard
 		///   deviations from the mean are dropped and re-picked.
 		///   
-		///   The outputs are a deterministic function of `shape` and `seed`.
+		///   The outputs are a deterministic function of <code>shape</code> and <code>seed</code>.
 		/// </remarks>
 		public TFOutput StatelessTruncatedNormal (TFOutput shape, TFOutput seed, TFDataType? dtype = null, string operName = null)
 		{
@@ -33706,12 +34384,12 @@ namespace TensorFlow {
 		///   to pretend that the value was a constant. Some examples include:
 		///   
 		///   *  The *EM* algorithm where the *M-step* should not involve backpropagation
-		///      through the output of the *E-step*.
+		///   through the output of the *E-step*.
 		///   *  Contrastive divergence training of Boltzmann machines where, when
-		///      differentiating the energy function, the training must not backpropagate
-		///      through the graph that generated the samples from the model.
+		///   differentiating the energy function, the training must not backpropagate
+		///   through the graph that generated the samples from the model.
 		///   *  Adversarial training, where no backprop should happen through the adversarial
-		///      example generation process.
+		///   example generation process.
 		/// </remarks>
 		public TFOutput StopGradient (TFOutput input, string operName = null)
 		{
@@ -33727,27 +34405,27 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Return a strided slice from `input`.
+		///   Return a strided slice from <code>input</code>.
 		/// </summary>
 		/// <param name="input">
 		/// </param>
 		/// <param name="begin">
-		///   `begin[k]` specifies the offset into the `k`th range specification.
+		///   <code>begin[k]</code> specifies the offset into the <code>k</code>th range specification.
 		///   The exact dimension this corresponds to will be determined by context.
-		///   Out-of-bounds values will be silently clamped. If the `k`th bit of
-		///   `begin_mask` then `begin[k]` is ignored and the full range of the
+		///   Out-of-bounds values will be silently clamped. If the <code>k</code>th bit of
+		///   <code>begin_mask</code> then <code>begin[k]</code> is ignored and the full range of the
 		///   appropriate dimension is used instead. Negative values causes indexing
-		///   to start from the highest element e.g. If `foo==[1,2,3]` then `foo[-1]==3`.
+		///   to start from the highest element e.g. If <code>foo==[1,2,3]</code> then <code>foo[-1]==3</code>.
 		/// </param>
 		/// <param name="end">
-		///   `end[i]` is like `begin` with the exception that `end_mask` is
+		///   <code>end[i]</code> is like <code>begin</code> with the exception that <code>end_mask</code> is
 		///   used to determine full ranges.
 		/// </param>
 		/// <param name="strides">
-		///   `strides[i]` specifies the increment in the `i`th specification
+		///   <code>strides[i]</code> specifies the increment in the <code>i</code>th specification
 		///   after extracting a given element. Negative indices will reverse
 		///   the original order. Out or range values are
-		///   clamped to `[0,dim[i]) if slice[i]&amp;gt;0` or `[-1,dim[i]-1] if slice[i] &amp;lt; 0`
+		///   clamped to <code>[0,dim[i]) if slice[i]&amp;gt;0</code> or <code>[-1,dim[i]-1] if slice[i] &amp;lt; 0</code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StridedSlice'.
@@ -33756,87 +34434,87 @@ namespace TensorFlow {
 		///   Optional argument
 		///   a bitmask where a bit i being 1 means to ignore the begin
 		///   value and instead use the largest interval possible. At runtime
-		///   begin[i] will be replaced with `[0, n-1) if `stride[i] &amp;gt; 0` or
-		///   `[-1, n-1]` if `stride[i] &amp;lt; 0`
+		///   begin[i] will be replaced with <code>[0, n-1) if </code>stride[i] &amp;gt; 0<code> or
+		///   <code>[-1, n-1]</code> if <code>stride[i] &amp;lt; 0</code>
 		/// </param>
 		/// <param name="end_mask">
 		///   Optional argument
-		///   analogous to `begin_mask`
+		///   analogous to <code>begin_mask</code>
 		/// </param>
 		/// <param name="ellipsis_mask">
 		///   Optional argument
-		///   a bitmask where bit `i` being 1 means the `i`th
+		///   a bitmask where bit <code>i</code> being 1 means the <code>i</code>th
 		///   position is actually an ellipsis. One bit at most can be 1.
-		///   If `ellipsis_mask == 0`, then an implicit ellipsis mask of `1 &amp;lt;&amp;lt; (m+1)`
-		///   is provided. This means that `foo[3:5] == foo[3:5, ...]`. An ellipsis
+		///   If <code>ellipsis_mask == 0</code>, then an implicit ellipsis mask of <code>1 &amp;lt;&amp;lt; (m+1)</code>
+		///   is provided. This means that <code>foo[3:5] == foo[3:5, ...]</code>. An ellipsis
 		///   implicitly creates as many range specifications as necessary to fully
 		///   specify the sliced range for every dimension. For example for a 4-dimensional
-		///   tensor `foo` the slice `foo[2, ..., 5:8]` implies `foo[2, :, :, 5:8]`.
+		///   tensor <code>foo</code> the slice <code>foo[2, ..., 5:8]</code> implies <code>foo[2, :, :, 5:8]</code>.
 		/// </param>
 		/// <param name="new_axis_mask">
 		///   Optional argument
-		///   a bitmask where bit `i` being 1 means the `i`th
+		///   a bitmask where bit <code>i</code> being 1 means the <code>i</code>th
 		///   specification creates a new shape 1 dimension. For example
-		///   `foo[:4, tf.newaxis, :2]` would produce a shape `(4, 1, 2)` tensor.
+		///   <code>foo[:4, tf.newaxis, :2]</code> would produce a shape <code>(4, 1, 2)</code> tensor.
 		/// </param>
 		/// <param name="shrink_axis_mask">
 		///   Optional argument
-		///   a bitmask where bit `i` implies that the `i`th
+		///   a bitmask where bit <code>i</code> implies that the <code>i</code>th
 		///   specification should shrink the dimensionality. begin and end
 		///   must imply a slice of size 1 in the dimension. For example in
-		///   python one might do `foo[:, 3, :]` which would result in
-		///   `shrink_axis_mask` being 2.
+		///   python one might do <code>foo[:, 3, :]</code> which would result in
+		///   <code>shrink_axis_mask</code> being 2.
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Note, most python users will want to use the Python `Tensor.__getitem__`
-		///   or `Variable.__getitem__` rather than this op directly.
+		///   Note, most python users will want to use the Python <code>Tensor.__getitem__</code>
+		///   or <code>Variable.__getitem__</code> rather than this op directly.
 		///   
 		///   The goal of this op is to produce a new tensor with a subset of
-		///   the elements from the `n` dimensional `input` tensor. The subset is chosen using
-		///   a sequence of `m` sparse range specifications encoded into the arguments
+		///   the elements from the <code>n</code> dimensional <code>input</code> tensor. The subset is chosen using
+		///   a sequence of <code>m</code> sparse range specifications encoded into the arguments
 		///   of this function. Note, in some cases
-		///   `m` could be equal to `n`, but this need not be the case. Each
+		///   <code>m</code> could be equal to <code>n</code>, but this need not be the case. Each
 		///   range specification entry can be one of the following:
 		///   
 		///   - An ellipsis (...). Ellipses are used to imply zero or more
-		///     dimensions of full-dimension selection and are produced using
-		///     `ellipsis_mask`. For example, `foo[...]` is the identity slice.
+		///   dimensions of full-dimension selection and are produced using
+		///   <code>ellipsis_mask</code>. For example, <code>foo[...]</code> is the identity slice.
 		///   
 		///   - A new axis. This is used to insert a new shape=1 dimension and is
-		///     produced using `new_axis_mask`. For example, `foo[:, ...]` where
-		///     `foo` is shape `(3, 4)` produces a `(1, 3, 4)` tensor.
+		///   produced using <code>new_axis_mask</code>. For example, <code>foo[:, ...]</code> where
+		///   <code>foo</code> is shape <code>(3, 4)</code> produces a <code>(1, 3, 4)</code> tensor.
 		///   
 		///   
-		///   - A range `begin:end:stride`. This is used to specify how much to choose from
-		///     a given dimension. `stride` can be any integer but 0.  `begin` is an integer
-		///     which represents the index of the first value to select while `end` represents
-		///     the index of the last value to select. The number of values selected in each
-		///     dimension is `end - begin` if `stride &amp;gt; 0` and `begin - end` if `stride &amp;lt; 0`.
-		///     `begin` and `end` can be negative where `-1` is the last element, `-2` is
-		///     the second to last. `begin_mask` controls whether to replace the explicitly
-		///     given `begin` with an implicit effective value of `0` if `stride &amp;gt; 0` and
-		///     `-1` if `stride &amp;lt; 0`. `end_mask` is analogous but produces the number
-		///     required to create the largest open interval. For example, given a shape
-		///     `(3,)` tensor `foo[:]`, the effective `begin` and `end` are `0` and `3`. Do
-		///     not assume this is equivalent to `foo[0:-1]` which has an effective `begin`
-		///     and `end` of `0` and `2`. Another example is `foo[-2::-1]` which reverses the
-		///     first dimension of a tensor while dropping the last two (in the original
-		///     order elements). For example `foo = [1,2,3,4]; foo[-2::-1]` is `[4,3]`.
+		///   - A range <code>begin:end:stride</code>. This is used to specify how much to choose from
+		///   a given dimension. <code>stride</code> can be any integer but 0.  <code>begin</code> is an integer
+		///   which represents the index of the first value to select while <code>end</code> represents
+		///   the index of the last value to select. The number of values selected in each
+		///   dimension is <code>end - begin</code> if <code>stride &amp;gt; 0</code> and <code>begin - end</code> if <code>stride &amp;lt; 0</code>.
+		///   <code>begin</code> and <code>end</code> can be negative where <code>-1</code> is the last element, <code>-2</code> is
+		///   the second to last. <code>begin_mask</code> controls whether to replace the explicitly
+		///   given <code>begin</code> with an implicit effective value of <code>0</code> if <code>stride &amp;gt; 0</code> and
+		///   <code>-1</code> if <code>stride &amp;lt; 0</code>. <code>end_mask</code> is analogous but produces the number
+		///   required to create the largest open interval. For example, given a shape
+		///   <code>(3,)</code> tensor <code>foo[:]</code>, the effective <code>begin</code> and <code>end</code> are <code>0</code> and <code>3</code>. Do
+		///   not assume this is equivalent to <code>foo[0:-1]</code> which has an effective <code>begin</code>
+		///   and <code>end</code> of <code>0</code> and <code>2</code>. Another example is <code>foo[-2::-1]</code> which reverses the
+		///   first dimension of a tensor while dropping the last two (in the original
+		///   order elements). For example <code>foo = [1,2,3,4]; foo[-2::-1]</code> is <code>[4,3]</code>.
 		///   
 		///   - A single index. This is used to keep only elements that have a given
-		///     index. For example (`foo[2, :]` on a shape `(5,6)` tensor produces a
-		///     shape `(6,)` tensor. This is encoded in `begin` and `end` and
-		///     `shrink_axis_mask`.
+		///   index. For example (<code>foo[2, :]</code> on a shape <code>(5,6)</code> tensor produces a
+		///   shape <code>(6,)</code> tensor. This is encoded in <code>begin</code> and <code>end</code> and
+		///   <code>shrink_axis_mask</code>.
 		///   
 		///   Each conceptual range specification is encoded in the op's argument. This
 		///   encoding is best understand by considering a non-trivial example. In
 		///   particular,
-		///   `foo[1, 2:4, None, ..., :-3:-1, :]` will be encoded as
+		///   <code>foo[1, 2:4, None, ..., :-3:-1, :]</code> will be encoded as
 		///   
-		///   ```
+		///    <code>
 		///   begin = [1, 2, x, x, 0, x] # x denotes don't care (usually 0)
 		///   end = [2, 4, x, x, -3, x]
 		///   strides = [1, 1, x, x, -1, 1]
@@ -33845,41 +34523,41 @@ namespace TensorFlow {
 		///   ellipsis_mask = 1&amp;lt;&amp;lt;3 = 8
 		///   new_axis_mask = 1&amp;lt;&amp;lt;2 4
 		///   shrink_axis_mask = 1&amp;lt;&amp;lt;0
-		///   ```
+		///    </code>
 		///   
-		///   In this case if `foo.shape` is (5, 5, 5, 5, 5, 5) the final shape of
+		///   In this case if <code>foo.shape</code> is (5, 5, 5, 5, 5, 5) the final shape of
 		///   the slice becomes (2, 1, 5, 5, 2, 5).
 		///   Let us walk step by step through each argument specification.
 		///   
-		///   1.  The first argument in the example slice is turned into `begin = 1` and
-		///   `end = begin + 1 = 2`. To disambiguate from the original spec `2:4` we
-		///   also set the appropriate bit in `shrink_axis_mask`.
+		///   1.  The first argument in the example slice is turned into <code>begin = 1</code> and
+		///   <code>end = begin + 1 = 2</code>. To disambiguate from the original spec <code>2:4</code> we
+		///   also set the appropriate bit in <code>shrink_axis_mask</code>.
 		///   
-		///   2. `2:4` is contributes 2, 4, 1 to begin, end, and stride. All masks have
+		///   2. <code>2:4</code> is contributes 2, 4, 1 to begin, end, and stride. All masks have
 		///   zero bits contributed.
 		///   
-		///   3. None is a synonym for `tf.newaxis`. This means insert a dimension of size 1
+		///   3. None is a synonym for <code>tf.newaxis</code>. This means insert a dimension of size 1
 		///   dimension in the final shape. Dummy values are contributed to begin,
 		///   end and stride, while the new_axis_mask bit is set.
 		///   
-		///   4. `...` grab the full ranges from as many dimensions as needed to
+		///   4. <code>...</code> grab the full ranges from as many dimensions as needed to
 		///   fully specify a slice for every dimension of the input shape.
 		///   
-		///   5. `:-3:-1` shows the use of negative indices. A negative index `i` associated
-		///   with a dimension that has shape `s` is converted to a positive index
-		///   `s + i`. So `-1` becomes `s-1` (i.e. the last element). This conversion
+		///   5. <code>:-3:-1</code> shows the use of negative indices. A negative index <code>i</code> associated
+		///   with a dimension that has shape <code>s</code> is converted to a positive index
+		///   <code>s + i</code>. So <code>-1</code> becomes <code>s-1</code> (i.e. the last element). This conversion
 		///   is done internally so begin, end and strides receive x, -3, and -1.
 		///   The appropriate begin_mask bit is set to indicate the start range is the
 		///   full range (ignoring the x).
 		///   
-		///   6. `:` indicates that the entire contents of the corresponding dimension
-		///   is selected. This is equivalent to `::` or `0::1`. begin, end, and strides
-		///   receive 0, 0, and 1, respectively. The appropriate bits in `begin_mask` and
-		///   `end_mask` are also set.
+		///   6. <code>:</code> indicates that the entire contents of the corresponding dimension
+		///   is selected. This is equivalent to <code>::</code> or <code>0::1</code>. begin, end, and strides
+		///   receive 0, 0, and 1, respectively. The appropriate bits in <code>begin_mask</code> and
+		///   <code>end_mask</code> are also set.
 		///   
 		///   *Requirements*:
-		///     `0 != strides[i] for i in [0, m)`
-		///     `ellipsis_mask must be a power of two (only one ellipsis)`
+		///   <code>0 != strides[i] for i in [0, m)</code>
+		///   <code>ellipsis_mask must be a power of two (only one ellipsis)</code>
 		/// </remarks>
 		public TFOutput StridedSlice (TFOutput input, TFOutput begin, TFOutput end, TFOutput strides, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -33913,7 +34591,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Assign `value` to the sliced l-value reference of `ref`.
+		///   Assign <code>value</code> to the sliced l-value reference of <code>ref</code>.
 		/// </summary>
 		/// <param name="reference">
 		/// </param>
@@ -33947,12 +34625,12 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The values of `value` are assigned to the positions in the variable
-		///   `ref` that are selected by the slice parameters. The slice parameters
-		///   `begin, `end`, `strides`, etc. work exactly as in `StridedSlice`.
+		///   The values of <code>value</code> are assigned to the positions in the variable
+		///   <code>ref</code> that are selected by the slice parameters. The slice parameters
+		///   <code>begin, </code>end<code>, </code>strides<code>, etc. work exactly as in </code>StridedSlice<code>.
 		///   
-		///   NOTE this op currently does not support broadcasting and so `value`'s
-		///   shape must be exactly the shape produced by the slice of `ref`.
+		///   NOTE this op currently does not support broadcasting and so <code>value</code>'s
+		///   shape must be exactly the shape produced by the slice of <code>ref</code>.
 		/// </remarks>
 		public TFOutput StridedSliceAssign (TFOutput reference, TFOutput begin, TFOutput end, TFOutput strides, TFOutput value, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -33987,7 +34665,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the gradient of `StridedSlice`.
+		///   Returns the gradient of <code>StridedSlice</code>.
 		/// </summary>
 		/// <param name="shape">
 		/// </param>
@@ -34021,14 +34699,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Since `StridedSlice` cuts out pieces of its `input` which is size
-		///   `shape`, its gradient will have the same shape (which is passed here
-		///   as `shape`). The gradient will be zero in any element that the slice
+		///   Since <code>StridedSlice</code> cuts out pieces of its <code>input</code> which is size
+		///   <code>shape</code>, its gradient will have the same shape (which is passed here
+		///   as <code>shape</code>). The gradient will be zero in any element that the slice
 		///   does not select.
 		///   
 		///   Arguments are the same as StridedSliceGrad with the exception that
-		///   `dy` is the input gradient to be propagated and `shape` is the
-		///   shape of `StridedSlice`'s `input`.
+		///   <code>dy</code> is the input gradient to be propagated and <code>shape</code> is the
+		///   shape of <code>StridedSlice</code>'s <code>input</code>.
 		/// </remarks>
 		public TFOutput StridedSliceGrad (TFOutput shape, TFOutput begin, TFOutput end, TFOutput strides, TFOutput dy, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -34100,7 +34778,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Split elements of `input` based on `delimiter` into a `SparseTensor`.
+		///   Split elements of <code>input</code> based on <code>delimiter</code> into a <code>SparseTensor</code>.
 		/// </summary>
 		/// <param name="input">
 		///   1-D. Strings to split.
@@ -34113,7 +34791,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="skip_empty">
 		///   Optional argument
-		///   A `bool`. If `True`, skip the empty strings from the result.
+		///   A <code>bool</code>. If <code>True</code>, skip the empty strings from the result.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
@@ -34126,25 +34804,25 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Let N be the size of source (typically N will be the batch size). Split each
-		///   element of `input` based on `delimiter` and return a `SparseTensor`
+		///   element of <code>input</code> based on <code>delimiter</code> and return a <code>SparseTensor</code>
 		///   containing the splitted tokens. Empty tokens are ignored.
 		///   
-		///   `delimiter` can be empty, or a string of split characters. If `delimiter` is an
-		///    empty string, each element of `input` is split into individual single-byte
-		///    character strings, including splitting of UTF-8 multibyte sequences. Otherwise
-		///    every character of `delimiter` is a potential split point.
+		///   <code>delimiter</code> can be empty, or a string of split characters. If <code>delimiter</code> is an
+		///   empty string, each element of <code>input</code> is split into individual single-byte
+		///   character strings, including splitting of UTF-8 multibyte sequences. Otherwise
+		///   every character of <code>delimiter</code> is a potential split point.
 		///   
 		///   For example:
-		///     N = 2, input[0] is 'hello world' and input[1] is 'a b c', then the output
-		///     will be
+		///   N = 2, input[0] is 'hello world' and input[1] is 'a b c', then the output
+		///   will be
 		///   
-		///     indices = [0, 0;
-		///                0, 1;
-		///                1, 0;
-		///                1, 1;
-		///                1, 2]
-		///     shape = [2, 3]
-		///     values = ['hello', 'world', 'a', 'b', 'c']
+		///   indices = [0, 0;
+		///   0, 1;
+		///   1, 0;
+		///   1, 1;
+		///   1, 2]
+		///   shape = [2, 3]
+		///   values = ['hello', 'world', 'a', 'b', 'c']
 		/// </remarks>
 		public (TFOutput indices, TFOutput values, TFOutput shape) StringSplit (TFOutput input, TFOutput delimiter, bool? skip_empty = null, string operName = null)
 		{
@@ -34177,7 +34855,7 @@ namespace TensorFlow {
 		///   The number of buckets.
 		/// </param>
 		/// <returns>
-		///   A Tensor of the same shape as the input `string_tensor`.
+		///   A Tensor of the same shape as the input <code>string_tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -34186,7 +34864,7 @@ namespace TensorFlow {
 		///   
 		///   Note that the hash function may change from time to time.
 		///   This functionality will be deprecated and it's recommended to use
-		///   `tf.string_to_hash_bucket_fast()` or `tf.string_to_hash_bucket_strong()`.
+		///   <code>tf.string_to_hash_bucket_fast()</code> or <code>tf.string_to_hash_bucket_strong()</code>.
 		/// </remarks>
 		public TFOutput StringToHashBucket (TFOutput string_tensor, long num_buckets, string operName = null)
 		{
@@ -34215,7 +34893,7 @@ namespace TensorFlow {
 		///   The number of buckets.
 		/// </param>
 		/// <returns>
-		///   A Tensor of the same shape as the input `string_tensor`.
+		///   A Tensor of the same shape as the input <code>string_tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -34224,7 +34902,7 @@ namespace TensorFlow {
 		///   This function may be used when CPU time is scarce and inputs are trusted or
 		///   unimportant. There is a risk of adversaries constructing inputs that all hash
 		///   to the same bucket. To prevent this problem, use a strong hash function with
-		///   `tf.string_to_hash_bucket_strong`.
+		///   <code>tf.string_to_hash_bucket_strong</code>.
 		/// </remarks>
 		public TFOutput StringToHashBucketFast (TFOutput input, long num_buckets, string operName = null)
 		{
@@ -34257,20 +34935,20 @@ namespace TensorFlow {
 		///   elements.
 		/// </param>
 		/// <returns>
-		///   A Tensor of the same shape as the input `string_tensor`.
+		///   A Tensor of the same shape as the input <code>string_tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
 		///   The hash function is deterministic on the content of the string within the
-		///   process. The hash function is a keyed hash function, where attribute `key`
-		///   defines the key of the hash function. `key` is an array of 2 elements.
+		///   process. The hash function is a keyed hash function, where attribute <code>key</code>
+		///   defines the key of the hash function. <code>key</code> is an array of 2 elements.
 		///   
 		///   A strong hash is important when inputs may be malicious, e.g. URLs with
 		///   additional components. Adversaries could try to make their inputs hash to the
 		///   same bucket for a denial-of-service attack or to skew the results. A strong
 		///   hash prevents this by making it difficult, if not infeasible, to compute inputs
 		///   that hash to the same bucket. This comes at a cost of roughly 4x higher compute
-		///   time than `tf.string_to_hash_bucket_fast`.
+		///   time than <code>tf.string_to_hash_bucket_fast</code>.
 		/// </remarks>
 		public TFOutput StringToHashBucketStrong (TFOutput input, long num_buckets, long[] key, string operName = null)
 		{
@@ -34297,10 +34975,10 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="out_type">
 		///   Optional argument
-		///   The numeric type to interpret each string in `string_tensor` as.
+		///   The numeric type to interpret each string in <code>string_tensor</code> as.
 		/// </param>
 		/// <returns>
-		///   A Tensor of the same shape as the input `string_tensor`.
+		///   A Tensor of the same shape as the input <code>string_tensor</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -34337,7 +35015,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   *NOTE*: `Sub` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>Subtract</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput Sub (TFOutput x, TFOutput y, string operName = null)
@@ -34355,7 +35033,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Return substrings from `Tensor` of strings.
+		///   Return substrings from <code>Tensor</code> of strings.
 		/// </summary>
 		/// <param name="input">
 		///   Tensor of strings
@@ -34374,19 +35052,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   For each string in the input `Tensor`, creates a substring starting at index
-		///   `pos` with a total length of `len`.
+		///   For each string in the input <code>Tensor</code>, creates a substring starting at index
+		///   <code>pos</code> with a total length of <code>len</code>.
 		///   
-		///   If `len` defines a substring that would extend beyond the length of the input
+		///   If <code>len</code> defines a substring that would extend beyond the length of the input
 		///   string, then as many characters as possible are used.
 		///   
-		///   If `pos` is negative or specifies a character index larger than any of the input
-		///   strings, then an `InvalidArgumentError` is thrown.
+		///   If <code>pos</code> is negative or specifies a character index larger than any of the input
+		///   strings, then an <code>InvalidArgumentError</code> is thrown.
 		///   
-		///   `pos` and `len` must have the same shape, otherwise a `ValueError` is thrown on
+		///   <code>pos</code> and <code>len</code> must have the same shape, otherwise a <code>ValueError</code> is thrown on
 		///   Op creation.
 		///   
-		///   *NOTE*: `Substr` supports broadcasting up to two dimensions. More about
+		///   *NOTE*: <code>Substr</code> supports broadcasting up to two dimensions. More about
 		///   broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		///   
@@ -34394,59 +35072,59 @@ namespace TensorFlow {
 		///   
 		///   Examples
 		///   
-		///   Using scalar `pos` and `len`:
+		///   Using scalar <code>pos</code> and <code>len</code>:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   input = [b'Hello', b'World']
 		///   position = 1
 		///   length = 3
 		///   
 		///   output = [b'ell', b'orl']
-		///   ```
+		///    <code>
 		///   
-		///   Using `pos` and `len` with same shape as `input`:
+		///   Using <code>pos</code> and <code>len</code> with same shape as <code>input</code>:
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   input = [[b'ten', b'eleven', b'twelve'],
-		///            [b'thirteen', b'fourteen', b'fifteen'],
-		///            [b'sixteen', b'seventeen', b'eighteen']]
+		///   [b'thirteen', b'fourteen', b'fifteen'],
+		///   [b'sixteen', b'seventeen', b'eighteen']]
 		///   position = [[1, 2, 3],
-		///               [1, 2, 3],
-		///               [1, 2, 3]]
+		///   [1, 2, 3],
+		///   [1, 2, 3]]
 		///   length =   [[2, 3, 4],
-		///               [4, 3, 2],
-		///               [5, 5, 5]]
+		///   [4, 3, 2],
+		///   [5, 5, 5]]
 		///   
 		///   output = [[b'en', b'eve', b'lve'],
-		///             [b'hirt', b'urt', b'te'],
-		///             [b'ixtee', b'vente', b'hteen']]
-		///   ```
+		///   [b'hirt', b'urt', b'te'],
+		///   [b'ixtee', b'vente', b'hteen']]
+		///    </code>
 		///   
-		///   Broadcasting `pos` and `len` onto `input`:
+		///   Broadcasting <code>pos</code> and <code>len</code> onto <code>input</code>:
 		///   
-		///   ```
+		///    <code>
 		///   input = [[b'ten', b'eleven', b'twelve'],
-		///            [b'thirteen', b'fourteen', b'fifteen'],
-		///            [b'sixteen', b'seventeen', b'eighteen'],
-		///            [b'nineteen', b'twenty', b'twentyone']]
+		///   [b'thirteen', b'fourteen', b'fifteen'],
+		///   [b'sixteen', b'seventeen', b'eighteen'],
+		///   [b'nineteen', b'twenty', b'twentyone']]
 		///   position = [1, 2, 3]
 		///   length =   [1, 2, 3]
 		///   
 		///   output = [[b'e', b'ev', b'lve'],
-		///             [b'h', b'ur', b'tee'],
-		///             [b'i', b've', b'hte'],
-		///             [b'i', b'en', b'nty']]
-		///   ```
+		///   [b'h', b'ur', b'tee'],
+		///   [b'i', b've', b'hte'],
+		///   [b'i', b'en', b'nty']]
+		///    </code>
 		///   
-		///   Broadcasting `input` onto `pos` and `len`:
+		///   Broadcasting <code>input</code> onto <code>pos</code> and <code>len</code>:
 		///   
-		///   ```
+		///    <code>
 		///   input = b'thirteen'
 		///   position = [1, 5, 7]
 		///   length =   [3, 2, 1]
 		///   
 		///   output = [b'hir', b'ee', b'n']
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput Substr (TFOutput input, TFOutput pos, TFOutput len, string operName = null)
 		{
@@ -34471,7 +35149,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="reduction_indices">
 		///   The dimensions to reduce. Must be in the range
-		///   `[-rank(input), rank(input))`.
+		///   <code>[-rank(input), rank(input))</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Sum'.
@@ -34485,9 +35163,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Reduces `input` along the dimensions given in `reduction_indices`. Unless
-		///   `keep_dims` is true, the rank of the tensor is reduced by 1 for each entry in
-		///   `reduction_indices`. If `keep_dims` is true, the reduced dimensions are
+		///   Reduces <code>input</code> along the dimensions given in <code>axis</code>. Unless
+		///   <code>keep_dims</code> is true, the rank of the tensor is reduced by 1 for each entry in
+		///   <code>axis</code>. If <code>keep_dims</code> is true, the reduced dimensions are
 		///   retained with length 1.
 		/// </remarks>
 		public TFOutput Sum (TFOutput input, TFOutput reduction_indices, bool? keep_dims = null, string operName = null)
@@ -34549,8 +35227,8 @@ namespace TensorFlow {
 		///   Computes the singular value decompositions of one or more matrices.
 		/// </summary>
 		/// <param name="input">
-		///   A tensor of shape `[..., M, N]` whose inner-most 2 dimensions
-		///   form matrices of size `[M, N]`. Let `P` be the minimum of `M` and `N`.
+		///   A tensor of shape <code>[..., M, N]</code> whose inner-most 2 dimensions
+		///   form matrices of size <code>[M, N]</code>. Let <code>P</code> be the minimum of <code>M</code> and <code>N</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Svd'.
@@ -34558,38 +35236,38 @@ namespace TensorFlow {
 		/// <param name="compute_uv">
 		///   Optional argument
 		///   If true, left and right singular vectors will be
-		///   computed and returned in `u` and `v`, respectively.
-		///   If false, `u` and `v` are not set and should never referenced.
+		///   computed and returned in <code>u</code> and <code>v</code>, respectively.
+		///   If false, <code>u</code> and <code>v</code> are not set and should never referenced.
 		/// </param>
 		/// <param name="full_matrices">
 		///   Optional argument
-		///   If true, compute full-sized `u` and `v`. If false
-		///   (the default), compute only the leading `P` singular vectors.
-		///   Ignored if `compute_uv` is `False`.
+		///   If true, compute full-sized <code>u</code> and <code>v</code>. If false
+		///   (the default), compute only the leading <code>P</code> singular vectors.
+		///   Ignored if <code>compute_uv</code> is <code>False</code>.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   s: Singular values. Shape is `[..., P]`.
-		///   u: Left singular vectors. If `full_matrices` is `False` then shape is
-		///   `[..., M, P]`; if `full_matrices` is `True` then shape is
-		///   `[..., M, M]`. Undefined if `compute_uv` is `False`.
-		///   v: Left singular vectors. If `full_matrices` is `False` then shape is
-		///   `[..., N, P]`. If `full_matrices` is `True` then shape is `[..., N, N]`.
-		///   Undefined if `compute_uv` is false.
+		///   s: Singular values. Shape is <code>[..., P]</code>.
+		///   u: Left singular vectors. If <code>full_matrices</code> is <code>False</code> then shape is
+		///   <code>[..., M, P]</code>; if <code>full_matrices</code> is <code>True</code> then shape is
+		///   <code>[..., M, M]</code>. Undefined if <code>compute_uv</code> is <code>False</code>.
+		///   v: Left singular vectors. If <code>full_matrices</code> is <code>False</code> then shape is
+		///   <code>[..., N, P]</code>. If <code>full_matrices</code> is <code>True</code> then shape is <code>[..., N, N]</code>.
+		///   Undefined if <code>compute_uv</code> is false.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Computes the SVD of each inner matrix in `input` such that
-		///   `input[..., :, :] = u[..., :, :] * diag(s[..., :, :]) * transpose(v[..., :, :])`
+		///   Computes the SVD of each inner matrix in <code>input</code> such that
+		///   <code>input[..., :, :] = u[..., :, :] * diag(s[..., :, :]) * transpose(v[..., :, :])</code>
 		///   
-		///   ```python
+		///   <code></code><code>python
 		///   # a is a tensor containing a batch of matrices.
 		///   # s is a tensor of singular values for each matrix.
 		///   # u is the tensor containing of left singular vectors for each matrix.
 		///   # v is the tensor containing of right singular vectors for each matrix.
 		///   s, u, v = svd(a)
 		///   s, _, _ = svd(a, compute_uv=False)
-		///   ```
+		///    <code>
 		/// </remarks>
 		public (TFOutput s, TFOutput u, TFOutput v) Svd (TFOutput input, bool? compute_uv = null, bool? full_matrices = null, string operName = null)
 		{
@@ -34613,7 +35291,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Forwards `data` to the output port determined by `pred`.
+		///   Forwards <code>data</code> to the output port determined by <code>pred</code>.
 		/// </summary>
 		/// <param name="data">
 		///   The tensor to be forwarded to the appropriate output.
@@ -34626,15 +35304,15 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   output_false: If `pred` is false, data will be forwarded to this output.
-		///   output_true: If `pred` is true, data will be forwarded to this output.
+		///   output_false: If <code>pred</code> is false, data will be forwarded to this output.
+		///   output_true: If <code>pred</code> is true, data will be forwarded to this output.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   If `pred` is true, the `data` input is forwarded to `output_true`. Otherwise,
-		///   the data goes to `output_false`.
+		///   If <code>pred</code> is true, the <code>data</code> input is forwarded to <code>output_true</code>. Otherwise,
+		///   the data goes to <code>output_false</code>.
 		///   
-		///   See also `RefSwitch` and `Merge`.
+		///   See also <code>RefSwitch</code> and <code>Merge</code>.
 		/// </remarks>
 		public (TFOutput output_false, TFOutput output_true) Switch (TFOutput data, TFOutput pred, string operName = null)
 		{
@@ -34652,13 +35330,13 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that contains `count` elements from the `input_dataset`.
+		///   Creates a dataset that contains <code>count</code> elements from the <code>input_dataset</code>.
 		/// </summary>
 		/// <param name="input_dataset">
 		/// </param>
 		/// <param name="count">
-		///   A scalar representing the number of elements from the `input_dataset`
-		///   that should be taken. A value of `-1` indicates that all of `input_dataset`
+		///   A scalar representing the number of elements from the <code>input_dataset</code>
+		///   that should be taken. A value of <code>-1</code> indicates that all of <code>input_dataset</code>
 		///   is taken.
 		/// </param>
 		/// <param name="operName">
@@ -34688,85 +35366,85 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Read `SparseTensors` from a `SparseTensorsMap` and concatenate them.
+		///   Read <code>SparseTensors</code> from a <code>SparseTensorsMap</code> and concatenate them.
 		/// </summary>
 		/// <param name="sparse_handles">
-		///   1-D, The `N` serialized `SparseTensor` objects.
-		///   Shape: `[N]`.
+		///   1-D, The <code>N</code> serialized <code>SparseTensor</code> objects.
+		///   Shape: <code>[N]</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TakeManySparseFromTensorsMap'.
 		/// </param>
 		/// <param name="container">
 		///   Optional argument
-		///   The container name for the `SparseTensorsMap` read by this op.
+		///   The container name for the <code>SparseTensorsMap</code> read by this op.
 		/// </param>
 		/// <param name="shared_name">
 		///   Optional argument
-		///   The shared name for the `SparseTensorsMap` read by this op.
-		///   It should not be blank; rather the `shared_name` or unique Operation name
-		///   of the Op that created the original `SparseTensorsMap` should be used.
+		///   The shared name for the <code>SparseTensorsMap</code> read by this op.
+		///   It should not be blank; rather the <code>shared_name</code> or unique Operation name
+		///   of the Op that created the original <code>SparseTensorsMap</code> should be used.
 		/// </param>
 		/// <param name="dtype">
-		///   The `dtype` of the `SparseTensor` objects stored in the
-		///   `SparseTensorsMap`.
+		///   The <code>dtype</code> of the <code>SparseTensor</code> objects stored in the
+		///   <code>SparseTensorsMap</code>.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   sparse_indices: 2-D.  The `indices` of the minibatch `SparseTensor`.
-		///   sparse_values: 1-D.  The `values` of the minibatch `SparseTensor`.
-		///   sparse_shape: 1-D.  The `shape` of the minibatch `SparseTensor`.
+		///   sparse_indices: 2-D.  The <code>indices</code> of the minibatch <code>SparseTensor</code>.
+		///   sparse_values: 1-D.  The <code>values</code> of the minibatch <code>SparseTensor</code>.
+		///   sparse_shape: 1-D.  The <code>shape</code> of the minibatch <code>SparseTensor</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   The input `sparse_handles` must be an `int64` matrix of shape `[N, 1]` where
-		///   `N` is the minibatch size and the rows correspond to the output handles of
-		///   `AddSparseToTensorsMap` or `AddManySparseToTensorsMap`.  The ranks of the
-		///   original `SparseTensor` objects that went into the given input ops must all
-		///   match.  When the final `SparseTensor` is created, it has rank one
-		///   higher than the ranks of the incoming `SparseTensor` objects
+		///   The input <code>sparse_handles</code> must be an <code>int64</code> matrix of shape <code>[N, 1]</code> where
+		///   <code>N</code> is the minibatch size and the rows correspond to the output handles of
+		///   <code>AddSparseToTensorsMap</code> or <code>AddManySparseToTensorsMap</code>.  The ranks of the
+		///   original <code>SparseTensor</code> objects that went into the given input ops must all
+		///   match.  When the final <code>SparseTensor</code> is created, it has rank one
+		///   higher than the ranks of the incoming <code>SparseTensor</code> objects
 		///   (they have been concatenated along a new row dimension on the left).
 		///   
-		///   The output `SparseTensor` object's shape values for all dimensions but the
-		///   first are the max across the input `SparseTensor` objects' shape values
-		///   for the corresponding dimensions.  Its first shape value is `N`, the minibatch
+		///   The output <code>SparseTensor</code> object's shape values for all dimensions but the
+		///   first are the max across the input <code>SparseTensor</code> objects' shape values
+		///   for the corresponding dimensions.  Its first shape value is <code>N</code>, the minibatch
 		///   size.
 		///   
-		///   The input `SparseTensor` objects' indices are assumed ordered in
+		///   The input <code>SparseTensor</code> objects' indices are assumed ordered in
 		///   standard lexicographic order.  If this is not the case, after this
-		///   step run `SparseReorder` to restore index ordering.
+		///   step run <code>SparseReorder</code> to restore index ordering.
 		///   
-		///   For example, if the handles represent an input, which is a `[2, 3]` matrix
-		///   representing two original `SparseTensor` objects:
+		///   For example, if the handles represent an input, which is a <code>[2, 3]</code> matrix
+		///   representing two original <code>SparseTensor</code> objects:
 		///   
-		///   ```
-		///       index = [ 0]
-		///               [10]
-		///               [20]
-		///       values = [1, 2, 3]
-		///       shape = [50]
-		///   ```
+		///    <code>
+		///   index = [ 0]
+		///   [10]
+		///   [20]
+		///   values = [1, 2, 3]
+		///   shape = [50]
+		///    </code>
 		///   
 		///   and
 		///   
-		///   ```
-		///       index = [ 2]
-		///               [10]
-		///       values = [4, 5]
-		///       shape = [30]
-		///   ```
+		///    <code>
+		///   index = [ 2]
+		///   [10]
+		///   values = [4, 5]
+		///   shape = [30]
+		///    </code>
 		///   
-		///   then the final `SparseTensor` will be:
+		///   then the final <code>SparseTensor</code> will be:
 		///   
-		///   ```
-		///       index = [0  0]
-		///               [0 10]
-		///               [0 20]
-		///               [1  2]
-		///               [1 10]
-		///       values = [1, 2, 3, 4, 5]
-		///       shape = [2 50]
-		///   ```
+		///    <code>
+		///   index = [0  0]
+		///   [0 10]
+		///   [0 20]
+		///   [1  2]
+		///   [1 10]
+		///   values = [1, 2, 3, 4, 5]
+		///   shape = [2 50]
+		///    </code>
 		/// </remarks>
 		public (TFOutput sparse_indices, TFOutput sparse_values, TFOutput sparse_shape) TakeManySparseFromTensorsMap (TFOutput sparse_handles, TFDataType dtype, string container = null, string shared_name = null, string operName = null)
 		{
@@ -34815,7 +35493,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes hyperbolic tangent of `x` element-wise.
+		///   Computes hyperbolic tangent of <code>x</code> element-wise.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -34839,7 +35517,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the gradient for the tanh of `x` wrt its input.
+		///   Computes the gradient for the tanh of <code>x</code> wrt its input.
 		/// </summary>
 		/// <param name="y">
 		/// </param>
@@ -34852,7 +35530,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Specifically, `grad = dy * (1 - y*y)`, where `y = tanh(x)`, and `dy`
+		///   Specifically, <code>grad = dy * (1 - y*y)</code>, where <code>y = tanh(x)</code>, and <code>dy</code>
 		///   is the corresponding input gradient.
 		/// </remarks>
 		public TFOutput TanhGrad (TFOutput y, TFOutput dy, string operName = null)
@@ -34899,12 +35577,12 @@ namespace TensorFlow {
 		///   
 		///   Outputs a ref to the tensor state so it may be read or modified.
 		///   
-		///     E.g.
-		///         var = state_ops._temporary_variable([1, 2], types.float_)
-		///         var_name = var.op.name
-		///         var = state_ops.assign(var, [[4.0, 5.0]])
-		///         var = state_ops.assign_add(var, [[6.0, 7.0]])
-		///         final = state_ops._destroy_temporary_variable(var, var_name=var_name)
+		///   E.g.
+		///   var = state_ops._temporary_variable([1, 2], types.float_)
+		///   var_name = var.op.name
+		///   var = state_ops.assign(var, [[4.0, 5.0]])
+		///   var = state_ops.assign_add(var, [[6.0, 7.0]])
+		///   final = state_ops._destroy_temporary_variable(var, var_name=var_name)
 		/// </remarks>
 		public TFOutput TemporaryVariable (TFShape shape, TFDataType dtype, string var_name = null, string operName = null)
 		{
@@ -34989,8 +35667,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   value: 
-		///   lengths: 
+		///   value:
+		///   lengths:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		public (TFOutput value, TFOutput lengths) TensorArrayConcatV2 (TFOutput handle, TFOutput flow_in, TFDataType dtype, TFShape element_shape_except0 = null, string operName = null)
@@ -35013,7 +35691,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Concat the elements from the TensorArray into value `value`.
+		///   Concat the elements from the TensorArray into value <code>value</code>.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a TensorArray.
@@ -35040,19 +35718,19 @@ namespace TensorFlow {
 		///   axis.
 		///   lengths: A vector of the row sizes of the original T elements in the
 		///   value output.  In the example above, this would be the values:
-		///   `(n1, n2, ..., n(T-1))`.
+		///   <code>(n1, n2, ..., n(T-1))</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   Takes `T` elements of shapes
+		///   Takes <code>T</code> elements of shapes
 		///   
-		///     ```
-		///     (n0 x d0 x d1 x ...), (n1 x d0 x d1 x ...), ..., (n(T-1) x d0 x d1 x ...)
-		///     ```
+		///   <code></code><code>
+		///   (n0 x d0 x d1 x ...), (n1 x d0 x d1 x ...), ..., (n(T-1) x d0 x d1 x ...)
+		///   <code></code><code>
 		///   
 		///   and concatenates them into a Tensor of shape:
 		///   
-		///     ```(n0 + n1 + ... + n(T-1) x d0 x d1 x ...)```
+		///   <code></code><code>(n0 + n1 + ... + n(T-1) x d0 x d1 x ...)</code><code></code>
 		///   
 		///   All elements must have the same shape (excepting the first dimension).
 		/// </remarks>
@@ -35115,7 +35793,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gather specific elements from the TensorArray into output `value`.
+		///   Gather specific elements from the TensorArray into output <code>value</code>.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a TensorArray.
@@ -35144,7 +35822,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   All elements selected by `indices` must have the same shape.
+		///   All elements selected by <code>indices</code> must have the same shape.
 		/// </remarks>
 		public TFOutput TensorArrayGatherV3 (TFOutput handle, TFOutput indices, TFOutput flow_in, TFDataType dtype, TFShape element_shape = null, string operName = null)
 		{
@@ -35213,8 +35891,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   grad_handle: 
-		///   flow_out: 
+		///   grad_handle:
+		///   flow_out:
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
@@ -35249,9 +35927,9 @@ namespace TensorFlow {
 		///   TensorArray gradient is being called in.  This is performed by identifying
 		///   a unique string (e.g. "gradients", "gradients_1", ...) from the input
 		///   gradient Tensor's name.  This string is used as a suffix when creating
-		///   the TensorArray gradient object here (the attribute `source`).
+		///   the TensorArray gradient object here (the attribute <code>source</code>).
 		///   
-		///   The attribute `source` is added as a suffix to the forward TensorArray's
+		///   The attribute <code>source</code> is added as a suffix to the forward TensorArray's
 		///   name when performing the creation / lookup, so that each separate gradient
 		///   calculation gets its own TensorArray accumulator.
 		/// </remarks>
@@ -35305,7 +35983,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Read an element from the TensorArray into output `value`.
+		///   Read an element from the TensorArray into output <code>value</code>.
 		/// </summary>
 		/// <param name="handle">
 		///   The handle to a TensorArray.
@@ -35397,7 +36075,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   `indices` must be a vector, its length must match the first dim of `value`.
+		///   <code>indices</code> must be a vector, its length must match the first dim of <code>value</code>.
 		/// </remarks>
 		public TFOutput TensorArrayScatterV3 (TFOutput handle, TFOutput indices, TFOutput value, TFOutput flow_in, string operName = null)
 		{
@@ -35529,23 +36207,23 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Assuming that `lengths` takes on values
+		///   Assuming that <code>lengths</code> takes on values
 		///   
-		///     ```(n0, n1, ..., n(T-1))```
+		///   <code></code><code>(n0, n1, ..., n(T-1))</code><code></code>
 		///   
-		///   and that `value` has shape
+		///   and that <code>value</code> has shape
 		///   
-		///     ```(n0 + n1 + ... + n(T-1) x d0 x d1 x ...)```,
+		///   <code></code><code>(n0 + n1 + ... + n(T-1) x d0 x d1 x ...)</code><code></code>,
 		///   
 		///   this splits values into a TensorArray with T tensors.
 		///   
 		///   TensorArray index t will be the subtensor of values with starting position
 		///   
-		///     ```(n0 + n1 + ... + n(t-1), 0, 0, ...)```
+		///   <code></code><code>(n0 + n1 + ... + n(t-1), 0, 0, ...)</code><code></code>
 		///   
 		///   and having size
 		///   
-		///     ```nt x d0 x d1 x ...```
+		///   <code></code><code>nt x d0 x d1 x ...</code><code></code>
 		/// </remarks>
 		public TFOutput TensorArraySplitV3 (TFOutput handle, TFOutput value, TFOutput lengths, TFOutput flow_in, string operName = null)
 		{
@@ -35769,7 +36447,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that emits `components` as a tuple of tensors once.
+		///   Creates a dataset that emits <code>components</code> as a tuple of tensors once.
 		/// </summary>
 		/// <param name="components">
 		/// </param>
@@ -35796,7 +36474,323 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that emits each dim-0 slice of `components` once.
+		///   The shape of the elements of the given list, as a tensor.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListElementShape'.
+		/// </param>
+		/// <param name="shape_type">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   input_handle: the list
+		///   element_shape: the shape of elements of the list
+		/// </remarks>
+		public TFOutput TensorListElementShape (TFOutput input_handle, TFDataType shape_type, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListElementShape", MakeName ("TensorListElementShape", operName));
+			desc.AddInput (input_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("shape_type", shape_type);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var element_shape = new TFOutput (op, _idx++);
+			return element_shape;
+		}
+
+		/// <summary>
+		///   Creates a TensorList which, when stacked, has the value of <code>tensor</code>.
+		/// </summary>
+		/// <param name="tensor">
+		/// </param>
+		/// <param name="element_shape">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListFromTensor'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each tensor in the result list corresponds to one row of the input tensor.
+		///   
+		///   tensor: The input tensor.
+		///   output_handle: The list.
+		/// </remarks>
+		public TFOutput TensorListFromTensor (TFOutput tensor, TFOutput element_shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListFromTensor", MakeName ("TensorListFromTensor", operName));
+			desc.AddInput (tensor);
+			desc.AddInput (element_shape);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_handle = new TFOutput (op, _idx++);
+			return output_handle;
+		}
+
+		/// <summary>
+		///   Returns the item in the list with the given index.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="index">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListGetItem'.
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   input_handle: the list
+		///   index: the position in the list from which an element will be retrieved
+		///   item: the element at that position
+		///   
+		///   
+		/// </remarks>
+		public TFOutput TensorListGetItem (TFOutput input_handle, TFOutput index, TFDataType element_dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListGetItem", MakeName ("TensorListGetItem", operName));
+			desc.AddInput (input_handle);
+			desc.AddInput (index);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var item = new TFOutput (op, _idx++);
+			return item;
+		}
+
+		/// <summary>
+		///   Returns the number of tensors in the input tensor list.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListLength'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   input_handle: the input list
+		///   length: the number of tensors in the list
+		/// </remarks>
+		public TFOutput TensorListLength (TFOutput input_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListLength", MakeName ("TensorListLength", operName));
+			desc.AddInput (input_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var length = new TFOutput (op, _idx++);
+			return length;
+		}
+
+		/// <summary>
+		///   Returns the last element of the input list as well as a list with all but that element.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListPopBack'.
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output_handle:
+		///   tensor:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Fails if the list is empty.
+		///   
+		///   input_handle: the input list
+		///   tensor: the withdrawn last element of the list
+		///   element_dtype: the type of elements in the list
+		///   element_shape: the shape of the output tensor
+		/// </remarks>
+		public (TFOutput output_handle, TFOutput tensor) TensorListPopBack (TFOutput input_handle, TFDataType element_dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListPopBack", MakeName ("TensorListPopBack", operName));
+			desc.AddInput (input_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_handle = new TFOutput (op, _idx++);
+			var tensor = new TFOutput (op, _idx++);
+			return (output_handle, tensor);
+		}
+
+		/// <summary>
+		///   Returns a list list which has the passed-in <code>Tensor</code> as last element and the other elements of the given list in <code>input_handle</code>.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="tensor">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListPushBack'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   tensor: The tensor to put on the list.
+		///   input_handle: The old list.
+		///   output_handle: A list with the elements of the old list followed by tensor.
+		///   element_dtype: the type of elements in the list.
+		///   element_shape: a shape compatible with that of elements in the list.
+		/// </remarks>
+		public TFOutput TensorListPushBack (TFOutput input_handle, TFOutput tensor, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListPushBack", MakeName ("TensorListPushBack", operName));
+			desc.AddInput (input_handle);
+			desc.AddInput (tensor);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_handle = new TFOutput (op, _idx++);
+			return output_handle;
+		}
+
+		/// <summary>
+		///   List of the given size with empty elements.
+		/// </summary>
+		/// <param name="element_shape">
+		/// </param>
+		/// <param name="num_elements">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListReserve'.
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   element_shape: the shape of the future elements of the list
+		///   num_elements: the number of elements to reserve
+		///   handle: the output list
+		///   element_dtype: the desired type of elements in the list.
+		/// </remarks>
+		public TFOutput TensorListReserve (TFOutput element_shape, TFOutput num_elements, TFDataType element_dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListReserve", MakeName ("TensorListReserve", operName));
+			desc.AddInput (element_shape);
+			desc.AddInput (num_elements);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Sets the index-th position of the list to contain the given tensor.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="index">
+		/// </param>
+		/// <param name="item">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListSetItem'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   input_handle: the list
+		///   index: the position in the list to which the tensor will be assigned
+		///   item: the element to be assigned to that position
+		///   output_handle: the new list, with the element in the proper position
+		///   
+		/// </remarks>
+		public TFOutput TensorListSetItem (TFOutput input_handle, TFOutput index, TFOutput item, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListSetItem", MakeName ("TensorListSetItem", operName));
+			desc.AddInput (input_handle);
+			desc.AddInput (index);
+			desc.AddInput (item);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_handle = new TFOutput (op, _idx++);
+			return output_handle;
+		}
+
+		/// <summary>
+		///   Stacks all tensors in the list.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListStack'.
+		/// </param>
+		/// <param name="num_elements">
+		///   Optional argument
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Requires that all tensors have the same shape.
+		///   
+		///   input_handle: the input list
+		///   tensor: the gathered result
+		///   num_elements: optional. If not -1, the number of elements in the list.
+		///   
+		/// </remarks>
+		public TFOutput TensorListStack (TFOutput input_handle, TFDataType element_dtype, long? num_elements = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListStack", MakeName ("TensorListStack", operName));
+			desc.AddInput (input_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			if (num_elements.HasValue)
+				desc.SetAttr ("num_elements", num_elements.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var tensor = new TFOutput (op, _idx++);
+			return tensor;
+		}
+
+		/// <summary>
+		///   Creates a dataset that emits each dim-0 slice of <code>components</code> once.
 		/// </summary>
 		/// <param name="components">
 		/// </param>
@@ -35823,7 +36817,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with a tensor.
+		///   Outputs a <code>Summary</code> protocol buffer with a tensor.
 		/// </summary>
 		/// <param name="tensor">
 		///   A tensor to serialize.
@@ -35874,7 +36868,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with a tensor and per-plugin data.
+		///   Outputs a <code>Summary</code> protocol buffer with a tensor and per-plugin data.
 		/// </summary>
 		/// <param name="tag">
 		///   A string attached to this summary. Used for organization in TensorBoard.
@@ -36246,7 +37240,7 @@ namespace TensorFlow {
 		///   1-D or higher.
 		/// </param>
 		/// <param name="multiples">
-		///   1-D. Length must be the same as the number of dimensions in `input`
+		///   1-D. Length must be the same as the number of dimensions in <code>input</code>
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Tile'.
@@ -36255,11 +37249,11 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation creates a new tensor by replicating `input` `multiples` times.
-		///   The output tensor's i'th dimension has `input.dims(i) * multiples[i]` elements,
-		///   and the values of `input` are replicated `multiples[i]` times along the 'i'th
-		///   dimension. For example, tiling `[a b c d]` by `[2]` produces
-		///   `[a b c d a b c d]`.
+		///   This operation creates a new tensor by replicating <code>input</code> <code>multiples</code> times.
+		///   The output tensor's i'th dimension has <code>input.dims(i) * multiples[i]</code> elements,
+		///   and the values of <code>input</code> are replicated <code>multiples[i]</code> times along the 'i'th
+		///   dimension. For example, tiling <code>[a b c d]</code> by <code>[2]</code> produces
+		///   <code>[a b c d a b c d]</code>.
 		/// </remarks>
 		public TFOutput Tile (TFOutput input, TFOutput multiples, string operName = null)
 		{
@@ -36276,7 +37270,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the gradient of `Tile`.
+		///   Returns the gradient of <code>Tile</code>.
 		/// </summary>
 		/// <param name="input">
 		/// </param>
@@ -36289,9 +37283,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Since `Tile` takes an input and repeats the input `multiples` times
-		///   along each dimension, `TileGrad` takes in `multiples` and aggregates
-		///   each repeated tile of `input` into `output`.
+		///   Since <code>Tile</code> takes an input and repeats the input <code>multiples</code> times
+		///   along each dimension, <code>TileGrad</code> takes in <code>multiples</code> and aggregates
+		///   each repeated tile of <code>input</code> into <code>output</code>.
 		/// </remarks>
 		public TFOutput TileGrad (TFOutput input, TFOutput multiples, string operName = null)
 		{
@@ -36308,17 +37302,17 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Finds values and indices of the `k` largest elements for the last dimension.
+		///   Finds values and indices of the <code>k</code> largest elements for the last dimension.
 		/// </summary>
 		/// <param name="input">
-		///   1-D or higher with last dimension at least `k`.
+		///   1-D or higher with last dimension at least <code>k</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TopK'.
 		/// </param>
 		/// <param name="sorted">
 		///   Optional argument
-		///   If true the resulting `k` elements will be sorted by the values in
+		///   If true the resulting <code>k</code> elements will be sorted by the values in
 		///   descending order.
 		/// </param>
 		/// <param name="k">
@@ -36327,23 +37321,23 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   values: The `k` largest elements along each last dimensional slice.
-		///   indices: The indices of `values` within the last dimension of `input`.
+		///   values: The <code>k</code> largest elements along each last dimensional slice.
+		///   indices: The indices of <code>values</code> within the last dimension of <code>input</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   If the input is a vector (rank-1), finds the `k` largest entries in the vector
-		///   and outputs their values and indices as vectors.  Thus `values[j]` is the
-		///   `j`-th largest entry in `input`, and its index is `indices[j]`.
+		///   If the input is a vector (rank-1), finds the <code>k</code> largest entries in the vector
+		///   and outputs their values and indices as vectors.  Thus <code>values[j]</code> is the
+		///   <code>j</code>-th largest entry in <code>input</code>, and its index is <code>indices[j]</code>.
 		///   
-		///   For matrices (resp. higher rank input), computes the top `k` entries in each
+		///   For matrices (resp. higher rank input), computes the top <code>k</code> entries in each
 		///   row (resp. vector along the last dimension).  Thus,
 		///   
-		///       values.shape = indices.shape = input.shape[:-1] + [k]
+		///   values.shape = indices.shape = input.shape[:-1] + [k]
 		///   
 		///   If two elements are equal, the lower-index element appears first.
 		///   
-		///   If `k` varies dynamically, use `TopKV2` below.
+		///   If <code>k</code> varies dynamically, use <code>TopKV2</code> below.
 		/// </remarks>
 		public (TFOutput values, TFOutput indices) TopK (TFOutput input, long k, bool? sorted = null, string operName = null)
 		{
@@ -36364,10 +37358,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Finds values and indices of the `k` largest elements for the last dimension.
+		///   Finds values and indices of the <code>k</code> largest elements for the last dimension.
 		/// </summary>
 		/// <param name="input">
-		///   1-D or higher with last dimension at least `k`.
+		///   1-D or higher with last dimension at least <code>k</code>.
 		/// </param>
 		/// <param name="k">
 		///   0-D.  Number of top elements to look for along the last dimension (along each
@@ -36378,24 +37372,24 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="sorted">
 		///   Optional argument
-		///   If true the resulting `k` elements will be sorted by the values in
+		///   If true the resulting <code>k</code> elements will be sorted by the values in
 		///   descending order.
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   values: The `k` largest elements along each last dimensional slice.
-		///   indices: The indices of `values` within the last dimension of `input`.
+		///   values: The <code>k</code> largest elements along each last dimensional slice.
+		///   indices: The indices of <code>values</code> within the last dimension of <code>input</code>.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   If the input is a vector (rank-1), finds the `k` largest entries in the vector
-		///   and outputs their values and indices as vectors.  Thus `values[j]` is the
-		///   `j`-th largest entry in `input`, and its index is `indices[j]`.
+		///   If the input is a vector (rank-1), finds the <code>k</code> largest entries in the vector
+		///   and outputs their values and indices as vectors.  Thus <code>values[j]</code> is the
+		///   <code>j</code>-th largest entry in <code>input</code>, and its index is <code>indices[j]</code>.
 		///   
-		///   For matrices (resp. higher rank input), computes the top `k` entries in each
+		///   For matrices (resp. higher rank input), computes the top <code>k</code> entries in each
 		///   row (resp. vector along the last dimension).  Thus,
 		///   
-		///       values.shape = indices.shape = input.shape[:-1] + [k]
+		///   values.shape = indices.shape = input.shape[:-1] + [k]
 		///   
 		///   If two elements are equal, the lower-index element appears first.
 		/// </remarks>
@@ -36431,8 +37425,8 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
-		///     `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
+		///   The output <code>y</code> has the same rank as <code>x</code>. The shapes of <code>x</code> and <code>y</code> satisfy:
+		///   <code>y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]</code>
 		/// </remarks>
 		public TFOutput Transpose (TFOutput x, TFOutput perm, string operName = null)
 		{
@@ -36464,10 +37458,10 @@ namespace TensorFlow {
 		/// <remarks>
 		///   Truncation designates that negative numbers will round fractional quantities
 		///   toward zero. I.e. -7 / 5 = -1. This matches C semantics but it is different
-		///   than Python semantics. See `FloorDiv` for a division function that matches
+		///   than Python semantics. See <code>FloorDiv</code> for a division function that matches
 		///   Python Semantics.
 		///   
-		///   *NOTE*: `TruncateDiv` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>TruncateDiv</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput TruncateDiv (TFOutput x, TFOutput y, string operName = null)
@@ -36495,7 +37489,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="seed">
 		///   Optional argument
-		///   If either `seed` or `seed2` are set to be non-zero, the random number
+		///   If either <code>seed</code> or <code>seed2</code> are set to be non-zero, the random number
 		///   generator is seeded by the given seed.  Otherwise, it is seeded by a
 		///   random seed.
 		/// </param>
@@ -36550,10 +37544,10 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   the result here is consistent with a truncating divide. E.g. `truncate(x / y) *
-		///   y + truncate_mod(x, y) = x`.
+		///   the result here is consistent with a truncating divide. E.g. <code>truncate(x / y) *
+		///   y + truncate_mod(x, y) = x<code>.
 		///   
-		///   *NOTE*: `TruncateMod` supports broadcasting. More about broadcasting
+		///   *NOTE*: <code>TruncateMod</code> supports broadcasting. More about broadcasting
 		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
 		/// </remarks>
 		public TFOutput TruncateMod (TFOutput x, TFOutput y, string operName = null)
@@ -36568,6 +37562,132 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
+		}
+
+		/// <summary>
+		///   Reverses the operation of Batch for a single output Tensor.
+		/// </summary>
+		/// <param name="batched_tensor">
+		/// </param>
+		/// <param name="batch_index">
+		/// </param>
+		/// <param name="id">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Unbatch'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="timeout_micros">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   An instance of Unbatch either receives an empty batched_tensor, in which case it
+		///   asynchronously waits until the values become available from a concurrently
+		///   running instance of Unbatch with the same container and shared_name, or receives
+		///   a non-empty batched_tensor in which case it finalizes all other concurrently
+		///   running instances and outputs its own element from the batch.
+		///   
+		///   batched_tensor: The possibly transformed output of Batch. The size of the first
+		///   dimension should remain unchanged by the transformations for the operation to
+		///   work.
+		///   batch_index: The matching batch_index obtained from Batch.
+		///   id: The id scalar emitted by Batch.
+		///   unbatched_tensor: The Tensor corresponding to this execution.
+		///   timeout_micros: Maximum amount of time (in microseconds) to wait to receive the
+		///   batched input tensor associated with a given invocation of the op.
+		///   container: Container to control resource sharing.
+		///   shared_name: Instances of Unbatch with the same container and shared_name are
+		///   assumed to possibly belong to the same batch. If left empty, the op name will
+		///   be used as the shared name.
+		/// </remarks>
+		public TFOutput Unbatch (TFOutput batched_tensor, TFOutput batch_index, TFOutput id, long timeout_micros, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Unbatch", MakeName ("Unbatch", operName));
+			desc.AddInput (batched_tensor);
+			desc.AddInput (batch_index);
+			desc.AddInput (id);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("timeout_micros", timeout_micros);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var unbatched_tensor = new TFOutput (op, _idx++);
+			return unbatched_tensor;
+		}
+
+		/// <summary>
+		///   Gradient of Unbatch.
+		/// </summary>
+		/// <param name="original_input">
+		/// </param>
+		/// <param name="batch_index">
+		/// </param>
+		/// <param name="grad">
+		/// </param>
+		/// <param name="id">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnbatchGrad'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Acts like Batch but using the given batch_index index of batching things as they
+		///   become available. This ensures that the gradients are propagated back in the
+		///   same session which did the forward pass.
+		///   
+		///   original_input: The input to the Unbatch operation this is the gradient of.
+		///   batch_index: The batch_index given to the Unbatch operation this is the gradient
+		///   of.
+		///   grad: The downstream gradient.
+		///   id: The id scalar emitted by Batch.
+		///   batched_grad: The return value, either an empty tensor or the batched gradient.
+		///   container: Container to control resource sharing.
+		///   shared_name: Instances of UnbatchGrad with the same container and shared_name
+		///   are assumed to possibly belong to the same batch. If left empty, the op name
+		///   will be used as the shared name.
+		/// </remarks>
+		public TFOutput UnbatchGrad (TFOutput original_input, TFOutput batch_index, TFOutput grad, TFOutput id, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UnbatchGrad", MakeName ("UnbatchGrad", operName));
+			desc.AddInput (original_input);
+			desc.AddInput (batch_index);
+			desc.AddInput (grad);
+			desc.AddInput (id);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var batched_grad = new TFOutput (op, _idx++);
+			return batched_grad;
 		}
 
 		/// <summary>
@@ -36672,21 +37792,21 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a tensor `y` containing all of the unique elements of `x`
-		///   sorted in the same order that they occur in `x`. This operation also returns a
-		///   tensor `idx` the same size as `x` that contains the index of each value of `x`
-		///   in the unique output `y`. In other words:
+		///   This operation returns a tensor <code>y</code> containing all of the unique elements of <code>x</code>
+		///   sorted in the same order that they occur in <code>x</code>. This operation also returns a
+		///   tensor <code>idx</code> the same size as <code>x</code> that contains the index of each value of <code>x</code>
+		///   in the unique output <code>y</code>. In other words:
 		///   
-		///   `y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]`
+		///   <code>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 		///   y, idx = unique(x)
 		///   y ==&amp;gt; [1, 2, 4, 7, 8]
 		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public (TFOutput y, TFOutput idx) Unique (TFOutput x, TFDataType? out_idx = null, string operName = null)
 		{
@@ -36706,13 +37826,43 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Finds unique elements in a 1-D tensor.
+		///   Creates a dataset that contains the unique elements of <code>input_dataset</code>.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UniqueDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput UniqueDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UniqueDataset", MakeName ("UniqueDataset", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Finds unique elements along an axis of a tensor.
 		/// </summary>
 		/// <param name="x">
-		///   A `Tensor`.
+		///   A <code>Tensor</code>.
 		/// </param>
 		/// <param name="axis">
-		///   A `Tensor` of type `int64` (default: 0). The axis of the Tensor to
+		///   A <code>Tensor</code> of type <code>int32</code> (default: None). The axis of the Tensor to
 		///   find the unique elements.
 		/// </param>
 		/// <param name="operName">
@@ -36723,27 +37873,55 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Returns a tuple with multiple values, as follows:
-		///   y: A `Tensor`. Unique elements along the `axis` of `Tensor` x.
+		///   y: A <code>Tensor</code>. Unique elements along the <code>axis</code> of <code>Tensor</code> x.
 		///   idx: A 1-D Tensor. Has the same type as x that contains the index of each
 		///   value of x in the output y.
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a tensor `y` containing all of the unique elements of `x`
-		///   sorted in the same order that they occur in `x`. This operation also returns a
-		///   tensor `idx` the same size as `x` that contains the index of each value of `x`
-		///   in the unique output `y`. In other words:
+		///   This operation either returns a tensor <code>y</code> containing unique elements
+		///   along the <code>axis</code> of a tensor. The returned unique elements is sorted
+		///   in the same order as they occur along <code>axis</code> in <code>x</code>.
+		///   This operation also returns a tensor <code>idx</code> that is the same size as
+		///   the number of the elements in <code>x</code> along the <code>axis</code> dimension. It
+		///   contains the index in the unique output <code>y</code>.
+		///   In other words, for an <code>1-D</code> tensor <code>x</code> with <code>axis = None:
 		///   
-		///   `y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]`
+		///   <code>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 		///   y, idx = unique(x)
 		///   y ==&amp;gt; [1, 2, 4, 7, 8]
 		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
-		///   ```
+		///    </code>
+		///   
+		///   For an <code>2-D</code> tensor <code>x</code> with <code>axis = 0</code>:
+		///   
+		///    <code>
+		///   # tensor 'x' is [[1, 0, 0],
+		///   #                [1, 0, 0],
+		///   #                [2, 0, 0]]
+		///   y, idx = unique(x, axis=0)
+		///   y ==&amp;gt; [[1, 0, 0],
+		///   [2, 0, 0]]
+		///   idx ==&amp;gt; [0, 0, 1]
+		///    </code>
+		///   
+		///   For an <code>2-D</code> tensor <code>x</code> with <code>axis = 1</code>:
+		///   
+		///    <code>
+		///   # tensor 'x' is [[1, 0, 0],
+		///   #                [1, 0, 0],
+		///   #                [2, 0, 0]]
+		///   y, idx = unique(x, axis=1)
+		///   y ==&amp;gt; [[1, 0],
+		///   [1, 0],
+		///   [2, 0]]
+		///   idx ==&amp;gt; [0, 1, 1]
+		///    </code>
 		/// </remarks>
 		public (TFOutput y, TFOutput idx) UniqueV2 (TFOutput x, TFOutput axis, TFDataType? out_idx = null, string operName = null)
 		{
@@ -36783,23 +37961,23 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a tensor `y` containing all of the unique elements of `x`
-		///   sorted in the same order that they occur in `x`. This operation also returns a
-		///   tensor `idx` the same size as `x` that contains the index of each value of `x`
-		///   in the unique output `y`. Finally, it returns a third tensor `count` that
-		///   contains the count of each element of `y` in `x`. In other words:
+		///   This operation returns a tensor <code>y</code> containing all of the unique elements of <code>x</code>
+		///   sorted in the same order that they occur in <code>x</code>. This operation also returns a
+		///   tensor <code>idx</code> the same size as <code>x</code> that contains the index of each value of <code>x</code>
+		///   in the unique output <code>y</code>. Finally, it returns a third tensor <code>count</code> that
+		///   contains the count of each element of <code>y</code> in <code>x</code>. In other words:
 		///   
-		///   `y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]`
+		///   <code>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]</code>
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
 		///   y, idx, count = unique_with_counts(x)
 		///   y ==&amp;gt; [1, 2, 4, 7, 8]
 		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
 		///   count ==&amp;gt; [2, 1, 3, 1, 2]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public (TFOutput y, TFOutput idx, TFOutput count) UniqueWithCounts (TFOutput x, TFDataType? out_idx = null, string operName = null)
 		{
@@ -36820,10 +37998,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Unpacks a given dimension of a rank-`R` tensor into `num` rank-`(R-1)` tensors.
+		///   Unpacks a given dimension of a rank-<code>R</code> tensor into <code>num</code> rank-<code>(R-1)</code> tensors.
 		/// </summary>
 		/// <param name="value">
-		///   1-D or higher, with `axis` dimension size equal to `num`.
+		///   1-D or higher, with <code>axis</code> dimension size equal to <code>num</code>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Unpack'.
@@ -36831,27 +38009,27 @@ namespace TensorFlow {
 		/// <param name="axis">
 		///   Optional argument
 		///   Dimension along which to unpack.  Negative values wrap around, so the
-		///   valid range is `[-R, R)`.
+		///   valid range is <code>[-R, R)</code>.
 		/// </param>
 		/// <param name="num">
 		/// </param>
 		/// <returns>
-		///   The list of tensors unpacked from `value`.
+		///   The list of tensors unpacked from <code>value</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Unpacks `num` tensors from `value` by chipping it along the `axis` dimension.
-		///   For example, given a tensor of shape `(A, B, C, D)`;
+		///   Unpacks <code>num</code> tensors from <code>value</code> by chipping it along the <code>axis</code> dimension.
+		///   For example, given a tensor of shape <code>(A, B, C, D)</code>;
 		///   
-		///   If `axis == 0` then the i'th tensor in `output` is the slice `value[i, :, :, :]`
-		///     and each tensor in `output` will have shape `(B, C, D)`. (Note that the
-		///     dimension unpacked along is gone, unlike `split`).
+		///   If <code>axis == 0</code> then the i'th tensor in <code>output</code> is the slice <code>value[i, :, :, :]</code>
+		///   and each tensor in <code>output</code> will have shape <code>(B, C, D)</code>. (Note that the
+		///   dimension unpacked along is gone, unlike <code>split</code>).
 		///   
-		///   If `axis == 1` then the i'th tensor in `output` is the slice `value[:, i, :, :]`
-		///     and each tensor in `output` will have shape `(A, C, D)`.
+		///   If <code>axis == 1</code> then the i'th tensor in <code>output</code> is the slice <code>value[:, i, :, :]</code>
+		///   and each tensor in <code>output</code> will have shape <code>(A, C, D)</code>.
 		///   Etc.
 		///   
-		///   This is the opposite of `pack`.
+		///   This is the opposite of <code>pack</code>.
 		/// </remarks>
 		public TFOutput[] Unpack (TFOutput value, long num, long? axis = null, string operName = null)
 		{
@@ -36876,12 +38054,52 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Converts a flat index or array of flat indices into a tuple of
+		/// </summary>
+		/// <param name="indices">
+		///   An 0-D or 1-D <code>int</code> Tensor whose elements are indices into the
+		///   flattened version of an array of dimensions dims.
+		/// </param>
+		/// <param name="dims">
+		///   An 1-D <code>int</code> Tensor. The shape of the array to use for unraveling
+		///   indices.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnravelIndex'.
+		/// </param>
+		/// <returns>
+		///   An 2-D (or 1-D if indices is 0-D) tensor where each row has the
+		///   same shape as the indices array.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   coordinate arrays.
+		///   
+		///   @compatibility(numpy)
+		///   Equivalent to np.unravel_index
+		///   @end_compatibility
+		/// </remarks>
+		public TFOutput UnravelIndex (TFOutput indices, TFOutput dims, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UnravelIndex", MakeName ("UnravelIndex", operName));
+			desc.AddInput (indices);
+			desc.AddInput (dims);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Computes the Max along segments of a tensor.
 		/// </summary>
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of `data`'s
+		///   A 1-D tensor whose rank is equal to the rank of <code>data</code>'s
 		///   first dimension.
 		/// </param>
 		/// <param name="num_segments">
@@ -36891,7 +38109,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <returns>
 		///   Has same shape as data, except for dimension 0 which
-		///   has size `num_segments`.
+		///   has size <code>num_segments</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -36902,11 +38120,11 @@ namespace TensorFlow {
 		///   Instead of computing the sum over segments, it computes the maximum
 		///   such that:
 		///   
-		///   \\(output_i = \max_j data_j\\) where max is over `j` such
-		///   that `segment_ids[j] == i`.
+		///   \\(output_i = \max_j data_j\\) where max is over <code>j</code> such
+		///   that <code>segment_ids[j] == i</code>.
 		///   
-		///   If the maximum is empty for a given segment ID `i`, it outputs the smallest possible value for specific numeric type,
-		///    `output[i] = numeric_limits&amp;lt;T&amp;gt;::min()`.
+		///   If the maximum is empty for a given segment ID <code>i</code>, it outputs the smallest possible value for specific numeric type,
+		///   <code>output[i] = numeric_limits&amp;lt;T&amp;gt;::min()</code>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentMax.png" alt&amp;gt;
@@ -36933,7 +38151,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A tensor whose shape is a prefix of `data.shape`.
+		///   A tensor whose shape is a prefix of <code>data.shape</code>.
 		/// </param>
 		/// <param name="num_segments">
 		/// </param>
@@ -36941,9 +38159,9 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentSum'.
 		/// </param>
 		/// <returns>
-		///   Has same shape as data, except for the first `segment_ids.rank`
+		///   Has same shape as data, except for the first <code>segment_ids.rank</code>
 		///   dimensions, which are replaced with a single dimension which has size
-		///   `num_segments`.
+		///   <code>num_segments</code>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
@@ -36951,16 +38169,16 @@ namespace TensorFlow {
 		///   segments.
 		///   
 		///   Computes a tensor such that
-		///   `(output[i] = sum_{j...} data[j...]` where the sum is over tuples `j...` such
-		///   that `segment_ids[j...] == i`.  Unlike `SegmentSum`, `segment_ids`
+		///   <code>(output[i] = sum_{j...} data[j...]</code> where the sum is over tuples <code>j...</code> such
+		///   that <code>segment_ids[j...] == i</code>.  Unlike <code>SegmentSum</code>, <code>segment_ids</code>
 		///   need not be sorted and need not cover all values in the full
 		///   range of valid values.
 		///   
-		///   If the sum is empty for a given segment ID `i`, `output[i] = 0`.
-		///   If the given segment ID `i` is negative, the value is dropped and will not be
+		///   If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.
+		///   If the given segment ID <code>i</code> is negative, the value is dropped and will not be
 		///   added to the sum of the segment.
 		///   
-		///   `num_segments` should equal the number of distinct segment IDs.
+		///   <code>num_segments</code> should equal the number of distinct segment IDs.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentSum.png" alt&amp;gt;
@@ -37122,7 +38340,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns the shape of the variable pointed to by `resource`.
+		///   Returns the shape of the variable pointed to by <code>resource</code>.
 		/// </summary>
 		/// <param name="input">
 		/// </param>
@@ -37136,14 +38354,14 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns a 1-D integer tensor representing the shape of `input`.
+		///   This operation returns a 1-D integer tensor representing the shape of <code>input</code>.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 't' is [[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]]
 		///   shape(t) ==&amp;gt; [2, 2, 3]
-		///   ```
+		///    </code>
 		/// </remarks>
 		public TFOutput VariableShape (TFOutput input, TFDataType? out_type = null, string operName = null)
 		{
@@ -37251,24 +38469,24 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   This operation returns the coordinates of true elements in `input`. The
+		///   This operation returns the coordinates of true elements in <code>condition</code>. The
 		///   coordinates are returned in a 2-D tensor where the first dimension (rows)
 		///   represents the number of true elements, and the second dimension (columns)
 		///   represents the coordinates of the true elements. Keep in mind, the shape of
 		///   the output tensor can vary depending on how many true values there are in
-		///   `input`. Indices are output in row-major order.
+		///   <code>condition</code>. Indices are output in row-major order.
 		///   
 		///   For example:
 		///   
-		///   ```
+		///    <code>
 		///   # 'input' tensor is [[True, False]
 		///   #                    [True, False]]
 		///   # 'input' has two true values, so output has two coordinates.
 		///   # 'input' has rank of 2, so coordinates have two indices.
 		///   where(input) ==&amp;gt; [[0, 0],
-		///                     [1, 0]]
+		///   [1, 0]]
 		///   
-		///   # `input` tensor is [[[True, False]
+		///   # <code>condition</code> tensor is [[[True, False]
 		///   #                     [True, False]]
 		///   #                    [[False, True]
 		///   #                     [False, True]]
@@ -37277,12 +38495,12 @@ namespace TensorFlow {
 		///   # 'input' has 5 true values, so output has 5 coordinates.
 		///   # 'input' has rank of 3, so coordinates have three indices.
 		///   where(input) ==&amp;gt; [[0, 0, 0],
-		///                     [0, 1, 0],
-		///                     [1, 0, 1],
-		///                     [1, 1, 1],
-		///                     [2, 1, 1]]
+		///   [0, 1, 0],
+		///   [1, 0, 1],
+		///   [1, 1, 1],
+		///   [2, 1, 1]]
 		///   
-		///   # `input` tensor is [[[1.5,  0.0]
+		///   # <code>condition</code> tensor is [[[1.5,  0.0]
 		///   #                     [-0.5, 0.0]]
 		///   #                    [[0.0,  0.25]
 		///   #                     [0.0,  0.75]]
@@ -37291,12 +38509,12 @@ namespace TensorFlow {
 		///   # 'input' has 5 nonzero values, so output has 5 coordinates.
 		///   # 'input' has rank of 3, so coordinates have three indices.
 		///   where(input) ==&amp;gt; [[0, 0, 0],
-		///                     [0, 1, 0],
-		///                     [1, 0, 1],
-		///                     [1, 1, 1],
-		///                     [2, 1, 1]]
+		///   [0, 1, 0],
+		///   [1, 0, 1],
+		///   [1, 1, 1],
+		///   [2, 1, 1]]
 		///   
-		///   # `input` tensor is [[[1.5 + 0.0j, 0.0  + 0.0j]
+		///   # <code>condition</code> tensor is [[[1.5 + 0.0j, 0.0  + 0.0j]
 		///   #                     [0.0 + 0.5j, 0.0  + 0.0j]]
 		///   #                    [[0.0 + 0.0j, 0.25 + 1.5j]
 		///   #                     [0.0 + 0.0j, 0.75 + 0.0j]]
@@ -37305,11 +38523,11 @@ namespace TensorFlow {
 		///   # 'input' has 5 nonzero magnitude values, so output has 5 coordinates.
 		///   # 'input' has rank of 3, so coordinates have three indices.
 		///   where(input) ==&amp;gt; [[0, 0, 0],
-		///                     [0, 1, 0],
-		///                     [1, 0, 1],
-		///                     [1, 1, 1],
-		///                     [2, 1, 1]]
-		///   ```
+		///   [0, 1, 0],
+		///   [1, 0, 1],
+		///   [1, 1, 1],
+		///   [2, 1, 1]]
+		///    </code>
 		/// </remarks>
 		public TFOutput Where (TFOutput input, string operName = null)
 		{
@@ -37409,7 +38627,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a `Summary` protocol buffer with audio.
+		///   Writes a <code>Summary</code> protocol buffer with audio.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -37418,10 +38636,10 @@ namespace TensorFlow {
 		///   The step to write the summary for.
 		/// </param>
 		/// <param name="tag">
-		///   Scalar. Used to build the `tag` attribute of the summary values.
+		///   Scalar. Used to build the <code>tag</code> attribute of the summary values.
 		/// </param>
 		/// <param name="tensor">
-		///   2-D of shape `[batch_size, frames]`.
+		///   2-D of shape <code>[batch_size, frames]</code>.
 		/// </param>
 		/// <param name="sample_rate">
 		///   The sample rate of the signal in hertz.
@@ -37437,17 +38655,17 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The summary has up to `max_outputs` summary values containing audio. The
-		///   audio is built from `tensor` which must be 3-D with shape `[batch_size,
-		///   frames, channels]` or 2-D with shape `[batch_size, frames]`. The values are
-		///   assumed to be in the range of `[-1.0, 1.0]` with a sample rate of `sample_rate`.
+		///   The summary has up to <code>max_outputs</code> summary values containing audio. The
+		///   audio is built from <code>tensor</code> which must be 3-D with shape <code>[batch_size,
+		///   frames, channels]<code> or 2-D with shape </code>[batch_size, frames]<code>. The values are
+		///   assumed to be in the range of <code>[-1.0, 1.0]</code> with a sample rate of <code>sample_rate</code>.
 		///   
-		///   The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
-		///   build the `tag` of the summary values:
+		///   The <code>tag</code> argument is a scalar <code>Tensor</code> of type <code>string</code>.  It is used to
+		///   build the <code>tag</code> of the summary values:
 		///   
-		///   *  If `max_outputs` is 1, the summary value tag is '*tag*/audio'.
-		///   *  If `max_outputs` is greater than 1, the summary value tags are
-		///      generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
+		///   *  If <code>max_outputs</code> is 1, the summary value tag is '*tag*/audio'.
+		///   *  If <code>max_outputs</code> is greater than 1, the summary value tags are
+		///   generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
 		/// </remarks>
 		public TFOperation WriteAudioSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput tensor, TFOutput sample_rate, long? max_outputs = null, string operName = null)
 		{
@@ -37498,10 +38716,10 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a `GraphDef` protocol buffer to a `SummaryWriter`.
+		///   Writes a <code>GraphDef</code> protocol buffer to a <code>SummaryWriter</code>.
 		/// </summary>
 		/// <param name="writer">
-		///   Handle of `SummaryWriter`.
+		///   Handle of <code>SummaryWriter</code>.
 		/// </param>
 		/// <param name="step">
 		///   The step to write the summary for.
@@ -37529,7 +38747,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a `Summary` protocol buffer with a histogram.
+		///   Writes a <code>Summary</code> protocol buffer with a histogram.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -37538,7 +38756,7 @@ namespace TensorFlow {
 		///   The step to write the summary for.
 		/// </param>
 		/// <param name="tag">
-		///   Scalar.  Tag to use for the `Summary.Value`.
+		///   Scalar.  Tag to use for the <code>Summary.Value</code>.
 		/// </param>
 		/// <param name="values">
 		///   Any shape. Values to use to build the histogram.
@@ -37551,10 +38769,10 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   The generated
-		///   [`Summary`](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
-		///   has one summary value containing a histogram for `values`.
+		///   [<code>Summary</code>](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
+		///   has one summary value containing a histogram for <code>values</code>.
 		///   
-		///   This op reports an `InvalidArgument` error if any value is not finite.
+		///   This op reports an <code>InvalidArgument</code> error if any value is not finite.
 		/// </remarks>
 		public TFOperation WriteHistogramSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput values, string operName = null)
 		{
@@ -37571,7 +38789,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a `Summary` protocol buffer with images.
+		///   Writes a <code>Summary</code> protocol buffer with images.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -37580,11 +38798,11 @@ namespace TensorFlow {
 		///   The step to write the summary for.
 		/// </param>
 		/// <param name="tag">
-		///   Scalar. Used to build the `tag` attribute of the summary values.
+		///   Scalar. Used to build the <code>tag</code> attribute of the summary values.
 		/// </param>
 		/// <param name="tensor">
-		///   4-D of shape `[batch_size, height, width, channels]` where
-		///   `channels` is 1, 3, or 4.
+		///   4-D of shape <code>[batch_size, height, width, channels]</code> where
+		///   <code>channels</code> is 1, 3, or 4.
 		/// </param>
 		/// <param name="bad_color">
 		///   Color to use for pixels with non-finite values.
@@ -37600,36 +38818,36 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The summary has up to `max_images` summary values containing images. The
-		///   images are built from `tensor` which must be 4-D with shape `[batch_size,
-		///   height, width, channels]` and where `channels` can be:
+		///   The summary has up to <code>max_images</code> summary values containing images. The
+		///   images are built from <code>tensor</code> which must be 4-D with shape <code>[batch_size,
+		///   height, width, channels]<code> and where </code>channels<code> can be:
 		///   
-		///   *  1: `tensor` is interpreted as Grayscale.
-		///   *  3: `tensor` is interpreted as RGB.
-		///   *  4: `tensor` is interpreted as RGBA.
+		///   *  1: <code>tensor</code> is interpreted as Grayscale.
+		///   *  3: <code>tensor</code> is interpreted as RGB.
+		///   *  4: <code>tensor</code> is interpreted as RGBA.
 		///   
 		///   The images have the same number of channels as the input tensor. For float
 		///   input, the values are normalized one image at a time to fit in the range
-		///   `[0, 255]`.  `uint8` values are unchanged.  The op uses two different
+		///   <code>[0, 255]</code>.  <code>uint8</code> values are unchanged.  The op uses two different
 		///   normalization algorithms:
 		///   
 		///   *  If the input values are all positive, they are rescaled so the largest one
-		///      is 255.
+		///   is 255.
 		///   
 		///   *  If any input value is negative, the values are shifted so input value 0.0
-		///      is at 127.  They are then rescaled so that either the smallest value is 0,
-		///      or the largest one is 255.
+		///   is at 127.  They are then rescaled so that either the smallest value is 0,
+		///   or the largest one is 255.
 		///   
-		///   The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
-		///   build the `tag` of the summary values:
+		///   The <code>tag</code> argument is a scalar <code>Tensor</code> of type <code>string</code>.  It is used to
+		///   build the <code>tag</code> of the summary values:
 		///   
-		///   *  If `max_images` is 1, the summary value tag is '*tag*/image'.
-		///   *  If `max_images` is greater than 1, the summary value tags are
-		///      generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
+		///   *  If <code>max_images</code> is 1, the summary value tag is '*tag*/image'.
+		///   *  If <code>max_images</code> is greater than 1, the summary value tags are
+		///   generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
 		///   
-		///   The `bad_color` argument is the color to use in the generated images for
-		///   non-finite input values.  It is a `unit8` 1-D tensor of length `channels`.
-		///   Each element must be in the range `[0, 255]` (It represents the value of a
+		///   The <code>bad_color</code> argument is the color to use in the generated images for
+		///   non-finite input values.  It is a <code>unit8</code> 1-D tensor of length <code>channels</code>.
+		///   Each element must be in the range <code>[0, 255]</code> (It represents the value of a
 		///   pixel in the output image).  Non-finite values in the input tensor are
 		///   replaced by this tensor in the output image.  The default value is the color
 		///   red.
@@ -37653,7 +38871,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a `Summary` protocol buffer with scalar values.
+		///   Writes a <code>Summary</code> protocol buffer with scalar values.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -37674,7 +38892,7 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   The input `tag` and `value` must have the scalars.
+		///   The input <code>tag</code> and <code>value</code> must have the scalars.
 		/// </remarks>
 		public TFOperation WriteScalarSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput value, string operName = null)
 		{
@@ -37691,7 +38909,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a `Summary` protocol buffer with a tensor.
+		///   Outputs a <code>Summary</code> protocol buffer with a tensor.
 		/// </summary>
 		/// <param name="writer">
 		///   A handle to a summary writer.
@@ -37790,7 +39008,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that zips together `input_datasets`.
+		///   Creates a dataset that zips together <code>input_datasets</code>.
 		/// </summary>
 		/// <param name="input_datasets">
 		/// </param>
