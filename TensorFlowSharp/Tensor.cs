@@ -1118,7 +1118,7 @@ namespace TensorFlow
 						data += sizeof (Complex);
 						break;
 					case TFDataType.String:
-						throw new NotImplementedException ("String decoding not implemented for tensor vecotrs yet");
+						throw new NotImplementedException ("String decoding not implemented for tensor vectors yet");
 					default:
 						throw new NotImplementedException ();
 					}

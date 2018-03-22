@@ -32,11 +32,15 @@
   <ItemGroup>
     <None Remove="nuget\build\net45\TensorFlowSharp.targets" />
     <None Include="nuget\build\net45\TensorFlowSharp.targets" PackagePath="build\net45\TensorFlowSharp.targets" Pack="true" />
-    <None Include="..\native\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
-    <None Include="..\native\libtensorflow.dylib" Link="nuget\runtimes\osx\native\libtensorflow.dylib" PackagePath="runtimes\osx\native\libtensorflow.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow.so" Link="nuget\runtimes\linux\native\libtensorflow.so" PackagePath="runtimes\linux\native\libtensorflow.so" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
+    <None Include="..\native\win7-x64\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
+    <None Include="..\native\osx\libtensorflow.dylib" Link="nuget\runtimes\osx\native\libtensorflow.dylib" PackagePath="runtimes\osx\native\libtensorflow.dylib" Pack="true" />
+    <None Include="..\native\osx\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
+    <None Include="..\native\linux-x64\libtensorflow.so" Link="nuget\runtimes\linux-x64\native\libtensorflow.so" PackagePath="runtimes\linux-x64\native\libtensorflow.so" Pack="true" />
+    <None Include="..\native\linux-x64\libtensorflow_framework.so" Link="nuget\runtimes\linux-x64\native\libtensorflow_framework.so" PackagePath="runtimes\linux-x64\native\libtensorflow_framework.so" Pack="true" />
+    <None Include="..\native\linux-arm\libtensorflow.so" Link="nuget\runtimes\linux-arm\native\libtensorflow.so" PackagePath="runtimes\linux-arm\native\libtensorflow.so" Pack="true" />
+    <None Include="..\native\linux-arm\libtensorflow_framework.so" Link="nuget\runtimes\linux-arm\native\libtensorflow_framework.so" PackagePath="runtimes\linux-arm\native\libtensorflow_framework.so" Pack="true" />
+    <None Include="..\native\linux-arm64\libtensorflow.so" Link="nuget\runtimes\linux-arm64\native\libtensorflow.so" PackagePath="runtimes\linux-arm64\native\libtensorflow.so" Pack="true" />
+    <None Include="..\native\linux-arm64\libtensorflow_framework.so" Link="nuget\runtimes\linux-arm64\native\libtensorflow_framework.so" PackagePath="runtimes\linux-arm64\native\libtensorflow_framework.so" Pack="true" />
   </ItemGroup>
 
   <ItemGroup>

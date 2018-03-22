@@ -636,7 +636,7 @@ class OpGenerator
 	void p (string fmt, params object [] args)
 	{
 		for (int i = 0; i < indent; i++)
-		     output.Write ("\t");
+			output.Write ("\t");
 		if (args.Length == 0)
 			output.WriteLine (fmt);
 		else
@@ -645,13 +645,8 @@ class OpGenerator
 
 	public static void Main (string [] args)
 	{
-		Console.WriteLine ("Getting code for {0}", GetVersion ());
-		if (Marshal.SizeOf (typeof (IntPtr)) != 8)
-			throw new Exception ("Need to run in 64");
 		if (args.Length == 0)
 			args = new string [] { "/cvs/tensorflow/tensorflow/core/api_def/base_api" };
-
-
 
 		new OpGenerator ().Run (args);
 	}

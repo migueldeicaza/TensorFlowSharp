@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<PropertyGroup>
-		<IsOSX Condition="Exists('/Library/Frameworks') and Exists ('/etc')">true</IsOSX>
-		<IsLinux Condition="Exists ('/proc') and Exists ('/etc/')">true</IsLinux>
-
-		<!-- if ShouldIncludeNativeTensorFlow == False then don't include the native libraries -->
-		<ShouldIncludeNativeTensorFlow Condition=" '$(ShouldIncludeNativeTensorFlow)' == '' ">True</ShouldIncludeNativeTensorFlow>
-	</PropertyGroup>
-
-	<ItemGroup Condition=" '$(ShouldIncludeNativeTensorFlow)' != 'False' ">
-		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux\native\**\*" Condition="'$(IsLinux)' == 'true'">
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\**\*">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx\native\**\*" Condition="'$(IsOSX)' == 'true'">
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-arm\native\**\*">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win7-x64\native\**\*" Condition="'$(OS)' != 'Unix'">
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-arm64\native\**\*">
+			<Link>%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx\native\**\*">
+			<Link>%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(MSBuildThisFileDirectory)..\..\runtimes\win7-x64\native\**\*">
 			<Link>%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
