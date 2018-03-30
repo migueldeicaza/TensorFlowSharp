@@ -1234,6 +1234,30 @@ namespace TensorFlow
 				}
 			}
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern bool TF_TryEvaluateConstant (TF_Graph graph, TFOutput output, ref IntPtr result, TF_Status status);
+
+		/// <summary>
+		/// Attempts to evaluate the <paramref name="output"/>.   This is only possible if <paramref name="output"/> does not
+		/// depend on any graph inputs - the function is safe to call if this is not the case though.
+		/// </summary>
+		/// <returns><c>true</c>, if the evaluation is successful, in which case the result is returned in <paramref name="tensor"/>, <c>false</c> otherwise.</returns>
+		/// <param name="output">Output.</param>
+		/// <param name="tensor">Tensor.</param>
+		public bool TryEvaluateConstant (TFOutput output, ref TFTensor tensor)
+		{
+			var cstatus = new TFStatus ();
+			IntPtr ptr = IntPtr.Zero;
+			var ret = TF_TryEvaluateConstant (handle, output, ref ptr, cstatus.handle);
+			cstatus.Dispose ();
+
+			if (ret)
+				tensor = new TFTensor (ptr);
+			else
+				tensor = null;
+			return ret;
+		}
 	}
 
 	//
