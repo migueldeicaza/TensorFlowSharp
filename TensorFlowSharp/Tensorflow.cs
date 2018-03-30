@@ -2482,10 +2482,10 @@ namespace TensorFlow
 		static extern unsafe int TF_DeviceListCount (TF_DeviceList list);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_DeviceListName (TF_DeviceList list, int index, TF_Status status);
+		static extern unsafe IntPtr TF_DeviceListName (TF_DeviceList list, int index, TF_Status status);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe string TF_DeviceListType (TF_DeviceList list, int index, TF_Status status);
+		static extern unsafe IntPtr TF_DeviceListType (TF_DeviceList list, int index, TF_Status status);
  
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe long TF_DeviceListMemoryBytes (TF_DeviceList list, int index, TF_Status status);
@@ -2505,8 +2505,8 @@ namespace TensorFlow
 
 			var list = new List<DeviceAttributes> ();
 			for (var i = 0; i < size; i++) {
-				var name = TF_DeviceListName (rawDeviceList, i, cstatus.handle);
-				var deviceType = (DeviceType) Enum.Parse (typeof(DeviceType), TF_DeviceListType (rawDeviceList, i, cstatus.handle)); 
+				var name = Marshal.PtrToStringAnsi (TF_DeviceListName (rawDeviceList, i, cstatus.handle));
+				var deviceType = (DeviceType) Enum.Parse (typeof(DeviceType), Marshal.PtrToStringAnsi (TF_DeviceListType (rawDeviceList, i, cstatus.handle)));
 				var memory = TF_DeviceListMemoryBytes (rawDeviceList, i, cstatus.handle);
 
 				list.Add (new DeviceAttributes (name, deviceType, memory));
