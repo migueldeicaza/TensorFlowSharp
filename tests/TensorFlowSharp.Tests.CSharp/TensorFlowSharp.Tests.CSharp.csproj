@@ -67,6 +67,7 @@
     <Compile Include="CondTests.cs" />
     <Compile Include="GradientTests.cs" />
     <Compile Include="ArrayTests.cs" />
+    <Compile Include="SessionTests.cs" />
     <Compile Include="ShapeTests.cs" />
     <Compile Include="TensorTests.cs" />
     <Compile Include="ClipTests.cs" />

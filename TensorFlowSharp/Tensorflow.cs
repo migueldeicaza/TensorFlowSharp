@@ -2512,8 +2512,7 @@ namespace TensorFlow
 				list.Add (new DeviceAttributes (name, deviceType, memory));
 			}
 
-			// TODO: Fix deleting.
-			// TF_DeleteDeviceList (rawDeviceList);
+			TF_DeleteDeviceList (rawDeviceList);
 
 			return list;
 		}
