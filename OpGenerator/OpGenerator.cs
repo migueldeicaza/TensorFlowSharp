@@ -127,6 +127,14 @@ class ApiDefMap : IDisposable
 
 class OpGenerator
 {
+	[DllImport ("libtensorflow")]
+	static extern unsafe IntPtr TF_Version ();
+
+	public static string GetVersion ()
+	{
+		return Marshal.PtrToStringAnsi (TF_Version ());
+	}
+
 	//
 	// Maps a TensorFlow type to a C# type
 	//
@@ -637,11 +645,14 @@ class OpGenerator
 
 	public static void Main (string [] args)
 	{
+		Console.WriteLine ("Getting code for {0}", GetVersion ());
 		if (Marshal.SizeOf (typeof (IntPtr)) != 8)
 			throw new Exception ("Need to run in 64");
 		if (args.Length == 0)
 			args = new string [] { "/cvs/tensorflow/tensorflow/core/api_def/base_api" };
-		
+
+
+
 		new OpGenerator ().Run (args);
 	}
 }

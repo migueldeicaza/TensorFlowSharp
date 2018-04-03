@@ -3062,6 +3062,9 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Batch'.
 		/// </param>
+		/// <param name="max_enqueued_batches">
+		///   Optional argument
+		/// </param>
 		/// <param name="allowed_batch_sizes">
 		///   Optional argument
 		/// </param>
@@ -3127,7 +3130,7 @@ namespace TensorFlow {
 		///   empty, the op name will be used as the shared name.
 		///   T: the types of tensors to be batched.
 		/// </remarks>
-		public (TFOutput[] batched_tensors, TFOutput batch_index, TFOutput id) Batch (TFOutput[] in_tensors, long num_batch_threads, long max_batch_size, long batch_timeout_micros, long grad_timeout_micros, long[] allowed_batch_sizes = null, string container = null, string shared_name = null, string batching_queue = null, string operName = null)
+		public (TFOutput[] batched_tensors, TFOutput batch_index, TFOutput id) Batch (TFOutput[] in_tensors, long num_batch_threads, long max_batch_size, long batch_timeout_micros, long grad_timeout_micros, long? max_enqueued_batches = null, long[] allowed_batch_sizes = null, string container = null, string shared_name = null, string batching_queue = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Batch", MakeName ("Batch", operName));
 			desc.AddInputs (in_tensors);
@@ -3138,6 +3141,9 @@ namespace TensorFlow {
 			desc.SetAttr ("max_batch_size", max_batch_size);
 			desc.SetAttr ("batch_timeout_micros", batch_timeout_micros);
 			desc.SetAttr ("grad_timeout_micros", grad_timeout_micros);
+			if (max_enqueued_batches.HasValue)
+				desc.SetAttr ("max_enqueued_batches", max_enqueued_batches.Value);
+			
 			if (allowed_batch_sizes != null)
 				desc.SetAttr ("allowed_batch_sizes", allowed_batch_sizes);
 			
@@ -3826,73 +3832,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
-		}
-
-		/// <summary>
-		///   A Reader that outputs rows from a BigQuery table as tensorflow Examples.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BigQueryReader'.
-		/// </param>
-		/// <param name="container">
-		///   Optional argument
-		///   If non-empty, this reader is placed in the given container.
-		///   Otherwise, a default container is used.
-		/// </param>
-		/// <param name="shared_name">
-		///   Optional argument
-		///   If non-empty, this reader is named in the given bucket
-		///   with this shared_name. Otherwise, the node name is used instead.
-		/// </param>
-		/// <param name="test_end_point">
-		///   Optional argument
-		///   Do not use. For testing purposes only.
-		/// </param>
-		/// <param name="project_id">
-		///   GCP project ID.
-		/// </param>
-		/// <param name="dataset_id">
-		///   BigQuery Dataset ID.
-		/// </param>
-		/// <param name="table_id">
-		///   Table to read.
-		/// </param>
-		/// <param name="columns">
-		///   List of columns to read. Leave empty to read all columns.
-		/// </param>
-		/// <param name="timestamp_millis">
-		///   Table snapshot timestamp in millis since epoch. Relative
-		///   (negative or zero) snapshot times are not allowed. For more details, see
-		///   'Table Decorators' in BigQuery docs.
-		/// </param>
-		/// <returns>
-		///   The handle to reference the Reader.
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput BigQueryReader (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, string container = null, string shared_name = null, string test_end_point = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "BigQueryReader", MakeName ("BigQueryReader", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("project_id", project_id);
-			desc.SetAttr ("dataset_id", dataset_id);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("columns", columns);
-			desc.SetAttr ("timestamp_millis", timestamp_millis);
-			if (container != null)
-				desc.SetAttr ("container", container);
-			
-			if (shared_name != null)
-				desc.SetAttr ("shared_name", shared_name);
-			
-			if (test_end_point != null)
-				desc.SetAttr ("test_end_point", test_end_point);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var reader_handle = new TFOutput (op, _idx++);
-			return reader_handle;
 		}
 
 		/// <summary>
@@ -4955,6 +4894,38 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   This op consumes a lock created by <c>MutexLock</c>.
+		/// </summary>
+		/// <param name="mutex_lock">
+		///   A tensor returned by <c>MutexLock</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConsumeMutexLock'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This op exists to consume a tensor created by <c>MutexLock</c> (other than
+		///   direct control dependencies).  It should be the only that consumes the tensor,
+		///   and will raise an error if it is not.  Its only purpose is to keep the
+		///   mutex lock tensor alive until it is consumed by this op.
+		///   
+		///   **NOTE**: This operation must run on the same device as its input.  This may
+		///   be enforced via the <c>colocate_with</c> mechanism.
+		/// </remarks>
+		public TFOperation ConsumeMutexLock (TFOutput mutex_lock, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ConsumeMutexLock", MakeName ("ConsumeMutexLock", operName));
+			desc.AddInput (mutex_lock);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
 		///   Does nothing. Serves as a control trigger for scheduling.
 		/// </summary>
 		/// <param name="operName">
@@ -5686,41 +5657,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a handle to a CriticalSection resource.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CriticalSectionOp'.
-		/// </param>
-		/// <param name="container">
-		///   Optional argument
-		///   the container this critical section is placed in.
-		/// </param>
-		/// <param name="shared_name">
-		///   Optional argument
-		///   the name by which this critical section is referred to.
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput CriticalSectionOp (string container = null, string shared_name = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "CriticalSectionOp", MakeName ("CriticalSectionOp", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (container != null)
-				desc.SetAttr ("container", container);
-			
-			if (shared_name != null)
-				desc.SetAttr ("shared_name", shared_name);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var resource = new TFOutput (op, _idx++);
-			return resource;
-		}
-
-		/// <summary>
 		///   Extracts crops from the input image tensor and bilinearly resizes them (possibly
 		/// </summary>
 		/// <param name="image">
@@ -5816,11 +5752,11 @@ namespace TensorFlow {
 		///   in normalized coordinates <c>[y1, x1, y2, x2]</c>. A normalized coordinate value of
 		///   <c>y</c> is mapped to the image coordinate at <c>y * (image_height - 1)</c>, so as the
 		///   <c>[0, 1]</c> interval of normalized image height is mapped to
-		///   <c>[0, image_height - 1]</c> in image height coordinates. We do allow y1 &amp;gt; y2, in
+		///   <c>[0, image_height - 1] in image height coordinates. We do allow y1 &amp;gt; y2, in
 		///   which case the sampled crop is an up-down flipped version of the original
 		///   image. The width dimension is treated similarly. Normalized coordinates
-		///   outside the <c>[0, 1]</c> range are allowed, in which case we use
-		///   <c>extrapolation_value</c> to extrapolate the input image values.
+		///   outside the </c>[0, 1]<c> range are allowed, in which case we use
+		///   </c>extrapolation_value<c> to extrapolate the input image values.
 		/// </param>
 		/// <param name="box_ind">
 		///   A 1-D tensor of shape <c>[num_boxes]</c> with int32 values in <c>[0, batch)</c>.
@@ -11593,65 +11529,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Generates serialized partition messages suitable for batch reads.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GenerateBigQueryReaderPartitions'.
-		/// </param>
-		/// <param name="test_end_point">
-		///   Optional argument
-		///   Do not use. For testing purposes only.
-		/// </param>
-		/// <param name="project_id">
-		///   GCP project ID.
-		/// </param>
-		/// <param name="dataset_id">
-		///   BigQuery Dataset ID.
-		/// </param>
-		/// <param name="table_id">
-		///   Table to read.
-		/// </param>
-		/// <param name="columns">
-		///   List of columns to read. Leave empty to read all columns.
-		/// </param>
-		/// <param name="timestamp_millis">
-		///   Table snapshot timestamp in millis since epoch. Relative
-		///   (negative or zero) snapshot times are not allowed. For more details, see
-		///   'Table Decorators' in BigQuery docs.
-		/// </param>
-		/// <param name="num_partitions">
-		///   Number of partitions to split the table into.
-		/// </param>
-		/// <returns>
-		///   Serialized table partitions.
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   This op should not be used directly by clients. Instead, the
-		///   bigquery_reader_ops.py file defines a clean interface to the reader.
-		/// </remarks>
-		public TFOutput GenerateBigQueryReaderPartitions (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, long num_partitions, string test_end_point = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "GenerateBigQueryReaderPartitions", MakeName ("GenerateBigQueryReaderPartitions", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("project_id", project_id);
-			desc.SetAttr ("dataset_id", dataset_id);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("columns", columns);
-			desc.SetAttr ("timestamp_millis", timestamp_millis);
-			desc.SetAttr ("num_partitions", num_partitions);
-			if (test_end_point != null)
-				desc.SetAttr ("test_end_point", test_end_point);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var partitions = new TFOutput (op, _idx++);
-			return partitions;
-		}
-
-		/// <summary>
 		///   Given a path to new and old vocabulary files, returns a remapping Tensor of
 		/// </summary>
 		/// <param name="new_vocab_file">
@@ -12497,36 +12374,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
-		}
-
-		/// <summary>
-		///   Creates a dataset that contains the elements of <c>input_dataset</c> ignoring errors.
-		/// </summary>
-		/// <param name="input_dataset">
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IgnoreErrorsDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput IgnoreErrorsDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "IgnoreErrorsDataset", MakeName ("IgnoreErrorsDataset", operName));
-			desc.AddInput (input_dataset);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
 		}
 
 		/// <summary>
@@ -15550,9 +15397,9 @@ namespace TensorFlow {
 		///   everything else padded with zeros. The diagonal is computed as follows:
 		///   
 		///   Assume <c>diagonal</c> has <c>k</c> dimensions <c>[I, J, K, ..., N]</c>, then the output is a
-		///   tensor of rank <c>k+1</c> with dimensions <c>[I, J, K, ..., N, N]</c> where:
+		///   tensor of rank <c>k+1</c> with dimensions [I, J, K, ..., N, N]<c> where:
 		///   
-		///   <c>output[i, j, k, ..., m, n] = 1{m=n} * diagonal[i, j, k, ..., n]</c>.
+		///   </c>output[i, j, k, ..., m, n] = 1{m=n} * diagonal[i, j, k, ..., n]<c>.
 		///   
 		///   For example:
 		///   
@@ -17700,6 +17547,112 @@ namespace TensorFlow {
 			int _idx = 0;
 			var table_handle = new TFOutput (op, _idx++);
 			return table_handle;
+		}
+
+		/// <summary>
+		///   Locks a mutex resource.  The output is the lock.  So long as the lock tensor
+		/// </summary>
+		/// <param name="mutex">
+		///   The mutex resource to lock.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutexLock'.
+		/// </param>
+		/// <returns>
+		///   A tensor that keeps a shared pointer to a lock on the mutex;
+		///   when the Tensor is destroyed, the use count on the shared pointer is decreased
+		///   by 1.  When it reaches 0, the lock is released.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   is alive, any other request to use <c>MutexLock</c> with this mutex will wait.
+		///   
+		///   This is particularly useful for creating a critical section when used in
+		///   conjunction with <c>MutexLockIdentity</c>:
+		///   
+		///    <code>
+		///   
+		///   mutex = mutex_v2(
+		///   shared_name=handle_name, container=container, name=name)
+		///   
+		///   def execute_in_critical_section(fn, *args, **kwargs):
+		///   lock = gen_resource_variable_ops.mutex_lock(mutex)
+		///   
+		///   with ops.control_dependencies([lock]):
+		///   r = fn(*args, **kwargs)
+		///   
+		///   with ops.control_dependencies(nest.flatten(r)):
+		///   with ops.colocate_with(mutex):
+		///   ensure_lock_exists = mutex_lock_identity(lock)
+		///   
+		///   # Make sure that if any element of r is accessed, all of
+		///   # them are executed together.
+		///   r = nest.map_structure(tf.identity, r)
+		///   
+		///   with ops.control_dependencies([ensure_lock_exists]):
+		///   return nest.map_structure(tf.identity, r)
+		///    </code>
+		///   
+		///   While <c>fn</c> is running in the critical section, no other functions which wish to
+		///   use this critical section may run.
+		///   
+		///   Often the use case is that two executions of the same graph, in parallel,
+		///   wish to run <c>fn</c>; and we wish to ensure that only one of them executes
+		///   at a time.  This is especially important if <c>fn</c> modifies one or more
+		///   variables at a time.
+		///   
+		///   It is also useful if two separate functions must share a resource, but we
+		///   wish to ensure the usage is exclusive.
+		/// </remarks>
+		public TFOutput MutexLock (TFOutput mutex, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MutexLock", MakeName ("MutexLock", operName));
+			desc.AddInput (mutex);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var mutex_lock = new TFOutput (op, _idx++);
+			return mutex_lock;
+		}
+
+		/// <summary>
+		///   Creates a Mutex resource that can be locked by <c>MutexLock</c>.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MutexV2'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this variable is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this variable is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <returns>
+		///   The mutex resource.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MutexV2 (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MutexV2", MakeName ("MutexV2", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resource = new TFOutput (op, _idx++);
+			return resource;
 		}
 
 		/// <summary>
@@ -21228,7 +21181,6 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///    <code>
-		///    </code>
 		/// </remarks>
 		public (TFOutput output, TFOutput output_min, TFOutput output_max) QuantizedReshape (TFOutput tensor, TFOutput shape, TFOutput input_min, TFOutput input_max, string operName = null)
 		{
@@ -23945,6 +23897,51 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Replaces the match of pattern in input with rewrite.
+		/// </summary>
+		/// <param name="input">
+		///   The text to be processed.
+		/// </param>
+		/// <param name="pattern">
+		///   The regular expression to match the input.
+		/// </param>
+		/// <param name="rewrite">
+		///   The rewrite to be applied to the matched expresion.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RegexReplace'.
+		/// </param>
+		/// <param name="replace_global">
+		///   Optional argument
+		///   If True, the replacement is global, otherwise the replacement
+		///   is done only on the first match.
+		/// </param>
+		/// <returns>
+		///   The text after applying pattern and rewrite.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   It follows the re2 syntax (https://github.com/google/re2/wiki/Syntax)
+		/// </remarks>
+		public TFOutput RegexReplace (TFOutput input, TFOutput pattern, TFOutput rewrite, bool? replace_global = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RegexReplace", MakeName ("RegexReplace", operName));
+			desc.AddInput (input);
+			desc.AddInput (pattern);
+			desc.AddInput (rewrite);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (replace_global.HasValue)
+				desc.SetAttr ("replace_global", replace_global.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Computes rectified linear: <c>max(features, 0)</c>.
 		/// </summary>
 		/// <param name="features">
@@ -24348,6 +24345,11 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Input images can be of different types but output images are always float.
+		///   
+		///   The range of pixel values for the output image might be slightly different
+		///   from the range for the input image because of limited numerical precision.
+		///   To guarantee an output range, for example <c>[0.0, 1.0]</c>, apply
+		///   <c>tf.clip_by_value</c> to the output.
 		///   
 		///   Each output pixel is computed by first transforming the pixel's footprint into
 		///   the input tensor and then averaging the pixels that intersect the footprint. An
@@ -26459,10 +26461,10 @@ namespace TensorFlow {
 		/// <remarks>
 		///   The values of <c>value</c> are assigned to the positions in the variable
 		///   <c>ref</c> that are selected by the slice parameters. The slice parameters
-		///   <c>begin</c>, <c>end</c>, <c>strides</c>, etc. work exactly as in <c>StridedSlice</c>.
+		///   <c>begin, </c>end<c>, </c>strides<c>, etc. work exactly as in </c>StridedSlice<c>.
 		///   
-		///   NOTE this op currently does not support broadcasting and so <c>value</c>'s
-		///   shape must be exactly the shape produced by the slice of <c>ref</c>.
+		///   NOTE this op currently does not support broadcasting and so </c>value<c>'s
+		///   shape must be exactly the shape produced by the slice of </c>ref<c>.
 		/// </remarks>
 		public TFOperation ResourceStridedSliceAssign (TFOutput reference, TFOutput begin, TFOutput end, TFOutput strides, TFOutput value, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -27750,7 +27752,7 @@ namespace TensorFlow {
 		///   Tags for the summary.
 		/// </param>
 		/// <param name="values">
-		///   Same shape as <c>tags</c>.  Values for the summary.
+		///   Same shape as <c>tags.  Values for the summary.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScalarSummary'.
@@ -28751,7 +28753,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
@@ -28796,7 +28798,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
@@ -28842,7 +28844,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
@@ -28887,7 +28889,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
@@ -28932,7 +28934,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
@@ -29939,6 +29941,46 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Creates a dataset that passes a sliding window over <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="window_size">
+		///   A scalar representing the number of elements in the
+		///   sliding window.
+		/// </param>
+		/// <param name="stride">
+		///   A scalar representing the steps moving the sliding window
+		///   forward in one iteration. It must be in <c>[1, window_size)</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SlideDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput SlideDataset (TFOutput input_dataset, TFOutput window_size, TFOutput stride, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SlideDataset", MakeName ("SlideDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (window_size);
+			desc.AddInput (stride);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -32407,7 +32449,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Like <c>SegmentMean</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
@@ -32495,7 +32537,7 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentMean</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		/// </remarks>
 		public TFOutput SparseSegmentMeanWithNumSegments (TFOutput data, TFOutput indices, TFOutput segment_ids, TFOutput num_segments, string operName = null)
@@ -32536,7 +32578,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   N is the size of the segment being reduced.
 		///   
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		/// </remarks>
 		public TFOutput SparseSegmentSqrtN (TFOutput data, TFOutput indices, TFOutput segment_ids, string operName = null)
@@ -32623,7 +32665,7 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentSqrtN</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		/// </remarks>
 		public TFOutput SparseSegmentSqrtNWithNumSegments (TFOutput data, TFOutput indices, TFOutput segment_ids, TFOutput num_segments, string operName = null)
@@ -32662,7 +32704,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Like <c>SegmentSum</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
@@ -32732,7 +32774,7 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentSum</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   For example:
@@ -34440,8 +34482,8 @@ namespace TensorFlow {
 		///   Optional argument
 		///   a bitmask where a bit i being 1 means to ignore the begin
 		///   value and instead use the largest interval possible. At runtime
-		///   begin[i] will be replaced with <c>[0, n-1)</c> if <c>stride[i] &amp;gt; 0</c> or
-		///   <c>[-1, n-1]</c> if <c>stride[i] &amp;lt; 0</c>
+		///   begin[i] will be replaced with <c>[0, n-1) if </c>stride[i] &amp;gt; 0<c> or
+		///   </c>[-1, n-1]<c> if </c>stride[i] &amp;lt; 0<c>
 		/// </param>
 		/// <param name="end_mask">
 		///   Optional argument
@@ -34633,10 +34675,10 @@ namespace TensorFlow {
 		/// <remarks>
 		///   The values of <c>value</c> are assigned to the positions in the variable
 		///   <c>ref</c> that are selected by the slice parameters. The slice parameters
-		///   <c>begin</c>, <c>end</c>, <c>strides</c>, etc. work exactly as in <c>StridedSlice</c>.
+		///   <c>begin, </c>end<c>, </c>strides<c>, etc. work exactly as in </c>StridedSlice<c>.
 		///   
-		///   NOTE this op currently does not support broadcasting and so <c>value</c>'s
-		///   shape must be exactly the shape produced by the slice of <c>ref</c>.
+		///   NOTE this op currently does not support broadcasting and so </c>value<c>'s
+		///   shape must be exactly the shape produced by the slice of </c>ref<c>.
 		/// </remarks>
 		public TFOutput StridedSliceAssign (TFOutput reference, TFOutput begin, TFOutput end, TFOutput strides, TFOutput value, long? begin_mask = null, long? end_mask = null, long? ellipsis_mask = null, long? new_axis_mask = null, long? shrink_axis_mask = null, string operName = null)
 		{
@@ -37317,6 +37359,33 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Provides the time since epoch in seconds.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Timestamp'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Returns the timestamp as a <c>float64</c> for seconds since the Unix epoch.
+		///   
+		///   Note: the timestamp is computed when the op is executed, not when it is added
+		///   to the graph.
+		/// </remarks>
+		public TFOutput Timestamp (string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Timestamp", MakeName ("Timestamp", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var ts = new TFOutput (op, _idx++);
+			return ts;
+		}
+
+		/// <summary>
 		///   Finds values and indices of the <c>k</c> largest elements for the last dimension.
 		/// </summary>
 		/// <param name="input">
@@ -37841,36 +37910,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that contains the unique elements of <c>input_dataset</c>.
-		/// </summary>
-		/// <param name="input_dataset">
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UniqueDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput UniqueDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "UniqueDataset", MakeName ("UniqueDataset", operName));
-			desc.AddInput (input_dataset);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
-		}
-
-		/// <summary>
 		///   Finds unique elements along an axis of a tensor.
 		/// </summary>
 		/// <param name="x">
@@ -37900,9 +37939,9 @@ namespace TensorFlow {
 		///   This operation also returns a tensor <c>idx</c> that is the same size as
 		///   the number of the elements in <c>x</c> along the <c>axis</c> dimension. It
 		///   contains the index in the unique output <c>y</c>.
-		///   In other words, for an <c>1-D</c> tensor <c>x</c> with <c>axis = None</c>:
+		///   In other words, for an <c>1-D</c> tensor <c>x</c> with <c>axis = None:
 		///   
-		///   <c>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]</c>
+		///   </c>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]<c>
 		///   
 		///   For example:
 		///   
@@ -37913,7 +37952,7 @@ namespace TensorFlow {
 		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
 		///    </code>
 		///   
-		///   For an <c>2-D</c> tensor <c>x</c> with <c>axis = 0</c>:
+		///   For an </c>2-D<c> tensor </c>x<c> with </c>axis = 0<c>:
 		///   
 		///    <code>
 		///   # tensor 'x' is [[1, 0, 0],
@@ -37925,7 +37964,7 @@ namespace TensorFlow {
 		///   idx ==&amp;gt; [0, 0, 1]
 		///    </code>
 		///   
-		///   For an <c>2-D</c> tensor <c>x</c> with <c>axis = 1</c>:
+		///   For an </c>2-D<c> tensor </c>x<c> with </c>axis = 1<c>:
 		///   
 		///    <code>
 		///   # tensor 'x' is [[1, 0, 0],
@@ -37998,6 +38037,98 @@ namespace TensorFlow {
 		{
 			var desc = new TFOperationDesc (this, "UniqueWithCounts", MakeName ("UniqueWithCounts", operName));
 			desc.AddInput (x);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (out_idx.HasValue)
+				desc.SetAttrType ("out_idx", out_idx.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			var idx = new TFOutput (op, _idx++);
+			var count = new TFOutput (op, _idx++);
+			return (y, idx, count);
+		}
+
+		/// <summary>
+		///   Finds unique elements along an axis of a tensor.
+		/// </summary>
+		/// <param name="x">
+		///   A <c>Tensor</c>.
+		/// </param>
+		/// <param name="axis">
+		///   A <c>Tensor</c> of type <c>int32</c> (default: None). The axis of the Tensor to
+		///   find the unique elements.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UniqueWithCountsV2'.
+		/// </param>
+		/// <param name="out_idx">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   y: A <c>Tensor</c>. Unique elements along the <c>axis</c> of <c>Tensor</c> x.
+		///   idx: A 1-D Tensor. Has the same type as x that contains the index of each
+		///   value of x in the output y.
+		///   count: A 1-D Tensor. The count of each value of x in the output y.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   This operation either returns a tensor <c>y</c> containing unique elements
+		///   along the <c>axis</c> of a tensor. The returned unique elements is sorted
+		///   in the same order as they occur along <c>axis</c> in <c>x</c>.
+		///   This operation also returns a tensor <c>idx</c> and a tensor <c>count</c>
+		///   that are the same size as the number of the elements in <c>x</c> along the
+		///   <c>axis</c> dimension. The <c>idx</c> contains the index in the unique output <c>y</c>
+		///   and the <c>count</c> contains the count in the unique output <c>y</c>.
+		///   In other words, for an <c>1-D</c> tensor <c>x</c> with <c>axis = None:
+		///   
+		///   </c>y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]<c>
+		///   
+		///   For example:
+		///   
+		///    <code>
+		///   # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
+		///   y, idx, count = unique_with_counts(x)
+		///   y ==&amp;gt; [1, 2, 4, 7, 8]
+		///   idx ==&amp;gt; [0, 0, 1, 2, 2, 2, 3, 4, 4]
+		///   count ==&amp;gt; [2, 1, 3, 1, 2]
+		///    </code>
+		///   
+		///   For an </c>2-D<c> tensor </c>x<c> with </c>axis = 0<c>:
+		///   
+		///    <code>
+		///   # tensor 'x' is [[1, 0, 0],
+		///   #                [1, 0, 0],
+		///   #                [2, 0, 0]]
+		///   y, idx, count = unique_with_counts(x, axis=0)
+		///   y ==&amp;gt; [[1, 0, 0],
+		///   [2, 0, 0]]
+		///   idx ==&amp;gt; [0, 0, 1]
+		///   count ==&amp;gt; [2, 1]
+		///    </code>
+		///   
+		///   For an </c>2-D<c> tensor </c>x<c> with </c>axis = 1<c>:
+		///   
+		///    <code>
+		///   # tensor 'x' is [[1, 0, 0],
+		///   #                [1, 0, 0],
+		///   #                [2, 0, 0]]
+		///   y, idx, count = unique_with_counts(x, axis=1)
+		///   y ==&amp;gt; [[1, 0],
+		///   [1, 0],
+		///   [2, 0]]
+		///   idx ==&amp;gt; [0, 1, 1]
+		///   count ==&amp;gt; [1, 2]
+		///    </code>
+		/// </remarks>
+		public (TFOutput y, TFOutput idx, TFOutput count) UniqueWithCountsV2 (TFOutput x, TFOutput axis, TFDataType? out_idx = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UniqueWithCountsV2", MakeName ("UniqueWithCountsV2", operName));
+			desc.AddInput (x);
+			desc.AddInput (axis);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
@@ -38109,7 +38240,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the Max along segments of a tensor.
+		///   Computes the maximum along segments of a tensor.
 		/// </summary>
 		/// <param name="data">
 		/// </param>
@@ -38128,18 +38259,19 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
-		///   This operator is similar to the [unsorted segment sum operator](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
-		///   Instead of computing the sum over segments, it computes the maximum
-		///   such that:
+		///   This operator is similar to the unsorted segment sum operator found
+		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
+		///   Instead of computing the sum over segments, it computes the maximum such that:
 		///   
 		///   \\(output_i = \max_j data_j\\) where max is over <c>j</c> such
 		///   that <c>segment_ids[j] == i</c>.
 		///   
-		///   If the maximum is empty for a given segment ID <c>i</c>, it outputs the smallest possible value for specific numeric type,
-		///   <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::min()</c>.
+		///   If the maximum is empty for a given segment ID <c>i</c>, it outputs the smallest
+		///   possible value for the specific numeric type,
+		///   <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::lowest()</c>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentMax.png" alt&amp;gt;
@@ -38148,6 +38280,103 @@ namespace TensorFlow {
 		public TFOutput UnsortedSegmentMax (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "UnsortedSegmentMax", MakeName ("UnsortedSegmentMax", operName));
+			desc.AddInput (data);
+			desc.AddInput (segment_ids);
+			desc.AddInput (num_segments);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes the minimum along segments of a tensor.
+		/// </summary>
+		/// <param name="data">
+		/// </param>
+		/// <param name="segment_ids">
+		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   first dimension.
+		/// </param>
+		/// <param name="num_segments">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentMin'.
+		/// </param>
+		/// <returns>
+		///   Has same shape as data, except for dimension 0 which
+		///   has size <c>num_segments</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   segments.
+		///   
+		///   This operator is similar to the unsorted segment sum operator found
+		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
+		///   Instead of computing the sum over segments, it computes the minimum such that:
+		///   
+		///   \\(output_i = \min_j data_j\\) where min is over <c>j</c> such
+		///   that <c>segment_ids[j] == i</c>.
+		///   
+		///   If the minimum is empty for a given segment ID <c>i</c>, it outputs the largest
+		///   possible value for the specific numeric type,
+		///   <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::max()</c>.
+		/// </remarks>
+		public TFOutput UnsortedSegmentMin (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UnsortedSegmentMin", MakeName ("UnsortedSegmentMin", operName));
+			desc.AddInput (data);
+			desc.AddInput (segment_ids);
+			desc.AddInput (num_segments);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes the product along segments of a tensor.
+		/// </summary>
+		/// <param name="data">
+		/// </param>
+		/// <param name="segment_ids">
+		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   first dimension.
+		/// </param>
+		/// <param name="num_segments">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentProd'.
+		/// </param>
+		/// <returns>
+		///   Has same shape as data, except for dimension 0 which
+		///   has size <c>num_segments</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   segments.
+		///   
+		///   This operator is similar to the unsorted segment sum operator found
+		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
+		///   Instead of computing the sum over segments, it computes the product of all
+		///   entries belonging to a segment such that:
+		///   
+		///   \\(output_i = \prod_j data_j\\) where the product is over <c>j</c> such
+		///   that <c>segment_ids[j] == i</c>.
+		///   
+		///   If there is no entry for a given segment ID <c>i</c>, it outputs 1.
+		/// </remarks>
+		public TFOutput UnsortedSegmentProd (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UnsortedSegmentProd", MakeName ("UnsortedSegmentProd", operName));
 			desc.AddInput (data);
 			desc.AddInput (segment_ids);
 			desc.AddInput (num_segments);
@@ -38180,7 +38409,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
 		///   segments.
 		///   
 		///   Computes a tensor such that
