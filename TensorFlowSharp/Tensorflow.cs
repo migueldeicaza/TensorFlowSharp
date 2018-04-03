@@ -54,7 +54,7 @@ namespace TensorFlow
 	/// Contains TensorFlow fundamental methods and utility functions.
 	/// </summary>
 	public static class TFCore {
-		internal static bool UseCPU = 1;
+		internal static bool UseCPU = true;
 		
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
