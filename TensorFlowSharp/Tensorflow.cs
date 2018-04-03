@@ -43,6 +43,7 @@ namespace TensorFlow
 	static partial class NativeBinding
 	{
 		public const string TensorFlowLibrary = "libtensorflow";
+		public const string TensorFlowLibraryGPU = "libtensorflowgpu";
 
 		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
 
@@ -53,10 +54,17 @@ namespace TensorFlow
 	/// Contains TensorFlow fundamental methods and utility functions.
 	/// </summary>
 	public static class TFCore {
+		internal static bool UseCPU = 1;
+		
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
 		static TFCore ()
+		{
+			Init ();
+		}
+
+		internal static void Init ()
 		{
 			CheckSize ();
 		}
@@ -92,7 +100,7 @@ namespace TensorFlow
 			return new TFBuffer (TF_GetAllOpList ());
 		}
 
-		internal static void CheckSize ()
+		static void CheckSize ()
 		{
 			unsafe
 			{
@@ -134,7 +142,7 @@ namespace TensorFlow
 
 		static TFDisposable ()
 		{
-			TFCore.CheckSize ();
+			TFCore.Init ();
 		}
 
 		/// <summary>
@@ -834,10 +842,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		unsafe static extern void TF_GraphImportGraphDefWithReturnOutputs (
-			TF_Graph graph, LLBuffer *graph_def,
-			TF_ImportGraphDefOptions options, TFOutput *return_outputs,
-			int num_return_outputs, TF_Status status);
+		unsafe static extern void TF_GraphImportGraphDefWithReturnOutputs (TF_Graph graph, LLBuffer *graph_def, TF_ImportGraphDefOptions options, TFOutput *return_outputs, int num_return_outputs, TF_Status status);
 
 		/// <summary>
 		/// Imports a graph serialized into the graph
@@ -1046,14 +1051,7 @@ namespace TensorFlow
 		static extern unsafe void TF_GraphCopyFunction (TF_Graph graph, TF_Function func, TF_Function grad, TF_Status status);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe IntPtr TF_GraphToFunction (TF_Graph body, string fn_name, byte append_hash_to_fn_name,
-							 int num_opers, IntPtr opers,
-							 int ninputs, TFOutput [] inputs,
-							 int noutputs, TFOutput [] ouputs,
-							 string [] output_names,
-							 IntPtr options,
-							 string description,
-							 TF_Status status);
+		static extern unsafe IntPtr TF_GraphToFunction (TF_Graph body, string fn_name, byte append_hash_to_fn_name, int num_opers, IntPtr opers, int ninputs, TFOutput [] inputs, int noutputs, TFOutput [] ouputs, string [] output_names, IntPtr options, string description, TF_Status status);
 
 		/// <summary>
 		/// Creates a TFFunction from a TFGraph
@@ -1863,8 +1861,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_SetAttrFuncName (TF_OperationDescription desc,
-							      string attr_name, string value, IntPtr len);
+		static extern unsafe void TF_SetAttrFuncName (TF_OperationDescription desc, string attr_name, string value, IntPtr len);
 
 		/// <summary>
 		/// Sets an attribute on the function to the specified value.
