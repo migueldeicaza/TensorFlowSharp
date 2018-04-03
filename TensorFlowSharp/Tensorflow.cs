@@ -834,7 +834,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		unsafe extern static void TF_GraphImportGraphDefWithReturnOutputs (
+		unsafe static extern void TF_GraphImportGraphDefWithReturnOutputs (
 			TF_Graph graph, LLBuffer *graph_def,
 			TF_ImportGraphDefOptions options, TFOutput *return_outputs,
 			int num_return_outputs, TF_Status status);
@@ -1170,7 +1170,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		unsafe extern static void TF_GraphVersions (TF_Graph graph, LLBuffer *output_version_def, TF_Status status);
+		unsafe static extern void TF_GraphVersions (TF_Graph graph, LLBuffer *output_version_def, TF_Status status);
 
 		/// <summary>
 		/// Returns the serialized VersionDef proto for this graph.
@@ -1193,7 +1193,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		unsafe extern static int TF_GraphNumFunctions (TF_Graph graph);
+		unsafe static extern int TF_GraphNumFunctions (TF_Graph graph);
 
 		/// <summary>
 		/// Returns the number of TF_Functions registered in this graph.
@@ -2275,7 +2275,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static void TF_ImportGraphDefOptionsAddControlDependency (TF_ImportGraphDefOptions opts, TF_Operation oper);
+		static extern void TF_ImportGraphDefOptionsAddControlDependency (TF_ImportGraphDefOptions opts, TF_Operation oper);
 
 		/// <summary>
 		/// Cause the imported graph to have a control dependency on the provided operation.
@@ -2292,7 +2292,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static void TF_ImportGraphDefOptionsAddReturnOutput (TF_ImportGraphDefOptions opts, string oper_name, int index);
+		static extern void TF_ImportGraphDefOptionsAddReturnOutput (TF_ImportGraphDefOptions opts, string oper_name, int index);
 
 		/// <summary>
 		/// Add an output in the graph definition to be returned via the return outputs parameter.
@@ -2313,7 +2313,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static int TF_ImportGraphDefOptionsNumReturnOutputs (TF_ImportGraphDefOptions opts);
+		static extern int TF_ImportGraphDefOptionsNumReturnOutputs (TF_ImportGraphDefOptions opts);
 
 		/// <summary>
 		/// Gets the number return outputs added via AddReturnOutput.
@@ -2328,7 +2328,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static void TF_ImportGraphDefOptionsRemapControlDependency (TF_ImportGraphDefOptions opts, string srcName, TF_Operation dst);
+		static extern void TF_ImportGraphDefOptionsRemapControlDependency (TF_ImportGraphDefOptions opts, string srcName, TF_Operation dst);
 
 		/// <summary>
 		/// Sets any imported nodes with a given control input to have it replaced with an operation
@@ -2353,7 +2353,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static void TF_ImportGraphDefOptionsSetUniquifyNames (TF_ImportGraphDefOptions opts, byte uniquify);
+		static extern void TF_ImportGraphDefOptionsSetUniquifyNames (TF_ImportGraphDefOptions opts, byte uniquify);
 
 		/// <summary>
 		/// Set whether to uniquify imported operation names.
@@ -2374,7 +2374,7 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		extern static void TF_ImportGraphDefOptionsSetUniquifyPrefix (TF_ImportGraphDefOptions opts, byte uniquify_prefix);
+		static extern void TF_ImportGraphDefOptionsSetUniquifyPrefix (TF_ImportGraphDefOptions opts, byte uniquify_prefix);
 
 		/// <summary>
 		/// Sets the uniquify prefix.  This option has no effect if no prefix is specified.
