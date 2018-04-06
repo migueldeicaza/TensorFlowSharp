@@ -41,5 +41,6 @@
 
   <ItemGroup>
     <Folder Include="Ops\" />
+    <Folder Include="Training\" />
   </ItemGroup>
 </Project>

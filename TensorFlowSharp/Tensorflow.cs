@@ -1921,7 +1921,7 @@ namespace TensorFlow
 
 		// extern const char * TF_OperationOpType (TF_Operation *oper);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe IntPtr TF_OperationOpType (TF_Operation oper);
+		static extern unsafe IntPtr 	TF_OperationOpType (TF_Operation oper);
 
 		public string OpType => handle == IntPtr.Zero ? "<ObjectDisposedException>" : TF_OperationOpType (handle).GetStr ();
 
