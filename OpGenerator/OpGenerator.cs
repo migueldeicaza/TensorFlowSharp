@@ -26,13 +26,13 @@ class ApiDefMap : IDisposable
 {
 	public class Status : IDisposable
 	{
-		[DllImport ("libtensorflow")]
+		[DllImport ("tensorflow")]
 		static extern unsafe IntPtr TF_NewStatus ();
 
-		[DllImport ("libtensorflow")]
+		[DllImport ("tensorflow")]
 		internal static extern unsafe void TF_DeleteStatus (IntPtr status);
 
-		[DllImport ("libtensorflow")]
+		[DllImport ("tensorflow")]
 		static extern unsafe int TF_GetCode (IntPtr s);
 
 		IntPtr handle;
@@ -56,16 +56,16 @@ class ApiDefMap : IDisposable
 		}
 	}
 
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	unsafe extern static IntPtr TF_NewApiDefMap (IntPtr buffer, IntPtr status);
 
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	static extern void TF_DeleteApiDefMap (IntPtr handle);
 
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	static extern void TF_ApiDefMapPut (IntPtr handle, string text, IntPtr textLen, IntPtr status);
 
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	unsafe static extern OpGenerator.LLBuffer *TF_ApiDefMapGet (IntPtr handle, string name, IntPtr nameLen, IntPtr status);
 
 	IntPtr handle;
@@ -127,7 +127,7 @@ class ApiDefMap : IDisposable
 
 class OpGenerator
 {
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	static extern unsafe IntPtr TF_Version ();
 
 	public static string GetVersion ()
@@ -536,7 +536,7 @@ class OpGenerator
 		internal IntPtr data_deallocator;
 	}
 
-	[DllImport ("libtensorflow")]
+	[DllImport ("tensorflow")]
 	unsafe extern static LLBuffer *TF_GetAllOpList ();
 	ApiDefMap apimap;
 
