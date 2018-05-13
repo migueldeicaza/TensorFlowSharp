@@ -9,7 +9,7 @@ script:
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/
-  - cd $TRAVIS_BUILD_DIR/packages/xunit.runner.console.2.3.1/tools
+  - cd $TRAVIS_BUILD_DIR/packages/xunit.runner.console.2.3.1/tools/net452
   - mono --arch=64 xunit.console.exe "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/TensorFlowSharp.Tests.dll" "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/TensorFlowSharp.Tests.CSharp.dll"
 mono: "5.4.1"
 dotnet: "2.1.4"
