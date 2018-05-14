@@ -68,7 +68,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 
-		public static IEnumerable<object[]> clipByNormData()
+        public static IEnumerable<object[]> clipByNormData()
         {
             yield return new object[]
             {
@@ -171,7 +171,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
 
 
-		public static IEnumerable<object[]> clipByAverageNormData()
+        public static IEnumerable<object[]> clipByAverageNormData()
         {
             yield return new object[]
             {

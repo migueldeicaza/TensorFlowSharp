@@ -47,6 +47,7 @@ namespace TensorFlow
 
 		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
 
+
 	}
 
 	/// <summary>

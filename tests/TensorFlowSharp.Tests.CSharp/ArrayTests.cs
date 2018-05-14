@@ -198,7 +198,7 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-		public static IEnumerable<object[]> rangeData()
+        public static IEnumerable<object[]> rangeData()
         {
             double[] x = { 1, 4 };
             double[] y = { 2, 5 };
