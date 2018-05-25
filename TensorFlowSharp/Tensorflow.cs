@@ -39,7 +39,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace TensorFlow
-{   
+{
 	static partial class NativeBinding
 	{
 		public const string TensorFlowLibrary = "libtensorflow";
@@ -51,9 +51,10 @@ namespace TensorFlow
 	/// <summary>
 	/// Contains TensorFlow fundamental methods and utility functions.
 	/// </summary>
-	public static class TFCore {
+	public static class TFCore
+	{
 		internal static bool UseCPU = true;
-		
+
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
@@ -100,8 +101,7 @@ namespace TensorFlow
 
 		static void CheckSize ()
 		{
-			unsafe
-			{
+			unsafe {
 				if (sizeof (IntPtr) == 4) {
 					Console.Error.WriteLine (
 						"The TensorFlow native libraries were compiled in 64 bit mode, you must run in 64 bit mode\n" +
@@ -197,6 +197,45 @@ namespace TensorFlow
 		internal static void ObjectDisposedException ()
 		{
 			throw new ObjectDisposedException ("The object was disposed");
+		}
+	}
+
+	/// <summary>
+	/// ase class for many TensorFlow data types that provides a common idiom to dispose and
+	/// release resources associated with the native data types and whose unmanaged resource
+	/// disposing can be called from a background thread (the finalizer).   Users do not 
+	/// need to deal with this class.
+	/// </summary>
+	/// <remarks>
+	/// Some object deletion APIs in TensorFlow can be invoked from a background thread, 
+	/// so the release methods are suitable to be invoked from the Finalizer thread, in
+	/// those scenarios, subclass from this class rather than the TFDisposable class.
+	/// </remarks>
+	public abstract class TFDisposableThreadSafe  : TFDisposable {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class
+		/// from the handle that it will wrap.   
+		/// </summary>
+		public TFDisposableThreadSafe (IntPtr handle) : base (handle)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposableThreadSafe"/> class.
+		/// </summary>
+		public TFDisposableThreadSafe ()
+		{ }
+
+		/// <summary>
+		/// Dispose the object, unlike the default implementat in TFDisposable, 
+		/// this will release the unmanaged resources from a background thread.
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> disposing.</param>
+		public override void Dispose (bool disposing)
+		{
+			if (handle != IntPtr.Zero)
+				NativeDispose (handle);
+			handle = IntPtr.Zero;
 		}
 	}
 
@@ -471,7 +510,7 @@ namespace TensorFlow
 	/// "hot", and add a "sub" operation there the result will be "demo/hot/sub".
 	/// </para>
 	/// </remarks>
-	public partial class TFGraph : TFDisposable
+	public partial class TFGraph : TFDisposableThreadSafe
 	{
 		// extern TF_Graph * TF_NewGraph ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -2416,7 +2455,7 @@ namespace TensorFlow
 	/// be kept in sync.
 	/// </para>
 	/// </remarks>
-	public class TFSession : TFDisposable
+	public class TFSession : TFDisposableThreadSafe
 	{
 		// extern TF_Session * TF_NewSession (TF_Graph *graph, const TF_SessionOptions *opts, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
