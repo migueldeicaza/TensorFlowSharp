@@ -88,6 +88,7 @@ namespace SampleTest
 				results = s.GetRunner ().Run (g.Mul (a, b));
 				Console.WriteLine ("a*b={0}", results.GetValue ());
 
+				Console.WriteLine ("graph to string: " + g.ToString ());
 				// TODO: API-wise, perhaps session.Run () can have a simple
 				// overload where we only care about the fetched values, 
 				// making the above:

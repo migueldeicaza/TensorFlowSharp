@@ -39,15 +39,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace TensorFlow
-{
+{   
 	static partial class NativeBinding
 	{
 		public const string TensorFlowLibrary = "libtensorflow";
 		public const string TensorFlowLibraryGPU = "libtensorflowgpu";
 
 		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
-
-
 	}
 
 	/// <summary>
@@ -1256,7 +1254,16 @@ namespace TensorFlow
 				tensor = null;
 			return ret;
 		}
-	}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern string TF_GraphDebugString (TF_Graph graph, out IntPtr len);
+		
+		public override string ToString ()
+		{
+	    	IntPtr len;
+	    	return TF_GraphDebugString (Handle, out len);
+		}
+    }
 
 	//
 	// A TFGraph that will not release the undelying handle, this is used
