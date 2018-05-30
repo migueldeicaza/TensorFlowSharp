@@ -4362,33 +4362,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Flushes and closes the summary writer.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to the summary writer resource.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CloseSummaryWriter'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   Also removes it from the resource manager. To reopen, use another
-		///   CreateSummaryFileWriter op.
-		/// </remarks>
-		public TFOperation CloseSummaryWriter (TFOutput writer, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "CloseSummaryWriter", MakeName ("CloseSummaryWriter", operName));
-			desc.AddInput (writer);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
 		///   Compare values of <c>input</c> to <c>threshold</c> and pack resulting bits into a <c>uint8</c>.
 		/// </summary>
 		/// <param name="input">
@@ -4792,6 +4765,54 @@ namespace TensorFlow {
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   An op that sets up the centralized structures for a distributed TPU
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ConfigureDistributedTPU'.
+		/// </param>
+		/// <param name="embedding_config">
+		///   Optional argument
+		///   Reserved. Do not use.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Optional argument
+		///   Serialized tensorflow.tpu.TPUEmbeddingConfiguration that
+		///   describes the embedding lookups of the program.
+		/// </param>
+		/// <param name="is_global_init">
+		///   Optional argument
+		///   Reserved. Do not use.
+		/// </param>
+		/// <returns>
+		///   A serialized tensorflow.tpu.TopologyProto that describes the TPU
+		///   topology.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   system.
+		/// </remarks>
+		public TFOutput ConfigureDistributedTPU (string embedding_config = null, string tpu_embedding_config = null, bool? is_global_init = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ConfigureDistributedTPU", MakeName ("ConfigureDistributedTPU", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (embedding_config != null)
+				desc.SetAttr ("embedding_config", embedding_config);
+			
+			if (tpu_embedding_config != null)
+				desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			
+			if (is_global_init.HasValue)
+				desc.SetAttr ("is_global_init", is_global_init.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var topology = new TFOutput (op, _idx++);
+			return topology;
 		}
 
 		/// <summary>
@@ -5567,96 +5588,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates summary database writer accessible by given resource handle.
-		/// </summary>
-		/// <param name="writer">
-		///   Handle to SummaryWriter resource to overwrite.
-		/// </param>
-		/// <param name="db_uri">
-		///   For example "file:/tmp/foo.sqlite".
-		/// </param>
-		/// <param name="experiment_name">
-		///   Can't contain ASCII control characters or &amp;lt;&amp;gt;. Case
-		///   sensitive. If empty, then the Run will not be associated with any
-		///   Experiment.
-		/// </param>
-		/// <param name="run_name">
-		///   Can't contain ASCII control characters or &amp;lt;&amp;gt;. Case sensitive.
-		///   If empty, then each Tag will not be associated with any Run.
-		/// </param>
-		/// <param name="user_name">
-		///   Must be valid as both a DNS label and Linux username. If
-		///   empty, then the Experiment will not be associated with any User.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CreateSummaryDbWriter'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   This can be used to write tensors from the execution graph directly
-		///   to a database. Only SQLite is supported right now. This function
-		///   will create the schema if it doesn't exist. Entries in the Users,
-		///   Experiments, and Runs tables will be created automatically if they
-		///   don't already exist.
-		/// </remarks>
-		public TFOperation CreateSummaryDbWriter (TFOutput writer, TFOutput db_uri, TFOutput experiment_name, TFOutput run_name, TFOutput user_name, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "CreateSummaryDbWriter", MakeName ("CreateSummaryDbWriter", operName));
-			desc.AddInput (writer);
-			desc.AddInput (db_uri);
-			desc.AddInput (experiment_name);
-			desc.AddInput (run_name);
-			desc.AddInput (user_name);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Creates a summary file writer accessible by the given resource handle.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to the summary writer resource
-		/// </param>
-		/// <param name="logdir">
-		///   Directory where the event file will be written.
-		/// </param>
-		/// <param name="max_queue">
-		///   Size of the queue of pending events and summaries.
-		/// </param>
-		/// <param name="flush_millis">
-		///   How often, in milliseconds, to flush the pending events and
-		///   summaries to disk.
-		/// </param>
-		/// <param name="filename_suffix">
-		///   Every event file's name is suffixed with this suffix.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CreateSummaryFileWriter'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		public TFOperation CreateSummaryFileWriter (TFOutput writer, TFOutput logdir, TFOutput max_queue, TFOutput flush_millis, TFOutput filename_suffix, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "CreateSummaryFileWriter", MakeName ("CreateSummaryFileWriter", operName));
-			desc.AddInput (writer);
-			desc.AddInput (logdir);
-			desc.AddInput (max_queue);
-			desc.AddInput (flush_millis);
-			desc.AddInput (filename_suffix);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
 		///   Extracts crops from the input image tensor and bilinearly resizes them (possibly
 		/// </summary>
 		/// <param name="image">
@@ -5887,6 +5818,36 @@ namespace TensorFlow {
 			int _idx = 0;
 			var product = new TFOutput (op, _idx++);
 			return product;
+		}
+
+		/// <summary>
+		///   An Op to sum inputs across replicated TPU instances. Each
+		/// </summary>
+		/// <param name="input">
+		///   The local input to the sum.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CrossReplicaSum'.
+		/// </param>
+		/// <returns>
+		///   The sum of all the distributed inputs.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   instance supplies its own input, and the output of each is the sum of
+		///   all the inputs.
+		/// </remarks>
+		public TFOutput CrossReplicaSum (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CrossReplicaSum", MakeName ("CrossReplicaSum", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -10438,29 +10399,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Flushes the writer's unwritten events.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to the summary writer resource.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FlushSummaryWriter'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		public TFOperation FlushSummaryWriter (TFOutput writer, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "FlushSummaryWriter", MakeName ("FlushSummaryWriter", operName));
-			desc.AddInput (writer);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
 		///   Performs fractional average pooling on the input.
 		/// </summary>
 		/// <param name="value">
@@ -12537,31 +12475,143 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Outputs a <c>tf.Event</c> protocol buffer.
+		///   A placeholder op for a value that will be fed into the computation.
 		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InfeedDequeue'.
 		/// </param>
-		/// <param name="evnt">
-		///   A string containing a binary-encoded tf.Event proto.
+		/// <param name="dtype">
+		///   The type of elements in the tensor.
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the tensor.
+		/// </param>
+		/// <returns>
+		///   A tensor that will be provided using the infeed mechanism.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput InfeedDequeue (TFDataType dtype, TFShape shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InfeedDequeue", MakeName ("InfeedDequeue", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtype", dtype);
+			desc.SetAttrShape ("shape", shape);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   A placeholder op for multiple values that will be fed into the computation
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InfeedDequeueTuple'.
+		/// </param>
+		/// <param name="dtypes">
+		///   The element types of each element in <c>outputs</c>.
+		/// </param>
+		/// <param name="shapes">
+		///   The shapes of each tensor in <c>outputs</c>.
+		/// </param>
+		/// <returns>
+		///   A list of tensors that will be provided using the infeed mechanism.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   simultaneously as an XLA tuple.
+		/// </remarks>
+		public TFOutput[] InfeedDequeueTuple (TFDataType[] dtypes, TFShape[] shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InfeedDequeueTuple", MakeName ("InfeedDequeueTuple", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtypes", dtypes);
+			desc.SetAttrShape ("shapes", shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("outputs");
+			var outputs = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				outputs [i] = new TFOutput (op, _idx++);
+			
+			return outputs;
+		}
+
+		/// <summary>
+		///   An op which feeds a single Tensor value into the computation.
+		/// </summary>
+		/// <param name="input">
+		///   A tensor that will be provided using the infeed mechanism.
 		/// </param>
 		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ImportEvent'.
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InfeedEnqueue'.
+		/// </param>
+		/// <param name="shape">
+		///   Optional argument
+		///   The shape of the tensor.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. This should be -1 when the Op
+		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
+		///   device.
 		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
 		/// </returns>
-		/// <remarks>
-		///   When CreateSummaryDbWriter is being used, this op can be useful for
-		///   importing data from event logs.
-		/// </remarks>
-		public TFOperation ImportEvent (TFOutput writer, TFOutput evnt, string operName = null)
+		public TFOperation InfeedEnqueue (TFOutput input, TFShape shape = null, long? device_ordinal = null, string operName = null)
 		{
-			var desc = new TFOperationDesc (this, "ImportEvent", MakeName ("ImportEvent", operName));
-			desc.AddInput (writer);
-			desc.AddInput (evnt);
+			var desc = new TFOperationDesc (this, "InfeedEnqueue", MakeName ("InfeedEnqueue", operName));
+			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
+			
+			if (shape != null)
+				desc.SetAttrShape ("shape", shape);
+			
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   An op which feeds multiple Tensor values into the computation as an XLA tuple.
+		/// </summary>
+		/// <param name="inputs">
+		///   A list of tensors that will be provided using the infeed mechanism.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InfeedEnqueueTuple'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. This should be -1 when the Op
+		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
+		///   device.
+		/// </param>
+		/// <param name="shapes">
+		///   The shapes of each tensor in <c>inputs</c>.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation InfeedEnqueueTuple (TFOutput[] inputs, TFShape[] shapes, long? device_ordinal = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InfeedEnqueueTuple", MakeName ("InfeedEnqueueTuple", operName));
+			desc.AddInputs (inputs);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrShape ("shapes", shapes);
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -18538,6 +18588,143 @@ namespace TensorFlow {
 				values [i] = new TFOutput (op, _idx++);
 			
 			return (key, values);
+		}
+
+		/// <summary>
+		///   Retrieves a single tensor from the computation outfeed.  This operation will
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OutfeedDequeue'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. This should be -1 when the Op
+		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
+		///   device.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of elements in the tensor.
+		/// </param>
+		/// <param name="shape">
+		///   The shape of the tensor.
+		/// </param>
+		/// <returns>
+		///   A tensor that will be read from the device outfeed.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   block indefinitely until data is available.
+		/// </remarks>
+		public TFOutput OutfeedDequeue (TFDataType dtype, TFShape shape, long? device_ordinal = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OutfeedDequeue", MakeName ("OutfeedDequeue", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtype", dtype);
+			desc.SetAttrShape ("shape", shape);
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Retrieve multiple values that will be emitted by the computation as an XLA
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OutfeedDequeueTuple'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. This should be -1 when the Op
+		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
+		///   device.
+		/// </param>
+		/// <param name="dtypes">
+		///   The element types of each element in <c>outputs</c>.
+		/// </param>
+		/// <param name="shapes">
+		///   The shapes of each tensor in <c>outputs</c>.
+		/// </param>
+		/// <returns>
+		///   A list of tensors that will be read from the outfeed.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   tuple.  This operations will block indefinitely until data is available.
+		///   Output <c>i</c> corresponds to XLA tuple element <c>i</c>.
+		/// </remarks>
+		public TFOutput[] OutfeedDequeueTuple (TFDataType[] dtypes, TFShape[] shapes, long? device_ordinal = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OutfeedDequeueTuple", MakeName ("OutfeedDequeueTuple", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtypes", dtypes);
+			desc.SetAttrShape ("shapes", shapes);
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("outputs");
+			var outputs = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				outputs [i] = new TFOutput (op, _idx++);
+			
+			return outputs;
+		}
+
+		/// <summary>
+		///   An op which emits a single Tensor value from an XLA computation.
+		/// </summary>
+		/// <param name="input">
+		///   A tensor that will be inserted into the outfeed queue.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OutfeedEnqueue'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation OutfeedEnqueue (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OutfeedEnqueue", MakeName ("OutfeedEnqueue", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   An op which emits multiple Tensor values from an XLA computation.
+		/// </summary>
+		/// <param name="inputs">
+		///   A list of tensors that will be inserted into the outfeed queue as an
+		///   XLA tuple.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OutfeedEnqueueTuple'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation OutfeedEnqueueTuple (TFOutput[] inputs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OutfeedEnqueueTuple", MakeName ("OutfeedEnqueueTuple", operName));
+			desc.AddInputs (inputs);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -29324,6 +29511,38 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Not for public usage.
+		/// </summary>
+		/// <param name="fetch_start_timestamp">
+		///   any messages earlier than this will be excluded from the
+		///   returned proto.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SessionStatus'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Returns messages from the current session as a serialized SessionStatusProto.
+		///   
+		///   This includes the current state of the compiler, along with any critical
+		///   logging or warning messages.
+		/// </remarks>
+		public TFOutput SessionStatus (TFOutput fetch_start_timestamp, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SessionStatus", MakeName ("SessionStatus", operName));
+			desc.AddInput (fetch_start_timestamp);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var status = new TFOutput (op, _idx++);
+			return status;
+		}
+
+		/// <summary>
 		///   Number of unique elements along last dimension of input <c>set</c>.
 		/// </summary>
 		/// <param name="set_indices">
@@ -29620,6 +29839,28 @@ namespace TensorFlow {
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   An op that shuts down a running distributed TPU system. The Op returns
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ShutdownDistributedTPU'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   an error if no system is running.
+		/// </remarks>
+		public TFOperation ShutdownDistributedTPU (string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ShutdownDistributedTPU", MakeName ("ShutdownDistributedTPU", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -35234,44 +35475,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns a handle to be used to access a summary writer.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SummaryWriter'.
-		/// </param>
-		/// <param name="shared_name">
-		///   Optional argument
-		/// </param>
-		/// <param name="container">
-		///   Optional argument
-		/// </param>
-		/// <returns>
-		///   the summary writer resource. Scalar handle.
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   The summary writer is an in-graph resource which can be used by ops to write
-		///   summaries to event files.
-		/// </remarks>
-		public TFOutput SummaryWriter (string shared_name = null, string container = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "SummaryWriter", MakeName ("SummaryWriter", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (shared_name != null)
-				desc.SetAttr ("shared_name", shared_name);
-			
-			if (container != null)
-				desc.SetAttr ("container", container);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var writer = new TFOutput (op, _idx++);
-			return writer;
-		}
-
-		/// <summary>
 		///   Computes the singular value decompositions of one or more matrices.
 		/// </summary>
 		/// <param name="input">
@@ -37496,6 +37699,430 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   An op enabling differentiation of TPU Embeddings.
+		/// </summary>
+		/// <param name="embedding_variable">
+		///   A trainable variable, enabling optimizers to find this op.
+		/// </param>
+		/// <param name="sliced_activations">
+		///   The embedding activations Tensor to return.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingActivations'.
+		/// </param>
+		/// <param name="table_id">
+		///   The id of the table in the embedding layer configuration from which
+		///   these activations were computed.
+		/// </param>
+		/// <param name="lookup_id">
+		///   Identifier of the set of embedding indices which produced these
+		///   activations.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op simply returns its first input, which is assumed to have been sliced
+		///   from the Tensors returned by TPUEmbeddingDequeueActivations. The presence of this
+		///   op, and its first argument being a trainable Variable, enables automatic
+		///   differentiation of graphs containing embeddings via the TPU Embedding Python
+		///   libraries.
+		/// </remarks>
+		public TFOutput TPUEmbeddingActivations (TFOutput embedding_variable, TFOutput sliced_activations, long table_id, long lookup_id, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingActivations", MakeName ("TPUEmbeddingActivations", operName));
+			desc.AddInput (embedding_variable);
+			desc.AddInput (sliced_activations);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("lookup_id", lookup_id);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   An op that feeds a batch of embedding indices and weights to the TPU.
+		/// </summary>
+		/// <param name="sample_indices">
+		///   A list of rank 1 Tensors specifying row indices of the COO
+		///   sparse matrix representing the embedding lookups for each table.
+		/// </param>
+		/// <param name="embedding_indices">
+		///   A list of rank 1 Tensors  specifying column indices of the
+		///   COO sparse matrix representing the embedding lookups for each table.
+		/// </param>
+		/// <param name="aggregation_weights">
+		///   A list of rank 1 Tensors specifying the nonzero values
+		///   of the COO sparse matrix representing the embedding lookups for each table.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingEnqueueSparseBatch'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. This should be -1 when the Op
+		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
+		///   device.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Embedding lookups are equivalent to sparse-dense matrix multiplications: the
+		///   sparse matrix contains nonzeros in column j in order to retrieve row j from the
+		///   embedding table.
+		///   
+		///   The three Tensor list arguments (sample_indices, embedding_indices, and
+		///   aggregation_weights) represent these sparse matrices in COO format. The Tensor
+		///   lists each have one entry for each embedding table specified in the model.
+		///   For the kth embedding table, the three Tensors at position k in the list
+		///   specify a COO-format sparse matrix. For the kth table, the row indices,
+		///   column indices, and nonzero values of the COO sparse matrix are specified by
+		///   sample_indices[k], embedding_indices[k], and aggregation_weights[k],
+		///   respectively. Entries must be sorted by row index, then by column index.
+		///   
+		///   There should be at most one TPUEmbeddingEnqueueSparseBatch op in a signle
+		///   training step per TPU shard.
+		/// </remarks>
+		public TFOperation TPUEmbeddingEnqueueSparseBatch (TFOutput[] sample_indices, TFOutput[] embedding_indices, TFOutput[] aggregation_weights, long? device_ordinal = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingEnqueueSparseBatch", MakeName ("TPUEmbeddingEnqueueSparseBatch", operName));
+			desc.AddInputs (sample_indices);
+			desc.AddInputs (embedding_indices);
+			desc.AddInputs (aggregation_weights);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load an embedding table shard into TensorNode memories for use with Adagrad.
+		/// </summary>
+		/// <param name="parameters">
+		///   The shard of the embedding table resident on the host executing this
+		///   op. For single-TPU models, this is the entire embedding table.
+		/// </param>
+		/// <param name="accumulators">
+		///   Shard of the Adagrad accumulators resident on the host executing
+		///   this op.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingLoadAdagradParameters'.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <param name="table_id">
+		///   The id of the table specified in the embedding_config.
+		/// </param>
+		/// <param name="num_hosts">
+		///   The number of CPU hosts in the distributed training job.
+		/// </param>
+		/// <param name="host_id">
+		///   Which CPU host in the distributed training job will execute this op.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
+		///   trainable variables and optimizer state from TPU memory. This op enables
+		///   functionality equivalent to AdagradOptimizer.
+		/// </remarks>
+		public TFOperation TPUEmbeddingLoadAdagradParameters (TFOutput parameters, TFOutput accumulators, string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingLoadAdagradParameters", MakeName ("TPUEmbeddingLoadAdagradParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("num_hosts", num_hosts);
+			desc.SetAttr ("host_id", host_id);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load an embedding table shard into TPU memory for use with GradientDescent.
+		/// </summary>
+		/// <param name="parameters">
+		///   The shard of the embedding table resident on the host executing this
+		///   op. For single-TPU models, this is the entire embedding table.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingLoadGradientDescentParameters'.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <param name="table_id">
+		///   The id of the table specified in the tpu_embedding_config.
+		/// </param>
+		/// <param name="num_hosts">
+		///   The number of CPU hosts in the distributed training job.
+		/// </param>
+		/// <param name="host_id">
+		///   Which CPU host in the distributed training job will execute this op.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
+		///   trainable variables and optimizer state from TPU memory. This op enables
+		///   functionality equivalent to GradientDescentOptimizer.
+		/// </remarks>
+		public TFOperation TPUEmbeddingLoadGradientDescentParameters (TFOutput parameters, string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingLoadGradientDescentParameters", MakeName ("TPUEmbeddingLoadGradientDescentParameters", operName));
+			desc.AddInput (parameters);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("num_hosts", num_hosts);
+			desc.SetAttr ("host_id", host_id);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   An op that receives embedding activations on the TPU.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingReceiveActivations'.
+		/// </param>
+		/// <param name="num_tables">
+		///   The number of output activation tensors, equal to the number of
+		///   embedding tables in the model.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <returns>
+		///   A TensorList of embedding activations containing one Tensor per
+		///   embedding table in the model.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The TPU system performs the embedding lookups and aggregations specified by
+		///   the arguments to TPUEmbeddingEnqueueSparseBatch. The results of these
+		///   aggregations are visible to the Tensorflow Graph as the outputs of a
+		///   TPUEmbeddingDequeueActivations Op. This op returns a list containing one
+		///   Tensor of activations per table specified in the model. There can be at most
+		///   one ReceieveActivations op in the TPU graph.
+		/// </remarks>
+		public TFOutput[] TPUEmbeddingReceiveActivations (long num_tables, string tpu_embedding_config, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingReceiveActivations", MakeName ("TPUEmbeddingReceiveActivations", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_tables", num_tables);
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("outputs");
+			var outputs = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				outputs [i] = new TFOutput (op, _idx++);
+			
+			return outputs;
+		}
+
+		/// <summary>
+		///   Retrieve an embedding table shard from TPU memory.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingRetrieveAdagradParameters'.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <param name="table_id">
+		///   The id of the table specified in the embedding_config_json.
+		/// </param>
+		/// <param name="num_hosts">
+		///   The number of CPU hosts in the distributed training job.
+		/// </param>
+		/// <param name="host_id">
+		///   Which CPU host in the distributed training job will execute this op.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters:
+		///   accumulators:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
+		///   trainable variables and optimizer state from TPU memory. This op enables
+		///   functionality equivalent to AdagradOptimizer.
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators) TPUEmbeddingRetrieveAdagradParameters (string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingRetrieveAdagradParameters", MakeName ("TPUEmbeddingRetrieveAdagradParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("num_hosts", num_hosts);
+			desc.SetAttr ("host_id", host_id);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve an embedding table shard from TPU memory.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingRetrieveGradientDescentParameters'.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <param name="table_id">
+		///   The id of the table specified in tpu_embedding_config.
+		/// </param>
+		/// <param name="num_hosts">
+		///   The number of CPU hosts in the distributed training job.
+		/// </param>
+		/// <param name="host_id">
+		///   Which CPU host in the distributed training job will execute this op.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
+		///   trainable variables and optimizer state from TPU memory. This op enables
+		///   functionality equivalent to GradientDescentOptimizer.
+		/// </remarks>
+		public TFOutput TPUEmbeddingRetrieveGradientDescentParameters (string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingRetrieveGradientDescentParameters", MakeName ("TPUEmbeddingRetrieveGradientDescentParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("num_hosts", num_hosts);
+			desc.SetAttr ("host_id", host_id);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			return parameters;
+		}
+
+		/// <summary>
+		///   An op that performs gradient updates of embedding tables.
+		/// </summary>
+		/// <param name="gradients">
+		///   A TensorList of gradients with which to update embedding tables.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingSendGradients'.
+		/// </param>
+		/// <param name="tpu_embedding_config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The TensorList argument has the same length and shapes as the return value of
+		///   TPUEmbeddingReceiveActivations, but contains gradients of the model's loss
+		///   with respect to the embedding activations. The embedding tables are updated
+		///   from these gradients via the optimizer specified in the configuration given
+		///   to tpu.initialize_system.
+		/// </remarks>
+		public TFOperation TPUEmbeddingSendGradients (TFOutput[] gradients, string tpu_embedding_config, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUEmbeddingSendGradients", MakeName ("TPUEmbeddingSendGradients", operName));
+			desc.AddInputs (gradients);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Operator that connects N unreplicated inputs to an N-way replicated TPU computation.
+		/// </summary>
+		/// <param name="inputs">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUReplicatedInput'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput TPUReplicatedInput (TFOutput[] inputs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUReplicatedInput", MakeName ("TPUReplicatedInput", operName));
+			desc.AddInputs (inputs);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Operator that connects the output of an N-way replicated TPU computation to N separate outputs.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUReplicatedOutput'.
+		/// </param>
+		/// <param name="num_replicas">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput[] TPUReplicatedOutput (TFOutput input, long num_replicas, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TPUReplicatedOutput", MakeName ("TPUReplicatedOutput", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_replicas", num_replicas);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("outputs");
+			var outputs = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				outputs [i] = new TFOutput (op, _idx++);
+			
+			return outputs;
+		}
+
+		/// <summary>
 		///   Shuffle dimensions of x according to a permutation.
 		/// </summary>
 		/// <param name="x">
@@ -38871,65 +39498,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Writes a <c>Summary</c> protocol buffer with audio.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tag">
-		///   Scalar. Used to build the <c>tag</c> attribute of the summary values.
-		/// </param>
-		/// <param name="tensor">
-		///   2-D of shape <c>[batch_size, frames]</c>.
-		/// </param>
-		/// <param name="sample_rate">
-		///   The sample rate of the signal in hertz.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteAudioSummary'.
-		/// </param>
-		/// <param name="max_outputs">
-		///   Optional argument
-		///   Max number of batch elements to generate audio for.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   The summary has up to <c>max_outputs</c> summary values containing audio. The
-		///   audio is built from <c>tensor</c> which must be 3-D with shape <c>[batch_size,
-		///   frames, channels]</c> or 2-D with shape <c>[batch_size, frames]</c>. The values are
-		///   assumed to be in the range of <c>[-1.0, 1.0]</c> with a sample rate of <c>sample_rate</c>.
-		///   
-		///   The <c>tag</c> argument is a scalar <c>Tensor</c> of type <c>string</c>.  It is used to
-		///   build the <c>tag</c> of the summary values:
-		///   
-		///   *  If <c>max_outputs</c> is 1, the summary value tag is '*tag*/audio'.
-		///   *  If <c>max_outputs</c> is greater than 1, the summary value tags are
-		///   generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
-		/// </remarks>
-		public TFOperation WriteAudioSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput tensor, TFOutput sample_rate, long? max_outputs = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteAudioSummary", MakeName ("WriteAudioSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tag);
-			desc.AddInput (tensor);
-			desc.AddInput (sample_rate);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (max_outputs.HasValue)
-				desc.SetAttr ("max_outputs", max_outputs.Value);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
 		///   Writes contents to the file at input filename. Creates file and recursively
 		/// </summary>
 		/// <param name="filename">
@@ -38952,239 +39520,6 @@ namespace TensorFlow {
 			var desc = new TFOperationDesc (this, "WriteFile", MakeName ("WriteFile", operName));
 			desc.AddInput (filename);
 			desc.AddInput (contents);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Writes a <c>GraphDef</c> protocol buffer to a <c>SummaryWriter</c>.
-		/// </summary>
-		/// <param name="writer">
-		///   Handle of <c>SummaryWriter</c>.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tensor">
-		///   A scalar string of the serialized tf.GraphDef proto.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteGraphSummary'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		public TFOperation WriteGraphSummary (TFOutput writer, TFOutput step, TFOutput tensor, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteGraphSummary", MakeName ("WriteGraphSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tensor);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Writes a <c>Summary</c> protocol buffer with a histogram.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tag">
-		///   Scalar.  Tag to use for the <c>Summary.Value</c>.
-		/// </param>
-		/// <param name="values">
-		///   Any shape. Values to use to build the histogram.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteHistogramSummary'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   The generated
-		///   [<c>Summary</c>](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
-		///   has one summary value containing a histogram for <c>values</c>.
-		///   
-		///   This op reports an <c>InvalidArgument</c> error if any value is not finite.
-		/// </remarks>
-		public TFOperation WriteHistogramSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput values, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteHistogramSummary", MakeName ("WriteHistogramSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tag);
-			desc.AddInput (values);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Writes a <c>Summary</c> protocol buffer with images.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tag">
-		///   Scalar. Used to build the <c>tag</c> attribute of the summary values.
-		/// </param>
-		/// <param name="tensor">
-		///   4-D of shape <c>[batch_size, height, width, channels]</c> where
-		///   <c>channels</c> is 1, 3, or 4.
-		/// </param>
-		/// <param name="bad_color">
-		///   Color to use for pixels with non-finite values.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteImageSummary'.
-		/// </param>
-		/// <param name="max_images">
-		///   Optional argument
-		///   Max number of batch elements to generate images for.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   The summary has up to <c>max_images</c> summary values containing images. The
-		///   images are built from <c>tensor</c> which must be 4-D with shape <c>[batch_size,
-		///   height, width, channels]</c> and where <c>channels</c> can be:
-		///   
-		///   *  1: <c>tensor</c> is interpreted as Grayscale.
-		///   *  3: <c>tensor</c> is interpreted as RGB.
-		///   *  4: <c>tensor</c> is interpreted as RGBA.
-		///   
-		///   The images have the same number of channels as the input tensor. For float
-		///   input, the values are normalized one image at a time to fit in the range
-		///   <c>[0, 255]</c>.  <c>uint8</c> values are unchanged.  The op uses two different
-		///   normalization algorithms:
-		///   
-		///   *  If the input values are all positive, they are rescaled so the largest one
-		///   is 255.
-		///   
-		///   *  If any input value is negative, the values are shifted so input value 0.0
-		///   is at 127.  They are then rescaled so that either the smallest value is 0,
-		///   or the largest one is 255.
-		///   
-		///   The <c>tag</c> argument is a scalar <c>Tensor</c> of type <c>string</c>.  It is used to
-		///   build the <c>tag</c> of the summary values:
-		///   
-		///   *  If <c>max_images</c> is 1, the summary value tag is '*tag*/image'.
-		///   *  If <c>max_images</c> is greater than 1, the summary value tags are
-		///   generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
-		///   
-		///   The <c>bad_color</c> argument is the color to use in the generated images for
-		///   non-finite input values.  It is a <c>unit8</c> 1-D tensor of length <c>channels</c>.
-		///   Each element must be in the range <c>[0, 255]</c> (It represents the value of a
-		///   pixel in the output image).  Non-finite values in the input tensor are
-		///   replaced by this tensor in the output image.  The default value is the color
-		///   red.
-		/// </remarks>
-		public TFOperation WriteImageSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput tensor, TFOutput bad_color, long? max_images = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteImageSummary", MakeName ("WriteImageSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tag);
-			desc.AddInput (tensor);
-			desc.AddInput (bad_color);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (max_images.HasValue)
-				desc.SetAttr ("max_images", max_images.Value);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Writes a <c>Summary</c> protocol buffer with scalar values.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tag">
-		///   Tag for the summary.
-		/// </param>
-		/// <param name="value">
-		///   Value for the summary.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteScalarSummary'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   The input <c>tag</c> and <c>value</c> must have the scalars.
-		/// </remarks>
-		public TFOperation WriteScalarSummary (TFOutput writer, TFOutput step, TFOutput tag, TFOutput value, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteScalarSummary", MakeName ("WriteScalarSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tag);
-			desc.AddInput (value);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Outputs a <c>Summary</c> protocol buffer with a tensor.
-		/// </summary>
-		/// <param name="writer">
-		///   A handle to a summary writer.
-		/// </param>
-		/// <param name="step">
-		///   The step to write the summary for.
-		/// </param>
-		/// <param name="tensor">
-		///   A tensor to serialize.
-		/// </param>
-		/// <param name="tag">
-		///   The summary's tag.
-		/// </param>
-		/// <param name="summary_metadata">
-		///   Serialized SummaryMetadata protocol buffer containing
-		///   plugin-related metadata for this summary.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WriteSummary'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		public TFOperation WriteSummary (TFOutput writer, TFOutput step, TFOutput tensor, TFOutput tag, TFOutput summary_metadata, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "WriteSummary", MakeName ("WriteSummary", operName));
-			desc.AddInput (writer);
-			desc.AddInput (step);
-			desc.AddInput (tensor);
-			desc.AddInput (tag);
-			desc.AddInput (summary_metadata);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			

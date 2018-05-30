@@ -46,16 +46,15 @@ namespace TensorFlow
 		public const string TensorFlowLibraryGPU = "libtensorflowgpu";
 
 		internal static string GetStr (this IntPtr x) => Marshal.PtrToStringAnsi (x);
-
-
 	}
 
 	/// <summary>
 	/// Contains TensorFlow fundamental methods and utility functions.
 	/// </summary>
-	public static class TFCore {
+	public static class TFCore
+	{
 		internal static bool UseCPU = true;
-		
+
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe IntPtr TF_Version ();
 
@@ -102,8 +101,7 @@ namespace TensorFlow
 
 		static void CheckSize ()
 		{
-			unsafe
-			{
+			unsafe {
 				if (sizeof (IntPtr) == 4) {
 					Console.Error.WriteLine (
 						"The TensorFlow native libraries were compiled in 64 bit mode, you must run in 64 bit mode\n" +
@@ -199,6 +197,45 @@ namespace TensorFlow
 		internal static void ObjectDisposedException ()
 		{
 			throw new ObjectDisposedException ("The object was disposed");
+		}
+	}
+
+	/// <summary>
+	/// ase class for many TensorFlow data types that provides a common idiom to dispose and
+	/// release resources associated with the native data types and whose unmanaged resource
+	/// disposing can be called from a background thread (the finalizer).   Users do not 
+	/// need to deal with this class.
+	/// </summary>
+	/// <remarks>
+	/// Some object deletion APIs in TensorFlow can be invoked from a background thread, 
+	/// so the release methods are suitable to be invoked from the Finalizer thread, in
+	/// those scenarios, subclass from this class rather than the TFDisposable class.
+	/// </remarks>
+	public abstract class TFDisposableThreadSafe  : TFDisposable {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable"/> class
+		/// from the handle that it will wrap.   
+		/// </summary>
+		public TFDisposableThreadSafe (IntPtr handle) : base (handle)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TensorFlow.TFDisposableThreadSafe"/> class.
+		/// </summary>
+		public TFDisposableThreadSafe ()
+		{ }
+
+		/// <summary>
+		/// Dispose the object, unlike the default implementat in TFDisposable, 
+		/// this will release the unmanaged resources from a background thread.
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> disposing.</param>
+		public override void Dispose (bool disposing)
+		{
+			if (handle != IntPtr.Zero)
+				NativeDispose (handle);
+			handle = IntPtr.Zero;
 		}
 	}
 
@@ -473,7 +510,7 @@ namespace TensorFlow
 	/// "hot", and add a "sub" operation there the result will be "demo/hot/sub".
 	/// </para>
 	/// </remarks>
-	public partial class TFGraph : TFDisposable
+	public partial class TFGraph : TFDisposableThreadSafe
 	{
 		// extern TF_Graph * TF_NewGraph ();
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -673,6 +710,9 @@ namespace TensorFlow
 		/// <param name="buffer">A byte array containing the serialized graph.</param>
 		/// <param name="options">Importing graph options.</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		///   If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel"/> API instead.
+		/// </remarks>
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -851,6 +891,9 @@ namespace TensorFlow
 		/// <param name="options">Import options.</param>
 		/// <param name="returnOutputs">Array large enough to contain all the return options.</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		///   If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel"/> API instead.
+		/// </remarks>
 		public void ImportGraphDef (TFBuffer graphDef, TFImportGraphDefOptions options, TFOutput [] returnOutputs, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -1256,7 +1299,16 @@ namespace TensorFlow
 				tensor = null;
 			return ret;
 		}
-	}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern string TF_GraphDebugString (TF_Graph graph, out IntPtr len);
+		
+		public override string ToString ()
+		{
+	    	IntPtr len;
+	    	return TF_GraphDebugString (Handle, out len);
+		}
+    }
 
 	//
 	// A TFGraph that will not release the undelying handle, this is used
@@ -2409,7 +2461,7 @@ namespace TensorFlow
 	/// be kept in sync.
 	/// </para>
 	/// </remarks>
-	public class TFSession : TFDisposable
+	public class TFSession : TFDisposableThreadSafe
 	{
 		// extern TF_Session * TF_NewSession (TF_Graph *graph, const TF_SessionOptions *opts, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -2515,7 +2567,7 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Creates a session and graph from a saved session model
+		/// Creates a session and graph from a model stored in the SavedModel file format.
 		/// </summary>
 		/// <returns>On success, this populates the provided <paramref name="graph"/> with the contents of the graph stored in the specified model and <paramref name="metaGraphDef"/> with the MetaGraphDef of the loaded model.</returns>
 		/// <param name="sessionOptions">Session options to use for the new session.</param>
@@ -2526,8 +2578,14 @@ namespace TensorFlow
 		/// <param name="metaGraphDef">On success, this will be populated on return with the contents of the MetaGraphDef (can be null).</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		/// <remarks>
+		/// <para>
 		/// This function creates a new session using the specified <paramref name="sessionOptions"/> and then initializes
-		/// the state (restoring tensors and other assets) using <paramref name="runOptions"/>
+		/// the state (restoring tensors and other assets) using <paramref name="runOptions"/>.
+		/// </para>
+		/// <para>
+		/// This function loads the data that was saved using the SavedModel file format, as described
+		/// here: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
+		/// </para>
 		/// </remarks>
 		public TFSession FromSavedModel (TFSessionOptions sessionOptions, TFBuffer runOptions, string exportDir, string [] tags, TFGraph graph, TFBuffer metaGraphDef, TFStatus status = null)
 		{

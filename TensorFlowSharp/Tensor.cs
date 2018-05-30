@@ -60,7 +60,7 @@ namespace TensorFlow
 	/// </code>
 	/// </example>
 	/// </remarks>
-	public class TFTensor : TFDisposable
+	public class TFTensor : TFDisposableThreadSafe
 	{
 		/// <summary>
 		/// Signature that methods must conform to to be used to release memory that was passed to a manually allocated TFTensor
@@ -85,6 +85,7 @@ namespace TensorFlow
 			Marshal.FreeHGlobal (data);
 		}
 
+		[MonoPInvokeCallback (typeof (Deallocator))]
 		internal static void FreeTensorHandle (IntPtr data, IntPtr len, IntPtr closure)
 		{
 			var gch = GCHandle.FromIntPtr (closure);

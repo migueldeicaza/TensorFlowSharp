@@ -14,7 +14,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.7.0-pre1</PackageVersion>
+    <PackageVersion>1.8.0-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -22,7 +22,7 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>1.7.0-pre1 adds support for the TensorFlow 1.7 release</PackageReleaseNotes>
+    <PackageReleaseNotes>1.8.0-pre1 adds support for the TensorFlow 1.8 release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

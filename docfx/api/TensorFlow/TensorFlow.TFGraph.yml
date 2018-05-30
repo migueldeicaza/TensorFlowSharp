@@ -21830,7 +21830,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Resize <code>images</code> to <code>size</code> using area interpolation.
-  remarks: "Input images can be of different types but output images are always float.\n              \n              Each output pixel is computed by first transforming the pixel's footprint into\n              the input tensor and then averaging the pixels that intersect the footprint. An\n              input pixel's contribution to the average is weighted by the fraction of its\n              area that intersects the footprint.  This is the same as OpenCV's INTER_AREA."
+  remarks: "Input images can be of different types but output images are always float.\n              \n              The range of pixel values for the output image might be slightly different\n              from the range for the input image because of limited numerical precision.\n              To guarantee an output range, for example <code>[0.0, 1.0]</code>, apply\n              <code>tf.clip_by_value</code> to the output.\n              \n              Each output pixel is computed by first transforming the pixel's footprint into\n              the input tensor and then averaging the pixels that intersect the footprint. An\n              input pixel's contribution to the average is weighted by the fraction of its\n              area that intersects the footprint.  This is the same as OpenCV's INTER_AREA."
   syntax:
     content: public TensorFlow.TFOutput ResizeArea (TensorFlow.TFOutput images, TensorFlow.TFOutput size, Nullable<bool> align_corners = null, string operName = null);
     parameters:
@@ -25197,7 +25197,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the maximum along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\max_j(data_j)\\\\) where <code>max</code> is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the max is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMax.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\max_j(data_j)\\\\) where <code>max</code> is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the max is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMax.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput SegmentMax (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -25233,7 +25233,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the mean along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\frac{\\sum_j data_j}{N}\\\\) where <code>mean</code> is\n              over <code>j</code> such that <code>segment_ids[j] == i</code> and <code>N</code> is the total number of\n              values summed.\n              \n              If the mean is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMean.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\frac{\\sum_j data_j}{N}\\\\) where <code>mean</code> is\n              over <code>j</code> such that <code>segment_ids[j] == i</code> and <code>N</code> is the total number of\n              values summed.\n              \n              If the mean is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMean.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput SegmentMean (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -25269,7 +25269,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the minimum along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\min_j(data_j)\\\\) where <code>min</code> is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the min is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMin.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\min_j(data_j)\\\\) where <code>min</code> is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the min is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentMin.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput SegmentMin (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -25305,7 +25305,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the product along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\prod_j data_j\\\\) where the product is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the product is empty for a given segment ID <code>i</code>, <code>output[i] = 1</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentProd.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\prod_j data_j\\\\) where the product is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the product is empty for a given segment ID <code>i</code>, <code>output[i] = 1</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentProd.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput SegmentProd (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -25341,7 +25341,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\sum_j data_j\\\\) where sum is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentSum.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              \\\\(output_i = \\sum_j data_j\\\\) where sum is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/SegmentSum.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput SegmentSum (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -28091,7 +28091,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the mean along sparse segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Like <code>SegmentMean</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first\n              dimension, selecting a subset of dimension 0, specified by <code>indices</code>."
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Like <code>SegmentMean</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first\n              dimension, selecting a subset of dimension 0, specified by <code>indices</code>."
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentMean (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -28167,7 +28167,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the mean along sparse segments of a tensor.
-  remarks: "Like <code>SparseSegmentMean</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments."
+  remarks: "Like <code>SparseSegmentMean</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments."
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentMeanWithNumSegments (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, TensorFlow.TFOutput num_segments, string operName = null);
     parameters:
@@ -28207,7 +28207,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along sparse segments of a tensor divided by the sqrt of N.
-  remarks: "N is the size of the segment being reduced.\n              \n              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments."
+  remarks: "N is the size of the segment being reduced.\n              \n              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments."
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentSqrtN (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -28283,7 +28283,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along sparse segments of a tensor divided by the sqrt of N.
-  remarks: "N is the size of the segment being reduced.\n              \n              Like <code>SparseSegmentSqrtN</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments."
+  remarks: "N is the size of the segment being reduced.\n              \n              Like <code>SparseSegmentSqrtN</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments."
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentSqrtNWithNumSegments (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, TensorFlow.TFOutput num_segments, string operName = null);
     parameters:
@@ -28323,7 +28323,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along sparse segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Like <code>SegmentSum</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first\n              dimension, selecting a subset of dimension 0, specified by <code>indices</code>.\n              \n              For example:\n              \n               <pre><code>\n              c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])\n              \n              # Select two rows, one segment.\n              tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 0]))\n              # =&gt; [[0 0 0 0]]\n              \n              # Select two rows, two segment.\n              tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 1]))\n              # =&gt; [[ 1  2  3  4]\n              #     [-1 -2 -3 -4]]\n              \n              # Select all rows, two segments.\n              tf.sparse_segment_sum(c, tf.constant([0, 1, 2]), tf.constant([0, 0, 1]))\n              # =&gt; [[0 0 0 0]\n              #     [5 6 7 8]]\n              \n              # Which is equivalent to:\n              tf.segment_sum(c, tf.constant([0, 0, 1]))\n               </code></pre>"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Like <code>SegmentSum</code>, but <code>segment_ids</code> can have rank less than <code>data</code>'s first\n              dimension, selecting a subset of dimension 0, specified by <code>indices</code>.\n              \n              For example:\n              \n               <pre><code>\n              c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])\n              \n              # Select two rows, one segment.\n              tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 0]))\n              # =&gt; [[0 0 0 0]]\n              \n              # Select two rows, two segment.\n              tf.sparse_segment_sum(c, tf.constant([0, 1]), tf.constant([0, 1]))\n              # =&gt; [[ 1  2  3  4]\n              #     [-1 -2 -3 -4]]\n              \n              # Select all rows, two segments.\n              tf.sparse_segment_sum(c, tf.constant([0, 1, 2]), tf.constant([0, 0, 1]))\n              # =&gt; [[0 0 0 0]\n              #     [5 6 7 8]]\n              \n              # Which is equivalent to:\n              tf.segment_sum(c, tf.constant([0, 0, 1]))\n               </code></pre>"
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentSum (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, string operName = null);
     parameters:
@@ -28360,7 +28360,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along sparse segments of a tensor.
-  remarks: "Like <code>SparseSegmentSum</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              For example:\n              \n               <pre><code>\n              c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])\n              \n              tf.sparse_segment_sum_with_num_segments(\n              c, tf.constant([0, 1]), tf.constant([0, 0]), num_segments=3)\n              # =&gt; [[0 0 0 0]\n              #     [0 0 0 0]\n              #     [0 0 0 0]]\n              \n              tf.sparse_segment_sum_with_num_segments(c,\n              tf.constant([0, 1]),\n              tf.constant([0, 2],\n              num_segments=4))\n              # =&gt; [[ 1  2  3  4]\n              #     [ 0  0  0  0]\n              #     [-1 -2 -3 -4]\n              #     [ 0  0  0  0]]\n               </code></pre>"
+  remarks: "Like <code>SparseSegmentSum</code>, but allows missing ids in <code>segment_ids</code>. If an id is\n              misisng, the <code>output</code> tensor at that position will be zeroed.\n              \n              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              For example:\n              \n               <pre><code>\n              c = tf.constant([[1,2,3,4], [-1,-2,-3,-4], [5,6,7,8]])\n              \n              tf.sparse_segment_sum_with_num_segments(\n              c, tf.constant([0, 1]), tf.constant([0, 0]), num_segments=3)\n              # =&gt; [[0 0 0 0]\n              #     [0 0 0 0]\n              #     [0 0 0 0]]\n              \n              tf.sparse_segment_sum_with_num_segments(c,\n              tf.constant([0, 1]),\n              tf.constant([0, 2],\n              num_segments=4))\n              # =&gt; [[ 1  2  3  4]\n              #     [ 0  0  0  0]\n              #     [-1 -2 -3 -4]\n              #     [ 0  0  0  0]]\n               </code></pre>"
   syntax:
     content: public TensorFlow.TFOutput SparseSegmentSumWithNumSegments (TensorFlow.TFOutput data, TensorFlow.TFOutput indices, TensorFlow.TFOutput segment_ids, TensorFlow.TFOutput num_segments, string operName = null);
     parameters:
@@ -32643,8 +32643,8 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Computes the Max along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              This operator is similar to the [unsorted segment sum operator](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).\n              Instead of computing the sum over segments, it computes the maximum\n              such that:\n              \n              \\\\(output_i = \\max_j data_j\\\\) where max is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the maximum is empty for a given segment ID <code>i</code>, it outputs the smallest possible value for specific numeric type,\n              <code>output[i] = numeric_limits&lt;T&gt;::min()</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/UnsortedSegmentMax.png\" alt&gt;\n              &lt;/div&gt;"
+  summary: Computes the maximum along segments of a tensor.
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              This operator is similar to the unsorted segment sum operator found\n              [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).\n              Instead of computing the sum over segments, it computes the maximum such that:\n              \n              \\\\(output_i = \\max_j data_j\\\\) where max is over <code>j</code> such\n              that <code>segment_ids[j] == i</code>.\n              \n              If the maximum is empty for a given segment ID <code>i</code>, it outputs the smallest\n              possible value for the specific numeric type,\n              <code>output[i] = numeric_limits&lt;T&gt;::lowest()</code>.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/UnsortedSegmentMax.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput UnsortedSegmentMax (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, TensorFlow.TFOutput num_segments, string operName = null);
     parameters:
@@ -32683,7 +32683,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Computes the sum along segments of a tensor.
-  remarks: "Read @{$math_ops#segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              <code>(output[i] = sum_{j...} data[j...]</code> where the sum is over tuples <code>j...</code> such\n              that <code>segment_ids[j...] == i</code>.  Unlike <code>SegmentSum</code>, <code>segment_ids</code>\n              need not be sorted and need not cover all values in the full\n              range of valid values.\n              \n              If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              If the given segment ID <code>i</code> is negative, the value is dropped and will not be\n              added to the sum of the segment.\n              \n              <code>num_segments</code> should equal the number of distinct segment IDs.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/UnsortedSegmentSum.png\" alt&gt;\n              &lt;/div&gt;"
+  remarks: "Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of\n              segments.\n              \n              Computes a tensor such that\n              <code>(output[i] = sum_{j...} data[j...]</code> where the sum is over tuples <code>j...</code> such\n              that <code>segment_ids[j...] == i</code>.  Unlike <code>SegmentSum</code>, <code>segment_ids</code>\n              need not be sorted and need not cover all values in the full\n              range of valid values.\n              \n              If the sum is empty for a given segment ID <code>i</code>, <code>output[i] = 0</code>.\n              If the given segment ID <code>i</code> is negative, the value is dropped and will not be\n              added to the sum of the segment.\n              \n              <code>num_segments</code> should equal the number of distinct segment IDs.\n              \n              &lt;div style=\"width:70%; margin:auto; margin-bottom:10px; margin-top:20px;\"&gt;\n              &lt;img style=\"width:100%\" src=\"https://www.tensorflow.org/images/UnsortedSegmentSum.png\" alt&gt;\n              &lt;/div&gt;"
   syntax:
     content: public TensorFlow.TFOutput UnsortedSegmentSum (TensorFlow.TFOutput data, TensorFlow.TFOutput segment_ids, TensorFlow.TFOutput num_segments, string operName = null);
     parameters:
