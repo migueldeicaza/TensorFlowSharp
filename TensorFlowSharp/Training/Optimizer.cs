@@ -91,6 +91,9 @@ namespace TensorFlow {
 		}
 	}
 
+	/// <summary>
+	/// Optimizer.
+	/// </summary>
 	public class Optimizer {
 
 		// What should the parameter be?   The Python code calls
