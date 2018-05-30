@@ -39448,7 +39448,12 @@ s = (127 + 127) / 2 = 127.</p>
   </table>
   <h5 id="TensorFlow_TFGraph_ResizeArea_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Boolean__System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Input images can be of different types but output images are always float.</p>
-<pre><code>          Each output pixel is computed by first transforming the pixel&#39;s footprint into
+<pre><code>          The range of pixel values for the output image might be slightly different
+          from the range for the input image because of limited numerical precision.
+          To guarantee an output range, for example &lt;code&gt;[0.0, 1.0]&lt;/code&gt;, apply
+          &lt;code&gt;tf.clip_by_value&lt;/code&gt; to the output.
+
+          Each output pixel is computed by first transforming the pixel&#39;s footprint into
           the input tensor and then averaging the pixels that intersect the footprint. An
           input pixel&#39;s contribution to the average is weighted by the fraction of its
           area that intersects the footprint.  This is the same as OpenCV&#39;s INTER_AREA.
@@ -46134,7 +46139,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SegmentMax_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           \\(output_i = \max_j(data_j)\\) where &lt;code&gt;max&lt;/code&gt; is over &lt;code&gt;j&lt;/code&gt; such
@@ -46207,7 +46212,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SegmentMean_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           \\(output_i = \frac{\sum_j data_j}{N}\\) where &lt;code&gt;mean&lt;/code&gt; is
@@ -46281,7 +46286,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SegmentMin_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           \\(output_i = \min_j(data_j)\\) where &lt;code&gt;min&lt;/code&gt; is over &lt;code&gt;j&lt;/code&gt; such
@@ -46354,7 +46359,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SegmentProd_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           \\(output_i = \prod_j data_j\\) where the product is over &lt;code&gt;j&lt;/code&gt; such
@@ -46427,7 +46432,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SegmentSum_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           \\(output_i = \sum_j data_j\\) where sum is over &lt;code&gt;j&lt;/code&gt; such
@@ -51911,7 +51916,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SparseSegmentMean_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Like &lt;code&gt;SegmentMean&lt;/code&gt;, but &lt;code&gt;segment_ids&lt;/code&gt; can have rank less than &lt;code&gt;data&lt;/code&gt;&#39;s first
           dimension, selecting a subset of dimension 0, specified by &lt;code&gt;indices&lt;/code&gt;.
@@ -52063,7 +52068,7 @@ strings and correspondingly well-formed.</p>
   <h5 id="TensorFlow_TFGraph_SparseSegmentMeanWithNumSegments_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Like <code>SparseSegmentMean</code>, but allows missing ids in <code>segment_ids</code>. If an id is
               misisng, the <code>output</code> tensor at that position will be zeroed.</p>
-<pre><code>          Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+<pre><code>          Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
           segments.
 </code></pre></div>
   
@@ -52133,7 +52138,7 @@ strings and correspondingly well-formed.</p>
   </table>
   <h5 id="TensorFlow_TFGraph_SparseSegmentSqrtN_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>N is the size of the segment being reduced.</p>
-<pre><code>          Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+<pre><code>          Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
           segments.
 </code></pre></div>
   
@@ -52285,7 +52290,7 @@ strings and correspondingly well-formed.</p>
 <pre><code>          Like &lt;code&gt;SparseSegmentSqrtN&lt;/code&gt;, but allows missing ids in &lt;code&gt;segment_ids&lt;/code&gt;. If an id is
           misisng, the &lt;code&gt;output&lt;/code&gt; tensor at that position will be zeroed.
 
-          Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+          Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
           segments.
 </code></pre></div>
   
@@ -52354,7 +52359,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_SparseSegmentSum_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Like &lt;code&gt;SegmentSum&lt;/code&gt;, but &lt;code&gt;segment_ids&lt;/code&gt; can have rank less than &lt;code&gt;data&lt;/code&gt;&#39;s first
           dimension, selecting a subset of dimension 0, specified by &lt;code&gt;indices&lt;/code&gt;.
@@ -52456,7 +52461,7 @@ strings and correspondingly well-formed.</p>
   <h5 id="TensorFlow_TFGraph_SparseSegmentSumWithNumSegments_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Like <code>SparseSegmentSum</code>, but allows missing ids in <code>segment_ids</code>. If an id is
               misisng, the <code>output</code> tensor at that position will be zeroed.</p>
-<pre><code>          Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+<pre><code>          Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
           segments.
 
           For example:
@@ -60545,7 +60550,7 @@ strings and correspondingly well-formed.</p>
   
   <a id="TensorFlow_TFGraph_UnsortedSegmentMax_" data-uid="TensorFlow.TFGraph.UnsortedSegmentMax*"></a>
   <h4 id="TensorFlow_TFGraph_UnsortedSegmentMax_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_" data-uid="TensorFlow.TFGraph.UnsortedSegmentMax(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)">UnsortedSegmentMax(TFOutput, TFOutput, TFOutput, String)</h4>
-  <div class="markdown level1 summary"><p>Computes the Max along segments of a tensor.</p>
+  <div class="markdown level1 summary"><p>Computes the maximum along segments of a tensor.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -60608,17 +60613,18 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_UnsortedSegmentMax_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
-<pre><code>          This operator is similar to the [unsorted segment sum operator](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
-          Instead of computing the sum over segments, it computes the maximum
-          such that:
+<pre><code>          This operator is similar to the unsorted segment sum operator found
+          [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
+          Instead of computing the sum over segments, it computes the maximum such that:
 
           \\(output_i = \max_j data_j\\) where max is over &lt;code&gt;j&lt;/code&gt; such
           that &lt;code&gt;segment_ids[j] == i&lt;/code&gt;.
 
-          If the maximum is empty for a given segment ID &lt;code&gt;i&lt;/code&gt;, it outputs the smallest possible value for specific numeric type,
-          &lt;code&gt;output[i] = numeric_limits&amp;lt;T&amp;gt;::min()&lt;/code&gt;.
+          If the maximum is empty for a given segment ID &lt;code&gt;i&lt;/code&gt;, it outputs the smallest
+          possible value for the specific numeric type,
+          &lt;code&gt;output[i] = numeric_limits&amp;lt;T&amp;gt;::lowest()&lt;/code&gt;.
 
           &amp;lt;div style=&quot;width:70%; margin:auto; margin-bottom:10px; margin-top:20px;&quot;&amp;gt;
           &amp;lt;img style=&quot;width:100%&quot; src=&quot;https://www.tensorflow.org/images/UnsortedSegmentMax.png&quot; alt&amp;gt;
@@ -60691,7 +60697,7 @@ strings and correspondingly well-formed.</p>
     </tbody>
   </table>
   <h5 id="TensorFlow_TFGraph_UnsortedSegmentSum_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+  <div class="markdown level1 remarks"><p>Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.</p>
 <pre><code>          Computes a tensor such that
           &lt;code&gt;(output[i] = sum_{j...} data[j...]&lt;/code&gt; where the sum is over tuples &lt;code&gt;j...&lt;/code&gt; such

@@ -128,6 +128,8 @@ module AddTwoNumbers =
 If you want to work on extending TensorFlowSharp or contribute to its development
 read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
+Please keep in mind that this requires a modern version of C# as this uses some
+new capabilities there.   So you will want to use Visual Studio 2017.
 
 ## Possible Contributions
 

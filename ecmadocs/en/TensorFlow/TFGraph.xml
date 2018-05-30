@@ -25885,6 +25885,11 @@
         <remarks>
               Input images can be of different types but output images are always float.
               
+              The range of pixel values for the output image might be slightly different
+              from the range for the input image because of limited numerical precision.
+              To guarantee an output range, for example <c>[0.0, 1.0]</c>, apply
+              <c>tf.clip_by_value</c> to the output.
+              
               Each output pixel is computed by first transforming the pixel's footprint into
               the input tensor and then averaging the pixels that intersect the footprint. An
               input pixel's contribution to the average is weighted by the fraction of its
@@ -30472,7 +30477,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that
@@ -30521,7 +30526,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that
@@ -30571,7 +30576,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that
@@ -30620,7 +30625,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that
@@ -30669,7 +30674,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that
@@ -34386,7 +34391,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Like <c>SegmentMean</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
@@ -34483,7 +34488,7 @@
               Like <c>SparseSegmentMean</c>, but allows missing ids in <c>segment_ids</c>. If an id is
               misisng, the <c>output</c> tensor at that position will be zeroed.
               
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
             </remarks>
       </Docs>
@@ -34527,7 +34532,7 @@
         <remarks>
               N is the size of the segment being reduced.
               
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
             </remarks>
       </Docs>
@@ -34623,7 +34628,7 @@
               Like <c>SparseSegmentSqrtN</c>, but allows missing ids in <c>segment_ids</c>. If an id is
               misisng, the <c>output</c> tensor at that position will be zeroed.
               
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
             </remarks>
       </Docs>
@@ -34665,7 +34670,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Like <c>SegmentSum</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
@@ -34739,7 +34744,7 @@
               Like <c>SparseSegmentSum</c>, but allows missing ids in <c>segment_ids</c>. If an id is
               misisng, the <c>output</c> tensor at that position will be zeroed.
               
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               For example:
@@ -40084,7 +40089,7 @@
               If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentMax'.
             </param>
         <summary>
-              Computes the Max along segments of a tensor.
+              Computes the maximum along segments of a tensor.
             </summary>
         <returns>
               Has same shape as data, except for dimension 0 which
@@ -40092,18 +40097,19 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
-              This operator is similar to the [unsorted segment sum operator](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
-              Instead of computing the sum over segments, it computes the maximum
-              such that:
+              This operator is similar to the unsorted segment sum operator found
+              [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
+              Instead of computing the sum over segments, it computes the maximum such that:
               
               \\(output_i = \max_j data_j\\) where max is over <c>j</c> such
               that <c>segment_ids[j] == i</c>.
               
-              If the maximum is empty for a given segment ID <c>i</c>, it outputs the smallest possible value for specific numeric type,
-              <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::min()</c>.
+              If the maximum is empty for a given segment ID <c>i</c>, it outputs the smallest
+              possible value for the specific numeric type,
+              <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::lowest()</c>.
               
               &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
               &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentMax.png" alt&amp;gt;
@@ -40148,7 +40154,7 @@
               The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
             </returns>
         <remarks>
-              Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
+              Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
               segments.
               
               Computes a tensor such that

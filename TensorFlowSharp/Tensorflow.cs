@@ -710,6 +710,9 @@ namespace TensorFlow
 		/// <param name="buffer">A byte array containing the serialized graph.</param>
 		/// <param name="options">Importing graph options.</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		///   If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel"/> API instead.
+		/// </remarks>
 		public void Import (byte [] buffer, TFImportGraphDefOptions options, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -888,6 +891,9 @@ namespace TensorFlow
 		/// <param name="options">Import options.</param>
 		/// <param name="returnOutputs">Array large enough to contain all the return options.</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		///   If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel"/> API instead.
+		/// </remarks>
 		public void ImportGraphDef (TFBuffer graphDef, TFImportGraphDefOptions options, TFOutput [] returnOutputs, TFStatus status = null)
 		{
 			if (handle == IntPtr.Zero)
@@ -2561,7 +2567,7 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Creates a session and graph from a saved session model
+		/// Creates a session and graph from a model stored in the SavedModel file format.
 		/// </summary>
 		/// <returns>On success, this populates the provided <paramref name="graph"/> with the contents of the graph stored in the specified model and <paramref name="metaGraphDef"/> with the MetaGraphDef of the loaded model.</returns>
 		/// <param name="sessionOptions">Session options to use for the new session.</param>
@@ -2572,8 +2578,14 @@ namespace TensorFlow
 		/// <param name="metaGraphDef">On success, this will be populated on return with the contents of the MetaGraphDef (can be null).</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		/// <remarks>
+		/// <para>
 		/// This function creates a new session using the specified <paramref name="sessionOptions"/> and then initializes
-		/// the state (restoring tensors and other assets) using <paramref name="runOptions"/>
+		/// the state (restoring tensors and other assets) using <paramref name="runOptions"/>.
+		/// </para>
+		/// <para>
+		/// This function loads the data that was saved using the SavedModel file format, as described
+		/// here: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
+		/// </para>
 		/// </remarks>
 		public TFSession FromSavedModel (TFSessionOptions sessionOptions, TFBuffer runOptions, string exportDir, string [] tags, TFGraph graph, TFBuffer metaGraphDef, TFStatus status = null)
 		{
