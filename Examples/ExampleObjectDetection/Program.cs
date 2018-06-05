@@ -135,7 +135,7 @@ namespace ExampleObjectDetection
 
 			string defaultTextsUrl = ConfigurationManager.AppSettings ["DefaultTextsUrl"] ?? throw new ConfigurationErrorsException ("'DefaultTextsUrl' setting is missing in the configuration file");
 			var textsFile = Path.Combine (dir, "mscoco_label_map.pbtxt");
-            var wc = new WebClient ();
+			var wc = new WebClient ();
 			wc.DownloadFile (defaultTextsUrl, textsFile);
 
 			return textsFile;
