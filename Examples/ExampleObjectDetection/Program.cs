@@ -17,8 +17,10 @@ namespace ExampleObjectDetection
 	{
 		private static IEnumerable<CatalogItem> _catalog;
 		private static string _currentDir = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-		private static string _input = Path.Combine (_currentDir, "test_images/input.jpg");
-		private static string _output = Path.Combine (_currentDir, "test_images/output.jpg");
+		private static string _input_relative = "test_images/input.jpg";
+		private static string _output_relative = "test_images/output.jpg";
+		private static string _input = Path.Combine (_currentDir, _input_relative);
+		private static string _output = Path.Combine (_currentDir, _output_relative);
 		private static string _catalogPath;
 		private static string _modelPath;
 
@@ -66,6 +68,8 @@ namespace ExampleObjectDetection
 				graph.Import (new TFBuffer (model));
 
 				using (var session = new TFSession (graph)) {
+					Console.WriteLine("Detecting objects");
+
 					foreach (var tuple in fileTuples) {
 						var tensor = ImageUtil.CreateTensorFromImageFile (tuple.input, TFDataType.UInt8);
 						var runner = session.GetRunner ();
@@ -86,6 +90,7 @@ namespace ExampleObjectDetection
 						var num = (float [])output [3].GetValue (jagged: false);
 
 						DrawBoxes (boxes, scores, classes, tuple.input, tuple.output, MIN_SCORE_FOR_OBJECT_HIGHLIGHTING);
+						Console.WriteLine($"Done. See {_output_relative}");
 					}
 				}
 			}
@@ -102,6 +107,7 @@ namespace ExampleObjectDetection
 				return modelFile;
 
 			if (!File.Exists (zipfile)) {
+				Console.WriteLine("Downloading default model");
 				var wc = new WebClient ();
 				wc.DownloadFile (defaultModelUrl, zipfile);
 			}
@@ -114,6 +120,8 @@ namespace ExampleObjectDetection
 
 		private static void ExtractToDirectory (string file, string targetDir)
 		{
+			Console.WriteLine("Extracting");
+
 			using (Stream inStream = File.OpenRead (file))
 			using (Stream gzipStream = new GZipInputStream (inStream)) {
 				TarArchive tarArchive = TarArchive.CreateInputTarArchive (gzipStream);
@@ -123,6 +131,8 @@ namespace ExampleObjectDetection
 
 		private static string DownloadDefaultTexts (string dir)
 		{
+			Console.WriteLine("Downloading default label map");
+
 			string defaultTextsUrl = ConfigurationManager.AppSettings ["DefaultTextsUrl"] ?? throw new ConfigurationErrorsException ("'DefaultTextsUrl' setting is missing in the configuration file");
 			var textsFile = Path.Combine (dir, "mscoco_label_map.pbtxt");
 			var wc = new WebClient ();
