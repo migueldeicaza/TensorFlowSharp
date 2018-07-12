@@ -2891,8 +2891,8 @@ namespace TensorFlow
 		/// <param name="inputValues">Input values.</param>
 		/// <param name="outputs">Output nodes.</param>
 		/// <param name="targetOpers">Target operations to execute.</param>
-		/// <param name="runMetadata">Run metadata.</param>
-		/// <param name="runOptions">Run options.</param>
+		/// <param name="runMetadata">Run metadata, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
+		/// <param name="runOptions">Run options, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
 		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
 		public TFTensor [] Run (TFOutput [] inputs, TFTensor [] inputValues, TFOutput [] outputs, TFOperation [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
 		{
