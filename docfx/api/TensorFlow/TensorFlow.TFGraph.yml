@@ -11715,6 +11715,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Import a serialized graph held in a byte array into this graph, using the specified import options.
+  remarks: If you are tryig to load a file stored using the SavedModel file format, you should use the <xref href="TensorFlow.TFSession.FromSavedModel"></xref> API instead.
   syntax:
     content: public void Import (byte[] buffer, TensorFlow.TFImportGraphDefOptions options, TensorFlow.TFStatus status = null);
     parameters:
@@ -11829,6 +11830,7 @@ items:
   - TensorFlowSharp
   namespace: TensorFlow
   summary: Imports a graph serialized into the graph
+  remarks: If you are tryig to load a file stored using the SavedModel file format, you should use the <xref href="TensorFlow.TFSession.FromSavedModel"></xref> API instead.
   syntax:
     content: public void ImportGraphDef (TensorFlow.TFBuffer graphDef, TensorFlow.TFImportGraphDefOptions options, TensorFlow.TFOutput[] returnOutputs, TensorFlow.TFStatus status = null);
     parameters:

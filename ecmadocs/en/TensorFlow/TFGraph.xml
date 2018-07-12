@@ -13498,7 +13498,9 @@
             Import a serialized graph held in a byte array into this graph, using the specified import options.
             </summary>
         <returns>The import.</returns>
-        <remarks>To be added.</remarks>
+        <remarks>
+              If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel" /> API instead.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="Import">
@@ -13614,7 +13616,9 @@
         <summary>
             Imports a graph serialized into the graph
             </summary>
-        <remarks>To be added.</remarks>
+        <remarks>
+              If you are tryig to load a file stored using the SavedModel file format, you should use the <see cref="T:TensorFlow.TFSession.FromSavedModel" /> API instead.
+            </remarks>
       </Docs>
     </Member>
     <Member MemberName="InitializeTable">

@@ -163,10 +163,16 @@ items:
   assemblies:
   - TensorFlowSharp
   namespace: TensorFlow
-  summary: Creates a session and graph from a saved session model
+  summary: Creates a session and graph from a model stored in the SavedModel file format.
   remarks: >-
-    This function creates a new session using the specified <code>sessionOptions</code> and then initializes
-                the state (restoring tensors and other assets) using <code>runOptions</code>
+    <p>
+                This function creates a new session using the specified <code>sessionOptions</code> and then initializes
+                the state (restoring tensors and other assets) using <code>runOptions</code>.
+                </p>
+        <p>
+                This function loads the data that was saved using the SavedModel file format, as described
+                here: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
+                </p>
   syntax:
     content: public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);
     parameters:
