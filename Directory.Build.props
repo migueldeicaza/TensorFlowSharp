@@ -22,6 +22,7 @@
             <FrameworkPathOverride Condition="'$(TargetFramework)' == 'net472'">$(MonoPath)/4.7.2-api</FrameworkPathOverride>
         </PropertyGroup>
         <Message Text="MonoPath = $(MonoPath)" Importance="high" />
+        <Message Text="TargetFramework = $(TargetFramework)" Importance="high" />
         <Message Text="FrameworkPathOverride = $(FrameworkPathOverride)" Importance="high" />
     </Target>
 </Project>
