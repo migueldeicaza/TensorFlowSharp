@@ -5,6 +5,8 @@ pull_requests:
 configuration: Release
 before_build:
 - cmd: dotnet restore TensorFlowSharp.CSharpOnly.sln
+- cmd: curl "https://www.nuget.org/api/v2/package/TensorFlowSharp/1.4.0-pre1" -o native.zip
+- cmd: 7z x native.zip
 build:
   project: TensorFlowSharp.CSharpOnly.sln
   verbosity: minimal
