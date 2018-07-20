@@ -6,7 +6,8 @@ script:
   - tar xzvf $tsh_version native
   - dotnet restore
   - dotnet build -c Release
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netcoreapp2.0/
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netcoreapp2.0/
   - dotnet test -c Release --no-build
-mono: "5.4.1"
 dotnet: "2.1.4"
 os: "osx"
