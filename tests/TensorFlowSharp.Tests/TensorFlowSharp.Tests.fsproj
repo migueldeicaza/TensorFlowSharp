@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Include="ArithmeticOperationTests.fs" />
-    <Compile Include="NeuralNetOperationTests.fs" />
   </ItemGroup>
 
   <ItemGroup>
