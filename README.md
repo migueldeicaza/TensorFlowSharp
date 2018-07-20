@@ -2,6 +2,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/migueldeicaza/TensorFlowSharp?branch=master&svg=true)](https://ci.appveyor.com/project/migueldeicaza/TensorFlowSharp)
 
+[![codecov](https://codecov.io/gh/migueldeicaza/TensorFlowSharp/branch/master/graph/badge.svg)](https://codecov.io/gh/migueldeicaza/TensorFlowSharp)
+
 TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
 https://github.com/tensorflow/tensorflow
