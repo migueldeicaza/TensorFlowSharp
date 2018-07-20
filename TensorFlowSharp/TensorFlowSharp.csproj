@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;net47;netstandard2.0;</TargetFrameworks>
     <RootNamespace>TensorFlowSharp</RootNamespace>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -25,9 +25,18 @@
     <PackageReleaseNotes>1.8.0-pre1 adds support for the TensorFlow 1.8 release</PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFramework)' == 'net46' ">
+      <ItemGroup>
+        <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <!-- Placeholder -->
+    </When>
+    <Otherwise>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <None Remove="nuget\build\net45\TensorFlowSharp.targets" />

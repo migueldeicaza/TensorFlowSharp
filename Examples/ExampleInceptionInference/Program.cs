@@ -77,7 +77,7 @@ namespace ExampleInceptionInference
 			//	Error ("No files were specified");
 
 			if (files.Count == 0)
-				files = new List<string> () { "/tmp/demo.jpg" };
+				files = new List<string> () { "demo-picture.jpg" };
 			
 			ModelFiles (dir);
 

@@ -85,7 +85,7 @@ let main argv =
     use graph = new TFGraph()
     graph.Import (File.ReadAllBytes (modelFile), "")
     use session = new TFSession (graph)
-    let files = if argv.Length = 0 then [| "/tmp/demo.jpg" |] else argv
+    let files = if argv.Length = 0 then [| "demo-picture.jpg" |] else argv
 
     for file in files do
         let tensor = createTensorFromImageFile file

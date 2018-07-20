@@ -4,13 +4,12 @@ script:
   - tsh_version=1.4.0-pre1
   - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
   - tar xzvf $tsh_version native
-  - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
-  - cd $TRAVIS_BUILD_DIR/
-  - msbuild /p:Configuration=Release TensorFlowSharp.sln
-  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/
-  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/
-  - cd $TRAVIS_BUILD_DIR/packages/xunit.runner.console.2.2.0/tools
-  - mono --arch=64 xunit.console.exe "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/TensorFlowSharp.Tests.dll" "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/TensorFlowSharp.Tests.CSharp.dll"
-mono: "5.4.1"
-dotnet: "2.1.4"
+  - dotnet restore
+  - dotnet build -c Release
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netcoreapp2.0/
+  - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netcoreapp2.0/
+  - dotnet test -c Release --no-build tests/TensorFlowSharp.Tests/TensorFlowSharp.Tests.fsproj
+  - dotnet test -c Release --no-build tests/TensorFlowSharp.Tests.CSharp/TensorFlowSharp.Tests.CSharp.csproj
+mono: latest
+dotnet: "2.1.300"
 os: "osx"

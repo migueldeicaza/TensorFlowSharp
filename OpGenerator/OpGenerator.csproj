@@ -1,57 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{700E5928-3D5D-4B54-AD4D-BC48E79E389E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>OpGenerator</RootNamespace>
-    <AssemblyName>OpGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <ReleaseVersion>0.2</ReleaseVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Google.Protobuf">
-      <HintPath>..\packages\Google.Protobuf.3.4.1\lib\net45\Google.Protobuf.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\packages\protobuf-net.2.3.2\lib\net40\protobuf-net.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Google.Protobuf" Version="3.6.0" />
+    <PackageReference Include="protobuf-net" Version="2.3.13" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="OpGenerator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Opdefs.cs" />
-    <Compile Include="api_def.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="New Folder\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  
 </Project>
