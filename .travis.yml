@@ -10,5 +10,6 @@ script:
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netcoreapp2.0/
   - dotnet test -c Release --no-build tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj
   - dotnet test -c Release --no-build tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj
-dotnet: "2.1.4"
+mono: none
+dotnet: latest
 os: "osx"
