@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0;</TargetFrameworks>
     <RootNamespace>TensorFlowSharp</RootNamespace>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -25,11 +25,20 @@
     <PackageReleaseNotes>1.8.0-pre1 adds support for the TensorFlow 1.8 release</PackageReleaseNotes>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFramework)' == 'net46' ">
+      <ItemGroup>
+        <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <!-- Placeholder -->
+    </When>
+    <Otherwise>
+    </Otherwise>
+  </Choose>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <None Remove="nuget\build\net45\TensorFlowSharp.targets" />
     <None Include="nuget\build\net45\TensorFlowSharp.targets" PackagePath="build\net45\TensorFlowSharp.targets" Pack="true" />
     <None Include="..\native\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
@@ -37,7 +46,7 @@
     <None Include="..\native\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
     <None Include="..\native\libtensorflow.so" Link="nuget\runtimes\linux\native\libtensorflow.so" PackagePath="runtimes\linux\native\libtensorflow.so" Pack="true" />
     <None Include="..\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Folder Include="Ops\" />
