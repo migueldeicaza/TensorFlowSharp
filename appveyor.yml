@@ -9,8 +9,6 @@ before_build:
 - cmd: dotnet restore
 build:
   verbosity: minimal
-test_script:
-- cmd: dotnet test -c Release --no-build
 after_test:
 - choco install opencover.portable
 - choco install codecov
