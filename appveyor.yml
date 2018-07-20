@@ -9,10 +9,13 @@ before_build:
 - cmd: dotnet restore
 build:
   verbosity: minimal
+test_script:
+- cmd: dotnet test -c Release --no-build tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.csproj
+- cmd: dotnet test -c Release --no-build tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj
 after_test:
 - choco install opencover.portable
 - choco install codecov
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --verbosity q TensorFlowSharp.CSharpOnly.sln"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test -c Release --no-build --verbosity q tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj"
 - codecov -f "results.xml" 
 artifacts:
 - path: '**\*.nupkg'
