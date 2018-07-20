@@ -6,8 +6,8 @@
         <MonoPath Condition="'$(MonoPath)' == '' And Exists('/Library/Frameworks/Mono.framework/Versions/Current/lib/mono')">/Library/Frameworks/Mono.framework/Versions/Current/lib/mono</MonoPath>
     </PropertyGroup>
     
-    <Target Name="SetFrameworkPathForMono" BeforeTargets="Compile">
-        <PropertyGroup Condition="'$(MonoPath)' != ''">
+    <Target Name="SetFrameworkPathForMono" BeforeTargets="Compile" Condition="'$(MonoPath)' != ''">
+        <PropertyGroup>
             <!-- Try to apply framework override fo supported targets if Mono was found -->
             <FrameworkPathOverride Condition="('$(TargetFramework)' == 'net20' Or '$(TargetFramework)' == 'net35')">$(MonoPath)/2.0-api</FrameworkPathOverride>
             <FrameworkPathOverride Condition="'$(TargetFramework)' == 'net40'">$(MonoPath)/4.0-api</FrameworkPathOverride>

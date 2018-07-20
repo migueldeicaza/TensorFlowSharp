@@ -4,7 +4,8 @@ script:
   - tsh_version=1.4.0-pre1
   - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
   - tar xzvf $tsh_version native
-  - dotnet msbuild /restore /p:Configuration=Release
+  - dotnet restore
+  - dotnet build -c Release
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/netcoreapp2.0/
   - cp -R $TRAVIS_BUILD_DIR/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/netcoreapp2.0/
   - dotnet test -c Release --no-build tests/TensorFlowSharp.Tests/TensorFlowSharp.Tests.fsproj
