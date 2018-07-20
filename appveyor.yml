@@ -10,6 +10,8 @@ before_build:
 build:
   project: TensorFlowSharp.CSharpOnly.sln
   verbosity: minimal
+test_script:
+- cmd: dotnet test -c Release --no-build TensorFlowSharp.CSharpOnly.sln
 after_test:
 - choco install opencover.portable
 - choco install codecov
