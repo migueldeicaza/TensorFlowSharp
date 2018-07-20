@@ -1,0 +1,20 @@
+<Project>
+    <!-- A workaround for "full" .NET Framework targets to try to fallback on Mono before failing -->
+    <PropertyGroup Condition="'$(OS)' != 'Windows_NT' And $(TargetFramework.StartsWith('net'))">
+        <!-- Look up for Mono installations on Linux or macOS -->
+        <MonoPath Condition="'$(MonoPath)' == '' And Exists('/usr/lib/mono')">/usr/lib/mono</MonoPath>
+        <MonoPath Condition="'$(MonoPath)' == '' And Exists('/Library/Frameworks/Mono.framework/Versions/Current/lib/mono')">/Library/Frameworks/Mono.framework/Versions/Current/lib/mono</MonoPath>
+        <!-- Try to apply framework override fo supported targets if Mono was found -->
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And ('$(TargetFramework)' == 'net20' Or '$(TargetFramework)' == 'net35')">$(MonoPath)/2.0-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net40'">$(MonoPath)/4.0-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net45'">$(MonoPath)/4.5-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net451'">$(MonoPath)/4.5.1-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net452'">$(MonoPath)/4.5.2-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net46'">$(MonoPath)/4.6-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net461'">$(MonoPath)/4.6.1-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net462'">$(MonoPath)/4.6.2-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net47'">$(MonoPath)/4.7-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net471'">$(MonoPath)/4.7.1-api</FrameworkPathOverride>
+        <FrameworkPathOverride Condition="'$(MonoPath)' != '' And '$(TargetFramework)' == 'net472'">$(MonoPath)/4.7.2-api</FrameworkPathOverride>
+    </PropertyGroup>
+</Project>
