@@ -11,5 +11,5 @@ script:
   - dotnet test -c Release --no-build tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj
   - dotnet test -c Release --no-build tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj
 mono: none
-dotnet: latest
+dotnet: "2.1.300"
 os: "osx"
