@@ -10,7 +10,7 @@ before_build:
 build:
   verbosity: minimal
 test_script:
-- cmd: dotnet test -c Release --no-build tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.csproj
+- cmd: dotnet test -c Release --no-build tests\TensorFlowSharp.Tests\TensorFlowSharp.Tests.fsproj
 - cmd: dotnet test -c Release --no-build tests\TensorFlowSharp.Tests.CSharp\TensorFlowSharp.Tests.CSharp.csproj
 after_test:
 - choco install opencover.portable
