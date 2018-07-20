@@ -1,4 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;net461;</TargetFrameworks>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ImageCompression.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="example.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="tensorflow-batteries-windows-x64-cpu" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj" />
+  </ItemGroup>
+
+</Project>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -55,4 +84,4 @@
     </Content>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
-</Project>
+</Project>-->
