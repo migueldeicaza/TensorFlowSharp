@@ -6,6 +6,7 @@ configuration: Release
 before_build:
 - cmd: dotnet restore
 build:
+  project: TensorFlowSharp.CSharpOnly.sln
   verbosity: minimal
 artifacts:
 - path: '**\*.nupkg'
