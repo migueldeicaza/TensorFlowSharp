@@ -9,7 +9,6 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.2</ReleaseVersion>
-    <TargetFramework>net471</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
