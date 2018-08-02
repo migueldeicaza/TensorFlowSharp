@@ -974,6 +974,9 @@ namespace TensorFlow {
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
+		/// <param name="update_slots">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Same as "var".
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -982,7 +985,7 @@ namespace TensorFlow {
 		///   accum += grad * grad
 		///   var -= lr * grad * (1 / sqrt(accum))
 		/// </remarks>
-		public TFOutput ApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, bool? use_locking = null, string operName = null)
+		public TFOutput ApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, bool? use_locking = null, bool? update_slots = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ApplyAdagrad", MakeName ("ApplyAdagrad", operName));
 			desc.AddInput (var);
@@ -994,6 +997,9 @@ namespace TensorFlow {
 			
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (update_slots.HasValue)
+				desc.SetAttr ("update_slots", update_slots.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -3835,6 +3841,73 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   A Reader that outputs rows from a BigQuery table as tensorflow Examples.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BigQueryReader'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		///   If non-empty, this reader is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		///   If non-empty, this reader is named in the given bucket
+		///   with this shared_name. Otherwise, the node name is used instead.
+		/// </param>
+		/// <param name="test_end_point">
+		///   Optional argument
+		///   Do not use. For testing purposes only.
+		/// </param>
+		/// <param name="project_id">
+		///   GCP project ID.
+		/// </param>
+		/// <param name="dataset_id">
+		///   BigQuery Dataset ID.
+		/// </param>
+		/// <param name="table_id">
+		///   Table to read.
+		/// </param>
+		/// <param name="columns">
+		///   List of columns to read. Leave empty to read all columns.
+		/// </param>
+		/// <param name="timestamp_millis">
+		///   Table snapshot timestamp in millis since epoch. Relative
+		///   (negative or zero) snapshot times are not allowed. For more details, see
+		///   'Table Decorators' in BigQuery docs.
+		/// </param>
+		/// <returns>
+		///   The handle to reference the Reader.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BigQueryReader (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, string container = null, string shared_name = null, string test_end_point = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BigQueryReader", MakeName ("BigQueryReader", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("project_id", project_id);
+			desc.SetAttr ("dataset_id", dataset_id);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("columns", columns);
+			desc.SetAttr ("timestamp_millis", timestamp_millis);
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			if (test_end_point != null)
+				desc.SetAttr ("test_end_point", test_end_point);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var reader_handle = new TFOutput (op, _idx++);
+			return reader_handle;
+		}
+
+		/// <summary>
 		///   Counts the number of occurrences of each value in an integer array.
 		/// </summary>
 		/// <param name="arr">
@@ -5300,6 +5373,9 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropFilter'.
 		/// </param>
+		/// <param name="dilations">
+		///   Optional argument
+		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
 		///   dimension of <c>input</c>. Must have <c>strides[0] = strides[4] = 1</c>.
@@ -5310,7 +5386,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput Conv3DBackpropFilter (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, string padding, string operName = null)
+		public TFOutput Conv3DBackpropFilter (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, string padding, long[] dilations = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Conv3DBackpropFilter", MakeName ("Conv3DBackpropFilter", operName));
 			desc.AddInput (input);
@@ -5321,6 +5397,9 @@ namespace TensorFlow {
 			
 			desc.SetAttr ("strides", strides);
 			desc.SetAttr ("padding", padding);
+			if (dilations != null)
+				desc.SetAttr ("dilations", dilations);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -5412,6 +5491,9 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Conv3DBackpropInput'.
 		/// </param>
+		/// <param name="dilations">
+		///   Optional argument
+		/// </param>
 		/// <param name="strides">
 		///   1-D tensor of length 5. The stride of the sliding window for each
 		///   dimension of <c>input</c>. Must have <c>strides[0] = strides[4] = 1</c>.
@@ -5422,7 +5504,7 @@ namespace TensorFlow {
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput Conv3DBackpropInput (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, string padding, string operName = null)
+		public TFOutput Conv3DBackpropInput (TFOutput input, TFOutput filter, TFOutput out_backprop, long[] strides, string padding, long[] dilations = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Conv3DBackpropInput", MakeName ("Conv3DBackpropInput", operName));
 			desc.AddInput (input);
@@ -5433,6 +5515,9 @@ namespace TensorFlow {
 			
 			desc.SetAttr ("strides", strides);
 			desc.SetAttr ("padding", padding);
+			if (dilations != null)
+				desc.SetAttr ("dilations", dilations);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -5500,6 +5585,112 @@ namespace TensorFlow {
 			
 			if (dilations != null)
 				desc.SetAttr ("dilations", dilations);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Copy Op.
+		/// </summary>
+		/// <param name="input">
+		///   Input tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Copy'.
+		/// </param>
+		/// <param name="tensor_name">
+		///   Optional argument
+		///   The name of the input tensor.
+		/// </param>
+		/// <param name="debug_ops_spec">
+		///   Optional argument
+		///   A list of debug op spec (op, url, gated_grpc) for attached debug
+		///   ops. Each element of the list has the format
+		///   &amp;lt;debug_op&amp;gt;;&amp;lt;grpc_url&amp;gt;;&amp;lt;gated_grpc&amp;gt;, wherein gated_grpc is boolean represented
+		///   as 0/1. E.g., "DebugIdentity;grpc://foo:3333;1",
+		///   "DebugIdentity;file:///tmp/tfdbg_1;0".
+		/// </param>
+		/// <returns>
+		///   Output tensor, deep-copied from input.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Performs CPU-to-CPU or GPU-to-GPU deep-copying of tensor, depending on the
+		///   device on which the tensor is allocated.
+		///   N.B.: If the all downstream attached debug ops are disabled given the current
+		///   gRPC gating status, the output will simply forward the input tensor without
+		///   deep-copying. See the documentation of Debug* ops for more details.
+		///   
+		///   Unlike the CopyHost Op, this op does not have HostMemory constraint on its
+		///   input or output.
+		/// </remarks>
+		public TFOutput Copy (TFOutput input, string tensor_name = null, string[] debug_ops_spec = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Copy", MakeName ("Copy", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (tensor_name != null)
+				desc.SetAttr ("tensor_name", tensor_name);
+			
+			if (debug_ops_spec != null)
+				desc.SetAttr ("debug_ops_spec", debug_ops_spec);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Copy Host Op.
+		/// </summary>
+		/// <param name="input">
+		///   Input tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CopyHost'.
+		/// </param>
+		/// <param name="tensor_name">
+		///   Optional argument
+		///   The name of the input tensor.
+		/// </param>
+		/// <param name="debug_ops_spec">
+		///   Optional argument
+		///   A list of debug op spec (op, url, gated_grpc) for attached debug
+		///   ops. Each element of the list has the format
+		///   &amp;lt;debug_op&amp;gt;;&amp;lt;grpc_url&amp;gt;;&amp;lt;gated_grpc&amp;gt;, wherein gated_grpc is boolean represented
+		///   as 0/1. E.g., "DebugIdentity;grpc://foo:3333;1",
+		///   "DebugIdentity;file:///tmp/tfdbg_1;0".
+		/// </param>
+		/// <returns>
+		///   Output tensor, deep-copied from input.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Performs CPU-to-CPU deep-copying of tensor.
+		///   N.B.: If the all downstream attached debug ops are disabled given the current
+		///   gRPC gating status, the output will simply forward the input tensor without
+		///   deep-copying. See the documentation of Debug* ops for more details.
+		///   
+		///   Unlike the Copy Op, this op has HostMemory constraint on its input or output.
+		/// </remarks>
+		public TFOutput CopyHost (TFOutput input, string tensor_name = null, string[] debug_ops_spec = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CopyHost", MakeName ("CopyHost", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (tensor_name != null)
+				desc.SetAttr ("tensor_name", tensor_name);
+			
+			if (debug_ops_spec != null)
+				desc.SetAttr ("debug_ops_spec", debug_ops_spec);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -6397,6 +6588,243 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Debug Identity Op.
+		/// </summary>
+		/// <param name="input">
+		///   Input tensor, non-Reference type.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DebugIdentity'.
+		/// </param>
+		/// <param name="device_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="tensor_name">
+		///   Optional argument
+		///   Name of the input tensor.
+		/// </param>
+		/// <param name="debug_urls">
+		///   Optional argument
+		///   List of URLs to debug targets, e.g.,
+		///   file:///foo/tfdbg_dump, grpc:://localhost:11011
+		/// </param>
+		/// <param name="gated_grpc">
+		///   Optional argument
+		///   Whether this op will be gated. If any of the debug_urls of this
+		///   debug node is of the grpc:// scheme, when the value of this attribute is set
+		///   to True, the data will not actually be sent via the grpc stream unless this
+		///   debug op has been enabled at the debug_url. If all of the debug_urls of this
+		///   debug node are of the grpc:// scheme and the debug op is enabled at none of
+		///   them, the output will be an empty Tensor.
+		/// </param>
+		/// <returns>
+		///   Output tensor that equals the input tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Provides an identity mapping of the non-Ref type input tensor for debugging.
+		/// </remarks>
+		public TFOutput DebugIdentity (TFOutput input, string device_name = null, string tensor_name = null, string[] debug_urls = null, bool? gated_grpc = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DebugIdentity", MakeName ("DebugIdentity", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_name != null)
+				desc.SetAttr ("device_name", device_name);
+			
+			if (tensor_name != null)
+				desc.SetAttr ("tensor_name", tensor_name);
+			
+			if (debug_urls != null)
+				desc.SetAttr ("debug_urls", debug_urls);
+			
+			if (gated_grpc.HasValue)
+				desc.SetAttr ("gated_grpc", gated_grpc.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Debug NaN Value Counter Op
+		/// </summary>
+		/// <param name="input">
+		///   Input tensor, non-Reference type.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DebugNanCount'.
+		/// </param>
+		/// <param name="device_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="tensor_name">
+		///   Optional argument
+		///   Name of the input tensor.
+		/// </param>
+		/// <param name="debug_urls">
+		///   Optional argument
+		///   List of URLs to debug targets, e.g.,
+		///   file:///foo/tfdbg_dump, grpc:://localhost:11011.
+		/// </param>
+		/// <param name="gated_grpc">
+		///   Optional argument
+		///   Whether this op will be gated. If any of the debug_urls of this
+		///   debug node is of the grpc:// scheme, when the value of this attribute is set
+		///   to True, the data will not actually be sent via the grpc stream unless this
+		///   debug op has been enabled at the debug_url. If all of the debug_urls of this
+		///   debug node are of the grpc:// scheme and the debug op is enabled at none of
+		///   them, the output will be an empty Tensor.
+		/// </param>
+		/// <returns>
+		///   An integer output tensor that is the number of NaNs in the input.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Counts number of NaNs in the input tensor, for debugging.
+		/// </remarks>
+		public TFOutput DebugNanCount (TFOutput input, string device_name = null, string tensor_name = null, string[] debug_urls = null, bool? gated_grpc = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DebugNanCount", MakeName ("DebugNanCount", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_name != null)
+				desc.SetAttr ("device_name", device_name);
+			
+			if (tensor_name != null)
+				desc.SetAttr ("tensor_name", tensor_name);
+			
+			if (debug_urls != null)
+				desc.SetAttr ("debug_urls", debug_urls);
+			
+			if (gated_grpc.HasValue)
+				desc.SetAttr ("gated_grpc", gated_grpc.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Debug Numeric Summary Op.
+		/// </summary>
+		/// <param name="input">
+		///   Input tensor, non-Reference type, float or double.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DebugNumericSummary'.
+		/// </param>
+		/// <param name="device_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="tensor_name">
+		///   Optional argument
+		///   Name of the input tensor.
+		/// </param>
+		/// <param name="debug_urls">
+		///   Optional argument
+		///   List of URLs to debug targets, e.g.,
+		///   file:///foo/tfdbg_dump, grpc:://localhost:11011
+		/// </param>
+		/// <param name="lower_bound">
+		///   Optional argument
+		///   (float) The lower bound &amp;lt;= which values will be included in the
+		///   generalized -inf count. Default: -inf.
+		/// </param>
+		/// <param name="upper_bound">
+		///   Optional argument
+		///   (float) The upper bound &amp;gt;= which values will be included in the
+		///   generalized +inf count. Default: +inf.
+		/// </param>
+		/// <param name="mute_if_healthy">
+		///   Optional argument
+		///   (bool) Do not send data to the debug URLs unless at least one
+		///   of elements [2], [3] and [7] (i.e., the nan count and the generalized -inf and
+		///   inf counts) is non-zero.
+		/// </param>
+		/// <param name="gated_grpc">
+		///   Optional argument
+		///   Whether this op will be gated. If any of the debug_urls of this
+		///   debug node is of the grpc:// scheme, when the value of this attribute is set
+		///   to True, the data will not actually be sent via the grpc stream unless this
+		///   debug op has been enabled at the debug_url. If all of the debug_urls of this
+		///   debug node are of the grpc:// scheme and the debug op is enabled at none of
+		///   them, the output will be an empty Tensor.
+		/// </param>
+		/// <returns>
+		///   A double tensor of shape [14 + nDimensions], where nDimensions is the
+		///   the number of dimensions of the tensor's shape. The elements of output are:
+		///   [0]: is initialized (1.0) or not (0.0).
+		///   [1]: total number of elements
+		///   [2]: NaN element count
+		///   [3]: generalized -inf count: elements &amp;lt;= lower_bound. lower_bound is -inf by
+		///   default.
+		///   [4]: negative element count (excluding -inf), if lower_bound is the default
+		///   -inf. Otherwise, this is the count of elements &amp;gt; lower_bound and &amp;lt; 0.
+		///   [5]: zero element count
+		///   [6]: positive element count (excluding +inf), if upper_bound is the default
+		///   -inf. Otherwise, this is the count of elements &amp;lt; upper_bound and &amp;gt; 0.
+		///   [7]: generalized +inf count, elements &amp;gt;= upper_bound. upper_bound is +inf by
+		///   default.
+		///   Output elements [1:8] are all zero, if the tensor is uninitialized.
+		///   [8]: minimum of all non-inf and non-NaN elements.
+		///   If uninitialized or no such element exists: +inf.
+		///   [9]: maximum of all non-inf and non-NaN elements.
+		///   If uninitialized or no such element exists: -inf.
+		///   [10]: mean of all non-inf and non-NaN elements.
+		///   If uninitialized or no such element exists: NaN.
+		///   [11]: variance of all non-inf and non-NaN elements.
+		///   If uninitialized or no such element exists: NaN.
+		///   [12]: Data type of the tensor encoded as an enum integer. See the DataType
+		///   proto for more details.
+		///   [13]: Number of dimensions of the tensor (ndims).
+		///   [14+]: Sizes of the dimensions.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Provide a basic summary of numeric value types, range and distribution.
+		/// </remarks>
+		public TFOutput DebugNumericSummary (TFOutput input, string device_name = null, string tensor_name = null, string[] debug_urls = null, float? lower_bound = null, float? upper_bound = null, bool? mute_if_healthy = null, bool? gated_grpc = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DebugNumericSummary", MakeName ("DebugNumericSummary", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_name != null)
+				desc.SetAttr ("device_name", device_name);
+			
+			if (tensor_name != null)
+				desc.SetAttr ("tensor_name", tensor_name);
+			
+			if (debug_urls != null)
+				desc.SetAttr ("debug_urls", debug_urls);
+			
+			if (lower_bound.HasValue)
+				desc.SetAttr ("lower_bound", lower_bound.Value);
+			
+			if (upper_bound.HasValue)
+				desc.SetAttr ("upper_bound", upper_bound.Value);
+			
+			if (mute_if_healthy.HasValue)
+				desc.SetAttr ("mute_if_healthy", mute_if_healthy.Value);
+			
+			if (gated_grpc.HasValue)
+				desc.SetAttr ("gated_grpc", gated_grpc.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Decode and Crop a JPEG-encoded image to a uint8 tensor.
 		/// </summary>
 		/// <param name="contents">
@@ -6639,6 +7067,9 @@ namespace TensorFlow {
 		///   Optional argument
 		///   Additional string to recognize as NA/NaN.
 		/// </param>
+		/// <param name="select_cols">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Each tensor will have the same shape as records.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -6648,7 +7079,7 @@ namespace TensorFlow {
 		///   (https://tools.ietf.org/html/rfc4180)
 		///   Note that we allow leading and trailing spaces with int or float field.
 		/// </remarks>
-		public TFOutput[] DecodeCSV (TFOutput records, TFOutput[] record_defaults, string field_delim = null, bool? use_quote_delim = null, string na_value = null, string operName = null)
+		public TFOutput[] DecodeCSV (TFOutput records, TFOutput[] record_defaults, string field_delim = null, bool? use_quote_delim = null, string na_value = null, long[] select_cols = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "DecodeCSV", MakeName ("DecodeCSV", operName));
 			desc.AddInput (records);
@@ -6664,6 +7095,9 @@ namespace TensorFlow {
 			
 			if (na_value != null)
 				desc.SetAttr ("na_value", na_value);
+			
+			if (select_cols != null)
+				desc.SetAttr ("select_cols", select_cols);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -11467,6 +11901,65 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Generates serialized partition messages suitable for batch reads.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GenerateBigQueryReaderPartitions'.
+		/// </param>
+		/// <param name="test_end_point">
+		///   Optional argument
+		///   Do not use. For testing purposes only.
+		/// </param>
+		/// <param name="project_id">
+		///   GCP project ID.
+		/// </param>
+		/// <param name="dataset_id">
+		///   BigQuery Dataset ID.
+		/// </param>
+		/// <param name="table_id">
+		///   Table to read.
+		/// </param>
+		/// <param name="columns">
+		///   List of columns to read. Leave empty to read all columns.
+		/// </param>
+		/// <param name="timestamp_millis">
+		///   Table snapshot timestamp in millis since epoch. Relative
+		///   (negative or zero) snapshot times are not allowed. For more details, see
+		///   'Table Decorators' in BigQuery docs.
+		/// </param>
+		/// <param name="num_partitions">
+		///   Number of partitions to split the table into.
+		/// </param>
+		/// <returns>
+		///   Serialized table partitions.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op should not be used directly by clients. Instead, the
+		///   bigquery_reader_ops.py file defines a clean interface to the reader.
+		/// </remarks>
+		public TFOutput GenerateBigQueryReaderPartitions (string project_id, string dataset_id, string table_id, string[] columns, long timestamp_millis, long num_partitions, string test_end_point = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "GenerateBigQueryReaderPartitions", MakeName ("GenerateBigQueryReaderPartitions", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("project_id", project_id);
+			desc.SetAttr ("dataset_id", dataset_id);
+			desc.SetAttr ("table_id", table_id);
+			desc.SetAttr ("columns", columns);
+			desc.SetAttr ("timestamp_millis", timestamp_millis);
+			desc.SetAttr ("num_partitions", num_partitions);
+			if (test_end_point != null)
+				desc.SetAttr ("test_end_point", test_end_point);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var partitions = new TFOutput (op, _idx++);
+			return partitions;
+		}
+
+		/// <summary>
 		///   Given a path to new and old vocabulary files, returns a remapping Tensor of
 		/// </summary>
 		/// <param name="new_vocab_file">
@@ -13453,31 +13946,6 @@ namespace TensorFlow {
 				components [i] = new TFOutput (op, _idx++);
 			
 			return components;
-		}
-
-		/// <summary>
-		///   Associates the given iterator with the given statistics aggregator.
-		/// </summary>
-		/// <param name="iterator_handle">
-		/// </param>
-		/// <param name="stats_aggregator_handle">
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorSetStatsAggregator'.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		public TFOperation IteratorSetStatsAggregator (TFOutput iterator_handle, TFOutput stats_aggregator_handle, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "IteratorSetStatsAggregator", MakeName ("IteratorSetStatsAggregator", operName));
-			desc.AddInput (iterator_handle);
-			desc.AddInput (stats_aggregator_handle);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			return op;
 		}
 
 		/// <summary>
@@ -24893,6 +25361,9 @@ namespace TensorFlow {
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
+		/// <param name="update_slots">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
 		/// </returns>
@@ -24900,7 +25371,7 @@ namespace TensorFlow {
 		///   accum += grad * grad
 		///   var -= lr * grad * (1 / sqrt(accum))
 		/// </remarks>
-		public TFOperation ResourceApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, bool? use_locking = null, string operName = null)
+		public TFOperation ResourceApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, bool? use_locking = null, bool? update_slots = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ResourceApplyAdagrad", MakeName ("ResourceApplyAdagrad", operName));
 			desc.AddInput (var);
@@ -24912,6 +25383,9 @@ namespace TensorFlow {
 			
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (update_slots.HasValue)
+				desc.SetAttr ("update_slots", update_slots.Value);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -26026,6 +26500,9 @@ namespace TensorFlow {
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
+		/// <param name="update_slots">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Returns the description of the operation
 		/// </returns>
@@ -26034,7 +26511,7 @@ namespace TensorFlow {
 		///   accum += grad * grad
 		///   var -= lr * grad * (1 / sqrt(accum))
 		/// </remarks>
-		public TFOperation ResourceSparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		public TFOperation ResourceSparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, bool? update_slots = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ResourceSparseApplyAdagrad", MakeName ("ResourceSparseApplyAdagrad", operName));
 			desc.AddInput (var);
@@ -26047,6 +26524,9 @@ namespace TensorFlow {
 			
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (update_slots.HasValue)
+				desc.SetAttr ("update_slots", update_slots.Value);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -29511,38 +29991,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Not for public usage.
-		/// </summary>
-		/// <param name="fetch_start_timestamp">
-		///   any messages earlier than this will be excluded from the
-		///   returned proto.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SessionStatus'.
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   Returns messages from the current session as a serialized SessionStatusProto.
-		///   
-		///   This includes the current state of the compiler, along with any critical
-		///   logging or warning messages.
-		/// </remarks>
-		public TFOutput SessionStatus (TFOutput fetch_start_timestamp, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "SessionStatus", MakeName ("SessionStatus", operName));
-			desc.AddInput (fetch_start_timestamp);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var status = new TFOutput (op, _idx++);
-			return status;
-		}
-
-		/// <summary>
 		///   Number of unique elements along last dimension of input <c>set</c>.
 		/// </summary>
 		/// <param name="set_indices">
@@ -31129,6 +31577,9 @@ namespace TensorFlow {
 		///   by a lock; otherwise the behavior is undefined, but may exhibit less
 		///   contention.
 		/// </param>
+		/// <param name="update_slots">
+		///   Optional argument
+		/// </param>
 		/// <returns>
 		///   Same as "var".
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
@@ -31138,7 +31589,7 @@ namespace TensorFlow {
 		///   accum += grad * grad
 		///   var -= lr * grad * (1 / sqrt(accum))
 		/// </remarks>
-		public TFOutput SparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
+		public TFOutput SparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, bool? update_slots = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "SparseApplyAdagrad", MakeName ("SparseApplyAdagrad", operName));
 			desc.AddInput (var);
@@ -31151,6 +31602,9 @@ namespace TensorFlow {
 			
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			if (update_slots.HasValue)
+				desc.SetAttr ("update_slots", update_slots.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -39495,6 +39949,36 @@ namespace TensorFlow {
 			int _idx = 0;
 			var reader_handle = new TFOutput (op, _idx++);
 			return reader_handle;
+		}
+
+		/// <summary>
+		///   Worker heartbeat op.
+		/// </summary>
+		/// <param name="request">
+		///   A string tensor containing a serialized WorkerHeartbeatRequest
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WorkerHeartbeat'.
+		/// </param>
+		/// <returns>
+		///   A string tensor containing a serialized WorkerHeartbeatResponse
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Heartbeats may be sent periodically to indicate the coordinator is still active,
+		///   to retrieve the current worker status and to expedite shutdown when necessary.
+		/// </remarks>
+		public TFOutput WorkerHeartbeat (TFOutput request, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "WorkerHeartbeat", MakeName ("WorkerHeartbeat", operName));
+			desc.AddInput (request);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var response = new TFOutput (op, _idx++);
+			return response;
 		}
 
 		/// <summary>
