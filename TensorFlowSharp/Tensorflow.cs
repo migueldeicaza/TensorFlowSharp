@@ -1305,10 +1305,10 @@ namespace TensorFlow
 		
 		public override string ToString ()
 		{
-	    	IntPtr len;
-	    	return TF_GraphDebugString (Handle, out len);
+	    		IntPtr len;
+	    		return TF_GraphDebugString (Handle, out len);
 		}
-    }
+    	}
 
 	//
 	// A TFGraph that will not release the undelying handle, this is used
