@@ -99,7 +99,7 @@ using (var session = new TFSession())
 Here is an F# scripting version of the same example, you can use this in F# Interactive:
 
 ```fsharp
-#r @"packages\TensorFlowSharp.1.4.0\lib\net461\TensorFlowSharp.dll"
+#r @"packages\TensorFlowSharp.1.4.0\lib\net471\TensorFlowSharp.dll"
 
 open System
 open System.IO
