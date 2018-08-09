@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/migueldeicaza/TensorFlowSharp.svg?branch=master)](https://travis-ci.org/migueldeicaza/TensorFlowSharp)
+[![Build Status](https://travis-ci.org/migueldeicaza/TensorFlowSharp.svg?branch=master)](https://travis-ci.org/migueldeicaza/TensorFlowSharp) [![Join the chat at https://gitter.im/TensorFlowSharp/Lobby](https://badges.gitter.im/TensorFlowSharp/Lobby.svg)](https://gitter.im/TensorFlowSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
