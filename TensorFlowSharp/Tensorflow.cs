@@ -1879,6 +1879,8 @@ namespace TensorFlow
 			for (int i = 0; i < tensor.Length; i++)
 				unmanaged [i] = tensor [i].handle;
 			TF_SetAttrTensorList (handle, attrName, unmanaged, unmanaged.Length, cstatus.handle);
+			// prevent finalization of managed TFTensors
+			GC.KeepAlive(tensor);
 			cstatus.CheckMaybeRaise (status);
 			return this;
 		}
@@ -2933,6 +2935,10 @@ namespace TensorFlow
 				TF_SessionRun (handle, runOptions == null ? null : runOptions.LLBuffer, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, runMetadata == null ? null : runMetadata.LLBuffer, cstatus.handle);
 			}
 			cstatus.CheckMaybeRaise (status);
+
+			// prevent finalization of managed TFTensors
+			GC.KeepAlive(inputValues);
+
 			var result = new TFTensor [oLen];
 			for (int i = 0; i < oLen; i++) {
 				result [i] = new TFTensor (ovals [i]);
@@ -3037,6 +3043,9 @@ namespace TensorFlow
 				TF_SessionPRun (handle, token.token, inputs, ivals, iLen, outputs, ovals, oLen, topers, tLen, cstatus.handle);
 			}
 			cstatus.CheckMaybeRaise (status);
+
+			// prevent finalization of managed TFTensors
+			GC.KeepAlive(inputValues);
 
 			var result = new TFTensor [oLen];
 			for (int i = 0; i < oLen; i++) {
