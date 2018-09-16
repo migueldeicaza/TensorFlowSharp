@@ -9,12 +9,13 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.2</ReleaseVersion>
+    <TensorFlowRuntimeVersion>1.10.0</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.9.0-pre1</PackageVersion>
+    <PackageVersion>1.10.0-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -22,7 +23,7 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>1.9.0-pre1 adds support for the TensorFlow 1.9 release</PackageReleaseNotes>
+    <PackageReleaseNotes>1.10.0-pre1 adds support for the TensorFlow 1.10 release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

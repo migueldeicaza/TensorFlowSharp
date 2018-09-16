@@ -6020,20 +6020,33 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CrossReplicaSum'.
 		/// </param>
+		/// <param name="group_assignment">
+		///   Optional argument
+		///   The list of group ids. <c>group_assignment[i]</c> represents the
+		///   group id of replica i.
+		/// </param>
 		/// <returns>
 		///   The sum of all the distributed inputs.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   instance supplies its own input, and the output of each is the sum of
-		///   all the inputs.
+		///   instance supplies its own input. If group_assignment is empty, the output of
+		///   each is the sum of all the inputs, otherwise the output of each is the sum of
+		///   the inputs belonging to the same group.
+		///   
+		///   For example, suppose there are 4 TPU instances: <c>[A, B, C, D]</c>. Passing
+		///   group_assignment=<c>[0,1,0,1]</c> sets <c>A, C</c> as group 0, and <c>B, D</c> as group 1.
+		///   Thus we get the outputs: <c>[A+C, B+D, A+C, B+D]</c>.
 		/// </remarks>
-		public TFOutput CrossReplicaSum (TFOutput input, string operName = null)
+		public TFOutput CrossReplicaSum (TFOutput input, long[] group_assignment = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "CrossReplicaSum", MakeName ("CrossReplicaSum", operName));
 			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
+			
+			if (group_assignment != null)
+				desc.SetAttr ("group_assignment", group_assignment);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -11898,6 +11911,90 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Re-configures the GCS block cache with the new configuration values.
+		/// </summary>
+		/// <param name="max_cache_size">
+		/// </param>
+		/// <param name="block_size">
+		/// </param>
+		/// <param name="max_staleness">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GcsConfigureBlockCache'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   If the values are the same as already configured values, this op is a no-op. If
+		///   they are different, the current contents of the block cache is dropped, and a
+		///   new block cache is created fresh.
+		/// </remarks>
+		public TFOperation GcsConfigureBlockCache (TFOutput max_cache_size, TFOutput block_size, TFOutput max_staleness, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "GcsConfigureBlockCache", MakeName ("GcsConfigureBlockCache", operName));
+			desc.AddInput (max_cache_size);
+			desc.AddInput (block_size);
+			desc.AddInput (max_staleness);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Configures the credentials used by the GCS client of the local TF runtime.
+		/// </summary>
+		/// <param name="json">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'GcsConfigureCredentials'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The json input can be of the format:
+		///   
+		///   1. Refresh Token:
+		///   {
+		///   "client_id": "&amp;lt;redacted&amp;gt;",
+		///   "client_secret": "&amp;lt;redacted&amp;gt;",
+		///   "refresh_token: "&amp;lt;redacted&amp;gt;",
+		///   "type": "authorized_user",
+		///   }
+		///   
+		///   2. Service Account:
+		///   {
+		///   "type": "service_account",
+		///   "project_id": "&amp;lt;redacted&amp;gt;",
+		///   "private_key_id": "&amp;lt;redacted&amp;gt;",
+		///   "private_key": "------BEGIN PRIVATE KEY-----\n&amp;lt;REDACTED&amp;gt;\n-----END PRIVATE KEY------\n",
+		///   "client_email": "&amp;lt;REDACTED&amp;gt;@&amp;lt;REDACTED&amp;gt;.iam.gserviceaccount.com",
+		///   "client_id": "&amp;lt;REDACTED&amp;gt;",
+		///   # Some additional fields elided
+		///   }
+		///   
+		///   Note the credentials established through this method are shared across all
+		///   sessions run on this runtime.
+		///   
+		///   Note be sure to feed the inputs to this op to ensure the credentials are not
+		///   stored in a constant op within the graph that might accidentally be checkpointed
+		///   or in other ways be persisted or exfiltrated.
+		/// </remarks>
+		public TFOperation GcsConfigureCredentials (TFOutput json, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "GcsConfigureCredentials", MakeName ("GcsConfigureCredentials", operName));
+			desc.AddInput (json);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
