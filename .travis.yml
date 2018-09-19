@@ -4,6 +4,7 @@ script:
   - tsh_version=1.10.0
   - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
   - tar xzvf $tsh_version runtimes
+  - mkdir $TRAVIS_BUILD_DIR/native
   - cp -R $TRAVIS_BUILD_DIR/runtimes/linux/native/* $TRAVIS_BUILD_DIR/native/
   - cp -R $TRAVIS_BUILD_DIR/runtimes/osx/native/* $TRAVIS_BUILD_DIR/native/
   - cp -R $TRAVIS_BUILD_DIR/runtimes/win7-x64/native/* $TRAVIS_BUILD_DIR/native/
