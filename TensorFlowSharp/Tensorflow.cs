@@ -99,6 +99,47 @@ namespace TensorFlow
 			return new TFBuffer (TF_GetAllOpList ());
 		}
 
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_GetAllRegisteredKernels (TF_Status status);
+
+		/// <summary>
+		/// Returns a serialized KernelList protocol buffer containing KernelDefs for all registered kernels
+		/// </summary>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <returns>The all registered kernels.</returns>
+		public static TFBuffer GetAllRegisteredKernels (TFStatus status = null)
+		{
+			var cstatus = TFStatus.Setup (status);
+
+			var r = TF_GetAllRegisteredKernels (cstatus.Handle);
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			return new TFBuffer (r);
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_GetRegisteredKernelsForOp (string name, TF_Status status);
+		/// <summary>
+		/// Returns a serialized KernelList protocol buffer containing KernelDefs for all
+		/// kernels registered for the operation specified.
+		/// </summary>
+		/// <param name="name">The operation to look up.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <returns>The registered kernels for the specified operation.</returns>
+		public static TFBuffer GetAllRegisteredKernels (string name, TFStatus status = null)
+		{
+			if (name == null)
+				throw new ArgumentNullException (nameof (name));
+			var cstatus = TFStatus.Setup (status);
+
+			var r = TF_GetRegisteredKernelsForOp (name, cstatus.Handle);
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			return new TFBuffer (r);
+		}
+
+
 		static void CheckSize ()
 		{
 			unsafe {
@@ -1091,6 +1132,58 @@ namespace TensorFlow
 		}
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe void TF_AddGradientsWithPrefix (TF_Graph graph, string prefix, TFOutput* ys, int ny, TFOutput* xs, int nx, TFOutput* dx, TF_Status status, TFOutput* dy);
+		/// <summary>
+		/// Adds a gradient: the operations needed to compute the partial derivatives of sum of <paramref name="y"/>` wrt to <paramref name="x"/>.
+		/// </summary>
+		/// <returns>The partial derivatives, the size of the array is the same as the length of the <paramref name="y"/> array.</returns>
+		/// <param name="prefix">names the scope into which all gradients operations are being added.  This must be unique within 
+		/// the provided graph otherwise this operation will fail.  If the value is null, the default prefixing behaviour takes
+		/// place, see AddGradients for more details.
+		/// </param>
+		/// <param name="y">The y elements.</param>
+		/// <param name="x">The x elements.</param>
+		/// <param name="dx">Initial gradients, which represent the symbolic partial derivatives of some loss function `L` w.r.t. <paramref name="y"/> ).   
+		/// If the parameter is null, the implementation will use dx for 'OnesLike' for all shapes in <paramref name="y"/></param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// d(y[0] + y[1]+ ...)/dx[0], d(y[0] + y[1] + ...)/dx[1]z...
+		/// </remarks>
+		public TFOutput [] AddGradients (string prefix, TFOutput [] y, TFOutput [] x, TFOutput [] dx = null, TFStatus status = null)
+		{
+			if (y == null)
+				throw new ArgumentNullException (nameof (y));
+			if (x == null)
+				throw new ArgumentNullException (nameof (x));
+			if (dx != null) {
+				if (dx.Length != y.Length)
+					throw new ArgumentException ("If dx is not null, the size of the gradients must match the size of y", nameof (dx));
+			}
+
+			var cstatus = TFStatus.Setup (status);
+
+			var ret = new TFOutput [x.Length];
+			unsafe {
+				fixed (TFOutput* pret = &ret [0]) {
+					fixed (TFOutput* py = &y [0]) {
+						fixed (TFOutput* px = &x [0]) {
+							if (dx == null) {
+								TF_AddGradientsWithPrefix (handle, prefix, py, y.Length, px, x.Length, (TFOutput*)null, cstatus.Handle, pret);
+							} else {
+								fixed (TFOutput* pdx = &dx [0]) {
+									TF_AddGradientsWithPrefix (handle, prefix, py, y.Length, px, x.Length, pdx, cstatus.Handle, pret);
+								}
+							}
+						}
+					}
+				}
+			}
+			if (!cstatus.CheckMaybeRaise (status, last: false))
+				return null;
+			return ret;
+		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_GraphCopyFunction (TF_Graph graph, TF_Function func, TF_Function grad, TF_Status status);
 
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -1388,6 +1481,11 @@ namespace TensorFlow
 				return new TFFunction (handle);
 			}
 		}
+
+		[DllImport (NativeBinding.TensorFlowLibrary)]
+		static extern unsafe IntPtr TF_FunctionName (IntPtr handle);
+
+		public string Name => Marshal.PtrToStringAnsi (handle);
 	}
 
 	/// <summary>

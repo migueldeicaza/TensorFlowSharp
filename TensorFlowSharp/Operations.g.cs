@@ -4280,12 +4280,15 @@ namespace TensorFlow {
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Cast'.
 		/// </param>
+		/// <param name="Truncate">
+		///   Optional argument
+		/// </param>
 		/// <param name="DstT">
 		/// </param>
 		/// <returns>
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput Cast (TFOutput x, TFDataType DstT, string operName = null)
+		public TFOutput Cast (TFOutput x, TFDataType DstT, bool? Truncate = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Cast", MakeName ("Cast", operName));
 			desc.AddInput (x);
@@ -4293,6 +4296,9 @@ namespace TensorFlow {
 				desc.AddControlInput (control);
 			
 			desc.SetAttrType ("DstT", DstT);
+			if (Truncate.HasValue)
+				desc.SetAttr ("Truncate", Truncate.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var y = new TFOutput (op, _idx++);
@@ -6017,13 +6023,13 @@ namespace TensorFlow {
 		/// <param name="input">
 		///   The local input to the sum.
 		/// </param>
+		/// <param name="group_assignment">
+		///   An int32 tensor with shape
+		///   [num_groups, num_replicas_per_group]. <c>group_assignment[i]</c> represents the
+		///   replica ids in the ith subgroup.
+		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CrossReplicaSum'.
-		/// </param>
-		/// <param name="group_assignment">
-		///   Optional argument
-		///   The list of group ids. <c>group_assignment[i]</c> represents the
-		///   group id of replica i.
 		/// </param>
 		/// <returns>
 		///   The sum of all the distributed inputs.
@@ -6034,19 +6040,18 @@ namespace TensorFlow {
 		///   each is the sum of all the inputs, otherwise the output of each is the sum of
 		///   the inputs belonging to the same group.
 		///   
-		///   For example, suppose there are 4 TPU instances: <c>[A, B, C, D]</c>. Passing
-		///   group_assignment=<c>[0,1,0,1]</c> sets <c>A, C</c> as group 0, and <c>B, D</c> as group 1.
-		///   Thus we get the outputs: <c>[A+C, B+D, A+C, B+D]</c>.
+		///   For example, suppose there are 8 TPU instances: <c>[A, B, C, D, E, F, G, H]</c>.
+		///   Passing group_assignment=<c>[[0,2,4,6],[1,3,5,7]]</c> sets <c>A, C, E, G</c> as group 0,
+		///   and <c>B, D, F, H</c> as group 1. Thus we get the outputs:
+		///   <c>[A+C+E+G, B+D+F+H, A+C+E+G, B+D+F+H, A+C+E+G, B+D+F+H, A+C+E+G, B+D+F+H]</c>.
 		/// </remarks>
-		public TFOutput CrossReplicaSum (TFOutput input, long[] group_assignment = null, string operName = null)
+		public TFOutput CrossReplicaSum (TFOutput input, TFOutput group_assignment, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "CrossReplicaSum", MakeName ("CrossReplicaSum", operName));
 			desc.AddInput (input);
+			desc.AddInput (group_assignment);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
-			
-			if (group_assignment != null)
-				desc.SetAttr ("group_assignment", group_assignment);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -30727,46 +30732,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
-		}
-
-		/// <summary>
-		///   Creates a dataset that passes a sliding window over <c>input_dataset</c>.
-		/// </summary>
-		/// <param name="input_dataset">
-		/// </param>
-		/// <param name="window_size">
-		///   A scalar representing the number of elements in the
-		///   sliding window.
-		/// </param>
-		/// <param name="stride">
-		///   A scalar representing the steps moving the sliding window
-		///   forward in one iteration. It must be in <c>[1, window_size)</c>.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SlideDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput SlideDataset (TFOutput input_dataset, TFOutput window_size, TFOutput stride, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "SlideDataset", MakeName ("SlideDataset", operName));
-			desc.AddInput (input_dataset);
-			desc.AddInput (window_size);
-			desc.AddInput (stride);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
 		}
 
 		/// <summary>
