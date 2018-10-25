@@ -2232,7 +2232,21 @@ namespace TensorFlow
 		// extern void TF_OperationGetAttrType (TF_Operation *oper, const char *attr_name, TF_DataType *value, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe void TF_OperationGetAttrType (TF_Operation oper, string attr_name, TFDataType* value, TF_Status status);
-		// TODO:
+
+		/// <summary>
+		/// Query the operation for a type attribute
+		/// </summary>
+		/// <value>The value (type) of the attribute.</value>
+		public unsafe TFDataType GetAttributeType (string attrName, TFStatus status = null)
+		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
+			var cstatus = TFStatus.Setup (status);
+			TFDataType type_value = new TFDataType ();
+			TF_OperationGetAttrType (handle, attrName, &type_value, cstatus.Handle);
+			cstatus.CheckMaybeRaise (status);
+			return type_value;
+		}
 
 		// extern void TF_OperationGetAttrTypeList (TF_Operation *oper, const char *attr_name, TF_DataType *values, int max_values, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
