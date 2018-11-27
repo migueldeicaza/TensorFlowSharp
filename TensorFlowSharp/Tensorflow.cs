@@ -2255,8 +2255,25 @@ namespace TensorFlow
 
 		// extern void TF_OperationGetAttrShape (TF_Operation *oper, const char *attr_name, int64_t *value, int num_dims, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		static extern unsafe void TF_OperationGetAttrShape (TF_Operation oper, string attr_name, long* value, int num_dims, TF_Status status);
-		// TODO:
+		static extern unsafe void TF_OperationGetAttrShape (TF_Operation oper, string attr_name, long[] value, int num_dims, TF_Status status);
+
+		/// <summary>
+		/// Query the operation for a shape attribute
+		/// </summary>
+		/// <returns>Shape array for the attribute</returns>
+		/// <param name="attr_name">Name of the attribute to query</param>
+		/// <param name="num_dims">Number of dimensions as specified by the attribute metadata</param>
+		/// <param name="status">Status of the operations</param>
+		public unsafe TFShape GetAttributeShape(string attr_name, int num_dims, TFStatus status = null)
+		{
+			if (handle == IntPtr.Zero)
+				TFDisposable.ObjectDisposedException ();
+			var cstatus = TFStatus.Setup (status);
+			long [] shape_value = new long [num_dims];
+			TF_OperationGetAttrShape (handle, attr_name, shape_value, num_dims, cstatus.handle);
+			cstatus.CheckMaybeRaise (status);
+			return new TFShape(shape_value);
+		}
 
 		// extern void TF_OperationGetAttrShapeList (TF_Operation *oper, const char *attr_name, int64_t **dims, int *num_dims, int num_shapes, int64_t *storage, int storage_size, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
