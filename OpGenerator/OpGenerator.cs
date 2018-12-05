@@ -294,7 +294,7 @@ class OpGenerator
 			var res = new StringBuilder ();
 			foreach (var c in input) {
 				if (c == '`') {
-					res.Append (open ? "<c>" : "</c>");
+					res.Append (open ? "</c>" : "<c>");
 					open = !open;
 				} else
 					res.Append (c);
