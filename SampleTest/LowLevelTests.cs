@@ -297,6 +297,35 @@ namespace SampleTest
 			}
 		}
 
+		public void GetAttributesTest ()
+		{
+			Console.WriteLine ("Testing attribute getting");
+			var status = new TFStatus ();
+
+			using (var graph = new TFGraph ()) {
+				// Create a graph
+				Assert (status);
+				var desc = new TFOperationDesc (graph, "Placeholder", "node");
+				desc.SetAttrType ("dtype", TFDataType.Float);
+				long [] ref_shape = new long [3] { 1, 2, 3 };
+				desc.SetAttrShape ("shape", new TFShape(ref_shape));
+				var j = desc.FinishOperation ();
+				Assert (graph ["node"] != null);
+
+				// Check that the type is correct
+				Assert (graph ["node"].GetAttributeType ("dtype", status) == TFDataType.Float);
+				Assert (status);
+
+				// Check that the shape is correct
+				var metadata = graph ["node"].GetAttributeMetadata ("shape");
+				Assert(Enumerable.SequenceEqual(graph["node"].GetAttributeShape ("shape", 
+				                                                                 (int)metadata.TotalSize, 
+				                                                                 status).ToArray(), ref_shape));
+				Assert (status);
+
+			};
+		}
+
 		public void AddControlInput ()
 		{
 			Console.WriteLine ("Testing AddControlInput for assertions");

@@ -349,6 +349,7 @@ namespace SampleTest
 			// Current failing test
 			t.TestOutputShape ();
 			//t.AttributesTest ();
+			t.GetAttributesTest ();
 			t.WhileTest ();
 
 			//var n = new Mnist ();
