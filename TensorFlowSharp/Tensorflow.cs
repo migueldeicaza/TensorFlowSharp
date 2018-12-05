@@ -1399,7 +1399,14 @@ namespace TensorFlow
 		public override string ToString ()
 		{
 	    		IntPtr len;
-	    		return TF_GraphDebugString (Handle, out len);
+			try
+			{
+				return TF_GraphDebugString (Handle, out len);
+			}
+			catch (System.EntryPointNotFoundException)
+			{
+				return "Your Tensorflow version does not support GraphDebugString";
+			}
 		}
     	}
 
