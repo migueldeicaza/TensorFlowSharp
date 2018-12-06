@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>TensorFlowSharp.Tests</RootNamespace>
     <AssemblyName>TensorFlowSharp.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>TensorFlowSharp.Tests</Name>
