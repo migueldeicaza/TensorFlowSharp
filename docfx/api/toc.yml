@@ -2,6 +2,10 @@
 - uid: TensorFlow
   name: TensorFlow
   items:
+  - uid: TensorFlow.DeviceAttributes
+    name: DeviceAttributes
+  - uid: TensorFlow.DeviceType
+    name: DeviceType
   - uid: TensorFlow.MonoPInvokeCallbackAttribute
     name: MonoPInvokeCallbackAttribute
   - uid: TensorFlow.PaddingFIFOQueue
@@ -26,6 +30,8 @@
     name: TFDependencies
   - uid: TensorFlow.TFDisposable
     name: TFDisposable
+  - uid: TensorFlow.TFDisposableThreadSafe
+    name: TFDisposableThreadSafe
   - uid: TensorFlow.TFException
     name: TFException
   - uid: TensorFlow.TFFunction

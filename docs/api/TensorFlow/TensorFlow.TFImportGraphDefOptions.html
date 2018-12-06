@@ -323,6 +323,71 @@
       </tr>
     </tbody>
   </table>
+  
+  
+  <a id="TensorFlow_TFImportGraphDefOptions_SetUniquifyNames_" data-uid="TensorFlow.TFImportGraphDefOptions.SetUniquifyNames*"></a>
+  <h4 id="TensorFlow_TFImportGraphDefOptions_SetUniquifyNames_System_Boolean_" data-uid="TensorFlow.TFImportGraphDefOptions.SetUniquifyNames(System.Boolean)">SetUniquifyNames(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Set whether to uniquify imported operation names.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetUniquifyNames (bool uniquifyNames);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">uniquifyNames</span></td>
+        <td><p>If set to <code>true</code> imported operation names will be modified if their name already exists in the graph.
+            If set to <code>false</code> conflicting names will be treated as an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFImportGraphDefOptions_SetUniquifyNames_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Note that this option has no effect if a prefix is set, since the prefix will guarantee all names are
+             Defaults to false.</p>
+</div>
+  
+  
+  <a id="TensorFlow_TFImportGraphDefOptions_SetUniquifyPrefix_" data-uid="TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix*"></a>
+  <h4 id="TensorFlow_TFImportGraphDefOptions_SetUniquifyPrefix_System_Boolean_" data-uid="TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix(System.Boolean)">SetUniquifyPrefix(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Sets the uniquify prefix.  This option has no effect if no prefix is specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetUniquifyPrefix (bool uniquifyPrefix);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">uniquifyPrefix</span></td>
+        <td><p>If set to <code>true</code> the specified prefix will be modified if it already exists as an
+            operation name or prefix in the graph. 
+            If set to <code>false</code> a conflicting prefix will be treated as an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           

@@ -5,7 +5,7 @@ rebuild-docs: docs/template
 
 # Used to fetch XML doc updates from the C# compiler into the ECMA docs
 doc-update:
-	mdoc update -i TensorFlowSharp/bin/Debug/TensorFlowSharp.xml -o ecmadocs/en TensorFlowSharp/bin/Debug/TensorFlowSharp.dll 
+	mdoc update -i TensorFlowSharp/bin/Debug/TensorFlowSharp.xml -o ecmadocs/en TensorFlowSharp/bin/Debug/net461/TensorFlowSharp.dll 
 
 yaml:
 	-rm ecmadocs/en/ns-.xml

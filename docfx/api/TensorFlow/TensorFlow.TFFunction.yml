@@ -4,6 +4,7 @@ items:
   id: TFFunction
   children:
   - TensorFlow.TFFunction.ImportFunctionDef(System.Byte[],TensorFlow.TFStatus)
+  - TensorFlow.TFFunction.Name
   - TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
   langs:
   - csharp
@@ -56,6 +57,25 @@ items:
       type: TensorFlow.TFFunction
       description: The function definition, or null on failure.
   overload: TensorFlow.TFFunction.ImportFunctionDef*
+  exceptions: []
+- uid: TensorFlow.TFFunction.Name
+  id: Name
+  parent: TensorFlow.TFFunction
+  langs:
+  - csharp
+  name: Name
+  nameWithType: TFFunction.Name
+  fullName: TFFunction.Name
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  syntax:
+    content: public string Name { get; }
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFFunction.Name*
   exceptions: []
 - uid: TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
   id: ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
@@ -124,6 +144,18 @@ references:
   name: TFStatus
   nameWithType: TFStatus
   fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFFunction.Name
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: Name
+  nameWithType: TFFunction.Name
+  fullName: TFFunction.Name
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: TensorFlow.TFFunction.ToFunctionDef(TensorFlow.TFBuffer,TensorFlow.TFStatus)
   parent: TensorFlow.TFFunction
   isExternal: false
@@ -142,6 +174,12 @@ references:
   name: ImportFunctionDef
   nameWithType: TFFunction.ImportFunctionDef
   fullName: TFFunction.ImportFunctionDef
+- uid: TensorFlow.TFFunction.Name*
+  parent: TensorFlow.TFFunction
+  isExternal: false
+  name: Name
+  nameWithType: TFFunction.Name
+  fullName: TFFunction.Name
 - uid: TensorFlow.TFFunction.ToFunctionDef*
   parent: TensorFlow.TFFunction
   isExternal: false

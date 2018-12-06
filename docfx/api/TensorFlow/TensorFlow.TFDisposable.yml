@@ -35,15 +35,13 @@ items:
   - System.Object
   derivedClasses:
   - TensorFlow.TFBuffer
+  - TensorFlow.TFDisposableThreadSafe
   - TensorFlow.TFFunction
-  - TensorFlow.TFGraph
   - TensorFlow.TFImportGraphDefOptions
   - TensorFlow.TFLibrary
   - TensorFlow.TFOperationDesc
-  - TensorFlow.TFSession
   - TensorFlow.TFSessionOptions
   - TensorFlow.TFStatus
-  - TensorFlow.TFTensor
   implements:
   - System.IDisposable
   inheritedMembers: []

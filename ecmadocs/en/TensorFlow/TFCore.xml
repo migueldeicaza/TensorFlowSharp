@@ -36,6 +36,53 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="GetAllRegisteredKernels">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFBuffer GetAllRegisteredKernels (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFBuffer GetAllRegisteredKernels(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFBuffer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Returns a serialized KernelList protocol buffer containing KernelDefs for all registered kernels
+            </summary>
+        <returns>The all registered kernels.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAllRegisteredKernels">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFBuffer GetAllRegisteredKernels (string name, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFBuffer GetAllRegisteredKernels(string name, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFBuffer</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="name">The operation to look up.</param>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Returns a serialized KernelList protocol buffer containing KernelDefs for all
+            kernels registered for the operation specified.
+            </summary>
+        <returns>The registered kernels for the specified operation.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="GetDataTypeSize">
       <MemberSignature Language="C#" Value="public static long GetDataTypeSize (TensorFlow.TFDataType dt);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig int64 GetDataTypeSize(valuetype TensorFlow.TFDataType dt) cil managed" />

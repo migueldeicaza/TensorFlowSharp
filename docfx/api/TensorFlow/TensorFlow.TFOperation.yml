@@ -3,7 +3,10 @@ items:
 - uid: TensorFlow.TFOperation
   id: TFOperation
   children:
+  - TensorFlow.TFOperation.ControlOutputs
   - TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
+  - TensorFlow.TFOperation.GetAttributeShape(System.String,System.Int32,TensorFlow.TFStatus)
+  - TensorFlow.TFOperation.GetAttributeType(System.String,TensorFlow.TFStatus)
   - TensorFlow.TFOperation.Handle
   - TensorFlow.TFOperation.InputListLength(System.String,TensorFlow.TFStatus)
   - TensorFlow.TFOperation.Item(System.Int32)
@@ -32,6 +35,26 @@ items:
   - System.Object
   implements: []
   inheritedMembers: []
+- uid: TensorFlow.TFOperation.ControlOutputs
+  id: ControlOutputs
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: ControlOutputs
+  nameWithType: TFOperation.ControlOutputs
+  fullName: TFOperation.ControlOutputs
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Get the list of operations that have this operation as a control input.
+  syntax:
+    content: public TensorFlow.TFOperation[] ControlOutputs { get; }
+    return:
+      type: TensorFlow.TFOperation[]
+      description: The control outputs.
+  overload: TensorFlow.TFOperation.ControlOutputs*
+  exceptions: []
 - uid: TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
   id: GetAttributeMetadata(System.String,TensorFlow.TFStatus)
   parent: TensorFlow.TFOperation
@@ -57,6 +80,63 @@ items:
       type: TensorFlow.TFAttributeMetadata
       description: To be added.
   overload: TensorFlow.TFOperation.GetAttributeMetadata*
+  exceptions: []
+- uid: TensorFlow.TFOperation.GetAttributeShape(System.String,System.Int32,TensorFlow.TFStatus)
+  id: GetAttributeShape(System.String,System.Int32,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: GetAttributeShape(String, Int32, TFStatus)
+  nameWithType: TFOperation.GetAttributeShape(String, Int32, TFStatus)
+  fullName: TFOperation.GetAttributeShape(String, Int32, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Query the operation for a shape attribute
+  syntax:
+    content: public TensorFlow.TFShape GetAttributeShape (string attr_name, int num_dims, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attr_name
+      type: System.String
+      description: Name of the attribute to query
+    - id: num_dims
+      type: System.Int32
+      description: Number of dimensions as specified by the attribute metadata
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status of the operations
+    return:
+      type: TensorFlow.TFShape
+      description: Shape array for the attribute
+  overload: TensorFlow.TFOperation.GetAttributeShape*
+  exceptions: []
+- uid: TensorFlow.TFOperation.GetAttributeType(System.String,TensorFlow.TFStatus)
+  id: GetAttributeType(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  langs:
+  - csharp
+  name: GetAttributeType(String, TFStatus)
+  nameWithType: TFOperation.GetAttributeType(String, TFStatus)
+  fullName: TFOperation.GetAttributeType(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Query the operation for a type attribute
+  syntax:
+    content: public TensorFlow.TFDataType GetAttributeType (string attrName, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: attrName
+      type: System.String
+      description: To be added.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: To be added.
+    return:
+      type: TensorFlow.TFDataType
+      description: The value (type) of the attribute.
+  overload: TensorFlow.TFOperation.GetAttributeType*
   exceptions: []
 - uid: TensorFlow.TFOperation.Handle
   id: Handle
@@ -304,6 +384,30 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: TensorFlow.TFOperation.ControlOutputs
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: ControlOutputs
+  nameWithType: TFOperation.ControlOutputs
+  fullName: TFOperation.ControlOutputs
+- uid: TensorFlow.TFOperation
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: TensorFlow.TFOperation[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation[]
+  nameWithType: TFOperation[]
+  fullName: TensorFlow.TFOperation[]
+  spec.csharp:
+  - uid: TensorFlow.TFOperation
+    name: TFOperation
+    nameWithType: TFOperation
+    fullName: TensorFlow.TFOperation
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
 - uid: TensorFlow.TFOperation.GetAttributeMetadata(System.String,TensorFlow.TFStatus)
   parent: TensorFlow.TFOperation
   isExternal: false
@@ -328,6 +432,36 @@ references:
   name: TFStatus
   nameWithType: TFStatus
   fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFOperation.GetAttributeShape(System.String,System.Int32,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeShape(String, Int32, TFStatus)
+  nameWithType: TFOperation.GetAttributeShape(String, Int32, TFStatus)
+  fullName: TFOperation.GetAttributeShape(String, Int32, TFStatus)
+- uid: TensorFlow.TFShape
+  parent: TensorFlow
+  isExternal: false
+  name: TFShape
+  nameWithType: TFShape
+  fullName: TensorFlow.TFShape
+- uid: System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TensorFlow.TFOperation.GetAttributeType(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeType(String, TFStatus)
+  nameWithType: TFOperation.GetAttributeType(String, TFStatus)
+  fullName: TFOperation.GetAttributeType(String, TFStatus)
+- uid: TensorFlow.TFDataType
+  parent: TensorFlow
+  isExternal: false
+  name: TFDataType
+  nameWithType: TFDataType
+  fullName: TensorFlow.TFDataType
 - uid: TensorFlow.TFOperation.Handle
   parent: TensorFlow.TFOperation
   isExternal: false
@@ -346,12 +480,6 @@ references:
   name: InputListLength(String, TFStatus)
   nameWithType: TFOperation.InputListLength(String, TFStatus)
   fullName: TFOperation.InputListLength(String, TFStatus)
-- uid: System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: TensorFlow.TFOperation.Item(System.Int32)
   parent: TensorFlow.TFOperation
   isExternal: false
@@ -418,12 +546,30 @@ references:
   name: TFBuffer
   nameWithType: TFBuffer
   fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFOperation.ControlOutputs*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: ControlOutputs
+  nameWithType: TFOperation.ControlOutputs
+  fullName: TFOperation.ControlOutputs
 - uid: TensorFlow.TFOperation.GetAttributeMetadata*
   parent: TensorFlow.TFOperation
   isExternal: false
   name: GetAttributeMetadata
   nameWithType: TFOperation.GetAttributeMetadata
   fullName: TFOperation.GetAttributeMetadata
+- uid: TensorFlow.TFOperation.GetAttributeShape*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeShape
+  nameWithType: TFOperation.GetAttributeShape
+  fullName: TFOperation.GetAttributeShape
+- uid: TensorFlow.TFOperation.GetAttributeType*
+  parent: TensorFlow.TFOperation
+  isExternal: false
+  name: GetAttributeType
+  nameWithType: TFOperation.GetAttributeType
+  fullName: TFOperation.GetAttributeType
 - uid: TensorFlow.TFOperation.Handle*
   parent: TensorFlow.TFOperation
   isExternal: false

@@ -1,12 +1,12 @@
 <Type Name="TFTensor" FullName="TensorFlow.TFTensor">
-  <TypeSignature Language="C#" Value="public class TFTensor : TensorFlow.TFDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFTensor extends TensorFlow.TFDisposable" />
+  <TypeSignature Language="C#" Value="public class TFTensor : TensorFlow.TFDisposableThreadSafe" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFTensor extends TensorFlow.TFDisposableThreadSafe" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
-    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+    <BaseTypeName>TensorFlow.TFDisposableThreadSafe</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>

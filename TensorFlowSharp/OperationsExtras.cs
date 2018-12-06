@@ -373,33 +373,6 @@ namespace TensorFlow
 		}
 
 
-
-		/// <summary>
-		/// Clips tensor values to a specified min and max.
-		/// </summary>
-		/// <remarks>
-		/// Given a tensor <paramref name="x"/>, this operation returns a tensor of the same type and shape
-		/// as <paramref name="x"/> with its values clipped to <paramref name="clip_value_min"/> and <paramref name="clip_value_max"/>.
-		/// Any values less than <paramref name="clip_value_min"/> are set to <paramref name="clip_value_min"/>. Any values greater than 
-		/// <paramref name="clip_value_max"/> are set to <paramref name="clip_value_max"/>.
-		/// </remarks>
-		/// <param name="x">The tensor.</param>
-		/// <param name="clip_value_min">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
-		/// <param name="clip_value_max">The minimum value to clip by. A 0 - D(scalar) tensor, or a tensor with the same shape as <paramref name="x"/>.</param>
-		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>A clipped <see cref="TFOutput">tensor</see>.</returns>
-		public TFOutput ClipByValue (TFOutput x, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
-		{
-			// https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/python/ops/clip_ops.py#L33
-			var scopeName = MakeName ("ClipByValue", operName);
-			using (var newScope = WithScope (scopeName)) {
-				// Go through list of tensors, for each value in each tensor clip
-				var t_min = Minimum (x, clip_value_max);
-				var t_max = Maximum (t_min, clip_value_min, operName: operName);
-				return t_max;
-			}
-		}
-
 		/// <summary>
 		/// Clips tensor values to a maximum L2-norm.
 		/// </summary>

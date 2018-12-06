@@ -23,6 +23,8 @@ items:
   - TensorFlow.TFDataType.Resource
   - TensorFlow.TFDataType.String
   - TensorFlow.TFDataType.UInt16
+  - TensorFlow.TFDataType.UInt32
+  - TensorFlow.TFDataType.UInt64
   - TensorFlow.TFDataType.UInt8
   - TensorFlow.TFDataType.Unknown
   - TensorFlow.TFDataType.Variant
@@ -423,6 +425,44 @@ items:
       type: TensorFlow.TFDataType
       description: To be added.
   exceptions: []
+- uid: TensorFlow.TFDataType.UInt32
+  id: UInt32
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: UInt32
+  nameWithType: TFDataType.UInt32
+  fullName: TFDataType.UInt32
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 32-bit unsigned integers
+  syntax:
+    content: UInt32
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.TFDataType.UInt64
+  id: UInt64
+  parent: TensorFlow.TFDataType
+  langs:
+  - csharp
+  name: UInt64
+  nameWithType: TFDataType.UInt64
+  fullName: TFDataType.UInt64
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: 64-bit unsigned integers
+  syntax:
+    content: UInt64
+    return:
+      type: TensorFlow.TFDataType
+      description: To be added.
+  exceptions: []
 - uid: TensorFlow.TFDataType.UInt8
   id: UInt8
   parent: TensorFlow.TFDataType
@@ -613,6 +653,18 @@ references:
   name: UInt16
   nameWithType: TFDataType.UInt16
   fullName: TFDataType.UInt16
+- uid: TensorFlow.TFDataType.UInt32
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: UInt32
+  nameWithType: TFDataType.UInt32
+  fullName: TFDataType.UInt32
+- uid: TensorFlow.TFDataType.UInt64
+  parent: TensorFlow.TFDataType
+  isExternal: false
+  name: UInt64
+  nameWithType: TFDataType.UInt64
+  fullName: TFDataType.UInt64
 - uid: TensorFlow.TFDataType.UInt8
   parent: TensorFlow.TFDataType
   isExternal: false

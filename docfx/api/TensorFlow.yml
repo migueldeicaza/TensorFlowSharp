@@ -3,6 +3,8 @@ items:
 - uid: TensorFlow
   id: TensorFlow
   children:
+  - TensorFlow.DeviceAttributes
+  - TensorFlow.DeviceType
   - TensorFlow.MonoPInvokeCallbackAttribute
   - TensorFlow.PaddingFIFOQueue
   - TensorFlow.QueueBase
@@ -15,6 +17,7 @@ items:
   - TensorFlow.TFDataType
   - TensorFlow.TFDependencies
   - TensorFlow.TFDisposable
+  - TensorFlow.TFDisposableThreadSafe
   - TensorFlow.TFException
   - TensorFlow.TFFunction
   - TensorFlow.TFGraph
@@ -47,6 +50,18 @@ items:
     	This is the API documentation for the TensorFlowSharp project.
           </p>
 references:
+- uid: TensorFlow.DeviceAttributes
+  parent: TensorFlow
+  isExternal: false
+  name: DeviceAttributes
+  nameWithType: DeviceAttributes
+  fullName: TensorFlow.DeviceAttributes
+- uid: TensorFlow.DeviceType
+  parent: TensorFlow
+  isExternal: false
+  name: DeviceType
+  nameWithType: DeviceType
+  fullName: TensorFlow.DeviceType
 - uid: TensorFlow.MonoPInvokeCallbackAttribute
   parent: TensorFlow
   isExternal: false
@@ -119,6 +134,12 @@ references:
   name: TFDisposable
   nameWithType: TFDisposable
   fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFDisposableThreadSafe
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposableThreadSafe
+  nameWithType: TFDisposableThreadSafe
+  fullName: TensorFlow.TFDisposableThreadSafe
 - uid: TensorFlow.TFException
   parent: TensorFlow
   isExternal: false

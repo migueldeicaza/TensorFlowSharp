@@ -1,12 +1,12 @@
 <Type Name="TFSession" FullName="TensorFlow.TFSession">
-  <TypeSignature Language="C#" Value="public class TFSession : TensorFlow.TFDisposable" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFSession extends TensorFlow.TFDisposable" />
+  <TypeSignature Language="C#" Value="public class TFSession : TensorFlow.TFDisposableThreadSafe" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFSession extends TensorFlow.TFDisposableThreadSafe" />
   <AssemblyInfo>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
-    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+    <BaseTypeName>TensorFlow.TFDisposableThreadSafe</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
@@ -223,6 +223,28 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="ListDevices">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;TensorFlow.DeviceAttributes&gt; ListDevices (TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Collections.Generic.IEnumerable`1&lt;class TensorFlow.DeviceAttributes&gt; ListDevices(class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;TensorFlow.DeviceAttributes&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
+        <summary>
+            Lists available devices in this session.
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="PartialRun">
       <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] PartialRun (TensorFlow.TFSession.PartialRunToken token, TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers, TensorFlow.TFStatus status = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] PartialRun(class TensorFlow.TFSession/PartialRunToken token, valuetype TensorFlow.TFOutput[] inputs, class TensorFlow.TFTensor[] inputValues, valuetype TensorFlow.TFOutput[] outputs, class TensorFlow.TFOperation[] targetOpers, class TensorFlow.TFStatus status) cil managed" />
@@ -281,6 +303,42 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="RestoreTensor">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput RestoreTensor (string filename, string tensor, TensorFlow.TFDataType type);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput RestoreTensor(string filename, string tensor, valuetype TensorFlow.TFDataType type) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="filename" Type="System.String" />
+        <Parameter Name="tensor" Type="System.String" />
+        <Parameter Name="type" Type="TensorFlow.TFDataType" />
+      </Parameters>
+      <Docs>
+        <param name="filename">File containing your saved tensors.</param>
+        <param name="tensor">The name that was used to save the tensor.</param>
+        <param name="type">The data type for the tensor.</param>
+        <summary>
+            Restores a tensor from a serialized tensorflor file.
+            </summary>
+        <returns>The deserialized tensor from the file.</returns>
+        <remarks>To be added.</remarks>
+        <code>
+            using (var session = new TFSession()){
+              var a = session.Graph.Const(30, "a");
+              var b = session.Graph.Const(12, "b");
+              var multiplyResults = session.GetRunner().Run(session.Graph.Add(a, b));
+              var multiplyResultValue = multiplyResults.GetValue();
+              Console.WriteLine("a*b={0}", multiplyResultValue);
+              session.SaveTensors($"saved.tsf", ("a", a), ("b", b));
+            }
+            </code>
+      </Docs>
+    </Member>
     <Member MemberName="Run">
       <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] Run (TensorFlow.TFOutput[] inputs, TensorFlow.TFTensor[] inputValues, TensorFlow.TFOutput[] outputs, TensorFlow.TFOperation[] targetOpers = null, TensorFlow.TFBuffer runMetadata = null, TensorFlow.TFBuffer runOptions = null, TensorFlow.TFStatus status = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] Run(valuetype TensorFlow.TFOutput[] inputs, class TensorFlow.TFTensor[] inputValues, valuetype TensorFlow.TFOutput[] outputs, class TensorFlow.TFOperation[] targetOpers, class TensorFlow.TFBuffer runMetadata, class TensorFlow.TFBuffer runOptions, class TensorFlow.TFStatus status) cil managed" />
@@ -305,8 +363,8 @@
         <param name="inputValues">Input values.</param>
         <param name="outputs">Output nodes.</param>
         <param name="targetOpers">Target operations to execute.</param>
-        <param name="runMetadata">Run metadata.</param>
-        <param name="runOptions">Run options.</param>
+        <param name="runMetadata">Run metadata, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
+        <param name="runOptions">Run options, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
         <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException" /> exception is raised if there is an error.</param>
         <summary>
             Executes a pipeline given the specified inputs, inputValues, outputs, targetOpers, runMetadata and runOptions.   
@@ -315,6 +373,50 @@
             </summary>
         <returns>An array of tensors fetched from the requested outputs.</returns>
         <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SaveTensors">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFTensor[] SaveTensors (string filename, ValueTuple&lt;string,TensorFlow.TFOutput&gt;[] tensors);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFTensor[] SaveTensors(string filename, valuetype System.ValueTuple`2&lt;string, valuetype TensorFlow.TFOutput&gt;[] tensors) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="filename" Type="System.String" />
+        <Parameter Name="tensors" Type="System.ValueTuple&lt;System.String,TensorFlow.TFOutput&gt;[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="filename">File to store the tensors in (for example: tensors.tsf).</param>
+        <param name="tensors">An array of tuples that include the name you want to give the tensor on output, and the tensor you want to save.</param>
+        <summary>
+            Saves the tensors in the session to a file.
+            </summary>
+        <returns>The tensors.</returns>
+        <remarks>
+          <para>
+            Tensors saved with this method can be loaded by calling <see cref="M:RestoreTensor" />.
+            </para>
+          <code>
+            using (var session = new TFSession ()) {
+              var a = session.Graph.Const(30, "a");
+              var b = session.Graph.Const(12, "b");
+              var multiplyResults = session.GetRunner().Run(session.Graph.Add(a, b));
+              var multiplyResultValue = multiplyResults.GetValue();
+              Console.WriteLine("a*b={0}", multiplyResultValue);
+              session.SaveTensors($"saved.tsf", ("a", a), ("b", b));
+            }
+            </code>
+        </remarks>
       </Docs>
     </Member>
   </Members>

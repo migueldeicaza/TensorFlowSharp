@@ -147,6 +147,103 @@
   </table>
   
   
+  <a id="TensorFlow_TFCore_GetAllRegisteredKernels_" data-uid="TensorFlow.TFCore.GetAllRegisteredKernels*"></a>
+  <h4 id="TensorFlow_TFCore_GetAllRegisteredKernels_TensorFlow_TFStatus_" data-uid="TensorFlow.TFCore.GetAllRegisteredKernels(TensorFlow.TFStatus)">GetAllRegisteredKernels(TFStatus)</h4>
+  <div class="markdown level1 summary"><p>Returns a serialized KernelList protocol buffer containing KernelDefs for all registered kernels</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFBuffer GetAllRegisteredKernels (TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Status buffer, if specified a status code will be left here, if not specified, a <a class="xref" href="TensorFlow.TFException.html">TFException</a> exception is raised if there is an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><p>The all registered kernels.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFCore_GetAllRegisteredKernels_" data-uid="TensorFlow.TFCore.GetAllRegisteredKernels*"></a>
+  <h4 id="TensorFlow_TFCore_GetAllRegisteredKernels_System_String_TensorFlow_TFStatus_" data-uid="TensorFlow.TFCore.GetAllRegisteredKernels(System.String,TensorFlow.TFStatus)">GetAllRegisteredKernels(String, TFStatus)</h4>
+  <div class="markdown level1 summary"><p>Returns a serialized KernelList protocol buffer containing KernelDefs for all
+            kernels registered for the operation specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TensorFlow.TFBuffer GetAllRegisteredKernels (string name, TensorFlow.TFStatus status = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The operation to look up.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFStatus.html">TFStatus</a></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Status buffer, if specified a status code will be left here, if not specified, a <a class="xref" href="TensorFlow.TFException.html">TFException</a> exception is raised if there is an error.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFBuffer.html">TFBuffer</a></td>
+        <td><p>The registered kernels for the specified operation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="TensorFlow_TFCore_GetDataTypeSize_" data-uid="TensorFlow.TFCore.GetDataTypeSize*"></a>
   <h4 id="TensorFlow_TFCore_GetDataTypeSize_TensorFlow_TFDataType_" data-uid="TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)">GetDataTypeSize(TFDataType)</h4>
   <div class="markdown level1 summary"><p>Gets the size in bytes of the specified TensorFlow data type.</p>

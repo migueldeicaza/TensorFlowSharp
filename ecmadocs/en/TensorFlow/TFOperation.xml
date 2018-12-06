@@ -20,6 +20,24 @@
             </remarks>
   </Docs>
   <Members>
+    <Member MemberName="ControlOutputs">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOperation[] ControlOutputs { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.TFOperation[] ControlOutputs" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Get the list of operations that have this operation as a control input.
+            </summary>
+        <value>The control outputs.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="GetAttributeMetadata">
       <MemberSignature Language="C#" Value="public TensorFlow.TFAttributeMetadata GetAttributeMetadata (string attrName, TensorFlow.TFStatus status = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFAttributeMetadata GetAttributeMetadata(string attrName, class TensorFlow.TFStatus status) cil managed" />
@@ -39,6 +57,56 @@
         <param name="status">To be added.</param>
         <summary>To be added.</summary>
         <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttributeShape">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFShape GetAttributeShape (string attr_name, int num_dims, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFShape GetAttributeShape(string attr_name, int32 num_dims, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFShape</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attr_name" Type="System.String" />
+        <Parameter Name="num_dims" Type="System.Int32" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="attr_name">Name of the attribute to query</param>
+        <param name="num_dims">Number of dimensions as specified by the attribute metadata</param>
+        <param name="status">Status of the operations</param>
+        <summary>
+            Query the operation for a shape attribute
+            </summary>
+        <returns>Shape array for the attribute</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAttributeType">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFDataType GetAttributeType (string attrName, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFDataType GetAttributeType(string attrName, class TensorFlow.TFStatus status) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="attrName" Type="System.String" />
+        <Parameter Name="status" Type="TensorFlow.TFStatus" />
+      </Parameters>
+      <Docs>
+        <param name="attrName">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>
+            Query the operation for a type attribute
+            </summary>
+        <returns>The value (type) of the attribute.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -338,6 +338,38 @@
             </summary>
       </Docs>
     </Member>
+    <Member MemberName="UInt32">
+      <MemberSignature Language="C#" Value="UInt32" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFDataType UInt32 = unsigned int32(22)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            32-bit unsigned integers
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="UInt64">
+      <MemberSignature Language="C#" Value="UInt64" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFDataType UInt64 = unsigned int32(23)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDataType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            64-bit unsigned integers
+            </summary>
+      </Docs>
+    </Member>
     <Member MemberName="UInt8">
       <MemberSignature Language="C#" Value="UInt8" />
       <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.TFDataType UInt8 = unsigned int32(4)" />

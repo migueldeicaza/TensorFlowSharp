@@ -4,6 +4,8 @@ items:
   id: TFCore
   children:
   - TensorFlow.TFCore.GetAllOpList
+  - TensorFlow.TFCore.GetAllRegisteredKernels(TensorFlow.TFStatus)
+  - TensorFlow.TFCore.GetAllRegisteredKernels(System.String,TensorFlow.TFStatus)
   - TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
   - TensorFlow.TFCore.Version
   langs:
@@ -44,6 +46,59 @@ items:
       type: TensorFlow.TFBuffer
       description: The buffer contains a ProtocolBuffer encoded payload, you need a ProtocolBuffer reader to process the contents.
   overload: TensorFlow.TFCore.GetAllOpList*
+  exceptions: []
+- uid: TensorFlow.TFCore.GetAllRegisteredKernels(TensorFlow.TFStatus)
+  id: GetAllRegisteredKernels(TensorFlow.TFStatus)
+  parent: TensorFlow.TFCore
+  langs:
+  - csharp
+  name: GetAllRegisteredKernels(TFStatus)
+  nameWithType: TFCore.GetAllRegisteredKernels(TFStatus)
+  fullName: TFCore.GetAllRegisteredKernels(TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns a serialized KernelList protocol buffer containing KernelDefs for all registered kernels
+  syntax:
+    content: public static TensorFlow.TFBuffer GetAllRegisteredKernels (TensorFlow.TFStatus status = null);
+    parameters:
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFBuffer
+      description: The all registered kernels.
+  overload: TensorFlow.TFCore.GetAllRegisteredKernels*
+  exceptions: []
+- uid: TensorFlow.TFCore.GetAllRegisteredKernels(System.String,TensorFlow.TFStatus)
+  id: GetAllRegisteredKernels(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFCore
+  langs:
+  - csharp
+  name: GetAllRegisteredKernels(String, TFStatus)
+  nameWithType: TFCore.GetAllRegisteredKernels(String, TFStatus)
+  fullName: TFCore.GetAllRegisteredKernels(String, TFStatus)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Returns a serialized KernelList protocol buffer containing KernelDefs for all
+                kernels registered for the operation specified.
+  syntax:
+    content: public static TensorFlow.TFBuffer GetAllRegisteredKernels (string name, TensorFlow.TFStatus status = null);
+    parameters:
+    - id: name
+      type: System.String
+      description: The operation to look up.
+    - id: status
+      type: TensorFlow.TFStatus
+      description: Status buffer, if specified a status code will be left here, if not specified, a <xref href="TensorFlow.TFException"></xref> exception is raised if there is an error.
+    return:
+      type: TensorFlow.TFBuffer
+      description: The registered kernels for the specified operation.
+  overload: TensorFlow.TFCore.GetAllRegisteredKernels*
   exceptions: []
 - uid: TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
   id: GetDataTypeSize(TensorFlow.TFDataType)
@@ -108,6 +163,30 @@ references:
   name: TFBuffer
   nameWithType: TFBuffer
   fullName: TensorFlow.TFBuffer
+- uid: TensorFlow.TFCore.GetAllRegisteredKernels(TensorFlow.TFStatus)
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetAllRegisteredKernels(TFStatus)
+  nameWithType: TFCore.GetAllRegisteredKernels(TFStatus)
+  fullName: TFCore.GetAllRegisteredKernels(TFStatus)
+- uid: TensorFlow.TFStatus
+  parent: TensorFlow
+  isExternal: false
+  name: TFStatus
+  nameWithType: TFStatus
+  fullName: TensorFlow.TFStatus
+- uid: TensorFlow.TFCore.GetAllRegisteredKernels(System.String,TensorFlow.TFStatus)
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetAllRegisteredKernels(String, TFStatus)
+  nameWithType: TFCore.GetAllRegisteredKernels(String, TFStatus)
+  fullName: TFCore.GetAllRegisteredKernels(String, TFStatus)
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: TensorFlow.TFCore.GetDataTypeSize(TensorFlow.TFDataType)
   parent: TensorFlow.TFCore
   isExternal: false
@@ -132,18 +211,18 @@ references:
   name: Version
   nameWithType: TFCore.Version
   fullName: TFCore.Version
-- uid: System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
 - uid: TensorFlow.TFCore.GetAllOpList*
   parent: TensorFlow.TFCore
   isExternal: false
   name: GetAllOpList
   nameWithType: TFCore.GetAllOpList
   fullName: TFCore.GetAllOpList
+- uid: TensorFlow.TFCore.GetAllRegisteredKernels*
+  parent: TensorFlow.TFCore
+  isExternal: false
+  name: GetAllRegisteredKernels
+  nameWithType: TFCore.GetAllRegisteredKernels
+  fullName: TFCore.GetAllRegisteredKernels
 - uid: TensorFlow.TFCore.GetDataTypeSize*
   parent: TensorFlow.TFCore
   isExternal: false

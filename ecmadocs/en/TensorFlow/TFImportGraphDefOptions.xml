@@ -168,5 +168,55 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="SetUniquifyNames">
+      <MemberSignature Language="C#" Value="public void SetUniquifyNames (bool uniquifyNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetUniquifyNames(bool uniquifyNames) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="uniquifyNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="uniquifyNames">If set to <c>true</c> imported operation names will be modified if their name already exists in the graph.
+            If set to <c>false</c> conflicting names will be treated as an error.
+            </param>
+        <summary>
+            Set whether to uniquify imported operation names.
+            </summary>
+        <remarks>
+             Note that this option has no effect if a prefix is set, since the prefix will guarantee all names are
+             Defaults to false.
+            </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetUniquifyPrefix">
+      <MemberSignature Language="C#" Value="public void SetUniquifyPrefix (bool uniquifyPrefix);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetUniquifyPrefix(bool uniquifyPrefix) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="uniquifyPrefix" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="uniquifyPrefix">If set to <c>true</c> the specified prefix will be modified if it already exists as an
+            operation name or prefix in the graph. 
+            If set to <c>false</c> a conflicting prefix will be treated as an error.
+            </param>
+        <summary>
+            Sets the uniquify prefix.  This option has no effect if no prefix is specified.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
   </Members>
 </Type>

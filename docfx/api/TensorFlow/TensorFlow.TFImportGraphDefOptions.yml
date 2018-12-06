@@ -10,6 +10,8 @@ items:
   - TensorFlow.TFImportGraphDefOptions.NumReturnOutputs
   - TensorFlow.TFImportGraphDefOptions.RemapControlDependency(System.String,TensorFlow.TFOperation)
   - TensorFlow.TFImportGraphDefOptions.SetPrefix(System.String)
+  - TensorFlow.TFImportGraphDefOptions.SetUniquifyNames(System.Boolean)
+  - TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix(System.Boolean)
   langs:
   - csharp
   name: TFImportGraphDefOptions
@@ -193,6 +195,53 @@ items:
       description: To be added.
   overload: TensorFlow.TFImportGraphDefOptions.SetPrefix*
   exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyNames(System.Boolean)
+  id: SetUniquifyNames(System.Boolean)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: SetUniquifyNames(Boolean)
+  nameWithType: TFImportGraphDefOptions.SetUniquifyNames(Boolean)
+  fullName: TFImportGraphDefOptions.SetUniquifyNames(Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Set whether to uniquify imported operation names.
+  remarks: >-
+    Note that this option has no effect if a prefix is set, since the prefix will guarantee all names are
+                 Defaults to false.
+  syntax:
+    content: public void SetUniquifyNames (bool uniquifyNames);
+    parameters:
+    - id: uniquifyNames
+      type: System.Boolean
+      description: >-
+        If set to <code>true</code> imported operation names will be modified if their name already exists in the graph.
+                    If set to <code>false</code> conflicting names will be treated as an error.
+  overload: TensorFlow.TFImportGraphDefOptions.SetUniquifyNames*
+  exceptions: []
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix(System.Boolean)
+  id: SetUniquifyPrefix(System.Boolean)
+  parent: TensorFlow.TFImportGraphDefOptions
+  langs:
+  - csharp
+  name: SetUniquifyPrefix(Boolean)
+  nameWithType: TFImportGraphDefOptions.SetUniquifyPrefix(Boolean)
+  fullName: TFImportGraphDefOptions.SetUniquifyPrefix(Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Sets the uniquify prefix.  This option has no effect if no prefix is specified.
+  syntax:
+    content: public void SetUniquifyPrefix (bool uniquifyPrefix);
+    parameters:
+    - id: uniquifyPrefix
+      type: System.Boolean
+      description: "If set to <code>true</code> the specified prefix will be modified if it already exists as an\n            operation name or prefix in the graph. \n            If set to <code>false</code> a conflicting prefix will be treated as an error."
+  overload: TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix*
+  exceptions: []
 references:
 - uid: TensorFlow.TFDisposable
   parent: TensorFlow
@@ -266,6 +315,24 @@ references:
   name: SetPrefix(String)
   nameWithType: TFImportGraphDefOptions.SetPrefix(String)
   fullName: TFImportGraphDefOptions.SetPrefix(String)
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyNames(System.Boolean)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetUniquifyNames(Boolean)
+  nameWithType: TFImportGraphDefOptions.SetUniquifyNames(Boolean)
+  fullName: TFImportGraphDefOptions.SetUniquifyNames(Boolean)
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix(System.Boolean)
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetUniquifyPrefix(Boolean)
+  nameWithType: TFImportGraphDefOptions.SetUniquifyPrefix(Boolean)
+  fullName: TFImportGraphDefOptions.SetUniquifyPrefix(Boolean)
 - uid: TensorFlow.TFImportGraphDefOptions.#ctor*
   parent: TensorFlow.TFImportGraphDefOptions
   isExternal: false
@@ -308,6 +375,18 @@ references:
   name: SetPrefix
   nameWithType: TFImportGraphDefOptions.SetPrefix
   fullName: TFImportGraphDefOptions.SetPrefix
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyNames*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetUniquifyNames
+  nameWithType: TFImportGraphDefOptions.SetUniquifyNames
+  fullName: TFImportGraphDefOptions.SetUniquifyNames
+- uid: TensorFlow.TFImportGraphDefOptions.SetUniquifyPrefix*
+  parent: TensorFlow.TFImportGraphDefOptions
+  isExternal: false
+  name: SetUniquifyPrefix
+  nameWithType: TFImportGraphDefOptions.SetUniquifyPrefix
+  fullName: TFImportGraphDefOptions.SetUniquifyPrefix
 - uid: TensorFlow.TFDisposable.Dispose
   parent: TensorFlow.TFDisposable
   isExternal: false

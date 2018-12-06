@@ -6,25 +6,25 @@
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.Default | System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints | System.Diagnostics.DebuggableAttribute+DebuggingModes.EnableEditAndContinue)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Reflection.AssemblyCompany("")</AttributeName>
+          <AttributeName>System.Reflection.AssemblyCompany("Miguel de Icaza")</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyCopyright("miguel")</AttributeName>
+          <AttributeName>System.Reflection.AssemblyConfiguration("Debug")</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Reflection.AssemblyDescription(".NET Bindings for TensorFlow")</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Reflection.AssemblyProduct("")</AttributeName>
+          <AttributeName>System.Reflection.AssemblyFileVersion("1.0.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyInformationalVersion("1.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("TensorFlowSharp")</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Reflection.AssemblyTitle("TensorFlowSharp")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
@@ -42,6 +42,8 @@
   <Copyright>MIT Licensed</Copyright>
   <Types>
     <Namespace Name="TensorFlow">
+      <Type Name="DeviceAttributes" Kind="Class" />
+      <Type Name="DeviceType" Kind="Enumeration" />
       <Type Name="MonoPInvokeCallbackAttribute" Kind="Class" />
       <Type Name="PaddingFIFOQueue" Kind="Class" />
       <Type Name="QueueBase" Kind="Class" />
@@ -54,6 +56,7 @@
       <Type Name="TFDataType" Kind="Enumeration" />
       <Type Name="TFDependencies" Kind="Class" />
       <Type Name="TFDisposable" Kind="Class" />
+      <Type Name="TFDisposableThreadSafe" Kind="Class" />
       <Type Name="TFException" Kind="Class" />
       <Type Name="TFFunction" Kind="Class" />
       <Type Name="TFGraph" Kind="Class" />
