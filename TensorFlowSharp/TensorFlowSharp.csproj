@@ -9,7 +9,7 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.2</ReleaseVersion>
-    <TensorFlowRuntimeVersion>1.11.0</TensorFlowRuntimeVersion>
+    <TensorFlowRuntimeVersion>1.12.0</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -23,7 +23,7 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>1.11.0 adds support for the TensorFlow 1.11 release</PackageReleaseNotes>
+    <PackageReleaseNotes>1.12.0 adds support for the TensorFlow 1.12 release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

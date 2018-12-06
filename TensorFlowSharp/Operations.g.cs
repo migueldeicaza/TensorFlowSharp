@@ -794,6 +794,69 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   An Op to exchange data across TPU replicas. On each replica, the input is
+		/// </summary>
+		/// <param name="input">
+		///   The local input to the sum.
+		/// </param>
+		/// <param name="group_assignment">
+		///   An int32 tensor with shape
+		///   [num_groups, num_replicas_per_group]. <c>group_assignment[i]</c> represents the
+		///   replica ids in the ith subgroup.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AllToAll'.
+		/// </param>
+		/// <param name="concat_dimension">
+		///   The dimension number to concatenate.
+		/// </param>
+		/// <param name="split_dimension">
+		///   The dimension number to split.
+		/// </param>
+		/// <param name="split_count">
+		///   The number of splits, this number must equal to the sub-group
+		///   size(group_assignment.get_shape()[1])
+		/// </param>
+		/// <returns>
+		///   The exchanged result.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   split into <c>split_count</c> blocks along <c>split_dimension</c> and send to the other
+		///   replicas given group_assignment. After receiving <c>split_count</c> - 1 blocks from
+		///   other replicas, we concatenate the blocks along <c>concat_dimension</c> as the
+		///   output.
+		///   
+		///   For example, suppose there are 2 TPU replicas:
+		///   replica 0 receives input: <c>[[A, B]]</c>
+		///   replica 1 receives input: <c>[[C, D]]</c>
+		///   
+		///   group_assignment=<c>[[0, 1]]</c>
+		///   concat_dimension=0
+		///   split_dimension=1
+		///   split_count=2
+		///   
+		///   replica 0's output: <c>[[A], [C]]</c>
+		///   replica 1's output: <c>[[B], [D]]</c>
+		/// </remarks>
+		public TFOutput AllToAll (TFOutput input, TFOutput group_assignment, long concat_dimension, long split_dimension, long split_count, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AllToAll", MakeName ("AllToAll", operName));
+			desc.AddInput (input);
+			desc.AddInput (group_assignment);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("concat_dimension", concat_dimension);
+			desc.SetAttr ("split_dimension", split_dimension);
+			desc.SetAttr ("split_count", split_count);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Returns the argument of a complex number.
 		/// </summary>
 		/// <param name="input">
@@ -840,6 +903,37 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   A container for an iterator resource.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'AnonymousIterator'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   A handle to the iterator that can be passed to a "MakeIterator" or
+		///   "IteratorGetNext" op. In contrast to Iterator, AnonymousIterator prevents
+		///   resource sharing by name, and does not keep a reference to the resource
+		///   container.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput AnonymousIterator (TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "AnonymousIterator", MakeName ("AnonymousIterator", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
 		}
 
 		/// <summary>
@@ -1120,10 +1214,10 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   lr_t &amp;lt;- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g_t
-		///   v_t &amp;lt;- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
-		///   variable &amp;lt;- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+		///   $$lr_t := \text{learning\_rate} * \sqrt{1 - beta_2^t} / (1 - beta_1^t)$$
+		///   $$m_t := beta_1 * m_{t-1} + (1 - beta_1) * g$$
+		///   $$v_t := beta_2 * v_{t-1} + (1 - beta_2) * g * g$$
+		///   $$variable := variable - lr_t * m_t / (\sqrt{v_t} + \epsilon)$$
 		/// </remarks>
 		public TFOutput ApplyAdam (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput beta2_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
 		{
@@ -1146,6 +1240,78 @@ namespace TensorFlow {
 			
 			if (use_nesterov.HasValue)
 				desc.SetAttr ("use_nesterov", use_nesterov.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the AdaMax algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="m">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="v">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="beta1_power">
+		///   Must be a scalar.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta1">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta2">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ApplyAdaMax'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If <c>True</c>, updating of the var, m, and v tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Same as "var".
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g
+		///   v_t &amp;lt;- max(beta2 * v_{t-1}, abs(g))
+		///   variable &amp;lt;- variable - learning_rate / (1 - beta1^t) * m_t / (v_t + epsilon)
+		/// </remarks>
+		public TFOutput ApplyAdaMax (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ApplyAdaMax", MakeName ("ApplyAdaMax", operName));
+			desc.AddInput (var);
+			desc.AddInput (m);
+			desc.AddInput (v);
+			desc.AddInput (beta1_power);
+			desc.AddInput (lr);
+			desc.AddInput (beta1);
+			desc.AddInput (beta2);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -3211,6 +3377,45 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a dataset that batches <c>batch_size</c> elements from <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="batch_size">
+		///   A scalar representing the number of elements to accumulate in a batch.
+		/// </param>
+		/// <param name="drop_remainder">
+		///   A scalar representing whether the last batch should be dropped in case its size
+		///   is smaller than desired.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BatchDatasetV2'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BatchDatasetV2 (TFOutput input_dataset, TFOutput batch_size, TFOutput drop_remainder, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BatchDatasetV2", MakeName ("BatchDatasetV2", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (batch_size);
+			desc.AddInput (drop_remainder);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Multiplies slices of two tensors in batches.
 		/// </summary>
 		/// <param name="x">
@@ -3669,6 +3874,66 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Computes the Bessel i0e function of <c>x</c> element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BesselI0e'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Exponentially scaled modified Bessel function of order 0 defined as
+		///   <c>bessel_i0e(x) = exp(-abs(x)) bessel_i0(x)</c>.
+		///   
+		///   This function is faster and numerically stabler than <c>bessel_i0(x)</c>.
+		/// </remarks>
+		public TFOutput BesselI0e (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BesselI0e", MakeName ("BesselI0e", operName));
+			desc.AddInput (x);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Computes the Bessel i1e function of <c>x</c> element-wise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BesselI1e'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Exponentially scaled modified Bessel function of order 0 defined as
+		///   <c>bessel_i1e(x) = exp(-abs(x)) bessel_i1(x)</c>.
+		///   
+		///   This function is faster and numerically stabler than <c>bessel_i1(x)</c>.
+		/// </remarks>
+		public TFOutput BesselI1e (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BesselI1e", MakeName ("BesselI1e", operName));
+			desc.AddInput (x);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
 		///   Compute the regularized incomplete beta integral \\(I_x(a, b)\\).
 		/// </summary>
 		/// <param name="a">
@@ -4088,6 +4353,823 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Bucketize each feature based on bucket boundaries.
+		/// </summary>
+		/// <param name="float_values">
+		///   float; List of Rank 1 Tensor each containing float values for a single feature.
+		/// </param>
+		/// <param name="bucket_boundaries">
+		///   float; List of Rank 1 Tensors each containing the bucket boundaries for a single
+		///   feature.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesBucketize'.
+		/// </param>
+		/// <returns>
+		///   int; List of Rank 1 Tensors each containing the bucketized values for a single feature.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   An op that returns a list of float tensors, where each tensor represents the
+		///   bucketized values for a single feature.
+		/// </remarks>
+		public TFOutput[] BoostedTreesBucketize (TFOutput[] float_values, TFOutput[] bucket_boundaries, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesBucketize", MakeName ("BoostedTreesBucketize", operName));
+			desc.AddInputs (float_values);
+			desc.AddInputs (bucket_boundaries);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("buckets");
+			var buckets = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				buckets [i] = new TFOutput (op, _idx++);
+			
+			return buckets;
+		}
+
+		/// <summary>
+		///   Calculates gains for each feature and returns the best possible split information for the feature.
+		/// </summary>
+		/// <param name="node_id_range">
+		///   A Rank 1 tensor (shape=[2]) to specify the range [first, last) of node ids to process within <c>stats_summary_list</c>. The nodes are iterated between the two nodes specified by the tensor, as like <c>for node_id in range(node_id_range[0], node_id_range[1])</c> (Note that the last index node_id_range[1] is exclusive).
+		/// </param>
+		/// <param name="stats_summary_list">
+		///   A list of Rank 3 tensor (#shape=[max_splits, bucket, 2]) for accumulated stats summary (gradient/hessian) per node per buckets for each feature. The first dimension of the tensor is the maximum number of splits, and thus not all elements of it will be used, but only the indexes specified by node_ids will be used.
+		/// </param>
+		/// <param name="l1">
+		///   l1 regularization factor on leaf weights, per instance based.
+		/// </param>
+		/// <param name="l2">
+		///   l2 regularization factor on leaf weights, per instance based.
+		/// </param>
+		/// <param name="tree_complexity">
+		///   adjustment to the gain, per leaf based.
+		/// </param>
+		/// <param name="min_node_weight">
+		///   mininum avg of hessians in a node before required for the node to be considered for splitting.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesCalculateBestGainsPerFeature'.
+		/// </param>
+		/// <param name="max_splits">
+		///   the number of nodes that can be split in the whole tree. Used as a dimension of output tensors.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   node_ids_list: An output list of Rank 1 tensors indicating possible split node ids for each feature. The length of the list is num_features, but each tensor has different size as each feature provides different possible nodes. See above for details like shapes and sizes.
+		///   gains_list: An output list of Rank 1 tensors indicating the best gains for each feature to split for certain nodes. See above for details like shapes and sizes.
+		///   thresholds_list: An output list of Rank 1 tensors indicating the bucket id to compare with (as a threshold) for split in each node. See above for details like shapes and sizes.
+		///   left_node_contribs_list: A list of Rank 2 tensors indicating the contribution of the left nodes when branching from parent nodes (given by the tensor element in the output node_ids_list) to the left direction by the given threshold for each feature. This value will be used to make the left node value by adding to the parent node value. Second dimension size is 1 for 1-dimensional logits, but would be larger for multi-class problems. See above for details like shapes and sizes.
+		///   right_node_contribs_list: A list of Rank 2 tensors, with the same shape/conditions as left_node_contribs_list, but just that the value is for the right node.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   The split information is the best threshold (bucket id), gains and left/right node contributions per node for each feature.
+		///   
+		///   It is possible that not all nodes can be split on each feature. Hence, the list of possible nodes can differ between the features. Therefore, we return <c>node_ids_list</c> for each feature, containing the list of nodes that this feature can be used to split.
+		///   
+		///   In this manner, the output is the best split per features and per node, so that it needs to be combined later to produce the best split for each node (among all possible features).
+		///   
+		///   The length of output lists are all of the same length, <c>num_features</c>.
+		///   The output shapes are compatible in a way that the first dimension of all tensors of all lists are the same and equal to the number of possible split nodes for each feature.
+		/// </remarks>
+		public (TFOutput[] node_ids_list, TFOutput[] gains_list, TFOutput[] thresholds_list, TFOutput[] left_node_contribs_list, TFOutput[] right_node_contribs_list) BoostedTreesCalculateBestGainsPerFeature (TFOutput node_id_range, TFOutput[] stats_summary_list, TFOutput l1, TFOutput l2, TFOutput tree_complexity, TFOutput min_node_weight, long max_splits, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesCalculateBestGainsPerFeature", MakeName ("BoostedTreesCalculateBestGainsPerFeature", operName));
+			desc.AddInput (node_id_range);
+			desc.AddInputs (stats_summary_list);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			desc.AddInput (tree_complexity);
+			desc.AddInput (min_node_weight);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("max_splits", max_splits);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("node_ids_list");
+			var node_ids_list = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				node_ids_list [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("gains_list");
+			var gains_list = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				gains_list [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("thresholds_list");
+			var thresholds_list = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				thresholds_list [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("left_node_contribs_list");
+			var left_node_contribs_list = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				left_node_contribs_list [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("right_node_contribs_list");
+			var right_node_contribs_list = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				right_node_contribs_list [i] = new TFOutput (op, _idx++);
+			
+			return (node_ids_list, gains_list, thresholds_list, left_node_contribs_list, right_node_contribs_list);
+		}
+
+		/// <summary>
+		///   Calculates the prior from the training data (the bias) and fills in the first node with the logits' prior. Returns a boolean indicating whether to continue centering.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble.
+		/// </param>
+		/// <param name="mean_gradients">
+		///   A tensor with shape=[logits_dimension] with mean of gradients for a first node.
+		/// </param>
+		/// <param name="mean_hessians">
+		///   A tensor with shape=[logits_dimension] mean of hessians for a first node.
+		/// </param>
+		/// <param name="l1">
+		///   l1 regularization factor on leaf weights, per instance based.
+		/// </param>
+		/// <param name="l2">
+		///   l2 regularization factor on leaf weights, per instance based.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesCenterBias'.
+		/// </param>
+		/// <returns>
+		///   Bool, whether to continue bias centering.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BoostedTreesCenterBias (TFOutput tree_ensemble_handle, TFOutput mean_gradients, TFOutput mean_hessians, TFOutput l1, TFOutput l2, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesCenterBias", MakeName ("BoostedTreesCenterBias", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInput (mean_gradients);
+			desc.AddInput (mean_hessians);
+			desc.AddInput (l1);
+			desc.AddInput (l2);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var continue_centering = new TFOutput (op, _idx++);
+			return continue_centering;
+		}
+
+		/// <summary>
+		///   Creates a tree ensemble model and returns a handle to it.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble resource to be created.
+		/// </param>
+		/// <param name="stamp_token">
+		///   Token to use as the initial value of the resource stamp.
+		/// </param>
+		/// <param name="tree_ensemble_serialized">
+		///   Serialized proto of the tree ensemble.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesCreateEnsemble'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation BoostedTreesCreateEnsemble (TFOutput tree_ensemble_handle, TFOutput stamp_token, TFOutput tree_ensemble_serialized, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesCreateEnsemble", MakeName ("BoostedTreesCreateEnsemble", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInput (stamp_token);
+			desc.AddInput (tree_ensemble_serialized);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Create the Resource for Quantile Streams.
+		/// </summary>
+		/// <param name="quantile_stream_resource_handle">
+		///   resource; Handle to quantile stream resource.
+		/// </param>
+		/// <param name="epsilon">
+		///   float; The required approximation error of the stream resource.
+		/// </param>
+		/// <param name="num_streams">
+		///   int; The number of streams managed by the resource that shares the same epsilon.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesCreateQuantileStreamResource'.
+		/// </param>
+		/// <param name="max_elements">
+		///   Optional argument
+		///   int; The maximum number of data points that can be fed to the stream.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation BoostedTreesCreateQuantileStreamResource (TFOutput quantile_stream_resource_handle, TFOutput epsilon, TFOutput num_streams, long? max_elements = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesCreateQuantileStreamResource", MakeName ("BoostedTreesCreateQuantileStreamResource", operName));
+			desc.AddInput (quantile_stream_resource_handle);
+			desc.AddInput (epsilon);
+			desc.AddInput (num_streams);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (max_elements.HasValue)
+				desc.SetAttr ("max_elements", max_elements.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Deserializes a serialized tree ensemble config and replaces current tree
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble.
+		/// </param>
+		/// <param name="stamp_token">
+		///   Token to use as the new value of the resource stamp.
+		/// </param>
+		/// <param name="tree_ensemble_serialized">
+		///   Serialized proto of the ensemble.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesDeserializeEnsemble'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   ensemble.
+		/// </remarks>
+		public TFOperation BoostedTreesDeserializeEnsemble (TFOutput tree_ensemble_handle, TFOutput stamp_token, TFOutput tree_ensemble_serialized, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesDeserializeEnsemble", MakeName ("BoostedTreesDeserializeEnsemble", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInput (stamp_token);
+			desc.AddInput (tree_ensemble_serialized);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Creates a handle to a BoostedTreesEnsembleResource
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesEnsembleResourceHandleOp'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BoostedTreesEnsembleResourceHandleOp (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesEnsembleResourceHandleOp", MakeName ("BoostedTreesEnsembleResourceHandleOp", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resource = new TFOutput (op, _idx++);
+			return resource;
+		}
+
+		/// <summary>
+		///   Debugging/model interpretability outputs for each example.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		/// </param>
+		/// <param name="bucketized_features">
+		///   A list of rank 1 Tensors containing bucket id for each
+		///   feature.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesExampleDebugOutputs'.
+		/// </param>
+		/// <param name="logits_dimension">
+		///   scalar, dimension of the logits, to be used for constructing the protos in
+		///   examples_debug_outputs_serialized.
+		/// </param>
+		/// <returns>
+		///   Output rank 1 Tensor containing a proto serialized as a string for each example.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   It traverses all the trees and computes debug metrics for individual examples,
+		///   such as getting split feature ids and logits after each split along the decision
+		///   path used to compute directional feature contributions.
+		/// </remarks>
+		public TFOutput BoostedTreesExampleDebugOutputs (TFOutput tree_ensemble_handle, TFOutput[] bucketized_features, long logits_dimension, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesExampleDebugOutputs", MakeName ("BoostedTreesExampleDebugOutputs", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInputs (bucketized_features);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("logits_dimension", logits_dimension);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var examples_debug_outputs_serialized = new TFOutput (op, _idx++);
+			return examples_debug_outputs_serialized;
+		}
+
+		/// <summary>
+		///   Retrieves the tree ensemble resource stamp token, number of trees and growing statistics.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesGetEnsembleStates'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   stamp_token: Stamp token of the tree ensemble resource.
+		///   num_trees: The number of trees in the tree ensemble resource.
+		///   num_finalized_trees: The number of trees that were finished successfully.
+		///   num_attempted_layers: The number of layers we attempted to build (but not necessarily succeeded).
+		///   last_layer_nodes_range: Rank size 2 tensor that contains start and end ids of the nodes in the latest
+		///   layer.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput stamp_token, TFOutput num_trees, TFOutput num_finalized_trees, TFOutput num_attempted_layers, TFOutput last_layer_nodes_range) BoostedTreesGetEnsembleStates (TFOutput tree_ensemble_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesGetEnsembleStates", MakeName ("BoostedTreesGetEnsembleStates", operName));
+			desc.AddInput (tree_ensemble_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var stamp_token = new TFOutput (op, _idx++);
+			var num_trees = new TFOutput (op, _idx++);
+			var num_finalized_trees = new TFOutput (op, _idx++);
+			var num_attempted_layers = new TFOutput (op, _idx++);
+			var last_layer_nodes_range = new TFOutput (op, _idx++);
+			return (stamp_token, num_trees, num_finalized_trees, num_attempted_layers, last_layer_nodes_range);
+		}
+
+		/// <summary>
+		///   Makes the summary of quantiles for the batch.
+		/// </summary>
+		/// <param name="float_values">
+		///   float; List of Rank 1 Tensors each containing values for a single feature.
+		/// </param>
+		/// <param name="example_weights">
+		///   float; Rank 1 Tensor with weights per instance.
+		/// </param>
+		/// <param name="epsilon">
+		///   float; The required maximum approximation error.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesMakeQuantileSummaries'.
+		/// </param>
+		/// <returns>
+		///   float; List of Rank 2 Tensors each containing the quantile summary
+		///   (value, weight, min_rank, max_rank) of a single feature.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   An op that takes a list of tensors (one tensor per feature) and outputs the
+		///   quantile summaries for each tensor.
+		/// </remarks>
+		public TFOutput[] BoostedTreesMakeQuantileSummaries (TFOutput[] float_values, TFOutput example_weights, TFOutput epsilon, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesMakeQuantileSummaries", MakeName ("BoostedTreesMakeQuantileSummaries", operName));
+			desc.AddInputs (float_values);
+			desc.AddInput (example_weights);
+			desc.AddInput (epsilon);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("summaries");
+			var summaries = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				summaries [i] = new TFOutput (op, _idx++);
+			
+			return summaries;
+		}
+
+		/// <summary>
+		///   Makes the summary of accumulated stats for the batch.
+		/// </summary>
+		/// <param name="node_ids">
+		///   int32 Rank 1 Tensor containing node ids, which each example falls into for the requested layer.
+		/// </param>
+		/// <param name="gradients">
+		///   float32; Rank 2 Tensor (shape=[#examples, 1]) for gradients.
+		/// </param>
+		/// <param name="hessians">
+		///   float32; Rank 2 Tensor (shape=[#examples, 1]) for hessians.
+		/// </param>
+		/// <param name="bucketized_features_list">
+		///   int32 list of Rank 1 Tensors, each containing the bucketized feature (for each feature column).
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesMakeStatsSummary'.
+		/// </param>
+		/// <param name="max_splits">
+		///   int; the maximum number of splits possible in the whole tree.
+		/// </param>
+		/// <param name="num_buckets">
+		///   int; equals to the maximum possible value of bucketized feature.
+		/// </param>
+		/// <returns>
+		///   output Rank 4 Tensor (shape=[#features, #splits, #buckets, 2]) containing accumulated stats put into the corresponding node and bucket. The first index of 4th dimension refers to gradients, and the second to hessians.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The summary stats contains gradients and hessians accumulated into the corresponding node and bucket for each example.
+		/// </remarks>
+		public TFOutput BoostedTreesMakeStatsSummary (TFOutput node_ids, TFOutput gradients, TFOutput hessians, TFOutput[] bucketized_features_list, long max_splits, long num_buckets, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesMakeStatsSummary", MakeName ("BoostedTreesMakeStatsSummary", operName));
+			desc.AddInput (node_ids);
+			desc.AddInput (gradients);
+			desc.AddInput (hessians);
+			desc.AddInputs (bucketized_features_list);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("max_splits", max_splits);
+			desc.SetAttr ("num_buckets", num_buckets);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var stats_summary = new TFOutput (op, _idx++);
+			return stats_summary;
+		}
+
+		/// <summary>
+		///   Runs multiple additive regression ensemble predictors on input instances and
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		/// </param>
+		/// <param name="bucketized_features">
+		///   A list of rank 1 Tensors containing bucket id for each
+		///   feature.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesPredict'.
+		/// </param>
+		/// <param name="logits_dimension">
+		///   scalar, dimension of the logits, to be used for partial logits
+		///   shape.
+		/// </param>
+		/// <returns>
+		///   Output rank 2 Tensor containing logits for each example.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   computes the logits. It is designed to be used during prediction.
+		///   It traverses all the trees and calculates the final score for each instance.
+		/// </remarks>
+		public TFOutput BoostedTreesPredict (TFOutput tree_ensemble_handle, TFOutput[] bucketized_features, long logits_dimension, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesPredict", MakeName ("BoostedTreesPredict", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInputs (bucketized_features);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("logits_dimension", logits_dimension);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var logits = new TFOutput (op, _idx++);
+			return logits;
+		}
+
+		/// <summary>
+		///   Add the quantile summaries to each quantile stream resource.
+		/// </summary>
+		/// <param name="quantile_stream_resource_handle">
+		///   resource handle referring to a QuantileStreamResource.
+		/// </param>
+		/// <param name="summaries">
+		///   string; List of Rank 2 Tensor each containing the summaries for a single feature.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesQuantileStreamResourceAddSummaries'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   An op that adds a list of quantile summaries to a quantile stream resource. Each
+		///   summary Tensor is rank 2, containing summaries (value, weight, min_rank, max_rank)
+		///   for a single feature.
+		/// </remarks>
+		public TFOperation BoostedTreesQuantileStreamResourceAddSummaries (TFOutput quantile_stream_resource_handle, TFOutput[] summaries, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesQuantileStreamResourceAddSummaries", MakeName ("BoostedTreesQuantileStreamResourceAddSummaries", operName));
+			desc.AddInput (quantile_stream_resource_handle);
+			desc.AddInputs (summaries);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Flush the summaries for a quantile stream resource.
+		/// </summary>
+		/// <param name="quantile_stream_resource_handle">
+		///   resource handle referring to a QuantileStreamResource.
+		/// </param>
+		/// <param name="num_buckets">
+		///   int; approximate number of buckets unless using generate_quantiles.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesQuantileStreamResourceFlush'.
+		/// </param>
+		/// <param name="generate_quantiles">
+		///   Optional argument
+		///   bool; If True, the output will be the num_quantiles for each stream where the ith
+		///   entry is the ith quantile of the input with an approximation error of epsilon.
+		///   Duplicate values may be present.
+		///   If False, the output will be the points in the histogram that we got which roughly
+		///   translates to 1/epsilon boundaries and without any duplicates.
+		///   Default to False.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   An op that flushes the summaries for a quantile stream resource.
+		/// </remarks>
+		public TFOperation BoostedTreesQuantileStreamResourceFlush (TFOutput quantile_stream_resource_handle, TFOutput num_buckets, bool? generate_quantiles = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesQuantileStreamResourceFlush", MakeName ("BoostedTreesQuantileStreamResourceFlush", operName));
+			desc.AddInput (quantile_stream_resource_handle);
+			desc.AddInput (num_buckets);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (generate_quantiles.HasValue)
+				desc.SetAttr ("generate_quantiles", generate_quantiles.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Generate the bucket boundaries for each feature based on accumulated summaries.
+		/// </summary>
+		/// <param name="quantile_stream_resource_handle">
+		///   resource handle referring to a QuantileStreamResource.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesQuantileStreamResourceGetBucketBoundaries'.
+		/// </param>
+		/// <param name="num_features">
+		///   inferred int; number of features to get bucket boundaries for.
+		/// </param>
+		/// <returns>
+		///   float; List of Rank 1 Tensors each containing the bucket boundaries for a feature.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   An op that returns a list of float tensors for a quantile stream resource. Each
+		///   tensor is Rank 1 containing bucket boundaries for a single feature.
+		/// </remarks>
+		public TFOutput[] BoostedTreesQuantileStreamResourceGetBucketBoundaries (TFOutput quantile_stream_resource_handle, long num_features, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesQuantileStreamResourceGetBucketBoundaries", MakeName ("BoostedTreesQuantileStreamResourceGetBucketBoundaries", operName));
+			desc.AddInput (quantile_stream_resource_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_features", num_features);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("bucket_boundaries");
+			var bucket_boundaries = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				bucket_boundaries [i] = new TFOutput (op, _idx++);
+			
+			return bucket_boundaries;
+		}
+
+		/// <summary>
+		///   Creates a handle to a BoostedTreesQuantileStreamResource.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesQuantileStreamResourceHandleOp'.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput BoostedTreesQuantileStreamResourceHandleOp (string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesQuantileStreamResourceHandleOp", MakeName ("BoostedTreesQuantileStreamResourceHandleOp", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var resource = new TFOutput (op, _idx++);
+			return resource;
+		}
+
+		/// <summary>
+		///   Serializes the tree ensemble to a proto.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesSerializeEnsemble'.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   stamp_token: Stamp token of the tree ensemble resource.
+		///   tree_ensemble_serialized: Serialized proto of the ensemble.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput stamp_token, TFOutput tree_ensemble_serialized) BoostedTreesSerializeEnsemble (TFOutput tree_ensemble_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesSerializeEnsemble", MakeName ("BoostedTreesSerializeEnsemble", operName));
+			desc.AddInput (tree_ensemble_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var stamp_token = new TFOutput (op, _idx++);
+			var tree_ensemble_serialized = new TFOutput (op, _idx++);
+			return (stamp_token, tree_ensemble_serialized);
+		}
+
+		/// <summary>
+		///   Runs multiple additive regression ensemble predictors on input instances and
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		/// </param>
+		/// <param name="cached_tree_ids">
+		///   Rank 1 Tensor containing cached tree ids which is the starting
+		///   tree of prediction.
+		/// </param>
+		/// <param name="cached_node_ids">
+		///   Rank 1 Tensor containing cached node id which is the starting
+		///   node of prediction.
+		/// </param>
+		/// <param name="bucketized_features">
+		///   A list of rank 1 Tensors containing bucket id for each
+		///   feature.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesTrainingPredict'.
+		/// </param>
+		/// <param name="logits_dimension">
+		///   scalar, dimension of the logits, to be used for partial logits
+		///   shape.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   partial_logits: Rank 2 Tensor containing logits update (with respect to cached
+		///   values stored) for each example.
+		///   tree_ids: Rank 1 Tensor containing new tree ids for each example.
+		///   node_ids: Rank 1 Tensor containing new node ids in the new tree_ids.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   computes the update to cached logits. It is designed to be used during training.
+		///   It traverses the trees starting from cached tree id and cached node id and
+		///   calculates the updates to be pushed to the cache.
+		/// </remarks>
+		public (TFOutput partial_logits, TFOutput tree_ids, TFOutput node_ids) BoostedTreesTrainingPredict (TFOutput tree_ensemble_handle, TFOutput cached_tree_ids, TFOutput cached_node_ids, TFOutput[] bucketized_features, long logits_dimension, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesTrainingPredict", MakeName ("BoostedTreesTrainingPredict", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInput (cached_tree_ids);
+			desc.AddInput (cached_node_ids);
+			desc.AddInputs (bucketized_features);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("logits_dimension", logits_dimension);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var partial_logits = new TFOutput (op, _idx++);
+			var tree_ids = new TFOutput (op, _idx++);
+			var node_ids = new TFOutput (op, _idx++);
+			return (partial_logits, tree_ids, node_ids);
+		}
+
+		/// <summary>
+		///   Updates the tree ensemble by either adding a layer to the last tree being grown
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the ensemble variable.
+		/// </param>
+		/// <param name="feature_ids">
+		///   Rank 1 tensor with ids for each feature. This is the real id of
+		///   the feature that will be used in the split.
+		/// </param>
+		/// <param name="node_ids">
+		///   List of rank 1 tensors representing the nodes for which this feature
+		///   has a split.
+		/// </param>
+		/// <param name="gains">
+		///   List of rank 1 tensors representing the gains for each of the feature's
+		///   split.
+		/// </param>
+		/// <param name="thresholds">
+		///   List of rank 1 tensors representing the thesholds for each of the
+		///   feature's split.
+		/// </param>
+		/// <param name="left_node_contribs">
+		///   List of rank 2 tensors with left leaf contribs for each of
+		///   the feature's splits. Will be added to the previous node values to constitute
+		///   the values of the left nodes.
+		/// </param>
+		/// <param name="right_node_contribs">
+		///   List of rank 2 tensors with right leaf contribs for each
+		///   of the feature's splits. Will be added to the previous node values to constitute
+		///   the values of the right nodes.
+		/// </param>
+		/// <param name="max_depth">
+		///   Max depth of the tree to build.
+		/// </param>
+		/// <param name="learning_rate">
+		///   shrinkage const for each new tree.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BoostedTreesUpdateEnsemble'.
+		/// </param>
+		/// <param name="pruning_mode">
+		///   0-No pruning, 1-Pre-pruning, 2-Post-pruning.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   or by starting a new tree.
+		/// </remarks>
+		public TFOperation BoostedTreesUpdateEnsemble (TFOutput tree_ensemble_handle, TFOutput feature_ids, TFOutput[] node_ids, TFOutput[] gains, TFOutput[] thresholds, TFOutput[] left_node_contribs, TFOutput[] right_node_contribs, TFOutput max_depth, TFOutput learning_rate, long pruning_mode, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BoostedTreesUpdateEnsemble", MakeName ("BoostedTreesUpdateEnsemble", operName));
+			desc.AddInput (tree_ensemble_handle);
+			desc.AddInput (feature_ids);
+			desc.AddInputs (node_ids);
+			desc.AddInputs (gains);
+			desc.AddInputs (thresholds);
+			desc.AddInputs (left_node_contribs);
+			desc.AddInputs (right_node_contribs);
+			desc.AddInput (max_depth);
+			desc.AddInput (learning_rate);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("pruning_mode", pruning_mode);
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
 		///   Return the shape of s0 op s1 with broadcast.
 		/// </summary>
 		/// <param name="s0">
@@ -4153,6 +5235,55 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Broadcast an array for a compatible shape.
+		/// </summary>
+		/// <param name="input">
+		///   A Tensor to broadcast.
+		/// </param>
+		/// <param name="shape">
+		///   An 1-D <c>int</c> Tensor. The shape of the desired output.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BroadcastTo'.
+		/// </param>
+		/// <returns>
+		///   A Tensor.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Broadcasting is the process of making arrays to have compatible shapes
+		///   for arithmetic operations. Two shapes are compatible if for each
+		///   dimension pair they are either equal or one of them is one. When trying
+		///   to broadcast a Tensor to a shape, it starts with the trailing dimensions,
+		///   and works its way forward.
+		///   
+		///   For example,
+		///    <code>
+		///   &amp;gt;&amp;gt;&amp;gt; x = tf.constant([1, 2, 3])
+		///   &amp;gt;&amp;gt;&amp;gt; y = tf.broadcast_to(x, [3, 3])
+		///   &amp;gt;&amp;gt;&amp;gt; sess.run(y)
+		///   array([[1, 2, 3],
+		///   [1, 2, 3],
+		///   [1, 2, 3]], dtype=int32)
+		///    </code>
+		///   In the above example, the input Tensor with the shape of <c>[1, 3]</c>
+		///   is broadcasted to output Tensor with shape of <c>[3, 3]</c>.
+		/// </remarks>
+		public TFOutput BroadcastTo (TFOutput input, TFOutput shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "BroadcastTo", MakeName ("BroadcastTo", operName));
+			desc.AddInput (input);
+			desc.AddInput (shape);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Bucketizes 'input' based on 'boundaries'.
 		/// </summary>
 		/// <param name="input">
@@ -4196,39 +5327,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
-		}
-
-		/// <summary>
-		///   Records the bytes size of each element of <c>input_dataset</c> in a StatsAggregator.
-		/// </summary>
-		/// <param name="input_dataset">
-		/// </param>
-		/// <param name="tag">
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'BytesProducedStatsDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput BytesProducedStatsDataset (TFOutput input_dataset, TFOutput tag, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "BytesProducedStatsDataset", MakeName ("BytesProducedStatsDataset", operName));
-			desc.AddInput (input_dataset);
-			desc.AddInput (tag);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
 		}
 
 		/// <summary>
@@ -4306,7 +5404,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Returns element-wise smallest integer in not less than x.
+		///   Returns element-wise smallest integer not less than x.
 		/// </summary>
 		/// <param name="x">
 		/// </param>
@@ -4438,6 +5536,200 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
+		}
+
+		/// <summary>
+		///   Clips tensor values to a specified min and max.
+		/// </summary>
+		/// <param name="t">
+		///   A <c>Tensor</c>.
+		/// </param>
+		/// <param name="clip_value_min">
+		///   A 0-D (scalar) <c>Tensor</c>, or a <c>Tensor</c> with the same shape
+		///   as <c>t</c>. The minimum value to clip by.
+		/// </param>
+		/// <param name="clip_value_max">
+		///   A 0-D (scalar) <c>Tensor</c>, or a <c>Tensor</c> with the same shape
+		///   as <c>t</c>. The maximum value to clip by.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ClipByValue'.
+		/// </param>
+		/// <returns>
+		///   A clipped <c>Tensor</c> with the same shape as input 't'.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Given a tensor <c>t</c>, this operation returns a tensor of the same type and
+		///   shape as <c>t</c> with its values clipped to <c>clip_value_min</c> and <c>clip_value_max</c>.
+		///   Any values less than <c>clip_value_min</c> are set to <c>clip_value_min</c>. Any values
+		///   greater than <c>clip_value_max</c> are set to <c>clip_value_max</c>.
+		/// </remarks>
+		public TFOutput ClipByValue (TFOutput t, TFOutput clip_value_min, TFOutput clip_value_max, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ClipByValue", MakeName ("ClipByValue", operName));
+			desc.AddInput (t);
+			desc.AddInput (clip_value_min);
+			desc.AddInput (clip_value_max);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Receives a tensor value broadcast from another device.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CollectiveBcastRecv'.
+		/// </param>
+		/// <param name="T">
+		/// </param>
+		/// <param name="group_size">
+		/// </param>
+		/// <param name="group_key">
+		/// </param>
+		/// <param name="instance_key">
+		/// </param>
+		/// <param name="shape">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput CollectiveBcastRecv (TFDataType T, long group_size, long group_key, long instance_key, TFShape shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CollectiveBcastRecv", MakeName ("CollectiveBcastRecv", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("T", T);
+			desc.SetAttr ("group_size", group_size);
+			desc.SetAttr ("group_key", group_key);
+			desc.SetAttr ("instance_key", instance_key);
+			desc.SetAttrShape ("shape", shape);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var data = new TFOutput (op, _idx++);
+			return data;
+		}
+
+		/// <summary>
+		///   Broadcasts a tensor value to one or more other devices.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CollectiveBcastSend'.
+		/// </param>
+		/// <param name="group_size">
+		/// </param>
+		/// <param name="group_key">
+		/// </param>
+		/// <param name="instance_key">
+		/// </param>
+		/// <param name="shape">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput CollectiveBcastSend (TFOutput input, long group_size, long group_key, long instance_key, TFShape shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CollectiveBcastSend", MakeName ("CollectiveBcastSend", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("group_size", group_size);
+			desc.SetAttr ("group_key", group_key);
+			desc.SetAttr ("instance_key", instance_key);
+			desc.SetAttrShape ("shape", shape);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var data = new TFOutput (op, _idx++);
+			return data;
+		}
+
+		/// <summary>
+		///   An Op to permute tensors across replicated TPU instances. Each instance
+		/// </summary>
+		/// <param name="input">
+		///   The local input to be permuted. Currently only supports float and
+		///   bfloat16.
+		/// </param>
+		/// <param name="source_target_pairs">
+		///   A tensor with shape [num_pairs, 2].
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CollectivePermute'.
+		/// </param>
+		/// <returns>
+		///   The permuted input.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   supplies its own input.
+		///   
+		///   For example, suppose there are 4 TPU instances: <c>[A, B, C, D]</c>. Passing
+		///   source_target_pairs=<c>[[0,1],[1,2],[2,3],[3,0]]</c> gets the outputs:
+		///   <c>[D, A, B, C]</c>.
+		/// </remarks>
+		public TFOutput CollectivePermute (TFOutput input, TFOutput source_target_pairs, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CollectivePermute", MakeName ("CollectivePermute", operName));
+			desc.AddInput (input);
+			desc.AddInput (source_target_pairs);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Mutually reduces multiple tensors of identical type and shape.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CollectiveReduce'.
+		/// </param>
+		/// <param name="group_size">
+		/// </param>
+		/// <param name="group_key">
+		/// </param>
+		/// <param name="instance_key">
+		/// </param>
+		/// <param name="merge_op">
+		/// </param>
+		/// <param name="final_op">
+		/// </param>
+		/// <param name="subdiv_offsets">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput CollectiveReduce (TFOutput input, long group_size, long group_key, long instance_key, string merge_op, string final_op, long[] subdiv_offsets, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CollectiveReduce", MakeName ("CollectiveReduce", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("group_size", group_size);
+			desc.SetAttr ("group_key", group_key);
+			desc.SetAttr ("instance_key", instance_key);
+			desc.SetAttr ("merge_op", merge_op);
+			desc.SetAttr ("final_op", final_op);
+			desc.SetAttr ("subdiv_offsets", subdiv_offsets);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var data = new TFOutput (op, _idx++);
+			return data;
 		}
 
 		/// <summary>
@@ -4808,6 +6100,9 @@ namespace TensorFlow {
 		///   If non-empty, this accumulator will be shared under the
 		///   given name across multiple sessions.
 		/// </param>
+		/// <param name="reduction_type">
+		///   Optional argument
+		/// </param>
 		/// <param name="dtype">
 		///   The type of the value being accumulated.
 		/// </param>
@@ -4826,7 +6121,7 @@ namespace TensorFlow {
 		///   resets the aggregate to 0, and increments the global_step recorded by
 		///   the accumulator.
 		/// </remarks>
-		public TFOutput ConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string operName = null)
+		public TFOutput ConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string reduction_type = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ConditionalAccumulator", MakeName ("ConditionalAccumulator", operName));
 			foreach ( TFOperation control in CurrentDependencies )
@@ -4839,6 +6134,9 @@ namespace TensorFlow {
 			
 			if (shared_name != null)
 				desc.SetAttr ("shared_name", shared_name);
+			
+			if (reduction_type != null)
+				desc.SetAttr ("reduction_type", reduction_type);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -5785,7 +7083,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Extracts crops from the input image tensor and bilinearly resizes them (possibly
+		///   Extracts crops from the input image tensor and resizes them.
 		/// </summary>
 		/// <param name="image">
 		///   A 4-D tensor of shape <c>[batch, image_height, image_width, depth]</c>.
@@ -5818,8 +7116,9 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="method">
 		///   Optional argument
-		///   A string specifying the interpolation method. Only 'bilinear' is
-		///   supported for now.
+		///   A string specifying the sampling method for resizing. It can be either
+		///   <c>"bilinear"</c> or <c>"nearest"</c> and default to <c>"bilinear"</c>. Currently two sampling
+		///   methods are supported: Bilinear and Nearest Neighbor.
 		/// </param>
 		/// <param name="extrapolation_value">
 		///   Optional argument
@@ -5830,17 +7129,21 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   with aspect ratio change) to a common output size specified by <c>crop_size</c>. This
-		///   is more general than the <c>crop_to_bounding_box</c> op which extracts a fixed size
-		///   slice from the input image and does not allow resizing or aspect ratio change.
+		///   Extracts crops from the input image tensor and resizes them using bilinear
+		///   sampling or nearest neighbor sampling (possibly with aspect ratio change) to a
+		///   common output size specified by <c>crop_size</c>. This is more general than the
+		///   <c>crop_to_bounding_box</c> op which extracts a fixed size slice from the input image
+		///   and does not allow resizing or aspect ratio change.
 		///   
 		///   Returns a tensor with <c>crops</c> from the input <c>image</c> at positions defined at the
 		///   bounding box locations in <c>boxes</c>. The cropped boxes are all resized (with
-		///   bilinear interpolation) to a fixed <c>size = [crop_height, crop_width]</c>. The
-		///   result is a 4-D tensor <c>[num_boxes, crop_height, crop_width, depth]</c>. The
-		///   resizing is corner aligned. In particular, if <c>boxes = [[0, 0, 1, 1]]</c>, the
-		///   method will give identical results to using <c>tf.image.resize_bilinear()</c>
-		///   with <c>align_corners=True</c>.
+		///   bilinear or nearest neighbor interpolation) to a fixed
+		///   <c>size = [crop_height, crop_width]</c>. The result is a 4-D tensor
+		///   <c>[num_boxes, crop_height, crop_width, depth]</c>. The resizing is corner aligned.
+		///   In particular, if <c>boxes = [[0, 0, 1, 1]]</c>, the method will give identical
+		///   results to using <c>tf.image.resize_bilinear()</c> or
+		///   <c>tf.image.resize_nearest_neighbor()</c>(depends on the <c>method</c> argument) with
+		///   <c>align_corners=True</c>.
 		/// </remarks>
 		public TFOutput CropAndResize (TFOutput image, TFOutput boxes, TFOutput box_ind, TFOutput crop_size, string method = null, float? extrapolation_value = null, string operName = null)
 		{
@@ -6018,7 +7321,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   An Op to sum inputs across replicated TPU instances. Each
+		///   An Op to sum inputs across replicated TPU instances. Each instance supplies its
 		/// </summary>
 		/// <param name="input">
 		///   The local input to the sum.
@@ -6036,9 +7339,7 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   instance supplies its own input. If group_assignment is empty, the output of
-		///   each is the sum of all the inputs, otherwise the output of each is the sum of
-		///   the inputs belonging to the same group.
+		///   own input.
 		///   
 		///   For example, suppose there are 8 TPU instances: <c>[A, B, C, D, E, F, G, H]</c>.
 		///   Passing group_assignment=<c>[[0,2,4,6],[1,3,5,7]]</c> sets <c>A, C, E, G</c> as group 0,
@@ -6269,6 +7570,839 @@ namespace TensorFlow {
 			var loss = new TFOutput (op, _idx++);
 			var gradient = new TFOutput (op, _idx++);
 			return (loss, gradient);
+		}
+
+		/// <summary>
+		///   A RNN backed by cuDNN.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="input_h">
+		/// </param>
+		/// <param name="input_c">
+		/// </param>
+		/// <param name="parameters">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNN'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <param name="is_training">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output:
+		///   output_h:
+		///   output_c:
+		///   reserve_space:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Computes the RNN from the input and initial states, with respect to the params
+		///   buffer.
+		///   
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicate whether there is a linear projection between the input and
+		///   the actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used. Should be
+		///   "unidirectional" or "bidirectional".
+		///   dropout: Dropout probability. When set to 0., dropout is disabled.
+		///   seed: The 1st part of a seed to initialize dropout.
+		///   seed2: The 2nd part of a seed to initialize dropout.
+		///   input: A 3-D tensor with the shape of [seq_length, batch_size, input_size].
+		///   input_h: A 3-D tensor with the shape of [num_layer * dir, batch_size,
+		///   num_units].
+		///   input_c: For LSTM, a 3-D tensor with the shape of
+		///   [num_layer * dir, batch, num_units]. For other models, it is ignored.
+		///   params: A 1-D tensor that contains the weights and biases in an opaque layout.
+		///   The size must be created through CudnnRNNParamsSize, and initialized
+		///   separately. Note that they might not be compatible across different
+		///   generations. So it is a good idea to save and restore
+		///   output: A 3-D tensor with the shape of [seq_length, batch_size,
+		///   dir * num_units].
+		///   output_h: The same shape has input_h.
+		///   output_c: The same shape as input_c for LSTM. An empty tensor for other models.
+		///   is_training: Indicates whether this operation is used for inferenece or
+		///   training.
+		///   reserve_space: An opaque tensor that can be used in backprop calculation. It
+		///   is only produced if is_training is false.
+		/// </remarks>
+		public (TFOutput output, TFOutput output_h, TFOutput output_c, TFOutput reserve_space) CudnnRNN (TFOutput input, TFOutput input_h, TFOutput input_c, TFOutput parameters, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, bool? is_training = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNN", MakeName ("CudnnRNN", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_h);
+			desc.AddInput (input_c);
+			desc.AddInput (parameters);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			if (is_training.HasValue)
+				desc.SetAttr ("is_training", is_training.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			var output_h = new TFOutput (op, _idx++);
+			var output_c = new TFOutput (op, _idx++);
+			var reserve_space = new TFOutput (op, _idx++);
+			return (output, output_h, output_c, reserve_space);
+		}
+
+		/// <summary>
+		///   Backprop step of CudnnRNN.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="input_h">
+		/// </param>
+		/// <param name="input_c">
+		/// </param>
+		/// <param name="parameters">
+		/// </param>
+		/// <param name="output">
+		/// </param>
+		/// <param name="output_h">
+		/// </param>
+		/// <param name="output_c">
+		/// </param>
+		/// <param name="output_backprop">
+		/// </param>
+		/// <param name="output_h_backprop">
+		/// </param>
+		/// <param name="output_c_backprop">
+		/// </param>
+		/// <param name="reserve_space">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNBackprop'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   input_backprop:
+		///   input_h_backprop:
+		///   input_c_backprop:
+		///   params_backprop:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Compute the backprop of both data and weights in a RNN.
+		///   
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicate whether there is a linear projection between the input and
+		///   the actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used. Should be
+		///   "unidirectional" or "bidirectional".
+		///   dropout: Dropout probability. When set to 0., dropout is disabled.
+		///   seed: The 1st part of a seed to initialize dropout.
+		///   seed2: The 2nd part of a seed to initialize dropout.
+		///   input: A 3-D tensor with the shape of [seq_length, batch_size, input_size].
+		///   input_h: A 3-D tensor with the shape of [num_layer * dir, batch_size,
+		///   num_units].
+		///   input_c: For LSTM, a 3-D tensor with the shape of
+		///   [num_layer * dir, batch, num_units]. For other models, it is ignored.
+		///   params: A 1-D tensor that contains the weights and biases in an opaque layout.
+		///   The size must be created through CudnnRNNParamsSize, and initialized
+		///   separately. Note that they might not be compatible across different
+		///   generations. So it is a good idea to save and restore
+		///   output: A 3-D tensor with the shape of [seq_length, batch_size,
+		///   dir * num_units].
+		///   output_h: The same shape has input_h.
+		///   output_c: The same shape as input_c for LSTM. An empty tensor for other models.
+		///   output_backprop: A 3-D tensor with the same shape as output in the forward pass.
+		///   output_h_backprop: A 3-D tensor with the same shape as output_h in the forward
+		///   pass.
+		///   output_c_backprop: A 3-D tensor with the same shape as output_c in the forward
+		///   pass.
+		///   reserve_space: The same reserve_space produced in for forward operation.
+		///   input_backprop: The backprop to input in the forward pass. Has the same shape
+		///   as input.
+		///   input_h_backprop: The backprop to input_h in the forward pass. Has the same
+		///   shape as input_h.
+		///   input_c_backprop: The backprop to input_c in the forward pass. Has the same
+		///   shape as input_c.
+		///   params_backprop: The backprop to the params buffer in the forward pass. Has the
+		///   same shape as params.
+		/// </remarks>
+		public (TFOutput input_backprop, TFOutput input_h_backprop, TFOutput input_c_backprop, TFOutput params_backprop) CudnnRNNBackprop (TFOutput input, TFOutput input_h, TFOutput input_c, TFOutput parameters, TFOutput output, TFOutput output_h, TFOutput output_c, TFOutput output_backprop, TFOutput output_h_backprop, TFOutput output_c_backprop, TFOutput reserve_space, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNBackprop", MakeName ("CudnnRNNBackprop", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_h);
+			desc.AddInput (input_c);
+			desc.AddInput (parameters);
+			desc.AddInput (output);
+			desc.AddInput (output_h);
+			desc.AddInput (output_c);
+			desc.AddInput (output_backprop);
+			desc.AddInput (output_h_backprop);
+			desc.AddInput (output_c_backprop);
+			desc.AddInput (reserve_space);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var input_backprop = new TFOutput (op, _idx++);
+			var input_h_backprop = new TFOutput (op, _idx++);
+			var input_c_backprop = new TFOutput (op, _idx++);
+			var params_backprop = new TFOutput (op, _idx++);
+			return (input_backprop, input_h_backprop, input_c_backprop, params_backprop);
+		}
+
+		/// <summary>
+		///   Backprop step of CudnnRNN.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="input_h">
+		/// </param>
+		/// <param name="input_c">
+		/// </param>
+		/// <param name="parameters">
+		/// </param>
+		/// <param name="output">
+		/// </param>
+		/// <param name="output_h">
+		/// </param>
+		/// <param name="output_c">
+		/// </param>
+		/// <param name="output_backprop">
+		/// </param>
+		/// <param name="output_h_backprop">
+		/// </param>
+		/// <param name="output_c_backprop">
+		/// </param>
+		/// <param name="reserve_space">
+		/// </param>
+		/// <param name="host_reserved">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNBackpropV2'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   input_backprop:
+		///   input_h_backprop:
+		///   input_c_backprop:
+		///   params_backprop:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Compute the backprop of both data and weights in a RNN. Takes an extra
+		///   "host_reserved" inupt than CudnnRNNBackprop, which is used to determine RNN
+		///   cudnnRNNAlgo_t and cudnnMathType_t.
+		///   
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicates whether there is a linear projection between the input and
+		///   the actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used. Should be
+		///   "unidirectional" or "bidirectional".
+		///   dropout: Dropout probability. When set to 0., dropout is disabled.
+		///   seed: The 1st part of a seed to initialize dropout.
+		///   seed2: The 2nd part of a seed to initialize dropout.
+		///   input: A 3-D tensor with the shape of [seq_length, batch_size, input_size].
+		///   input_h: A 3-D tensor with the shape of [num_layer * dir, batch_size,
+		///   num_units].
+		///   input_c: For LSTM, a 3-D tensor with the shape of
+		///   [num_layer * dir, batch, num_units]. For other models, it is ignored.
+		///   params: A 1-D tensor that contains the weights and biases in an opaque layout.
+		///   The size must be created through CudnnRNNParamsSize, and initialized
+		///   separately. Note that they might not be compatible across different
+		///   generations. So it is a good idea to save and restore
+		///   output: A 3-D tensor with the shape of [seq_length, batch_size,
+		///   dir * num_units].
+		///   output_h: The same shape has input_h.
+		///   output_c: The same shape as input_c for LSTM. An empty tensor for other models.
+		///   output_backprop: A 3-D tensor with the same shape as output in the forward pass.
+		///   output_h_backprop: A 3-D tensor with the same shape as output_h in the forward
+		///   pass.
+		///   output_c_backprop: A 3-D tensor with the same shape as output_c in the forward
+		///   pass.
+		///   reserve_space: The same reserve_space produced in the forward operation.
+		///   host_reserved: The same host_reserved produced in the forward operation.
+		///   input_backprop: The backprop to input in the forward pass. Has the same shape
+		///   as input.
+		///   input_h_backprop: The backprop to input_h in the forward pass. Has the same
+		///   shape as input_h.
+		///   input_c_backprop: The backprop to input_c in the forward pass. Has the same
+		///   shape as input_c.
+		///   params_backprop: The backprop to the params buffer in the forward pass. Has the
+		///   same shape as params.
+		/// </remarks>
+		public (TFOutput input_backprop, TFOutput input_h_backprop, TFOutput input_c_backprop, TFOutput params_backprop) CudnnRNNBackpropV2 (TFOutput input, TFOutput input_h, TFOutput input_c, TFOutput parameters, TFOutput output, TFOutput output_h, TFOutput output_c, TFOutput output_backprop, TFOutput output_h_backprop, TFOutput output_c_backprop, TFOutput reserve_space, TFOutput host_reserved, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNBackpropV2", MakeName ("CudnnRNNBackpropV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_h);
+			desc.AddInput (input_c);
+			desc.AddInput (parameters);
+			desc.AddInput (output);
+			desc.AddInput (output_h);
+			desc.AddInput (output_c);
+			desc.AddInput (output_backprop);
+			desc.AddInput (output_h_backprop);
+			desc.AddInput (output_c_backprop);
+			desc.AddInput (reserve_space);
+			desc.AddInput (host_reserved);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var input_backprop = new TFOutput (op, _idx++);
+			var input_h_backprop = new TFOutput (op, _idx++);
+			var input_c_backprop = new TFOutput (op, _idx++);
+			var params_backprop = new TFOutput (op, _idx++);
+			return (input_backprop, input_h_backprop, input_c_backprop, params_backprop);
+		}
+
+		/// <summary>
+		///   Converts CudnnRNN params from canonical form to usable form.
+		/// </summary>
+		/// <param name="num_layers">
+		/// </param>
+		/// <param name="num_units">
+		/// </param>
+		/// <param name="input_size">
+		/// </param>
+		/// <param name="weights">
+		/// </param>
+		/// <param name="biases">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNCanonicalToParams'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Writes a set of weights into the opaque params buffer so they can be used in
+		///   upcoming training or inferences.
+		///   
+		///   Note that the params buffer may not be compatible across different GPUs. So any
+		///   save and restoration should be converted to and from the canonical weights and
+		///   biases.
+		///   
+		///   num_layers: Specifies the number of layers in the RNN model.
+		///   num_units: Specifies the size of the hidden state.
+		///   input_size: Specifies the size of the input state.
+		///   weights: the canonical form of weights that can be used for saving
+		///   and restoration. They are more likely to be compatible across different
+		///   generations.
+		///   biases: the canonical form of biases that can be used for saving
+		///   and restoration. They are more likely to be compatible across different
+		///   generations.
+		///   num_params: number of parameter sets for all layers.
+		///   Each layer may contain multiple parameter sets, with each set consisting of
+		///   a weight matrix and a bias vector.
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicate whether there is a linear projection between the input and
+		///   The actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used.
+		///   dir = (direction == bidirectional) ? 2 : 1
+		///   dropout: dropout probability. When set to 0., dropout is disabled.
+		///   seed: the 1st part of a seed to initialize dropout.
+		///   seed2: the 2nd part of a seed to initialize dropout.
+		/// </remarks>
+		public TFOutput CudnnRNNCanonicalToParams (TFOutput num_layers, TFOutput num_units, TFOutput input_size, TFOutput[] weights, TFOutput[] biases, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNCanonicalToParams", MakeName ("CudnnRNNCanonicalToParams", operName));
+			desc.AddInput (num_layers);
+			desc.AddInput (num_units);
+			desc.AddInput (input_size);
+			desc.AddInputs (weights);
+			desc.AddInputs (biases);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			return parameters;
+		}
+
+		/// <summary>
+		///   Computes size of weights that can be used by a Cudnn RNN model.
+		/// </summary>
+		/// <param name="num_layers">
+		/// </param>
+		/// <param name="num_units">
+		/// </param>
+		/// <param name="input_size">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNParamsSize'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <param name="T">
+		/// </param>
+		/// <param name="S">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Return the params size that can be used by the Cudnn RNN model. Subsequent
+		///   weight allocation and initialization should use this size.
+		///   
+		///   num_layers: Specifies the number of layers in the RNN model.
+		///   num_units: Specifies the size of the hidden state.
+		///   input_size: Specifies the size of the input state.
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicate whether there is a linear projection between the input and
+		///   The actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used.
+		///   dir = (direction == bidirectional) ? 2 : 1
+		///   dropout: dropout probability. When set to 0., dropout is disabled.
+		///   seed: the 1st part of a seed to initialize dropout.
+		///   seed2: the 2nd part of a seed to initialize dropout.
+		///   params_size: The size of the params buffer that should be allocated and
+		///   initialized for this RNN model. Note that this params buffer may not be
+		///   compatible across GPUs. Please use CudnnRNNParamsWeights and
+		///   CudnnRNNParamsBiases to save and restore them in a way that is compatible
+		///   across different runs.
+		/// </remarks>
+		public TFOutput CudnnRNNParamsSize (TFOutput num_layers, TFOutput num_units, TFOutput input_size, TFDataType T, TFDataType S, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNParamsSize", MakeName ("CudnnRNNParamsSize", operName));
+			desc.AddInput (num_layers);
+			desc.AddInput (num_units);
+			desc.AddInput (input_size);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("T", T);
+			desc.SetAttrType ("S", S);
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var params_size = new TFOutput (op, _idx++);
+			return params_size;
+		}
+
+		/// <summary>
+		///   Retrieves CudnnRNN params in canonical form.
+		/// </summary>
+		/// <param name="num_layers">
+		/// </param>
+		/// <param name="num_units">
+		/// </param>
+		/// <param name="input_size">
+		/// </param>
+		/// <param name="parameters">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNParamsToCanonical'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_params">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   weights:
+		///   biases:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Retrieves a set of weights from the opaque params buffer that can be saved and
+		///   restored in a way compatible with future runs.
+		///   
+		///   Note that the params buffer may not be compatible across different GPUs. So any
+		///   save and restoration should be converted to and from the canonical weights and
+		///   biases.
+		///   
+		///   num_layers: Specifies the number of layers in the RNN model.
+		///   num_units: Specifies the size of the hidden state.
+		///   input_size: Specifies the size of the input state.
+		///   num_params: number of parameter sets for all layers.
+		///   Each layer may contain multiple parameter sets, with each set consisting of
+		///   a weight matrix and a bias vector.
+		///   weights: the canonical form of weights that can be used for saving
+		///   and restoration. They are more likely to be compatible across different
+		///   generations.
+		///   biases: the canonical form of biases that can be used for saving
+		///   and restoration. They are more likely to be compatible across different
+		///   generations.
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicate whether there is a linear projection between the input and
+		///   The actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used.
+		///   dir = (direction == bidirectional) ? 2 : 1
+		///   dropout: dropout probability. When set to 0., dropout is disabled.
+		///   seed: the 1st part of a seed to initialize dropout.
+		///   seed2: the 2nd part of a seed to initialize dropout.
+		/// </remarks>
+		public (TFOutput[] weights, TFOutput[] biases) CudnnRNNParamsToCanonical (TFOutput num_layers, TFOutput num_units, TFOutput input_size, TFOutput parameters, long num_params, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNParamsToCanonical", MakeName ("CudnnRNNParamsToCanonical", operName));
+			desc.AddInput (num_layers);
+			desc.AddInput (num_units);
+			desc.AddInput (input_size);
+			desc.AddInput (parameters);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_params", num_params);
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("weights");
+			var weights = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				weights [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("biases");
+			var biases = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				biases [i] = new TFOutput (op, _idx++);
+			
+			return (weights, biases);
+		}
+
+		/// <summary>
+		///   A RNN backed by cuDNN.
+		/// </summary>
+		/// <param name="input">
+		/// </param>
+		/// <param name="input_h">
+		/// </param>
+		/// <param name="input_c">
+		/// </param>
+		/// <param name="parameters">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'CudnnRNNV2'.
+		/// </param>
+		/// <param name="rnn_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="input_mode">
+		///   Optional argument
+		/// </param>
+		/// <param name="direction">
+		///   Optional argument
+		/// </param>
+		/// <param name="dropout">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed">
+		///   Optional argument
+		/// </param>
+		/// <param name="seed2">
+		///   Optional argument
+		/// </param>
+		/// <param name="is_training">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   output:
+		///   output_h:
+		///   output_c:
+		///   reserve_space:
+		///   host_reserved:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Computes the RNN from the input and initial states, with respect to the params
+		///   buffer. Produces one extra output "host_reserved" than CudnnRNN.
+		///   
+		///   rnn_mode: Indicates the type of the RNN model.
+		///   input_mode: Indicates whether there is a linear projection between the input and
+		///   the actual computation before the first layer. 'skip_input' is only allowed
+		///   when input_size == num_units; 'auto_select' implies 'skip_input' when
+		///   input_size == num_units; otherwise, it implies 'linear_input'.
+		///   direction: Indicates whether a bidirectional model will be used. Should be
+		///   "unidirectional" or "bidirectional".
+		///   dropout: Dropout probability. When set to 0., dropout is disabled.
+		///   seed: The 1st part of a seed to initialize dropout.
+		///   seed2: The 2nd part of a seed to initialize dropout.
+		///   input: A 3-D tensor with the shape of [seq_length, batch_size, input_size].
+		///   input_h: A 3-D tensor with the shape of [num_layer * dir, batch_size,
+		///   num_units].
+		///   input_c: For LSTM, a 3-D tensor with the shape of
+		///   [num_layer * dir, batch, num_units]. For other models, it is ignored.
+		///   params: A 1-D tensor that contains the weights and biases in an opaque layout.
+		///   The size must be created through CudnnRNNParamsSize, and initialized
+		///   separately. Note that they might not be compatible across different
+		///   generations. So it is a good idea to save and restore
+		///   output: A 3-D tensor with the shape of [seq_length, batch_size,
+		///   dir * num_units].
+		///   output_h: The same shape has input_h.
+		///   output_c: The same shape as input_c for LSTM. An empty tensor for other models.
+		///   is_training: Indicates whether this operation is used for inferenece or
+		///   training.
+		///   reserve_space: An opaque tensor that can be used in backprop calculation. It
+		///   is only produced if is_training is true.
+		///   host_reserved: An opaque tensor that can be used in backprop calculation. It is
+		///   only produced if is_training is true. It is output on host memory rather than
+		///   device memory.
+		/// </remarks>
+		public (TFOutput output, TFOutput output_h, TFOutput output_c, TFOutput reserve_space, TFOutput host_reserved) CudnnRNNV2 (TFOutput input, TFOutput input_h, TFOutput input_c, TFOutput parameters, string rnn_mode = null, string input_mode = null, string direction = null, float? dropout = null, long? seed = null, long? seed2 = null, bool? is_training = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "CudnnRNNV2", MakeName ("CudnnRNNV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (input_h);
+			desc.AddInput (input_c);
+			desc.AddInput (parameters);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (rnn_mode != null)
+				desc.SetAttr ("rnn_mode", rnn_mode);
+			
+			if (input_mode != null)
+				desc.SetAttr ("input_mode", input_mode);
+			
+			if (direction != null)
+				desc.SetAttr ("direction", direction);
+			
+			if (dropout.HasValue)
+				desc.SetAttr ("dropout", dropout.Value);
+			
+			if (seed.HasValue)
+				desc.SetAttr ("seed", seed.Value);
+			
+			if (seed2.HasValue)
+				desc.SetAttr ("seed2", seed2.Value);
+			
+			if (is_training.HasValue)
+				desc.SetAttr ("is_training", is_training.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			var output_h = new TFOutput (op, _idx++);
+			var output_c = new TFOutput (op, _idx++);
+			var reserve_space = new TFOutput (op, _idx++);
+			var host_reserved = new TFOutput (op, _idx++);
+			return (output, output_h, output_c, reserve_space, host_reserved);
 		}
 
 		/// <summary>
@@ -6508,6 +8642,35 @@ namespace TensorFlow {
 			int _idx = 0;
 			var y = new TFOutput (op, _idx++);
 			return y;
+		}
+
+		/// <summary>
+		///   Returns a serialized GraphDef representing <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		///   A variant tensor representing the dataset to return the graph representation for.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DatasetToGraph'.
+		/// </param>
+		/// <returns>
+		///   The graph representation of the dataset (as serialized GraphDef).
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Returns a graph representation for <c>input_dataset</c>.
+		/// </remarks>
+		public TFOutput DatasetToGraph (TFOutput input_dataset, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DatasetToGraph", MakeName ("DatasetToGraph", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var graph = new TFOutput (op, _idx++);
+			return graph;
 		}
 
 		/// <summary>
@@ -7066,7 +9229,8 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="record_defaults">
 		///   One tensor per column of the input record, with either a
-		///   scalar default value for that column or empty if the column is required.
+		///   scalar default value for that column or an empty vector if the column is
+		///   required.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeCSV'.
@@ -7352,6 +9516,129 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   The op extracts fields from a serialized protocol buffers message into tensors.
+		/// </summary>
+		/// <param name="bytes">
+		///   Tensor of serialized protos with shape <c>batch_shape</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DecodeProtoV2'.
+		/// </param>
+		/// <param name="descriptor_source">
+		///   Optional argument
+		///   Either the special value <c>local://</c> or a path to a file containing
+		///   a serialized <c>FileDescriptorSet</c>.
+		/// </param>
+		/// <param name="message_format">
+		///   Optional argument
+		///   Either <c>binary</c> or <c>text</c>.
+		/// </param>
+		/// <param name="sanitize">
+		///   Optional argument
+		///   Whether to sanitize the result or not.
+		/// </param>
+		/// <param name="message_type">
+		///   Name of the proto message type to decode.
+		/// </param>
+		/// <param name="field_names">
+		///   List of strings containing proto field names.
+		/// </param>
+		/// <param name="output_types">
+		///   List of TF types to use for the respective field in field_names.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   sizes: Tensor of int32 with shape <c>[batch_shape, len(field_names)]</c>.
+		///   Each entry is the number of values found for the corresponding field.
+		///   Optional fields may have 0 or 1 values.
+		///   values: List of tensors containing values for the corresponding field.
+		///   <c>values[i]</c> has datatype <c>output_types[i]</c>
+		///   and shape <c>[batch_shape, max(sizes[...,i])]</c>.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   The <c>decode_proto</c> op extracts fields from a serialized protocol buffers
+		///   message into tensors.  The fields in <c>field_names</c> are decoded and converted
+		///   to the corresponding <c>output_types</c> if possible.
+		///   
+		///   A <c>message_type</c> name must be provided to give context for the field
+		///   names. The actual message descriptor can be looked up either in the
+		///   linked-in descriptor pool or a filename provided by the caller using
+		///   the <c>descriptor_source</c> attribute.
+		///   
+		///   Each output tensor is a dense tensor. This means that it is padded to
+		///   hold the largest number of repeated elements seen in the input
+		///   minibatch. (The shape is also padded by one to prevent zero-sized
+		///   dimensions). The actual repeat counts for each example in the
+		///   minibatch can be found in the <c>sizes</c> output. In many cases the output
+		///   of <c>decode_proto</c> is fed immediately into tf.squeeze if missing values
+		///   are not a concern. When using tf.squeeze, always pass the squeeze
+		///   dimension explicitly to avoid surprises.
+		///   
+		///   For the most part, the mapping between Proto field types and
+		///   TensorFlow dtypes is straightforward. However, there are a few
+		///   special cases:
+		///   
+		///   - A proto field that contains a submessage or group can only be converted
+		///   to <c>DT_STRING</c> (the serialized submessage). This is to reduce the
+		///   complexity of the API. The resulting string can be used as input
+		///   to another instance of the decode_proto op.
+		///   
+		///   - TensorFlow lacks support for unsigned integers. The ops represent uint64
+		///   types as a <c>DT_INT64</c> with the same twos-complement bit pattern
+		///   (the obvious way). Unsigned int32 values can be represented exactly by
+		///   specifying type <c>DT_INT64</c>, or using twos-complement if the caller
+		///   specifies <c>DT_INT32</c> in the <c>output_types</c> attribute.
+		///   
+		///   The <c>descriptor_source</c> attribute selects a source of protocol
+		///   descriptors to consult when looking up <c>message_type</c>. This may be a
+		///   filename containing a serialized <c>FileDescriptorSet</c> message,
+		///   or the special value <c>local://</c>, in which case only descriptors linked
+		///   into the code will be searched; the filename can be on any filesystem
+		///   accessible to TensorFlow.
+		///   
+		///   You can build a <c>descriptor_source</c> file using the <c>--descriptor_set_out</c>
+		///   and <c>--include_imports</c> options to the protocol compiler <c>protoc</c>.
+		///   
+		///   The <c>local://</c> database only covers descriptors linked into the
+		///   code via C++ libraries, not Python imports. You can link in a proto descriptor
+		///   by creating a cc_library target with alwayslink=1.
+		///   
+		///   Both binary and text proto serializations are supported, and can be
+		///   chosen using the <c>format</c> attribute.
+		/// </remarks>
+		public (TFOutput sizes, TFOutput[] values) DecodeProtoV2 (TFOutput bytes, string message_type, string[] field_names, TFDataType[] output_types, string descriptor_source = null, string message_format = null, bool? sanitize = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DecodeProtoV2", MakeName ("DecodeProtoV2", operName));
+			desc.AddInput (bytes);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("message_type", message_type);
+			desc.SetAttr ("field_names", field_names);
+			desc.SetAttrType ("output_types", output_types);
+			if (descriptor_source != null)
+				desc.SetAttr ("descriptor_source", descriptor_source);
+			
+			if (message_format != null)
+				desc.SetAttr ("message_format", message_format);
+			
+			if (sanitize.HasValue)
+				desc.SetAttr ("sanitize", sanitize.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			var sizes = new TFOutput (op, _idx++);
+			_n = op.OutputListLength ("values");
+			var values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				values [i] = new TFOutput (op, _idx++);
+			
+			return (sizes, values);
+		}
+
+		/// <summary>
 		///   Reinterpret the bytes of a string as a vector of numbers.
 		/// </summary>
 		/// <param name="bytes">
@@ -7451,6 +9738,33 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Makes a copy of <c>x</c>.
+		/// </summary>
+		/// <param name="x">
+		///   The source tensor of type <c>T</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DeepCopy'.
+		/// </param>
+		/// <returns>
+		///   y: A <c>Tensor</c> of type <c>T</c>. A copy of <c>x</c>. Guaranteed that <c>y</c>
+		///   is not an alias of <c>x</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput DeepCopy (TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DeepCopy", MakeName ("DeepCopy", operName));
+			desc.AddInput (x);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
 		///   Delete the tensor specified by its handle in the session.
 		/// </summary>
 		/// <param name="handle">
@@ -7528,48 +9842,6 @@ namespace TensorFlow {
 			var result_values = new TFOutput (op, _idx++);
 			var result_shape = new TFOutput (op, _idx++);
 			return (result_indices, result_values, result_shape);
-		}
-
-		/// <summary>
-		///   Creates a dataset that batches input elements into a SparseTensor.
-		/// </summary>
-		/// <param name="input_dataset">
-		///   A handle to an input dataset. Must have a single component.
-		/// </param>
-		/// <param name="batch_size">
-		///   A scalar representing the number of elements to accumulate in a
-		///   batch.
-		/// </param>
-		/// <param name="row_shape">
-		///   A vector representing the dense shape of each row in the produced
-		///   SparseTensor. The shape may be partially specified, using <c>-1</c> to indicate
-		///   that a particular dimension should use the maximum size of all batch elements.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DenseToSparseBatchDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput DenseToSparseBatchDataset (TFOutput input_dataset, TFOutput batch_size, TFOutput row_shape, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "DenseToSparseBatchDataset", MakeName ("DenseToSparseBatchDataset", operName));
-			desc.AddInput (input_dataset);
-			desc.AddInput (batch_size);
-			desc.AddInput (row_shape);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
 		}
 
 		/// <summary>
@@ -8027,7 +10299,7 @@ namespace TensorFlow {
 		///   In 'MIN_COMBINED' mode, each value of the tensor will undergo the following:
 		///   
 		///    <code>
-		///   if T == qint8, in[i] += (range(T) + 1)/ 2.0
+		///   if T == qint8: in[i] += (range(T) + 1)/ 2.0
 		///   out[i] = min_range + (in[i]* (max_range - min_range) / range(T))
 		///    </code>
 		///   here <c>range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()</c>
@@ -8686,6 +10958,38 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Returns 0 if the denominator is zero.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'DivNoNan'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   *NOTE*: <c>DivNoNan</c> supports broadcasting. More about broadcasting
+		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
+		/// </remarks>
+		public TFOutput DivNoNan (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "DivNoNan", MakeName ("DivNoNan", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
 		///   Draw bounding boxes on a batch of images.
 		/// </summary>
 		/// <param name="images">
@@ -8712,7 +11016,7 @@ namespace TensorFlow {
 		///   
 		///   For example, if an image is 100 x 200 pixels (height x width) and the bounding
 		///   box is <c>[0.1, 0.2, 0.5, 0.9]</c>, the upper-left and bottom-right coordinates of
-		///   the bounding box will be <c>(40, 10)</c> to <c>(100, 50)</c> (in (x,y) coordinates).
+		///   the bounding box will be <c>(40, 10)</c> to <c>(180, 50)</c> (in (x,y) coordinates).
 		///   
 		///   Parts of the bounding box may fall outside the image.
 		/// </remarks>
@@ -9054,6 +11358,44 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a tensor with the given shape.
+		///   
+		///   This operation creates a tensor of <c>shape</c> and <c>dtype</c>.
+		/// </summary>
+		/// <param name="shape">
+		///   1-D. Represents the shape of the output tensor.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Empty'.
+		/// </param>
+		/// <param name="init">
+		///   Optional argument
+		///   If True, initialize the returned tensor with the default value of dtype.  Otherwise, the implementation is free not to initializethe tensor's content.
+		/// </param>
+		/// <param name="dtype">
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> of type <c>T</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Empty (TFOutput shape, TFDataType dtype, bool? init = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Empty", MakeName ("Empty", operName));
+			desc.AddInput (shape);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtype", dtype);
+			if (init.HasValue)
+				desc.SetAttr ("init", init.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Creates and returns an empty tensor list.
 		/// </summary>
 		/// <param name="element_shape">
@@ -9284,6 +11626,89 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   The op serializes protobuf messages provided in the input tensors.
+		/// </summary>
+		/// <param name="sizes">
+		///   Tensor of int32 with shape <c>[batch_shape, len(field_names)]</c>.
+		/// </param>
+		/// <param name="values">
+		///   List of tensors containing values for the corresponding field.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EncodeProto'.
+		/// </param>
+		/// <param name="descriptor_source">
+		///   Optional argument
+		/// </param>
+		/// <param name="field_names">
+		///   List of strings containing proto field names.
+		/// </param>
+		/// <param name="message_type">
+		///   Name of the proto message type to decode.
+		/// </param>
+		/// <returns>
+		///   Tensor of serialized protos with shape <c>batch_shape</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The types of the tensors in <c>values</c> must match the schema for the
+		///   fields specified in <c>field_names</c>. All the tensors in <c>values</c> must
+		///   have a common shape prefix, *batch_shape*.
+		///   
+		///   The <c>sizes</c> tensor specifies repeat counts for each field.  The repeat
+		///   count (last dimension) of a each tensor in <c>values</c> must be greater
+		///   than or equal to corresponding repeat count in <c>sizes</c>.
+		///   
+		///   A <c>message_type</c> name must be provided to give context for the field
+		///   names. The actual message descriptor can be looked up either in the
+		///   linked-in descriptor pool or a filename provided by the caller using
+		///   the <c>descriptor_source</c> attribute.
+		///   
+		///   The <c>descriptor_source</c> attribute selects a source of protocol
+		///   descriptors to consult when looking up <c>message_type</c>. This may be a
+		///   filename containing a serialized <c>FileDescriptorSet</c> message,
+		///   or the special value <c>local://</c>, in which case only descriptors linked
+		///   into the code will be searched; the filename can be on any filesystem
+		///   accessible to TensorFlow.
+		///   
+		///   You can build a <c>descriptor_source</c> file using the <c>--descriptor_set_out</c>
+		///   and <c>--include_imports</c> options to the protocol compiler <c>protoc</c>.
+		///   
+		///   The <c>local://</c> database only covers descriptors linked into the
+		///   code via C++ libraries, not Python imports. You can link in a proto descriptor
+		///   by creating a cc_library target with alwayslink=1.
+		///   
+		///   There are a few special cases in the value mapping:
+		///   
+		///   Submessage and group fields must be pre-serialized as TensorFlow strings.
+		///   
+		///   TensorFlow lacks support for unsigned int64s, so they must be
+		///   represented as <c>tf.int64</c> with the same twos-complement bit pattern
+		///   (the obvious way).
+		///   
+		///   Unsigned int32 values can be represented exactly with <c>tf.int64</c>, or
+		///   with sign wrapping if the input is of type <c>tf.int32</c>.
+		/// </remarks>
+		public TFOutput EncodeProto (TFOutput sizes, TFOutput[] values, string[] field_names, string message_type, string descriptor_source = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EncodeProto", MakeName ("EncodeProto", operName));
+			desc.AddInput (sizes);
+			desc.AddInputs (values);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("field_names", field_names);
+			desc.SetAttr ("message_type", message_type);
+			if (descriptor_source != null)
+				desc.SetAttr ("descriptor_source", descriptor_source);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var bytes = new TFOutput (op, _idx++);
+			return bytes;
+		}
+
+		/// <summary>
 		///   Encode audio data using the WAV file format.
 		/// </summary>
 		/// <param name="audio">
@@ -9320,6 +11745,234 @@ namespace TensorFlow {
 			int _idx = 0;
 			var contents = new TFOutput (op, _idx++);
 			return contents;
+		}
+
+		/// <summary>
+		///   An op that enqueues a list of input batch tensors to TPUEmbedding.
+		/// </summary>
+		/// <param name="batch">
+		///   A list of 1D tensors, one for each embedding table, containing the
+		///   indices into the tables.
+		/// </param>
+		/// <param name="mode_override">
+		///   A string input that overrides the mode specified in the
+		///   TPUEmbeddingConfiguration. Supported values are {'unspecified', 'inference',
+		///   'training', 'backward_pass_only'}. When set to 'unspecified', the mode set
+		///   in TPUEmbeddingConfiguration is used, otherwise mode_override is used.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EnqueueTPUEmbeddingIntegerBatch'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. Should be &amp;gt;= 0 and less than the number
+		///   of TPU cores in the task on which the node is placed.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		public TFOperation EnqueueTPUEmbeddingIntegerBatch (TFOutput[] batch, TFOutput mode_override, long? device_ordinal = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EnqueueTPUEmbeddingIntegerBatch", MakeName ("EnqueueTPUEmbeddingIntegerBatch", operName));
+			desc.AddInputs (batch);
+			desc.AddInput (mode_override);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   An op that enqueues TPUEmbedding input indices from a SparseTensor.
+		/// </summary>
+		/// <param name="sample_indices">
+		///   A list of rank 1 Tensors specifying the training example and
+		///   feature to which the corresponding embedding_indices and aggregation_weights
+		///   values belong. sample_indices[i] must equal b * nf + f, where nf is the
+		///   number of features from the corresponding table, f is in [0, nf), and
+		///   b is in [0, batch size).
+		/// </param>
+		/// <param name="embedding_indices">
+		///   A list of rank 1 Tensors, indices into the embedding tables.
+		/// </param>
+		/// <param name="aggregation_weights">
+		///   A list of rank 1 Tensors containing per sample -- i.e. per
+		///   (training example, feature) -- aggregation weights.
+		/// </param>
+		/// <param name="mode_override">
+		///   A string input that overrides the mode specified in the
+		///   TPUEmbeddingConfiguration. Supported values are {'unspecified', 'inference',
+		///   'training', 'backward_pass_only'}. When set to 'unspecified', the mode set
+		///   in TPUEmbeddingConfiguration is used, otherwise mode_override is used.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EnqueueTPUEmbeddingSparseBatch'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. Should be &amp;gt;= 0 and less than the number
+		///   of TPU cores in the task on which the node is placed.
+		/// </param>
+		/// <param name="combiners">
+		///   Optional argument
+		///   A list of string scalars, one for each embedding table that specify
+		///   how to normalize the embedding activations after weighted summation.
+		///   Supported combiners are 'mean', 'sum', or 'sqrtn'. It is invalid to have
+		///   the sum of the weights be 0 for 'mean' or the sum of the squared weights be
+		///   0 for 'sqrtn'. If combiners isn't passed, the default is to use 'sum' for
+		///   all tables.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This Op eases the porting of code that uses embedding_lookup_sparse(),
+		///   although some Python preprocessing of the SparseTensor arguments to
+		///   embedding_lookup_sparse() is required to produce the arguments to this Op,
+		///   since only a single EnqueueTPUEmbeddingSparseBatch Op is allowed per training
+		///   step.
+		///   
+		///   The tensors at corresponding positions in the three input lists
+		///   must have the same shape, i.e. rank 1 with dim_size() equal to the total
+		///   number of lookups into the table described by the corresponding table_id.
+		/// </remarks>
+		public TFOperation EnqueueTPUEmbeddingSparseBatch (TFOutput[] sample_indices, TFOutput[] embedding_indices, TFOutput[] aggregation_weights, TFOutput mode_override, long? device_ordinal = null, string[] combiners = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EnqueueTPUEmbeddingSparseBatch", MakeName ("EnqueueTPUEmbeddingSparseBatch", operName));
+			desc.AddInputs (sample_indices);
+			desc.AddInputs (embedding_indices);
+			desc.AddInputs (aggregation_weights);
+			desc.AddInput (mode_override);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			if (combiners != null)
+				desc.SetAttr ("combiners", combiners);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   This Op eases the porting of code that uses tf.nn.embedding_lookup_sparse().
+		/// </summary>
+		/// <param name="sample_indices">
+		///   A list of rank 1 Tensors specifying the training example to
+		///   which the corresponding embedding_indices and aggregation_weights values
+		///   belong. It corresponds to sp_ids.indices[:,0] in  embedding_lookup_sparse().
+		/// </param>
+		/// <param name="embedding_indices">
+		///   A list of rank 1 Tensors, indices into the embedding tables.
+		///   It corresponds to sp_ids.values in embedding_lookup_sparse().
+		/// </param>
+		/// <param name="aggregation_weights">
+		///   A list of rank 1 Tensors containing per training example
+		///   aggregation weights. It corresponds to sp_weights.values in
+		///   embedding_lookup_sparse().
+		/// </param>
+		/// <param name="mode_override">
+		///   A string input that overrides the mode specified in the
+		///   TPUEmbeddingConfiguration. Supported values are {'unspecified', 'inference',
+		///   'training', 'backward_pass_only'}. When set to 'unspecified', the mode set
+		///   in TPUEmbeddingConfiguration is used, otherwise mode_override is used.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EnqueueTPUEmbeddingSparseTensorBatch'.
+		/// </param>
+		/// <param name="device_ordinal">
+		///   Optional argument
+		///   The TPU device to use. Should be &amp;gt;= 0 and less than the number
+		///   of TPU cores in the task on which the node is placed.
+		/// </param>
+		/// <param name="combiners">
+		///   Optional argument
+		///   A list of string scalars, one for each embedding table that specify
+		///   how to normalize the embedding activations after weighted summation.
+		///   Supported combiners are 'mean', 'sum', or 'sqrtn'. It is invalid to have
+		///   the sum of the weights be 0 for 'mean' or the sum of the squared weights be
+		///   0 for 'sqrtn'. If combiners isn't passed, the default is to use 'sum' for
+		///   all tables.
+		/// </param>
+		/// <param name="table_ids">
+		///   A list of integers specifying the identifier of the embedding table
+		///   (offset of TableDescriptor in the TPUEmbeddingConfiguration) to lookup the
+		///   corresponding input. The ith input is looked up using table_ids[i]. The size
+		///   of the table_ids list must be equal to that of sample_indices,
+		///   embedding_indices and aggregation_weights.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   sample_indices[i], embedding_indices[i] and aggregation_weights[i] correspond
+		///   to the ith feature. table_ids[i] indicates which embedding table to look up ith
+		///   feature.
+		///   
+		///   The tensors at corresponding positions in the three input lists (sample_indices,
+		///   embedding_indices and aggregation_weights) must have the same shape, i.e. rank 1
+		///   with dim_size() equal to the total number of lookups into the table described by
+		///   the corresponding feature.
+		/// </remarks>
+		public TFOperation EnqueueTPUEmbeddingSparseTensorBatch (TFOutput[] sample_indices, TFOutput[] embedding_indices, TFOutput[] aggregation_weights, TFOutput mode_override, long[] table_ids, long? device_ordinal = null, string[] combiners = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EnqueueTPUEmbeddingSparseTensorBatch", MakeName ("EnqueueTPUEmbeddingSparseTensorBatch", operName));
+			desc.AddInputs (sample_indices);
+			desc.AddInputs (embedding_indices);
+			desc.AddInputs (aggregation_weights);
+			desc.AddInput (mode_override);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("table_ids", table_ids);
+			if (device_ordinal.HasValue)
+				desc.SetAttr ("device_ordinal", device_ordinal.Value);
+			
+			if (combiners != null)
+				desc.SetAttr ("combiners", combiners);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Ensures that the tensor's shape matches the expected shape.
+		/// </summary>
+		/// <param name="input">
+		///   A tensor, whose shape is to be validated.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'EnsureShape'.
+		/// </param>
+		/// <param name="shape">
+		///   The expected (possibly partially specified) shape of the input tensor.
+		/// </param>
+		/// <returns>
+		///   A tensor with the same shape and contents as the input tensor or value.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Raises an error if the input tensor's shape does not match the specified shape.
+		///   Returns the input tensor otherwise.
+		/// </remarks>
+		public TFOutput EnsureShape (TFOutput input, TFShape shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "EnsureShape", MakeName ("EnsureShape", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrShape ("shape", shape);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -9570,6 +12223,214 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   A substitute for <c>InterleaveDataset</c> on a fixed list of <c>N</c> datasets.
+		/// </summary>
+		/// <param name="selector_input_dataset">
+		///   A dataset of scalar <c>DT_INT64</c> elements that determines which of the
+		///   <c>N</c> data inputs should produce the next output element.
+		/// </param>
+		/// <param name="data_input_datasets">
+		///   <c>N</c> datasets with the same type that will be interleaved according to
+		///   the values of <c>selector_input_dataset</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalDirectedInterleaveDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalDirectedInterleaveDataset (TFOutput selector_input_dataset, TFOutput[] data_input_datasets, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalDirectedInterleaveDataset", MakeName ("ExperimentalDirectedInterleaveDataset", operName));
+			desc.AddInput (selector_input_dataset);
+			desc.AddInputs (data_input_datasets);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Creates a dataset that contains the elements of <c>input_dataset</c> ignoring errors.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalIgnoreErrorsDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalIgnoreErrorsDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalIgnoreErrorsDataset", MakeName ("ExperimentalIgnoreErrorsDataset", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Returns the name of the device on which <c>resource</c> has been placed.
+		/// </summary>
+		/// <param name="resource">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalIteratorGetDevice'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalIteratorGetDevice (TFOutput resource, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalIteratorGetDevice", MakeName ("ExperimentalIteratorGetDevice", operName));
+			desc.AddInput (resource);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var device = new TFOutput (op, _idx++);
+			return device;
+		}
+
+		/// <summary>
+		///   Creates a dataset that uses a custom thread pool to compute <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="thread_pool">
+		///   A resource produced by the ThreadPoolHandle op.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalThreadPoolDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalThreadPoolDataset (TFOutput input_dataset, TFOutput thread_pool, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalThreadPoolDataset", MakeName ("ExperimentalThreadPoolDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (thread_pool);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Creates a dataset that uses a custom thread pool to compute <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalThreadPoolHandle'.
+		/// </param>
+		/// <param name="max_intra_op_parallelism">
+		///   Optional argument
+		///   The maximum degree of parallelism to use within operations that execute on this
+		///   threadpool.
+		/// </param>
+		/// <param name="container">
+		///   Optional argument
+		/// </param>
+		/// <param name="shared_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_threads">
+		///   The number of threads in the thread pool.
+		/// </param>
+		/// <param name="display_name">
+		///   A human-readable name for the threads that may be visible in some
+		///   visualizations.
+		///   threadpool.
+		/// </param>
+		/// <returns>
+		///   A resource that can be consumed by one or more ExperimentalThreadPoolDataset
+		///   ops.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalThreadPoolHandle (long num_threads, string display_name, long? max_intra_op_parallelism = null, string container = null, string shared_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalThreadPoolHandle", MakeName ("ExperimentalThreadPoolHandle", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_threads", num_threads);
+			desc.SetAttr ("display_name", display_name);
+			if (max_intra_op_parallelism.HasValue)
+				desc.SetAttr ("max_intra_op_parallelism", max_intra_op_parallelism.Value);
+			
+			if (container != null)
+				desc.SetAttr ("container", container);
+			
+			if (shared_name != null)
+				desc.SetAttr ("shared_name", shared_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Creates a dataset that contains the unique elements of <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExperimentalUniqueDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExperimentalUniqueDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExperimentalUniqueDataset", MakeName ("ExperimentalUniqueDataset", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Computes exponential of x - 1 element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -9779,6 +12640,56 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Extract <c>patches</c> from <c>input</c> and put them in the "depth" output dimension. 3D extension of <c>extract_image_patches</c>.
+		/// </summary>
+		/// <param name="input">
+		///   5-D Tensor with shape <c>[batch, in_planes, in_rows, in_cols, depth]</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ExtractVolumePatches'.
+		/// </param>
+		/// <param name="ksizes">
+		///   The size of the sliding window for each dimension of <c>input</c>.
+		/// </param>
+		/// <param name="strides">
+		///   1-D of length 5. How far the centers of two consecutive patches are in
+		///   <c>input</c>. Must be: <c>[1, stride_planes, stride_rows, stride_cols, 1]</c>.
+		/// </param>
+		/// <param name="padding">
+		///   The type of padding algorithm to use.
+		///   
+		///   We specify the size-related attributes as:
+		///   
+		///    <code>
+		///   ksizes = [1, ksize_planes, ksize_rows, ksize_cols, 1]
+		///   strides = [1, stride_planes, strides_rows, strides_cols, 1]
+		///    </code>
+		/// </param>
+		/// <returns>
+		///   5-D Tensor with shape <c>[batch, out_planes, out_rows, out_cols,
+		///   ksize_planes * ksize_rows * ksize_cols * depth]</c> containing patches
+		///   with size <c>ksize_planes x ksize_rows x ksize_cols x depth</c> vectorized
+		///   in the "depth" dimension. Note <c>out_planes</c>, <c>out_rows</c> and <c>out_cols</c>
+		///   are the dimensions of the output patches.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput ExtractVolumePatches (TFOutput input, long[] ksizes, long[] strides, string padding, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ExtractVolumePatches", MakeName ("ExtractVolumePatches", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("ksizes", ksizes);
+			desc.SetAttr ("strides", strides);
+			desc.SetAttr ("padding", padding);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var patches = new TFOutput (op, _idx++);
+			return patches;
+		}
+
+		/// <summary>
 		///   Output a fact about factorials.
 		/// </summary>
 		/// <param name="operName">
@@ -9797,6 +12708,40 @@ namespace TensorFlow {
 			int _idx = 0;
 			var fact = new TFOutput (op, _idx++);
 			return fact;
+		}
+
+		/// <summary>
+		///   This op is used as a placeholder in If branch functions. It doesn't provide a
+		///   valid output when run, so must either be removed (e.g. replaced with a
+		///   function input) or guaranteed not to be used (e.g. if mirroring an
+		///   intermediate output needed for the gradient computation of the other branch).
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FakeParam'.
+		/// </param>
+		/// <param name="dtype">
+		///   The type of the output.
+		/// </param>
+		/// <param name="shape">
+		///   The purported shape of the output. This is only used for shape inference;
+		///   the output will not necessarily have this shape. Can be a partial shape.
+		/// </param>
+		/// <returns>
+		///   \"Fake\" output value. This should not be consumed by another op.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput FakeParam (TFDataType dtype, TFShape shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "FakeParam", MakeName ("FakeParam", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("dtype", dtype);
+			desc.SetAttrShape ("shape", shape);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -9827,7 +12772,7 @@ namespace TensorFlow {
 		///   <c>inputs</c> values are quantized into the quantization range (<c>[0; 2^num_bits - 1]</c>
 		///   when <c>narrow_range</c> is false and <c>[1; 2^num_bits - 1]</c> when it is true) and
 		///   then de-quantized and output as floats in <c>[min; max]</c> interval.
-		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 16, inclusive.
 		///   
 		///   Quantization is called fake since the output is still in floating point.
 		/// </remarks>
@@ -9939,7 +12884,7 @@ namespace TensorFlow {
 		///   <c>inputs</c> values are quantized into the quantization range (<c>[0; 2^num_bits - 1]</c>
 		///   when <c>narrow_range</c> is false and <c>[1; 2^num_bits - 1]</c> when it is true) and
 		///   then de-quantized and output as floats in <c>[min; max]</c> interval.
-		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 16, inclusive.
 		///   
 		///   This operation has a gradient and thus allows for training <c>min</c> and <c>max</c>
 		///   values.
@@ -10053,7 +12998,7 @@ namespace TensorFlow {
 		///   <c>inputs</c> values are quantized into the quantization range (<c>[0; 2^num_bits - 1]</c>
 		///   when <c>narrow_range</c> is false and <c>[1; 2^num_bits - 1]</c> when it is true) and
 		///   then de-quantized and output as floats in <c>[min; max]</c> interval.
-		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 8, inclusive.
+		///   <c>num_bits</c> is the bitwidth of the quantization; between 2 and 16, inclusive.
 		///   
 		///   This operation has a gradient and thus allows for training <c>min</c> and <c>max</c>
 		///   values.
@@ -10100,7 +13045,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="num_bits">
 		///   Optional argument
-		///   The bitwidth of the quantization; between 2 and 8, inclusive.
+		///   The bitwidth of the quantization; between 2 and 16, inclusive.
 		/// </param>
 		/// <param name="narrow_range">
 		///   Optional argument
@@ -10169,13 +13114,13 @@ namespace TensorFlow {
 		///   Fast Fourier transform.
 		/// </summary>
 		/// <param name="input">
-		///   A complex64 tensor.
+		///   A complex tensor.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FFT'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as <c>input</c>. The inner-most
+		///   A complex tensor of the same shape as <c>input</c>. The inner-most
 		///   dimension of <c>input</c> is replaced with its 1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
@@ -10204,13 +13149,13 @@ namespace TensorFlow {
 		///   2D fast Fourier transform.
 		/// </summary>
 		/// <param name="input">
-		///   A complex64 tensor.
+		///   A complex tensor.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FFT2D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as <c>input</c>. The inner-most 2
+		///   A complex tensor of the same shape as <c>input</c>. The inner-most 2
 		///   dimensions of <c>input</c> are replaced with their 2D Fourier transform.
 		///   
 		///   @compatibility(numpy)
@@ -10419,6 +13364,16 @@ namespace TensorFlow {
 		///   fill([2, 3], 9) ==&amp;gt; [[9, 9, 9]
 		///   [9, 9, 9]]
 		///    </code>
+		///   
+		///   <c>tf.fill</c> differs from <c>tf.constant</c> in a few ways:
+		///   
+		///   *   <c>tf.fill</c> only supports scalar contents, whereas <c>tf.constant</c> supports
+		///   Tensor values.
+		///   *   <c>tf.fill</c> creates an Op in the computation graph that constructs the actual
+		///   Tensor value at runtime. This is in contrast to <c>tf.constant</c> which embeds
+		///   the entire Tensor into the graph with a <c>Const</c> node.
+		///   *   Because <c>tf.fill</c> evaluates at graph runtime, it supports dynamic shapes
+		///   based on other runtime Tensors, unlike <c>tf.constant</c>.
 		/// </remarks>
 		public TFOutput Fill (TFOutput dims, TFOutput value, string operName = null)
 		{
@@ -10428,6 +13383,36 @@ namespace TensorFlow {
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Creates a dataset containing elements of first component of <c>input_dataset</c> having true in the last component.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'FilterByLastComponentDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput FilterByLastComponentDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "FilterByLastComponentDataset", MakeName ("FilterByLastComponentDataset", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
@@ -11741,9 +14726,9 @@ namespace TensorFlow {
 		///   (K-1)-dimensional tensor of indices into <c>params</c>, where each element defines a
 		///   slice of <c>params</c>:
 		///   
-		///   output[i_0, ..., i_{K-2}] = params[indices[i0, ..., i_{K-2}]]
+		///   output[\\(i_0, ..., i_{K-2}\\)] = params[indices[\\(i_0, ..., i_{K-2}\\)]]
 		///   
-		///   Whereas in @{tf.gather} <c>indices</c> defines slices into the first
+		///   Whereas in <c>tf.gather</c> <c>indices</c> defines slices into the first
 		///   dimension of <c>params</c>, in <c>tf.gather_nd</c>, <c>indices</c> defines slices into the
 		///   first <c>N</c> dimensions of <c>params</c>, where <c>N = indices.shape[-1]</c>.
 		///   
@@ -11839,6 +14824,8 @@ namespace TensorFlow {
 		///   [['a1', 'b1'], ['c1', 'd1']]]
 		///   output = [['b0', 'b1'], ['d0', 'c1']]
 		///    </code>
+		///   
+		///   See also <c>tf.gather</c> and <c>tf.batch_gather</c>.
 		/// </remarks>
 		public TFOutput GatherNd (TFOutput parameters, TFOutput indices, string operName = null)
 		{
@@ -11902,6 +14889,8 @@ namespace TensorFlow {
 		///   Note that on CPU, if an out of bound index is found, an error is returned.
 		///   On GPU, if an out of bound index is found, a 0 is stored in the
 		///   corresponding output value.
+		///   
+		///   See also <c>tf.batch_gather</c> and <c>tf.gather_nd</c>.
 		/// </remarks>
 		public TFOutput GatherV2 (TFOutput parameters, TFOutput indices, TFOutput axis, string operName = null)
 		{
@@ -12535,6 +15524,34 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Returns a constant tensor on the host. Only for writing C++ tests.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'HostConst'.
+		/// </param>
+		/// <param name="value">
+		///   Attr <c>value</c> is the tensor to return.
+		/// </param>
+		/// <param name="dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput HostConst (TFTensor value, TFDataType dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "HostConst", MakeName ("HostConst", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("value", value /* cstatus */);
+			desc.SetAttrType ("dtype", dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Convert one or more images from HSV to RGB.
 		/// </summary>
 		/// <param name="images">
@@ -12725,13 +15742,13 @@ namespace TensorFlow {
 		///   Inverse fast Fourier transform.
 		/// </summary>
 		/// <param name="input">
-		///   A complex64 tensor.
+		///   A complex tensor.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IFFT'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as <c>input</c>. The inner-most
+		///   A complex tensor of the same shape as <c>input</c>. The inner-most
 		///   dimension of <c>input</c> is replaced with its inverse 1D Fourier transform.
 		///   
 		///   @compatibility(numpy)
@@ -12760,13 +15777,13 @@ namespace TensorFlow {
 		///   Inverse 2D fast Fourier transform.
 		/// </summary>
 		/// <param name="input">
-		///   A complex64 tensor.
+		///   A complex tensor.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IFFT2D'.
 		/// </param>
 		/// <returns>
-		///   A complex64 tensor of the same shape as <c>input</c>. The inner-most 2
+		///   A complex tensor of the same shape as <c>input</c>. The inner-most 2
 		///   dimensions of <c>input</c> are replaced with their inverse 2D Fourier transform.
 		///   
 		///   @compatibility(numpy)
@@ -12827,7 +15844,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Compute the lower regularized incomplete Gamma function <c>Q(a, x)</c>.
+		///   Compute the lower regularized incomplete Gamma function <c>P(a, x)</c>.
 		/// </summary>
 		/// <param name="a">
 		/// </param>
@@ -12847,7 +15864,7 @@ namespace TensorFlow {
 		///   
 		///   where
 		///   
-		///   \\(gamma(a, x) = int_{0}^{x} t^{a-1} exp(-t) dt\\)
+		///   \\(gamma(a, x) = \\int_{0}^{x} t^{a-1} exp(-t) dt\\)
 		///   
 		///   is the lower incomplete Gamma function.
 		///   
@@ -12898,6 +15915,33 @@ namespace TensorFlow {
 		public TFOutput Igammac (TFOutput a, TFOutput x, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "Igammac", MakeName ("Igammac", operName));
+			desc.AddInput (a);
+			desc.AddInput (x);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
+		///   Computes the gradient of <c>igamma(a, x)</c> wrt <c>a</c>.
+		/// </summary>
+		/// <param name="a">
+		/// </param>
+		/// <param name="x">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IgammaGradA'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IgammaGradA (TFOutput a, TFOutput x, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IgammaGradA", MakeName ("IgammaGradA", operName));
 			desc.AddInput (a);
 			desc.AddInput (x);
 			foreach ( TFOperation control in CurrentDependencies )
@@ -13006,7 +16050,7 @@ namespace TensorFlow {
 		///   generated sequentially as '*tag*/image/0', '*tag*/image/1', etc.
 		///   
 		///   The <c>bad_color</c> argument is the color to use in the generated images for
-		///   non-finite input values.  It is a <c>unit8</c> 1-D tensor of length <c>channels</c>.
+		///   non-finite input values.  It is a <c>uint8</c> 1-D tensor of length <c>channels</c>.
 		///   Each element must be in the range <c>[0, 255]</c> (It represents the value of a
 		///   pixel in the output image).  Non-finite values in the input tensor are
 		///   replaced by this tensor in the output image.  The default value is the color
@@ -13399,6 +16443,114 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Adds v into specified rows of x.
+		///   
+		///   Computes y = x; y[i, :] += v; return y.
+		/// </summary>
+		/// <param name="x">
+		///   A <c>Tensor</c> of type T.
+		/// </param>
+		/// <param name="i">
+		///   A vector. Indices into the left-most dimension of <c>x</c>.
+		/// </param>
+		/// <param name="v">
+		///   A <c>Tensor</c> of type T. Same dimension sizes as x except the first dimension, which must be the same as i's size.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InplaceAdd'.
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> of type T. An alias of <c>x</c>. The content of <c>y</c> is undefined if there are duplicates in <c>i</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput InplaceAdd (TFOutput x, TFOutput i, TFOutput v, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InplaceAdd", MakeName ("InplaceAdd", operName));
+			desc.AddInput (x);
+			desc.AddInput (i);
+			desc.AddInput (v);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Subtracts <c>v</c> into specified rows of <c>x</c>.
+		///   
+		///   Computes y = x; y[i, :] -= v; return y.
+		/// </summary>
+		/// <param name="x">
+		///   A <c>Tensor</c> of type T.
+		/// </param>
+		/// <param name="i">
+		///   A vector. Indices into the left-most dimension of <c>x</c>.
+		/// </param>
+		/// <param name="v">
+		///   A <c>Tensor</c> of type T. Same dimension sizes as x except the first dimension, which must be the same as i's size.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InplaceSub'.
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> of type T. An alias of <c>x</c>. The content of <c>y</c> is undefined if there are duplicates in <c>i</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput InplaceSub (TFOutput x, TFOutput i, TFOutput v, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InplaceSub", MakeName ("InplaceSub", operName));
+			desc.AddInput (x);
+			desc.AddInput (i);
+			desc.AddInput (v);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
+		///   Updates specified rows with values in <c>v</c>.
+		///   
+		///   Computes <c>x[i, :] = v; return x</c>.
+		/// </summary>
+		/// <param name="x">
+		///   A tensor of type <c>T</c>.
+		/// </param>
+		/// <param name="i">
+		///   A vector. Indices into the left-most dimension of <c>x</c>.
+		/// </param>
+		/// <param name="v">
+		///   A <c>Tensor</c> of type T. Same dimension sizes as x except the first dimension, which must be the same as i's size.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'InplaceUpdate'.
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> of type T. An alias of <c>x</c>. The content of <c>y</c> is undefined if there are duplicates in <c>i</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput InplaceUpdate (TFOutput x, TFOutput i, TFOutput v, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "InplaceUpdate", MakeName ("InplaceUpdate", operName));
+			desc.AddInput (x);
+			desc.AddInput (i);
+			desc.AddInput (v);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var y = new TFOutput (op, _idx++);
+			return y;
+		}
+
+		/// <summary>
 		///   Says whether the targets are in the top <c>K</c> predictions.
 		/// </summary>
 		/// <param name="predictions">
@@ -13783,6 +16935,61 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Checks whether a tree ensemble has been initialized.
+		/// </summary>
+		/// <param name="tree_ensemble_handle">
+		///   Handle to the tree ensemble resouce.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IsBoostedTreesEnsembleInitialized'.
+		/// </param>
+		/// <returns>
+		///   output boolean on whether it is initialized or not.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IsBoostedTreesEnsembleInitialized (TFOutput tree_ensemble_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IsBoostedTreesEnsembleInitialized", MakeName ("IsBoostedTreesEnsembleInitialized", operName));
+			desc.AddInput (tree_ensemble_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var is_initialized = new TFOutput (op, _idx++);
+			return is_initialized;
+		}
+
+		/// <summary>
+		///   Checks whether a quantile stream has been initialized.
+		/// </summary>
+		/// <param name="quantile_stream_resource_handle">
+		///   resource; The reference to quantile stream resource handle.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IsBoostedTreesQuantileStreamResourceInitialized'.
+		/// </param>
+		/// <returns>
+		///   bool; True if the resource is initialized, False otherwise.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   An Op that checks if quantile stream resource is initialized.
+		/// </remarks>
+		public TFOutput IsBoostedTreesQuantileStreamResourceInitialized (TFOutput quantile_stream_resource_handle, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IsBoostedTreesQuantileStreamResourceInitialized", MakeName ("IsBoostedTreesQuantileStreamResourceInitialized", operName));
+			desc.AddInput (quantile_stream_resource_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var is_initialized = new TFOutput (op, _idx++);
+			return is_initialized;
+		}
+
+		/// <summary>
 		///   Returns which elements of x are finite.
 		/// </summary>
 		/// <param name="x">
@@ -13975,7 +17182,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Gets the next output from the given iterator.
+		///   Gets the next output from the given iterator .
 		/// </summary>
 		/// <param name="iterator">
 		/// </param>
@@ -14007,6 +17214,36 @@ namespace TensorFlow {
 				components [i] = new TFOutput (op, _idx++);
 			
 			return components;
+		}
+
+		/// <summary>
+		///   Gets the next output from the given iterator as an Optional variant.
+		/// </summary>
+		/// <param name="iterator">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'IteratorGetNextAsOptional'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput IteratorGetNextAsOptional (TFOutput iterator, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "IteratorGetNextAsOptional", MakeName ("IteratorGetNextAsOptional", operName));
+			desc.AddInput (iterator);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var optional = new TFOutput (op, _idx++);
+			return optional;
 		}
 
 		/// <summary>
@@ -14105,39 +17342,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output = new TFOutput (op, _idx++);
 			return output;
-		}
-
-		/// <summary>
-		///   Records the latency of producing <c>input_dataset</c> elements in a StatsAggregator.
-		/// </summary>
-		/// <param name="input_dataset">
-		/// </param>
-		/// <param name="tag">
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LatencyStatsDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput LatencyStatsDataset (TFOutput input_dataset, TFOutput tag, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "LatencyStatsDataset", MakeName ("LatencyStatsDataset", operName));
-			desc.AddInput (input_dataset);
-			desc.AddInput (tag);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
 		}
 
 		/// <summary>
@@ -14344,13 +17548,13 @@ namespace TensorFlow {
 		///   Generates values in an interval.
 		/// </summary>
 		/// <param name="start">
-		///   First entry in the range.
+		///   0-D tensor. First entry in the range.
 		/// </param>
 		/// <param name="stop">
-		///   Last entry in the range.
+		///   0-D tensor. Last entry in the range.
 		/// </param>
 		/// <param name="num">
-		///   Number of values to generate.
+		///   0-D tensor. Number of values to generate.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LinSpace'.
@@ -14587,6 +17791,1219 @@ namespace TensorFlow {
 			int _idx = 0;
 			var output_matrix = new TFOutput (op, _idx++);
 			return output_matrix;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="updates">
+		///   Value of updates used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingAdadeltaParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   updates: A tensor containing the initial embedding table updates to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingAdadeltaParameters (TFOutput parameters, TFOutput accumulators, TFOutput updates, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingAdadeltaParameters", MakeName ("LoadTPUEmbeddingAdadeltaParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="updates">
+		///   Value of updates used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the Adadelta optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingAdadeltaParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   updates: A tensor containing the initial embedding table updates to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the Adadelta optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingAdadeltaParametersGradAccumDebug (TFOutput parameters, TFOutput accumulators, TFOutput updates, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingAdadeltaParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingAdadeltaParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (updates);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingAdagradParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingAdagradParameters (TFOutput parameters, TFOutput accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingAdagradParameters", MakeName ("LoadTPUEmbeddingAdagradParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingAdagradParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the Adagrad optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingAdagradParametersGradAccumDebug (TFOutput parameters, TFOutput accumulators, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingAdagradParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingAdagradParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="momenta">
+		///   Value of momenta used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="velocities">
+		///   Value of velocities used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingADAMParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   momenta: A tensor containing the initial embedding table momenta to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   velocities: A tensor containing the initial embedding table velocities to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingADAMParameters (TFOutput parameters, TFOutput momenta, TFOutput velocities, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingADAMParameters", MakeName ("LoadTPUEmbeddingADAMParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (momenta);
+			desc.AddInput (velocities);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="momenta">
+		///   Value of momenta used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="velocities">
+		///   Value of velocities used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the ADAM optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingADAMParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   momenta: A tensor containing the initial embedding table momenta to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   velocities: A tensor containing the initial embedding table velocities to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the ADAM optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingADAMParametersGradAccumDebug (TFOutput parameters, TFOutput momenta, TFOutput velocities, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingADAMParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingADAMParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (momenta);
+			desc.AddInput (velocities);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the centered RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="ms">
+		///   Value of ms used in the centered RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="mom">
+		///   Value of mom used in the centered RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="mg">
+		///   Value of mg used in the centered RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingCenteredRMSPropParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the centered RMSProp optimization algorithm.
+		///   ms: A tensor containing the initial embedding table ms to use in embedding
+		///   lookups using the centered RMSProp optimization algorithm.
+		///   mom: A tensor containing the initial embedding table mom to use in embedding
+		///   lookups using the centered RMSProp optimization algorithm.
+		///   mg: A tensor containing the initial embedding table mg to use in embedding
+		///   lookups using the centered RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingCenteredRMSPropParameters (TFOutput parameters, TFOutput ms, TFOutput mom, TFOutput mg, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingCenteredRMSPropParameters", MakeName ("LoadTPUEmbeddingCenteredRMSPropParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (mg);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="linears">
+		///   Value of linears used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingFTRLParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   linears: A tensor containing the initial embedding table linears to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingFTRLParameters (TFOutput parameters, TFOutput accumulators, TFOutput linears, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingFTRLParameters", MakeName ("LoadTPUEmbeddingFTRLParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (linears);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="linears">
+		///   Value of linears used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the FTRL optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingFTRLParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   linears: A tensor containing the initial embedding table linears to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the FTRL optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingFTRLParametersGradAccumDebug (TFOutput parameters, TFOutput accumulators, TFOutput linears, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingFTRLParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingFTRLParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (linears);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the MDL Adagrad Light optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the MDL Adagrad Light optimization algorithm.
+		/// </param>
+		/// <param name="weights">
+		///   Value of weights used in the MDL Adagrad Light optimization algorithm.
+		/// </param>
+		/// <param name="benefits">
+		///   Value of benefits used in the MDL Adagrad Light optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingMDLAdagradLightParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the MDL Adagrad Light optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the MDL Adagrad Light optimization algorithm.
+		///   weights: A tensor containing the initial embedding table weights to use in embedding
+		///   lookups using the MDL Adagrad Light optimization algorithm.
+		///   benefits: A tensor containing the initial embedding table benefits to use in embedding
+		///   lookups using the MDL Adagrad Light optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingMDLAdagradLightParameters (TFOutput parameters, TFOutput accumulators, TFOutput weights, TFOutput benefits, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingMDLAdagradLightParameters", MakeName ("LoadTPUEmbeddingMDLAdagradLightParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (weights);
+			desc.AddInput (benefits);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Momentum optimization algorithm.
+		/// </param>
+		/// <param name="momenta">
+		///   Value of momenta used in the Momentum optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingMomentumParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Momentum optimization algorithm.
+		///   momenta: A tensor containing the initial embedding table momenta to use in embedding
+		///   lookups using the Momentum optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingMomentumParameters (TFOutput parameters, TFOutput momenta, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingMomentumParameters", MakeName ("LoadTPUEmbeddingMomentumParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (momenta);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the Momentum optimization algorithm.
+		/// </param>
+		/// <param name="momenta">
+		///   Value of momenta used in the Momentum optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the Momentum optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingMomentumParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the Momentum optimization algorithm.
+		///   momenta: A tensor containing the initial embedding table momenta to use in embedding
+		///   lookups using the Momentum optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the Momentum optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingMomentumParametersGradAccumDebug (TFOutput parameters, TFOutput momenta, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingMomentumParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingMomentumParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (momenta);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the proximal Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the proximal Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingProximalAdagradParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the proximal Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the proximal Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingProximalAdagradParameters (TFOutput parameters, TFOutput accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingProximalAdagradParameters", MakeName ("LoadTPUEmbeddingProximalAdagradParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the proximal Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="accumulators">
+		///   Value of accumulators used in the proximal Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the proximal Adagrad optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingProximalAdagradParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the proximal Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the initial embedding table accumulators to use in embedding
+		///   lookups using the proximal Adagrad optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the proximal Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingProximalAdagradParametersGradAccumDebug (TFOutput parameters, TFOutput accumulators, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingProximalAdagradParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingProximalAdagradParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (accumulators);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="ms">
+		///   Value of ms used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="mom">
+		///   Value of mom used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingRMSPropParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   ms: A tensor containing the initial embedding table ms to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   mom: A tensor containing the initial embedding table mom to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingRMSPropParameters (TFOutput parameters, TFOutput ms, TFOutput mom, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingRMSPropParameters", MakeName ("LoadTPUEmbeddingRMSPropParameters", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="ms">
+		///   Value of ms used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="mom">
+		///   Value of mom used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="gradient_accumulators">
+		///   Value of gradient_accumulators used in the RMSProp optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingRMSPropParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   ms: A tensor containing the initial embedding table ms to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   mom: A tensor containing the initial embedding table mom to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   gradient_accumulators: A tensor containing the initial embedding table gradient_accumulators to use in embedding
+		///   lookups using the RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingRMSPropParametersGradAccumDebug (TFOutput parameters, TFOutput ms, TFOutput mom, TFOutput gradient_accumulators, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingRMSPropParametersGradAccumDebug", MakeName ("LoadTPUEmbeddingRMSPropParametersGradAccumDebug", operName));
+			desc.AddInput (parameters);
+			desc.AddInput (ms);
+			desc.AddInput (mom);
+			desc.AddInput (gradient_accumulators);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Load embedding parameters for a single table.
+		/// </summary>
+		/// <param name="parameters">
+		///   Value of parameters used in the stochastic gradient descent optimization algorithm.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LoadTPUEmbeddingStochasticGradientDescentParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that loads optimization parameters into HBM for embedding. Must be
+		///   preceded by a ConfigureTPUEmbeddingHost op that sets up the correct
+		///   embedding table configuration. For example, this op is used to install
+		///   parameters that are loaded from a checkpoint before a training loop is
+		///   executed.
+		///   
+		///   parameters: A tensor containing the initial embedding table parameters to use in embedding
+		///   lookups using the stochastic gradient descent optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOperation LoadTPUEmbeddingStochasticGradientDescentParameters (TFOutput parameters, long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LoadTPUEmbeddingStochasticGradientDescentParameters", MakeName ("LoadTPUEmbeddingStochasticGradientDescentParameters", operName));
+			desc.AddInput (parameters);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -15251,6 +19668,64 @@ namespace TensorFlow {
 			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Applies lower_bound(sorted_search_values, values) along each row.
+		/// </summary>
+		/// <param name="sorted_inputs">
+		///   2-D Tensor where each row is ordered.
+		/// </param>
+		/// <param name="values">
+		///   2-D Tensor with the same numbers of rows as <c>sorted_search_values</c>. Contains
+		///   the values that will be searched for in <c>sorted_search_values</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'LowerBound'.
+		/// </param>
+		/// <param name="out_type">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> with the same shape as <c>values</c>.  It contains the first scalar index
+		///   into the last dimension where values can be inserted without changing the
+		///   ordered property.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each set of rows with the same index in (sorted_inputs, values) is treated
+		///   independently.  The resulting row is the equivalent of calling
+		///   <c>np.searchsorted(sorted_inputs, values, side='left')</c>.
+		///   
+		///   The result is not a global index to the entire
+		///   <c>Tensor</c>, but rather just the index in the last dimension.
+		///   
+		///   A 2-D example:
+		///   sorted_sequence = [[0, 3, 9, 9, 10],
+		///   [1, 2, 3, 4, 5]]
+		///   values = [[2, 4, 9],
+		///   [0, 2, 6]]
+		///   
+		///   result = LowerBound(sorted_sequence, values)
+		///   
+		///   result == [[1, 2, 2],
+		///   [0, 1, 5]]
+		/// </remarks>
+		public TFOutput LowerBound (TFOutput sorted_inputs, TFOutput values, TFDataType? out_type = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "LowerBound", MakeName ("LowerBound", operName));
+			desc.AddInput (sorted_inputs);
+			desc.AddInput (values);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (out_type.HasValue)
+				desc.SetAttrType ("out_type", out_type.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -16111,34 +20586,16 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Computes the matrix exponential of one or more square matrices:
+		///   Deprecated, use python implementation tf.linalg.matrix_exponential.
 		/// </summary>
 		/// <param name="input">
-		///   Shape is <c>[..., M, M]</c>.
 		/// </param>
 		/// <param name="operName">
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MatrixExponential'.
 		/// </param>
 		/// <returns>
-		///   Shape is <c>[..., M, M]</c>.
-		///   
-		///   @compatibility(scipy)
-		///   Equivalent to scipy.linalg.expm
-		///   @end_compatibility
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		/// <remarks>
-		///   exp(A) = \sum_{n=0}^\infty A^n/n!
-		///   
-		///   The exponential is computed using a combination of the scaling and squaring
-		///   method and the Pade approximation. Details can be founds in:
-		///   Nicholas J. Higham, "The scaling and squaring method for the matrix exponential
-		///   revisited," SIAM J. Matrix Anal. Applic., 26:1179-1193, 2005.
-		///   
-		///   The input is a tensor of shape <c>[..., M, M]</c> whose inner-most 2 dimensions
-		///   form square matrices. The output is a tensor of the same shape as the input
-		///   containing the exponential for all input submatrices <c>[..., :, :]</c>.
-		/// </remarks>
 		public TFOutput MatrixExponential (TFOutput input, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "MatrixExponential", MakeName ("MatrixExponential", operName));
@@ -16220,7 +20677,7 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   
-		///   log(exp(A)) = A
+		///   \\(log(exp(A)) = A\\)
 		///   
 		///   This op is only defined for complex matrices. If A is positive-definite and
 		///   real, then casting to a complex matrix, taking the logarithm and casting back
@@ -16384,14 +20841,14 @@ namespace TensorFlow {
 		///   If <c>fast</c> is <c>True</c>, then the solution is computed by solving the normal
 		///   equations using Cholesky decomposition. Specifically, if \\(m \ge n\\) then
 		///   \\(X = (A^H A + \lambda I)^{-1} A^H B\\), which solves the least-squares
-		///   problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||A Z - B||_F^2 +
-		///   \lambda ||Z||_F^2\\). If \\(m \lt n\\) then <c>output</c> is computed as
+		///   problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k} } ||A Z - B||_F^2 + \lambda ||Z||_F^2\\).
+		///   If \\(m \lt n\\) then <c>output</c> is computed as
 		///   \\(X = A^H (A A^H + \lambda I)^{-1} B\\), which (for \\(\lambda = 0\\)) is the
 		///   minimum-norm solution to the under-determined linear system, i.e.
 		///   \\(X = \mathrm{argmin}_{Z \in \mathbb{C}^{n \times k} } ||Z||_F^2 \\),
 		///   subject to \\(A Z = B\\). Notice that the fast path is only numerically stable
 		///   when \\(A\\) is numerically full rank and has a condition number
-		///   \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach} } }\\) or\\(\lambda\\) is
+		///   \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach} } }\\) or \\(\lambda\\) is
 		///   sufficiently large.
 		///   
 		///   If <c>fast</c> is <c>False</c> an algorithm based on the numerically robust complete
@@ -16441,7 +20898,7 @@ namespace TensorFlow {
 		///   adjoint.
 		///   
 		///   @compatibility(numpy)
-		///   Equivalent to np.linalg.triangular_solve
+		///   Equivalent to scipy.linalg.solve_triangular
 		///   @end_compatibility
 		/// </param>
 		/// <returns>
@@ -17674,6 +22131,40 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Identity transformation that models performance.
+		/// </summary>
+		/// <param name="input_dataset">
+		///   A variant tensor representing the input dataset.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ModelDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Identity transformation that models performance.
+		/// </remarks>
+		public TFOutput ModelDataset (TFOutput input_dataset, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ModelDataset", MakeName ("ModelDataset", operName));
+			desc.AddInput (input_dataset);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Returns x * y element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -17702,6 +22193,198 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
+		}
+
+		/// <summary>
+		///   Creates a MultiDeviceIterator resource.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MultiDeviceIterator'.
+		/// </param>
+		/// <param name="devices">
+		///   A list of devices the iterator works across.
+		/// </param>
+		/// <param name="shared_name">
+		///   If non-empty, this resource will be shared under the given name
+		///   across multiple sessions.
+		/// </param>
+		/// <param name="container">
+		///   If non-empty, this resource is placed in the given container.
+		///   Otherwise, a default container is used.
+		/// </param>
+		/// <param name="output_types">
+		///   The type list for the return values.
+		/// </param>
+		/// <param name="output_shapes">
+		///   The list of shapes being produced.
+		/// </param>
+		/// <returns>
+		///   Handle to the resource created.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MultiDeviceIterator (string[] devices, string shared_name, string container, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MultiDeviceIterator", MakeName ("MultiDeviceIterator", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("devices", devices);
+			desc.SetAttr ("shared_name", shared_name);
+			desc.SetAttr ("container", container);
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Generates a MultiDeviceIterator resource from its provided string handle.
+		/// </summary>
+		/// <param name="string_handle">
+		///   String representing the resource.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MultiDeviceIteratorFromStringHandle'.
+		/// </param>
+		/// <param name="output_types">
+		///   Optional argument
+		///   The type list for the return values.
+		/// </param>
+		/// <param name="output_shapes">
+		///   Optional argument
+		///   The list of shapes being produced.
+		/// </param>
+		/// <returns>
+		///   A MultiDeviceIterator resource.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MultiDeviceIteratorFromStringHandle (TFOutput string_handle, TFDataType[] output_types = null, TFShape[] output_shapes = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MultiDeviceIteratorFromStringHandle", MakeName ("MultiDeviceIteratorFromStringHandle", operName));
+			desc.AddInput (string_handle);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (output_types != null)
+				desc.SetAttrType ("output_types", output_types);
+			
+			if (output_shapes != null)
+				desc.SetAttrShape ("output_shapes", output_shapes);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var multi_device_iterator = new TFOutput (op, _idx++);
+			return multi_device_iterator;
+		}
+
+		/// <summary>
+		///   Gets next element for the provided shard number.
+		/// </summary>
+		/// <param name="multi_device_iterator">
+		///   A MultiDeviceIterator resource.
+		/// </param>
+		/// <param name="shard_num">
+		///   Integer representing which shard to fetch data for.
+		/// </param>
+		/// <param name="incarnation_id">
+		///   Which incarnation of the MultiDeviceIterator is running.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MultiDeviceIteratorGetNextFromShard'.
+		/// </param>
+		/// <param name="output_types">
+		///   The type list for the return values.
+		/// </param>
+		/// <param name="output_shapes">
+		///   The list of shapes being produced.
+		/// </param>
+		/// <returns>
+		///   Result of the get_next on the dataset.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput[] MultiDeviceIteratorGetNextFromShard (TFOutput multi_device_iterator, TFOutput shard_num, TFOutput incarnation_id, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MultiDeviceIteratorGetNextFromShard", MakeName ("MultiDeviceIteratorGetNextFromShard", operName));
+			desc.AddInput (multi_device_iterator);
+			desc.AddInput (shard_num);
+			desc.AddInput (incarnation_id);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
+		}
+
+		/// <summary>
+		///   Initializes the multi device iterator with the given dataset.
+		/// </summary>
+		/// <param name="dataset">
+		///   Dataset to be iterated upon.
+		/// </param>
+		/// <param name="multi_device_iterator">
+		///   A MultiDeviceIteratorResource.
+		/// </param>
+		/// <param name="max_buffer_size">
+		///   The maximum size of the host side per device buffer to keep.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MultiDeviceIteratorInit'.
+		/// </param>
+		/// <returns>
+		///   An int64 indicating which incarnation of the MultiDeviceIterator
+		///   is running.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MultiDeviceIteratorInit (TFOutput dataset, TFOutput multi_device_iterator, TFOutput max_buffer_size, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MultiDeviceIteratorInit", MakeName ("MultiDeviceIteratorInit", operName));
+			desc.AddInput (dataset);
+			desc.AddInput (multi_device_iterator);
+			desc.AddInput (max_buffer_size);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var incarnation_id = new TFOutput (op, _idx++);
+			return incarnation_id;
+		}
+
+		/// <summary>
+		///   Produces a string handle for the given MultiDeviceIterator.
+		/// </summary>
+		/// <param name="multi_device_iterator">
+		///   A MultiDeviceIterator resource.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'MultiDeviceIteratorToStringHandle'.
+		/// </param>
+		/// <returns>
+		///   A string representing the resource.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput MultiDeviceIteratorToStringHandle (TFOutput multi_device_iterator, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "MultiDeviceIteratorToStringHandle", MakeName ("MultiDeviceIteratorToStringHandle", operName));
+			desc.AddInput (multi_device_iterator);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var string_handle = new TFOutput (op, _idx++);
+			return string_handle;
 		}
 
 		/// <summary>
@@ -18500,6 +23183,214 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Greedily selects a subset of bounding boxes in descending order of score,
+		/// </summary>
+		/// <param name="boxes">
+		///   A 2-D float tensor of shape <c>[num_boxes, 4]</c>.
+		/// </param>
+		/// <param name="scores">
+		///   A 1-D float tensor of shape <c>[num_boxes]</c> representing a single
+		///   score corresponding to each box (each row of boxes).
+		/// </param>
+		/// <param name="max_output_size">
+		///   A scalar integer tensor representing the maximum number of
+		///   boxes to be selected by non max suppression.
+		/// </param>
+		/// <param name="iou_threshold">
+		///   A 0-D float tensor representing the threshold for deciding whether
+		///   boxes overlap too much with respect to IOU.
+		/// </param>
+		/// <param name="score_threshold">
+		///   A 0-D float tensor representing the threshold for deciding when to remove
+		///   boxes based on score.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NonMaxSuppressionV3'.
+		/// </param>
+		/// <returns>
+		///   A 1-D integer tensor of shape <c>[M]</c> representing the selected
+		///   indices from the boxes tensor, where <c>M &amp;lt;= max_output_size</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   pruning away boxes that have high intersection-over-union (IOU) overlap
+		///   with previously selected boxes.  Bounding boxes with score less than
+		///   <c>score_threshold</c> are removed.  Bounding boxes are supplied as
+		///   [y1, x1, y2, x2], where (y1, x1) and (y2, x2) are the coordinates of any
+		///   diagonal pair of box corners and the coordinates can be provided as normalized
+		///   (i.e., lying in the interval [0, 1]) or absolute.  Note that this algorithm
+		///   is agnostic to where the origin is in the coordinate system and more
+		///   generally is invariant to orthogonal transformations and translations
+		///   of the coordinate system; thus translating or reflections of the coordinate
+		///   system result in the same boxes being selected by the algorithm.
+		///   The output of this operation is a set of integers indexing into the input
+		///   collection of bounding boxes representing the selected boxes.  The bounding
+		///   box coordinates corresponding to the selected indices can then be obtained
+		///   using the <c>tf.gather operation</c>.  For example:
+		///   selected_indices = tf.image.non_max_suppression_v2(
+		///   boxes, scores, max_output_size, iou_threshold, score_threshold)
+		///   selected_boxes = tf.gather(boxes, selected_indices)
+		/// </remarks>
+		public TFOutput NonMaxSuppressionV3 (TFOutput boxes, TFOutput scores, TFOutput max_output_size, TFOutput iou_threshold, TFOutput score_threshold, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "NonMaxSuppressionV3", MakeName ("NonMaxSuppressionV3", operName));
+			desc.AddInput (boxes);
+			desc.AddInput (scores);
+			desc.AddInput (max_output_size);
+			desc.AddInput (iou_threshold);
+			desc.AddInput (score_threshold);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var selected_indices = new TFOutput (op, _idx++);
+			return selected_indices;
+		}
+
+		/// <summary>
+		///   Greedily selects a subset of bounding boxes in descending order of score,
+		/// </summary>
+		/// <param name="boxes">
+		///   A 2-D float tensor of shape <c>[num_boxes, 4]</c>.
+		/// </param>
+		/// <param name="scores">
+		///   A 1-D float tensor of shape <c>[num_boxes]</c> representing a single
+		///   score corresponding to each box (each row of boxes).
+		/// </param>
+		/// <param name="max_output_size">
+		///   A scalar integer tensor representing the maximum number of
+		///   boxes to be selected by non max suppression.
+		/// </param>
+		/// <param name="iou_threshold">
+		///   A 0-D float tensor representing the threshold for deciding whether
+		///   boxes overlap too much with respect to IOU.
+		/// </param>
+		/// <param name="score_threshold">
+		///   A 0-D float tensor representing the threshold for deciding when to remove
+		///   boxes based on score.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NonMaxSuppressionV4'.
+		/// </param>
+		/// <param name="pad_to_max_output_size">
+		///   Optional argument
+		///   If true, the output <c>selected_indices</c> is padded to be of length
+		///   <c>max_output_size</c>. Defaults to false.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   selected_indices: A 1-D integer tensor of shape <c>[M]</c> representing the selected
+		///   indices from the boxes tensor, where <c>M &amp;lt;= max_output_size</c>.
+		///   valid_outputs: A 0-D integer tensor representing the number of valid elements in
+		///   <c>selected_indices</c>, with the valid elements appearing first.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   pruning away boxes that have high intersection-over-union (IOU) overlap
+		///   with previously selected boxes.  Bounding boxes with score less than
+		///   <c>score_threshold</c> are removed.  Bounding boxes are supplied as
+		///   [y1, x1, y2, x2], where (y1, x1) and (y2, x2) are the coordinates of any
+		///   diagonal pair of box corners and the coordinates can be provided as normalized
+		///   (i.e., lying in the interval [0, 1]) or absolute.  Note that this algorithm
+		///   is agnostic to where the origin is in the coordinate system and more
+		///   generally is invariant to orthogonal transformations and translations
+		///   of the coordinate system; thus translating or reflections of the coordinate
+		///   system result in the same boxes being selected by the algorithm.
+		///   The output of this operation is a set of integers indexing into the input
+		///   collection of bounding boxes representing the selected boxes.  The bounding
+		///   box coordinates corresponding to the selected indices can then be obtained
+		///   using the <c>tf.gather operation</c>.  For example:
+		///   selected_indices = tf.image.non_max_suppression_v2(
+		///   boxes, scores, max_output_size, iou_threshold, score_threshold)
+		///   selected_boxes = tf.gather(boxes, selected_indices)
+		/// </remarks>
+		public (TFOutput selected_indices, TFOutput valid_outputs) NonMaxSuppressionV4 (TFOutput boxes, TFOutput scores, TFOutput max_output_size, TFOutput iou_threshold, TFOutput score_threshold, bool? pad_to_max_output_size = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "NonMaxSuppressionV4", MakeName ("NonMaxSuppressionV4", operName));
+			desc.AddInput (boxes);
+			desc.AddInput (scores);
+			desc.AddInput (max_output_size);
+			desc.AddInput (iou_threshold);
+			desc.AddInput (score_threshold);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (pad_to_max_output_size.HasValue)
+				desc.SetAttr ("pad_to_max_output_size", pad_to_max_output_size.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var selected_indices = new TFOutput (op, _idx++);
+			var valid_outputs = new TFOutput (op, _idx++);
+			return (selected_indices, valid_outputs);
+		}
+
+		/// <summary>
+		///   Greedily selects a subset of bounding boxes in descending order of score,
+		/// </summary>
+		/// <param name="overlaps">
+		///   A 2-D float tensor of shape <c>[num_boxes, num_boxes]</c> representing
+		///   the n-by-n box overlap values.
+		/// </param>
+		/// <param name="scores">
+		///   A 1-D float tensor of shape <c>[num_boxes]</c> representing a single
+		///   score corresponding to each box (each row of boxes).
+		/// </param>
+		/// <param name="max_output_size">
+		///   A scalar integer tensor representing the maximum number of
+		///   boxes to be selected by non max suppression.
+		/// </param>
+		/// <param name="overlap_threshold">
+		///   A 0-D float tensor representing the threshold for deciding whether
+		///   boxes overlap too.
+		/// </param>
+		/// <param name="score_threshold">
+		///   A 0-D float tensor representing the threshold for deciding when to remove
+		///   boxes based on score.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'NonMaxSuppressionWithOverlaps'.
+		/// </param>
+		/// <returns>
+		///   A 1-D integer tensor of shape <c>[M]</c> representing the selected
+		///   indices from the boxes tensor, where <c>M &amp;lt;= max_output_size</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   pruning away boxes that have high overlaps
+		///   with previously selected boxes.  Bounding boxes with score less than
+		///   <c>score_threshold</c> are removed. N-by-n overlap values are supplied as square matrix,
+		///   which allows for defining a custom overlap criterium (eg. intersection over union,
+		///   intersection over area, etc.).
+		///   
+		///   The output of this operation is a set of integers indexing into the input
+		///   collection of bounding boxes representing the selected boxes.  The bounding
+		///   box coordinates corresponding to the selected indices can then be obtained
+		///   using the <c>tf.gather operation</c>.  For example:
+		///   
+		///   selected_indices = tf.image.non_max_suppression_with_overlaps(
+		///   overlaps, scores, max_output_size, overlap_threshold, score_threshold)
+		///   selected_boxes = tf.gather(boxes, selected_indices)
+		/// </remarks>
+		public TFOutput NonMaxSuppressionWithOverlaps (TFOutput overlaps, TFOutput scores, TFOutput max_output_size, TFOutput overlap_threshold, TFOutput score_threshold, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "NonMaxSuppressionWithOverlaps", MakeName ("NonMaxSuppressionWithOverlaps", operName));
+			desc.AddInput (overlaps);
+			desc.AddInput (scores);
+			desc.AddInput (max_output_size);
+			desc.AddInput (overlap_threshold);
+			desc.AddInput (score_threshold);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var selected_indices = new TFOutput (op, _idx++);
+			return selected_indices;
+		}
+
+		/// <summary>
 		///   Does nothing. Only useful as a placeholder for control edges.
 		/// </summary>
 		/// <param name="operName">
@@ -18759,6 +23650,148 @@ namespace TensorFlow {
 			int _idx = 0;
 			var y = new TFOutput (op, _idx++);
 			return y;
+		}
+
+		/// <summary>
+		///   Creates a dataset by applying optimizations to <c>input_dataset</c>.
+		/// </summary>
+		/// <param name="input_dataset">
+		///   A variant tensor representing the input dataset.
+		/// </param>
+		/// <param name="optimizations">
+		///   A <c>tf.string</c> vector <c>tf.Tensor</c> identifying optimizations to use.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OptimizeDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Creates a dataset by applying optimizations to <c>input_dataset</c>.
+		/// </remarks>
+		public TFOutput OptimizeDataset (TFOutput input_dataset, TFOutput optimizations, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OptimizeDataset", MakeName ("OptimizeDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (optimizations);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Constructs an Optional variant from a tuple of tensors.
+		/// </summary>
+		/// <param name="components">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OptionalFromValue'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput OptionalFromValue (TFOutput[] components, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OptionalFromValue", MakeName ("OptionalFromValue", operName));
+			desc.AddInputs (components);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var optional = new TFOutput (op, _idx++);
+			return optional;
+		}
+
+		/// <summary>
+		///   Returns the value stored in an Optional variant or raises an error if none exists.
+		/// </summary>
+		/// <param name="optional">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OptionalGetValue'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput[] OptionalGetValue (TFOutput optional, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OptionalGetValue", MakeName ("OptionalGetValue", operName));
+			desc.AddInput (optional);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("components");
+			var components = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				components [i] = new TFOutput (op, _idx++);
+			
+			return components;
+		}
+
+		/// <summary>
+		///   Returns true if and only if the given Optional variant has a value.
+		/// </summary>
+		/// <param name="optional">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OptionalHasValue'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput OptionalHasValue (TFOutput optional, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OptionalHasValue", MakeName ("OptionalHasValue", operName));
+			desc.AddInput (optional);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var has_value = new TFOutput (op, _idx++);
+			return has_value;
+		}
+
+		/// <summary>
+		///   Creates an Optional variant with no value.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'OptionalNone'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput OptionalNone (string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "OptionalNone", MakeName ("OptionalNone", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var optional = new TFOutput (op, _idx++);
+			return optional;
 		}
 
 		/// <summary>
@@ -19388,6 +24421,7 @@ namespace TensorFlow {
 		///   [0, 0, 2, 2, 0, 0]
 		///   [0, 0, 0, 0, 0, 0]]
 		///    </code>
+		///   
 		/// </remarks>
 		public TFOutput Pad (TFOutput input, TFOutput paddings, string operName = null)
 		{
@@ -19437,6 +24471,55 @@ namespace TensorFlow {
 			desc.AddInput (batch_size);
 			desc.AddInputs (padded_shapes);
 			desc.AddInputs (padding_values);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
+		///   Creates a dataset that batches and pads <c>batch_size</c> elements from the input.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="batch_size">
+		///   A scalar representing the number of elements to accumulate in a
+		///   batch.
+		/// </param>
+		/// <param name="padded_shapes">
+		///   A list of int64 tensors representing the desired padded shapes
+		///   of the corresponding output components. These shapes may be partially
+		///   specified, using <c>-1</c> to indicate that a particular dimension should be
+		///   padded to the maximum size of all batch elements.
+		/// </param>
+		/// <param name="padding_values">
+		///   A list of scalars containing the padding value to use for
+		///   each of the outputs.
+		/// </param>
+		/// <param name="drop_remainder">
+		///   A scalar representing whether the last batch should be dropped in case its size
+		///   is smaller than desired.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PaddedBatchDatasetV2'.
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput PaddedBatchDatasetV2 (TFOutput input_dataset, TFOutput batch_size, TFOutput[] padded_shapes, TFOutput[] padding_values, TFOutput drop_remainder, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PaddedBatchDatasetV2", MakeName ("PaddedBatchDatasetV2", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (batch_size);
+			desc.AddInputs (padded_shapes);
+			desc.AddInputs (padding_values);
+			desc.AddInput (drop_remainder);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
@@ -19949,6 +25032,208 @@ namespace TensorFlow {
 				dense_values [i] = new TFOutput (op, _idx++);
 			
 			return (sparse_indices, sparse_values, sparse_shapes, dense_values);
+		}
+
+		/// <summary>
+		///   Transforms a vector of brain.SequenceExample protos (as strings) into typed tensors.
+		/// </summary>
+		/// <param name="serialized">
+		///   A vector containing binary serialized SequenceExample protos.
+		/// </param>
+		/// <param name="debug_name">
+		///   A vector containing the names of the serialized protos.
+		///   May contain, for example, table key (descriptive) name for the
+		///   corresponding serialized proto.  This is purely useful for debugging
+		///   purposes, and the presence of values here has no effect on the output.
+		///   May also be an empty vector if no name is available.
+		/// </param>
+		/// <param name="context_dense_defaults">
+		///   A list of Ncontext_dense Tensors (some may be empty).
+		///   context_dense_defaults[j] provides default values
+		///   when the SequenceExample's context map lacks context_dense_key[j].
+		///   If an empty Tensor is provided for context_dense_defaults[j],
+		///   then the Feature context_dense_keys[j] is required.
+		///   The input type is inferred from context_dense_defaults[j], even when it's
+		///   empty.  If context_dense_defaults[j] is not empty, its shape must match
+		///   context_dense_shapes[j].
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ParseSequenceExample'.
+		/// </param>
+		/// <param name="Ncontext_sparse">
+		///   Optional argument
+		/// </param>
+		/// <param name="Ncontext_dense">
+		///   Optional argument
+		/// </param>
+		/// <param name="Nfeature_list_sparse">
+		///   Optional argument
+		/// </param>
+		/// <param name="Nfeature_list_dense">
+		///   Optional argument
+		/// </param>
+		/// <param name="context_sparse_types">
+		///   Optional argument
+		///   A list of Ncontext_sparse types; the data types of data in
+		///   each context Feature given in context_sparse_keys.
+		///   Currently the ParseSingleSequenceExample supports DT_FLOAT (FloatList),
+		///   DT_INT64 (Int64List), and DT_STRING (BytesList).
+		/// </param>
+		/// <param name="feature_list_dense_types">
+		///   Optional argument
+		/// </param>
+		/// <param name="context_dense_shapes">
+		///   Optional argument
+		///   A list of Ncontext_dense shapes; the shapes of data in
+		///   each context Feature given in context_dense_keys.
+		///   The number of elements in the Feature corresponding to context_dense_key[j]
+		///   must always equal context_dense_shapes[j].NumEntries().
+		///   The shape of context_dense_values[j] will match context_dense_shapes[j].
+		/// </param>
+		/// <param name="feature_list_sparse_types">
+		///   Optional argument
+		///   A list of Nfeature_list_sparse types; the data types
+		///   of data in each FeatureList given in feature_list_sparse_keys.
+		///   Currently the ParseSingleSequenceExample supports DT_FLOAT (FloatList),
+		///   DT_INT64 (Int64List), and DT_STRING (BytesList).
+		/// </param>
+		/// <param name="feature_list_dense_shapes">
+		///   Optional argument
+		///   A list of Nfeature_list_dense shapes; the shapes of
+		///   data in each FeatureList given in feature_list_dense_keys.
+		///   The shape of each Feature in the FeatureList corresponding to
+		///   feature_list_dense_key[j] must always equal
+		///   feature_list_dense_shapes[j].NumEntries().
+		/// </param>
+		/// <param name="feature_list_dense_missing_assumed_empty">
+		///   A vector listing the
+		///   FeatureList keys which may be missing from the SequenceExamples.  If the
+		///   associated FeatureList is missing, it is treated as empty.  By default,
+		///   any FeatureList not listed in this vector must exist in the SequenceExamples.
+		/// </param>
+		/// <param name="context_sparse_keys">
+		///   A list of Ncontext_sparse string Tensors (scalars).
+		///   The keys expected in the Examples' features associated with context_sparse
+		///   values.
+		/// </param>
+		/// <param name="context_dense_keys">
+		///   A list of Ncontext_dense string Tensors (scalars).
+		///   The keys expected in the SequenceExamples' context features associated with
+		///   dense values.
+		/// </param>
+		/// <param name="feature_list_sparse_keys">
+		///   A list of Nfeature_list_sparse string Tensors
+		///   (scalars).  The keys expected in the FeatureLists associated with sparse
+		///   values.
+		/// </param>
+		/// <param name="feature_list_dense_keys">
+		///   A list of Nfeature_list_dense string Tensors (scalars).
+		///   The keys expected in the SequenceExamples' feature_lists associated
+		///   with lists of dense values.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   context_sparse_indices:
+		///   context_sparse_values:
+		///   context_sparse_shapes:
+		///   context_dense_values:
+		///   feature_list_sparse_indices:
+		///   feature_list_sparse_values:
+		///   feature_list_sparse_shapes:
+		///   feature_list_dense_values:
+		///   feature_list_dense_lengths:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		public (TFOutput[] context_sparse_indices, TFOutput[] context_sparse_values, TFOutput[] context_sparse_shapes, TFOutput[] context_dense_values, TFOutput[] feature_list_sparse_indices, TFOutput[] feature_list_sparse_values, TFOutput[] feature_list_sparse_shapes, TFOutput[] feature_list_dense_values, TFOutput[] feature_list_dense_lengths) ParseSequenceExample (TFOutput serialized, TFOutput debug_name, TFOutput[] context_dense_defaults, string[] feature_list_dense_missing_assumed_empty, string[] context_sparse_keys, string[] context_dense_keys, string[] feature_list_sparse_keys, string[] feature_list_dense_keys, long? Ncontext_sparse = null, long? Ncontext_dense = null, long? Nfeature_list_sparse = null, long? Nfeature_list_dense = null, TFDataType[] context_sparse_types = null, TFDataType[] feature_list_dense_types = null, TFShape[] context_dense_shapes = null, TFDataType[] feature_list_sparse_types = null, TFShape[] feature_list_dense_shapes = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ParseSequenceExample", MakeName ("ParseSequenceExample", operName));
+			desc.AddInput (serialized);
+			desc.AddInput (debug_name);
+			desc.AddInputs (context_dense_defaults);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("feature_list_dense_missing_assumed_empty", feature_list_dense_missing_assumed_empty);
+			desc.SetAttr ("context_sparse_keys", context_sparse_keys);
+			desc.SetAttr ("context_dense_keys", context_dense_keys);
+			desc.SetAttr ("feature_list_sparse_keys", feature_list_sparse_keys);
+			desc.SetAttr ("feature_list_dense_keys", feature_list_dense_keys);
+			if (Ncontext_sparse.HasValue)
+				desc.SetAttr ("Ncontext_sparse", Ncontext_sparse.Value);
+			
+			if (Ncontext_dense.HasValue)
+				desc.SetAttr ("Ncontext_dense", Ncontext_dense.Value);
+			
+			if (Nfeature_list_sparse.HasValue)
+				desc.SetAttr ("Nfeature_list_sparse", Nfeature_list_sparse.Value);
+			
+			if (Nfeature_list_dense.HasValue)
+				desc.SetAttr ("Nfeature_list_dense", Nfeature_list_dense.Value);
+			
+			if (context_sparse_types != null)
+				desc.SetAttrType ("context_sparse_types", context_sparse_types);
+			
+			if (feature_list_dense_types != null)
+				desc.SetAttrType ("feature_list_dense_types", feature_list_dense_types);
+			
+			if (context_dense_shapes != null)
+				desc.SetAttrShape ("context_dense_shapes", context_dense_shapes);
+			
+			if (feature_list_sparse_types != null)
+				desc.SetAttrType ("feature_list_sparse_types", feature_list_sparse_types);
+			
+			if (feature_list_dense_shapes != null)
+				desc.SetAttrShape ("feature_list_dense_shapes", feature_list_dense_shapes);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("context_sparse_indices");
+			var context_sparse_indices = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				context_sparse_indices [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("context_sparse_values");
+			var context_sparse_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				context_sparse_values [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("context_sparse_shapes");
+			var context_sparse_shapes = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				context_sparse_shapes [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("context_dense_values");
+			var context_dense_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				context_dense_values [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("feature_list_sparse_indices");
+			var feature_list_sparse_indices = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				feature_list_sparse_indices [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("feature_list_sparse_values");
+			var feature_list_sparse_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				feature_list_sparse_values [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("feature_list_sparse_shapes");
+			var feature_list_sparse_shapes = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				feature_list_sparse_shapes [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("feature_list_dense_values");
+			var feature_list_dense_values = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				feature_list_dense_values [i] = new TFOutput (op, _idx++);
+			
+			_n = op.OutputListLength ("feature_list_dense_lengths");
+			var feature_list_dense_lengths = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				feature_list_dense_lengths [i] = new TFOutput (op, _idx++);
+			
+			return (context_sparse_indices, context_sparse_values, context_sparse_shapes, context_dense_values, feature_list_sparse_indices, feature_list_sparse_values, feature_list_sparse_shapes, feature_list_dense_values, feature_list_dense_lengths);
 		}
 
 		/// <summary>
@@ -20593,6 +25878,39 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Prints a string scalar.
+		/// </summary>
+		/// <param name="input">
+		///   The string scalar to print.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'PrintV2'.
+		/// </param>
+		/// <param name="output_stream">
+		///   Optional argument
+		///   A string specifying the output stream or logging level to print to.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   Prints a string scalar to the desired output_stream.
+		/// </remarks>
+		public TFOperation PrintV2 (TFOutput input, string output_stream = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "PrintV2", MakeName ("PrintV2", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (output_stream != null)
+				desc.SetAttr ("output_stream", output_stream);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
 		///   A queue that produces elements sorted by the first component value.
 		/// </summary>
 		/// <param name="operName">
@@ -20870,113 +26188,6 @@ namespace TensorFlow {
 			
 			if (input_max.HasValue)
 				desc.SetAttr ("input_max", input_max.Value);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var output = new TFOutput (op, _idx++);
-			return output;
-		}
-
-		/// <summary>
-		///   Quantizes then dequantizes a tensor.
-		/// </summary>
-		/// <param name="input">
-		///   Tensor to quantize and then dequantize.
-		/// </param>
-		/// <param name="input_min">
-		///   If range_given, this is the min of the range, otherwise this input
-		///   will be ignored.
-		/// </param>
-		/// <param name="input_max">
-		///   If range_given, this is the max of the range, otherwise this input
-		///   will be ignored.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'QuantizeAndDequantizeV2'.
-		/// </param>
-		/// <param name="signed_input">
-		///   Optional argument
-		///   If the quantization is signed or unsigned.
-		/// </param>
-		/// <param name="num_bits">
-		///   Optional argument
-		///   The bitwidth of the quantization.
-		/// </param>
-		/// <param name="range_given">
-		///   Optional argument
-		///   If the range is given or should be computed from the tensor.
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   This op simulates the precision loss from the quantized forward pass by:
-		///   1. Quantizing the tensor to fixed point numbers, which should match the target
-		///   quantization method when it is used in inference.
-		///   2. Dequantizing it back to floating point numbers for the following ops, most
-		///   likely matmul.
-		///   
-		///   There are different ways to quantize. This version does not use the full range
-		///   of the output type, choosing to elide the lowest possible value for symmetry
-		///   (e.g., output range is -127 to 127, not -128 to 127 for signed 8 bit
-		///   quantization), so that 0.0 maps to 0.
-		///   
-		///   To perform this op, we first find the range of values in our tensor. The range
-		///   we use is always centered on 0, so we find m such that
-		///   
-		///   1. m = max(abs(input_min), abs(input_max)) if range_given is true,
-		///   2. m = max(abs(min_elem(input)), abs(max_elem(input))) otherwise.
-		///   
-		///   Our input tensor range is then [-m, m].
-		///   
-		///   Next, we choose our fixed-point quantization buckets, [min_fixed, max_fixed].
-		///   If signed_input is true, this is
-		///   
-		///   [min_fixed, max_fixed ] =
-		///   [-(1 &amp;lt;&amp;lt; (num_bits - 1) - 1), (1 &amp;lt;&amp;lt; (num_bits - 1)) - 1].
-		///   
-		///   Otherwise, if signed_input is false, the fixed-point range is
-		///   
-		///   [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1].
-		///   
-		///   From this we compute our scaling factor, s:
-		///   
-		///   s = (max_fixed - min_fixed) / (2 * m).
-		///   
-		///   Now we can quantize and dequantize the elements of our tensor.  An element e
-		///   is transformed into e':
-		///   
-		///   e' = (e * s).round_to_nearest() / s.
-		///   
-		///   Note that we have a different number of buckets in the signed vs. unsigned
-		///   cases.  For example, if num_bits == 8, we get 254 buckets in the signed case
-		///   vs. 255 in the unsigned case.
-		///   
-		///   For example, suppose num_bits = 8 and m = 1.  Then
-		///   
-		///   [min_fixed, max_fixed] = [-127, 127], and
-		///   s = (127 + 127) / 2 = 127.
-		///   
-		///   Given the vector {-1, -0.5, 0, 0.3}, this is quantized to
-		///   {-127, -63, 0, 38}, and dequantized to {-1, -63.0/127, 0, 38.0/127}.
-		/// </remarks>
-		public TFOutput QuantizeAndDequantizeV2 (TFOutput input, TFOutput input_min, TFOutput input_max, bool? signed_input = null, long? num_bits = null, bool? range_given = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "QuantizeAndDequantizeV2", MakeName ("QuantizeAndDequantizeV2", operName));
-			desc.AddInput (input);
-			desc.AddInput (input_min);
-			desc.AddInput (input_max);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (signed_input.HasValue)
-				desc.SetAttr ("signed_input", signed_input.Value);
-			
-			if (num_bits.HasValue)
-				desc.SetAttr ("num_bits", num_bits.Value);
-			
-			if (range_given.HasValue)
-				desc.SetAttr ("range_given", range_given.Value);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -22051,8 +27262,9 @@ namespace TensorFlow {
 		///   
 		///    <code>
 		///   out[i] = (in[i] - min_range) * range(T) / (max_range - min_range)
-		///   if T == qint8, out[i] -= (range(T) + 1) / 2.0
+		///   if T == qint8: out[i] -= (range(T) + 1) / 2.0
 		///    </code>
+		///   
 		///   here <c>range(T) = numeric_limits&amp;lt;T&amp;gt;::max() - numeric_limits&amp;lt;T&amp;gt;::min()</c>
 		///   
 		///   *MIN_COMBINED Mode Example*
@@ -22096,6 +27308,7 @@ namespace TensorFlow {
 		///   
 		///   We first find the range of values in our tensor. The
 		///   range we use is always centered on 0, so we find m such that
+		///   
 		///    <code>
 		///   m = max(abs(input_min), abs(input_max))
 		///    </code>
@@ -22104,6 +27317,7 @@ namespace TensorFlow {
 		///   
 		///   Next, we choose our fixed-point quantization buckets, <c>[min_fixed, max_fixed]</c>.
 		///   If T is signed, this is
+		///   
 		///    <code>
 		///   num_bits = sizeof(T) * 8
 		///   [min_fixed, max_fixed] =
@@ -22111,16 +27325,19 @@ namespace TensorFlow {
 		///    </code>
 		///   
 		///   Otherwise, if T is unsigned, the fixed-point range is
+		///   
 		///    <code>
 		///   [min_fixed, max_fixed] = [0, (1 &amp;lt;&amp;lt; num_bits) - 1]
 		///    </code>
 		///   
 		///   From this we compute our scaling factor, s:
+		///   
 		///    <code>
 		///   s = (max_fixed - min_fixed) / (2 * m)
 		///    </code>
 		///   
 		///   Now we can quantize the elements of our tensor:
+		///   
 		///    <code>
 		///   result = round(input * s)
 		///    </code>
@@ -22945,43 +28162,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a Dataset that returns pseudorandom numbers.
-		/// </summary>
-		/// <param name="seed">
-		///   A scalar seed for the random number generator. If either seed or
-		///   seed2 is set to be non-zero, the random number generator is seeded
-		///   by the given seed.  Otherwise, a random seed is used.
-		/// </param>
-		/// <param name="seed2">
-		///   A second scalar seed to avoid seed collision.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RandomDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput RandomDataset (TFOutput seed, TFOutput seed2, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "RandomDataset", MakeName ("RandomDataset", operName));
-			desc.AddInput (seed);
-			desc.AddInput (seed2);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
-		}
-
-		/// <summary>
 		///   Outputs random values from the Gamma distribution(s) described by alpha.
 		/// </summary>
 		/// <param name="shape">
@@ -23029,6 +28209,33 @@ namespace TensorFlow {
 			
 			if (seed2.HasValue)
 				desc.SetAttr ("seed2", seed2.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   Computes the derivative of a Gamma random sample w.r.t. <c>alpha</c>.
+		/// </summary>
+		/// <param name="alpha">
+		/// </param>
+		/// <param name="sample">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RandomGammaGrad'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput RandomGammaGrad (TFOutput alpha, TFOutput sample, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RandomGammaGrad", MakeName ("RandomGammaGrad", operName));
+			desc.AddInput (alpha);
+			desc.AddInput (sample);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -24351,6 +29558,51 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   An op that receives embedding activations on the TPU.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RecvTPUEmbeddingActivations'.
+		/// </param>
+		/// <param name="num_outputs">
+		///   The number of output activation tensors, equal to the number of
+		///   embedding tables in the model.
+		/// </param>
+		/// <param name="config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <returns>
+		///   A TensorList of embedding activations containing one Tensor per
+		///   embedding table in the model.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The TPU system performs the embedding lookups and aggregations specified by
+		///   the arguments to TPUEmbeddingEnqueue(Integer/Sparse/SparseTensor)Batch. The
+		///   results of these aggregations are visible to the Tensorflow Graph as the
+		///   outputs of a RecvTPUEmbeddingActivations op. This op returns a list containing
+		///   one Tensor of activations per table specified in the model. There can be at
+		///   most one RecvTPUEmbeddingActivations op in the TPU graph.
+		/// </remarks>
+		public TFOutput[] RecvTPUEmbeddingActivations (long num_outputs, string config, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RecvTPUEmbeddingActivations", MakeName ("RecvTPUEmbeddingActivations", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_outputs", num_outputs);
+			desc.SetAttr ("config", config);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			int _n = 0;
+			_n = op.OutputListLength ("outputs");
+			var outputs = new TFOutput [_n];
+			for (int i = 0; i < _n; i++)
+				outputs [i] = new TFOutput (op, _idx++);
+			
+			return outputs;
+		}
+
+		/// <summary>
 		///   Joins a string Tensor across the given dimensions.
 		/// </summary>
 		/// <param name="inputs">
@@ -24379,9 +29631,11 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the string join across dimensions in the given string Tensor of shape
-		///   <c>[d_0, d_1, ..., d_n-1]</c>.  Returns a new Tensor created by joining the input
+		///   <c>[\\(d_0, d_1, ..., d_{n-1}\\)]</c>.  Returns a new Tensor created by joining the input
 		///   strings with the given separator (default: empty string).  Negative indices are
-		///   counted backwards from the end, with <c>-1</c> being equivalent to <c>n - 1</c>.
+		///   counted backwards from the end, with <c>-1</c> being equivalent to <c>n - 1</c>.  If
+		///   indices are not specified, joins across all dimensions beginning from <c>n - 1</c>
+		///   through <c>0</c>.
 		///   
 		///   For example:
 		///   
@@ -24394,9 +29648,10 @@ namespace TensorFlow {
 		///   tf.reduce_join(a, 0, keep_dims=True) ==&amp;gt; [["ac", "bd"]]
 		///   tf.reduce_join(a, 1, keep_dims=True) ==&amp;gt; [["ab"], ["cd"]]
 		///   tf.reduce_join(a, 0, separator=".") ==&amp;gt; ["a.c", "b.d"]
-		///   tf.reduce_join(a, [0, 1]) ==&amp;gt; ["acbd"]
-		///   tf.reduce_join(a, [1, 0]) ==&amp;gt; ["abcd"]
-		///   tf.reduce_join(a, []) ==&amp;gt; ["abcd"]
+		///   tf.reduce_join(a, [0, 1]) ==&amp;gt; "acbd"
+		///   tf.reduce_join(a, [1, 0]) ==&amp;gt; "abcd"
+		///   tf.reduce_join(a, []) ==&amp;gt; [["a", "b"], ["c", "d"]]
+		///   tf.reduce_join(a) = tf.reduce_join(a, [1, 0]) ==&amp;gt; "abcd"
 		///    </code>
 		/// </remarks>
 		public TFOutput ReduceJoin (TFOutput inputs, TFOutput reduction_indices, bool? keep_dims = null, string separator = null, string operName = null)
@@ -24651,6 +29906,44 @@ namespace TensorFlow {
 			var output_false = new TFOutput (op, _idx++);
 			var output_true = new TFOutput (op, _idx++);
 			return (output_false, output_true);
+		}
+
+		/// <summary>
+		///   Check if the input matches the regex pattern.
+		/// </summary>
+		/// <param name="input">
+		///   A string tensor of the text to be processed.
+		/// </param>
+		/// <param name="pattern">
+		///   A scalar string tensor containing the regular expression to match the input.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RegexFullMatch'.
+		/// </param>
+		/// <returns>
+		///   A bool tensor with the same shape as <c>input</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   The input is a string tensor of any shape. The pattern is a scalar
+		///   string tensor which is applied to every element of the input tensor.
+		///   The boolean values (True or False) of the output tensor indicate
+		///   if the input matches the regex pattern provided.
+		///   
+		///   The pattern follows the re2 syntax (https://github.com/google/re2/wiki/Syntax)
+		/// </remarks>
+		public TFOutput RegexFullMatch (TFOutput input, TFOutput pattern, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RegexFullMatch", MakeName ("RegexFullMatch", operName));
+			desc.AddInput (input);
+			desc.AddInput (pattern);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -25602,10 +30895,10 @@ namespace TensorFlow {
 		///   Returns the description of the operation
 		/// </returns>
 		/// <remarks>
-		///   lr_t &amp;lt;- learning_rate * sqrt(1 - beta2^t) / (1 - beta1^t)
-		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g_t
-		///   v_t &amp;lt;- beta2 * v_{t-1} + (1 - beta2) * g_t * g_t
-		///   variable &amp;lt;- variable - lr_t * m_t / (sqrt(v_t) + epsilon)
+		///   $$lr_t := \text{learning\_rate} * \sqrt{1 - beta_2^t} / (1 - beta_1^t)$$
+		///   $$m_t := beta_1 * m_{t-1} + (1 - beta_1) * g$$
+		///   $$v_t := beta_2 * v_{t-1} + (1 - beta_2) * g * g$$
+		///   $$variable := variable - lr_t * m_t / (\sqrt{v_t} + \epsilon)$$
 		/// </remarks>
 		public TFOperation ResourceApplyAdam (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput beta2_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
 		{
@@ -25628,6 +30921,75 @@ namespace TensorFlow {
 			
 			if (use_nesterov.HasValue)
 				desc.SetAttr ("use_nesterov", use_nesterov.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Update '*var' according to the AdaMax algorithm.
+		/// </summary>
+		/// <param name="var">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="m">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="v">
+		///   Should be from a Variable().
+		/// </param>
+		/// <param name="beta1_power">
+		///   Must be a scalar.
+		/// </param>
+		/// <param name="lr">
+		///   Scaling factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta1">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="beta2">
+		///   Momentum factor. Must be a scalar.
+		/// </param>
+		/// <param name="epsilon">
+		///   Ridge term. Must be a scalar.
+		/// </param>
+		/// <param name="grad">
+		///   The gradient.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceApplyAdaMax'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If <c>True</c>, updating of the var, m, and v tensors will be protected
+		///   by a lock; otherwise the behavior is undefined, but may exhibit less
+		///   contention.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   m_t &amp;lt;- beta1 * m_{t-1} + (1 - beta1) * g
+		///   v_t &amp;lt;- max(beta2 * v_{t-1}, abs(g))
+		///   variable &amp;lt;- variable - learning_rate / (1 - beta1^t) * m_t / (v_t + epsilon)
+		/// </remarks>
+		public TFOperation ResourceApplyAdaMax (TFOutput var, TFOutput m, TFOutput v, TFOutput beta1_power, TFOutput lr, TFOutput beta1, TFOutput beta2, TFOutput epsilon, TFOutput grad, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceApplyAdaMax", MakeName ("ResourceApplyAdaMax", operName));
+			desc.AddInput (var);
+			desc.AddInput (m);
+			desc.AddInput (v);
+			desc.AddInput (beta1_power);
+			desc.AddInput (lr);
+			desc.AddInput (beta1);
+			desc.AddInput (beta2);
+			desc.AddInput (epsilon);
+			desc.AddInput (grad);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -26376,7 +31738,7 @@ namespace TensorFlow {
 		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
 		///   the same location, their contributions add.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
@@ -26390,6 +31752,293 @@ namespace TensorFlow {
 			desc.AddInput (updates);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Divides sparse updates into the variable referenced by <c>resource</c>.
+		/// </summary>
+		/// <param name="resource">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterDiv'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] /= updates[...]
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] /= updates[i, ...]
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] /= updates[i, ..., j, ...]
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions multiply.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOperation ResourceScatterDiv (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterDiv", MakeName ("ResourceScatterDiv", operName));
+			desc.AddInput (resource);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Reduces sparse updates into the variable referenced by <c>resource</c> using the <c>max</c> operation.
+		/// </summary>
+		/// <param name="resource">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterMax'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] = max(ref[indices, ...], updates[...])
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = max(ref[indices[i], ...], updates[i, ...])
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = max(ref[indices[i, ..., j], ...], updates[i, ..., j, ...])
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions are combined.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOperation ResourceScatterMax (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterMax", MakeName ("ResourceScatterMax", operName));
+			desc.AddInput (resource);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Reduces sparse updates into the variable referenced by <c>resource</c> using the <c>min</c> operation.
+		/// </summary>
+		/// <param name="resource">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterMin'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] = min(ref[indices, ...], updates[...])
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = min(ref[indices[i], ...], updates[i, ...])
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = min(ref[indices[i, ..., j], ...], updates[i, ..., j, ...])
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions are combined.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOperation ResourceScatterMin (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterMin", MakeName ("ResourceScatterMin", operName));
+			desc.AddInput (resource);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Multiplies sparse updates into the variable referenced by <c>resource</c>.
+		/// </summary>
+		/// <param name="resource">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterMul'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] *= updates[...]
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] *= updates[i, ...]
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] *= updates[i, ..., j, ...]
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions multiply.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOperation ResourceScatterMul (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterMul", MakeName ("ResourceScatterMul", operName));
+			desc.AddInput (resource);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Adds sparse <c>updates</c> to individual values or slices within a given
+		/// </summary>
+		/// <param name="reference">
+		///   A resource handle. Must be from a VarHandleOp.
+		/// </param>
+		/// <param name="indices">
+		///   A Tensor. Must be one of the following types: int32, int64.
+		///   A tensor of indices into ref.
+		/// </param>
+		/// <param name="updates">
+		///   A Tensor. Must have the same type as ref. A tensor of
+		///   values to add to ref.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterNdAdd'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   An optional bool. Defaults to True. If True, the assignment will
+		///   be protected by a lock; otherwise the behavior is undefined,
+		///   but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   variable according to <c>indices</c>.
+		///   
+		///   <c>ref</c> is a <c>Tensor</c> with rank <c>P</c> and <c>indices</c> is a <c>Tensor</c> of rank <c>Q</c>.
+		///   
+		///   <c>indices</c> must be integer tensor, containing indices into <c>ref</c>.
+		///   It must be shape <c>[d_0, ..., d_{Q-2}, K]</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
+		///   
+		///   The innermost dimension of <c>indices</c> (with length <c>K</c>) corresponds to
+		///   indices into elements (if <c>K = P</c>) or slices (if <c>K &amp;lt; P</c>) along the <c>K</c>th
+		///   dimension of <c>ref</c>.
+		///   
+		///   <c>updates</c> is <c>Tensor</c> of rank <c>Q-1+P-K</c> with shape:
+		///   
+		///    <code>
+		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
+		///    </code>
+		///   
+		///   For example, say we want to update 4 scattered elements to a rank-1 tensor to
+		///   8 elements. In Python, that update would look like this:
+		///   
+		///    <code>
+		///   ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8], use_resource=True)
+		///   indices = tf.constant([[4], [3], [1] ,[7]])
+		///   updates = tf.constant([9, 10, 11, 12])
+		///   update = tf.scatter_nd_add(ref, indices, updates)
+		///   with tf.Session() as sess:
+		///   print sess.run(update)
+		///    </code>
+		///   
+		///   The resulting update to ref would look like this:
+		///   
+		///   [1, 12, 3, 14, 14, 6, 7, 20]
+		///   
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to
+		///   slices.
+		/// </remarks>
+		public TFOperation ResourceScatterNdAdd (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterNdAdd", MakeName ("ResourceScatterNdAdd", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -26443,7 +32092,7 @@ namespace TensorFlow {
 		///   8 elements. In Python, that update would look like this:
 		///   
 		///    <code>
-		///   ref = tfe.Variable([1, 2, 3, 4, 5, 6, 7, 8])
+		///   ref = tf.Variable([1, 2, 3, 4, 5, 6, 7, 8])
 		///   indices = tf.constant([[4], [3], [1] ,[7]])
 		///   updates = tf.constant([9, 10, 11, 12])
 		///   update = tf.scatter_nd_update(ref, indices, updates)
@@ -26455,7 +32104,7 @@ namespace TensorFlow {
 		///   
 		///   [1, 11, 3, 10, 9, 6, 7, 12]
 		///   
-		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to
 		///   slices.
 		/// </remarks>
 		public TFOperation ResourceScatterNdUpdate (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
@@ -26469,6 +32118,58 @@ namespace TensorFlow {
 			
 			if (use_locking.HasValue)
 				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			return op;
+		}
+
+		/// <summary>
+		///   Subtracts sparse updates from the variable referenced by <c>resource</c>.
+		/// </summary>
+		/// <param name="resource">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to add to <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ResourceScatterSub'.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] -= updates[...]
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] -= updates[i, ...]
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] -= updates[i, ..., j, ...]
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions add.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src='https://www.tensorflow.org/images/ScatterAdd.png' alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOperation ResourceScatterSub (TFOutput resource, TFOutput indices, TFOutput updates, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ResourceScatterSub", MakeName ("ResourceScatterSub", operName));
+			desc.AddInput (resource);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
 			
 			var op = desc.FinishOperation ();
 			return op;
@@ -27446,6 +33147,1131 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingAdadeltaParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Adadelta optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the Adadelta optimization algorithm.
+		///   updates: Parameter updates updated by the Adadelta optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   updates: A tensor containing the embedding table updates to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput updates) RetrieveTPUEmbeddingAdadeltaParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingAdadeltaParameters", MakeName ("RetrieveTPUEmbeddingAdadeltaParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var updates = new TFOutput (op, _idx++);
+			return (parameters, accumulators, updates);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingAdadeltaParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Adadelta optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the Adadelta optimization algorithm.
+		///   updates: Parameter updates updated by the Adadelta optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the Adadelta optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   updates: A tensor containing the embedding table updates to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the Adadelta optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput updates, TFOutput gradient_accumulators) RetrieveTPUEmbeddingAdadeltaParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingAdadeltaParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingAdadeltaParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var updates = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators, updates, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingAdagradParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Adagrad optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the Adagrad optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators) RetrieveTPUEmbeddingAdagradParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingAdagradParameters", MakeName ("RetrieveTPUEmbeddingAdagradParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingAdagradParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Adagrad optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the Adagrad optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the Adagrad optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the Adagrad optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput gradient_accumulators) RetrieveTPUEmbeddingAdagradParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingAdagradParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingAdagradParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingADAMParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the ADAM optimization algorithm.
+		///   momenta: Parameter momenta updated by the ADAM optimization algorithm.
+		///   velocities: Parameter velocities updated by the ADAM optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   momenta: A tensor containing the embedding table momenta to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   velocities: A tensor containing the embedding table velocities to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput momenta, TFOutput velocities) RetrieveTPUEmbeddingADAMParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingADAMParameters", MakeName ("RetrieveTPUEmbeddingADAMParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var momenta = new TFOutput (op, _idx++);
+			var velocities = new TFOutput (op, _idx++);
+			return (parameters, momenta, velocities);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingADAMParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the ADAM optimization algorithm.
+		///   momenta: Parameter momenta updated by the ADAM optimization algorithm.
+		///   velocities: Parameter velocities updated by the ADAM optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the ADAM optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   momenta: A tensor containing the embedding table momenta to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   velocities: A tensor containing the embedding table velocities to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the ADAM optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput momenta, TFOutput velocities, TFOutput gradient_accumulators) RetrieveTPUEmbeddingADAMParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingADAMParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingADAMParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var momenta = new TFOutput (op, _idx++);
+			var velocities = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, momenta, velocities, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingCenteredRMSPropParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the centered RMSProp optimization algorithm.
+		///   ms: Parameter ms updated by the centered RMSProp optimization algorithm.
+		///   mom: Parameter mom updated by the centered RMSProp optimization algorithm.
+		///   mg: Parameter mg updated by the centered RMSProp optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the centered RMSProp optimization algorithm.
+		///   ms: A tensor containing the embedding table ms to store with the
+		///   parameters from embedding updates using the centered RMSProp optimization algorithm.
+		///   mom: A tensor containing the embedding table mom to store with the
+		///   parameters from embedding updates using the centered RMSProp optimization algorithm.
+		///   mg: A tensor containing the embedding table mg to store with the
+		///   parameters from embedding updates using the centered RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput ms, TFOutput mom, TFOutput mg) RetrieveTPUEmbeddingCenteredRMSPropParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingCenteredRMSPropParameters", MakeName ("RetrieveTPUEmbeddingCenteredRMSPropParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var ms = new TFOutput (op, _idx++);
+			var mom = new TFOutput (op, _idx++);
+			var mg = new TFOutput (op, _idx++);
+			return (parameters, ms, mom, mg);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingFTRLParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the FTRL optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the FTRL optimization algorithm.
+		///   linears: Parameter linears updated by the FTRL optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   linears: A tensor containing the embedding table linears to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput linears) RetrieveTPUEmbeddingFTRLParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingFTRLParameters", MakeName ("RetrieveTPUEmbeddingFTRLParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var linears = new TFOutput (op, _idx++);
+			return (parameters, accumulators, linears);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingFTRLParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the FTRL optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the FTRL optimization algorithm.
+		///   linears: Parameter linears updated by the FTRL optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the FTRL optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   linears: A tensor containing the embedding table linears to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the FTRL optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput linears, TFOutput gradient_accumulators) RetrieveTPUEmbeddingFTRLParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingFTRLParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingFTRLParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var linears = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators, linears, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingMDLAdagradLightParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the MDL Adagrad Light optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the MDL Adagrad Light optimization algorithm.
+		///   weights: Parameter weights updated by the MDL Adagrad Light optimization algorithm.
+		///   benefits: Parameter benefits updated by the MDL Adagrad Light optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the MDL Adagrad Light optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the MDL Adagrad Light optimization algorithm.
+		///   weights: A tensor containing the embedding table weights to store with the
+		///   parameters from embedding updates using the MDL Adagrad Light optimization algorithm.
+		///   benefits: A tensor containing the embedding table benefits to store with the
+		///   parameters from embedding updates using the MDL Adagrad Light optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput weights, TFOutput benefits) RetrieveTPUEmbeddingMDLAdagradLightParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingMDLAdagradLightParameters", MakeName ("RetrieveTPUEmbeddingMDLAdagradLightParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var weights = new TFOutput (op, _idx++);
+			var benefits = new TFOutput (op, _idx++);
+			return (parameters, accumulators, weights, benefits);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingMomentumParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Momentum optimization algorithm.
+		///   momenta: Parameter momenta updated by the Momentum optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Momentum optimization algorithm.
+		///   momenta: A tensor containing the embedding table momenta to store with the
+		///   parameters from embedding updates using the Momentum optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput momenta) RetrieveTPUEmbeddingMomentumParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingMomentumParameters", MakeName ("RetrieveTPUEmbeddingMomentumParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var momenta = new TFOutput (op, _idx++);
+			return (parameters, momenta);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingMomentumParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the Momentum optimization algorithm.
+		///   momenta: Parameter momenta updated by the Momentum optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the Momentum optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the Momentum optimization algorithm.
+		///   momenta: A tensor containing the embedding table momenta to store with the
+		///   parameters from embedding updates using the Momentum optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the Momentum optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput momenta, TFOutput gradient_accumulators) RetrieveTPUEmbeddingMomentumParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingMomentumParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingMomentumParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var momenta = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, momenta, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingProximalAdagradParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the proximal Adagrad optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the proximal Adagrad optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the proximal Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the proximal Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators) RetrieveTPUEmbeddingProximalAdagradParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingProximalAdagradParameters", MakeName ("RetrieveTPUEmbeddingProximalAdagradParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingProximalAdagradParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the proximal Adagrad optimization algorithm.
+		///   accumulators: Parameter accumulators updated by the proximal Adagrad optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the proximal Adagrad optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the proximal Adagrad optimization algorithm.
+		///   accumulators: A tensor containing the embedding table accumulators to store with the
+		///   parameters from embedding updates using the proximal Adagrad optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the proximal Adagrad optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput accumulators, TFOutput gradient_accumulators) RetrieveTPUEmbeddingProximalAdagradParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingProximalAdagradParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingProximalAdagradParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var accumulators = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, accumulators, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingRMSPropParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the RMSProp optimization algorithm.
+		///   ms: Parameter ms updated by the RMSProp optimization algorithm.
+		///   mom: Parameter mom updated by the RMSProp optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   ms: A tensor containing the embedding table ms to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   mom: A tensor containing the embedding table mom to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput ms, TFOutput mom) RetrieveTPUEmbeddingRMSPropParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingRMSPropParameters", MakeName ("RetrieveTPUEmbeddingRMSPropParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var ms = new TFOutput (op, _idx++);
+			var mom = new TFOutput (op, _idx++);
+			return (parameters, ms, mom);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingRMSPropParametersGradAccumDebug'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   parameters: Parameter parameters updated by the RMSProp optimization algorithm.
+		///   ms: Parameter ms updated by the RMSProp optimization algorithm.
+		///   mom: Parameter mom updated by the RMSProp optimization algorithm.
+		///   gradient_accumulators: Parameter gradient_accumulators updated by the RMSProp optimization algorithm.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   ms: A tensor containing the embedding table ms to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   mom: A tensor containing the embedding table mom to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   gradient_accumulators: A tensor containing the embedding table gradient_accumulators to store with the
+		///   parameters from embedding updates using the RMSProp optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public (TFOutput parameters, TFOutput ms, TFOutput mom, TFOutput gradient_accumulators) RetrieveTPUEmbeddingRMSPropParametersGradAccumDebug (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingRMSPropParametersGradAccumDebug", MakeName ("RetrieveTPUEmbeddingRMSPropParametersGradAccumDebug", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			var ms = new TFOutput (op, _idx++);
+			var mom = new TFOutput (op, _idx++);
+			var gradient_accumulators = new TFOutput (op, _idx++);
+			return (parameters, ms, mom, gradient_accumulators);
+		}
+
+		/// <summary>
+		///   Retrieve embedding parameters for a single table.
+		/// </summary>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'RetrieveTPUEmbeddingStochasticGradientDescentParameters'.
+		/// </param>
+		/// <param name="table_id">
+		///   Optional argument
+		/// </param>
+		/// <param name="table_name">
+		///   Optional argument
+		/// </param>
+		/// <param name="num_shards">
+		/// </param>
+		/// <param name="shard_id">
+		/// </param>
+		/// <returns>
+		///   Parameter parameters updated by the stochastic gradient descent optimization algorithm.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   
+		///   An op that retrieves optimization parameters from embedding to host
+		///   memory. Must be preceded by a ConfigureTPUEmbeddingHost op that sets up
+		///   the correct embedding table configuration. For example, this op is
+		///   used to retrieve updated parameters before saving a checkpoint.
+		///   
+		///   parameters: A tensor containing the embedding table parameters to store with the
+		///   parameters from embedding updates using the stochastic gradient descent optimization algorithm.
+		///   table_name: Name of this table; must match a name in the
+		///   TPUEmbeddingConfiguration proto (overrides table_id).
+		///   num_shards: Number of shards into which the embedding tables are divided.
+		///   shard_id: Identifier of shard for this operation.
+		///   table_id: Index of this table in the EmbeddingLayerConfiguration proto
+		///   (deprecated).
+		///   
+		/// </remarks>
+		public TFOutput RetrieveTPUEmbeddingStochasticGradientDescentParameters (long num_shards, long shard_id, long? table_id = null, string table_name = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "RetrieveTPUEmbeddingStochasticGradientDescentParameters", MakeName ("RetrieveTPUEmbeddingStochasticGradientDescentParameters", operName));
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("num_shards", num_shards);
+			desc.SetAttr ("shard_id", shard_id);
+			if (table_id.HasValue)
+				desc.SetAttr ("table_id", table_id.Value);
+			
+			if (table_name != null)
+				desc.SetAttr ("table_name", table_name);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var parameters = new TFOutput (op, _idx++);
+			return parameters;
+		}
+
+		/// <summary>
 		///   Reverses specific dimensions of a tensor.
 		/// </summary>
 		/// <param name="tensor">
@@ -28042,6 +34868,121 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Perform batches of RPC requests.
+		/// </summary>
+		/// <param name="address">
+		///   <c>0-D</c> or <c>1-D</c>.  The address (i.e. host_name:port) of the RPC server.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>method</c> and <c>request</c>.
+		/// </param>
+		/// <param name="method">
+		///   <c>0-D</c> or <c>1-D</c>.  The method address on the RPC server.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>address</c> and <c>request</c>.
+		/// </param>
+		/// <param name="request">
+		///   <c>0-D</c> or <c>1-D</c>.  Serialized proto strings: the rpc request argument.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>address</c> and <c>method</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Rpc'.
+		/// </param>
+		/// <param name="protocol">
+		///   Optional argument
+		///   RPC protocol to use.  Empty string means use the default protocol.
+		///   Options include 'grpc'.
+		/// </param>
+		/// <param name="fail_fast">
+		///   Optional argument
+		///   <c>boolean</c>. If <c>true</c> (default), then failures to connect
+		///   (i.e., the server does not immediately respond) cause an RPC failure.
+		/// </param>
+		/// <param name="timeout_in_ms">
+		///   Optional argument
+		///   <c>int</c>. If <c>0</c> (default), then the kernel will run the RPC
+		///   request and only time out if the RPC deadline passes or the session times out.
+		///   If this value is greater than <c>0</c>, then the op will raise an exception if
+		///   the RPC takes longer than <c>timeout_in_ms</c>.
+		/// </param>
+		/// <returns>
+		///   Same shape as <c>request</c>. Serialized proto strings: the rpc responses.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op asynchronously performs either a single RPC request, or a batch
+		///   of requests.  RPC requests are defined by three main parameters:
+		///   
+		///   - <c>address</c> (the host+port or BNS address of the request)
+		///   - <c>method</c> (the RPC method name for the request)
+		///   - <c>request</c> (the serialized proto string, or vector of strings,
+		///   of the RPC request argument).
+		///   
+		///   For example, if you have an RPC service running on port localhost:2345,
+		///   and its interface is configured with the following proto declaration:
+		///   
+		///    <code>
+		///   service MyService {
+		///   rpc MyMethod(MyRequestProto) returns (MyResponseProto) {
+		///   }
+		///   };
+		///    </code>
+		///   
+		///   then call this op with arguments:
+		///   
+		///    <code>
+		///   address = "localhost:2345"
+		///   method = "MyService/MyMethod"
+		///    </code>
+		///   
+		///   The <c>request</c> tensor is a string tensor representing serialized <c>MyRequestProto</c>
+		///   strings; and the output string tensor <c>response</c> will have the same shape
+		///   and contain (upon successful completion) corresponding serialized
+		///   <c>MyResponseProto</c> strings.
+		///   
+		///   For example, to send a single, empty, <c>MyRequestProto</c>, call
+		///   this op with <c>request = ""</c>.  To send 5 **parallel** empty requests,
+		///   call this op with <c>request = ["", "", "", "", ""]</c>.
+		///   
+		///   More generally, one can create a batch of <c>MyRequestProto</c> serialized protos
+		///   from regular batched tensors using the <c>encode_proto</c> op, and convert
+		///   the response <c>MyResponseProto</c> serialized protos to batched tensors
+		///   using the <c>decode_proto</c> op.
+		///   
+		///   **NOTE** Working with serialized proto strings is faster than instantiating
+		///   actual proto objects in memory, so no performance degradation is expected
+		///   compared to writing custom kernels for this workflow.
+		///   
+		///   If the connection fails or the remote worker returns an error
+		///   status, the op reraises this exception locally.
+		///   
+		///   See the <c>TryRpc</c> op if you prefer to handle RPC failures manually in the graph.
+		/// </remarks>
+		public TFOutput Rpc (TFOutput address, TFOutput method, TFOutput request, string protocol = null, bool? fail_fast = null, long? timeout_in_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Rpc", MakeName ("Rpc", operName));
+			desc.AddInput (address);
+			desc.AddInput (method);
+			desc.AddInput (request);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (protocol != null)
+				desc.SetAttr ("protocol", protocol);
+			
+			if (fail_fast.HasValue)
+				desc.SetAttr ("fail_fast", fail_fast.Value);
+			
+			if (timeout_in_ms.HasValue)
+				desc.SetAttr ("timeout_in_ms", timeout_in_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var response = new TFOutput (op, _idx++);
+			return response;
+		}
+
+		/// <summary>
 		///   Computes reciprocal of square root of x element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -28137,7 +35078,7 @@ namespace TensorFlow {
 		/// <param name="area_range">
 		///   Optional argument
 		///   The cropped area of the image must contain a fraction of the
-		///   supplied image within in this range.
+		///   supplied image within this range.
 		/// </param>
 		/// <param name="max_attempts">
 		///   Optional argument
@@ -28275,7 +35216,7 @@ namespace TensorFlow {
 		/// <param name="area_range">
 		///   Optional argument
 		///   The cropped area of the image must contain a fraction of the
-		///   supplied image within in this range.
+		///   supplied image within this range.
 		/// </param>
 		/// <param name="max_attempts">
 		///   Optional argument
@@ -28591,7 +35532,7 @@ namespace TensorFlow {
 		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
 		///   the same location, their contributions add.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterAdd.png" alt&amp;gt;
@@ -28660,11 +35601,145 @@ namespace TensorFlow {
 		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
 		///   the same location, their contributions divide.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		/// </remarks>
 		public TFOutput ScatterDiv (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "ScatterDiv", MakeName ("ScatterDiv", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Reduces sparse updates into a variable reference using the <c>max</c> operation.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to reduce into <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterMax'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the update will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as <c>ref</c>.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] = max(ref[indices, ...], updates[...])
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = max(ref[indices[i], ...], updates[i, ...])
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = max(ref[indices[i, ..., j], ...], updates[i, ..., j, ...])
+		///   
+		///   This operation outputs <c>ref</c> after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions combine.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterAdd.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ScatterMax (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterMax", MakeName ("ScatterMax", operName));
+			desc.AddInput (reference);
+			desc.AddInput (indices);
+			desc.AddInput (updates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (use_locking.HasValue)
+				desc.SetAttr ("use_locking", use_locking.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_ref = new TFOutput (op, _idx++);
+			return output_ref;
+		}
+
+		/// <summary>
+		///   Reduces sparse updates into a variable reference using the <c>min</c> operation.
+		/// </summary>
+		/// <param name="reference">
+		///   Should be from a <c>Variable</c> node.
+		/// </param>
+		/// <param name="indices">
+		///   A tensor of indices into the first dimension of <c>ref</c>.
+		/// </param>
+		/// <param name="updates">
+		///   A tensor of updated values to reduce into <c>ref</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'ScatterMin'.
+		/// </param>
+		/// <param name="use_locking">
+		///   Optional argument
+		///   If True, the update will be protected by a lock;
+		///   otherwise the behavior is undefined, but may exhibit less contention.
+		/// </param>
+		/// <returns>
+		///   = Same as <c>ref</c>.  Returned as a convenience for operations that want
+		///   to use the updated values after the update is done.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation computes
+		///   
+		///   # Scalar indices
+		///   ref[indices, ...] = min(ref[indices, ...], updates[...])
+		///   
+		///   # Vector indices (for each i)
+		///   ref[indices[i], ...] = min(ref[indices[i], ...], updates[i, ...])
+		///   
+		///   # High rank indices (for each i, ..., j)
+		///   ref[indices[i, ..., j], ...] = min(ref[indices[i, ..., j], ...], updates[i, ..., j, ...])
+		///   
+		///   This operation outputs <c>ref</c> after the update is done.
+		///   This makes it easier to chain operations that need to use the reset value.
+		///   
+		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
+		///   the same location, their contributions combine.
+		///   
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
+		///   
+		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
+		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterAdd.png" alt&amp;gt;
+		///   &amp;lt;/div&amp;gt;
+		/// </remarks>
+		public TFOutput ScatterMin (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "ScatterMin", MakeName ("ScatterMin", operName));
 			desc.AddInput (reference);
 			desc.AddInput (indices);
 			desc.AddInput (updates);
@@ -28725,7 +35800,7 @@ namespace TensorFlow {
 		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
 		///   the same location, their contributions multiply.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		/// </remarks>
 		public TFOutput ScatterMul (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
@@ -28746,7 +35821,7 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Scatter <c>updates</c> into a new (initially zero) tensor according to <c>indices</c>.
+		///   Scatter <c>updates</c> into a new tensor according to <c>indices</c>.
 		/// </summary>
 		/// <param name="indices">
 		///   Index tensor.
@@ -28766,13 +35841,21 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Creates a new tensor by applying sparse <c>updates</c> to individual
-		///   values or slices within a zero tensor of the given <c>shape</c> according to
-		///   indices.  This operator is the inverse of the @{tf.gather_nd} operator which
-		///   extracts values or slices from a given tensor.
+		///   Creates a new tensor by applying sparse <c>updates</c> to individual values or
+		///   slices within a tensor (initially zero for numeric, empty for string) of
+		///   the given <c>shape</c> according to indices.  This operator is the inverse of the
+		///   <c>tf.gather_nd</c> operator which extracts values or slices from a given tensor.
+		///   
+		///   This operation is similar to tensor_scatter_add, except that the tensor is
+		///   zero-initialized. Calling <c>tf.scatter_nd(indices, values, shape)</c> is identical
+		///   to <c>tensor_scatter_add(tf.zeros(shape, values.dtype), indices, values)</c>
+		///   
+		///   If <c>indices</c> contains duplicates, then their updates are accumulated (summed).
 		///   
 		///   **WARNING**: The order in which updates are applied is nondeterministic, so the
-		///   output will be nondeterministic if <c>indices</c> contains duplicates.
+		///   output will be nondeterministic if <c>indices</c> contains duplicates -- because
+		///   of some numerical approximation issues, numbers summed in different order
+		///   may yield different results.
 		///   
 		///   <c>indices</c> is an integer tensor containing indices into a new tensor of shape
 		///   <c>shape</c>.  The last dimension of <c>indices</c> can be at most the rank of <c>shape</c>:
@@ -28890,7 +35973,7 @@ namespace TensorFlow {
 		///   <c>ref</c> is a <c>Tensor</c> with rank <c>P</c> and <c>indices</c> is a <c>Tensor</c> of rank <c>Q</c>.
 		///   
 		///   <c>indices</c> must be integer tensor, containing indices into <c>ref</c>.
-		///   It must be shape <c>[d_0, ..., d_{Q-2}, K]</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
+		///   It must be shape <c>\\([d_0, ..., d_{Q-2}, K]\\)</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
 		///   
 		///   The innermost dimension of <c>indices</c> (with length <c>K</c>) corresponds to
 		///   indices into elements (if <c>K = P</c>) or slices (if <c>K &amp;lt; P</c>) along the <c>K</c>th
@@ -28898,9 +35981,7 @@ namespace TensorFlow {
 		///   
 		///   <c>updates</c> is <c>Tensor</c> of rank <c>Q-1+P-K</c> with shape:
 		///   
-		///    <code>
-		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///    </code>
+		///   $$[d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].$$
 		///   
 		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
 		///   elements. In Python, that addition would look like this:
@@ -28916,7 +35997,7 @@ namespace TensorFlow {
 		///   
 		///   [1, 13, 3, 14, 14, 6, 7, 20]
 		///   
-		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to
 		///   slices.
 		/// </remarks>
 		public TFOutput ScatterNdAdd (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
@@ -28968,7 +36049,7 @@ namespace TensorFlow {
 		///   <c>input</c> is a <c>Tensor</c> with rank <c>P</c> and <c>indices</c> is a <c>Tensor</c> of rank <c>Q</c>.
 		///   
 		///   <c>indices</c> must be integer tensor, containing indices into <c>input</c>.
-		///   It must be shape <c>[d_0, ..., d_{Q-2}, K]</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
+		///   It must be shape \\([d_0, ..., d_{Q-2}, K]\\) where <c>0 &amp;lt; K &amp;lt;= P</c>.
 		///   
 		///   The innermost dimension of <c>indices</c> (with length <c>K</c>) corresponds to
 		///   indices into elements (if <c>K = P</c>) or <c>(P-K)</c>-dimensional slices
@@ -28976,9 +36057,7 @@ namespace TensorFlow {
 		///   
 		///   <c>updates</c> is <c>Tensor</c> of rank <c>Q-1+P-K</c> with shape:
 		///   
-		///    <code>
-		///   [d_0, ..., d_{Q-2}, input.shape[K], ..., input.shape[P-1]].
-		///    </code>
+		///   $$[d_0, ..., d_{Q-2}, input.shape[K], ..., input.shape[P-1]].$$
 		///   
 		///   For example, say we want to add 4 scattered elements to a rank-1 tensor to 8
 		///   elements. In Python, that addition would look like this:
@@ -28994,7 +36073,7 @@ namespace TensorFlow {
 		///   
 		///   [1, 13, 3, 14, 14, 6, 7, 20]
 		///   
-		///   See @{tf.scatter_nd} for more details about how to make updates to slices.
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to slices.
 		/// </remarks>
 		public TFOutput ScatterNdNonAliasingAdd (TFOutput input, TFOutput indices, TFOutput updates, string operName = null)
 		{
@@ -29045,7 +36124,7 @@ namespace TensorFlow {
 		///   <c>ref</c> is a <c>Tensor</c> with rank <c>P</c> and <c>indices</c> is a <c>Tensor</c> of rank <c>Q</c>.
 		///   
 		///   <c>indices</c> must be integer tensor, containing indices into <c>ref</c>.
-		///   It must be shape <c>[d_0, ..., d_{Q-2}, K]</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
+		///   It must be shape \\([d_0, ..., d_{Q-2}, K]\\) where <c>0 &amp;lt; K &amp;lt;= P</c>.
 		///   
 		///   The innermost dimension of <c>indices</c> (with length <c>K</c>) corresponds to
 		///   indices into elements (if <c>K = P</c>) or slices (if <c>K &amp;lt; P</c>) along the <c>K</c>th
@@ -29053,9 +36132,7 @@ namespace TensorFlow {
 		///   
 		///   <c>updates</c> is <c>Tensor</c> of rank <c>Q-1+P-K</c> with shape:
 		///   
-		///    <code>
-		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///    </code>
+		///   $$[d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].$$
 		///   
 		///   For example, say we want to subtract 4 scattered elements from a rank-1 tensor
 		///   with 8 elements. In Python, that subtraction would look like this:
@@ -29071,7 +36148,7 @@ namespace TensorFlow {
 		///   
 		///   [1, -9, 3, -6, -4, 6, 7, -4]
 		///   
-		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to
 		///   slices.
 		/// </remarks>
 		public TFOutput ScatterNdSub (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
@@ -29126,7 +36203,7 @@ namespace TensorFlow {
 		///   <c>ref</c> is a <c>Tensor</c> with rank <c>P</c> and <c>indices</c> is a <c>Tensor</c> of rank <c>Q</c>.
 		///   
 		///   <c>indices</c> must be integer tensor, containing indices into <c>ref</c>.
-		///   It must be shape <c>[d_0, ..., d_{Q-2}, K]</c> where <c>0 &amp;lt; K &amp;lt;= P</c>.
+		///   It must be shape \\([d_0, ..., d_{Q-2}, K]\\) where <c>0 &amp;lt; K &amp;lt;= P</c>.
 		///   
 		///   The innermost dimension of <c>indices</c> (with length <c>K</c>) corresponds to
 		///   indices into elements (if <c>K = P</c>) or slices (if <c>K &amp;lt; P</c>) along the <c>K</c>th
@@ -29134,9 +36211,7 @@ namespace TensorFlow {
 		///   
 		///   <c>updates</c> is <c>Tensor</c> of rank <c>Q-1+P-K</c> with shape:
 		///   
-		///    <code>
-		///   [d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].
-		///    </code>
+		///   $$[d_0, ..., d_{Q-2}, ref.shape[K], ..., ref.shape[P-1]].$$
 		///   
 		///   For example, say we want to update 4 scattered elements to a rank-1 tensor to
 		///   8 elements. In Python, that update would look like this:
@@ -29154,8 +36229,10 @@ namespace TensorFlow {
 		///   
 		///   [1, 11, 3, 10, 9, 6, 7, 12]
 		///   
-		///   See @{tf.scatter_nd} for more details about how to make updates to
+		///   See <c>tf.scatter_nd</c> for more details about how to make updates to
 		///   slices.
+		///   
+		///   See also <c>tf.scatter_update</c> and <c>tf.batch_scatter_update</c>.
 		/// </remarks>
 		public TFOutput ScatterNdUpdate (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
@@ -29218,7 +36295,7 @@ namespace TensorFlow {
 		///   Duplicate entries are handled correctly: if multiple <c>indices</c> reference
 		///   the same location, their (negated) contributions add.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterSub.png" alt&amp;gt;
@@ -29288,11 +36365,13 @@ namespace TensorFlow {
 		///   duplicate entries in <c>indices</c>, the order at which the updates happen
 		///   for each value is undefined.
 		///   
-		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c>.
+		///   Requires <c>updates.shape = indices.shape + ref.shape[1:]</c> or <c>updates.shape = []</c>.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/ScatterUpdate.png" alt&amp;gt;
 		///   &amp;lt;/div&amp;gt;
+		///   
+		///   See also <c>tf.batch_scatter_update</c> and <c>tf.scatter_nd_update</c>.
 		/// </remarks>
 		public TFOutput ScatterUpdate (TFOutput reference, TFOutput indices, TFOutput updates, bool? use_locking = null, string operName = null)
 		{
@@ -29384,7 +36463,7 @@ namespace TensorFlow {
 		/// </param>
 		/// <param name="adaptative">
 		///   Optional argument
-		///   Whether to use Adapative SDCA for the inner loop.
+		///   Whether to use Adaptive SDCA for the inner loop.
 		/// </param>
 		/// <param name="loss_type">
 		///   Type of the primal loss. Currently SdcaSolver supports logistic,
@@ -29510,7 +36589,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   A 1-D tensor whose size is equal to the size of <c>data</c>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -29522,8 +36601,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
 		///   \\(output_i = \max_j(data_j)\\) where <c>max</c> is over <c>j</c> such
@@ -29555,7 +36635,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   A 1-D tensor whose size is equal to the size of <c>data</c>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -29567,8 +36647,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
 		///   \\(output_i = \frac{\sum_j data_j}{N}\\) where <c>mean</c> is
@@ -29601,7 +36682,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   A 1-D tensor whose size is equal to the size of <c>data</c>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -29613,8 +36694,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
 		///   \\(output_i = \min_j(data_j)\\) where <c>min</c> is over <c>j</c> such
@@ -29646,7 +36728,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   A 1-D tensor whose size is equal to the size of <c>data</c>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -29658,8 +36740,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
 		///   \\(output_i = \prod_j data_j\\) where the product is over <c>j</c> such
@@ -29691,7 +36774,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
+		///   A 1-D tensor whose size is equal to the size of <c>data</c>'s
 		///   first dimension.  Values should be sorted and can be repeated.
 		/// </param>
 		/// <param name="operName">
@@ -29703,8 +36786,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
 		///   \\(output_i = \sum_j data_j\\) where sum is over <c>j</c> such
@@ -29824,7 +36908,8 @@ namespace TensorFlow {
 		///   SelfAdjointEig.
 		///   
 		///   The result is a [..., M+1, M] matrix with [..., 0,:] containing the
-		///   eigenvalues, and subsequent [...,1:, :] containing the eigenvectors.
+		///   eigenvalues, and subsequent [...,1:, :] containing the eigenvectors. The eigenvalues
+		///   are sorted in non-decreasing order.
 		/// </remarks>
 		public TFOutput SelfAdjointEig (TFOutput input, string operName = null)
 		{
@@ -29861,7 +36946,8 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   Computes the eigenvalues and (optionally) eigenvectors of each inner matrix in
-		///   <c>input</c> such that <c>input[..., :, :] = v[..., :, :] * diag(e[..., :])</c>.
+		///   <c>input</c> such that <c>input[..., :, :] = v[..., :, :] * diag(e[..., :])</c>. The eigenvalues
+		///   are sorted in non-decreasing order.
 		///   
 		///    <code>
 		///   # a is a tensor.
@@ -29901,6 +36987,10 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   if &amp;lt; 0, <c>scale * features</c> otherwise.
+		///   
+		///   To be used together with
+		///   <c>initializer = tf.variance_scaling_initializer(factor=1.0, mode='FAN_IN')</c>.
+		///   For correct dropout, use <c>tf.contrib.nn.alpha_dropout</c>.
 		///   
 		///   See [Self-Normalizing Neural Networks](https://arxiv.org/abs/1706.02515)
 		/// </remarks>
@@ -29946,6 +37036,48 @@ namespace TensorFlow {
 			int _idx = 0;
 			var backprops = new TFOutput (op, _idx++);
 			return backprops;
+		}
+
+		/// <summary>
+		///   An op that performs gradient updates of embedding tables.
+		/// </summary>
+		/// <param name="inputs">
+		///   A TensorList of gradients with which to update embedding tables.
+		///   It contains one tensor per embedding table in the model.
+		/// </param>
+		/// <param name="learning_rates">
+		///   A list of float32 scalars, one for each embedding table,
+		///   containing the learning rates for each table when dynamic learning rate is
+		///   enabled through the OptimizationParameters in TPUEmbeddingConfiguration.
+		///   When the learning rate is constant, the list should be empty.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SendTPUEmbeddingGradients'.
+		/// </param>
+		/// <param name="config">
+		///   Serialized TPUEmbeddingConfiguration proto.
+		/// </param>
+		/// <returns>
+		///   Returns the description of the operation
+		/// </returns>
+		/// <remarks>
+		///   The TensorList argument has the same length and shapes as the return value of
+		///   TPUEmbeddingReceiveActivations, but contains gradients of the model's loss
+		///   with respect to the embedding activations. The embedding tables are updated
+		///   from these gradients via the optimizer specified in the configuration given
+		///   to tpu.initialize_system.
+		/// </remarks>
+		public TFOperation SendTPUEmbeddingGradients (TFOutput[] inputs, TFOutput[] learning_rates, string config, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SendTPUEmbeddingGradients", MakeName ("SendTPUEmbeddingGradients", operName));
+			desc.AddInputs (inputs);
+			desc.AddInputs (learning_rates);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("config", config);
+			var op = desc.FinishOperation ();
+			return op;
 		}
 
 		/// <summary>
@@ -30774,7 +37906,7 @@ namespace TensorFlow {
 		/// <remarks>
 		///   For each batch <c>i</c> and class <c>j</c> we have
 		///   
-		///   softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))
+		///   $$softmax[i, j] = exp(logits[i, j]) / sum_j(exp(logits[i, j]))$$
 		/// </remarks>
 		public TFOutput Softmax (TFOutput logits, string operName = null)
 		{
@@ -31648,8 +38780,8 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   That is for rows we have grad for, we update var and accum as follows:
-		///   accum += grad * grad
-		///   var -= lr * grad * (1 / sqrt(accum))
+		///   $$accum += grad * grad$$
+		///   $$var -= lr * grad * (1 / sqrt(accum))$$
 		/// </remarks>
 		public TFOutput SparseApplyAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, bool? use_locking = null, bool? update_slots = null, string operName = null)
 		{
@@ -31799,9 +38931,9 @@ namespace TensorFlow {
 		///   mean_grad = decay * mean_grad + (1-decay) * gradient
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon - mean_grad ** 2)
 		///   
-		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-		///   var &amp;lt;- var - mom
+		///   $$ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad$$
+		///   $$mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)$$
+		///   $$var &amp;lt;- var - mom$$
 		/// </remarks>
 		public TFOutput SparseApplyCenteredRMSProp (TFOutput var, TFOutput mg, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -31873,11 +39005,11 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   That is for rows we have grad for, we update var, accum and linear as follows:
-		///   accum_new = accum + grad * grad
-		///   linear += grad + (accum_new^(-lr_power) - accum^(-lr_power)) / lr * var
-		///   quadratic = 1.0 / (accum_new^(lr_power) * lr) + 2 * l2
-		///   var = (sign(linear) * l1 - linear) / quadratic if |linear| &amp;gt; l1 else 0.0
-		///   accum = accum_new
+		///   $$accum_new = accum + grad * grad$$
+		///   $$linear += grad + (accum_{new}^{-lr_{power}} - accum^{-lr_{power}} / lr * var$$
+		///   $$quadratic = 1.0 / (accum_{new}^{lr_{power}} * lr) + 2 * l2$$
+		///   $$var = (sign(linear) * l1 - linear) / quadratic\ if\ |linear| &amp;gt; l1\ else\ 0.0$$
+		///   $$accum = accum_{new}$$
 		/// </remarks>
 		public TFOutput SparseApplyFtrl (TFOutput var, TFOutput accum, TFOutput linear, TFOutput grad, TFOutput indices, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput lr_power, bool? use_locking = null, string operName = null)
 		{
@@ -32028,8 +39160,8 @@ namespace TensorFlow {
 		///   
 		///   That is for rows we have grad for, we update var and accum as follows:
 		///   
-		///   accum = accum * momentum + grad
-		///   var -= lr * accum
+		///   $$accum = accum * momentum + grad$$
+		///   $$var -= lr * accum$$
 		/// </remarks>
 		public TFOutput SparseApplyMomentum (TFOutput var, TFOutput accum, TFOutput lr, TFOutput grad, TFOutput indices, TFOutput momentum, bool? use_locking = null, bool? use_nesterov = null, string operName = null)
 		{
@@ -32093,10 +39225,10 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   That is for rows we have grad for, we update var and accum as follows:
-		///   accum += grad * grad
-		///   prox_v = var
-		///   prox_v -= lr * grad * (1 / sqrt(accum))
-		///   var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}
+		///   $$accum += grad * grad$$
+		///   $$prox_v = var$$
+		///   $$prox_v -= lr * grad * (1 / sqrt(accum))$$
+		///   $$var = sign(prox_v)/(1+lr*l2) * max{|prox_v|-lr*l1,0}$$
 		/// </remarks>
 		public TFOutput SparseApplyProximalAdagrad (TFOutput var, TFOutput accum, TFOutput lr, TFOutput l1, TFOutput l2, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -32155,8 +39287,8 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   That is for rows we have grad for, we update var as follows:
-		///   prox_v = var - alpha * grad
-		///   var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}
+		///   $$prox_v = var - alpha * grad$$
+		///   $$var = sign(prox_v)/(1+alpha*l2) * max{|prox_v|-alpha*l1,0}$$
 		/// </remarks>
 		public TFOutput SparseApplyProximalGradientDescent (TFOutput var, TFOutput alpha, TFOutput l1, TFOutput l2, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -32229,9 +39361,9 @@ namespace TensorFlow {
 		///   mean_square = decay * mean_square + (1-decay) * gradient ** 2
 		///   Delta = learning_rate * gradient / sqrt(mean_square + epsilon)
 		///   
-		///   ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad
-		///   mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)
-		///   var &amp;lt;- var - mom
+		///   $$ms &amp;lt;- rho * ms_{t-1} + (1-rho) * grad * grad$$
+		///   $$mom &amp;lt;- momentum * mom_{t-1} + lr * grad / sqrt(ms + epsilon)$$
+		///   $$var &amp;lt;- var - mom$$
 		/// </remarks>
 		public TFOutput SparseApplyRMSProp (TFOutput var, TFOutput ms, TFOutput mom, TFOutput lr, TFOutput rho, TFOutput momentum, TFOutput epsilon, TFOutput grad, TFOutput indices, bool? use_locking = null, string operName = null)
 		{
@@ -32360,6 +39492,9 @@ namespace TensorFlow {
 		///   If non-empty, this accumulator will be shared under the given name
 		///   across multiple sessions.
 		/// </param>
+		/// <param name="reduction_type">
+		///   Optional argument
+		/// </param>
 		/// <param name="dtype">
 		///   The type of the value being accumulated.
 		/// </param>
@@ -32378,7 +39513,7 @@ namespace TensorFlow {
 		///   resets the aggregate to 0, and increments the global_step recorded by
 		///   the accumulator.
 		/// </remarks>
-		public TFOutput SparseConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string operName = null)
+		public TFOutput SparseConditionalAccumulator (TFDataType dtype, TFShape shape, string container = null, string shared_name = null, string reduction_type = null, string operName = null)
 		{
 			var desc = new TFOperationDesc (this, "SparseConditionalAccumulator", MakeName ("SparseConditionalAccumulator", operName));
 			foreach ( TFOperation control in CurrentDependencies )
@@ -32391,6 +39526,9 @@ namespace TensorFlow {
 			
 			if (shared_name != null)
 				desc.SetAttr ("shared_name", shared_name);
+			
+			if (reduction_type != null)
+				desc.SetAttr ("reduction_type", reduction_type);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -32796,9 +39934,11 @@ namespace TensorFlow {
 		/// </returns>
 		/// <remarks>
 		///   The inputs must be two-dimensional matrices and the inner dimension of "a" must
-		///   match the outer dimension of "b". This op is optimized for the case where at
-		///   least one of "a" or "b" is sparse. The breakeven for using this versus a dense
-		///   matrix multiply on one platform was 30% zero values in the sparse matrix.
+		///   match the outer dimension of "b". Both "a" and "b" must be <c>Tensor</c>s not
+		///   <c>SparseTensor</c>s.  This op is optimized for the case where at least one of "a" or
+		///   "b" is sparse, in the sense that they have a large proportion of zero values.
+		///   The breakeven for using this versus a dense matrix multiply on one platform was
+		///   30% zero values in the sparse matrix.
 		///   
 		///   The gradient computation of this operation will only take advantage of sparsity
 		///   in the input gradient when that gradient comes from a Relu.
@@ -33206,8 +40346,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Like <c>SegmentMean</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
 		///   dimension, selecting a subset of dimension 0, specified by <c>indices</c>.
@@ -33294,8 +40435,9 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentMean</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		/// </remarks>
 		public TFOutput SparseSegmentMeanWithNumSegments (TFOutput data, TFOutput indices, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -33335,8 +40477,9 @@ namespace TensorFlow {
 		/// <remarks>
 		///   N is the size of the segment being reduced.
 		///   
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		/// </remarks>
 		public TFOutput SparseSegmentSqrtN (TFOutput data, TFOutput indices, TFOutput segment_ids, string operName = null)
 		{
@@ -33422,8 +40565,9 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentSqrtN</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		/// </remarks>
 		public TFOutput SparseSegmentSqrtNWithNumSegments (TFOutput data, TFOutput indices, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -33461,8 +40605,9 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Like <c>SegmentSum</c>, but <c>segment_ids</c> can have rank less than <c>data</c>'s first
 		///   dimension, selecting a subset of dimension 0, specified by <c>indices</c>.
@@ -33531,8 +40676,9 @@ namespace TensorFlow {
 		///   Like <c>SparseSegmentSum</c>, but allows missing ids in <c>segment_ids</c>. If an id is
 		///   misisng, the <c>output</c> tensor at that position will be zeroed.
 		///   
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   For example:
 		///   
@@ -33637,6 +40783,50 @@ namespace TensorFlow {
 			var output_values = new TFOutput (op, _idx++);
 			var output_shape = new TFOutput (op, _idx++);
 			return (output_indices, output_values, output_shape);
+		}
+
+		/// <summary>
+		///   The gradient operator for the SparseSlice op.
+		/// </summary>
+		/// <param name="backprop_val_grad">
+		///   1-D. The gradient with respect to
+		///   the non-empty values of the sliced <c>SparseTensor</c>.
+		/// </param>
+		/// <param name="input_indices">
+		///   2-D.  The <c>indices</c> of the input <c>SparseTensor</c>.
+		/// </param>
+		/// <param name="input_start">
+		///   1-D. tensor represents the start of the slice.
+		/// </param>
+		/// <param name="output_indices">
+		///   2-D.  The <c>indices</c> of the sliced <c>SparseTensor</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SparseSliceGrad'.
+		/// </param>
+		/// <returns>
+		///   1-D. The gradient with respect to the non-empty values of input <c>SparseTensor</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This op takes in the upstream gradient w.r.t. non-empty values of
+		///   the sliced <c>SparseTensor</c>, and outputs the gradients w.r.t.
+		///   the non-empty values of input <c>SparseTensor</c>.
+		/// </remarks>
+		public TFOutput SparseSliceGrad (TFOutput backprop_val_grad, TFOutput input_indices, TFOutput input_start, TFOutput output_indices, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "SparseSliceGrad", MakeName ("SparseSliceGrad", operName));
+			desc.AddInput (backprop_val_grad);
+			desc.AddInput (input_indices);
+			desc.AddInput (input_start);
+			desc.AddInput (output_indices);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var val_grad = new TFOutput (op, _idx++);
+			return val_grad;
 		}
 
 		/// <summary>
@@ -34313,45 +41503,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a dataset that executes a SQL query and emits rows of the result set.
-		/// </summary>
-		/// <param name="driver_name">
-		///   The database type. Currently, the only supported type is 'sqlite'.
-		/// </param>
-		/// <param name="data_source_name">
-		///   A connection string to connect to the database.
-		/// </param>
-		/// <param name="query">
-		///   A SQL query to execute.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'SqlDataset'.
-		/// </param>
-		/// <param name="output_types">
-		/// </param>
-		/// <param name="output_shapes">
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		public TFOutput SqlDataset (TFOutput driver_name, TFOutput data_source_name, TFOutput query, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "SqlDataset", MakeName ("SqlDataset", operName));
-			desc.AddInput (driver_name);
-			desc.AddInput (data_source_name);
-			desc.AddInput (query);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttrType ("output_types", output_types);
-			desc.SetAttrShape ("output_shapes", output_shapes);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
-		}
-
-		/// <summary>
 		///   Computes square root of x element-wise.
 		/// </summary>
 		/// <param name="x">
@@ -34979,6 +42130,48 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Draws samples from a multinomial distribution.
+		/// </summary>
+		/// <param name="logits">
+		///   2-D Tensor with shape <c>[batch_size, num_classes]</c>.  Each slice <c>[i, :]</c>
+		///   represents the unnormalized log probabilities for all classes.
+		/// </param>
+		/// <param name="num_samples">
+		///   0-D.  Number of independent samples to draw for each row slice.
+		/// </param>
+		/// <param name="seed">
+		///   2 seeds (shape [2]).
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StatelessMultinomial'.
+		/// </param>
+		/// <param name="output_dtype">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   2-D Tensor with shape <c>[batch_size, num_samples]</c>.  Each slice <c>[i, :]</c>
+		///   contains the drawn class labels with range <c>[0, num_classes)</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StatelessMultinomial (TFOutput logits, TFOutput num_samples, TFOutput seed, TFDataType? output_dtype = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StatelessMultinomial", MakeName ("StatelessMultinomial", operName));
+			desc.AddInput (logits);
+			desc.AddInput (num_samples);
+			desc.AddInput (seed);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (output_dtype.HasValue)
+				desc.SetAttrType ("output_dtype", output_dtype.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Outputs deterministic pseudorandom values from a normal distribution.
 		/// </summary>
 		/// <param name="shape">
@@ -35108,60 +42301,86 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   Creates a statistics manager resource.
+		///   Check if the input matches the regex pattern.
 		/// </summary>
+		/// <param name="input">
+		///   A string tensor of the text to be processed.
+		/// </param>
 		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StatsAggregatorHandle'.
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StaticRegexFullMatch'.
 		/// </param>
-		/// <param name="container">
-		///   Optional argument
-		/// </param>
-		/// <param name="shared_name">
-		///   Optional argument
+		/// <param name="pattern">
+		///   The regular expression to match the input.
 		/// </param>
 		/// <returns>
+		///   A bool tensor with the same shape as <c>input</c>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput StatsAggregatorHandle (string container = null, string shared_name = null, string operName = null)
+		/// <remarks>
+		///   The input is a string tensor of any shape. The pattern is the
+		///   regular expression to be matched with every element of the input tensor.
+		///   The boolean values (True or False) of the output tensor indicate
+		///   if the input matches the regex pattern provided.
+		///   
+		///   The pattern follows the re2 syntax (https://github.com/google/re2/wiki/Syntax)
+		/// </remarks>
+		public TFOutput StaticRegexFullMatch (TFOutput input, string pattern, string operName = null)
 		{
-			var desc = new TFOperationDesc (this, "StatsAggregatorHandle", MakeName ("StatsAggregatorHandle", operName));
+			var desc = new TFOperationDesc (this, "StaticRegexFullMatch", MakeName ("StaticRegexFullMatch", operName));
+			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
-			if (container != null)
-				desc.SetAttr ("container", container);
-			
-			if (shared_name != null)
-				desc.SetAttr ("shared_name", shared_name);
-			
+			desc.SetAttr ("pattern", pattern);
 			var op = desc.FinishOperation ();
 			int _idx = 0;
-			var handle = new TFOutput (op, _idx++);
-			return handle;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
-		///   Produces a summary of any statistics recorded by the given statistics manager.
+		///   Replaces the match of pattern in input with rewrite.
 		/// </summary>
-		/// <param name="iterator">
+		/// <param name="input">
+		///   The text to be processed.
 		/// </param>
 		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StatsAggregatorSummary'.
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StaticRegexReplace'.
+		/// </param>
+		/// <param name="replace_global">
+		///   Optional argument
+		///   If True, the replacement is global, otherwise the replacement
+		///   is done only on the first match.
+		/// </param>
+		/// <param name="pattern">
+		///   The regular expression to match the input.
+		/// </param>
+		/// <param name="rewrite">
+		///   The rewrite to be applied to the matched expresion.
 		/// </param>
 		/// <returns>
+		///   The text after applying pattern and rewrite.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
-		public TFOutput StatsAggregatorSummary (TFOutput iterator, string operName = null)
+		/// <remarks>
+		///   It follows the re2 syntax (https://github.com/google/re2/wiki/Syntax)
+		/// </remarks>
+		public TFOutput StaticRegexReplace (TFOutput input, string pattern, string rewrite, bool? replace_global = null, string operName = null)
 		{
-			var desc = new TFOperationDesc (this, "StatsAggregatorSummary", MakeName ("StatsAggregatorSummary", operName));
-			desc.AddInput (iterator);
+			var desc = new TFOperationDesc (this, "StaticRegexReplace", MakeName ("StaticRegexReplace", operName));
+			desc.AddInput (input);
 			foreach ( TFOperation control in CurrentDependencies )
 				desc.AddControlInput (control);
 			
+			desc.SetAttr ("pattern", pattern);
+			desc.SetAttr ("rewrite", rewrite);
+			if (replace_global.HasValue)
+				desc.SetAttr ("replace_global", replace_global.Value);
+			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
-			var summary = new TFOutput (op, _idx++);
-			return summary;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -35239,8 +42458,8 @@ namespace TensorFlow {
 		///   Optional argument
 		///   a bitmask where a bit i being 1 means to ignore the begin
 		///   value and instead use the largest interval possible. At runtime
-		///   begin[i] will be replaced with <c>[0, n-1) if </c>stride[i] &amp;gt; 0<c> or
-		///   </c>[-1, n-1]<c> if </c>stride[i] &amp;lt; 0<c>
+		///   begin[i] will be replaced with <c>[0, n-1)</c> if <c>stride[i] &amp;gt; 0</c> or
+		///   <c>[-1, n-1]</c> if <c>stride[i] &amp;lt; 0</c>
 		/// </param>
 		/// <param name="end_mask">
 		///   Optional argument
@@ -35546,6 +42765,56 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Formats a string template using a list of tensors.
+		/// </summary>
+		/// <param name="inputs">
+		///   The list of tensors to format into the placeholder string.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StringFormat'.
+		/// </param>
+		/// <param name="template">
+		///   Optional argument
+		///   A string, the template to format tensor summaries into.
+		/// </param>
+		/// <param name="placeholder">
+		///   Optional argument
+		///   A string, at each placeholder in the template a subsequent tensor summary will be inserted.
+		/// </param>
+		/// <param name="summarize">
+		///   Optional argument
+		///   When formatting the tensor summaries print the first and last summarize entries of each tensor dimension.
+		/// </param>
+		/// <returns>
+		///   = The resulting string scalar.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Formats a string template using a list of tensors, pretty-printing tensor summaries.
+		/// </remarks>
+		public TFOutput StringFormat (TFOutput[] inputs, string template = null, string placeholder = null, long? summarize = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StringFormat", MakeName ("StringFormat", operName));
+			desc.AddInputs (inputs);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (template != null)
+				desc.SetAttr ("template", template);
+			
+			if (placeholder != null)
+				desc.SetAttr ("placeholder", placeholder);
+			
+			if (summarize.HasValue)
+				desc.SetAttr ("summarize", summarize.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
 		///   Joins the strings in the given list of string tensors into one tensor;
 		/// </summary>
 		/// <param name="inputs">
@@ -35575,6 +42844,47 @@ namespace TensorFlow {
 			
 			if (separator != null)
 				desc.SetAttr ("separator", separator);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
+		}
+
+		/// <summary>
+		///   String lengths of <c>input</c>.
+		/// </summary>
+		/// <param name="input">
+		///   The string for which to compute the length.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StringLength'.
+		/// </param>
+		/// <param name="unit">
+		///   Optional argument
+		///   The unit that is counted to compute string length.  One of: <c>"BYTE"</c> (for
+		///   the number of bytes in each string) or <c>"UTF8_CHAR"</c> (for the number of UTF-8
+		///   encoded Unicode code points in each string).  Results are undefined
+		///   if <c>unit=UTF8_CHAR</c> and the <c>input</c> strings do not contain structurally
+		///   valid UTF-8.
+		/// </param>
+		/// <returns>
+		///   Integer tensor that has the same shape as <c>input</c>. The output contains the
+		///   element-wise string lengths of <c>input</c>.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Computes the length of each string given in the input tensor.
+		/// </remarks>
+		public TFOutput StringLength (TFOutput input, string unit = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StringLength", MakeName ("StringLength", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (unit != null)
+				desc.SetAttr ("unit", unit);
 			
 			var op = desc.FinishOperation ();
 			int _idx = 0;
@@ -35646,6 +42956,100 @@ namespace TensorFlow {
 			var values = new TFOutput (op, _idx++);
 			var shape = new TFOutput (op, _idx++);
 			return (indices, values, shape);
+		}
+
+		/// <summary>
+		///   Split elements of <c>source</c> based on <c>sep</c> into a <c>SparseTensor</c>.
+		/// </summary>
+		/// <param name="input">
+		///   <c>1-D</c> string <c>Tensor</c>, the strings to split.
+		/// </param>
+		/// <param name="sep">
+		///   <c>0-D</c> string <c>Tensor</c>, the delimiter character.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StringSplitV2'.
+		/// </param>
+		/// <param name="maxsplit">
+		///   Optional argument
+		///   An <c>int</c>. If <c>maxsplit &amp;gt; 0</c>, limit of the split of the result.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   indices:
+		///   values:
+		///   shape:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Let N be the size of source (typically N will be the batch size). Split each
+		///   element of <c>source</c> based on <c>sep</c> and return a <c>SparseTensor</c>
+		///   containing the split tokens. Empty tokens are ignored.
+		///   
+		///   For example, N = 2, source[0] is 'hello world' and source[1] is 'a b c',
+		///   then the output will be
+		///    <code>
+		///   st.indices = [0, 0;
+		///   0, 1;
+		///   1, 0;
+		///   1, 1;
+		///   1, 2]
+		///   st.shape = [2, 3]
+		///   st.values = ['hello', 'world', 'a', 'b', 'c']
+		///    </code>
+		///   
+		///   If <c>sep</c> is given, consecutive delimiters are not grouped together and are
+		///   deemed to delimit empty strings. For example, source of <c>"1&amp;lt;&amp;gt;2&amp;lt;&amp;gt;&amp;lt;&amp;gt;3"</c> and
+		///   sep of <c>"&amp;lt;&amp;gt;"</c> returns <c>["1", "2", "", "3"]</c>. If <c>sep</c> is None or an empty
+		///   string, consecutive whitespace are regarded as a single separator, and the
+		///   result will contain no empty strings at the startor end if the string has
+		///   leading or trailing whitespace.
+		///   
+		///   Note that the above mentioned behavior matches python's str.split.
+		/// </remarks>
+		public (TFOutput indices, TFOutput values, TFOutput shape) StringSplitV2 (TFOutput input, TFOutput sep, long? maxsplit = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StringSplitV2", MakeName ("StringSplitV2", operName));
+			desc.AddInput (input);
+			desc.AddInput (sep);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (maxsplit.HasValue)
+				desc.SetAttr ("maxsplit", maxsplit.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var indices = new TFOutput (op, _idx++);
+			var values = new TFOutput (op, _idx++);
+			var shape = new TFOutput (op, _idx++);
+			return (indices, values, shape);
+		}
+
+		/// <summary>
+		///   Strip leading and trailing whitespaces from the Tensor.
+		/// </summary>
+		/// <param name="input">
+		///   A string <c>Tensor</c> of any shape.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'StringStrip'.
+		/// </param>
+		/// <returns>
+		///   A string <c>Tensor</c> of the same shape as the input.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput StringStrip (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "StringStrip", MakeName ("StringStrip", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -35835,115 +43239,6 @@ namespace TensorFlow {
 			int _idx = 0;
 			var z = new TFOutput (op, _idx++);
 			return z;
-		}
-
-		/// <summary>
-		///   Return substrings from <c>Tensor</c> of strings.
-		/// </summary>
-		/// <param name="input">
-		///   Tensor of strings
-		/// </param>
-		/// <param name="pos">
-		///   Scalar defining the position of first character in each substring
-		/// </param>
-		/// <param name="len">
-		///   Scalar defining the number of characters to include in each substring
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Substr'.
-		/// </param>
-		/// <returns>
-		///   Tensor of substrings
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   For each string in the input <c>Tensor</c>, creates a substring starting at index
-		///   <c>pos</c> with a total length of <c>len</c>.
-		///   
-		///   If <c>len</c> defines a substring that would extend beyond the length of the input
-		///   string, then as many characters as possible are used.
-		///   
-		///   If <c>pos</c> is negative or specifies a character index larger than any of the input
-		///   strings, then an <c>InvalidArgumentError</c> is thrown.
-		///   
-		///   <c>pos</c> and <c>len</c> must have the same shape, otherwise a <c>ValueError</c> is thrown on
-		///   Op creation.
-		///   
-		///   *NOTE*: <c>Substr</c> supports broadcasting up to two dimensions. More about
-		///   broadcasting
-		///   [here](http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html)
-		///   
-		///   ---
-		///   
-		///   Examples
-		///   
-		///   Using scalar <c>pos</c> and <c>len</c>:
-		///   
-		///    <code>
-		///   input = [b'Hello', b'World']
-		///   position = 1
-		///   length = 3
-		///   
-		///   output = [b'ell', b'orl']
-		///    </code>
-		///   
-		///   Using <c>pos</c> and <c>len</c> with same shape as <c>input</c>:
-		///   
-		///    <code>
-		///   input = [[b'ten', b'eleven', b'twelve'],
-		///   [b'thirteen', b'fourteen', b'fifteen'],
-		///   [b'sixteen', b'seventeen', b'eighteen']]
-		///   position = [[1, 2, 3],
-		///   [1, 2, 3],
-		///   [1, 2, 3]]
-		///   length =   [[2, 3, 4],
-		///   [4, 3, 2],
-		///   [5, 5, 5]]
-		///   
-		///   output = [[b'en', b'eve', b'lve'],
-		///   [b'hirt', b'urt', b'te'],
-		///   [b'ixtee', b'vente', b'hteen']]
-		///    </code>
-		///   
-		///   Broadcasting <c>pos</c> and <c>len</c> onto <c>input</c>:
-		///   
-		///    <code>
-		///   input = [[b'ten', b'eleven', b'twelve'],
-		///   [b'thirteen', b'fourteen', b'fifteen'],
-		///   [b'sixteen', b'seventeen', b'eighteen'],
-		///   [b'nineteen', b'twenty', b'twentyone']]
-		///   position = [1, 2, 3]
-		///   length =   [1, 2, 3]
-		///   
-		///   output = [[b'e', b'ev', b'lve'],
-		///   [b'h', b'ur', b'tee'],
-		///   [b'i', b've', b'hte'],
-		///   [b'i', b'en', b'nty']]
-		///    </code>
-		///   
-		///   Broadcasting <c>input</c> onto <c>pos</c> and <c>len</c>:
-		///   
-		///    <code>
-		///   input = b'thirteen'
-		///   position = [1, 5, 7]
-		///   length =   [3, 2, 1]
-		///   
-		///   output = [b'hir', b'ee', b'n']
-		///    </code>
-		/// </remarks>
-		public TFOutput Substr (TFOutput input, TFOutput pos, TFOutput len, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "Substr", MakeName ("Substr", operName));
-			desc.AddInput (input);
-			desc.AddInput (pos);
-			desc.AddInput (len);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var output = new TFOutput (op, _idx++);
-			return output;
 		}
 
 		/// <summary>
@@ -36719,6 +44014,56 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a TensorArray for storing multiple gradients of values in the given handle.
+		/// </summary>
+		/// <param name="handle">
+		///   The handle to the forward TensorArray.
+		/// </param>
+		/// <param name="flow_in">
+		///   A float scalar that enforces proper chaining of operations.
+		/// </param>
+		/// <param name="shape_to_prepend">
+		///   An int32 vector representing a shape. Elements in the gradient accumulator will
+		///   have shape which is this shape_to_prepend value concatenated with shape of the
+		///   elements in the TensorArray corresponding to the input handle.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorArrayGradWithShape'.
+		/// </param>
+		/// <param name="source">
+		///   The gradient source string, used to decide which gradient TensorArray
+		///   to return.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   grad_handle:
+		///   flow_out:
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   Similar to TensorArrayGradV3. However it creates an accumulator with an
+		///   expanded shape compared to the input TensorArray whose gradient is being
+		///   computed. This enables multiple gradients for the same TensorArray to be
+		///   calculated using the same accumulator.
+		/// </remarks>
+		public (TFOutput grad_handle, TFOutput flow_out) TensorArrayGradWithShape (TFOutput handle, TFOutput flow_in, TFOutput shape_to_prepend, string source, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorArrayGradWithShape", MakeName ("TensorArrayGradWithShape", operName));
+			desc.AddInput (handle);
+			desc.AddInput (flow_in);
+			desc.AddInput (shape_to_prepend);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttr ("source", source);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var grad_handle = new TFOutput (op, _idx++);
+			var flow_out = new TFOutput (op, _idx++);
+			return (grad_handle, flow_out);
+		}
+
+		/// <summary>
 		///   Deprecated. Use TensorArrayReadV3
 		/// </summary>
 		/// <param name="handle">
@@ -37314,6 +44659,44 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Creates a Tensor by indexing into the TensorList.
+		/// </summary>
+		/// <param name="input_handle">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListGather'.
+		/// </param>
+		/// <param name="element_dtype">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each row in the produced Tensor corresponds to the element in the TensorList
+		///   specified by the given index (see <c>tf.gather</c>).
+		///   
+		///   input_handle: The input tensor list.
+		///   indices: The indices used to index into the list.
+		///   values: The tensor.
+		/// </remarks>
+		public TFOutput TensorListGather (TFOutput input_handle, TFOutput indices, TFDataType element_dtype, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListGather", MakeName ("TensorListGather", operName));
+			desc.AddInput (input_handle);
+			desc.AddInput (indices);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("element_dtype", element_dtype);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var values = new TFOutput (op, _idx++);
+			return values;
+		}
+
+		/// <summary>
 		///   Returns the item in the list with the given index.
 		/// </summary>
 		/// <param name="input_handle">
@@ -37485,6 +44868,46 @@ namespace TensorFlow {
 			int _idx = 0;
 			var handle = new TFOutput (op, _idx++);
 			return handle;
+		}
+
+		/// <summary>
+		///   Creates a TensorList by indexing into a Tensor.
+		/// </summary>
+		/// <param name="tensor">
+		/// </param>
+		/// <param name="indices">
+		/// </param>
+		/// <param name="element_shape">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TensorListScatter'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each member of the TensorList corresponds to one row of the input tensor,
+		///   specified by the given index (see <c>tf.gather</c>).
+		///   
+		///   tensor: The input tensor.
+		///   indices: The indices used to index into the list.
+		///   element_shape: The shape of the elements in the list (can be less specified than
+		///   the shape of the tensor).
+		///   output_handle: The TensorList.
+		/// </remarks>
+		public TFOutput TensorListScatter (TFOutput tensor, TFOutput indices, TFOutput element_shape, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TensorListScatter", MakeName ("TensorListScatter", operName));
+			desc.AddInput (tensor);
+			desc.AddInput (indices);
+			desc.AddInput (element_shape);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output_handle = new TFOutput (op, _idx++);
+			return output_handle;
 		}
 
 		/// <summary>
@@ -38261,328 +45684,6 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
-		///   An op that feeds a batch of embedding indices and weights to the TPU.
-		/// </summary>
-		/// <param name="sample_indices">
-		///   A list of rank 1 Tensors specifying row indices of the COO
-		///   sparse matrix representing the embedding lookups for each table.
-		/// </param>
-		/// <param name="embedding_indices">
-		///   A list of rank 1 Tensors  specifying column indices of the
-		///   COO sparse matrix representing the embedding lookups for each table.
-		/// </param>
-		/// <param name="aggregation_weights">
-		///   A list of rank 1 Tensors specifying the nonzero values
-		///   of the COO sparse matrix representing the embedding lookups for each table.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingEnqueueSparseBatch'.
-		/// </param>
-		/// <param name="device_ordinal">
-		///   Optional argument
-		///   The TPU device to use. This should be -1 when the Op
-		///   is running on a TPU device, and &amp;gt;= 0 when the Op is running on the CPU
-		///   device.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   Embedding lookups are equivalent to sparse-dense matrix multiplications: the
-		///   sparse matrix contains nonzeros in column j in order to retrieve row j from the
-		///   embedding table.
-		///   
-		///   The three Tensor list arguments (sample_indices, embedding_indices, and
-		///   aggregation_weights) represent these sparse matrices in COO format. The Tensor
-		///   lists each have one entry for each embedding table specified in the model.
-		///   For the kth embedding table, the three Tensors at position k in the list
-		///   specify a COO-format sparse matrix. For the kth table, the row indices,
-		///   column indices, and nonzero values of the COO sparse matrix are specified by
-		///   sample_indices[k], embedding_indices[k], and aggregation_weights[k],
-		///   respectively. Entries must be sorted by row index, then by column index.
-		///   
-		///   There should be at most one TPUEmbeddingEnqueueSparseBatch op in a signle
-		///   training step per TPU shard.
-		/// </remarks>
-		public TFOperation TPUEmbeddingEnqueueSparseBatch (TFOutput[] sample_indices, TFOutput[] embedding_indices, TFOutput[] aggregation_weights, long? device_ordinal = null, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingEnqueueSparseBatch", MakeName ("TPUEmbeddingEnqueueSparseBatch", operName));
-			desc.AddInputs (sample_indices);
-			desc.AddInputs (embedding_indices);
-			desc.AddInputs (aggregation_weights);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			if (device_ordinal.HasValue)
-				desc.SetAttr ("device_ordinal", device_ordinal.Value);
-			
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Load an embedding table shard into TensorNode memories for use with Adagrad.
-		/// </summary>
-		/// <param name="parameters">
-		///   The shard of the embedding table resident on the host executing this
-		///   op. For single-TPU models, this is the entire embedding table.
-		/// </param>
-		/// <param name="accumulators">
-		///   Shard of the Adagrad accumulators resident on the host executing
-		///   this op.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingLoadAdagradParameters'.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <param name="table_id">
-		///   The id of the table specified in the embedding_config.
-		/// </param>
-		/// <param name="num_hosts">
-		///   The number of CPU hosts in the distributed training job.
-		/// </param>
-		/// <param name="host_id">
-		///   Which CPU host in the distributed training job will execute this op.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
-		///   trainable variables and optimizer state from TPU memory. This op enables
-		///   functionality equivalent to AdagradOptimizer.
-		/// </remarks>
-		public TFOperation TPUEmbeddingLoadAdagradParameters (TFOutput parameters, TFOutput accumulators, string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingLoadAdagradParameters", MakeName ("TPUEmbeddingLoadAdagradParameters", operName));
-			desc.AddInput (parameters);
-			desc.AddInput (accumulators);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("num_hosts", num_hosts);
-			desc.SetAttr ("host_id", host_id);
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   Load an embedding table shard into TPU memory for use with GradientDescent.
-		/// </summary>
-		/// <param name="parameters">
-		///   The shard of the embedding table resident on the host executing this
-		///   op. For single-TPU models, this is the entire embedding table.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingLoadGradientDescentParameters'.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <param name="table_id">
-		///   The id of the table specified in the tpu_embedding_config.
-		/// </param>
-		/// <param name="num_hosts">
-		///   The number of CPU hosts in the distributed training job.
-		/// </param>
-		/// <param name="host_id">
-		///   Which CPU host in the distributed training job will execute this op.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
-		///   trainable variables and optimizer state from TPU memory. This op enables
-		///   functionality equivalent to GradientDescentOptimizer.
-		/// </remarks>
-		public TFOperation TPUEmbeddingLoadGradientDescentParameters (TFOutput parameters, string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingLoadGradientDescentParameters", MakeName ("TPUEmbeddingLoadGradientDescentParameters", operName));
-			desc.AddInput (parameters);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("num_hosts", num_hosts);
-			desc.SetAttr ("host_id", host_id);
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
-		///   An op that receives embedding activations on the TPU.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingReceiveActivations'.
-		/// </param>
-		/// <param name="num_tables">
-		///   The number of output activation tensors, equal to the number of
-		///   embedding tables in the model.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <returns>
-		///   A TensorList of embedding activations containing one Tensor per
-		///   embedding table in the model.
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   The TPU system performs the embedding lookups and aggregations specified by
-		///   the arguments to TPUEmbeddingEnqueueSparseBatch. The results of these
-		///   aggregations are visible to the Tensorflow Graph as the outputs of a
-		///   TPUEmbeddingDequeueActivations Op. This op returns a list containing one
-		///   Tensor of activations per table specified in the model. There can be at most
-		///   one ReceieveActivations op in the TPU graph.
-		/// </remarks>
-		public TFOutput[] TPUEmbeddingReceiveActivations (long num_tables, string tpu_embedding_config, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingReceiveActivations", MakeName ("TPUEmbeddingReceiveActivations", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("num_tables", num_tables);
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			int _n = 0;
-			_n = op.OutputListLength ("outputs");
-			var outputs = new TFOutput [_n];
-			for (int i = 0; i < _n; i++)
-				outputs [i] = new TFOutput (op, _idx++);
-			
-			return outputs;
-		}
-
-		/// <summary>
-		///   Retrieve an embedding table shard from TPU memory.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingRetrieveAdagradParameters'.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <param name="table_id">
-		///   The id of the table specified in the embedding_config_json.
-		/// </param>
-		/// <param name="num_hosts">
-		///   The number of CPU hosts in the distributed training job.
-		/// </param>
-		/// <param name="host_id">
-		///   Which CPU host in the distributed training job will execute this op.
-		/// </param>
-		/// <returns>
-		///   Returns a tuple with multiple values, as follows:
-		///   parameters:
-		///   accumulators:
-		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
-		/// </returns>
-		/// <remarks>
-		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
-		///   trainable variables and optimizer state from TPU memory. This op enables
-		///   functionality equivalent to AdagradOptimizer.
-		/// </remarks>
-		public (TFOutput parameters, TFOutput accumulators) TPUEmbeddingRetrieveAdagradParameters (string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingRetrieveAdagradParameters", MakeName ("TPUEmbeddingRetrieveAdagradParameters", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("num_hosts", num_hosts);
-			desc.SetAttr ("host_id", host_id);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var parameters = new TFOutput (op, _idx++);
-			var accumulators = new TFOutput (op, _idx++);
-			return (parameters, accumulators);
-		}
-
-		/// <summary>
-		///   Retrieve an embedding table shard from TPU memory.
-		/// </summary>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingRetrieveGradientDescentParameters'.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <param name="table_id">
-		///   The id of the table specified in tpu_embedding_config.
-		/// </param>
-		/// <param name="num_hosts">
-		///   The number of CPU hosts in the distributed training job.
-		/// </param>
-		/// <param name="host_id">
-		///   Which CPU host in the distributed training job will execute this op.
-		/// </param>
-		/// <returns>
-		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-		/// </returns>
-		/// <remarks>
-		///   TPU embeddings use dedicated per-optimizer Ops for loading and retrieving
-		///   trainable variables and optimizer state from TPU memory. This op enables
-		///   functionality equivalent to GradientDescentOptimizer.
-		/// </remarks>
-		public TFOutput TPUEmbeddingRetrieveGradientDescentParameters (string tpu_embedding_config, long table_id, long num_hosts, long host_id, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingRetrieveGradientDescentParameters", MakeName ("TPUEmbeddingRetrieveGradientDescentParameters", operName));
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			desc.SetAttr ("table_id", table_id);
-			desc.SetAttr ("num_hosts", num_hosts);
-			desc.SetAttr ("host_id", host_id);
-			var op = desc.FinishOperation ();
-			int _idx = 0;
-			var parameters = new TFOutput (op, _idx++);
-			return parameters;
-		}
-
-		/// <summary>
-		///   An op that performs gradient updates of embedding tables.
-		/// </summary>
-		/// <param name="gradients">
-		///   A TensorList of gradients with which to update embedding tables.
-		/// </param>
-		/// <param name="operName">
-		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TPUEmbeddingSendGradients'.
-		/// </param>
-		/// <param name="tpu_embedding_config">
-		///   Serialized TPUEmbeddingConfiguration proto.
-		/// </param>
-		/// <returns>
-		///   Returns the description of the operation
-		/// </returns>
-		/// <remarks>
-		///   The TensorList argument has the same length and shapes as the return value of
-		///   TPUEmbeddingReceiveActivations, but contains gradients of the model's loss
-		///   with respect to the embedding activations. The embedding tables are updated
-		///   from these gradients via the optimizer specified in the configuration given
-		///   to tpu.initialize_system.
-		/// </remarks>
-		public TFOperation TPUEmbeddingSendGradients (TFOutput[] gradients, string tpu_embedding_config, string operName = null)
-		{
-			var desc = new TFOperationDesc (this, "TPUEmbeddingSendGradients", MakeName ("TPUEmbeddingSendGradients", operName));
-			desc.AddInputs (gradients);
-			foreach ( TFOperation control in CurrentDependencies )
-				desc.AddControlInput (control);
-			
-			desc.SetAttr ("tpu_embedding_config", tpu_embedding_config);
-			var op = desc.FinishOperation ();
-			return op;
-		}
-
-		/// <summary>
 		///   Operator that connects N unreplicated inputs to an N-way replicated TPU computation.
 		/// </summary>
 		/// <param name="inputs">
@@ -38792,6 +45893,129 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   Perform batches of RPC requests.
+		/// </summary>
+		/// <param name="address">
+		///   <c>0-D</c> or <c>1-D</c>.  The address (i.e. host_name:port) of the RPC server.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>method</c> and <c>request</c>.
+		/// </param>
+		/// <param name="method">
+		///   <c>0-D</c> or <c>1-D</c>.  The method address on the RPC server.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>address</c> and <c>request</c>.
+		/// </param>
+		/// <param name="request">
+		///   <c>0-D</c> or <c>1-D</c>.  Serialized proto strings: the rpc request argument.
+		///   If this tensor has more than 1 element, then multiple parallel rpc requests
+		///   are sent.  This argument broadcasts with <c>address</c> and <c>method</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'TryRpc'.
+		/// </param>
+		/// <param name="protocol">
+		///   Optional argument
+		///   RPC protocol to use.  Empty string means use the default protocol.
+		///   Options include 'grpc'.
+		/// </param>
+		/// <param name="fail_fast">
+		///   Optional argument
+		///   <c>boolean</c>. If <c>true</c> (default), then failures to connect
+		///   (i.e., the server does not immediately respond) cause an RPC failure.
+		/// </param>
+		/// <param name="timeout_in_ms">
+		///   Optional argument
+		///   <c>int</c>. If <c>0</c> (default), then the kernel will run the RPC
+		///   request and only time out if the RPC deadline passes or the session times out.
+		///   If this value is greater than <c>0</c>, then the op will raise an exception if
+		///   the RPC takes longer than <c>timeout_in_ms</c>.
+		/// </param>
+		/// <returns>
+		///   Returns a tuple with multiple values, as follows:
+		///   response: Same shape as <c>request</c>. Serialized proto strings: the rpc responses.
+		///   status_code: Same shape as <c>request</c>.  Values correspond to tensorflow Status enum codes.
+		///   status_message: Same shape as <c>request</c>.  Values correspond to Status messages
+		///   returned from the RPC calls.
+		///   The TFOperation can be fetched from any of the TFOutputs returned in the tuple values, by fethching the Operation property.
+		/// </returns>
+		/// <remarks>
+		///   This op asynchronously performs either a single RPC request, or a batch
+		///   of requests.  RPC requests are defined by three main parameters:
+		///   
+		///   - <c>address</c> (the host+port or BNS address of the request)
+		///   - <c>method</c> (the method name for the request)
+		///   - <c>request</c> (the serialized proto string, or vector of strings,
+		///   of the RPC request argument).
+		///   
+		///   For example, if you have an RPC service running on port localhost:2345,
+		///   and its interface is configured with the following proto declaration:
+		///   
+		///    <code>
+		///   service MyService {
+		///   rpc MyMethod(MyRequestProto) returns (MyResponseProto) {
+		///   }
+		///   };
+		///    </code>
+		///   
+		///   then call this op with arguments:
+		///   
+		///    <code>
+		///   address = "localhost:2345"
+		///   method = "MyService/MyMethod"
+		///    </code>
+		///   
+		///   The <c>request</c> tensor is a string tensor representing serialized <c>MyRequestProto</c>
+		///   strings; and the output string tensor <c>response</c> will have the same shape
+		///   and contain (upon successful completion) corresponding serialized
+		///   <c>MyResponseProto</c> strings.
+		///   
+		///   For example, to send a single, empty, <c>MyRequestProto</c>, call
+		///   this op with <c>request = ""</c>.  To send 5 **parallel** empty requests,
+		///   call this op with <c>request = ["", "", "", "", ""]</c>.
+		///   
+		///   More generally, one can create a batch of <c>MyRequestProto</c> serialized protos
+		///   from regular batched tensors using the <c>encode_proto</c> op, and convert
+		///   the response <c>MyResponseProto</c> serialized protos to batched tensors
+		///   using the <c>decode_proto</c> op.
+		///   
+		///   **NOTE** Working with serialized proto strings is faster than instantiating
+		///   actual proto objects in memory, so no performance degradation is expected
+		///   compared to writing custom kernels for this workflow.
+		///   
+		///   Unlike the standard <c>Rpc</c> op, if the connection fails or the remote worker
+		///   returns an error status, this op does **not** reraise the exception.
+		///   Instead, the <c>status_code</c> and <c>status_message</c> entry for the corresponding RPC
+		///   call is set with the error returned from the RPC call.  The <c>response</c> tensor
+		///   will contain valid response values for those minibatch entries whose RPCs did
+		///   not fail; the rest of the entries will have empty strings.
+		/// </remarks>
+		public (TFOutput response, TFOutput status_code, TFOutput status_message) TryRpc (TFOutput address, TFOutput method, TFOutput request, string protocol = null, bool? fail_fast = null, long? timeout_in_ms = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "TryRpc", MakeName ("TryRpc", operName));
+			desc.AddInput (address);
+			desc.AddInput (method);
+			desc.AddInput (request);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (protocol != null)
+				desc.SetAttr ("protocol", protocol);
+			
+			if (fail_fast.HasValue)
+				desc.SetAttr ("fail_fast", fail_fast.Value);
+			
+			if (timeout_in_ms.HasValue)
+				desc.SetAttr ("timeout_in_ms", timeout_in_ms.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var response = new TFOutput (op, _idx++);
+			var status_code = new TFOutput (op, _idx++);
+			var status_message = new TFOutput (op, _idx++);
+			return (response, status_code, status_message);
+		}
+
+		/// <summary>
 		///   Reverses the operation of Batch for a single output Tensor.
 		/// </summary>
 		/// <param name="batched_tensor">
@@ -38915,6 +46139,39 @@ namespace TensorFlow {
 			int _idx = 0;
 			var batched_grad = new TFOutput (op, _idx++);
 			return batched_grad;
+		}
+
+		/// <summary>
+		///   Determine the script codes of a given tensor of Unicode integer code points.
+		/// </summary>
+		/// <param name="input">
+		///   A Tensor of int32 Unicode code points.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnicodeScript'.
+		/// </param>
+		/// <returns>
+		///   A Tensor of int32 script codes corresponding to each input code point.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   This operation converts Unicode code points to script codes corresponding to
+		///   each code point. Script codes correspond to International Components for
+		///   Unicode (ICU) UScriptCode values. See http://icu-project.org/apiref/icu4c/uscript_8h.html.
+		///   Returns -1 (USCRIPT_INVALID_CODE) for invalid codepoints. Output shape will
+		///   match input shape.
+		/// </remarks>
+		public TFOutput UnicodeScript (TFOutput input, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UnicodeScript", MakeName ("UnicodeScript", operName));
+			desc.AddInput (input);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -39388,8 +46645,14 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
-		///   first dimension.
+		///   A tensor whose shape is a prefix of <c>data.shape</c>.END
+		///   }
+		///   out_arg {
+		///   name: "output"
+		///   description: &amp;lt;&amp;lt;END
+		///   Has same shape as data, except for the first <c>segment_ids.rank</c>
+		///   dimensions, which are replaced with a single dimension which has size
+		///   <c>num_segments</c>.
 		/// </param>
 		/// <param name="num_segments">
 		/// </param>
@@ -39397,24 +46660,26 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentMax'.
 		/// </param>
 		/// <returns>
-		///   Has same shape as data, except for dimension 0 which
-		///   has size <c>num_segments</c>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   This operator is similar to the unsorted segment sum operator found
 		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
 		///   Instead of computing the sum over segments, it computes the maximum such that:
 		///   
-		///   \\(output_i = \max_j data_j\\) where max is over <c>j</c> such
-		///   that <c>segment_ids[j] == i</c>.
+		///   \\(output_i = \max_{j...} data[j...]\\) where max is over tuples <c>j...</c> such
+		///   that <c>segment_ids[j...] == i</c>.
 		///   
 		///   If the maximum is empty for a given segment ID <c>i</c>, it outputs the smallest
 		///   possible value for the specific numeric type,
 		///   <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::lowest()</c>.
+		///   
+		///   If the given segment ID <c>i</c> is negative, then the corresponding value is
+		///   dropped, and will not be included in the result.
 		///   
 		///   &amp;lt;div style="width:70%; margin:auto; margin-bottom:10px; margin-top:20px;"&amp;gt;
 		///   &amp;lt;img style="width:100%" src="https://www.tensorflow.org/images/UnsortedSegmentMax.png" alt&amp;gt;
@@ -39441,8 +46706,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
-		///   first dimension.
+		///   A tensor whose shape is a prefix of <c>data.shape</c>.
 		/// </param>
 		/// <param name="num_segments">
 		/// </param>
@@ -39450,24 +46714,29 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentMin'.
 		/// </param>
 		/// <returns>
-		///   Has same shape as data, except for dimension 0 which
-		///   has size <c>num_segments</c>.
+		///   Has same shape as data, except for the first <c>segment_ids.rank</c>
+		///   dimensions, which are replaced with a single dimension which has size
+		///   <c>num_segments</c>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#segmentation)
+		///   for an explanation of segments.
 		///   
 		///   This operator is similar to the unsorted segment sum operator found
 		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
 		///   Instead of computing the sum over segments, it computes the minimum such that:
 		///   
-		///   \\(output_i = \min_j data_j\\) where min is over <c>j</c> such
-		///   that <c>segment_ids[j] == i</c>.
+		///   \\(output_i = \min_{j...} data_[j...]\\) where min is over tuples <c>j...</c> such
+		///   that <c>segment_ids[j...] == i</c>.
 		///   
 		///   If the minimum is empty for a given segment ID <c>i</c>, it outputs the largest
 		///   possible value for the specific numeric type,
 		///   <c>output[i] = numeric_limits&amp;lt;T&amp;gt;::max()</c>.
+		///   
+		///   If the given segment ID <c>i</c> is negative, then the corresponding value is
+		///   dropped, and will not be included in the result.
 		/// </remarks>
 		public TFOutput UnsortedSegmentMin (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -39490,8 +46759,7 @@ namespace TensorFlow {
 		/// <param name="data">
 		/// </param>
 		/// <param name="segment_ids">
-		///   A 1-D tensor whose rank is equal to the rank of <c>data</c>'s
-		///   first dimension.
+		///   A tensor whose shape is a prefix of <c>data.shape</c>.
 		/// </param>
 		/// <param name="num_segments">
 		/// </param>
@@ -39499,23 +46767,28 @@ namespace TensorFlow {
 		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UnsortedSegmentProd'.
 		/// </param>
 		/// <returns>
-		///   Has same shape as data, except for dimension 0 which
-		///   has size <c>num_segments</c>.
+		///   Has same shape as data, except for the first <c>segment_ids.rank</c>
+		///   dimensions, which are replaced with a single dimension which has size
+		///   <c>num_segments</c>.
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#segmentation)
+		///   for an explanation of segments.
 		///   
 		///   This operator is similar to the unsorted segment sum operator found
 		///   [(here)](../../../api_docs/python/math_ops.md#UnsortedSegmentSum).
 		///   Instead of computing the sum over segments, it computes the product of all
 		///   entries belonging to a segment such that:
 		///   
-		///   \\(output_i = \prod_j data_j\\) where the product is over <c>j</c> such
-		///   that <c>segment_ids[j] == i</c>.
+		///   \\(output_i = \prod_{j...} data[j...]\\) where the product is over tuples
+		///   <c>j...</c> such that <c>segment_ids[j...] == i</c>.
 		///   
 		///   If there is no entry for a given segment ID <c>i</c>, it outputs 1.
+		///   
+		///   If the given segment ID <c>i</c> is negative, then the corresponding value is
+		///   dropped, and will not be included in the result.
 		/// </remarks>
 		public TFOutput UnsortedSegmentProd (TFOutput data, TFOutput segment_ids, TFOutput num_segments, string operName = null)
 		{
@@ -39552,11 +46825,12 @@ namespace TensorFlow {
 		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
 		/// </returns>
 		/// <remarks>
-		///   Read @{$math_ops#Segmentation$the section on segmentation} for an explanation of
-		///   segments.
+		///   Read
+		///   [the section on segmentation](https://tensorflow.org/api_guides/python/math_ops#Segmentation)
+		///   for an explanation of segments.
 		///   
 		///   Computes a tensor such that
-		///   <c>(output[i] = sum_{j...} data[j...]</c> where the sum is over tuples <c>j...</c> such
+		///   \\(output[i] = \sum_{j...} data[j...]\\) where the sum is over tuples <c>j...</c> such
 		///   that <c>segment_ids[j...] == i</c>.  Unlike <c>SegmentSum</c>, <c>segment_ids</c>
 		///   need not be sorted and need not cover all values in the full
 		///   range of valid values.
@@ -39641,6 +46915,64 @@ namespace TensorFlow {
 				values [i] = new TFOutput (op, _idx++);
 			
 			return values;
+		}
+
+		/// <summary>
+		///   Applies upper_bound(sorted_search_values, values) along each row.
+		/// </summary>
+		/// <param name="sorted_inputs">
+		///   2-D Tensor where each row is ordered.
+		/// </param>
+		/// <param name="values">
+		///   2-D Tensor with the same numbers of rows as <c>sorted_search_values</c>. Contains
+		///   the values that will be searched for in <c>sorted_search_values</c>.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'UpperBound'.
+		/// </param>
+		/// <param name="out_type">
+		///   Optional argument
+		/// </param>
+		/// <returns>
+		///   A <c>Tensor</c> with the same shape as <c>values</c>.  It contains the last scalar index
+		///   into the last dimension where values can be inserted without changing the
+		///   ordered property.
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		/// <remarks>
+		///   Each set of rows with the same index in (sorted_inputs, values) is treated
+		///   independently.  The resulting row is the equivalent of calling
+		///   <c>np.searchsorted(sorted_inputs, values, side='right')</c>.
+		///   
+		///   The result is not a global index to the entire
+		///   <c>Tensor</c>, but rather just the index in the last dimension.
+		///   
+		///   A 2-D example:
+		///   sorted_sequence = [[0, 3, 9, 9, 10],
+		///   [1, 2, 3, 4, 5]]
+		///   values = [[2, 4, 9],
+		///   [0, 2, 6]]
+		///   
+		///   result = UpperBound(sorted_sequence, values)
+		///   
+		///   result == [[1, 2, 4],
+		///   [0, 2, 5]]
+		/// </remarks>
+		public TFOutput UpperBound (TFOutput sorted_inputs, TFOutput values, TFDataType? out_type = null, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "UpperBound", MakeName ("UpperBound", operName));
+			desc.AddInput (sorted_inputs);
+			desc.AddInput (values);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			if (out_type.HasValue)
+				desc.SetAttrType ("out_type", out_type.Value);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var output = new TFOutput (op, _idx++);
+			return output;
 		}
 
 		/// <summary>
@@ -40014,6 +47346,55 @@ namespace TensorFlow {
 		}
 
 		/// <summary>
+		///   A dataset that creates window datasets from the input dataset.
+		/// </summary>
+		/// <param name="input_dataset">
+		/// </param>
+		/// <param name="size">
+		///   A scalar representing the number of elements to accumulate in a window.
+		/// </param>
+		/// <param name="shift">
+		///   A scalar representing the steps moving the sliding window forward in one
+		///   iteration. It must be positive.
+		/// </param>
+		/// <param name="stride">
+		///   A scalar representing the stride of the input elements of the sliding window.
+		///   It must be positive.
+		/// </param>
+		/// <param name="drop_remainder">
+		///   A scalar representing whether a window should be dropped in case its size is
+		///   smaller than desired.
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'WindowDataset'.
+		/// </param>
+		/// <param name="output_types">
+		/// </param>
+		/// <param name="output_shapes">
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput WindowDataset (TFOutput input_dataset, TFOutput size, TFOutput shift, TFOutput stride, TFOutput drop_remainder, TFDataType[] output_types, TFShape[] output_shapes, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "WindowDataset", MakeName ("WindowDataset", operName));
+			desc.AddInput (input_dataset);
+			desc.AddInput (size);
+			desc.AddInput (shift);
+			desc.AddInput (stride);
+			desc.AddInput (drop_remainder);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			desc.SetAttrType ("output_types", output_types);
+			desc.SetAttrShape ("output_shapes", output_shapes);
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var handle = new TFOutput (op, _idx++);
+			return handle;
+		}
+
+		/// <summary>
 		///   Worker heartbeat op.
 		/// </summary>
 		/// <param name="request">
@@ -40071,6 +47452,60 @@ namespace TensorFlow {
 			
 			var op = desc.FinishOperation ();
 			return op;
+		}
+
+		/// <summary>
+		///   Returns 0 if x == 0, and x / y otherwise, elementwise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Xdivy'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Xdivy (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Xdivy", MakeName ("Xdivy", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
+		}
+
+		/// <summary>
+		///   Returns 0 if x == 0, and x * log(y) otherwise, elementwise.
+		/// </summary>
+		/// <param name="x">
+		/// </param>
+		/// <param name="y">
+		/// </param>
+		/// <param name="operName">
+		///   If specified, the created operation in the graph will be this one, otherwise it will be named 'Xlogy'.
+		/// </param>
+		/// <returns>
+		///   The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+		/// </returns>
+		public TFOutput Xlogy (TFOutput x, TFOutput y, string operName = null)
+		{
+			var desc = new TFOperationDesc (this, "Xlogy", MakeName ("Xlogy", operName));
+			desc.AddInput (x);
+			desc.AddInput (y);
+			foreach ( TFOperation control in CurrentDependencies )
+				desc.AddControlInput (control);
+			
+			var op = desc.FinishOperation ();
+			int _idx = 0;
+			var z = new TFOutput (op, _idx++);
+			return z;
 		}
 
 		/// <summary>
