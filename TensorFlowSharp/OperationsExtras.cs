@@ -119,7 +119,7 @@ namespace TensorFlow
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
-				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)));
+				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)), shared_name: operName);
 				using (var aScope = WithScope ("Assign")) {
 					var assignOp = AssignVariableOp (variableHandle, initialValue);
 					using (var rScope = WithScope ("Read")) {
@@ -208,22 +208,22 @@ namespace TensorFlow
 			return res;
 		}
 
-		/// <summary>
-		/// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
-		/// </summary>
-		/// <param name="initialValue">Initial value.</param>
-		/// <param name="value">Returns the value of the variable.</param>
-		/// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
-		/// <param name="operName">Operation name, optional.</param>
-		/// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
-		/// <remarks>
-		/// Variables need to be initialized before the main execution so you will typically want to
-		/// run the session on the variable.
-		/// 
-		/// The init sequence for the variable is stored in the graph, you must manually initialize 
-		/// those by running the session on the global variables.
-		/// </remarks>
-		public Variable Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
+        /// <summary>
+        /// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
+        /// </summary>
+        /// <param name="initialValue">Initial value.</param>
+        /// <param name="value">Returns the value of the variable.</param>
+        /// <param name="trainable">If true, this add the variable to the graph's TrainableVariables, this collection is intended to be used by the Optimizer classes.</param>
+        /// <param name="operName">Operation name, optional.</param>
+        /// <returns>The returning Variable contains the variable, with three nodes with the operations making up the variable assignment.</returns>
+        /// <remarks>
+        /// Variables need to be initialized before the main execution so you will typically want to
+        /// run the session on the variable.
+        /// 
+        /// The init sequence for the variable is stored in the graph, you must manually initialize 
+        /// those by running the session on the global variables.
+        /// </remarks>
+        public Variable Variable (TFOutput initialValue, out TFOutput value, bool trainable = true, string operName = null)
 		{
 			var nv = MakeVariable (initialValue, trainable, operName);
 			value = nv.Read;
