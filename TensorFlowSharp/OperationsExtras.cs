@@ -209,6 +209,12 @@ namespace TensorFlow
 		}
 
         /// <summary>
+        /// Gets the list of all registered trainable variables.
+		/// </summary>
+		/// <returns>The array of variables that should be trained.</returns>
+		public Variable[] GetTrainableVariables() => trainable_variables.ToArray();
+
+        /// <summary>
         /// Variable node, with a starting initial value.  Convenience that registers the init variable to a global queue.
         /// </summary>
         /// <param name="initialValue">Initial value.</param>

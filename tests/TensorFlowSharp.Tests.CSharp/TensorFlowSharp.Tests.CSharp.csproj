@@ -71,6 +71,7 @@
     <Compile Include="CondTests.cs" />
     <Compile Include="GradientTests.cs" />
     <Compile Include="ArrayTests.cs" />
+    <Compile Include="OptimizerTests.cs" />
     <Compile Include="SessionTests.cs" />
     <Compile Include="ShapeTests.cs" />
     <Compile Include="TensorTests.cs" />
@@ -85,6 +86,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestData\MomentumNesterov\optimizer_lr_test.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\Momentum\optimizer_lr_test.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SGD\optimizer_lr_test.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -94,6 +104,18 @@
       <Project>{0264c321-34f4-46af-819e-168d1e597232}</Project>
       <Name>TensorFlowSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestData\MomentumNesterov\expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Momentum\expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\SGD\expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
