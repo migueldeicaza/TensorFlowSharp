@@ -456,11 +456,11 @@ namespace TensorFlow
 	{
 		// extern size_t TF_StringEncode (const char *src, size_t src_len, char *dst, size_t dst_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		internal static extern unsafe size_t TF_StringEncode (byte* src, size_t src_len, sbyte* dst, size_t dst_len, TF_Status status);
+		internal static extern unsafe size_t TF_StringEncode (byte* src, size_t src_len, byte* dst, size_t dst_len, TF_Status status);
 		
 		// extern size_t TF_StringDecode (const char *src, size_t src_len, const char **dst, size_t *dst_len, TF_Status *status);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
-		internal static extern unsafe size_t TF_StringDecode (sbyte* src, size_t src_len, sbyte** dst, size_t* dst_len, TF_Status status);
+		internal static extern unsafe size_t TF_StringDecode (byte* src, size_t src_len, byte** dst, size_t* dst_len, TF_Status status);
 
 		// extern size_t TF_StringEncodedSize (size_t len);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
