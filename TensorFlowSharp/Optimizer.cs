@@ -13,14 +13,14 @@ namespace TensorFlow
     public abstract class Optimizer
     {
         /// <summary>
-        /// The graph object.
+        /// The graph object. It is used for creating Ops through the construction of optimizer.
         /// </summary>
         protected readonly TFGraph _graph;
 
         /// <summary>
         /// Construct optimizer.
         /// </summary>
-        /// <param name="graph">The graph to construct optimizer for.</param>
+        /// <param name="graph">The graph object.</param>
         public Optimizer(TFGraph graph)
         {
             _graph = graph;
@@ -50,92 +50,120 @@ namespace TensorFlow
         /// of using this function.
         /// </summary>
         /// <param name="loss">A `Tensor` containing the value to minimize.</param>
-        /// <param name="varList">A `Tensor` containing the value to minimize.</param>
-        /// <returns>An Operation that updates the variables in `var_list`.</returns>
+        /// <param name="varList">list of variable to compute the gradients for.
+        /// If null the gradient is computed for all the trainable variables in the graph./param>
+        /// <returns>An Operation that updates the variables.</returns>
         public abstract TFOperation[] Minimize(TFOutput loss, Variable[] varList = null);
     }
 
     /// <summary>
-    /// 
+    /// Stochastic gradient descent optimizer.
+    /// Includes support for momentum, learning rate decay, and Nesterov momentum
     /// </summary>
     public sealed class SGD : Optimizer
     {
-        private readonly Variable _iterations;
-        private readonly TFOutput _learningRate;
+        /// <summary>
+        /// Varaible to keep track of number of iterations (mini-batch processed)
+        /// </summary>
+        public Variable Iterations { get; }
+
+        /// <summary>
+        /// Variable to keep track of the learning rate.
+        /// </summary>
+        public Variable LearningRate { get; }
+
         private readonly string _lrName = "LearningRate";
 
         private readonly TFOutput _momentum;
         private readonly string _momentumName = "Momentum";
-
-        private readonly TFOutput _decay;
-        private readonly string _decayName = "Decay";
-
-        private readonly float initial_decay;
 
         private readonly bool _nesterov;
 
         private readonly IList<TFOperation> _updateOps = new List<TFOperation>();
 
         /// <summary>
-        /// 
+        /// Construct SGD optimizer.
         /// </summary>
-        /// <param name="graph"></param>
-        /// <param name="learningRate"></param>
-        /// <param name="momentum"></param>
-        /// <param name="decay"></param>
-        /// <param name="nesterov"></param>
-        public SGD(TFGraph graph, float learningRate, float momentum = 0, float decay=0, bool nesterov=false) : base(graph)
+        /// <param name="graph">The graph object.</param>
+        /// <param name="learningRate">The learning rate for the SGD update.</param>
+        /// <param name="momentum">Parameter that accelerates SGD in the relevant direction and dampens oscillations.</param>
+        /// <param name="decay">Learning rate decay over each update.</param>
+        /// <param name="nesterov"> Whether to apply Nesterov momentum.</param>
+        public SGD(TFGraph graph, float learningRate, float momentum = 0, float decay = 0, bool nesterov = false) : base(graph)
         {
-            _iterations = _graph.Variable(_graph.Const(new TFTensor(0L)), trainable: false, operName: "iterations");
-            _learningRate = _graph.Const(learningRate); // _graph.Variable(_graph.Const(learningRate), trainable: false, operName: _lrName);            
+            Iterations = _graph.Variable(_graph.Const(new TFTensor(0L)), trainable: false, operName: "iterations");
+            _updateOps.Add(_graph.AssignAddVariableOp(Iterations, _graph.Const(1L)));
+            var initialLearningRate = _graph.Const(learningRate);
+            LearningRate = _graph.Variable(initialLearningRate, trainable: false, operName: _lrName);
             _nesterov = nesterov;
             _momentum = _graph.Const(momentum, _momentumName);
+            CreateDecayOps(decay, initialLearningRate);
+        }
+
+        private void CreateDecayOps(float decay, TFOutput initialLearningRate)
+        {
             if (decay > 0)
             {
-                _decay = _graph.Const(decay, _decayName);
-                _learningRate = _graph.Mul(_learningRate, _graph.Div(_graph.Const(1f),
-                    _graph.Add(_graph.Const(1f), _graph.Mul(_decay, _iterations))));
-                _updateOps.Add(_learningRate.Operation);
+                var _decay = _graph.Const(decay, "Decay");
+                var one = _graph.Const(1f);
+                _updateOps.Add(_graph.AssignVariableOp(LearningRate,
+                    _graph.Mul(initialLearningRate,
+                                _graph.Div(one,
+                                            _graph.Add(one,
+                                                        _graph.Mul(_decay,
+                                                                    _graph.Cast(Iterations.Read, _decay.OutputType)
+                                                                  )
+                                                       )
+                                           )
+                               )));
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="gradientsAndVariables"></param>
-        public override TFOperation[] ApplyGradient((TFOutput gradient, Variable variable)[] gradientsAndVariables)
+        private TFOutput[] InitMoments((TFOutput gradient, Variable variable)[] gradientsAndVariables)
         {
+            var moments = new TFOutput[gradientsAndVariables.Length];
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
                 var varType = gv.variable.Read.OutputType;
                 var dims = _graph.GetShape(gv.variable);
-                var varShape = dims == null ? TFShape.Scalar : new TFShape(dims);
-                var moment = _graph.VariableV2(varShape, varType, operName: "moments_" + i);
-
-                _graph.AddInitVariable(_graph.Assign(moment, _graph.Zeros(varShape, varType)).Operation);
-                var velocity = _graph.Sub(_graph.Mul(_momentum, moment), _graph.Mul(_learningRate, gv.gradient));
-                _updateOps.Add(_graph.Assign(moment, velocity).Operation);
+                var varShape = new TFShape(dims);
+                moments[i] = _graph.VariableV2(varShape, varType, operName: "moments_" + i);
+                _graph.AddInitVariable(_graph.Assign(moments[i], _graph.Zeros(varShape, varType)).Operation);
+            }
+            return moments;
+        }
+        /// <inheritdoc />
+        public override TFOperation[] ApplyGradient((TFOutput gradient, Variable variable)[] gradientsAndVariables)
+        {
+            var moments = InitMoments(gradientsAndVariables);
+            for (int i = 0; i < gradientsAndVariables.Length; i++)
+            {
+                var gv = gradientsAndVariables[i];
+                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var m = _graph.Cast(_momentum, gv.gradient.OutputType);
+                // v = m * moment - lr * g
+                var velocity = _graph.Sub(_graph.Mul(m, moments[i]), _graph.Mul(lr, gv.gradient), "velocity_" + i);
+                //var velocity = _graph.Add(_graph.Mul(_momentum, moments[i]), gv.gradient, "velocity_" + i);
+                // moment = v
+                _updateOps.Add(_graph.Assign(moments[i], velocity).Operation);
 
                 if (_nesterov)
                 {
-                    var op = _graph.AssignAddVariableOp(gv.variable, _graph.Sub(_graph.Mul(_momentum, velocity), _graph.Mul(_learningRate, gv.gradient)));
+                    // w = w + m * v - lr * g
+                    var op = _graph.AssignAddVariableOp(gv.variable, _graph.Sub(_graph.Mul(m, velocity), _graph.Mul(lr, gv.gradient)));
                     _updateOps.Add(op);
                 }
                 else
                 {
+                    // w = w + v
                     _updateOps.Add(_graph.AssignAddVariableOp(gv.variable, velocity));
                 }
             }
             return _updateOps.ToArray();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loss"></param>
-        /// <param name="varList"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override (TFOutput gradient, Variable variable)[] ComputeGradient(TFOutput loss, Variable[] varList = null)
         {
             varList = varList ?? _graph.GetTrainableVariables();
@@ -148,12 +176,7 @@ namespace TensorFlow
             return gradientsAndVariables;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="loss"></param>
-        /// /// <param name="varList"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override TFOperation[] Minimize(TFOutput loss, Variable[] varList = null)
         {
             return ApplyGradient(ComputeGradient(loss, varList));

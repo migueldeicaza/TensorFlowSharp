@@ -293,8 +293,8 @@ namespace SampleTest
 		{
 			Console.WriteLine ("Linear regression");
 			// Parameters
-			var learning_rate = 0.01;
-			var training_epochs = 1000;
+			var learning_rate = 0.001f;
+			var training_epochs = 100;
 			var display_step = 50;
 
 			// Training data
@@ -309,23 +309,48 @@ namespace SampleTest
 			var n_samples = train_x.Length;
 			using (var g = new TFGraph ()) {
 				var s = new TFSession (g);
-		 		var rng = new Random ();
+		 		var rng = new Random (0);
 				// tf Graph Input
 
-				var X = g.Placeholder (TFDataType.Float);
-				var Y = g.Placeholder (TFDataType.Float);
+				var X = g.Placeholder (TFDataType.Double);
+				var Y = g.Placeholder (TFDataType.Double);
 
-				var W = g.Variable (g.Const ((float)rng.Next ()), operName: "weight");
-				var b = g.Variable (g.Const ((float) rng.Next ()), operName: "bias");
-				var pred = g.Add (g.Mul (X, W.Read, "x*w"), b.Read);
+				var W = g.Variable (g.Const (rng.NextDouble ()), operName: "weight");
+				var b = g.Variable (g.Const (rng.NextDouble ()), operName: "bias");
+				var pred = g.Add (g.Mul (X, W.Read, "x_w"), b.Read);
 
-				var first = g.Pow (g.Sub (pred, Y), g.Const ((float)2));
-				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2f))), g.Mul (g.Const (2f), g.Const ((float)n_samples), "2*n_samples"));
+				var cost = g.Div (g.ReduceSum (g.Pow (g.Sub (pred, Y), g.Const (2.0))), g.Mul (g.Const (2.0), g.Const ((double)n_samples), "2_n_samples"));
 
-				// STuck here: TensorFlow bindings need to surface gradient support
-				// waiting on Google for this
-				// https://github.com/migueldeicaza/TensorFlowSharp/issues/25
-			}
+                // SOLVED
+                // STuck here: TensorFlow bindings need to surface gradient support
+                // waiting on Google for this
+                // https://github.com/migueldeicaza/TensorFlowSharp/issues/25
+
+                var sgd = new SGD(g, learning_rate);
+                var updateOps = sgd.Minimize(cost);
+
+                using (var sesssion = new TFSession(g))
+                {
+                    sesssion.GetRunner().AddTarget(g.GetGlobalVariablesInitializer()).Run();
+
+                    for (int i = 0; i < training_epochs; i++)
+                    {
+                        double avgLoss = 0;
+                        for (int j = 0; j < n_samples; j++)
+                        {
+                            var tensors = sesssion.GetRunner()
+                               .AddInput(X, new TFTensor(train_x[j]))
+                               .AddInput(Y, new TFTensor(train_y[j]))
+                               .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
+                            avgLoss += (double)tensors[1].GetValue();
+                        }
+                        var tensors2 = sesssion.GetRunner()
+                               .Fetch(W.Read, b.Read).Run();
+                        var output = $"Epoch: {i+1:D}, loss: {avgLoss / n_samples:F4}, W: {tensors2[0].GetValue():F4}, b: {tensors2[1].GetValue():F4}";
+                        Console.WriteLine(output);
+                    }
+                }
+            }
 		}
 #endif
 		#endregion
