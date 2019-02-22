@@ -126,8 +126,7 @@ namespace TensorFlow
             {
                 var gv = gradientsAndVariables[i];
                 var varType = gv.variable.Read.OutputType;
-                var dims = _graph.GetShape(gv.variable);
-                var varShape = new TFShape(dims);
+                var varShape = _graph.GetTensorShape(gv.variable.Read);
                 moments[i] = _graph.VariableV2(varShape, varType, operName: "moments_" + i);
                 _graph.AddInitVariable(_graph.Assign(moments[i], _graph.Zeros(varShape, varType)).Operation);
             }
@@ -144,7 +143,6 @@ namespace TensorFlow
                 var m = _graph.Cast(_momentum, gv.gradient.OutputType);
                 // v = m * moment - lr * g
                 var velocity = _graph.Sub(_graph.Mul(m, moments[i]), _graph.Mul(lr, gv.gradient), "velocity_" + i);
-                //var velocity = _graph.Add(_graph.Mul(_momentum, moments[i]), gv.gradient, "velocity_" + i);
                 // moment = v
                 _updateOps.Add(_graph.Assign(moments[i], velocity).Operation);
 

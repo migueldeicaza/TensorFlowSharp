@@ -98,6 +98,9 @@
     <None Include="TestData\Momentum\optimizer_lr_test.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="TestData\SGDMnist\optimizer_lr_test.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\SGDTimeDecay\optimizer_lr_test.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -109,6 +112,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Learn\Learn.csproj">
+      <Project>{20567ede-7c20-4734-b489-c6d303843105}</Project>
+      <Name>Learn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj">
       <Project>{0264c321-34f4-46af-819e-168d1e597232}</Project>
       <Name>TensorFlowSharp</Name>
@@ -126,6 +133,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Momentum\expected.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\SGDMnist\expected.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\SGDTimeDecay\expected.txt">
