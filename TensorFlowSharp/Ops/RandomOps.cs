@@ -71,5 +71,31 @@ namespace TensorFlow
 			}
 		}
 
-	}
+        /// <summary>
+		/// Randoms the uniform.
+		/// </summary>
+		/// <returns>The uniform.</returns>
+		/// <param name="shape">Shape.</param>
+		/// <param name="minval">Minval.</param>
+		/// <param name="maxval">Maxval.</param>
+		/// <param name="seed">Seed.</param>
+		/// <param name="operName">Oper name.</param>
+		public TFOutput RandomUniform(TFShape shape, float minval = 0, float maxval = 1, int? seed = null, string operName = null)
+        {
+            using (var scope = WithScope(MakeName("random_uniform", operName)))
+            {
+                var shapeTensor = ShapeTensorOutput(shape);
+                var minvalTensor = Const(minval, "minval");
+                var maxvalTensor = Const(maxval, "maxval");
+
+                int graph, local;
+                GetRandomSeeds(seed, out graph, out local);
+
+                var rnd = RandomUniform(shapeTensor, TFDataType.Float, graph, local);
+                var mul = Mul(rnd, Sub(maxvalTensor, minvalTensor));
+                return Add(mul, minvalTensor);
+            }
+        }
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Learn.Mnist;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -351,6 +352,82 @@ namespace TensorFlowSharp.Tests.CSharp
                             var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void MNISTTwoLayerNetwork()
+        {
+            Console.WriteLine("Linear regression");
+            // Parameters
+            var learning_rate = 0.1f;
+            var training_epochs = 5;
+
+
+            var mnist = new Mnist();
+            mnist.ReadDataSets("/tmp");
+            int batchSize = 100;
+            int numBatches = mnist.TrainImages.Length / batchSize;
+
+            using (var graph = new TFGraph())
+            {
+                var X = graph.Placeholder(TFDataType.Float, new TFShape(-1, 784));
+                var Y = graph.Placeholder(TFDataType.Float, new TFShape(-1, 10));
+
+                graph.Seed = 1;
+                var initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(784 + 500));
+                var W1 = graph.Variable(graph.RandomUniform(new TFShape(784,500), minval: -initB, maxval: initB), operName: "W1");
+                var b1 = graph.Variable(graph.Constant(0f, new TFShape(500), TFDataType.Float), operName: "b1");
+                var layer1 = graph.Sigmoid(graph.Add(graph.MatMul(X, W1.Read), b1.Read, operName: "layer1"));
+
+                initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(500 + 100));
+                var W2 = graph.Variable(graph.RandomUniform(new TFShape(500, 100), minval: -initB, maxval: initB), operName: "W2");
+                var b2 = graph.Variable(graph.Constant(0f, new TFShape(100), TFDataType.Float), operName: "b2");
+                var layer2 = graph.Sigmoid(graph.Add(graph.MatMul(layer1, W2.Read), b2.Read, operName: "layer2"));
+
+                initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(100 + 10));
+                var W3 = graph.Variable(graph.RandomUniform(new TFShape(100, 10), minval: -initB, maxval: initB), operName: "W3");
+                var b3 = graph.Variable(graph.Constant(0f, new TFShape(10), TFDataType.Float), operName: "b3");
+                var layer3 = graph.Add(graph.MatMul(layer2, W3.Read), b3.Read, operName: "layer3");
+
+                // No support for computing gradient for the SparseSoftmaxCrossEntropyWithLogits function
+                // instead using SoftmaxCrossEntropyWithLogits
+                var cost = graph.ReduceMean(graph.SoftmaxCrossEntropyWithLogits(layer3, Y, "cost").loss);
+
+                var prediction = graph.ArgMax(graph.Softmax(layer3), graph.Const(1));
+                var labels = graph.ArgMax(Y, graph.Const(1));
+                var areCorrect = graph.Equal(prediction, labels);
+                var accuracy = graph.ReduceMean(graph.Cast(areCorrect,TFDataType.Float));
+
+                var sgd = new SGD(graph, learning_rate, 0.9f);
+                var updateOps = sgd.Minimize(cost);
+
+                using (var sesssion = new TFSession(graph))
+                {
+                    sesssion.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
+
+                    var expectedLines = File.ReadAllLines(Path.Combine(_testDataPath, "SGDMnist", "expected.txt"));
+                    
+                    for (int i = 0; i < training_epochs; i++)
+                    {
+                        var reader = mnist.GetTrainReader();
+                        float avgLoss = 0;
+                        float avgAccuracy = 0;
+                        for (int j = 0; j < numBatches; j++)
+                        {
+                            var batch = reader.NextBatch(batchSize);
+                            var tensors = sesssion.GetRunner()
+                                .AddInput(X, batch.Item1)
+                                .AddInput(Y, batch.Item2)
+                                .AddTarget(updateOps).Fetch(cost, accuracy, prediction, labels).Run();
+
+                            avgLoss += (float)tensors[0].GetValue();
+                            avgAccuracy += (float)tensors[1].GetValue();
+                        }
+                        var output = $"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}";
+                        Assert.Equal(expectedLines[i], output);
                     }
                 }
             }

@@ -126,8 +126,7 @@ namespace TensorFlow
             {
                 var gv = gradientsAndVariables[i];
                 var varType = gv.variable.Read.OutputType;
-                var dims = _graph.GetShape(gv.variable);
-                var varShape = new TFShape(dims);
+                var varShape = _graph.GetTensorShape(gv.variable.Read);
                 moments[i] = _graph.VariableV2(varShape, varType, operName: "moments_" + i);
                 _graph.AddInitVariable(_graph.Assign(moments[i], _graph.Zeros(varShape, varType)).Operation);
             }
