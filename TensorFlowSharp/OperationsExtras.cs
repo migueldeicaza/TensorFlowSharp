@@ -115,7 +115,7 @@ namespace TensorFlow
 		// Helper method to create a variable and track it.
 		Variable MakeVariable (TFOutput initialValue, bool trainable, string operName)
 		{
-			var scopeName = MakeName ("Variable", operName);
+            var scopeName = operName == null ? MakeName("Variable", null) : operName;
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
@@ -610,7 +610,7 @@ namespace TensorFlow
 		///  tensor will have the shape <c>(A, N, B, C)</c>; etc.
 		/// </remarks>
 		/// 
-		public TFOutput Stack (TFOutput [] values, int? axis = 0, string operName = "stack")
+		public TFOutput Stack (TFOutput [] values, int? axis = 0, string operName = null)
 		{
 			// https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/array_ops.py#L804
 
