@@ -114,7 +114,7 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-        [Fact]
+        [Fact(Skip = " Disabled because it requires GPUs and need to set numGPUs to available GPUs on system.")]
         public void DevicePlacementTest()
         {
             using (var graph = new TFGraph())
