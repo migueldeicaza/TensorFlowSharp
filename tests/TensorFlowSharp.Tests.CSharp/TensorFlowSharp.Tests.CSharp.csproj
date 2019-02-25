@@ -90,6 +90,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Learn\Learn.csproj">
+      <Project>{20567ede-7c20-4734-b489-c6d303843105}</Project>
+      <Name>Learn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj">
       <Project>{0264c321-34f4-46af-819e-168d1e597232}</Project>
       <Name>TensorFlowSharp</Name>

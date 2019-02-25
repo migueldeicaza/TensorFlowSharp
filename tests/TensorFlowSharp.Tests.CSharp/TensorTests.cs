@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TensorFlow;
 using System.Text;
 using Xunit;
+using Learn.Mnist;
 
 namespace TensorFlowSharp.Tests.CSharp
 {
@@ -110,6 +111,44 @@ namespace TensorFlowSharp.Tests.CSharp
 
                 var outputY = Encoding.UTF8.GetString(TFTensor.DecodeString(outputTensors[0]));
                 Assert.Equal(string.Join(" ", dataX).Replace("/", " "), outputY);
+            }
+        }
+
+        [Fact]
+        public void DevicePlacementTest()
+        {
+            using (var graph = new TFGraph())
+            using (var session = new TFSession(graph))
+            {
+                var X = graph.Placeholder(TFDataType.Float, new TFShape(-1, 784));
+                var Y = graph.Placeholder(TFDataType.Float, new TFShape(-1, 10));
+
+                int numGPUs = 4;
+                var Xs = graph.Split(graph.Const(0), X, numGPUs);
+                var Ys = graph.Split(graph.Const(0), Y, numGPUs);
+                var products = new TFOutput[numGPUs];
+                for (int i = 0; i < numGPUs; i++)
+                {
+                    using (var device = graph.WithDevice("/device:GPU:" + i))
+                    {
+                        var W = graph.Constant(0.1f, new TFShape(784, 500), TFDataType.Float);
+                        var b = graph.Constant(0.1f, new TFShape(500), TFDataType.Float);
+                        products[i] = graph.Add(graph.MatMul(Xs[i], W), b);
+                    }
+                }
+                var stacked = graph.Concat(graph.Const(0),products);
+                Mnist mnist = new Mnist();
+                mnist.ReadDataSets("/tmp");
+                int batchSize = 1000;
+                for (int i = 0; i < 100; i++)
+                {
+                    var reader = mnist.GetTrainReader();
+                    (var trainX, var trainY) = reader.NextBatch(batchSize);
+                    var outputTensors = session.Run(new TFOutput[] { X }, new TFTensor[] { new TFTensor(trainX) }, new TFOutput[] { stacked });
+                    Assert.Equal(1000, outputTensors[0].Shape[0]);
+                    Assert.Equal(500, outputTensors[0].Shape[1]);
+                }
+                
             }
         }
     }

@@ -874,13 +874,28 @@ namespace TensorFlow
 			return scope;
 		}
 
-		/// <summary>
-		/// Returns the current variable dependencies in use. New tensors and operations will be created
-		/// with an added input dependency to the operations specified in this property. To change this, 
-		/// use the WithDependencies method.
-		/// </summary>
-		/// <value>The current input dependencies to be used for new tensors and operations.</value>
-		public TFOperation [] CurrentDependencies { get; internal set; } = new TFOperation [0];
+        /// <summary>
+        /// Set the device to be used for all the operations defined in the using block.
+        /// Creates <see cref="TensorFlow.TFDevice"/> and sets <see cref="TensorFlow.TFGraph.DeviceName"/> to the intended device.
+        /// If device is already set throws exception.
+        /// </summary>
+        /// <param name="deviceName">Name of the device to be used e.g. "/cpu:0", "/device:GPU:0"</param>
+        public TFDevice WithDevice(string deviceName)
+        {
+            var device = new TFDevice(this);
+            if (DeviceName != null)
+                throw new ArgumentException($"Device is already set: {DeviceName}");
+            DeviceName = deviceName;
+            return device;
+        }
+
+        /// <summary>
+        /// Returns the current variable dependencies in use. New tensors and operations will be created
+        /// with an added input dependency to the operations specified in this property. To change this, 
+        /// use the WithDependencies method.
+        /// </summary>
+        /// <value>The current input dependencies to be used for new tensors and operations.</value>
+        public TFOperation [] CurrentDependencies { get; internal set; } = new TFOperation [0];
 
 		/// <summary>
 		/// Adds new dependencies for new tensors and operations created while the context is active.
@@ -1369,7 +1384,12 @@ namespace TensorFlow
 			}
 		}
 
-		[DllImport (NativeBinding.TensorFlowLibrary)]
+        /// <summary>
+        /// Name of the device to place the operation on.
+        /// </summary>
+        public string DeviceName { get; internal set; }
+
+        [DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern bool TF_TryEvaluateConstant (TF_Graph graph, TFOutput output, ref IntPtr result, TF_Status status);
 
 		/// <summary>
@@ -1410,12 +1430,36 @@ namespace TensorFlow
 		}
     	}
 
-	//
-	// A TFGraph that will not release the undelying handle, this is used
-	// when we want to surface a TFGraph that we do not own, so we do not
-	// want to delete the handle when this object is collected
-	//
-	internal class TFGraphUnowned : TFGraph
+    /// <summary>
+    /// Class to unset device name in the graph within using block.
+    /// </summary>
+    public class TFDevice: IDisposable
+    {
+        private TFGraph container;
+
+        internal TFDevice(TFGraph container)
+        {
+            this.container = container;
+        }
+
+        /// <summary>
+		/// Set the device name back to null.
+		/// </summary>
+		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDevice"/>
+		/// to restore to the default device to be used in the <see cref="T:TensorFlow.TFGraph"/>.
+		/// </remarks>
+		public void Dispose()
+        {
+            container.DeviceName = null;
+        }
+    }
+
+    //
+    // A TFGraph that will not release the undelying handle, this is used
+    // when we want to surface a TFGraph that we do not own, so we do not
+    // want to delete the handle when this object is collected
+    //
+    internal class TFGraphUnowned : TFGraph
 	{
 		internal TFGraphUnowned (IntPtr handle) : base (handle)
 		{
@@ -1598,6 +1642,8 @@ namespace TensorFlow
 			this.graph = graph;
 			this.opType = opType;
 			this.operName = operName;
+            if(graph.DeviceName != null)
+                this.SetDevice(graph.DeviceName);
 		}
 
 		internal override void NativeDispose (IntPtr handle)
