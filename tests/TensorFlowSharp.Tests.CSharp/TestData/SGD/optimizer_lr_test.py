@@ -1,3 +1,6 @@
+# This script is used to create data file (expected.txt)
+# which is used to compare the output from TensorFlowSharp optimizer tests.
+
 import tensorflow as tf
 
 # Training data

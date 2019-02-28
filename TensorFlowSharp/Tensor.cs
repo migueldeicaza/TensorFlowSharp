@@ -494,37 +494,144 @@ namespace TensorFlow
 		/// <param name="data">Data.</param>
 		public TFTensor (Complex [] data) : base (SetupTensor (TFDataType.Complex128, data, size: 16)) { }
 
-		/// <summary>
-		/// Creates a single-dimension tensor from a byte buffer.  This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.
+        /// <summary>
+        /// Creates a single-dimension tensor from a byte buffer.  This is different than creating a tensor from a byte array that produces a tensor with as many elements as the byte array.
+        /// </summary>
+        public unsafe static TFTensor CreateString(byte[] buffer)
+        {
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer));
+            //
+            // TF_STRING tensors are encoded with a table of 8-byte offsets followed by
+            // TF_StringEncode-encoded bytes.
+            //
+            var size = TFString.TF_StringEncodedSize((UIntPtr)buffer.Length);
+            IntPtr handle = TF_AllocateTensor(TFDataType.String, IntPtr.Zero, 0, (UIntPtr)((ulong)size + 8));
+
+            // Clear offset table
+            IntPtr dst = TF_TensorData(handle);
+            Marshal.WriteInt64(dst, 0);
+            var status = TFStatus.TF_NewStatus();
+            fixed (byte* src = &buffer[0])
+            {
+                TFString.TF_StringEncode(src, (UIntPtr)buffer.Length, (byte*)(dst + 8), size, status);
+                var ok = TFStatus.TF_GetCode(status) == TFCode.Ok;
+                TFStatus.TF_DeleteStatus(status);
+                if (!ok)
+                    return null;
+            }
+            return new TFTensor(handle);
+        }
+
+        /// <summary>
+		/// Converts a single-dimension tensor into a byte buffer. The byte array can be further decoded into strings using appropriate encoding scheme e.g. "UTF8"
 		/// </summary>
-		public unsafe static TFTensor CreateString (byte [] buffer)
-		{
-			if (buffer == null)
-				throw new ArgumentNullException (nameof (buffer));
-			//
-			// TF_STRING tensors are encoded with a table of 8-byte offsets followed by
-			// TF_StringEncode-encoded bytes.
-			//
-			var size = TFString.TF_StringEncodedSize ((UIntPtr)buffer.Length);
-			IntPtr handle = TF_AllocateTensor (TFDataType.String, IntPtr.Zero, 0, (UIntPtr)((ulong)size + 8));
+        public static unsafe byte[] DecodeString(TFTensor tensor)
+        {
+            if (tensor == null)
+                throw new ArgumentNullException(nameof(tensor));
+            //
+            // TF_STRING tensors are encoded with a table of 8-byte offsets followed by TF_StringEncode-encoded bytes.
+            // [offset1, offset2,...,offsetn, s1size, s1bytes, s2size, s2bytes,...,snsize,snbytes]
+            //
+            var src = TF_TensorData(tensor.handle);
+            using (var status = new TFStatus())
+            {
+                IntPtr dst = IntPtr.Zero;
+                UIntPtr dst_len = UIntPtr.Zero;
+                TFString.TF_StringDecode((byte*)(src + 8), tensor.TensorByteSize - 8, (byte**)&dst, &dst_len, status.handle);
+                var ok = status.StatusCode == TFCode.Ok;
+                if (!ok)
+                    return null;
+                var buffer = new byte[(int)dst_len];
+                Marshal.Copy(dst, buffer, 0, buffer.Length);
+                return buffer;
+            }
+        }
 
-			// Clear offset table
-			IntPtr dst = TF_TensorData (handle);
-			Marshal.WriteInt64 (dst, 0);
-			var status = TFStatus.TF_NewStatus ();
-			fixed (byte* src = &buffer [0])
-			{
-				TFString.TF_StringEncode (src, (UIntPtr)buffer.Length, (sbyte*)(dst + 8), size, status);
-				var ok = TFStatus.TF_GetCode (status) == TFCode.Ok;
-				TFStatus.TF_DeleteStatus (status);
-				if (!ok)
-					return null;
-			}
-			return new TFTensor (handle);
-		}
+        /// <summary>
+		/// Creates a multi-dimension tensor from an array of byte buffer. The bytes for string[i] are represented as buffer[i][:].
+		/// </summary>
+        public static unsafe TFTensor CreateString(byte[][] buffer, TFShape shape)
+        {
+            if (buffer == null)
+                throw new ArgumentNullException(nameof(buffer));
+            //
+            // TF_STRING tensors are encoded with a table of 8-byte offsets followed by TF_StringEncode-encoded bytes.
+            // [offset1, offset2,...,offsetn, s1size, s1bytes, s2size, s2bytes,...,snsize,snbytes]
+            //
+            int size = 0;
+            foreach (var b in buffer)
+            {
+                size += (int)TFString.TF_StringEncodedSize((UIntPtr)b.Length);
+            }
+            int totalSize = size + buffer.Length * 8;
+            ulong offset = 0;
+            IntPtr handle = TF_AllocateTensor(TFDataType.String, shape.dims, shape.dims.Length, (UIntPtr)totalSize);
 
-		// Convenience function to factor out the setup of a new tensor from an array
-		static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int size)
+            // Clear offset table
+            IntPtr pOffset = TF_TensorData(handle);
+            IntPtr dst = pOffset + buffer.Length * 8;
+            IntPtr dstLimit = pOffset + totalSize;
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                Marshal.WriteInt64(pOffset, (long)offset);
+                using (var status = new TFStatus())
+                {
+                    fixed (byte* src = &buffer[i][0])
+                    {
+                        var written = TFString.TF_StringEncode(src, (UIntPtr)buffer[i].Length, (byte*)dst, (size_t)(dstLimit.ToInt64() - dst.ToInt64()), status.handle);
+                        var ok = status.StatusCode == TFCode.Ok;
+                        if (!ok)
+                            return null;
+                        pOffset += 8;
+                        dst += (int)written;
+                        offset += written.ToUInt64();
+                    }
+                }
+            }
+            return new TFTensor(handle);
+        }
+
+        /// <summary>
+		/// Converts a multi-dimension tensor into a byte buffer array. The byte array can be further decoded into strings using appropriate encoding scheme e.g. "UTF8"
+		/// </summary>
+        public static unsafe byte[][] DecodeMultiDimensionString(TFTensor tensor)
+        {
+            if (tensor == null)
+                throw new ArgumentNullException(nameof(tensor));
+            //
+            // TF_STRING tensors are encoded with a table of 8-byte offsets followed by TF_StringEncode-encoded bytes.
+            // [offset1, offset2,...,offsetn, s1size, s1bytes, s2size, s2bytes,...,snsize,snbytes]
+            //
+            long size = 1;
+            foreach (var s in tensor.Shape)
+                size *= s;
+
+            var buffer = new byte[size][];
+            var src = TF_TensorData(tensor.handle);
+            var srcLen = (IntPtr)(src.ToInt64() + (long)tensor.TensorByteSize);
+            src += (int)(size * 8);
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                using (var status = new TFStatus())
+                {
+                    IntPtr dst = IntPtr.Zero;
+                    UIntPtr dstLen = UIntPtr.Zero;
+                    var read = TFString.TF_StringDecode((byte*)src, (size_t)(srcLen.ToInt64() - src.ToInt64()), (byte**)&dst, &dstLen, status.handle);
+                    var ok = status.StatusCode == TFCode.Ok;
+                    if (!ok)
+                        return null;
+                    buffer[i] = new byte[(int)dstLen];
+                    Marshal.Copy(dst, buffer[i], 0, buffer[i].Length);
+                    src += (int)read;
+                }
+            }
+            return buffer;
+        }
+
+        // Convenience function to factor out the setup of a new tensor from an array
+        static IntPtr SetupTensor (TFDataType dt, long [] dims, Array data, int size)
 		{
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}

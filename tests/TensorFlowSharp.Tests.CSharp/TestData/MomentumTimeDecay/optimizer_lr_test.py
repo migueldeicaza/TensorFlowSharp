@@ -1,3 +1,9 @@
+# This script is used to create data file (expected.txt)
+# which is used to compare the output from TensorFlowSharp optimizer tests.
+#
+# NOTE: This script is not used to generate the expected.txt file in this case 
+# because of the tf.train.MomentumOptimizer implemention difference with decay.
+# The expected.txt is actually the output from the test itself.
 import tensorflow as tf
 
 # Training data
