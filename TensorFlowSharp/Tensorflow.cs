@@ -1436,21 +1436,22 @@ namespace TensorFlow
     public class TFDevice: IDisposable
     {
         private TFGraph container;
-
+        private readonly string name;
         internal TFDevice(TFGraph container)
         {
             this.container = container;
+            name = container.DeviceName;
         }
 
         /// <summary>
-		/// Set the device name back to null.
+		/// Pops the device name back to previous device name in use.
 		/// </summary>
 		/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:TensorFlow.TFDevice"/>
 		/// to restore to the default device to be used in the <see cref="T:TensorFlow.TFGraph"/>.
 		/// </remarks>
 		public void Dispose()
         {
-            container.DeviceName = null;
+            container.DeviceName = name;
         }
     }
 
