@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TensorFlow;
 using Xunit;
 using Xunit.Abstractions;
@@ -360,7 +361,6 @@ namespace TensorFlowSharp.Tests.CSharp
         [Fact]
         public void MNISTTwoHiddenLayerNetworkTest()
         {
-            Console.WriteLine("Linear regression");
             // Parameters
             var learningRate = 0.1f;
             var epochs = 5;
@@ -433,27 +433,40 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-        private (TFOutput cost, TFOutput model, TFOutput accracy) CreateNetwork(TFGraph graph, TFOutput X, TFOutput Y)
+
+        /// <summary>
+        /// Get the variable if it has already been created in the graph otherwise creates the new one.
+        /// </summary>
+        public Variable GetVariable(TFGraph graph, Dictionary<Variable, List<TFOutput>> variables, TFOutput initialValue, bool trainable = true, string operName = null)
+        {
+            var variable = variables.Where(a => a.Key.VariableOp.Operation.Name.StartsWith(operName));
+            if (variable != null && variable.Count() > 0)
+                return variable.First().Key;
+
+            return graph.Variable(initialValue, trainable, operName);
+        }
+
+        private (TFOutput cost, TFOutput model, TFOutput accracy) CreateNetwork(TFGraph graph, TFOutput X, TFOutput Y, Dictionary<Variable, List<TFOutput>> variables)
         {
             graph.Seed = 1;
             var initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(784 + 500));
-            var W1 = graph.Variable(graph.RandomUniform(new TFShape(784, 500), minval: -initB, maxval: initB), operName: "W1");
-            var b1 = graph.Variable(graph.Constant(0f, new TFShape(500), TFDataType.Float), operName: "b1");
-            var layer1 = graph.Sigmoid(graph.Add(graph.MatMul(X, W1.Read), b1.Read, operName: "layer1"));
+            var W1 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(784, 500), minval: -initB, maxval: initB), operName: "W1");
+            var b1 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(500), TFDataType.Float), operName: "b1");
+            var layer1 = graph.Sigmoid(graph.Add(graph.MatMul(X, W1.Read), b1.Read));
 
             initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(500 + 100));
-            var W2 = graph.Variable(graph.RandomUniform(new TFShape(500, 100), minval: -initB, maxval: initB), operName: "W2");
-            var b2 = graph.Variable(graph.Constant(0f, new TFShape(100), TFDataType.Float), operName: "b2");
-            var layer2 = graph.Sigmoid(graph.Add(graph.MatMul(layer1, W2.Read), b2.Read, operName: "layer2"));
+            var W2 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(500, 100), minval: -initB, maxval: initB), operName: "W2");
+            var b2 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(100), TFDataType.Float), operName: "b2");
+            var layer2 = graph.Sigmoid(graph.Add(graph.MatMul(layer1, W2.Read), b2.Read));
 
             initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(100 + 10));
-            var W3 = graph.Variable(graph.RandomUniform(new TFShape(100, 10), minval: -initB, maxval: initB), operName: "W3");
-            var b3 = graph.Variable(graph.Constant(0f, new TFShape(10), TFDataType.Float), operName: "b3");
-            var model = graph.Add(graph.MatMul(layer2, W3.Read), b3.Read, operName: "layer3");
+            var W3 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(100, 10), minval: -initB, maxval: initB), operName: "W3");
+            var b3 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(10), TFDataType.Float), operName: "b3");
+            var model = graph.Add(graph.MatMul(layer2, W3.Read), b3.Read);
 
             // No support for computing gradient for the SparseSoftmaxCrossEntropyWithLogits function
             // instead using SoftmaxCrossEntropyWithLogits
-            var cost = graph.ReduceMean(graph.SoftmaxCrossEntropyWithLogits(model, Y, "cost").loss);
+            var cost = graph.ReduceMean(graph.SoftmaxCrossEntropyWithLogits(model, Y).loss);
 
             var prediction = graph.ArgMax(graph.Softmax(model), graph.Const(1));
             var labels = graph.ArgMax(Y, graph.Const(1));
@@ -463,12 +476,10 @@ namespace TensorFlowSharp.Tests.CSharp
             return (cost, model, accuracy);
         }
 
-        [Fact(Skip = "Need to have a way to place the operations on the GPU." +
-                     "Can not figure out right now how to do it." +
-                     "Therefore, if enabled this test will still work on single GPU.")]
+        [Fact(Skip = "Disabled because it requires GPUs and need to set numGPUs to available GPUs on system." +
+            " It has been tested on GPU machine with 4 GPUs and it passed there.")]
         public void MNISTTwoHiddenLayerNetworkGPUTest()
         {
-            Console.WriteLine("Linear regression");
             // Parameters
             var learningRate = 0.1f;
             var epochs = 5;
@@ -476,7 +487,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
             var mnist = new Mnist();
             mnist.ReadDataSets("/tmp");
-            int batchSize = 800;
+            int batchSize = 400;
             int numBatches = mnist.TrainImages.Length / batchSize;
 
             using (var graph = new TFGraph())
@@ -489,17 +500,13 @@ namespace TensorFlowSharp.Tests.CSharp
 
                 var sgd = new SGD(graph, learningRate, 0.9f);
                 TFOutput[] costs = new TFOutput[numGPUs];
-                TFOutput[] models = new TFOutput[numGPUs];
                 TFOutput[] accuracys = new TFOutput[numGPUs];
                 var variablesAndGradients = new Dictionary<Variable, List<TFOutput>>();
                 for (int i = 0; i < numGPUs; i++)
                 {
-                    // Need to have a way to place the operations on the GPU.
-                    // Can not figure out right now how to do it.
-                    // Therefore, this test will still work on single GPU.
-                    using (var scope = graph.WithScope("GPU" + i))
+                    using (var device = graph.WithDevice("/GPU:" + i))
                     {
-                        (costs[i], models[i], accuracys[i]) = CreateNetwork(graph, Xs[i], Ys[i]);
+                        (costs[i], _, accuracys[i]) = CreateNetwork(graph, Xs[i], Ys[i], variablesAndGradients);
                         foreach (var gv in sgd.ComputeGradient(costs[i], colocateGradientsWithOps: true))
                         {
                             if (!variablesAndGradients.ContainsKey(gv.variable))
@@ -509,7 +516,6 @@ namespace TensorFlowSharp.Tests.CSharp
                     }
                 }
                 var cost = graph.ReduceMean(graph.Stack(costs));
-                var model = models[0];
                 var accuracy = graph.ReduceMean(graph.Stack(accuracys));
 
                 var gradientsAndVariables = new (TFOutput gradient, Variable variable)[variablesAndGradients.Count];
@@ -517,7 +523,7 @@ namespace TensorFlowSharp.Tests.CSharp
                 foreach (var key in variablesAndGradients.Keys)
                 {
                     gradientsAndVariables[index].variable = key;
-                    gradientsAndVariables[index++].gradient = graph.ReduceMean(graph.Stack(variablesAndGradients[key].ToArray()));
+                    gradientsAndVariables[index++].gradient = graph.ReduceMean(graph.Stack(variablesAndGradients[key].ToArray()), graph.Const(0));
                 }
 
                 var updateOps = sgd.ApplyGradient(gradientsAndVariables);

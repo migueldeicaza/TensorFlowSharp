@@ -16,7 +16,12 @@ namespace TensorFlow
         /// The graph object. It is used for creating Ops through the construction of optimizer.
         /// </summary>
         protected readonly TFGraph _graph;
-        protected readonly string _optimizerName = "moments";
+
+        /// <summary>
+        /// Name the optimization operation in the graph.
+        /// All the operation will be created under this name scope.
+        /// </summary>
+        protected readonly string _optimizerName;
 
         /// <summary>
         /// Construct optimizer.
@@ -39,23 +44,7 @@ namespace TensorFlow
         /// gradient can be `None`.</returns>
         public virtual (TFOutput gradient, Variable variable)[] ComputeGradient(TFOutput loss, Variable[] varList = null, bool colocateGradientsWithOps = false)
         {
-            if(_graph.CurrentNameScope == "")
-                varList = varList ?? _graph.GetTrainableVariables();
-            else
-            {
-                if (varList == null)
-                {
-                    var vList = new List<Variable>();
-                    foreach(var v in _graph.GetTrainableVariables())
-                    {
-                        if(v.VariableOp.Operation.Name.StartsWith(_graph.CurrentNameScope))
-                        {
-                            vList.Add(v);
-                        }
-                    }
-                    varList = vList.ToArray();
-                }
-            }
+            varList = varList ?? _graph.GetTrainableVariables();
             var gradientsAndVariables = new (TFOutput gradient, Variable variable)[varList.Length];
             for (int i = 0; i < varList.Length; i++)
             {
@@ -111,7 +100,6 @@ namespace TensorFlow
 
         private readonly string _lrName = "LearningRate";
         private readonly string _momentumName = "Momentum";
-        private readonly string _momentsName = "moments";
 
         private readonly bool _nesterov;
 
