@@ -1053,7 +1053,38 @@ namespace TensorFlow
 			}
 		}
 
-		static unsafe object FetchSimple (TFDataType dt, IntPtr data)
+        internal static TFTensor Create1DTensor(TFDataType dt, object data)
+        {
+            switch (dt)
+            {
+                case TFDataType.Float:
+                    return new TFTensor(Convert.ToSingle(data));
+                case TFDataType.Double:
+                    return new TFTensor(Convert.ToDouble(data));
+                case TFDataType.Int32:
+                    return new TFTensor(Convert.ToInt32(data));
+                case TFDataType.UInt8:
+                    return new TFTensor(Convert.ToByte(data));
+                case TFDataType.Int16:
+                    return new TFTensor(Convert.ToInt16(data));
+                case TFDataType.Int8:
+                    return new TFTensor(Convert.ToSByte(data));
+                case TFDataType.String:
+                    throw new NotImplementedException();
+                case TFDataType.Int64:
+                    return new TFTensor(Convert.ToInt64(data));
+                case TFDataType.Bool:
+                    return new TFTensor(Convert.ToBoolean(data));
+                case TFDataType.UInt16:
+                    return new TFTensor(Convert.ToUInt16(data));
+                case TFDataType.Complex128:
+                    return new TFTensor((Complex)data);
+                default:
+                    return null;
+            }
+        }
+
+        static unsafe object FetchSimple (TFDataType dt, IntPtr data)
 		{
 			switch (dt) {
 			case TFDataType.Float:

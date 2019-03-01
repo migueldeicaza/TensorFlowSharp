@@ -48,8 +48,13 @@ namespace TensorFlow
 		/// see https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/python/framework/constant_op.py
 		public TFOutput Constant (object value, TFShape tfshape, TFDataType dtype = TFDataType.Double, string operName = null)
 		{
-			//convert the .net type to relevant tensorflow type
-			object dtvalue = TFTensor.FetchSimple (dtype, value);
+            if (tfshape.NumDimensions <= 0)
+            {
+                TFTensor tensor = TFTensor.Create1DTensor(dtype, value);
+                return Const(tensor, tensor.TensorType, operName);
+            }
+            //convert the .net type to relevant tensorflow type
+            object dtvalue = TFTensor.FetchSimple (dtype, value);
 
 			var shape = tfshape.ToArray ();
 			var idx = new int [shape.Length];
