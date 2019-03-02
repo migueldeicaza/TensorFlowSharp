@@ -1,0 +1,51 @@
+Epoch 1/1
+
+1/1 [==============================] - 3s 3s/step - loss: 0.0474 - mean_squared_error: 1.6129
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.1439 - mean_squared_error: 4.8941
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.0581 - mean_squared_error: 1.9754
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.1607 - mean_squared_error: 5.4639
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0169 - mean_squared_error: 0.5749
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.0256 - mean_squared_error: 0.8693
+Epoch 1/1
+
+1/1 [==============================] - 0s 0us/step - loss: 0.1091 - mean_squared_error: 3.7084
+Epoch 1/1
+
+1/1 [==============================] - 0s 0us/step - loss: 0.0738 - mean_squared_error: 2.5099
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0449 - mean_squared_error: 1.5280
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.0165 - mean_squared_error: 0.5611
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0646 - mean_squared_error: 2.1959
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0548 - mean_squared_error: 1.8629
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.0075 - mean_squared_error: 0.2556
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0403 - mean_squared_error: 1.3685
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0362 - mean_squared_error: 1.2313
+Epoch 1/1
+
+1/1 [==============================] - 0s 1000us/step - loss: 0.0185 - mean_squared_error: 0.6274
+Epoch 1/1
+
+1/1 [==============================] - 0s 1ms/step - loss: 0.0067 - mean_squared_error: 0.2262
