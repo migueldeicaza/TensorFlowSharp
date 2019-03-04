@@ -77,7 +77,10 @@ namespace TensorFlow
         /// <param name="varList">list of variable to compute the gradients for.
         /// If null the gradient is computed for all the trainable variables in the graph./param>
         /// <returns>An Operation that updates the variables.</returns>
-        public abstract TFOperation[] Minimize(TFOutput loss, Variable[] varList = null);
+        public virtual TFOperation[] Minimize(TFOutput loss, Variable[] varList = null)
+        {
+            return ApplyGradient(ComputeGradient(loss, varList));
+        }
     }
 
     /// <summary>
@@ -188,11 +191,103 @@ namespace TensorFlow
             }
             return _updateOps.ToArray();
         }
+    }
+
+    /// <summary>
+    /// Adaptive stochastic gradient descent optimizer.
+    /// </summary>
+    public sealed class Adagrad : Optimizer
+    {
+        /// <summary>
+        /// Varaible to keep track of number of iterations (mini-batch processed)
+        /// </summary>
+        public Variable Iterations { get; }
+
+        /// <summary>
+        /// Variable to keep track of the learning rate.
+        /// </summary>
+        public Variable LearningRate { get; }
+
+        private readonly string _lrName = "LearningRate";
+        private readonly IList<TFOperation> _updateOps = new List<TFOperation>();
+        private float _initialAccumulatorValue;
+        private TFOutput _epsilon;
+
+        /// <summary>
+        /// Construct Adagrad optimizer.
+        /// </summary>
+        /// <param name="graph">The graph object.</param>
+        /// <param name="learningRate">The learning rate for the SGD update.</param>
+        /// <param name="decay">Learning rate decay over each update.</param>
+        /// <param name="initialAccumulatorValue">A floating point value. Starting value for the accumulators, must be positive.</param>
+        /// <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
+        public Adagrad(TFGraph graph, float learningRate, float decay = 0, float initialAccumulatorValue = 0.1f, string operName = "AdagradOptimizer") : base(graph, operName)
+        {
+            if (initialAccumulatorValue < 0)
+                throw new ArgumentException($"Value must be positive. initialAccumulatorValue = {initialAccumulatorValue}");
+
+            using (var scope = _graph.WithScope(_optimizerName))
+            {
+                Iterations = _graph.Variable(_graph.Const(new TFTensor(0L)), trainable: false, operName: "iterations");
+                _updateOps.Add(_graph.AssignAddVariableOp(Iterations, _graph.Const(1L)));
+                var initialLearningRate = _graph.Const(learningRate);
+                LearningRate = _graph.Variable(initialLearningRate, trainable: false, operName: _lrName);
+                CreateDecayOps(decay, initialLearningRate);
+            }
+            _initialAccumulatorValue = initialAccumulatorValue;
+            _epsilon = _graph.Const(1e-7f);
+        }
+
+        private void CreateDecayOps(float decay, TFOutput initialLearningRate)
+        {
+            if (decay > 0)
+            {
+                var _decay = _graph.Const(decay, "Decay");
+                var one = _graph.Const(1f);
+                _updateOps.Add(_graph.AssignVariableOp(LearningRate,
+                    _graph.Mul(initialLearningRate,
+                                _graph.Div(one,
+                                            _graph.Add(one,
+                                                        _graph.Mul(_decay,
+                                                                    _graph.Cast(Iterations.Read, _decay.OutputType)
+                                                                  )
+                                                       )
+                                           )
+                               )));
+            }
+        }
+
+        private TFOutput[] InitMoments((TFOutput gradient, Variable variable)[] gradientsAndVariables)
+        {
+            var accumulators = new TFOutput[gradientsAndVariables.Length];
+            for (int i = 0; i < gradientsAndVariables.Length; i++)
+            {
+                var gv = gradientsAndVariables[i];
+                var varType = gv.variable.Read.OutputType;
+                var varShape = _graph.GetTensorShape(gv.variable.Read);
+                accumulators[i] = _graph.VariableV2(varShape, varType);
+                _graph.AddInitVariable(_graph.Assign(accumulators[i], _graph.Constant(_initialAccumulatorValue, varShape, varType)).Operation);
+            }
+            return accumulators;
+        }
 
         /// <inheritdoc />
-        public override TFOperation[] Minimize(TFOutput loss, Variable[] varList = null)
+        public override TFOperation[] ApplyGradient((TFOutput gradient, Variable variable)[] gradientsAndVariables)
         {
-            return ApplyGradient(ComputeGradient(loss, varList));
+            var accumulators = InitMoments(gradientsAndVariables);
+            for (int i = 0; i < gradientsAndVariables.Length; i++)
+            {
+                var gv = gradientsAndVariables[i];
+                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                // accum = g ** 2;
+                var accum = _graph.Add(accumulators[i], _graph.Square(gv.gradient));
+                // accumulators[i] = accum
+                _updateOps.Add(_graph.Assign(accumulators[i], accum).Operation);
+                // w = w - lr * g / sqrt(accum + 1e-7)
+                var denom = _graph.Div(_graph.Mul(lr, gv.gradient), _graph.Sqrt(_graph.Add(accum, _epsilon)));
+                _updateOps.Add(_graph.AssignSubVariableOp(gv.variable, denom));
+            }
+            return _updateOps.ToArray();
         }
     }
 }
