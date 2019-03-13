@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net471</TargetFrameworks>
-    <Platform>x64</Platform>
     <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 

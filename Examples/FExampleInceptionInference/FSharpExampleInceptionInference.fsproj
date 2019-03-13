@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net471</TargetFrameworks>
+    <OutputType>Exe</OutputType>
     <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 
