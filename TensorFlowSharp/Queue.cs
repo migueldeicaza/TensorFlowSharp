@@ -189,7 +189,7 @@ namespace TensorFlow
 		public TFTensor [] EnqueueExecute (TFOutput [] components, TFTensor [] inputValues, long? timeout_ms = null, string operationName = null)
 		{
 			TFOperation enqueueOp = Enqueue (components, timeout_ms, operationName);
-			TFTensor [] tensors = Session.Run (components, inputValues, Array.Empty<TFOutput> (), new [] { enqueueOp });
+			TFTensor [] tensors = Session.Run (components, inputValues, new TFOutput[0], new [] { enqueueOp });
 			return tensors;
 		}
 
@@ -244,7 +244,7 @@ namespace TensorFlow
 		public TFTensor [] DequeueExecute (long? timeout_ms = null, string operationName = null)
 		{
 			TFOutput [] values = Session.Graph.QueueDequeueV2 (_handle, _componentTypes, timeout_ms, operationName);
-			TFTensor [] tensors = Session.Run (Array.Empty<TFOutput> (), Array.Empty<TFTensor> (), values);
+			TFTensor [] tensors = Session.Run (new TFOutput[0], new TFTensor[0], values);
 			return tensors;
 		}
 
@@ -287,7 +287,7 @@ namespace TensorFlow
 		public int GetSizeExecute (string operationName = null)
 		{
 			TFOutput sizeOutput = GetSize (operationName);
-			TFTensor [] tensors = Session.Run (Array.Empty<TFOutput> (), Array.Empty<TFTensor> (), new TFOutput [] { sizeOutput });
+			TFTensor [] tensors = Session.Run (new TFOutput[0], new TFTensor[0], new TFOutput [] { sizeOutput });
 			return (int)tensors.First ().GetValue ();
 		}
 	}

@@ -1,15 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net471</TargetFrameworks>
+    <TargetFrameworks>net45;net471;netcoreapp2.2</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platform>x64</Platform>
-    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="New Folder\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Condition="'$(IsOSX)' != 'true' and '$(IsLinux)' != 'true'" 
+             Include="..\runtimes\win7-x64\native\libtensorflow.dll"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsOSX)' == 'true'"
+             Include="..\runtimes\osx\native\libtensorflow.dylib"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsOSX)' == 'true'"
+             Include="..\runtimes\osx\native\libtensorflow_framework.dylib"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsLinux)' == 'true'"
+             Include="..\runtimes\linux\native\libtensorflow.so"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsLinux)' == 'true'"
+             Include="..\runtimes\linux\native\libtensorflow_framework.so"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />             
   </ItemGroup>
 
   <ItemGroup>

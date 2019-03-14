@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">  
 
   <PropertyGroup>
-    <TargetFrameworks>net471</TargetFrameworks>
-    <ReleaseVersion>0.2</ReleaseVersion>
+    <TargetFrameworks>net45;net471;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

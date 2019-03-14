@@ -8,7 +8,7 @@ namespace TensorFlowSharp.Tests.CSharp
 {
 	public class TensorTests
 	{
-		private static IEnumerable<object []> jaggedData ()
+		public static IEnumerable<object []> jaggedData ()
 		{
 			yield return new object [] {
 				new double [][] { new [] { 1.0, 2.0 }, new [] { 3.0, 4.0 } },

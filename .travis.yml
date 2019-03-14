@@ -9,8 +9,8 @@ script:
   - msbuild /p:Configuration=Release TensorFlowSharp.sln
   - cp $TRAVIS_BUILD_DIR/runtimes/osx/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/net471/
   - cp -R $TRAVIS_BUILD_DIR/runtimes/osx/native/*.dylib $TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/net471/
-  - wget "https://www.nuget.org/api/v2/package/xunit.runner.console/2.2.0" -O xunit.runner.console-2.2.0"
-  - tar xzvf xunit.runner.console-2.2.0 tools
+  - wget "https://www.nuget.org/api/v2/package/xunit.runner.console/2.1.0" -O xunit.runner.console-2.1.0"
+  - tar xzvf xunit.runner.console-2.1.0 tools
   - cd $TRAVIS_BUILD_DIR/tools
   - cp "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/net471/FSharp.Core.dll" .
   - mono --arch=64 xunit.console.exe "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests/bin/Release/net471/TensorFlowSharp.Tests.dll" "$TRAVIS_BUILD_DIR/tests/TensorFlowSharp.Tests.CSharp/bin/Release/net471/TensorFlowSharp.Tests.CSharp.dll"

@@ -1,13 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">  
 
   <PropertyGroup>
-    <TargetFrameworks>net471</TargetFrameworks>
+    <TargetFrameworks>net45;net471;netcoreapp2.2</TargetFrameworks>
     <OutputType>Exe</OutputType>
-    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TensorFlowSharp\TensorFlowSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

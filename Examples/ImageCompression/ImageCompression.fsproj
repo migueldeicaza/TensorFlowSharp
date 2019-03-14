@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">  
 
   <PropertyGroup>
-    <TargetFrameworks>net471</TargetFrameworks>
-    <ReleaseVersion>0.2</ReleaseVersion>
+    <TargetFrameworks>net45;net471;netcoreapp2.2</TargetFrameworks>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ImageCompression.fs" />
     <Content Include="example.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
