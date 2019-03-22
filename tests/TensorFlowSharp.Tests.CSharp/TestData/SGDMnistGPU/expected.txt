@@ -1,0 +1,5 @@
+Epoch: 0, loss(Cross-Entropy): 0.7236, Accuracy:0.7956
+Epoch: 1, loss(Cross-Entropy): 0.2806, Accuracy:0.9170
+Epoch: 2, loss(Cross-Entropy): 0.2276, Accuracy:0.9331
+Epoch: 3, loss(Cross-Entropy): 0.1957, Accuracy:0.9425
+Epoch: 4, loss(Cross-Entropy): 0.1730, Accuracy:0.9492

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TensorFlow;
 using Xunit;
 using Xunit.Abstractions;
@@ -358,12 +359,11 @@ namespace TensorFlowSharp.Tests.CSharp
         }
 
         [Fact]
-        public void MNISTTwoLayerNetwork()
+        public void MNISTTwoHiddenLayerNetworkTest()
         {
-            Console.WriteLine("Linear regression");
             // Parameters
-            var learning_rate = 0.1f;
-            var training_epochs = 5;
+            var learningRate = 0.1f;
+            var epochs = 5;
 
 
             var mnist = new Mnist();
@@ -401,7 +401,7 @@ namespace TensorFlowSharp.Tests.CSharp
                 var areCorrect = graph.Equal(prediction, labels);
                 var accuracy = graph.ReduceMean(graph.Cast(areCorrect,TFDataType.Float));
 
-                var sgd = new SGD(graph, learning_rate, 0.9f);
+                var sgd = new SGD(graph, learningRate, 0.9f);
                 var updateOps = sgd.Minimize(cost);
 
                 using (var sesssion = new TFSession(graph))
@@ -410,7 +410,7 @@ namespace TensorFlowSharp.Tests.CSharp
 
                     var expectedLines = File.ReadAllLines(Path.Combine(_testDataPath, "SGDMnist", "expected.txt"));
                     
-                    for (int i = 0; i < training_epochs; i++)
+                    for (int i = 0; i < epochs; i++)
                     {
                         var reader = mnist.GetTrainReader();
                         float avgLoss = 0;
@@ -422,6 +422,130 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, batch.Item1)
                                 .AddInput(Y, batch.Item2)
                                 .AddTarget(updateOps).Fetch(cost, accuracy, prediction, labels).Run();
+
+                            avgLoss += (float)tensors[0].GetValue();
+                            avgAccuracy += (float)tensors[1].GetValue();
+                        }
+                        var output = $"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}";
+                        Assert.Equal(expectedLines[i], output);
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Get the variable if it has already been created in the graph otherwise creates the new one.
+        /// </summary>
+        public Variable GetVariable(TFGraph graph, Dictionary<Variable, List<TFOutput>> variables, TFOutput initialValue, bool trainable = true, string operName = null)
+        {
+            var variable = variables.Where(a => a.Key.VariableOp.Operation.Name.StartsWith(operName));
+            if (variable != null && variable.Count() > 0)
+                return variable.First().Key;
+
+            return graph.Variable(initialValue, trainable, operName);
+        }
+
+        private (TFOutput cost, TFOutput model, TFOutput accracy) CreateNetwork(TFGraph graph, TFOutput X, TFOutput Y, Dictionary<Variable, List<TFOutput>> variables)
+        {
+            graph.Seed = 1;
+            var initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(784 + 500));
+            var W1 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(784, 500), minval: -initB, maxval: initB), operName: "W1");
+            var b1 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(500), TFDataType.Float), operName: "b1");
+            var layer1 = graph.Sigmoid(graph.Add(graph.MatMul(X, W1.Read), b1.Read));
+
+            initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(500 + 100));
+            var W2 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(500, 100), minval: -initB, maxval: initB), operName: "W2");
+            var b2 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(100), TFDataType.Float), operName: "b2");
+            var layer2 = graph.Sigmoid(graph.Add(graph.MatMul(layer1, W2.Read), b2.Read));
+
+            initB = (float)(4 * Math.Sqrt(6) / Math.Sqrt(100 + 10));
+            var W3 = GetVariable(graph, variables, graph.RandomUniform(new TFShape(100, 10), minval: -initB, maxval: initB), operName: "W3");
+            var b3 = GetVariable(graph, variables, graph.Constant(0f, new TFShape(10), TFDataType.Float), operName: "b3");
+            var model = graph.Add(graph.MatMul(layer2, W3.Read), b3.Read);
+
+            // No support for computing gradient for the SparseSoftmaxCrossEntropyWithLogits function
+            // instead using SoftmaxCrossEntropyWithLogits
+            var cost = graph.ReduceMean(graph.SoftmaxCrossEntropyWithLogits(model, Y).loss);
+
+            var prediction = graph.ArgMax(graph.Softmax(model), graph.Const(1));
+            var labels = graph.ArgMax(Y, graph.Const(1));
+            var areCorrect = graph.Equal(prediction, labels);
+            var accuracy = graph.ReduceMean(graph.Cast(areCorrect, TFDataType.Float));
+
+            return (cost, model, accuracy);
+        }
+
+        [Fact(Skip = "Disabled because it requires GPUs and need to set numGPUs to available GPUs on system." +
+            " It has been tested on GPU machine with 4 GPUs and it passed there.")]
+        public void MNISTTwoHiddenLayerNetworkGPUTest()
+        {
+            // Parameters
+            var learningRate = 0.1f;
+            var epochs = 5;
+            var numGPUs = 4;
+
+            var mnist = new Mnist();
+            mnist.ReadDataSets("/tmp");
+            int batchSize = 400;
+            int numBatches = mnist.TrainImages.Length / batchSize;
+
+            using (var graph = new TFGraph())
+            {
+                var X = graph.Placeholder(TFDataType.Float, new TFShape(-1, 784));
+                var Y = graph.Placeholder(TFDataType.Float, new TFShape(-1, 10));
+
+                var Xs = graph.Split(graph.Const(0), X, numGPUs);
+                var Ys = graph.Split(graph.Const(0), Y, numGPUs);
+
+                var sgd = new SGD(graph, learningRate, 0.9f);
+                TFOutput[] costs = new TFOutput[numGPUs];
+                TFOutput[] accuracys = new TFOutput[numGPUs];
+                var variablesAndGradients = new Dictionary<Variable, List<TFOutput>>();
+                for (int i = 0; i < numGPUs; i++)
+                {
+                    using (var device = graph.WithDevice("/GPU:" + i))
+                    {
+                        (costs[i], _, accuracys[i]) = CreateNetwork(graph, Xs[i], Ys[i], variablesAndGradients);
+                        foreach (var gv in sgd.ComputeGradient(costs[i], colocateGradientsWithOps: true))
+                        {
+                            if (!variablesAndGradients.ContainsKey(gv.variable))
+                                variablesAndGradients[gv.variable] = new List<TFOutput>();
+                            variablesAndGradients[gv.variable].Add(gv.gradient);
+                        }
+                    }
+                }
+                var cost = graph.ReduceMean(graph.Stack(costs));
+                var accuracy = graph.ReduceMean(graph.Stack(accuracys));
+
+                var gradientsAndVariables = new (TFOutput gradient, Variable variable)[variablesAndGradients.Count];
+                int index = 0;
+                foreach (var key in variablesAndGradients.Keys)
+                {
+                    gradientsAndVariables[index].variable = key;
+                    gradientsAndVariables[index++].gradient = graph.ReduceMean(graph.Stack(variablesAndGradients[key].ToArray()), graph.Const(0));
+                }
+
+                var updateOps = sgd.ApplyGradient(gradientsAndVariables);
+
+                using (var sesssion = new TFSession(graph))
+                {
+                    sesssion.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
+
+                    var expectedLines = File.ReadAllLines(Path.Combine(_testDataPath, "SGDMnistGPU", "expected.txt"));
+
+                    for (int i = 0; i < epochs; i++)
+                    {
+                        var reader = mnist.GetTrainReader();
+                        float avgLoss = 0;
+                        float avgAccuracy = 0;
+                        for (int j = 0; j < numBatches; j++)
+                        {
+                            var batch = reader.NextBatch(batchSize);
+                            var tensors = sesssion.GetRunner()
+                                .AddInput(X, batch.Item1)
+                                .AddInput(Y, batch.Item2)
+                                .AddTarget(updateOps).Fetch(cost, accuracy).Run();
 
                             avgLoss += (float)tensors[0].GetValue();
                             avgAccuracy += (float)tensors[1].GetValue();
