@@ -1,21 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net46;netstandard2.0</TargetFrameworks>
     <RootNamespace>TensorFlowSharp</RootNamespace>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
-    <ReleaseVersion>0.2</ReleaseVersion>
     <TensorFlowRuntimeVersion>1.12.0</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.10.0-pre1</PackageVersion>
+    <PackageVersion>1.12.0</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -26,14 +25,37 @@
     <PackageReleaseNotes>1.12.0 adds support for the TensorFlow 1.12 release</PackageReleaseNotes>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<IsOSX Condition="Exists('/Library/Frameworks') and Exists ('/etc')">true</IsOSX>
+		<IsLinux Condition="Exists ('/proc') and Exists ('/etc/')">true</IsLinux>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Condition="'$(IsOSX)' != 'true' and '$(IsLinux)' != 'true'" 
+             Include="..\runtimes\win7-x64\native\libtensorflow.dll"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsOSX)' == 'true'"
+             Include="..\runtimes\osx\native\libtensorflow.dylib"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsOSX)' == 'true'"
+             Include="..\runtimes\osx\native\libtensorflow_framework.dylib"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsLinux)' == 'true'"
+             Include="..\runtimes\linux\native\libtensorflow.so"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />
+    <Content Condition="'$(IsLinux)' == 'true'"
+             Include="..\runtimes\linux\native\libtensorflow_framework.so"
+             CopyToOutputDirectory="PreserveNewest" pack="false" />             
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="nuget\build\net45\TensorFlowSharp.targets" />
     <None Include="nuget\build\net45\TensorFlowSharp.targets" PackagePath="build\net45\TensorFlowSharp.targets" Pack="true" />
-    <None Include="..\native\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
-    <None Include="..\native\libtensorflow.dylib" Link="nuget\runtimes\osx\native\libtensorflow.dylib" PackagePath="runtimes\osx\native\libtensorflow.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow.so" Link="nuget\runtimes\linux\native\libtensorflow.so" PackagePath="runtimes\linux\native\libtensorflow.so" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
+    <None Include="..\runtimes\win7-x64\native\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
+    <None Include="..\runtimes\osx\native\libtensorflow.dylib" Link="nuget\runtimes\osx\native\libtensorflow.dylib" PackagePath="runtimes\osx\native\libtensorflow.dylib" Pack="true" />
+    <None Include="..\runtimes\osx\native\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
+    <None Include="..\runtimes\linux\native\libtensorflow.so" Link="nuget\runtimes\linux\native\libtensorflow.so" PackagePath="runtimes\linux\native\libtensorflow.so" Pack="true" />
+    <None Include="..\runtimes\linux\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
   </ItemGroup>
 
   <ItemGroup>

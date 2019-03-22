@@ -1145,7 +1145,11 @@ namespace TensorFlow
 
 		unsafe static void Copy (IntPtr src, void* target, int size)
 		{
+#if NET45
+			BufferInternal.MemoryCopy((void*)src, (void*)target, size, size);
+#else			
 			Buffer.MemoryCopy ((void*)src, target, size, size);
+#endif
 		}
 
 		static unsafe void FetchFlatArray (Array target, TFDataType dt, IntPtr data)

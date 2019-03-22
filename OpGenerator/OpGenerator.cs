@@ -565,7 +565,7 @@ class OpGenerator
 
 	void Run (string [] dirs)
 	{
-		output = File.CreateText ("../../../TensorFlowSharp/Operations.g.cs");
+		output = File.CreateText ("../../../../../TensorFlowSharp/Operations.g.cs");
 	     	var operations = Serializer.Deserialize<List<OpDef>> (GetOpsList ());
 		UpdateApis (dirs);
 		p ("using System;\n");

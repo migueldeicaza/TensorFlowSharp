@@ -133,7 +133,11 @@ namespace TensorFlow
 		static TFBuffer ()
 		{
 			FreeBlockDelegate = FreeBlock;
+#if NET45
+			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate (FreeBlockDelegate);
+#else
 			FreeBufferFunc = Marshal.GetFunctionPointerForDelegate<BufferReleaseFunc> (FreeBlockDelegate);
+#endif
 		}
 
 

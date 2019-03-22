@@ -3,6 +3,9 @@
 //
 // From models/compression/encoder.py
 //
+
+module ImageCompression
+
 open System
 open System.IO
 open TensorFlow
