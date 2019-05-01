@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class RMSProp
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class RMSProp
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.RMSProp">
+  
+  
+  <h1 id="TensorFlow_RMSProp" data-uid="TensorFlow.RMSProp">Class RMSProp
+  </h1>
+  <div class="markdown level0 summary"><p>RMSProp: Adaptive stochastic gradient descent optimizer.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="TensorFlow.Optimizer.html">Optimizer</a></div>
+    <div class="level2"><a class="xref" href="TensorFlow.AdaptiveOptimizer.html">AdaptiveOptimizer</a></div>
+    <div class="level3"><span class="xref">RMSProp</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="TensorFlow.AdaptiveOptimizer.html#TensorFlow_AdaptiveOptimizer__epsilon">AdaptiveOptimizer._epsilon</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer__graph">Optimizer._graph</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer__optimizerName">Optimizer._optimizerName</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer__updateOps">Optimizer._updateOps</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_ComputeGradient_TensorFlow_TFOutput_TensorFlow_Variable___System_Boolean_">Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_CreateDecayOps_System_Single_TensorFlow_TFOutput_">Optimizer.CreateDecayOps(Single, TFOutput)</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_InitMoments_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____">Optimizer.InitMoments(ValueTuple&lt;TFOutput,Variable&gt;[])</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_Iterations">Optimizer.Iterations</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_LearningRate">Optimizer.LearningRate</a>
+    </div>
+    <div>
+      <a class="xref" href="TensorFlow.Optimizer.html#TensorFlow_Optimizer_Minimize_TensorFlow_TFOutput_TensorFlow_Variable___">Optimizer.Minimize(TFOutput, Variable[])</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_RMSProp_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class RMSProp : TensorFlow.AdaptiveOptimizer</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_RMSProp__ctor_" data-uid="TensorFlow.RMSProp.#ctor*"></a>
+  <h4 id="TensorFlow_RMSProp__ctor_TensorFlow_TFGraph_System_Single_System_Single_System_Single_System_Single_System_String_" data-uid="TensorFlow.RMSProp.#ctor(TensorFlow.TFGraph,System.Single,System.Single,System.Single,System.Single,System.String)">RMSProp(TFGraph, Single, Single, Single, Single, String)</h4>
+  <div class="markdown level1 summary"><p>Construct Adagrad optimizer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RMSProp (TensorFlow.TFGraph graph, float learningRate, float beta = 0.9, float decay = 0, float initialAccumulatorValue = 0.1, string operName = &quot;AdagradOptimizer&quot;);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>The graph object.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">learningRate</span></td>
+        <td><p>The learning rate for the SGD update.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">beta</span></td>
+        <td><p>Factor to compute the moving average over square of gradients.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">decay</span></td>
+        <td><p>Learning rate decay over each update.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">initialAccumulatorValue</span></td>
+        <td><p>A floating point value. Starting value for the accumulators, must be positive.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operName</span></td>
+        <td><p>Name the optimizer. All the variable that are created in this class will be created under this scope.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_RMSProp_ApplyGradient_" data-uid="TensorFlow.RMSProp.ApplyGradient*"></a>
+  <h4 id="TensorFlow_RMSProp_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____" data-uid="TensorFlow.RMSProp.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])">ApplyGradient(ValueTuple&lt;TFOutput,Variable&gt;[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override TensorFlow.TFOperation[] ApplyGradient (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>,<a class="xref" href="TensorFlow.Variable.html">Variable</a>&gt;[]</td>
+        <td><span class="parametername">gradientsAndVariables</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

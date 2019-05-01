@@ -1,0 +1,63 @@
+<Type Name="AdaptiveOptimizer" FullName="TensorFlow.AdaptiveOptimizer">
+  <TypeSignature Language="C#" Value="public abstract class AdaptiveOptimizer : TensorFlow.Optimizer" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit AdaptiveOptimizer extends TensorFlow.Optimizer" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.Optimizer</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            The base class for all the adaptive optimizers.
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AdaptiveOptimizer (TensorFlow.TFGraph graph, float learningRate, float decay = 0, float initialAccumulatorValue = 0.1, string operName = &quot;AdagradOptimizer&quot;);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, float32 learningRate, float32 decay, float32 initialAccumulatorValue, string operName) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="learningRate" Type="System.Single" />
+        <Parameter Name="decay" Type="System.Single" />
+        <Parameter Name="initialAccumulatorValue" Type="System.Single" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="graph">The graph object.</param>
+        <param name="learningRate">The learning rate for the SGD update.</param>
+        <param name="decay">Learning rate decay over each update.</param>
+        <param name="initialAccumulatorValue">A floating point value. Starting value for the accumulators, must be positive.</param>
+        <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
+        <summary>
+            Construct Adagrad optimizer.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="_epsilon">
+      <MemberSignature Language="C#" Value="protected readonly TensorFlow.TFOutput _epsilon;" />
+      <MemberSignature Language="ILAsm" Value=".field family initonly valuetype TensorFlow.TFOutput _epsilon" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Constant value used for avoiding division overflow.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

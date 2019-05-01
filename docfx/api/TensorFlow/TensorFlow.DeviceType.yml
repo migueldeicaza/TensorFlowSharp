@@ -1,0 +1,110 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.DeviceType
+  id: DeviceType
+  children:
+  - TensorFlow.DeviceType.CPU
+  - TensorFlow.DeviceType.GPU
+  - TensorFlow.DeviceType.TPU
+  langs:
+  - csharp
+  name: DeviceType
+  nameWithType: DeviceType
+  fullName: TensorFlow.DeviceType
+  type: Enum
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Device type
+  syntax:
+    content: public enum DeviceType
+  inheritance:
+  - System.Enum
+- uid: TensorFlow.DeviceType.CPU
+  id: CPU
+  parent: TensorFlow.DeviceType
+  langs:
+  - csharp
+  name: CPU
+  nameWithType: DeviceType.CPU
+  fullName: DeviceType.CPU
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The device is the Central Processing Unit (CPU)
+  syntax:
+    content: CPU
+    return:
+      type: TensorFlow.DeviceType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.DeviceType.GPU
+  id: GPU
+  parent: TensorFlow.DeviceType
+  langs:
+  - csharp
+  name: GPU
+  nameWithType: DeviceType.GPU
+  fullName: DeviceType.GPU
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The device is a Graphics Processing Unit (GPU)
+  syntax:
+    content: GPU
+    return:
+      type: TensorFlow.DeviceType
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.DeviceType.TPU
+  id: TPU
+  parent: TensorFlow.DeviceType
+  langs:
+  - csharp
+  name: TPU
+  nameWithType: DeviceType.TPU
+  fullName: DeviceType.TPU
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The device is a Tensor Processing Unit (TPU)
+  syntax:
+    content: TPU
+    return:
+      type: TensorFlow.DeviceType
+      description: To be added.
+  exceptions: []
+references:
+- uid: System.Enum
+  parent: System
+  isExternal: true
+  name: Enum
+  nameWithType: Enum
+  fullName: System.Enum
+- uid: TensorFlow.DeviceType.CPU
+  parent: TensorFlow.DeviceType
+  isExternal: false
+  name: CPU
+  nameWithType: DeviceType.CPU
+  fullName: DeviceType.CPU
+- uid: TensorFlow.DeviceType
+  parent: TensorFlow
+  isExternal: false
+  name: DeviceType
+  nameWithType: DeviceType
+  fullName: TensorFlow.DeviceType
+- uid: TensorFlow.DeviceType.GPU
+  parent: TensorFlow.DeviceType
+  isExternal: false
+  name: GPU
+  nameWithType: DeviceType.GPU
+  fullName: DeviceType.GPU
+- uid: TensorFlow.DeviceType.TPU
+  parent: TensorFlow.DeviceType
+  isExternal: false
+  name: TPU
+  nameWithType: DeviceType.TPU
+  fullName: DeviceType.TPU

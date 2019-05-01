@@ -1,0 +1,561 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.Optimizer
+  id: Optimizer
+  children:
+  - TensorFlow.Optimizer.#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)
+  - TensorFlow.Optimizer._graph
+  - TensorFlow.Optimizer._optimizerName
+  - TensorFlow.Optimizer._updateOps
+  - TensorFlow.Optimizer.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  - TensorFlow.Optimizer.ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)
+  - TensorFlow.Optimizer.CreateDecayOps(System.Single,TensorFlow.TFOutput)
+  - TensorFlow.Optimizer.InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  - TensorFlow.Optimizer.Iterations
+  - TensorFlow.Optimizer.LearningRate
+  - TensorFlow.Optimizer.Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])
+  langs:
+  - csharp
+  name: Optimizer
+  nameWithType: Optimizer
+  fullName: TensorFlow.Optimizer
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Base class for all the optimizers.
+  syntax:
+    content: public abstract class Optimizer
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - TensorFlow.AdaptiveOptimizer
+  - TensorFlow.SGD
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.Optimizer.#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)
+  id: '#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)'
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: Optimizer(TFGraph, String, Single, Single, Single)
+  nameWithType: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+  fullName: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Construct optimizer.
+  syntax:
+    content: public Optimizer (TensorFlow.TFGraph graph, string operName, float learningRate, float decay, float initialAccumulatorValue);
+    parameters:
+    - id: graph
+      type: TensorFlow.TFGraph
+      description: The graph object.
+    - id: operName
+      type: System.String
+      description: Name of the operation.
+    - id: learningRate
+      type: System.Single
+      description: The learning rate for the SGD update.
+    - id: decay
+      type: System.Single
+      description: Learning rate decay over each update.
+    - id: initialAccumulatorValue
+      type: System.Single
+      description: A floating point value. Starting value for the accumulators, must be >=0.
+  overload: TensorFlow.Optimizer.#ctor*
+  exceptions: []
+- uid: TensorFlow.Optimizer._graph
+  id: _graph
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: _graph
+  nameWithType: Optimizer._graph
+  fullName: Optimizer._graph
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The graph object. It is used for creating Ops through the construction of optimizer.
+  syntax:
+    content: protected readonly TensorFlow.TFGraph _graph;
+    return:
+      type: TensorFlow.TFGraph
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.Optimizer._optimizerName
+  id: _optimizerName
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: _optimizerName
+  nameWithType: Optimizer._optimizerName
+  fullName: Optimizer._optimizerName
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Name the optimization operation in the graph.
+                All the operation will be created under this name scope.
+  syntax:
+    content: protected readonly string _optimizerName;
+    return:
+      type: System.String
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.Optimizer._updateOps
+  id: _updateOps
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: _updateOps
+  nameWithType: Optimizer._updateOps
+  fullName: Optimizer._updateOps
+  type: Field
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: List to hold all the operations which are updated on each iteration of optimizer.
+  syntax:
+    content: protected readonly System.Collections.Generic.IList<TensorFlow.TFOperation> _updateOps;
+    return:
+      type: System.Collections.Generic.IList{TensorFlow.TFOperation}
+      description: To be added.
+  exceptions: []
+- uid: TensorFlow.Optimizer.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  id: ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  fullName: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Returns the ops to update the variables in the graph.
+  syntax:
+    content: public abstract TensorFlow.TFOperation[] ApplyGradient (ValueTuple<TensorFlow.TFOutput,TensorFlow.Variable>[] gradientsAndVariables);
+    parameters:
+    - id: gradientsAndVariables
+      type: System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[]
+      description: Gradient and Variable tuple.
+    return:
+      type: TensorFlow.TFOperation[]
+      description: To be added.
+  overload: TensorFlow.Optimizer.ApplyGradient*
+  exceptions: []
+- uid: TensorFlow.Optimizer.ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)
+  id: ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: ComputeGradient(TFOutput, Variable[], Boolean)
+  nameWithType: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+  fullName: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Computes the gradient of the trainable variables in the graph.
+  syntax:
+    content: public virtual ValueTuple<TensorFlow.TFOutput,TensorFlow.Variable>[] ComputeGradient (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null, bool colocateGradientsWithOps = false);
+    parameters:
+    - id: loss
+      type: TensorFlow.TFOutput
+      description: The loss operation to compute the gradient on.
+    - id: varList
+      type: TensorFlow.Variable[]
+      description: >-
+        list of variable to compute the gradients for.
+                    If null the gradient is computed for all the trainable variables in the graph.
+    - id: colocateGradientsWithOps
+      type: System.Boolean
+      description: Place the gradient op on the same device as variable.
+    return:
+      type: System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[]
+      description: >-
+        A list of (gradient, variable) pairs. Variable is always present, but
+                    gradient can be `None`.
+  overload: TensorFlow.Optimizer.ComputeGradient*
+  exceptions: []
+- uid: TensorFlow.Optimizer.CreateDecayOps(System.Single,TensorFlow.TFOutput)
+  id: CreateDecayOps(System.Single,TensorFlow.TFOutput)
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: CreateDecayOps(Single, TFOutput)
+  nameWithType: Optimizer.CreateDecayOps(Single, TFOutput)
+  fullName: Optimizer.CreateDecayOps(Single, TFOutput)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Create learning rate time decay operation.
+  syntax:
+    content: protected void CreateDecayOps (float decay, TensorFlow.TFOutput initialLearningRate);
+    parameters:
+    - id: decay
+      type: System.Single
+      description: To be added.
+    - id: initialLearningRate
+      type: TensorFlow.TFOutput
+      description: To be added.
+  overload: TensorFlow.Optimizer.CreateDecayOps*
+  exceptions: []
+- uid: TensorFlow.Optimizer.InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  id: InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: InitMoments(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+  fullName: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initialize the accumulators
+  syntax:
+    content: protected TensorFlow.TFOutput[] InitMoments (ValueTuple<TensorFlow.TFOutput,TensorFlow.Variable>[] gradientsAndVariables);
+    parameters:
+    - id: gradientsAndVariables
+      type: System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[]
+      description: To be added.
+    return:
+      type: TensorFlow.TFOutput[]
+      description: To be added.
+  overload: TensorFlow.Optimizer.InitMoments*
+  exceptions: []
+- uid: TensorFlow.Optimizer.Iterations
+  id: Iterations
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: Iterations
+  nameWithType: Optimizer.Iterations
+  fullName: Optimizer.Iterations
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Varaible to keep track of number of iterations (mini-batch processed)
+  syntax:
+    content: public TensorFlow.Variable Iterations { get; }
+    return:
+      type: TensorFlow.Variable
+      description: To be added.
+  overload: TensorFlow.Optimizer.Iterations*
+  exceptions: []
+- uid: TensorFlow.Optimizer.LearningRate
+  id: LearningRate
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: LearningRate
+  nameWithType: Optimizer.LearningRate
+  fullName: Optimizer.LearningRate
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Variable to keep track of the learning rate.
+  syntax:
+    content: public TensorFlow.Variable LearningRate { get; }
+    return:
+      type: TensorFlow.Variable
+      description: To be added.
+  overload: TensorFlow.Optimizer.LearningRate*
+  exceptions: []
+- uid: TensorFlow.Optimizer.Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])
+  id: Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])
+  parent: TensorFlow.Optimizer
+  langs:
+  - csharp
+  name: Minimize(TFOutput, Variable[])
+  nameWithType: Optimizer.Minimize(TFOutput, Variable[])
+  fullName: Optimizer.Minimize(TFOutput, Variable[])
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: "Add operations to minimize `loss` by updating `var_list`.\n            \n            This method simply combines calls `compute_gradients()` and \n            `apply_gradients()`. If you want to process the gradient before applying\n            them call `compute_gradients()` and `apply_gradients()` explicitly instead\n            of using this function."
+  syntax:
+    content: public virtual TensorFlow.TFOperation[] Minimize (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null);
+    parameters:
+    - id: loss
+      type: TensorFlow.TFOutput
+      description: A `Tensor` containing the value to minimize.
+    - id: varList
+      type: TensorFlow.Variable[]
+      description: >-
+        list of variable to compute the gradients for.
+                    If null the gradient is computed for all the trainable variables in the graph.
+    return:
+      type: TensorFlow.TFOperation[]
+      description: An Operation that updates the variables.
+  overload: TensorFlow.Optimizer.Minimize*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.Optimizer.#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Optimizer(TFGraph, String, Single, Single, Single)
+  nameWithType: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+  fullName: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+- uid: TensorFlow.TFGraph
+  parent: TensorFlow
+  isExternal: false
+  name: TFGraph
+  nameWithType: TFGraph
+  fullName: TensorFlow.TFGraph
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: TensorFlow.Optimizer._graph
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: _graph
+  nameWithType: Optimizer._graph
+  fullName: Optimizer._graph
+- uid: TensorFlow.Optimizer._optimizerName
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: _optimizerName
+  nameWithType: Optimizer._optimizerName
+  fullName: Optimizer._optimizerName
+- uid: TensorFlow.Optimizer._updateOps
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: _updateOps
+  nameWithType: Optimizer._updateOps
+  fullName: Optimizer._updateOps
+- uid: System.Collections.Generic.IList`1
+  name: IList
+  nameWithType: IList
+  fullName: System.Collections.Generic.IList
+- uid: TensorFlow.TFOperation
+  name: TFOperation
+  nameWithType: TFOperation
+  fullName: TensorFlow.TFOperation
+- uid: System.Collections.Generic.IList{TensorFlow.TFOperation}
+  parent: System.Collections.Generic
+  isExternal: true
+  name: IList<TFOperation>
+  nameWithType: IList<TFOperation>
+  fullName: System.Collections.Generic.IList<TensorFlow.TFOperation>
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TensorFlow.TFOperation
+    name: TFOperation
+    nameWithType: TFOperation
+    fullName: TensorFlow.TFOperation
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+- uid: TensorFlow.Optimizer.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  fullName: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.TFOperation[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOperation[]
+  nameWithType: TFOperation[]
+  fullName: TensorFlow.TFOperation[]
+  spec.csharp:
+  - uid: TensorFlow.TFOperation
+    name: TFOperation
+    nameWithType: TFOperation
+    fullName: TensorFlow.TFOperation
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: System.ValueTuple`2
+  name: ValueTuple
+  nameWithType: ValueTuple
+  fullName: System.ValueTuple
+- uid: TensorFlow.TFOutput
+  name: TFOutput
+  nameWithType: TFOutput
+  fullName: TensorFlow.TFOutput
+- uid: TensorFlow.Variable
+  name: Variable
+  nameWithType: Variable
+  fullName: TensorFlow.Variable
+- uid: System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[]
+  parent: System
+  isExternal: true
+  name: ValueTuple<TFOutput,Variable>[]
+  nameWithType: ValueTuple<TFOutput,Variable>[]
+  fullName: System.ValueTuple<TensorFlow.TFOutput,TensorFlow.Variable>[]
+  spec.csharp:
+  - uid: System.ValueTuple`2
+    name: ValueTuple
+    nameWithType: ValueTuple
+    fullName: System.ValueTuple
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: ','
+    nameWithType: ','
+    fullName: ','
+  - uid: TensorFlow.Variable
+    name: Variable
+    nameWithType: Variable
+    fullName: TensorFlow.Variable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.Optimizer.ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: ComputeGradient(TFOutput, Variable[], Boolean)
+  nameWithType: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+  fullName: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+- uid: TensorFlow.Variable[]
+  parent: TensorFlow
+  isExternal: false
+  name: Variable[]
+  nameWithType: Variable[]
+  fullName: TensorFlow.Variable[]
+  spec.csharp:
+  - uid: TensorFlow.Variable
+    name: Variable
+    nameWithType: Variable
+    fullName: TensorFlow.Variable
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.Optimizer.CreateDecayOps(System.Single,TensorFlow.TFOutput)
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: CreateDecayOps(Single, TFOutput)
+  nameWithType: Optimizer.CreateDecayOps(Single, TFOutput)
+  fullName: Optimizer.CreateDecayOps(Single, TFOutput)
+- uid: TensorFlow.Optimizer.InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: InitMoments(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+  fullName: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.TFOutput[]
+  parent: TensorFlow
+  isExternal: false
+  name: TFOutput[]
+  nameWithType: TFOutput[]
+  fullName: TensorFlow.TFOutput[]
+  spec.csharp:
+  - uid: TensorFlow.TFOutput
+    name: TFOutput
+    nameWithType: TFOutput
+    fullName: TensorFlow.TFOutput
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+- uid: TensorFlow.Optimizer.Iterations
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Iterations
+  nameWithType: Optimizer.Iterations
+  fullName: Optimizer.Iterations
+- uid: TensorFlow.Optimizer.LearningRate
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: LearningRate
+  nameWithType: Optimizer.LearningRate
+  fullName: Optimizer.LearningRate
+- uid: TensorFlow.Optimizer.Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Minimize(TFOutput, Variable[])
+  nameWithType: Optimizer.Minimize(TFOutput, Variable[])
+  fullName: Optimizer.Minimize(TFOutput, Variable[])
+- uid: TensorFlow.Optimizer.#ctor*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Optimizer
+  nameWithType: Optimizer.Optimizer
+  fullName: Optimizer.Optimizer
+- uid: TensorFlow.Optimizer.ApplyGradient*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: ApplyGradient
+  nameWithType: Optimizer.ApplyGradient
+  fullName: Optimizer.ApplyGradient
+- uid: TensorFlow.Optimizer.ComputeGradient*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: ComputeGradient
+  nameWithType: Optimizer.ComputeGradient
+  fullName: Optimizer.ComputeGradient
+- uid: TensorFlow.Optimizer.CreateDecayOps*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: CreateDecayOps
+  nameWithType: Optimizer.CreateDecayOps
+  fullName: Optimizer.CreateDecayOps
+- uid: TensorFlow.Optimizer.InitMoments*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: InitMoments
+  nameWithType: Optimizer.InitMoments
+  fullName: Optimizer.InitMoments
+- uid: TensorFlow.Optimizer.Iterations*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Iterations
+  nameWithType: Optimizer.Iterations
+  fullName: Optimizer.Iterations
+- uid: TensorFlow.Optimizer.LearningRate*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: LearningRate
+  nameWithType: Optimizer.LearningRate
+  fullName: Optimizer.LearningRate
+- uid: TensorFlow.Optimizer.Minimize*
+  parent: TensorFlow.Optimizer
+  isExternal: false
+  name: Minimize
+  nameWithType: Optimizer.Minimize
+  fullName: Optimizer.Minimize

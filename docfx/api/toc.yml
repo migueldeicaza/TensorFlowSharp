@@ -2,16 +2,26 @@
 - uid: TensorFlow
   name: TensorFlow
   items:
+  - uid: TensorFlow.Adagrad
+    name: Adagrad
+  - uid: TensorFlow.AdaptiveOptimizer
+    name: AdaptiveOptimizer
   - uid: TensorFlow.DeviceAttributes
     name: DeviceAttributes
   - uid: TensorFlow.DeviceType
     name: DeviceType
   - uid: TensorFlow.MonoPInvokeCallbackAttribute
     name: MonoPInvokeCallbackAttribute
+  - uid: TensorFlow.Optimizer
+    name: Optimizer
   - uid: TensorFlow.PaddingFIFOQueue
     name: PaddingFIFOQueue
   - uid: TensorFlow.QueueBase
     name: QueueBase
+  - uid: TensorFlow.RMSProp
+    name: RMSProp
+  - uid: TensorFlow.SGD
+    name: SGD
   - uid: TensorFlow.TFAttributeMetadata
     name: TFAttributeMetadata
   - uid: TensorFlow.TFAttributeType
@@ -28,6 +38,8 @@
     name: TFDataType
   - uid: TensorFlow.TFDependencies
     name: TFDependencies
+  - uid: TensorFlow.TFDevice
+    name: TFDevice
   - uid: TensorFlow.TFDisposable
     name: TFDisposable
   - uid: TensorFlow.TFDisposableThreadSafe

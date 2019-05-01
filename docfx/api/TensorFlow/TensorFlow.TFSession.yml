@@ -178,7 +178,7 @@ items:
                 here: https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
                 </p>
   syntax:
-    content: public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);
+    content: public static TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);
     parameters:
     - id: sessionOptions
       type: TensorFlow.TFSessionOptions

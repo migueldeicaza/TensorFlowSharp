@@ -216,6 +216,7 @@ items:
   - TensorFlow.TFGraph.DeserializeSparse(TensorFlow.TFOutput,TensorFlow.TFDataType,System.String)
   - TensorFlow.TFGraph.DestroyResourceOp(TensorFlow.TFOutput,System.Nullable{System.Boolean},System.String)
   - TensorFlow.TFGraph.DestroyTemporaryVariable(TensorFlow.TFOutput,System.String,System.String)
+  - TensorFlow.TFGraph.DeviceName
   - TensorFlow.TFGraph.Diag(TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.DiagPart(TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.Digamma(TensorFlow.TFOutput,System.String)
@@ -311,6 +312,7 @@ items:
   - TensorFlow.TFGraph.GetShape(TensorFlow.TFOutput,TensorFlow.TFStatus)
   - TensorFlow.TFGraph.GetTensorNumDims(TensorFlow.TFOutput,TensorFlow.TFStatus)
   - TensorFlow.TFGraph.GetTensorShape(TensorFlow.TFOutput,TensorFlow.TFStatus)
+  - TensorFlow.TFGraph.GetTrainableVariables
   - TensorFlow.TFGraph.GlobalNorm(TensorFlow.TFOutput[],System.String)
   - TensorFlow.TFGraph.Greater(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.GreaterEqual(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
@@ -589,6 +591,7 @@ items:
   - TensorFlow.TFGraph.RandomStandardNormal(TensorFlow.TFOutput,TensorFlow.TFDataType,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   - TensorFlow.TFGraph.RandomUniform(TensorFlow.TFOutput,TensorFlow.TFDataType,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   - TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Double,System.Double,System.Nullable{System.Int32},System.String)
+  - TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)
   - TensorFlow.TFGraph.RandomUniformInt(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   - TensorFlow.TFGraph.Range(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.Range(TensorFlow.TFOutput,System.Nullable{TensorFlow.TFOutput},System.Nullable{TensorFlow.TFOutput},System.Nullable{TensorFlow.TFDataType},System.String)
@@ -935,8 +938,8 @@ items:
   - TensorFlow.TFGraph.TPUEmbeddingActivations(TensorFlow.TFOutput,TensorFlow.TFOutput,System.Int64,System.Int64,System.String)
   - TensorFlow.TFGraph.TPUReplicatedInput(TensorFlow.TFOutput[],System.String)
   - TensorFlow.TFGraph.TPUReplicatedOutput(TensorFlow.TFOutput,System.Int64,System.String)
-  - TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)
+  - TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.TruncateDiv(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.TruncatedNormal(TensorFlow.TFOutput,TensorFlow.TFDataType,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   - TensorFlow.TFGraph.TruncateMod(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
@@ -974,6 +977,7 @@ items:
   - TensorFlow.TFGraph.WholeFileReaderV2(System.String,System.String,System.String)
   - TensorFlow.TFGraph.WindowDataset(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFDataType[],TensorFlow.TFShape[],System.String)
   - TensorFlow.TFGraph.WithDependencies(TensorFlow.TFOperation[])
+  - TensorFlow.TFGraph.WithDevice(System.String)
   - TensorFlow.TFGraph.WithScope(System.String)
   - TensorFlow.TFGraph.WorkerHeartbeat(TensorFlow.TFOutput,System.String)
   - TensorFlow.TFGraph.WriteFile(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
@@ -10151,6 +10155,26 @@ items:
       description: The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
   overload: TensorFlow.TFGraph.DestroyTemporaryVariable*
   exceptions: []
+- uid: TensorFlow.TFGraph.DeviceName
+  id: DeviceName
+  parent: TensorFlow.TFGraph
+  langs:
+  - csharp
+  name: DeviceName
+  nameWithType: TFGraph.DeviceName
+  fullName: TFGraph.DeviceName
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Name of the device to place the operation on.
+  syntax:
+    content: public string DeviceName { get; }
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.TFGraph.DeviceName*
+  exceptions: []
 - uid: TensorFlow.TFGraph.Diag(TensorFlow.TFOutput,System.String)
   id: Diag(TensorFlow.TFOutput,System.String)
   parent: TensorFlow.TFGraph
@@ -13906,7 +13930,7 @@ items:
   summary: Returns the enumerator that returns all the TFOperations in a graph.
   syntax:
     content: >-
-      [System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/<GetEnumerator>d__986))]
+      [System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/<GetEnumerator>d__988))]
 
       public System.Collections.Generic.IEnumerable<TensorFlow.TFOperation> GetEnumerator ();
     parameters: []
@@ -14141,6 +14165,27 @@ items:
       type: TensorFlow.TFShape
       description: The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.
   overload: TensorFlow.TFGraph.GetTensorShape*
+  exceptions: []
+- uid: TensorFlow.TFGraph.GetTrainableVariables
+  id: GetTrainableVariables
+  parent: TensorFlow.TFGraph
+  langs:
+  - csharp
+  name: GetTrainableVariables()
+  nameWithType: TFGraph.GetTrainableVariables()
+  fullName: TFGraph.GetTrainableVariables()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the list of all registered trainable variables.
+  syntax:
+    content: public TensorFlow.Variable[] GetTrainableVariables ();
+    parameters: []
+    return:
+      type: TensorFlow.Variable[]
+      description: The array of variables that should be trained.
+  overload: TensorFlow.TFGraph.GetTrainableVariables*
   exceptions: []
 - uid: TensorFlow.TFGraph.GlobalNorm(TensorFlow.TFOutput[],System.String)
   id: GlobalNorm(TensorFlow.TFOutput[],System.String)
@@ -25693,6 +25738,42 @@ items:
       description: The uniform.
   overload: TensorFlow.TFGraph.RandomUniform*
   exceptions: []
+- uid: TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)
+  id: RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)
+  parent: TensorFlow.TFGraph
+  langs:
+  - csharp
+  name: RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  nameWithType: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  fullName: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Randoms the uniform.
+  syntax:
+    content: public TensorFlow.TFOutput RandomUniform (TensorFlow.TFShape shape, float minval = 0, float maxval = 1, Nullable<int> seed = null, string operName = null);
+    parameters:
+    - id: shape
+      type: TensorFlow.TFShape
+      description: Shape.
+    - id: minval
+      type: System.Single
+      description: Minval.
+    - id: maxval
+      type: System.Single
+      description: Maxval.
+    - id: seed
+      type: System.Nullable{System.Int32}
+      description: Seed.
+    - id: operName
+      type: System.String
+      description: Oper name.
+    return:
+      type: TensorFlow.TFOutput
+      description: The uniform.
+  overload: TensorFlow.TFGraph.RandomUniform*
+  exceptions: []
 - uid: TensorFlow.TFGraph.RandomUniformInt(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   id: RandomUniformInt(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   parent: TensorFlow.TFGraph
@@ -36149,7 +36230,7 @@ items:
   summary: Stacks a list of rank-`R` tensors into one rank-`(R+1)` tensor.
   remarks: "Packs the list of tensors in <code>values</code> into a tensor with rank one higher than\n             each tensor in <code>values</code>, by packing them along the <code>axis</code> dimension.\n             Given a list of length <code>N</code> of tensors of shape <code>(A, B, C)</code>: if <code>axis == 0</code> then the \n             <code>output</code> tensor will have the shape <code>(N, A, B, C)</code>; if <code>axis == 1</code> then the <code>output</code>\n             tensor will have the shape <code>(A, N, B, C)</code>; etc."
   syntax:
-    content: public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable<int> axis = 0, string operName = "stack");
+    content: public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable<int> axis = 0, string operName = null);
     parameters:
     - id: values
       type: TensorFlow.TFOutput[]
@@ -39868,6 +39949,36 @@ items:
       description: The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
   overload: TensorFlow.TFGraph.TPUReplicatedOutput*
   exceptions: []
+- uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)
+  id: Transpose(TensorFlow.TFOutput,System.String)
+  parent: TensorFlow.TFGraph
+  langs:
+  - csharp
+  name: Transpose(TFOutput, String)
+  nameWithType: TFGraph.Transpose(TFOutput, String)
+  fullName: TFGraph.Transpose(TFOutput, String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Shuffle dimensions of x according to a permutation.
+  remarks: >-
+    The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
+                    `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
+  syntax:
+    content: public TensorFlow.TFOutput Transpose (TensorFlow.TFOutput x, string operName = null);
+    parameters:
+    - id: x
+      type: TensorFlow.TFOutput
+      description: To be added.
+    - id: operName
+      type: System.String
+      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'Transpose'.
+    return:
+      type: TensorFlow.TFOutput
+      description: The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
+  overload: TensorFlow.TFGraph.Transpose*
+  exceptions: []
 - uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   id: Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   parent: TensorFlow.TFGraph
@@ -39891,36 +40002,6 @@ items:
       type: TensorFlow.TFOutput
       description: To be added.
     - id: perm
-      type: TensorFlow.TFOutput
-      description: To be added.
-    - id: operName
-      type: System.String
-      description: If specified, the created operation in the graph will be this one, otherwise it will be named 'Transpose'.
-    return:
-      type: TensorFlow.TFOutput
-      description: The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.
-  overload: TensorFlow.TFGraph.Transpose*
-  exceptions: []
-- uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)
-  id: Transpose(TensorFlow.TFOutput,System.String)
-  parent: TensorFlow.TFGraph
-  langs:
-  - csharp
-  name: Transpose(TFOutput, String)
-  nameWithType: TFGraph.Transpose(TFOutput, String)
-  fullName: TFGraph.Transpose(TFOutput, String)
-  type: Method
-  assemblies:
-  - TensorFlowSharp
-  namespace: TensorFlow
-  summary: Shuffle dimensions of x according to a permutation.
-  remarks: >-
-    The output `y` has the same rank as `x`. The shapes of `x` and `y` satisfy:
-                    `y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]`
-  syntax:
-    content: public TensorFlow.TFOutput Transpose (TensorFlow.TFOutput x, string operName = null);
-    parameters:
-    - id: x
       type: TensorFlow.TFOutput
       description: To be added.
     - id: operName
@@ -41341,6 +41422,33 @@ items:
       type: TensorFlow.TFDependencies
       description: To be added.
   overload: TensorFlow.TFGraph.WithDependencies*
+  exceptions: []
+- uid: TensorFlow.TFGraph.WithDevice(System.String)
+  id: WithDevice(System.String)
+  parent: TensorFlow.TFGraph
+  langs:
+  - csharp
+  name: WithDevice(String)
+  nameWithType: TFGraph.WithDevice(String)
+  fullName: TFGraph.WithDevice(String)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Set the device to be used for all the operations defined in the using block.
+                Creates <xref href="TensorFlow.TFDevice"></xref> and sets <xref href="TensorFlow.TFGraph.DeviceName"></xref> to the intended device.
+                If device is already set throws exception.
+  syntax:
+    content: public TensorFlow.TFDevice WithDevice (string deviceName);
+    parameters:
+    - id: deviceName
+      type: System.String
+      description: Name of the device to be used e.g. "/cpu:0", "/device:GPU:0"
+    return:
+      type: TensorFlow.TFDevice
+      description: To be added.
+  overload: TensorFlow.TFGraph.WithDevice*
   exceptions: []
 - uid: TensorFlow.TFGraph.WithScope(System.String)
   id: WithScope(System.String)
@@ -43639,6 +43747,12 @@ references:
   name: DestroyTemporaryVariable(TFOutput, String, String)
   nameWithType: TFGraph.DestroyTemporaryVariable(TFOutput, String, String)
   fullName: TFGraph.DestroyTemporaryVariable(TFOutput, String, String)
+- uid: TensorFlow.TFGraph.DeviceName
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: DeviceName
+  nameWithType: TFGraph.DeviceName
+  fullName: TFGraph.DeviceName
 - uid: TensorFlow.TFGraph.Diag(TensorFlow.TFOutput,System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -44283,6 +44397,30 @@ references:
   name: GetTensorShape(TFOutput, TFStatus)
   nameWithType: TFGraph.GetTensorShape(TFOutput, TFStatus)
   fullName: TFGraph.GetTensorShape(TFOutput, TFStatus)
+- uid: TensorFlow.TFGraph.GetTrainableVariables
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: GetTrainableVariables()
+  nameWithType: TFGraph.GetTrainableVariables()
+  fullName: TFGraph.GetTrainableVariables()
+- uid: TensorFlow.Variable
+  name: Variable
+  nameWithType: Variable
+  fullName: TensorFlow.Variable
+- uid: TensorFlow.Variable[]
+  parent: TensorFlow
+  isExternal: false
+  name: Variable[]
+  nameWithType: Variable[]
+  fullName: TensorFlow.Variable[]
+  spec.csharp:
+  - uid: TensorFlow.Variable
+    name: Variable
+    nameWithType: Variable
+    fullName: TensorFlow.Variable
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
 - uid: TensorFlow.TFGraph.GlobalNorm(TensorFlow.TFOutput[],System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -46261,6 +46399,12 @@ references:
   name: RandomUniform(TFShape, Double, Double, Nullable<Int32>, String)
   nameWithType: TFGraph.RandomUniform(TFShape, Double, Double, Nullable<Int32>, String)
   fullName: TFGraph.RandomUniform(TFShape, Double, Double, Nullable<Int32>, String)
+- uid: TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  nameWithType: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  fullName: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
 - uid: TensorFlow.TFGraph.RandomUniformInt(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -48489,18 +48633,18 @@ references:
   name: TPUReplicatedOutput(TFOutput, Int64, String)
   nameWithType: TFGraph.TPUReplicatedOutput(TFOutput, Int64, String)
   fullName: TFGraph.TPUReplicatedOutput(TFOutput, Int64, String)
-- uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
-  parent: TensorFlow.TFGraph
-  isExternal: false
-  name: Transpose(TFOutput, TFOutput, String)
-  nameWithType: TFGraph.Transpose(TFOutput, TFOutput, String)
-  fullName: TFGraph.Transpose(TFOutput, TFOutput, String)
 - uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
   name: Transpose(TFOutput, String)
   nameWithType: TFGraph.Transpose(TFOutput, String)
   fullName: TFGraph.Transpose(TFOutput, String)
+- uid: TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: Transpose(TFOutput, TFOutput, String)
+  nameWithType: TFGraph.Transpose(TFOutput, TFOutput, String)
+  fullName: TFGraph.Transpose(TFOutput, TFOutput, String)
 - uid: TensorFlow.TFGraph.TruncateDiv(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -48639,12 +48783,6 @@ references:
   name: Variable(TFOutput, Boolean, String)
   nameWithType: TFGraph.Variable(TFOutput, Boolean, String)
   fullName: TFGraph.Variable(TFOutput, Boolean, String)
-- uid: TensorFlow.Variable
-  parent: TensorFlow
-  isExternal: false
-  name: Variable
-  nameWithType: Variable
-  fullName: TensorFlow.Variable
 - uid: TensorFlow.TFGraph.Variable(TensorFlow.TFOutput,TensorFlow.TFOutput@,System.Boolean,System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -48741,6 +48879,18 @@ references:
   name: TFDependencies
   nameWithType: TFDependencies
   fullName: TensorFlow.TFDependencies
+- uid: TensorFlow.TFGraph.WithDevice(System.String)
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: WithDevice(String)
+  nameWithType: TFGraph.WithDevice(String)
+  fullName: TFGraph.WithDevice(String)
+- uid: TensorFlow.TFDevice
+  parent: TensorFlow
+  isExternal: false
+  name: TFDevice
+  nameWithType: TFDevice
+  fullName: TensorFlow.TFDevice
 - uid: TensorFlow.TFGraph.WithScope(System.String)
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -50067,6 +50217,12 @@ references:
   name: DestroyTemporaryVariable
   nameWithType: TFGraph.DestroyTemporaryVariable
   fullName: TFGraph.DestroyTemporaryVariable
+- uid: TensorFlow.TFGraph.DeviceName*
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: DeviceName
+  nameWithType: TFGraph.DeviceName
+  fullName: TFGraph.DeviceName
 - uid: TensorFlow.TFGraph.Diag*
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -50631,6 +50787,12 @@ references:
   name: GetTensorShape
   nameWithType: TFGraph.GetTensorShape
   fullName: TFGraph.GetTensorShape
+- uid: TensorFlow.TFGraph.GetTrainableVariables*
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: GetTrainableVariables
+  nameWithType: TFGraph.GetTrainableVariables
+  fullName: TFGraph.GetTrainableVariables
 - uid: TensorFlow.TFGraph.GlobalNorm*
   parent: TensorFlow.TFGraph
   isExternal: false
@@ -54543,6 +54705,12 @@ references:
   name: WithDependencies
   nameWithType: TFGraph.WithDependencies
   fullName: TFGraph.WithDependencies
+- uid: TensorFlow.TFGraph.WithDevice*
+  parent: TensorFlow.TFGraph
+  isExternal: false
+  name: WithDevice
+  nameWithType: TFGraph.WithDevice
+  fullName: TFGraph.WithDevice
 - uid: TensorFlow.TFGraph.WithScope*
   parent: TensorFlow.TFGraph
   isExternal: false

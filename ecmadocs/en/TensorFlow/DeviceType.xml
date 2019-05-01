@@ -1,0 +1,67 @@
+<Type Name="DeviceType" FullName="TensorFlow.DeviceType">
+  <TypeSignature Language="C#" Value="public enum DeviceType" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed DeviceType extends System.Enum" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Docs>
+    <summary>
+            Device type
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="CPU">
+      <MemberSignature Language="C#" Value="CPU" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.DeviceType CPU = int32(0)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.DeviceType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The device is the Central Processing Unit (CPU)
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="GPU">
+      <MemberSignature Language="C#" Value="GPU" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.DeviceType GPU = int32(1)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.DeviceType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The device is a Graphics Processing Unit (GPU)
+            </summary>
+      </Docs>
+    </Member>
+    <Member MemberName="TPU">
+      <MemberSignature Language="C#" Value="TPU" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype TensorFlow.DeviceType TPU = int32(2)" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.DeviceType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The device is a Tensor Processing Unit (TPU)
+            </summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

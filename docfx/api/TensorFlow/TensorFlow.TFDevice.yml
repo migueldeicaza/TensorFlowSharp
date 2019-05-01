@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFDevice
+  id: TFDevice
+  children:
+  - TensorFlow.TFDevice.Dispose
+  langs:
+  - csharp
+  name: TFDevice
+  nameWithType: TFDevice
+  fullName: TensorFlow.TFDevice
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Class to unset device name in the graph within using block.
+  syntax:
+    content: 'public class TFDevice : IDisposable'
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers: []
+- uid: TensorFlow.TFDevice.Dispose
+  id: Dispose
+  parent: TensorFlow.TFDevice
+  langs:
+  - csharp
+  name: Dispose()
+  nameWithType: TFDevice.Dispose()
+  fullName: TFDevice.Dispose()
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Pops the device name back to previous device name in use.
+  remarks: >-
+    Call <xref href="TensorFlow.TFDevice.Dispose"></xref> when you are finished using the <xref href="TensorFlow.TFDevice"></xref>
+                to restore to the default device to be used in the <xref href="TensorFlow.TFGraph"></xref>.
+  syntax:
+    content: public void Dispose ();
+    parameters: []
+  overload: TensorFlow.TFDevice.Dispose*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.TFDevice.Dispose
+  parent: TensorFlow.TFDevice
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDevice.Dispose()
+  fullName: TFDevice.Dispose()
+- uid: TensorFlow.TFDevice.Dispose*
+  parent: TensorFlow.TFDevice
+  isExternal: false
+  name: Dispose
+  nameWithType: TFDevice.Dispose
+  fullName: TFDevice.Dispose
+- uid: System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable

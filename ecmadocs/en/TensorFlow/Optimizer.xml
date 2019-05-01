@@ -1,0 +1,276 @@
+<Type Name="Optimizer" FullName="TensorFlow.Optimizer">
+  <TypeSignature Language="C#" Value="public abstract class Optimizer" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit Optimizer extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Base class for all the optimizers.
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Optimizer (TensorFlow.TFGraph graph, string operName, float learningRate, float decay, float initialAccumulatorValue);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, string operName, float32 learningRate, float32 decay, float32 initialAccumulatorValue) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="operName" Type="System.String" />
+        <Parameter Name="learningRate" Type="System.Single" />
+        <Parameter Name="decay" Type="System.Single" />
+        <Parameter Name="initialAccumulatorValue" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="graph">The graph object.</param>
+        <param name="operName">Name of the operation.</param>
+        <param name="learningRate">The learning rate for the SGD update.</param>
+        <param name="decay">Learning rate decay over each update.</param>
+        <param name="initialAccumulatorValue">A floating point value. Starting value for the accumulators, must be &gt;=0.</param>
+        <summary>
+            Construct optimizer.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="_graph">
+      <MemberSignature Language="C#" Value="protected readonly TensorFlow.TFGraph _graph;" />
+      <MemberSignature Language="ILAsm" Value=".field family initonly class TensorFlow.TFGraph _graph" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFGraph</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The graph object. It is used for creating Ops through the construction of optimizer.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="_optimizerName">
+      <MemberSignature Language="C#" Value="protected readonly string _optimizerName;" />
+      <MemberSignature Language="ILAsm" Value=".field family initonly string _optimizerName" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Name the optimization operation in the graph.
+            All the operation will be created under this name scope.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="_updateOps">
+      <MemberSignature Language="C#" Value="protected readonly System.Collections.Generic.IList&lt;TensorFlow.TFOperation&gt; _updateOps;" />
+      <MemberSignature Language="ILAsm" Value=".field family initonly class System.Collections.Generic.IList`1&lt;class TensorFlow.TFOperation&gt; _updateOps" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IList&lt;TensorFlow.TFOperation&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            List to hold all the operations which are updated on each iteration of optimizer.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplyGradient">
+      <MemberSignature Language="C#" Value="public abstract TensorFlow.TFOperation[] ApplyGradient (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class TensorFlow.TFOperation[] ApplyGradient(valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, class TensorFlow.Variable&gt;[] gradientsAndVariables) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradientsAndVariables" Type="System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="gradientsAndVariables">Gradient and Variable tuple.</param>
+        <summary>
+            Returns the ops to update the variables in the graph.
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ComputeGradient">
+      <MemberSignature Language="C#" Value="public virtual ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] ComputeGradient (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null, bool colocateGradientsWithOps = false);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, class TensorFlow.Variable&gt;[] ComputeGradient(valuetype TensorFlow.TFOutput loss, class TensorFlow.Variable[] varList, bool colocateGradientsWithOps) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[]</ReturnType>
+        <Attributes>
+          <Attribute>
+            <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          </Attribute>
+        </Attributes>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loss" Type="TensorFlow.TFOutput" />
+        <Parameter Name="varList" Type="TensorFlow.Variable[]" />
+        <Parameter Name="colocateGradientsWithOps" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="loss">The loss operation to compute the gradient on.</param>
+        <param name="varList">list of variable to compute the gradients for.
+            If null the gradient is computed for all the trainable variables in the graph.</param>
+        <param name="colocateGradientsWithOps">Place the gradient op on the same device as variable.</param>
+        <summary>
+            Computes the gradient of the trainable variables in the graph.
+            </summary>
+        <returns>A list of (gradient, variable) pairs. Variable is always present, but
+            gradient can be `None`.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateDecayOps">
+      <MemberSignature Language="C#" Value="protected void CreateDecayOps (float decay, TensorFlow.TFOutput initialLearningRate);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void CreateDecayOps(float32 decay, valuetype TensorFlow.TFOutput initialLearningRate) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="decay" Type="System.Single" />
+        <Parameter Name="initialLearningRate" Type="TensorFlow.TFOutput" />
+      </Parameters>
+      <Docs>
+        <param name="decay">To be added.</param>
+        <param name="initialLearningRate">To be added.</param>
+        <summary>
+            Create learning rate time decay operation.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InitMoments">
+      <MemberSignature Language="C#" Value="protected TensorFlow.TFOutput[] InitMoments (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance valuetype TensorFlow.TFOutput[] InitMoments(valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, class TensorFlow.Variable&gt;[] gradientsAndVariables) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradientsAndVariables" Type="System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="gradientsAndVariables">To be added.</param>
+        <summary>
+            Initialize the accumulators
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Iterations">
+      <MemberSignature Language="C#" Value="public TensorFlow.Variable Iterations { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.Variable Iterations" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.Variable</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Varaible to keep track of number of iterations (mini-batch processed)
+            </summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LearningRate">
+      <MemberSignature Language="C#" Value="public TensorFlow.Variable LearningRate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class TensorFlow.Variable LearningRate" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.Variable</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Variable to keep track of the learning rate.
+            </summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Minimize">
+      <MemberSignature Language="C#" Value="public virtual TensorFlow.TFOperation[] Minimize (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class TensorFlow.TFOperation[] Minimize(valuetype TensorFlow.TFOutput loss, class TensorFlow.Variable[] varList) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loss" Type="TensorFlow.TFOutput" />
+        <Parameter Name="varList" Type="TensorFlow.Variable[]" />
+      </Parameters>
+      <Docs>
+        <param name="loss">A `Tensor` containing the value to minimize.</param>
+        <param name="varList">list of variable to compute the gradients for.
+            If null the gradient is computed for all the trainable variables in the graph.</param>
+        <summary>
+            Add operations to minimize `loss` by updating `var_list`.
+            
+            This method simply combines calls `compute_gradients()` and 
+            `apply_gradients()`. If you want to process the gradient before applying
+            them call `compute_gradients()` and `apply_gradients()` explicitly instead
+            of using this function.
+            </summary>
+        <returns>An Operation that updates the variables.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

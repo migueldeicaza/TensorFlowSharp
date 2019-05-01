@@ -33,7 +33,7 @@
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7.1", FrameworkDisplayName=".NET Framework 4.7.1")</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
@@ -42,11 +42,16 @@
   <Copyright>MIT Licensed</Copyright>
   <Types>
     <Namespace Name="TensorFlow">
+      <Type Name="Adagrad" Kind="Class" />
+      <Type Name="AdaptiveOptimizer" Kind="Class" />
       <Type Name="DeviceAttributes" Kind="Class" />
       <Type Name="DeviceType" Kind="Enumeration" />
       <Type Name="MonoPInvokeCallbackAttribute" Kind="Class" />
+      <Type Name="Optimizer" Kind="Class" />
       <Type Name="PaddingFIFOQueue" Kind="Class" />
       <Type Name="QueueBase" Kind="Class" />
+      <Type Name="RMSProp" Kind="Class" />
+      <Type Name="SGD" Kind="Class" />
       <Type Name="TFAttributeMetadata" Kind="Structure" />
       <Type Name="TFAttributeType" Kind="Enumeration" />
       <Type Name="TFBuffer" Kind="Class" />
@@ -55,6 +60,7 @@
       <Type Name="TFCore" Kind="Class" />
       <Type Name="TFDataType" Kind="Enumeration" />
       <Type Name="TFDependencies" Kind="Class" />
+      <Type Name="TFDevice" Kind="Class" />
       <Type Name="TFDisposable" Kind="Class" />
       <Type Name="TFDisposableThreadSafe" Kind="Class" />
       <Type Name="TFException" Kind="Class" />

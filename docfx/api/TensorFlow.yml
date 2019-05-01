@@ -3,11 +3,16 @@ items:
 - uid: TensorFlow
   id: TensorFlow
   children:
+  - TensorFlow.Adagrad
+  - TensorFlow.AdaptiveOptimizer
   - TensorFlow.DeviceAttributes
   - TensorFlow.DeviceType
   - TensorFlow.MonoPInvokeCallbackAttribute
+  - TensorFlow.Optimizer
   - TensorFlow.PaddingFIFOQueue
   - TensorFlow.QueueBase
+  - TensorFlow.RMSProp
+  - TensorFlow.SGD
   - TensorFlow.TFAttributeMetadata
   - TensorFlow.TFAttributeType
   - TensorFlow.TFBuffer
@@ -16,6 +21,7 @@ items:
   - TensorFlow.TFCore
   - TensorFlow.TFDataType
   - TensorFlow.TFDependencies
+  - TensorFlow.TFDevice
   - TensorFlow.TFDisposable
   - TensorFlow.TFDisposableThreadSafe
   - TensorFlow.TFException
@@ -50,6 +56,18 @@ items:
     	This is the API documentation for the TensorFlowSharp project.
           </p>
 references:
+- uid: TensorFlow.Adagrad
+  parent: TensorFlow
+  isExternal: false
+  name: Adagrad
+  nameWithType: Adagrad
+  fullName: TensorFlow.Adagrad
+- uid: TensorFlow.AdaptiveOptimizer
+  parent: TensorFlow
+  isExternal: false
+  name: AdaptiveOptimizer
+  nameWithType: AdaptiveOptimizer
+  fullName: TensorFlow.AdaptiveOptimizer
 - uid: TensorFlow.DeviceAttributes
   parent: TensorFlow
   isExternal: false
@@ -68,6 +86,12 @@ references:
   name: MonoPInvokeCallbackAttribute
   nameWithType: MonoPInvokeCallbackAttribute
   fullName: TensorFlow.MonoPInvokeCallbackAttribute
+- uid: TensorFlow.Optimizer
+  parent: TensorFlow
+  isExternal: false
+  name: Optimizer
+  nameWithType: Optimizer
+  fullName: TensorFlow.Optimizer
 - uid: TensorFlow.PaddingFIFOQueue
   parent: TensorFlow
   isExternal: false
@@ -80,6 +104,18 @@ references:
   name: QueueBase
   nameWithType: QueueBase
   fullName: TensorFlow.QueueBase
+- uid: TensorFlow.RMSProp
+  parent: TensorFlow
+  isExternal: false
+  name: RMSProp
+  nameWithType: RMSProp
+  fullName: TensorFlow.RMSProp
+- uid: TensorFlow.SGD
+  parent: TensorFlow
+  isExternal: false
+  name: SGD
+  nameWithType: SGD
+  fullName: TensorFlow.SGD
 - uid: TensorFlow.TFAttributeMetadata
   parent: TensorFlow
   isExternal: false
@@ -128,6 +164,12 @@ references:
   name: TFDependencies
   nameWithType: TFDependencies
   fullName: TensorFlow.TFDependencies
+- uid: TensorFlow.TFDevice
+  parent: TensorFlow
+  isExternal: false
+  name: TFDevice
+  nameWithType: TFDevice
+  fullName: TensorFlow.TFDevice
 - uid: TensorFlow.TFDisposable
   parent: TensorFlow
   isExternal: false

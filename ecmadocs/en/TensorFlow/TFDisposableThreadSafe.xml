@@ -1,0 +1,83 @@
+<Type Name="TFDisposableThreadSafe" FullName="TensorFlow.TFDisposableThreadSafe">
+  <TypeSignature Language="C#" Value="public abstract class TFDisposableThreadSafe : TensorFlow.TFDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TFDisposableThreadSafe extends TensorFlow.TFDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.TFDisposable</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            ase class for many TensorFlow data types that provides a common idiom to dispose and
+            release resources associated with the native data types and whose unmanaged resource
+            disposing can be called from a background thread (the finalizer).   Users do not 
+            need to deal with this class.
+            </summary>
+    <remarks>
+            Some object deletion APIs in TensorFlow can be invoked from a background thread, 
+            so the release methods are suitable to be invoked from the Finalizer thread, in
+            those scenarios, subclass from this class rather than the TFDisposable class.
+            </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFDisposableThreadSafe ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFDisposableThreadSafe" /> class.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TFDisposableThreadSafe (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">To be added.</param>
+        <summary>
+            Initializes a new instance of the <see cref="T:TensorFlow.TFDisposable" /> class
+            from the handle that it will wrap.   
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">If set to <c>true</c> disposing.</param>
+        <summary>
+            Dispose the object, unlike the default implementat in TFDisposable, 
+            this will release the unmanaged resources from a background thread.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

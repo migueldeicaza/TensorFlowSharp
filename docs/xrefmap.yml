@@ -6,6 +6,51 @@ references:
   href: api/TensorFlow.html
   fullName: TensorFlow
   nameWithType: TensorFlow
+- uid: TensorFlow.Adagrad
+  name: Adagrad
+  href: api/TensorFlow/TensorFlow.Adagrad.html
+  fullName: TensorFlow.Adagrad
+  nameWithType: Adagrad
+- uid: TensorFlow.Adagrad.#ctor(TensorFlow.TFGraph,System.Single,System.Single,System.Single,System.String)
+  name: Adagrad(TFGraph, Single, Single, Single, String)
+  href: api/TensorFlow/TensorFlow.Adagrad.html#TensorFlow_Adagrad__ctor_TensorFlow_TFGraph_System_Single_System_Single_System_Single_System_String_
+  fullName: Adagrad.Adagrad(TFGraph, Single, Single, Single, String)
+  nameWithType: Adagrad.Adagrad(TFGraph, Single, Single, Single, String)
+- uid: TensorFlow.Adagrad.#ctor*
+  name: Adagrad
+  href: api/TensorFlow/TensorFlow.Adagrad.html#TensorFlow_Adagrad__ctor_
+  fullName: Adagrad.Adagrad
+  nameWithType: Adagrad.Adagrad
+- uid: TensorFlow.Adagrad.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  href: api/TensorFlow/TensorFlow.Adagrad.html#TensorFlow_Adagrad_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____
+  fullName: Adagrad.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Adagrad.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.Adagrad.ApplyGradient*
+  name: ApplyGradient
+  href: api/TensorFlow/TensorFlow.Adagrad.html#TensorFlow_Adagrad_ApplyGradient_
+  fullName: Adagrad.ApplyGradient
+  nameWithType: Adagrad.ApplyGradient
+- uid: TensorFlow.AdaptiveOptimizer
+  name: AdaptiveOptimizer
+  href: api/TensorFlow/TensorFlow.AdaptiveOptimizer.html
+  fullName: TensorFlow.AdaptiveOptimizer
+  nameWithType: AdaptiveOptimizer
+- uid: TensorFlow.AdaptiveOptimizer.#ctor(TensorFlow.TFGraph,System.Single,System.Single,System.Single,System.String)
+  name: AdaptiveOptimizer(TFGraph, Single, Single, Single, String)
+  href: api/TensorFlow/TensorFlow.AdaptiveOptimizer.html#TensorFlow_AdaptiveOptimizer__ctor_TensorFlow_TFGraph_System_Single_System_Single_System_Single_System_String_
+  fullName: AdaptiveOptimizer.AdaptiveOptimizer(TFGraph, Single, Single, Single, String)
+  nameWithType: AdaptiveOptimizer.AdaptiveOptimizer(TFGraph, Single, Single, Single, String)
+- uid: TensorFlow.AdaptiveOptimizer.#ctor*
+  name: AdaptiveOptimizer
+  href: api/TensorFlow/TensorFlow.AdaptiveOptimizer.html#TensorFlow_AdaptiveOptimizer__ctor_
+  fullName: AdaptiveOptimizer.AdaptiveOptimizer
+  nameWithType: AdaptiveOptimizer.AdaptiveOptimizer
+- uid: TensorFlow.AdaptiveOptimizer._epsilon
+  name: _epsilon
+  href: api/TensorFlow/TensorFlow.AdaptiveOptimizer.html#TensorFlow_AdaptiveOptimizer__epsilon
+  fullName: AdaptiveOptimizer._epsilon
+  nameWithType: AdaptiveOptimizer._epsilon
 - uid: TensorFlow.DeviceAttributes
   name: DeviceAttributes
   href: api/TensorFlow/TensorFlow.DeviceAttributes.html
@@ -76,6 +121,106 @@ references:
   href: api/TensorFlow/TensorFlow.MonoPInvokeCallbackAttribute.html#TensorFlow_MonoPInvokeCallbackAttribute__ctor_
   fullName: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute
   nameWithType: MonoPInvokeCallbackAttribute.MonoPInvokeCallbackAttribute
+- uid: TensorFlow.Optimizer
+  name: Optimizer
+  href: api/TensorFlow/TensorFlow.Optimizer.html
+  fullName: TensorFlow.Optimizer
+  nameWithType: Optimizer
+- uid: TensorFlow.Optimizer.#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)
+  name: Optimizer(TFGraph, String, Single, Single, Single)
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer__ctor_TensorFlow_TFGraph_System_String_System_Single_System_Single_System_Single_
+  fullName: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+  nameWithType: Optimizer.Optimizer(TFGraph, String, Single, Single, Single)
+- uid: TensorFlow.Optimizer.#ctor*
+  name: Optimizer
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer__ctor_
+  fullName: Optimizer.Optimizer
+  nameWithType: Optimizer.Optimizer
+- uid: TensorFlow.Optimizer._graph
+  name: _graph
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer__graph
+  fullName: Optimizer._graph
+  nameWithType: Optimizer._graph
+- uid: TensorFlow.Optimizer._optimizerName
+  name: _optimizerName
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer__optimizerName
+  fullName: Optimizer._optimizerName
+  nameWithType: Optimizer._optimizerName
+- uid: TensorFlow.Optimizer._updateOps
+  name: _updateOps
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer__updateOps
+  fullName: Optimizer._updateOps
+  nameWithType: Optimizer._updateOps
+- uid: TensorFlow.Optimizer.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____
+  fullName: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.Optimizer.ApplyGradient*
+  name: ApplyGradient
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_ApplyGradient_
+  fullName: Optimizer.ApplyGradient
+  nameWithType: Optimizer.ApplyGradient
+- uid: TensorFlow.Optimizer.ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)
+  name: ComputeGradient(TFOutput, Variable[], Boolean)
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_ComputeGradient_TensorFlow_TFOutput_TensorFlow_Variable___System_Boolean_
+  fullName: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+  nameWithType: Optimizer.ComputeGradient(TFOutput, Variable[], Boolean)
+- uid: TensorFlow.Optimizer.ComputeGradient*
+  name: ComputeGradient
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_ComputeGradient_
+  fullName: Optimizer.ComputeGradient
+  nameWithType: Optimizer.ComputeGradient
+- uid: TensorFlow.Optimizer.CreateDecayOps(System.Single,TensorFlow.TFOutput)
+  name: CreateDecayOps(Single, TFOutput)
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_CreateDecayOps_System_Single_TensorFlow_TFOutput_
+  fullName: Optimizer.CreateDecayOps(Single, TFOutput)
+  nameWithType: Optimizer.CreateDecayOps(Single, TFOutput)
+- uid: TensorFlow.Optimizer.CreateDecayOps*
+  name: CreateDecayOps
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_CreateDecayOps_
+  fullName: Optimizer.CreateDecayOps
+  nameWithType: Optimizer.CreateDecayOps
+- uid: TensorFlow.Optimizer.InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  name: InitMoments(ValueTuple<TFOutput,Variable>[])
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_InitMoments_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____
+  fullName: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+  nameWithType: Optimizer.InitMoments(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.Optimizer.InitMoments*
+  name: InitMoments
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_InitMoments_
+  fullName: Optimizer.InitMoments
+  nameWithType: Optimizer.InitMoments
+- uid: TensorFlow.Optimizer.Iterations
+  name: Iterations
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_Iterations
+  fullName: Optimizer.Iterations
+  nameWithType: Optimizer.Iterations
+- uid: TensorFlow.Optimizer.Iterations*
+  name: Iterations
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_Iterations_
+  fullName: Optimizer.Iterations
+  nameWithType: Optimizer.Iterations
+- uid: TensorFlow.Optimizer.LearningRate
+  name: LearningRate
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_LearningRate
+  fullName: Optimizer.LearningRate
+  nameWithType: Optimizer.LearningRate
+- uid: TensorFlow.Optimizer.LearningRate*
+  name: LearningRate
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_LearningRate_
+  fullName: Optimizer.LearningRate
+  nameWithType: Optimizer.LearningRate
+- uid: TensorFlow.Optimizer.Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])
+  name: Minimize(TFOutput, Variable[])
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_Minimize_TensorFlow_TFOutput_TensorFlow_Variable___
+  fullName: Optimizer.Minimize(TFOutput, Variable[])
+  nameWithType: Optimizer.Minimize(TFOutput, Variable[])
+- uid: TensorFlow.Optimizer.Minimize*
+  name: Minimize
+  href: api/TensorFlow/TensorFlow.Optimizer.html#TensorFlow_Optimizer_Minimize_
+  fullName: Optimizer.Minimize
+  nameWithType: Optimizer.Minimize
 - uid: TensorFlow.PaddingFIFOQueue
   name: PaddingFIFOQueue
   href: api/TensorFlow/TensorFlow.PaddingFIFOQueue.html
@@ -216,6 +361,56 @@ references:
   href: api/TensorFlow/TensorFlow.QueueBase.html#TensorFlow_QueueBase_Session_
   fullName: QueueBase.Session
   nameWithType: QueueBase.Session
+- uid: TensorFlow.RMSProp
+  name: RMSProp
+  href: api/TensorFlow/TensorFlow.RMSProp.html
+  fullName: TensorFlow.RMSProp
+  nameWithType: RMSProp
+- uid: TensorFlow.RMSProp.#ctor(TensorFlow.TFGraph,System.Single,System.Single,System.Single,System.Single,System.String)
+  name: RMSProp(TFGraph, Single, Single, Single, Single, String)
+  href: api/TensorFlow/TensorFlow.RMSProp.html#TensorFlow_RMSProp__ctor_TensorFlow_TFGraph_System_Single_System_Single_System_Single_System_Single_System_String_
+  fullName: RMSProp.RMSProp(TFGraph, Single, Single, Single, Single, String)
+  nameWithType: RMSProp.RMSProp(TFGraph, Single, Single, Single, Single, String)
+- uid: TensorFlow.RMSProp.#ctor*
+  name: RMSProp
+  href: api/TensorFlow/TensorFlow.RMSProp.html#TensorFlow_RMSProp__ctor_
+  fullName: RMSProp.RMSProp
+  nameWithType: RMSProp.RMSProp
+- uid: TensorFlow.RMSProp.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  href: api/TensorFlow/TensorFlow.RMSProp.html#TensorFlow_RMSProp_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____
+  fullName: RMSProp.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: RMSProp.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.RMSProp.ApplyGradient*
+  name: ApplyGradient
+  href: api/TensorFlow/TensorFlow.RMSProp.html#TensorFlow_RMSProp_ApplyGradient_
+  fullName: RMSProp.ApplyGradient
+  nameWithType: RMSProp.ApplyGradient
+- uid: TensorFlow.SGD
+  name: SGD
+  href: api/TensorFlow/TensorFlow.SGD.html
+  fullName: TensorFlow.SGD
+  nameWithType: SGD
+- uid: TensorFlow.SGD.#ctor(TensorFlow.TFGraph,System.Single,System.Single,System.Single,System.Boolean,System.String)
+  name: SGD(TFGraph, Single, Single, Single, Boolean, String)
+  href: api/TensorFlow/TensorFlow.SGD.html#TensorFlow_SGD__ctor_TensorFlow_TFGraph_System_Single_System_Single_System_Single_System_Boolean_System_String_
+  fullName: SGD.SGD(TFGraph, Single, Single, Single, Boolean, String)
+  nameWithType: SGD.SGD(TFGraph, Single, Single, Single, Boolean, String)
+- uid: TensorFlow.SGD.#ctor*
+  name: SGD
+  href: api/TensorFlow/TensorFlow.SGD.html#TensorFlow_SGD__ctor_
+  fullName: SGD.SGD
+  nameWithType: SGD.SGD
+- uid: TensorFlow.SGD.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])
+  name: ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  href: api/TensorFlow/TensorFlow.SGD.html#TensorFlow_SGD_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____
+  fullName: SGD.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+  nameWithType: SGD.ApplyGradient(ValueTuple<TFOutput,Variable>[])
+- uid: TensorFlow.SGD.ApplyGradient*
+  name: ApplyGradient
+  href: api/TensorFlow/TensorFlow.SGD.html#TensorFlow_SGD_ApplyGradient_
+  fullName: SGD.ApplyGradient
+  nameWithType: SGD.ApplyGradient
 - uid: TensorFlow.TFAttributeMetadata
   name: TFAttributeMetadata
   href: api/TensorFlow/TensorFlow.TFAttributeMetadata.html
@@ -636,6 +831,21 @@ references:
   href: api/TensorFlow/TensorFlow.TFDependencies.html#TensorFlow_TFDependencies_Dispose_
   fullName: TFDependencies.Dispose
   nameWithType: TFDependencies.Dispose
+- uid: TensorFlow.TFDevice
+  name: TFDevice
+  href: api/TensorFlow/TensorFlow.TFDevice.html
+  fullName: TensorFlow.TFDevice
+  nameWithType: TFDevice
+- uid: TensorFlow.TFDevice.Dispose
+  name: Dispose()
+  href: api/TensorFlow/TensorFlow.TFDevice.html#TensorFlow_TFDevice_Dispose
+  fullName: TFDevice.Dispose()
+  nameWithType: TFDevice.Dispose()
+- uid: TensorFlow.TFDevice.Dispose*
+  name: Dispose
+  href: api/TensorFlow/TensorFlow.TFDevice.html#TensorFlow_TFDevice_Dispose_
+  fullName: TFDevice.Dispose
+  nameWithType: TFDevice.Dispose
 - uid: TensorFlow.TFDisposable
   name: TFDisposable
   href: api/TensorFlow/TensorFlow.TFDisposable.html
@@ -2896,6 +3106,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DestroyTemporaryVariable_
   fullName: TFGraph.DestroyTemporaryVariable
   nameWithType: TFGraph.DestroyTemporaryVariable
+- uid: TensorFlow.TFGraph.DeviceName
+  name: DeviceName
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DeviceName
+  fullName: TFGraph.DeviceName
+  nameWithType: TFGraph.DeviceName
+- uid: TensorFlow.TFGraph.DeviceName*
+  name: DeviceName
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_DeviceName_
+  fullName: TFGraph.DeviceName
+  nameWithType: TFGraph.DeviceName
 - uid: TensorFlow.TFGraph.Diag(TensorFlow.TFOutput,System.String)
   name: Diag(TFOutput, String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_Diag_TensorFlow_TFOutput_System_String_
@@ -3841,6 +4061,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_GetTensorShape_
   fullName: TFGraph.GetTensorShape
   nameWithType: TFGraph.GetTensorShape
+- uid: TensorFlow.TFGraph.GetTrainableVariables
+  name: GetTrainableVariables()
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_GetTrainableVariables
+  fullName: TFGraph.GetTrainableVariables()
+  nameWithType: TFGraph.GetTrainableVariables()
+- uid: TensorFlow.TFGraph.GetTrainableVariables*
+  name: GetTrainableVariables
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_GetTrainableVariables_
+  fullName: TFGraph.GetTrainableVariables
+  nameWithType: TFGraph.GetTrainableVariables
 - uid: TensorFlow.TFGraph.GlobalNorm(TensorFlow.TFOutput[],System.String)
   name: GlobalNorm(TFOutput[], String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_GlobalNorm_TensorFlow_TFOutput___System_String_
@@ -6596,6 +6826,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_RandomUniform_TensorFlow_TFShape_System_Double_System_Double_System_Nullable_System_Int32__System_String_
   fullName: TFGraph.RandomUniform(TFShape, Double, Double, Nullable<Int32>, String)
   nameWithType: TFGraph.RandomUniform(TFShape, Double, Double, Nullable<Int32>, String)
+- uid: TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)
+  name: RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_RandomUniform_TensorFlow_TFShape_System_Single_System_Single_System_Nullable_System_Int32__System_String_
+  fullName: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
+  nameWithType: TFGraph.RandomUniform(TFShape, Single, Single, Nullable<Int32>, String)
 - uid: TensorFlow.TFGraph.RandomUniform*
   name: RandomUniform
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_RandomUniform_
@@ -10421,6 +10656,16 @@ references:
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_WithDependencies_
   fullName: TFGraph.WithDependencies
   nameWithType: TFGraph.WithDependencies
+- uid: TensorFlow.TFGraph.WithDevice(System.String)
+  name: WithDevice(String)
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_WithDevice_System_String_
+  fullName: TFGraph.WithDevice(String)
+  nameWithType: TFGraph.WithDevice(String)
+- uid: TensorFlow.TFGraph.WithDevice*
+  name: WithDevice
+  href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_WithDevice_
+  fullName: TFGraph.WithDevice
+  nameWithType: TFGraph.WithDevice
 - uid: TensorFlow.TFGraph.WithScope(System.String)
   name: WithScope(String)
   href: api/TensorFlow/TensorFlow.TFGraph.html#TensorFlow_TFGraph_WithScope_System_String_
@@ -11731,6 +11976,11 @@ references:
   href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_CreateString_System_Byte___
   fullName: TFTensor.CreateString(Byte[])
   nameWithType: TFTensor.CreateString(Byte[])
+- uid: TensorFlow.TFTensor.CreateString(System.Byte[][],TensorFlow.TFShape)
+  name: CreateString(Byte[][], TFShape)
+  href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_CreateString_System_Byte_____TensorFlow_TFShape_
+  fullName: TFTensor.CreateString(Byte[][], TFShape)
+  nameWithType: TFTensor.CreateString(Byte[][], TFShape)
 - uid: TensorFlow.TFTensor.CreateString*
   name: CreateString
   href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_CreateString_
@@ -11751,6 +12001,26 @@ references:
   href: api/TensorFlow/TensorFlow.TFTensor.Deallocator.html
   fullName: TensorFlow.TFTensor.Deallocator
   nameWithType: TFTensor.Deallocator
+- uid: TensorFlow.TFTensor.DecodeMultiDimensionString(TensorFlow.TFTensor)
+  name: DecodeMultiDimensionString(TFTensor)
+  href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_DecodeMultiDimensionString_TensorFlow_TFTensor_
+  fullName: TFTensor.DecodeMultiDimensionString(TFTensor)
+  nameWithType: TFTensor.DecodeMultiDimensionString(TFTensor)
+- uid: TensorFlow.TFTensor.DecodeMultiDimensionString*
+  name: DecodeMultiDimensionString
+  href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_DecodeMultiDimensionString_
+  fullName: TFTensor.DecodeMultiDimensionString
+  nameWithType: TFTensor.DecodeMultiDimensionString
+- uid: TensorFlow.TFTensor.DecodeString(TensorFlow.TFTensor)
+  name: DecodeString(TFTensor)
+  href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_DecodeString_TensorFlow_TFTensor_
+  fullName: TFTensor.DecodeString(TFTensor)
+  nameWithType: TFTensor.DecodeString(TFTensor)
+- uid: TensorFlow.TFTensor.DecodeString*
+  name: DecodeString
+  href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_DecodeString_
+  fullName: TFTensor.DecodeString
+  nameWithType: TFTensor.DecodeString
 - uid: TensorFlow.TFTensor.FromBuffer(TensorFlow.TFShape,System.Byte[],System.Int32,System.Int32)
   name: FromBuffer(TFShape, Byte[], Int32, Int32)
   href: api/TensorFlow/TensorFlow.TFTensor.html#TensorFlow_TFTensor_FromBuffer_TensorFlow_TFShape_System_Byte___System_Int32_System_Int32_

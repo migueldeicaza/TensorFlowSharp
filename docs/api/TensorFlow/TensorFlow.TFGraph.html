@@ -187,6 +187,33 @@
   </table>
   
   
+  <a id="TensorFlow_TFGraph_DeviceName_" data-uid="TensorFlow.TFGraph.DeviceName*"></a>
+  <h4 id="TensorFlow_TFGraph_DeviceName" data-uid="TensorFlow.TFGraph.DeviceName">DeviceName</h4>
+  <div class="markdown level1 summary"><p>Name of the device to place the operation on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DeviceName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="TensorFlow_TFGraph_Functions_" data-uid="TensorFlow.TFGraph.Functions*"></a>
   <h4 id="TensorFlow_TFGraph_Functions" data-uid="TensorFlow.TFGraph.Functions">Functions</h4>
   <div class="markdown level1 summary"><p>Returns an the functions that have been defined in the graph.</p>
@@ -24519,7 +24546,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/&lt;GetEnumerator&gt;d__986))]
+    <pre><code class="lang-csharp hljs">[System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/&lt;GetEnumerator&gt;d__988))]
 public System.Collections.Generic.IEnumerable&lt;TensorFlow.TFOperation&gt; GetEnumerator ();</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
@@ -24928,6 +24955,33 @@ public System.Collections.Generic.IEnumerable&lt;TensorFlow.TFOperation&gt; GetE
       <tr>
         <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
         <td><p>The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFGraph_GetTrainableVariables_" data-uid="TensorFlow.TFGraph.GetTrainableVariables*"></a>
+  <h4 id="TensorFlow_TFGraph_GetTrainableVariables" data-uid="TensorFlow.TFGraph.GetTrainableVariables">GetTrainableVariables()</h4>
+  <div class="markdown level1 summary"><p>Gets the list of all registered trainable variables.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.Variable[] GetTrainableVariables ();</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.Variable.html">Variable</a>[]</td>
+        <td><p>The array of variables that should be trained.</p>
 </td>
       </tr>
     </tbody>
@@ -46436,6 +46490,75 @@ public System.Collections.Generic.IEnumerable&lt;TensorFlow.TFOperation&gt; GetE
   </table>
   
   
+  <a id="TensorFlow_TFGraph_RandomUniform_" data-uid="TensorFlow.TFGraph.RandomUniform*"></a>
+  <h4 id="TensorFlow_TFGraph_RandomUniform_TensorFlow_TFShape_System_Single_System_Single_System_Nullable_System_Int32__System_String_" data-uid="TensorFlow.TFGraph.RandomUniform(TensorFlow.TFShape,System.Single,System.Single,System.Nullable{System.Int32},System.String)">RandomUniform(TFShape, Single, Single, Nullable&lt;Int32&gt;, String)</h4>
+  <div class="markdown level1 summary"><p>Randoms the uniform.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOutput RandomUniform (TensorFlow.TFShape shape, float minval = 0, float maxval = 1, Nullable&lt;int&gt; seed = null, string operName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFShape.html">TFShape</a></td>
+        <td><span class="parametername">shape</span></td>
+        <td><p>Shape.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">minval</span></td>
+        <td><p>Minval.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">maxval</span></td>
+        <td><p>Maxval.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">seed</span></td>
+        <td><p>Seed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operName</span></td>
+        <td><p>Oper name.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><p>The uniform.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="TensorFlow_TFGraph_RandomUniformInt_" data-uid="TensorFlow.TFGraph.RandomUniformInt*"></a>
   <h4 id="TensorFlow_TFGraph_RandomUniformInt_TensorFlow_TFOutput_TensorFlow_TFOutput_TensorFlow_TFOutput_System_Nullable_System_Int64__System_Nullable_System_Int64__System_String_" data-uid="TensorFlow.TFGraph.RandomUniformInt(TensorFlow.TFOutput,TensorFlow.TFOutput,TensorFlow.TFOutput,System.Nullable{System.Int64},System.Nullable{System.Int64},System.String)">RandomUniformInt(TFOutput, TFOutput, TFOutput, Nullable&lt;Int64&gt;, Nullable&lt;Int64&gt;, String)</h4>
   <div class="markdown level1 summary"><p>Outputs random integers from a uniform distribution.</p>
@@ -67229,7 +67352,7 @@ strings and correspondingly well-formed.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable&lt;int&gt; axis = 0, string operName = &quot;stack&quot;);</code></pre>
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable&lt;int&gt; axis = 0, string operName = null);</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -74151,6 +74274,61 @@ strings and correspondingly well-formed.</p>
   
   
   <a id="TensorFlow_TFGraph_Transpose_" data-uid="TensorFlow.TFGraph.Transpose*"></a>
+  <h4 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_System_String_" data-uid="TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)">Transpose(TFOutput, String)</h4>
+  <div class="markdown level1 summary"><p>Shuffle dimensions of x according to a permutation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFOutput Transpose (TensorFlow.TFOutput x, string operName = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">x</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operName</span></td>
+        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;Transpose&#39;.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><p>The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The output <code>y</code> has the same rank as <code>x</code>. The shapes of <code>x</code> and <code>y</code> satisfy:
+                <code>y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]</code></p>
+</div>
+  
+  
+  <a id="TensorFlow_TFGraph_Transpose_" data-uid="TensorFlow.TFGraph.Transpose*"></a>
   <h4 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String_" data-uid="TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,TensorFlow.TFOutput,System.String)">Transpose(TFOutput, TFOutput, String)</h4>
   <div class="markdown level1 summary"><p>Shuffle dimensions of x according to a permutation.</p>
 </div>
@@ -74208,61 +74386,6 @@ strings and correspondingly well-formed.</p>
   <h5 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The output <code>y</code> has the same rank as <code>x</code>. The shapes of <code>x</code> and <code>y</code> satisfy:
               <code>y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]</code></p>
-</div>
-  
-  
-  <a id="TensorFlow_TFGraph_Transpose_" data-uid="TensorFlow.TFGraph.Transpose*"></a>
-  <h4 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_System_String_" data-uid="TensorFlow.TFGraph.Transpose(TensorFlow.TFOutput,System.String)">Transpose(TFOutput, String)</h4>
-  <div class="markdown level1 summary"><p>Shuffle dimensions of x according to a permutation.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TensorFlow.TFOutput Transpose (TensorFlow.TFOutput x, string operName = null);</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
-        <td><span class="parametername">x</span></td>
-        <td><p>To be added.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">operName</span></td>
-        <td><p>If specified, the created operation in the graph will be this one, otherwise it will be named &#39;Transpose&#39;.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
-        <td><p>The TFOperation can be fetched from the resulting TFOutput, by fethching the Operation property from the result.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="TensorFlow_TFGraph_Transpose_TensorFlow_TFOutput_System_String__remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>The output <code>y</code> has the same rank as <code>x</code>. The shapes of <code>x</code> and <code>y</code> satisfy:
-                <code>y.shape[i] == x.shape[perm[i]] for i in [0, 1, ..., rank(x) - 1]</code></p>
 </div>
   
   
@@ -77050,6 +77173,53 @@ strings and correspondingly well-formed.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="TensorFlow.TFDependencies.html">TFDependencies</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_TFGraph_WithDevice_" data-uid="TensorFlow.TFGraph.WithDevice*"></a>
+  <h4 id="TensorFlow_TFGraph_WithDevice_System_String_" data-uid="TensorFlow.TFGraph.WithDevice(System.String)">WithDevice(String)</h4>
+  <div class="markdown level1 summary"><p>Set the device to be used for all the operations defined in the using block.
+            Creates <a class="xref" href="TensorFlow.TFDevice.html">TFDevice</a> and sets <a class="xref" href="TensorFlow.TFGraph.html#TensorFlow_TFGraph_DeviceName">DeviceName</a> to the intended device.
+            If device is already set throws exception.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.TFDevice WithDevice (string deviceName);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">deviceName</span></td>
+        <td><p>Name of the device to be used e.g. &quot;/cpu:0&quot;, &quot;/device:GPU:0&quot;</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFDevice.html">TFDevice</a></td>
         <td><p>To be added.</p>
 </td>
       </tr>

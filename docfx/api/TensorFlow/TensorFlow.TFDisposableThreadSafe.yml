@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.TFDisposableThreadSafe
+  id: TFDisposableThreadSafe
+  children:
+  - TensorFlow.TFDisposableThreadSafe.#ctor
+  - TensorFlow.TFDisposableThreadSafe.#ctor(System.IntPtr)
+  - TensorFlow.TFDisposableThreadSafe.Dispose(System.Boolean)
+  langs:
+  - csharp
+  name: TFDisposableThreadSafe
+  nameWithType: TFDisposableThreadSafe
+  fullName: TensorFlow.TFDisposableThreadSafe
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: "ase class for many TensorFlow data types that provides a common idiom to dispose and\n            release resources associated with the native data types and whose unmanaged resource\n            disposing can be called from a background thread (the finalizer).   Users do not \n            need to deal with this class."
+  remarks: "Some object deletion APIs in TensorFlow can be invoked from a background thread, \n            so the release methods are suitable to be invoked from the Finalizer thread, in\n            those scenarios, subclass from this class rather than the TFDisposable class."
+  syntax:
+    content: 'public abstract class TFDisposableThreadSafe : TensorFlow.TFDisposable'
+  inheritance:
+  - System.Object
+  - TensorFlow.TFDisposable
+  derivedClasses:
+  - TensorFlow.TFGraph
+  - TensorFlow.TFSession
+  - TensorFlow.TFTensor
+  implements: []
+  inheritedMembers:
+  - TensorFlow.TFDisposable.Dispose
+  - TensorFlow.TFDisposable.Handle
+- uid: TensorFlow.TFDisposableThreadSafe.#ctor
+  id: '#ctor'
+  parent: TensorFlow.TFDisposableThreadSafe
+  langs:
+  - csharp
+  name: TFDisposableThreadSafe()
+  nameWithType: TFDisposableThreadSafe.TFDisposableThreadSafe()
+  fullName: TFDisposableThreadSafe.TFDisposableThreadSafe()
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Initializes a new instance of the <xref href="TensorFlow.TFDisposableThreadSafe"></xref> class.
+  syntax:
+    content: public TFDisposableThreadSafe ();
+    parameters: []
+  overload: TensorFlow.TFDisposableThreadSafe.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFDisposableThreadSafe.#ctor(System.IntPtr)
+  id: '#ctor(System.IntPtr)'
+  parent: TensorFlow.TFDisposableThreadSafe
+  langs:
+  - csharp
+  name: TFDisposableThreadSafe(IntPtr)
+  nameWithType: TFDisposableThreadSafe.TFDisposableThreadSafe(IntPtr)
+  fullName: TFDisposableThreadSafe.TFDisposableThreadSafe(IntPtr)
+  type: Constructor
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: >-
+    Initializes a new instance of the <xref href="TensorFlow.TFDisposable"></xref> class
+                from the handle that it will wrap.
+  syntax:
+    content: public TFDisposableThreadSafe (IntPtr handle);
+    parameters:
+    - id: handle
+      type: System.IntPtr
+      description: To be added.
+  overload: TensorFlow.TFDisposableThreadSafe.#ctor*
+  exceptions: []
+- uid: TensorFlow.TFDisposableThreadSafe.Dispose(System.Boolean)
+  id: Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposableThreadSafe
+  langs:
+  - csharp
+  name: Dispose(Boolean)
+  nameWithType: TFDisposableThreadSafe.Dispose(Boolean)
+  fullName: TFDisposableThreadSafe.Dispose(Boolean)
+  type: Method
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: "Dispose the object, unlike the default implementat in TFDisposable, \n            this will release the unmanaged resources from a background thread."
+  syntax:
+    content: public override void Dispose (bool disposing);
+    parameters:
+    - id: disposing
+      type: System.Boolean
+      description: If set to <code>true</code> disposing.
+  overload: TensorFlow.TFDisposableThreadSafe.Dispose*
+  exceptions: []
+references:
+- uid: TensorFlow.TFDisposable
+  parent: TensorFlow
+  isExternal: false
+  name: TFDisposable
+  nameWithType: TFDisposable
+  fullName: TensorFlow.TFDisposable
+- uid: TensorFlow.TFDisposableThreadSafe.#ctor
+  parent: TensorFlow.TFDisposableThreadSafe
+  isExternal: false
+  name: TFDisposableThreadSafe()
+  nameWithType: TFDisposableThreadSafe.TFDisposableThreadSafe()
+  fullName: TFDisposableThreadSafe.TFDisposableThreadSafe()
+- uid: TensorFlow.TFDisposableThreadSafe.#ctor(System.IntPtr)
+  parent: TensorFlow.TFDisposableThreadSafe
+  isExternal: false
+  name: TFDisposableThreadSafe(IntPtr)
+  nameWithType: TFDisposableThreadSafe.TFDisposableThreadSafe(IntPtr)
+  fullName: TFDisposableThreadSafe.TFDisposableThreadSafe(IntPtr)
+- uid: System.IntPtr
+  parent: System
+  isExternal: true
+  name: IntPtr
+  nameWithType: IntPtr
+  fullName: System.IntPtr
+- uid: TensorFlow.TFDisposableThreadSafe.Dispose(System.Boolean)
+  parent: TensorFlow.TFDisposableThreadSafe
+  isExternal: false
+  name: Dispose(Boolean)
+  nameWithType: TFDisposableThreadSafe.Dispose(Boolean)
+  fullName: TFDisposableThreadSafe.Dispose(Boolean)
+- uid: System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TensorFlow.TFDisposableThreadSafe.#ctor*
+  parent: TensorFlow.TFDisposableThreadSafe
+  isExternal: false
+  name: TFDisposableThreadSafe
+  nameWithType: TFDisposableThreadSafe.TFDisposableThreadSafe
+  fullName: TFDisposableThreadSafe.TFDisposableThreadSafe
+- uid: TensorFlow.TFDisposableThreadSafe.Dispose*
+  parent: TensorFlow.TFDisposableThreadSafe
+  isExternal: false
+  name: Dispose
+  nameWithType: TFDisposableThreadSafe.Dispose
+  fullName: TFDisposableThreadSafe.Dispose
+- uid: TensorFlow.TFDisposable.Dispose
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Dispose()
+  nameWithType: TFDisposable.Dispose()
+  fullName: TFDisposable.Dispose()
+- uid: TensorFlow.TFDisposable.Handle
+  parent: TensorFlow.TFDisposable
+  isExternal: false
+  name: Handle
+  nameWithType: TFDisposable.Handle
+  fullName: TFDisposable.Handle

@@ -1,0 +1,44 @@
+<Type Name="TFDevice" FullName="TensorFlow.TFDevice">
+  <TypeSignature Language="C#" Value="public class TFDevice : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TFDevice extends System.Object implements class System.IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+            Class to unset device name in the graph within using block.
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Pops the device name back to previous device name in use.
+            </summary>
+        <remarks>Call <see cref="M:TensorFlow.TFDevice.Dispose" /> when you are finished using the <see cref="T:TensorFlow.TFDevice" />
+            to restore to the default device to be used in the <see cref="T:TensorFlow.TFGraph" />.
+            </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

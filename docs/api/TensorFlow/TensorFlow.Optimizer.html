@@ -1,0 +1,560 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Optimizer
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Optimizer
+   ">
+    <meta name="generator" content="docfx 2.18.2.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="TensorFlow.Optimizer">
+  
+  
+  <h1 id="TensorFlow_Optimizer" data-uid="TensorFlow.Optimizer">Class Optimizer
+  </h1>
+  <div class="markdown level0 summary"><p>Base class for all the optimizers.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Optimizer</span></div>
+  </div>
+      <div class="level2"><a class="xref" href="TensorFlow.AdaptiveOptimizer.html">AdaptiveOptimizer</a></div>
+      <div class="level2"><a class="xref" href="TensorFlow.SGD.html">SGD</a></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="../TensorFlow.html">TensorFlow</a></h6>
+  <h6><strong>Assembly</strong>: TensorFlowSharp.dll</h6>
+  <h5 id="TensorFlow_Optimizer_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class Optimizer</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="TensorFlow_Optimizer__ctor_" data-uid="TensorFlow.Optimizer.#ctor*"></a>
+  <h4 id="TensorFlow_Optimizer__ctor_TensorFlow_TFGraph_System_String_System_Single_System_Single_System_Single_" data-uid="TensorFlow.Optimizer.#ctor(TensorFlow.TFGraph,System.String,System.Single,System.Single,System.Single)">Optimizer(TFGraph, String, Single, Single, Single)</h4>
+  <div class="markdown level1 summary"><p>Construct optimizer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Optimizer (TensorFlow.TFGraph graph, string operName, float learningRate, float decay, float initialAccumulatorValue);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><span class="parametername">graph</span></td>
+        <td><p>The graph object.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">operName</span></td>
+        <td><p>Name of the operation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">learningRate</span></td>
+        <td><p>The learning rate for the SGD update.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">decay</span></td>
+        <td><p>Learning rate decay over each update.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">initialAccumulatorValue</span></td>
+        <td><p>A floating point value. Starting value for the accumulators, must be &gt;=0.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="TensorFlow_Optimizer__graph" data-uid="TensorFlow.Optimizer._graph">_graph</h4>
+  <div class="markdown level1 summary"><p>The graph object. It is used for creating Ops through the construction of optimizer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly TensorFlow.TFGraph _graph;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFGraph.html">TFGraph</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="TensorFlow_Optimizer__optimizerName" data-uid="TensorFlow.Optimizer._optimizerName">_optimizerName</h4>
+  <div class="markdown level1 summary"><p>Name the optimization operation in the graph.
+            All the operation will be created under this name scope.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly string _optimizerName;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="TensorFlow_Optimizer__updateOps" data-uid="TensorFlow.Optimizer._updateOps">_updateOps</h4>
+  <div class="markdown level1 summary"><p>List to hold all the operations which are updated on each iteration of optimizer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected readonly System.Collections.Generic.IList&lt;TensorFlow.TFOperation&gt; _updateOps;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IList</span>&lt;<a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>&gt;</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="TensorFlow_Optimizer_Iterations_" data-uid="TensorFlow.Optimizer.Iterations*"></a>
+  <h4 id="TensorFlow_Optimizer_Iterations" data-uid="TensorFlow.Optimizer.Iterations">Iterations</h4>
+  <div class="markdown level1 summary"><p>Varaible to keep track of number of iterations (mini-batch processed)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.Variable Iterations { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.Variable.html">Variable</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_Optimizer_LearningRate_" data-uid="TensorFlow.Optimizer.LearningRate*"></a>
+  <h4 id="TensorFlow_Optimizer_LearningRate" data-uid="TensorFlow.Optimizer.LearningRate">LearningRate</h4>
+  <div class="markdown level1 summary"><p>Variable to keep track of the learning rate.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TensorFlow.Variable LearningRate { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.Variable.html">Variable</a></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="TensorFlow_Optimizer_ApplyGradient_" data-uid="TensorFlow.Optimizer.ApplyGradient*"></a>
+  <h4 id="TensorFlow_Optimizer_ApplyGradient_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____" data-uid="TensorFlow.Optimizer.ApplyGradient(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])">ApplyGradient(ValueTuple&lt;TFOutput,Variable&gt;[])</h4>
+  <div class="markdown level1 summary"><p>Returns the ops to update the variables in the graph.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract TensorFlow.TFOperation[] ApplyGradient (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>,<a class="xref" href="TensorFlow.Variable.html">Variable</a>&gt;[]</td>
+        <td><span class="parametername">gradientsAndVariables</span></td>
+        <td><p>Gradient and Variable tuple.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_Optimizer_ComputeGradient_" data-uid="TensorFlow.Optimizer.ComputeGradient*"></a>
+  <h4 id="TensorFlow_Optimizer_ComputeGradient_TensorFlow_TFOutput_TensorFlow_Variable___System_Boolean_" data-uid="TensorFlow.Optimizer.ComputeGradient(TensorFlow.TFOutput,TensorFlow.Variable[],System.Boolean)">ComputeGradient(TFOutput, Variable[], Boolean)</h4>
+  <div class="markdown level1 summary"><p>Computes the gradient of the trainable variables in the graph.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] ComputeGradient (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null, bool colocateGradientsWithOps = false);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">loss</span></td>
+        <td><p>The loss operation to compute the gradient on.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.Variable.html">Variable</a>[]</td>
+        <td><span class="parametername">varList</span></td>
+        <td><p>list of variable to compute the gradients for.
+            If null the gradient is computed for all the trainable variables in the graph.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">colocateGradientsWithOps</span></td>
+        <td><p>Place the gradient op on the same device as variable.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>,<a class="xref" href="TensorFlow.Variable.html">Variable</a>&gt;[]</td>
+        <td><p>A list of (gradient, variable) pairs. Variable is always present, but
+            gradient can be <code>None</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_Optimizer_CreateDecayOps_" data-uid="TensorFlow.Optimizer.CreateDecayOps*"></a>
+  <h4 id="TensorFlow_Optimizer_CreateDecayOps_System_Single_TensorFlow_TFOutput_" data-uid="TensorFlow.Optimizer.CreateDecayOps(System.Single,TensorFlow.TFOutput)">CreateDecayOps(Single, TFOutput)</h4>
+  <div class="markdown level1 summary"><p>Create learning rate time decay operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void CreateDecayOps (float decay, TensorFlow.TFOutput initialLearningRate);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">decay</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">initialLearningRate</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_Optimizer_InitMoments_" data-uid="TensorFlow.Optimizer.InitMoments*"></a>
+  <h4 id="TensorFlow_Optimizer_InitMoments_System_ValueTuple_TensorFlow_TFOutput_TensorFlow_Variable____" data-uid="TensorFlow.Optimizer.InitMoments(System.ValueTuple{TensorFlow.TFOutput,TensorFlow.Variable}[])">InitMoments(ValueTuple&lt;TFOutput,Variable&gt;[])</h4>
+  <div class="markdown level1 summary"><p>Initialize the accumulators</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected TensorFlow.TFOutput[] InitMoments (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>,<a class="xref" href="TensorFlow.Variable.html">Variable</a>&gt;[]</td>
+        <td><span class="parametername">gradientsAndVariables</span></td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a>[]</td>
+        <td><p>To be added.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="TensorFlow_Optimizer_Minimize_" data-uid="TensorFlow.Optimizer.Minimize*"></a>
+  <h4 id="TensorFlow_Optimizer_Minimize_TensorFlow_TFOutput_TensorFlow_Variable___" data-uid="TensorFlow.Optimizer.Minimize(TensorFlow.TFOutput,TensorFlow.Variable[])">Minimize(TFOutput, Variable[])</h4>
+  <div class="markdown level1 summary"><p>Add operations to minimize <code>loss</code> by updating <code>var_list</code>.</p>
+<pre><code>        This method simply combines calls `compute_gradients()` and 
+        `apply_gradients()`. If you want to process the gradient before applying
+        them call `compute_gradients()` and `apply_gradients()` explicitly instead
+        of using this function.
+</code></pre></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual TensorFlow.TFOperation[] Minimize (TensorFlow.TFOutput loss, TensorFlow.Variable[] varList = null);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOutput.html">TFOutput</a></td>
+        <td><span class="parametername">loss</span></td>
+        <td><p>A <code>Tensor</code> containing the value to minimize.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="TensorFlow.Variable.html">Variable</a>[]</td>
+        <td><span class="parametername">varList</span></td>
+        <td><p>list of variable to compute the gradients for.
+            If null the gradient is computed for all the trainable variables in the graph.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="TensorFlow.TFOperation.html">TFOperation</a>[]</td>
+        <td><p>An Operation that updates the variables.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

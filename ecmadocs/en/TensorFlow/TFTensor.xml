@@ -508,6 +508,30 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="CreateString">
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFTensor CreateString (byte[][] buffer, TensorFlow.TFShape shape);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFTensor CreateString(unsigned int8[][] buffer, class TensorFlow.TFShape shape) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFTensor</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Byte[][]" />
+        <Parameter Name="shape" Type="TensorFlow.TFShape" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">To be added.</param>
+        <param name="shape">To be added.</param>
+        <summary>
+            Creates a multi-dimension tensor from an array of byte buffer. The bytes for string[i] are represented as buffer[i][:].
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Data">
       <MemberSignature Language="C#" Value="public IntPtr Data { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance native int Data" />
@@ -528,6 +552,50 @@
             data as described by the DataType property.   The amount of data
             is given by the the TensorByteSize property.
             </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodeMultiDimensionString">
+      <MemberSignature Language="C#" Value="public static byte[][] DecodeMultiDimensionString (TensorFlow.TFTensor tensor);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig unsigned int8[][] DecodeMultiDimensionString(class TensorFlow.TFTensor tensor) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[][]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="tensor" Type="TensorFlow.TFTensor" />
+      </Parameters>
+      <Docs>
+        <param name="tensor">To be added.</param>
+        <summary>
+            Converts a multi-dimension tensor into a byte buffer array. The byte array can be further decoded into strings using appropriate encoding scheme e.g. "UTF8"
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DecodeString">
+      <MemberSignature Language="C#" Value="public static byte[] DecodeString (TensorFlow.TFTensor tensor);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig unsigned int8[] DecodeString(class TensorFlow.TFTensor tensor) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="tensor" Type="TensorFlow.TFTensor" />
+      </Parameters>
+      <Docs>
+        <param name="tensor">To be added.</param>
+        <summary>
+            Converts a single-dimension tensor into a byte buffer. The byte array can be further decoded into strings using appropriate encoding scheme e.g. "UTF8"
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="FromBuffer">

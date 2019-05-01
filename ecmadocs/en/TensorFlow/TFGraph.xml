@@ -11342,6 +11342,24 @@
             </remarks>
       </Docs>
     </Member>
+    <Member MemberName="DeviceName">
+      <MemberSignature Language="C#" Value="public string DeviceName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DeviceName" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Name of the device to place the operation on.
+            </summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Diag">
       <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Diag (TensorFlow.TFOutput diagonal, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Diag(valuetype TensorFlow.TFOutput diagonal, string operName) cil managed" />
@@ -16095,7 +16113,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/&lt;GetEnumerator&gt;d__986))</AttributeName>
+          <AttributeName>System.Runtime.CompilerServices.IteratorStateMachine(typeof(TensorFlow.TFGraph/&lt;GetEnumerator&gt;d__988))</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -16329,6 +16347,25 @@
              Returns the shape of a tensor specified in <paramref name="output" />.
              </summary>
         <returns>The tensor shape.    If the number of dimensions in the shape is unknown or the shape is, a scalar, the values in the array will be zero. Otherwise, each element of will be set corresponding to the size of the dimension. An  unknown dimension is represented by -1.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetTrainableVariables">
+      <MemberSignature Language="C#" Value="public TensorFlow.Variable[] GetTrainableVariables ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.Variable[] GetTrainableVariables() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.Variable[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+            Gets the list of all registered trainable variables.
+            </summary>
+        <returns>The array of variables that should be trained.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -30407,6 +30444,36 @@
         <Parameter Name="shape" Type="TensorFlow.TFShape" />
         <Parameter Name="minval" Type="System.Double" />
         <Parameter Name="maxval" Type="System.Double" />
+        <Parameter Name="seed" Type="System.Nullable&lt;System.Int32&gt;" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="shape">Shape.</param>
+        <param name="minval">Minval.</param>
+        <param name="maxval">Maxval.</param>
+        <param name="seed">Seed.</param>
+        <param name="operName">Oper name.</param>
+        <summary>
+            Randoms the uniform.
+            </summary>
+        <returns>The uniform.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RandomUniform">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput RandomUniform (TensorFlow.TFShape shape, float minval = 0, float maxval = 1, Nullable&lt;int&gt; seed = null, string operName = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput RandomUniform(class TensorFlow.TFShape shape, float32 minval, float32 maxval, valuetype System.Nullable`1&lt;int32&gt; seed, string operName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOutput</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="shape" Type="TensorFlow.TFShape" />
+        <Parameter Name="minval" Type="System.Single" />
+        <Parameter Name="maxval" Type="System.Single" />
         <Parameter Name="seed" Type="System.Nullable&lt;System.Int32&gt;" />
         <Parameter Name="operName" Type="System.String" />
       </Parameters>
@@ -44504,7 +44571,7 @@
       </Docs>
     </Member>
     <Member MemberName="Stack">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable&lt;int&gt; axis = 0, string operName = &quot;stack&quot;);" />
+      <MemberSignature Language="C#" Value="public TensorFlow.TFOutput Stack (TensorFlow.TFOutput[] values, Nullable&lt;int&gt; axis = 0, string operName = null);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype TensorFlow.TFOutput Stack(valuetype TensorFlow.TFOutput[] values, valuetype System.Nullable`1&lt;int32&gt; axis, string operName) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
@@ -50758,6 +50825,30 @@
         <param name="dependencies">To be added.</param>
         <summary>
             Adds new dependencies for new tensors and operations created while the context is active.
+            </summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WithDevice">
+      <MemberSignature Language="C#" Value="public TensorFlow.TFDevice WithDevice (string deviceName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFDevice WithDevice(string deviceName) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFDevice</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="deviceName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="deviceName">Name of the device to be used e.g. "/cpu:0", "/device:GPU:0"</param>
+        <summary>
+            Set the device to be used for all the operations defined in the using block.
+            Creates <see cref="T:TensorFlow.TFDevice" /> and sets <see cref="P:TensorFlow.TFGraph.DeviceName" /> to the intended device.
+            If device is already set throws exception.
             </summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>

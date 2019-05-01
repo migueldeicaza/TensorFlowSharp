@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: TensorFlow.DeviceAttributes
+  id: DeviceAttributes
+  children:
+  - TensorFlow.DeviceAttributes.DeviceType
+  - TensorFlow.DeviceAttributes.MemoryLimitBytes
+  - TensorFlow.DeviceAttributes.Name
+  langs:
+  - csharp
+  name: DeviceAttributes
+  nameWithType: DeviceAttributes
+  fullName: TensorFlow.DeviceAttributes
+  type: Class
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Describes the device attributes
+  syntax:
+    content: public class DeviceAttributes
+  inheritance:
+  - System.Object
+  implements: []
+  inheritedMembers: []
+- uid: TensorFlow.DeviceAttributes.DeviceType
+  id: DeviceType
+  parent: TensorFlow.DeviceAttributes
+  langs:
+  - csharp
+  name: DeviceType
+  nameWithType: DeviceAttributes.DeviceType
+  fullName: DeviceAttributes.DeviceType
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: Gets the type of the device.
+  syntax:
+    content: public TensorFlow.DeviceType DeviceType { get; }
+    return:
+      type: TensorFlow.DeviceType
+      description: The type of the device.
+  overload: TensorFlow.DeviceAttributes.DeviceType*
+  exceptions: []
+- uid: TensorFlow.DeviceAttributes.MemoryLimitBytes
+  id: MemoryLimitBytes
+  parent: TensorFlow.DeviceAttributes
+  langs:
+  - csharp
+  name: MemoryLimitBytes
+  nameWithType: DeviceAttributes.MemoryLimitBytes
+  fullName: DeviceAttributes.MemoryLimitBytes
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The amount of memory associated with a given device.
+  syntax:
+    content: public long MemoryLimitBytes { get; }
+    return:
+      type: System.Int64
+      description: The memory limit bytes.
+  overload: TensorFlow.DeviceAttributes.MemoryLimitBytes*
+  exceptions: []
+- uid: TensorFlow.DeviceAttributes.Name
+  id: Name
+  parent: TensorFlow.DeviceAttributes
+  langs:
+  - csharp
+  name: Name
+  nameWithType: DeviceAttributes.Name
+  fullName: DeviceAttributes.Name
+  type: Property
+  assemblies:
+  - TensorFlowSharp
+  namespace: TensorFlow
+  summary: The full name of the device (e.g. /job:worker/replica:0/...)
+  syntax:
+    content: public string Name { get; }
+    return:
+      type: System.String
+      description: To be added.
+  overload: TensorFlow.DeviceAttributes.Name*
+  exceptions: []
+references:
+- uid: System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: TensorFlow.DeviceAttributes.DeviceType
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: DeviceType
+  nameWithType: DeviceAttributes.DeviceType
+  fullName: DeviceAttributes.DeviceType
+- uid: TensorFlow.DeviceType
+  parent: TensorFlow
+  isExternal: false
+  name: DeviceType
+  nameWithType: DeviceType
+  fullName: TensorFlow.DeviceType
+- uid: TensorFlow.DeviceAttributes.MemoryLimitBytes
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: MemoryLimitBytes
+  nameWithType: DeviceAttributes.MemoryLimitBytes
+  fullName: DeviceAttributes.MemoryLimitBytes
+- uid: System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: TensorFlow.DeviceAttributes.Name
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: Name
+  nameWithType: DeviceAttributes.Name
+  fullName: DeviceAttributes.Name
+- uid: System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TensorFlow.DeviceAttributes.DeviceType*
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: DeviceType
+  nameWithType: DeviceAttributes.DeviceType
+  fullName: DeviceAttributes.DeviceType
+- uid: TensorFlow.DeviceAttributes.MemoryLimitBytes*
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: MemoryLimitBytes
+  nameWithType: DeviceAttributes.MemoryLimitBytes
+  fullName: DeviceAttributes.MemoryLimitBytes
+- uid: TensorFlow.DeviceAttributes.Name*
+  parent: TensorFlow.DeviceAttributes
+  isExternal: false
+  name: Name
+  nameWithType: DeviceAttributes.Name
+  fullName: DeviceAttributes.Name

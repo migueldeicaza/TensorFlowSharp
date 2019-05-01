@@ -1,0 +1,74 @@
+<Type Name="DeviceAttributes" FullName="TensorFlow.DeviceAttributes">
+  <TypeSignature Language="C#" Value="public class DeviceAttributes" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit DeviceAttributes extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Describes the device attributes 
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="DeviceType">
+      <MemberSignature Language="C#" Value="public TensorFlow.DeviceType DeviceType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype TensorFlow.DeviceType DeviceType" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.DeviceType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            Gets the type of the device.
+            </summary>
+        <value>The type of the device.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MemoryLimitBytes">
+      <MemberSignature Language="C#" Value="public long MemoryLimitBytes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 MemoryLimitBytes" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The amount of memory associated with a given device.
+            </summary>
+        <value>The memory limit bytes.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Name">
+      <MemberSignature Language="C#" Value="public string Name { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Name" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+            The full name of the device (e.g. /job:worker/replica:0/...)
+            </summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

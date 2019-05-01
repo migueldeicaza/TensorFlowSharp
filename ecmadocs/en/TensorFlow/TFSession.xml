@@ -139,8 +139,8 @@
       </Docs>
     </Member>
     <Member MemberName="FromSavedModel">
-      <MemberSignature Language="C#" Value="public TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class TensorFlow.TFSession FromSavedModel(class TensorFlow.TFSessionOptions sessionOptions, class TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, class TensorFlow.TFGraph graph, class TensorFlow.TFBuffer metaGraphDef, class TensorFlow.TFStatus status) cil managed" />
+      <MemberSignature Language="C#" Value="public static TensorFlow.TFSession FromSavedModel (TensorFlow.TFSessionOptions sessionOptions, TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, TensorFlow.TFGraph graph, TensorFlow.TFBuffer metaGraphDef, TensorFlow.TFStatus status = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class TensorFlow.TFSession FromSavedModel(class TensorFlow.TFSessionOptions sessionOptions, class TensorFlow.TFBuffer runOptions, string exportDir, string[] tags, class TensorFlow.TFGraph graph, class TensorFlow.TFBuffer metaGraphDef, class TensorFlow.TFStatus status) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

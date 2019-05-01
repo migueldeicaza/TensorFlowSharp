@@ -1,0 +1,76 @@
+<Type Name="SGD" FullName="TensorFlow.SGD">
+  <TypeSignature Language="C#" Value="public sealed class SGD : TensorFlow.Optimizer" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SGD extends TensorFlow.Optimizer" />
+  <AssemblyInfo>
+    <AssemblyName>TensorFlowSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>TensorFlow.Optimizer</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+            Stochastic gradient descent optimizer.
+            Includes support for momentum, learning rate decay, and Nesterov momentum
+            </summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SGD (TensorFlow.TFGraph graph, float learningRate, float momentum = 0, float decay = 0, bool nesterov = false, string operName = &quot;SGDOptimizer&quot;);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class TensorFlow.TFGraph graph, float32 learningRate, float32 momentum, float32 decay, bool nesterov, string operName) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="graph" Type="TensorFlow.TFGraph" />
+        <Parameter Name="learningRate" Type="System.Single" />
+        <Parameter Name="momentum" Type="System.Single" />
+        <Parameter Name="decay" Type="System.Single" />
+        <Parameter Name="nesterov" Type="System.Boolean" />
+        <Parameter Name="operName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="graph">The graph object.</param>
+        <param name="learningRate">The learning rate for the SGD update.</param>
+        <param name="momentum">Parameter that accelerates SGD in the relevant direction and dampens oscillations.</param>
+        <param name="decay">Learning rate decay over each update.</param>
+        <param name="nesterov"> Whether to apply Nesterov momentum.</param>
+        <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
+        <summary>
+            Construct SGD optimizer.
+            </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplyGradient">
+      <MemberSignature Language="C#" Value="public override TensorFlow.TFOperation[] ApplyGradient (ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[] gradientsAndVariables);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class TensorFlow.TFOperation[] ApplyGradient(valuetype System.ValueTuple`2&lt;valuetype TensorFlow.TFOutput, class TensorFlow.Variable&gt;[] gradientsAndVariables) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TensorFlow.TFOperation[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="gradientsAndVariables" Type="System.ValueTuple&lt;TensorFlow.TFOutput,TensorFlow.Variable&gt;[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.Runtime.CompilerServices.TupleElementNames(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="gradientsAndVariables">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+        <inheritdoc />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
