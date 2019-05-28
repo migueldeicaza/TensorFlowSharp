@@ -244,17 +244,17 @@ namespace TensorFlow
     /// <summary>
     /// Adaptive stochastic gradient descent optimizer.
     /// </summary>
-    public sealed class Adagrad : AdaptiveOptimizer
+    public sealed class AdaGradOptimizer : AdaptiveOptimizer
     {
         /// <summary>
-        /// Construct Adagrad optimizer.
+        /// Construct AdaGradOptimizer.
         /// </summary>
         /// <param name="graph">The graph object.</param>
         /// <param name="learningRate">The learning rate for the SGD update.</param>
         /// <param name="decay">Learning rate decay over each update.</param>
         /// <param name="initialAccumulatorValue">A floating point value. Starting value for the accumulators, must be positive.</param>
         /// <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
-        public Adagrad(TFGraph graph, float learningRate, float decay = 0, float initialAccumulatorValue = 0.1f, string operName = "AdagradOptimizer")
+        public AdaGradOptimizer(TFGraph graph, float learningRate, float decay = 0, float initialAccumulatorValue = 0.1f, string operName = "AdaGradOptimizer")
             : base(graph, learningRate, decay, initialAccumulatorValue, operName)
         {
         }
@@ -273,9 +273,9 @@ namespace TensorFlow
                 
                 // accumulators[i] = accum
                 _updateOps.Add(_graph.Assign(accumulators[i], accum).Operation);
-               
-                // w = w - lr * g / sqrt(accum + 1e-7)
-                var denom = _graph.Div(_graph.Mul(lr, gv.gradient), _graph.Sqrt(_graph.Add(accum, _epsilon)));
+
+                // w = w - lr * g / (sqrt(accum) + eps)
+                var denom = _graph.Div(_graph.Mul(lr, gv.gradient), _graph.Add(_graph.Sqrt(accum), _epsilon));
                 _updateOps.Add(_graph.AssignSubVariableOp(gv.variable, denom));
             }
             return _updateOps.ToArray();
@@ -285,12 +285,12 @@ namespace TensorFlow
     /// <summary>
     /// RMSProp: Adaptive stochastic gradient descent optimizer.
     /// </summary>
-    public sealed class RMSProp : AdaptiveOptimizer
+    public sealed class RMSPropOptimizer : AdaptiveOptimizer
     {
         private readonly TFOutput _beta;
 
         /// <summary>
-        /// Construct Adagrad optimizer.
+        /// Construct RMSPropOptimizer.
         /// </summary>
         /// <param name="graph">The graph object.</param>
         /// <param name="learningRate">The learning rate for the SGD update.</param>
@@ -298,7 +298,7 @@ namespace TensorFlow
         /// <param name="decay">Learning rate decay over each update.</param>
         /// <param name="initialAccumulatorValue">A floating point value. Starting value for the accumulators, must be positive.</param>
         /// <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
-        public RMSProp(TFGraph graph, float learningRate, float beta = 0.9f, float decay = 0, float initialAccumulatorValue = 0.1f, string operName = "AdagradOptimizer") 
+        public RMSPropOptimizer(TFGraph graph, float learningRate, float beta = 0.9f, float decay = 0, float initialAccumulatorValue = 0.1f, string operName = "RMSPropOptimizer") 
             : base(graph, learningRate, decay, initialAccumulatorValue, operName)
         {
             _beta = _graph.Const(beta);
@@ -320,10 +320,72 @@ namespace TensorFlow
                 
                 // accumulators[i] = accum
                 _updateOps.Add(_graph.Assign(accumulators[i], accum).Operation);
-                
-                // w = w - lr * g / sqrt(accum + eps)
-                var denom = _graph.Div(_graph.Mul(lr, gv.gradient), _graph.Sqrt(_graph.Add(accum, _epsilon)));
+
+                // w = w - lr * g / (sqrt(accum) + eps)
+                var denom = _graph.Div(_graph.Mul(lr, gv.gradient), _graph.Add(_graph.Sqrt(accum), _epsilon));
                 _updateOps.Add(_graph.AssignSubVariableOp(gv.variable, denom));
+            }
+            return _updateOps.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// AdamOptimizer: Adaptive stochastic gradient descent optimizer.
+    /// </summary>
+    public sealed class AdamOptimizer : AdaptiveOptimizer
+    {
+        private readonly TFOutput _beta1;
+        private readonly TFOutput _beta2;
+
+        /// <summary>
+        /// Construct AdamOptimizer.
+        /// </summary>
+        /// <param name="graph">The graph object.</param>
+        /// <param name="learningRate">The learning rate for the SGD update.</param>
+        /// <param name="beta1">Factor to compute the moving average over gradients.</param>
+        /// <param name="beta2">Factor to compute the moving average over square of gradients.</param>
+        /// <param name="decay">Learning rate decay over each update.</param>
+        /// <param name="operName">Name the optimizer. All the variable that are created in this class will be created under this scope.</param>
+        public AdamOptimizer(TFGraph graph, float learningRate, float beta1 = 0.9f, float beta2 = 0.999f, float decay = 0, string operName = "AdamOptimizer")
+            : base(graph, learningRate, decay, 0.0f, operName)
+        {
+            _beta1 = _graph.Const(beta1);
+            _beta2 = _graph.Const(beta2);
+        }
+
+        /// <inheritdoc />
+        public override TFOperation[] ApplyGradient((TFOutput gradient, Variable variable)[] gradientsAndVariables)
+        {
+            var accumulators1 = InitMoments(gradientsAndVariables);
+            var accumulators2 = InitMoments(gradientsAndVariables);
+            for (int i = 0; i < gradientsAndVariables.Length; i++)
+            {
+                var gv = gradientsAndVariables[i];
+                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var one = _graph.Const(1f);
+
+                var t = _graph.Cast(Iterations.Read, _beta1.OutputType);
+                var lr_t = _graph.Mul(lr, _graph.Div(
+                                                _graph.Sqrt(_graph.Sub(one, _graph.Pow(_beta2, t))),
+                                                _graph.Sub(one, _graph.Pow(_beta1, t))));
+
+                // accum1 = beta1 * accum1 + (1 - beta1) * g;
+                var first = _graph.Mul(_beta1, accumulators1[i]);
+                var second = _graph.Mul(_graph.Sub(one, _beta1), gv.gradient);
+                var accum1 = _graph.Add(first, second);
+                // accumulators1[i] = accum1
+                _updateOps.Add(_graph.Assign(accumulators1[i], accum1).Operation);
+
+                // accum2 = beta2 * accum2 + (1 - beta2) * g ** 2;
+                first = _graph.Mul(_beta2, accumulators2[i]);
+                second = _graph.Mul(_graph.Sub(one, _beta2), _graph.Square(gv.gradient));
+                var accum2 = _graph.Add(first, second);
+                // accumulators2[i] = accum2
+                _updateOps.Add(_graph.Assign(accumulators2[i], accum2).Operation);
+
+                // w = w - lr * accum1 / (sqrt(accum2) + eps)
+                var update = _graph.Div(_graph.Mul(lr_t, accum1), _graph.Add(_graph.Sqrt(accum2), _epsilon));
+                _updateOps.Add(_graph.AssignSubVariableOp(gv.variable, update));
             }
             return _updateOps.ToArray();
         }
