@@ -19,7 +19,8 @@ namespace TensorFlowSharp.Tests.CSharp
 
                 using (var session = new TFSession(graph))
                 {
-                    var result = session.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Fetch(v1.Read, v2.Read).Run();
+                    session.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
+                    var result = session.GetRunner().Fetch(v1.Read, v2.Read).Run();
                     Assert.NotEqual(result[0].GetValue(), result[1].GetValue());
                 }
             }
@@ -35,7 +36,8 @@ namespace TensorFlowSharp.Tests.CSharp
 
                 using (var session = new TFSession(graph))
                 {
-                    var result = session.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Fetch(v1.Read, v2.Read).Run();
+                    session.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
+                    var result = session.GetRunner().Fetch(v1.Read, v2.Read).Run();
                     Assert.NotEqual(result[0].TensorType, result[1].TensorType);
                 }
             }
