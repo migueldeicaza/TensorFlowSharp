@@ -1,6 +1,24 @@
 [![Build Status](https://travis-ci.org/migueldeicaza/TensorFlowSharp.svg?branch=master)](https://travis-ci.org/migueldeicaza/TensorFlowSharp)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TensorFlowSharp)
 
+# When to use TensorFlowSharp
+
+TensorFlowSharp is a good runtime to run your existing models, and is mostly
+a straight binding to the underlying TensorFlow runtime.   Most people will
+want to use a higher-level library for interfacing with TensorFlow.
+
+The library was designed to blend in the .NET ecosystem and use the
+.NET naming conventions.
+
+I strongly recommend that you use
+[TensorFlow.NET](https://github.com/SciSharp/TensorFlow.NET) which
+takes a different approach than TensorFlowSharp, it uses the Python
+naming convention and has a much broader support for the higher level
+operations that you are likely to need - and is also actively maintained.
+
+
+# TensorFlowSharp
+
 TensorFlowSharp are .NET bindings to the TensorFlow library published here:
 
 https://github.com/tensorflow/tensorflow
