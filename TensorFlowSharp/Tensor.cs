@@ -338,7 +338,7 @@ namespace TensorFlow
 				dims [i] = array.GetLength (i);
 				size *= (int)dims [i];
 			}
-			handle = SetupMulti (dt, dims, array, size);
+			Handle = SetupMulti (dt, dims, array, size);
 		}
 
 		/// <summary>
@@ -534,12 +534,12 @@ namespace TensorFlow
             // TF_STRING tensors are encoded with a table of 8-byte offsets followed by TF_StringEncode-encoded bytes.
             // [offset1, offset2,...,offsetn, s1size, s1bytes, s2size, s2bytes,...,snsize,snbytes]
             //
-            var src = TF_TensorData(tensor.handle);
+            var src = TF_TensorData(tensor.Handle);
             using (var status = new TFStatus())
             {
                 IntPtr dst = IntPtr.Zero;
                 UIntPtr dst_len = UIntPtr.Zero;
-                TFString.TF_StringDecode((byte*)(src + 8), tensor.TensorByteSize - 8, (byte**)&dst, &dst_len, status.handle);
+                TFString.TF_StringDecode((byte*)(src + 8), tensor.TensorByteSize - 8, (byte**)&dst, &dst_len, status.Handle);
                 var ok = status.StatusCode == TFCode.Ok;
                 if (!ok)
                     return null;
@@ -580,7 +580,7 @@ namespace TensorFlow
                 {
                     fixed (byte* src = &buffer[i][0])
                     {
-                        var written = TFString.TF_StringEncode(src, (UIntPtr)buffer[i].Length, (byte*)dst, (size_t)(dstLimit.ToInt64() - dst.ToInt64()), status.handle);
+                        var written = TFString.TF_StringEncode(src, (UIntPtr)buffer[i].Length, (byte*)dst, (size_t)(dstLimit.ToInt64() - dst.ToInt64()), status.Handle);
                         var ok = status.StatusCode == TFCode.Ok;
                         if (!ok)
                             return null;
@@ -609,7 +609,7 @@ namespace TensorFlow
                 size *= s;
 
             var buffer = new byte[size][];
-            var src = TF_TensorData(tensor.handle);
+            var src = TF_TensorData(tensor.Handle);
             var srcLen = (IntPtr)(src.ToInt64() + (long)tensor.TensorByteSize);
             src += (int)(size * 8);
             for (int i = 0; i < buffer.Length; i++)
@@ -618,7 +618,7 @@ namespace TensorFlow
                 {
                     IntPtr dst = IntPtr.Zero;
                     UIntPtr dstLen = UIntPtr.Zero;
-                    var read = TFString.TF_StringDecode((byte*)src, (size_t)(srcLen.ToInt64() - src.ToInt64()), (byte**)&dst, &dstLen, status.handle);
+                    var read = TFString.TF_StringDecode((byte*)src, (size_t)(srcLen.ToInt64() - src.ToInt64()), (byte**)&dst, &dstLen, status.Handle);
                     var ok = status.StatusCode == TFCode.Ok;
                     if (!ok)
                         return null;
@@ -830,7 +830,7 @@ namespace TensorFlow
 		/// Returns the data type for the tensor.
 		/// </summary>
 		/// <value>The type of the tensor.</value>
-		public TFDataType TensorType => TF_TensorType (handle);
+		public TFDataType TensorType => TF_TensorType (Handle);
 
 		// extern int TF_NumDims (const TF_Tensor *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -842,7 +842,7 @@ namespace TensorFlow
 		/// <remarks>
 		/// For single-dimension tensors the return is 1, 2 dimensions is 2 and so on.
 		/// </remarks>
-		public int NumDims => TF_NumDims (handle);
+		public int NumDims => TF_NumDims (Handle);
 
 		// extern int64_t TF_Dim (const TF_Tensor *tensor, int dim_index);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -860,14 +860,14 @@ namespace TensorFlow
 		/// </remarks>
 		public long GetTensorDimension (int dimIndex)
 		{
-			return TF_Dim (handle, dimIndex);
+			return TF_Dim (Handle, dimIndex);
 		}
 
 		// extern size_t TF_TensorByteSize (const TF_Tensor *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
 		static extern unsafe size_t TF_TensorByteSize (TF_Tensor tensor);
 
-		public size_t TensorByteSize => TF_TensorByteSize (handle);
+		public size_t TensorByteSize => TF_TensorByteSize (Handle);
 
 		// extern void * TF_TensorData (const TF_Tensor *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -881,7 +881,7 @@ namespace TensorFlow
 		/// data as described by the DataType property.   The amount of data
 		/// is given by the the TensorByteSize property.
 		/// </remarks>
-		public IntPtr Data => TF_TensorData (handle);
+		public IntPtr Data => TF_TensorData (Handle);
 
 		/// <summary>
 		/// Returns the tensor shape, this is an array whose size determines the number of dimensions on the tensor, and each element is the size of the dimension
@@ -893,9 +893,9 @@ namespace TensorFlow
 		/// </remarks>
 		public long [] Shape {
 			get {
-				var dims = new long [TF_NumDims (handle)];
+				var dims = new long [TF_NumDims (Handle)];
 				for (int i = 0; i < dims.Length; i++)
-					dims [i] = (int)TF_Dim (handle, i);
+					dims [i] = (int)TF_Dim (Handle, i);
 
 				return dims;
 			}
@@ -1406,7 +1406,7 @@ namespace TensorFlow
 
 			StringBuilder sb = new StringBuilder ("[");
 			for (int i = 0; i < n; i++) {
-				sb.Append (TF_Dim (handle, i));
+				sb.Append (TF_Dim (Handle, i));
 				if (i + 1 < n)
 					sb.Append ("x");
 			}
