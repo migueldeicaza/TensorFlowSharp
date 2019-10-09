@@ -3045,6 +3045,69 @@ namespace TensorFlow
 				return session.Run (inputs.ToArray (), inputValues.ToArray (), outputs.ToArray (), targets.ToArray (), RunMetadata, RunOptions, status);
 			}
 
+			// Internal arrays managed and re-used by <see cref="Run(TFOutput, TFStatus)"/> calls.
+			TFOutput[] inputsArray;
+			IntPtr[] inputValueHandles;
+			TFOutput[] outputsArray;
+			IntPtr[] outputValueHandles;
+			IntPtr[] targetHandles;
+
+			/// <summary>
+			/// Execute the graph fragments necessary to compute all requested fetches.
+			/// Identical to <see cref="Run(TFStatus)"/>, except that this reuses internal arrays allocated in earlier calls.
+			/// It only re-allocates internal arrays when AddInput or AddTarget has been call between consecutive calls to this Run method.
+			/// </summary>
+			/// <returns>The <paramref name="outputValues"/> tensors provided.</returns>
+			/// <param name="outputValues">The outputs referencing all tensor to be fetched. Reuses this tensors array.</param>
+			/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+			public TFTensor [] Run (TFTensor [] outputValues, TFStatus status = null)
+			{
+				int iLen = inputs.Count;
+				if (iLen != inputValues.Count)
+					throw new ArgumentException("inputs and inputValues have different lengths", "inputs");
+
+				if (inputsArray == null || inputsArray.Length != iLen)
+					inputsArray = inputs.ToArray();
+
+				if (inputValueHandles == null || inputValueHandles.Length != iLen)
+					inputValueHandles = new IntPtr[iLen];
+				for (int i = 0; i < iLen; i++)
+					inputValueHandles[i] = inputValues[i].Handle;
+
+				if (outputValues == null)
+					throw new ArgumentNullException(nameof(outputValues));
+				int oLen = outputValues.Length;
+				if (oLen != outputs.Count)
+					throw new ArgumentException("outputValues and output have different lengths", "outputValues");
+
+				if (outputsArray == null || outputsArray.Length != oLen)
+					outputsArray = outputs.ToArray();
+
+				for (int i = 0; i < outputValues.Length; i++)
+					if (outputValues[i] == null)
+						outputValues[i] = new TFTensor(IntPtr.Zero);
+					else
+						outputValues[i].Handle = IntPtr.Zero;
+
+				if (outputValueHandles == null || outputValueHandles.Length != oLen)
+					outputValueHandles = new IntPtr[oLen];
+				for (int i = 0; i < oLen; i++)
+					outputValueHandles[i] = outputValues[i].Handle;
+
+				var tLen = targets.Count;
+				if (targetHandles == null || targetHandles.Length != tLen)
+					targetHandles = new IntPtr[tLen];
+				for (int i = 0; i < tLen; i++)
+					targetHandles[i] = targets[i].Handle;
+
+				session.Run(inputsArray, inputValueHandles, outputsArray, outputValueHandles, targetHandles, RunMetadata, RunOptions, status);
+
+				for (int i = 0; i < outputValues.Length; i++)
+					outputValues[i].Handle = outputValueHandles[i];
+
+				return outputValues;
+			}
+
 			/// <summary>
 			/// Run the specified operation, by adding it implicity to the output, single return value
 			/// </summary>
@@ -3140,6 +3203,52 @@ namespace TensorFlow
 				result [i] = new TFTensor (ovals [i]);
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// Executes a pipeline given the specified inputs, inputValues, outputs, outputValues, targetOpers, runMetadata and runOptions.
+		/// A simpler API is available by calling the <see cref="M:GetRunner"/> method which performs all the bookkeeping
+		/// necessary.
+		/// </summary>
+		/// <returns>An array of tensors fetched from the requested outputs.</returns>
+		/// <param name="inputs">Inputs nodes.</param>
+		/// <param name="inputValues">Input value handles.</param>
+		/// <param name="outputs">Output nodes.</param>
+		/// <param name="outputValues">Output value handles.</param>
+		/// <param name="targetOpers">Target operation handles to execute.</param>
+		/// <param name="runMetadata">Run metadata, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
+		/// <param name="runOptions">Run options, a buffer containing the protocol buffer encoded value for https://github.com/tensorflow/tensorflow/blob/r1.9/tensorflow/core/protobuf/config.proto.</param>
+		/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
+		/// <remarks>
+		/// On success, the <paramref name="outputValues"/> handles are assigned with newly allocated pointers.
+		/// </remarks>
+		public void Run (TFOutput [] inputs, IntPtr [] inputValues, TFOutput [] outputs, IntPtr [] outputValues, IntPtr [] targetOpers = null, TFBuffer runMetadata = null, TFBuffer runOptions = null, TFStatus status = null)
+		{
+			if (Handle == IntPtr.Zero)
+				ObjectDisposedException();
+			if (inputs == null)
+				throw new ArgumentNullException(nameof(inputs));
+			if (inputValues == null)
+				throw new ArgumentNullException(nameof(inputValues));
+			if (outputs == null)
+				throw new ArgumentNullException(nameof(outputs));
+			if (outputValues == null)
+				throw new ArgumentNullException(nameof(outputValues));
+			int iLen = inputs.Length;
+			if (iLen != inputValues.Length)
+				throw new ArgumentException("inputs and inputValues have different lengths", "inputs");
+			int oLen = outputs.Length;
+			if (oLen != outputValues.Length)
+				throw new ArgumentException("outputs and outputValues have different lengths", "outputs");
+
+			// runOptions and runMetadata might be null
+			var cstatus = TFStatus.Setup(status);
+
+			unsafe
+			{
+				TF_SessionRun(Handle, runOptions == null ? null : runOptions.LLBuffer, inputs, inputValues, iLen, outputs, outputValues, oLen, targetOpers, targetOpers == null ? 0 : targetOpers.Length, runMetadata == null ? null : runMetadata.LLBuffer, cstatus.Handle);
+			}
+			cstatus.CheckMaybeRaise(status);
 		}
 
 		// extern void TF_SessionPRunSetup (TF_Session, const TF_Output *inputs, int ninputs, const TF_Output *outputs, int noutputs, const TF_Operation *const *target_opers, int ntargets, const char **handle, TF_Status *);
