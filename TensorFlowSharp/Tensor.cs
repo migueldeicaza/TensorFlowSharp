@@ -333,11 +333,10 @@ namespace TensorFlow
 				break;
 			}
 
-			var dims = new long [array.Rank];
-			for (int i = 0; i < array.Rank; i++) {
-				dims [i] = array.GetLength (i);
-				size *= (int)dims [i];
-			}
+			var dims = getShape(array);
+			foreach (var dim in dims)
+				size *= dim;
+
 			handle = SetupMulti (dt, dims, array, size);
 		}
 
@@ -639,10 +638,7 @@ namespace TensorFlow
 		// Convenience function to factor out the setup of a new tensor from an array
 		static IntPtr SetupTensor (TFDataType dt, Array data, int size)
 		{
-			long [] dims = new long [data.Rank];
-			for (int i = 0; i < dims.Length; i++)
-				dims [i] = data.GetLength (i);
-
+			var dims = getShape(data);
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
@@ -1401,14 +1397,11 @@ namespace TensorFlow
 		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
 		public unsafe void SetValue(Array array)
 		{
-			if (array.Rank > 1)
-			{
-				var dims = new long[0]; //  getShape(array);
-				if (!dims.SequenceEqual(Shape))
-					throw new ArgumentException($"This tensor has shape {Shape}, given array has shape {dims}");
+			var dims = getLength(array);
+			if(dims.Length != Shape.Length || dims.Zip(Shape, (i,l) => i == l).Any((equal) => !equal))
+				throw new ArgumentException($"This tensor has shape [{string.Join(",", Shape)}], given array has shape [{string.Join(",", dims)}]");
 
-				array = deepFlatten(array);
-			}
+			if (isJagged(array)) array = deepFlatten(array);
 
 			var type = getInnerMostType(array);
 			CheckDataTypeAndSize(type, array.Length);
@@ -1750,6 +1743,14 @@ namespace TensorFlow
 				type = type.GetElementType ();
 
 			return type;
+		}
+
+		private static long[] getShape(Array array)
+		{
+			long[] dims = new long[array.Rank];
+			for (int i = 0; i < dims.Length; i++)
+				dims[i] = array.GetLength(i);
+			return dims;
 		}
 
 	}

@@ -371,7 +371,8 @@ namespace TensorFlowSharp.Tests.CSharp
 		{
 			using (var tensor = new TFTensor(123))
 			{
-				tensor.SetValue(234u);
+				var exception = Assert.Throws<ArgumentException>(() => tensor.SetValue(234u));
+				Assert.Equal("The tensor is of type Int32, not Int64", exception.Message);
 			}
 		}
 
@@ -380,12 +381,23 @@ namespace TensorFlowSharp.Tests.CSharp
 		{
 			using (var tensor = new TFTensor(123))
 			{
-				tensor.SetValue(new[] { 234 });
+				var exception = Assert.Throws<ArgumentException>(() => tensor.SetValue(new[] { 234 }));
+				Assert.Equal("This tensor has shape [], given array has shape [1]", exception.Message);
 			}
 		}
 
 		[Fact]
 		public void SetArrayTensorWithSimple()
+		{
+			using (var tensor = new TFTensor(new[] { 123, 234 }))
+			{
+				var exception = Assert.Throws<ArgumentException>(() => tensor.SetValue(234));
+				Assert.Equal("The tensor is of size 8, not 4", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetSimpleArrayTensorWithSimple()
 		{
 			using (var tensor = new TFTensor(new[] { 123 }))
 			{
@@ -398,25 +410,35 @@ namespace TensorFlowSharp.Tests.CSharp
 		{
 			using (var tensor = new TFTensor(new[] { new[] { 123 } }))
 			{
-				tensor.SetValue(new[] { 234 });
+				var exception = Assert.Throws<ArgumentException>(() => tensor.SetValue(new[] { 234 }));
+				Assert.Equal("This tensor has shape [1,1], given array has shape [1]", exception.Message);
 			}
 		}
 
 		private static IEnumerable<object[]> checkDataTypeAndSizeData()
 		{
-			yield return new object[] { typeof(int), 1, true };
-			yield return new object[] { typeof(uint), 1, true };
-			yield return new object[] { typeof(byte), 1, false };
-			yield return new object[] { typeof(int), 2, false };
+			yield return new object[] { typeof(int), 1, null };
+			yield return new object[] { typeof(short), 1, "The tensor is of type Int32, not Int16" };
+			yield return new object[] { typeof(byte), 1, "The tensor is of type Int32, not UInt8" };
+			yield return new object[] { typeof(int), 2, "The tensor is of size 4, not 8" };
 		}
 
 		[Theory]
 		[MemberData(nameof(checkDataTypeAndSizeData))]
-		public void CheckDataTypeAndSize(Type type, long length, bool pass)
+		public void CheckDataTypeAndSize(Type type, long length, String expected)
 		{
 			using (var tensor = new TFTensor(123))
 			{
-				tensor.CheckDataTypeAndSize(type, length);
+				Action action = () => tensor.CheckDataTypeAndSize(type, length);
+				if (expected == null)
+				{
+					action();
+				}
+				else
+				{
+					var exception = Assert.Throws<ArgumentException>(action);
+					Assert.Equal(expected, exception.Message);
+				}
 			}
 		}
 	}
