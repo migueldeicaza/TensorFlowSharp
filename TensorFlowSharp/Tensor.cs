@@ -333,11 +333,10 @@ namespace TensorFlow
 				break;
 			}
 
-			var dims = new long [array.Rank];
-			for (int i = 0; i < array.Rank; i++) {
-				dims [i] = array.GetLength (i);
-				size *= (int)dims [i];
-			}
+			var dims = getShape(array);
+			foreach (var dim in dims)
+				size *= dim;
+
 			Handle = SetupMulti (dt, dims, array, size);
 		}
 
@@ -358,7 +357,7 @@ namespace TensorFlow
 		{
 			var v = (bool*)Marshal.AllocHGlobal (sizeof (bool));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (bool), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -388,7 +387,7 @@ namespace TensorFlow
 		{
 			var v = (ushort*)Marshal.AllocHGlobal (sizeof (ushort));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.UInt16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -639,10 +638,7 @@ namespace TensorFlow
 		// Convenience function to factor out the setup of a new tensor from an array
 		static IntPtr SetupTensor (TFDataType dt, Array data, int size)
 		{
-			long [] dims = new long [data.Rank];
-			for (int i = 0; i < dims.Length; i++)
-				dims [i] = data.GetLength (i);
-
+			var dims = getShape(data);
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
@@ -1395,6 +1391,204 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Sets the tensor's value to the given array.
+		/// </summary>
+		/// <param name="array">An array of the tensor's type, size and shape.
+		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
+		public unsafe void SetValue(Array array)
+		{
+			var dims = getLength(array);
+			if(dims.Length != Shape.Length || dims.Zip(Shape, (i,l) => i == l).Any((equal) => !equal))
+				throw new ArgumentException($"This tensor has shape [{string.Join(",", Shape)}], given array has shape [{string.Join(",", dims)}]");
+
+			if (isJagged(array)) array = deepFlatten(array);
+
+			var type = getInnerMostType(array);
+			CheckDataTypeAndSize(type, array.Length);
+
+			var h = GCHandle.Alloc(array, GCHandleType.Pinned);
+			Copy(h.AddrOfPinnedObject(), (void*)Data, (int)TensorByteSize);
+			h.Free();
+		}
+
+		/// <summary>
+		/// Sets the value of a boolean array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(bool[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a byte array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(byte[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a sbyte array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(sbyte[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a short array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(short[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a ushort array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(ushort[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of an int array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(int[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a long array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(long[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a Complex array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(Complex[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a float array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(float[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a double array tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(double[] value) => SetValue((Array)value);
+
+		/// <summary>
+		/// Sets the value of a boolean tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(bool value)
+		{
+			CheckDataTypeAndSize(typeof(bool));
+			*(bool*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a byte tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(byte value)
+		{
+			CheckDataTypeAndSize(typeof(byte));
+			*(byte*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a sbyte tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(sbyte value)
+		{
+			CheckDataTypeAndSize(typeof(sbyte));
+			*(sbyte*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a short tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(short value)
+		{
+			CheckDataTypeAndSize(typeof(short));
+			*(short*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a ushort tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(ushort value)
+		{
+			CheckDataTypeAndSize(typeof(ushort));
+			*(ushort*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of an int tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(int value)
+		{
+			CheckDataTypeAndSize(typeof(int));
+			*(int*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a long tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(long value)
+		{
+			CheckDataTypeAndSize(typeof(long));
+			*(long*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a Complex tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(Complex value)
+		{
+			CheckDataTypeAndSize(typeof(Complex));
+			*(Complex*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a float tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(float value)
+		{
+			CheckDataTypeAndSize(typeof(float));
+			*(float*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a double tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(double value)
+		{
+			CheckDataTypeAndSize(typeof(double));
+			*(double*)Data = value;
+		}
+
+		/// <summary>
+		/// Checks this tensor's type and size agrees with the given type and size.
+		/// </summary>
+		/// <param name="type">A type to check.</param>
+		/// <param name="length">An array length to check.</param>
+		public void CheckDataTypeAndSize(Type type, long length = 1)
+		{
+			var (dataType, dataSize) = TensorTypeAndSizeFromType(type);
+			var size = length * dataSize;
+
+			if (TensorType != dataType)
+				throw new ArgumentException($"The tensor is of type {TensorType}, not {dataType}");
+
+			if ((size_t)size != TensorByteSize)
+				throw new ArgumentException($"The tensor is of size {TensorByteSize}, not {size}");
+		}
+
+		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.
 		/// </summary>
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.</returns>
@@ -1549,6 +1743,14 @@ namespace TensorFlow
 				type = type.GetElementType ();
 
 			return type;
+		}
+
+		private static long[] getShape(Array array)
+		{
+			long[] dims = new long[array.Rank];
+			for (int i = 0; i < dims.Length; i++)
+				dims[i] = array.GetLength(i);
+			return dims;
 		}
 
 	}
