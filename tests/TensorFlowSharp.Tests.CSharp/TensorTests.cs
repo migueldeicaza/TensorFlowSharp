@@ -155,36 +155,6 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Fact]
-		public void ConstructArrayTensor ()
-		{
-			using (var tensor = new TFTensor (new [] { 123, 456 }))
-			{
-				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (new [] { 123, 456 }, tensor.GetValue ());
-			}
-		}
-
-		[Fact]
-		public void ConstructMultiDimArrayTensor ()
-		{
-			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
-			{
-				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (new [,] { { 123, 456 } }, tensor.GetValue ());
-			}
-		}
-
-		[Fact]
-		public void ConstructJaggedArrayTensor ()
-		{
-			using (var tensor = new TFTensor (new [] { new [] { 123, 456 } }))
-			{
-				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (new [,] { { 123, 456 } }, tensor.GetValue ());
-			}
-		}
-
-		[Fact]
 		public void ConstructBoolTensor ()
 		{
 			bool value = true;
