@@ -255,6 +255,50 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Fact]
+		public void SetArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { 123, 456 }))
+			{
+				tensor.SetValue (new [] { 234, 567 });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [] { 234, 567 }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [,] { { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensorWithJagged ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetJaggedArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { new [] { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
 		public void SetBoolTensor ()
 		{
 			using (var tensor = new TFTensor (true))
