@@ -433,9 +433,9 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Fact]
-		public void ConstrucComplexArrayTensor ()
+		public void ConstrucComplexArrayTensor()
 		{
-			var array = new [] { new Complex (1, 2), new Complex (2, -1) };
+			var array = new[] { new Complex(1, 2), new Complex(2, -1) };
 			using (var tensor = new TFTensor (array))
 			{
 				Assert.Equal (TFDataType.Complex128, tensor.TensorType);
