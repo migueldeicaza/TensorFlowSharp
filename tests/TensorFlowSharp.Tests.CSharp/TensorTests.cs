@@ -157,100 +157,368 @@ namespace TensorFlowSharp.Tests.CSharp
 		[Fact]
 		public void ConstructBoolTensor ()
 		{
-			using (var tensor = new TFTensor (true))
+			bool value = true;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Bool, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (bool), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (true, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructByteTensor ()
 		{
-			using (var tensor = new TFTensor ((byte)123))
+			byte value = 123;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.UInt8, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (byte), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal ((byte)123, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructSignedByteTensor ()
 		{
-			using (var tensor = new TFTensor ((sbyte)123))
+			sbyte value = 123;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Int8, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (sbyte), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal ((sbyte)123, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructShortTensor ()
 		{
-			using (var tensor = new TFTensor ((short)123))
+			short value = 123;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Int16, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (short), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal ((short)123, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructUnsignedShortTensor ()
 		{
-			using (var tensor = new TFTensor ((ushort)123))
+			ushort value = 123;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.UInt16, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (ushort), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal ((ushort)123, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructIntTensor ()
 		{
-			using (var tensor = new TFTensor (123))
+			int value = 123;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Int32, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (int), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (123, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructLongTensor ()
 		{
-			using (var tensor = new TFTensor (123L))
+			long value = 123L;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Int64, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (long), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (123L, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructComplexTensor ()
 		{
-			using (var tensor = new TFTensor (new Complex (1, 2)))
+			Complex value = new Complex (1, 2);
+			using (var tensor = new TFTensor (value))
 			{
-				Assert.Equal ((uint)16, tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (new Complex (1, 2), tensor.GetValue ());
+				Assert.Equal (TFDataType.Complex128, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
+				Assert.Equal (16u, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructFloatTensor ()
 		{
-			using (var tensor = new TFTensor (123.456f))
+			float value = 123.456f;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Float, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (float), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (123.456f, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
 			}
 		}
 
 		[Fact]
 		public void ConstructDoubleTensor ()
 		{
-			using (var tensor = new TFTensor (123.456))
+			double value = 123.456;
+			using (var tensor = new TFTensor (value))
 			{
+				Assert.Equal (TFDataType.Double, tensor.TensorType);
+				Assert.Equal (0, tensor.NumDims);
+				Assert.Equal (new long [0], tensor.Shape);
 				Assert.Equal ((uint)sizeof (double), tensor.TensorByteSize.ToUInt32 ());
-				Assert.Equal (123.456, tensor.GetValue ());
+				Assert.Equal (value, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructBoolArrayTensor ()
+		{
+			var array = new [] { true, false };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Bool, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (bool) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructByteArrayTensor ()
+		{
+			var array = new byte [] { 123, 234 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.UInt8, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (byte) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructSignedByteArrayTensor ()
+		{
+			var array = new sbyte [] { 123, -123 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Int8, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (sbyte) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructShortArrayTensor ()
+		{
+			var array = new short [] { 123, 234 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Int16, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (short) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructUnsignedShortArrayTensor ()
+		{
+			var array = new ushort [] { 123, 234 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.UInt16, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (ushort) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructIntArrayTensor ()
+		{
+			var array = new [] { 123, 234 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Int32, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (int) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructMultiDimIntArrayTensor ()
+		{
+			var array = new [,] { { 123, 456 } };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Int32, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.GetLength (0), tensor.GetTensorDimension (0));
+				Assert.Equal (array.GetLength (1), tensor.GetTensorDimension (1));
+				Assert.Equal (new long [] { array.GetLength (0), array.GetLength (1) }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (int) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructJaggedIntArrayTensor ()
+		{
+			var jagged = new [] { new [] { 123, 456 } };
+			var array = new [,] { { 123, 456 } };
+			using (var tensor = new TFTensor (jagged))
+			{
+				Assert.Equal (TFDataType.Int32, tensor.TensorType);
+				Assert.Equal (2, tensor.NumDims);
+				Assert.Equal (array.GetLength (0), tensor.GetTensorDimension (0));
+				Assert.Equal (array.GetLength (1), tensor.GetTensorDimension (1));
+				Assert.Equal (new long [] { array.GetLength (0), array.GetLength (1) }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (int) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructLongArrayTensor ()
+		{
+			var array = new [] { 123L, 234L };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Int64, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (long) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstrucComplexArrayTensor ()
+		{
+			var array = new [] { new Complex (1, 2), new Complex (2, -1) };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Complex128, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal (16u * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructFloatArrayTensor ()
+		{
+			var array = new [] { 123.456f, 234.567f };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Float, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (float) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void ConstructDoubleArrayTensor ()
+		{
+			var array = new [] { 123.456, 234.567 };
+			using (var tensor = new TFTensor (array))
+			{
+				Assert.Equal (TFDataType.Double, tensor.TensorType);
+				Assert.Equal (array.Rank, tensor.NumDims);
+				Assert.Equal (array.Length, tensor.GetTensorDimension (0));
+				Assert.Equal (new long [] { array.Length }, tensor.Shape);
+				Assert.Equal ((uint)sizeof (double) * array.Length, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (array, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { 123, 456 }))
+			{
+				tensor.SetValue (new [] { 234, 567 });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [] { 234, 567 }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [,] { { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensorWithJagged ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+
+			}
+		}
+
+		[Fact]
+		public void SetJaggedArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { new [] { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
 			}
 		}
 
