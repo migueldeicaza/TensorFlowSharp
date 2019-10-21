@@ -1415,7 +1415,7 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="array">tensor value array</param>
 		/// <remarks>Does not support jagged arrays.</remarks>
-		public void GetValue (Array array)
+		public unsafe void GetValue (Array array)
 		{
 			if (isJagged (array))
 				throw new ArgumentException ("Array must not be jagged");
@@ -1424,8 +1424,10 @@ namespace TensorFlow
 			var type = getInnerMostType (array);
 			CheckDataTypeAndSize (type, array.Length);
 
-			var data = Data;
-			Copy (array, TensorType, Shape, idx, 0, ref data);
+			var h = GCHandle.Alloc (array, GCHandleType.Pinned);
+			var size = TensorByteSize.ToUInt64 ();
+			Buffer.MemoryCopy (Data.ToPointer (), h.AddrOfPinnedObject ().ToPointer (), size, size);
+			h.Free ();
 		}
 
 		/// <summary>
@@ -1433,18 +1435,19 @@ namespace TensorFlow
 		/// </summary>
 		/// <param name="array">An array of the tensor's type, size and shape.
 		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
-		public unsafe void SetValue(Array array)
+		public unsafe void SetValue (Array array)
 		{
 			CheckShape (array);
 
 			if (isJagged (array)) array = deepFlatten (array);
 
-			var type = getInnerMostType(array);
-			CheckDataTypeAndSize(type, array.Length);
+			var type = getInnerMostType (array);
+			CheckDataTypeAndSize (type, array.Length);
 
-			var h = GCHandle.Alloc(array, GCHandleType.Pinned);
-			Copy(h.AddrOfPinnedObject(), (void*)Data, (int)TensorByteSize);
-			h.Free();
+			var h = GCHandle.Alloc (array, GCHandleType.Pinned);
+			var size = TensorByteSize.ToUInt64 ();
+			Buffer.MemoryCopy (h.AddrOfPinnedObject ().ToPointer (), Data.ToPointer (), size, size);
+			h.Free ();
 		}
 
 		/// <summary>
