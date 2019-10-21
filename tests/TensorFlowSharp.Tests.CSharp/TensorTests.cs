@@ -694,6 +694,30 @@ namespace TensorFlowSharp.Tests.CSharp
 			}
 		}
 
+		public static IEnumerable<object []> GetArrayValueInPlaceData => new List<object []>
+		{
+			new [] { new [] { 123 } },
+			new [] { new [,] { { 123, 456 } } },
+			new [] { new [,,] { { { 123, 456, 789 } } } },
+			new [] { new [,] { { 123, 456 }, { 789, 012 } } }
+		};
+
+		[Theory]
+		[MemberData(nameof(GetArrayValueInPlaceData))]
+		public void GetArrayValueInPlace (Array array)
+		{
+			using (var tensor = new TFTensor (array))
+			{
+				var type = array.GetType ().GetElementType ();
+				var value = Array.CreateInstance (type, tensor.Shape);
+				Assert.NotEqual (array, value);
+
+				tensor.GetValue (value);
+
+				Assert.Equal (array, value);
+			}
+		}
+
 		private static IEnumerable<object []> checkShapeData ()
 		{
 			yield return new object [] { new [] { 123 }, new [] { 234 }, null };

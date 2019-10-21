@@ -1378,7 +1378,10 @@ namespace TensorFlow
 		/// Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
 		/// efficient memory-wise.
 		/// </remarks>
-		/// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</returns>
+		/// <returns>
+		/// The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.
+		/// For simple values, the method does not allocate any objects.
+		/// </returns>
 		public object GetValue (bool jagged = false)
 		{
 			var dims = NumDims;
@@ -1403,6 +1406,26 @@ namespace TensorFlow
 					return result;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Returns the value of the Tensor in the provided array.
+		/// In contrast to <see cref="GetValue(bool)"/>, this method reuses the given array and does not allocate any objects.
+		/// The array must be of identical shape. It will be fully overwritten.
+		/// </summary>
+		/// <param name="array">tensor value array</param>
+		/// <remarks>Does not support jagged arrays.</remarks>
+		public void GetValue (Array array)
+		{
+			if (isJagged (array))
+				throw new ArgumentException ("Array must not be jagged");
+
+			CheckShape (array);
+			var type = getInnerMostType (array);
+			CheckDataTypeAndSize (type, array.Length);
+
+			var data = Data;
+			Copy (array, TensorType, Shape, idx, 0, ref data);
 		}
 
 		/// <summary>
