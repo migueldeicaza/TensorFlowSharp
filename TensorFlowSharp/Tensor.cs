@@ -879,6 +879,9 @@ namespace TensorFlow
 		/// </remarks>
 		public IntPtr Data => TF_TensorData (Handle);
 
+		private long [] shape;
+		private int [] idx;
+
 		/// <summary>
 		/// Returns the tensor shape, this is an array whose size determines the number of dimensions on the tensor, and each element is the size of the dimension
 		/// </summary>
@@ -887,14 +890,26 @@ namespace TensorFlow
 		///     for single-dimension arrays, where the dimension is the value of the
 		///     first element.   And so on.
 		/// </remarks>
-		public long [] Shape {
-			get {
-				var dims = new long [TF_NumDims (Handle)];
-				for (int i = 0; i < dims.Length; i++)
-					dims [i] = (int)TF_Dim (Handle, i);
-
-				return dims;
+		public long [] Shape
+		{
+			get
+			{
+				if (shape == null)
+				{
+					shape = GetShape ();
+					idx = new int [shape.Length];
+				}
+				return shape;
 			}
+		}
+
+		private long [] GetShape ()
+		{
+			var dims = new long [TF_NumDims (Handle)];
+			for (int i = 0; i < dims.Length; i++)
+				dims [i] = (int)TF_Dim (Handle, i);
+
+			return dims;
 		}
 
 		/// <summary>
