@@ -8,6 +8,8 @@ using TensorFlow;
 using Xunit;
 using Xunit.Abstractions;
 
+using static System.FormattableString;
+
 namespace TensorFlowSharp.Tests.CSharp
 {
     public class OptimizerTests
@@ -70,7 +72,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
                                 .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
-                            var output = $"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}";
+                            var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -126,7 +128,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
                                .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
-                            var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
+                            var output = Invariant($"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -182,7 +184,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
                                 .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
-                            var output = $"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}";
+                            var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -238,7 +240,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
                                .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
-                            var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
+                            var output = Invariant($"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -294,7 +296,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
                                 .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
-                            var output = $"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}";
+                            var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -350,7 +352,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
                                .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
-                            var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
+                            var output = Invariant($"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -426,7 +428,7 @@ namespace TensorFlowSharp.Tests.CSharp
                             avgLoss += (float)tensors[0].GetValue();
                             avgAccuracy += (float)tensors[1].GetValue();
                         }
-                        var output = $"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}";
+                        var output = Invariant($"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}");
                         Assert.Equal(expectedLines[i], output);
                     }
                 }
@@ -550,7 +552,7 @@ namespace TensorFlowSharp.Tests.CSharp
                             avgLoss += (float)tensors[0].GetValue();
                             avgAccuracy += (float)tensors[1].GetValue();
                         }
-                        var output = $"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}";
+                        var output = Invariant($"Epoch: {i}, loss(Cross-Entropy): {avgLoss / numBatches:F4}, Accuracy:{avgAccuracy / numBatches:F4}");
                         Assert.Equal(expectedLines[i], output);
                     }
                 }
@@ -606,7 +608,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
                                 .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
-                            var output = $"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}";
+                            var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -662,7 +664,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
                                .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
-                            var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
+                            var output = Invariant($"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -718,7 +720,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
                                 .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
-                            var output = $"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}";
+                            var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
@@ -774,7 +776,7 @@ namespace TensorFlowSharp.Tests.CSharp
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
                                .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
-                            var output = $"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}";
+                            var output = Invariant($"step: {tensors[0].GetValue():D}, loss: {tensors[1].GetValue():F4}, W: {tensors[2].GetValue():F4}, b: {tensors[3].GetValue():F4}, lr: {tensors[4].GetValue():F8}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
                     }
