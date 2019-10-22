@@ -333,10 +333,12 @@ namespace TensorFlow
 				break;
 			}
 
-			var dims = getShape(array);
-			foreach (var dim in dims)
-				size *= dim;
-
+			var dims = new long [array.Rank];
+			for (int i = 0; i < array.Rank; i++)
+			{
+				dims [i] = array.GetLength (i);
+				size *= (int)dims [i];
+			}
 			Handle = SetupMulti (dt, dims, array, size);
 		}
 
@@ -638,7 +640,10 @@ namespace TensorFlow
 		// Convenience function to factor out the setup of a new tensor from an array
 		static IntPtr SetupTensor (TFDataType dt, Array data, int size)
 		{
-			var dims = getShape(data);
+			long [] dims = new long [data.Rank];
+			for (int i = 0; i < dims.Length; i++)
+				dims [i] = data.GetLength (i);
+
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
@@ -879,8 +884,11 @@ namespace TensorFlow
 		/// </remarks>
 		public IntPtr Data => TF_TensorData (Handle);
 
+		/// <summary>
+		/// Cached result of <see cref="GetShape"/>. This assumes immutability of a tensor wrt. its size.
+		/// Caching this improves performance and reduces allocation of objects when callingaccessing <see cref="Shape"/>.
+		/// </summary>
 		private long [] shape;
-		private int [] idx;
 
 		/// <summary>
 		/// Returns the tensor shape, this is an array whose size determines the number of dimensions on the tensor, and each element is the size of the dimension
@@ -889,20 +897,22 @@ namespace TensorFlow
 		///     An array of size 0 is used for constants, an array of size 1 is used
 		///     for single-dimension arrays, where the dimension is the value of the
 		///     first element.   And so on.
+		///     
+		///     Assumes immutability of this tensor wrt. its shape.
+		///     The first call detemines the size, subsequent calls are cheap.
 		/// </remarks>
-		public long [] Shape
-		{
-			get
-			{
+		public long [] Shape {
+			get {
 				if (shape == null)
-				{
 					shape = GetShape ();
-					idx = new int [shape.Length];
-				}
 				return shape;
 			}
 		}
 
+		/// <summary>
+		/// Helper method that calls into the C TensorFlow API to determine this tensor's shape.
+		/// </summary>
+		/// <returns>the shape</returns>
 		private long [] GetShape ()
 		{
 			var dims = new long [TF_NumDims (Handle)];
@@ -1431,10 +1441,10 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Sets the tensor's value to the given array.
+		/// Sets the tensor's value to the given array. This copies the data over into the tensor.
 		/// </summary>
 		/// <param name="array">An array of the tensor's type, size and shape.
-		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
+		/// The array can be flat, multi-dimensional or jagged (not performant) but must be of the right shape.</param>
 		public unsafe void SetValue (Array array)
 		{
 			CheckShape (array);
@@ -1771,14 +1781,6 @@ namespace TensorFlow
 				type = type.GetElementType ();
 
 			return type;
-		}
-
-		private static long[] getShape(Array array)
-		{
-			long[] dims = new long[array.Rank];
-			for (int i = 0; i < dims.Length; i++)
-				dims[i] = array.GetLength(i);
-			return dims;
 		}
 
 	}
