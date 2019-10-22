@@ -1451,66 +1451,6 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Sets the value of a boolean array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(bool[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a byte array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(byte[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a sbyte array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(sbyte[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a short array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(short[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a ushort array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(ushort[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of an int array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(int[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a long array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(long[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a Complex array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(Complex[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a float array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(float[] value) => SetValue((Array)value);
-
-		/// <summary>
-		/// Sets the value of a double array tensor.
-		/// </summary>
-		/// <param name="value">the new value</param>
-		public unsafe void SetValue(double[] value) => SetValue((Array)value);
-
-		/// <summary>
 		/// Sets the value of a boolean tensor.
 		/// </summary>
 		/// <param name="value">the new value</param>
