@@ -22,7 +22,7 @@ namespace TensorFlow
         /// <summary>
         /// Variable to keep track of the learning rate.
         /// </summary>
-        public Variable LearningRate { get; }
+        public TFOutput LearningRate { get; }
 
         /// <summary>
         /// The graph object. It is used for creating Ops through the construction of optimizer.
@@ -60,32 +60,39 @@ namespace TensorFlow
             using (var scope = _graph.WithScope(_optimizerName))
             {
                 Iterations = _graph.Variable(_graph.Const(new TFTensor(0L)), trainable: false, operName: "iterations");
-                _updateOps.Add(_graph.AssignAddVariableOp(Iterations, _graph.Const(1L)));
                 var initialLearningRate = _graph.Const(learningRate);
-                LearningRate = _graph.Variable(initialLearningRate, trainable: false, operName: _lrName);
-                CreateDecayOps(decay, initialLearningRate);
+                var inc = _graph.AssignAddVariableOp(Iterations, _graph.Const(1L));
+                _updateOps.Add(inc);
+                using (_graph.WithDependencies(inc))
+                {
+                    LearningRate = CreateDecayOps(decay, initialLearningRate);
+                }
             }
         }
 
         /// <summary>
         /// Create learning rate time decay operation.
         /// </summary>
-        protected void CreateDecayOps(float decay, TFOutput initialLearningRate)
+        protected TFOutput CreateDecayOps(float decay, TFOutput initialLearningRate)
         {
             if (decay > 0)
             {
                 var _decay = _graph.Const(decay, "Decay");
                 var one = _graph.Const(1f);
-                _updateOps.Add(_graph.AssignVariableOp(LearningRate,
+                return
                     _graph.Mul(initialLearningRate,
                                 _graph.Div(one,
                                             _graph.Add(one,
                                                         _graph.Mul(_decay,
-                                                                    _graph.Cast(Iterations.Read, _decay.OutputType)
+                                                                    _graph.Cast(_graph.Sub(Iterations.ReadAfter(_graph.CurrentDependencies), _graph.Const(1L)), _decay.OutputType)
                                                                   )
                                                        )
-                                           )
-                               )));
+                                           ), operName:"learningrate"
+                               );
+            }
+            else
+            {
+                return initialLearningRate;
             }
         }
 
@@ -193,23 +200,23 @@ namespace TensorFlow
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
-                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var lr = _graph.Cast(LearningRate, gv.gradient.OutputType);
                 var m = _graph.Cast(_momentum, gv.gradient.OutputType);
                 // v = m * moment - lr * g
-                var velocity = _graph.Sub(_graph.Mul(m, moments[i]), _graph.Mul(lr, gv.gradient));
+                var velocity = _graph.Sub(_graph.Mul(m, moments[i]), gv.gradient);
                 // moment = v
                 _updateOps.Add(_graph.Assign(moments[i], velocity).Operation);
 
                 if (_nesterov)
                 {
                     // w = w + m * v - lr * g
-                    var op = _graph.AssignAddVariableOp(gv.variable, _graph.Sub(_graph.Mul(m, velocity), _graph.Mul(lr, gv.gradient)));
+                    var op = _graph.AssignAddVariableOp(gv.variable, _graph.Mul(lr, _graph.Sub(_graph.Mul(m, velocity), gv.gradient)));
                     _updateOps.Add(op);
                 }
                 else
                 {
                     // w = w + v
-                    _updateOps.Add(_graph.AssignAddVariableOp(gv.variable, velocity));
+                    _updateOps.Add(_graph.AssignAddVariableOp(gv.variable, _graph.Mul(lr, velocity)));
                 }
             }
             return _updateOps.ToArray();
@@ -266,7 +273,7 @@ namespace TensorFlow
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
-                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var lr = _graph.Cast(LearningRate, gv.gradient.OutputType);
                 
                 // accum = g ** 2;
                 var accum = _graph.Add(accumulators[i], _graph.Square(gv.gradient));
@@ -311,7 +318,7 @@ namespace TensorFlow
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
-                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var lr = _graph.Cast(LearningRate, gv.gradient.OutputType);
                 
                 // accum = beta * accum + (1 - beta) * g ** 2;
                 var first = _graph.Mul(_beta, accumulators[i]);
