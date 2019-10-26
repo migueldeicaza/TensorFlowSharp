@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using TensorFlow;
 
 namespace ExampleCommon

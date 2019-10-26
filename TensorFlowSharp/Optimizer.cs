@@ -368,7 +368,7 @@ namespace TensorFlow
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
-                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var lr = _graph.Cast(LearningRate, gv.gradient.OutputType);
                 var one = _graph.Const(1f);
 
                 var t = _graph.Cast(Iterations.Read, _beta1.OutputType);
