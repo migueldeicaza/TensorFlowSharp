@@ -333,10 +333,11 @@ namespace TensorFlow
 				break;
 			}
 
-			var dims = getShape(array);
-			foreach (var dim in dims)
-				size *= dim;
-
+			var dims = new long [array.Rank];
+			for (int i = 0; i < array.Rank; i++) {
+				dims [i] = array.GetLength (i);
+				size *= (int)dims [i];
+			}
 			handle = SetupMulti (dt, dims, array, size);
 		}
 
@@ -638,7 +639,10 @@ namespace TensorFlow
 		// Convenience function to factor out the setup of a new tensor from an array
 		static IntPtr SetupTensor (TFDataType dt, Array data, int size)
 		{
-			var dims = getShape(data);
+			long [] dims = new long [data.Rank];
+			for (int i = 0; i < dims.Length; i++)
+				dims [i] = data.GetLength (i);
+
 			return SetupTensor (dt, dims, data, start: 0, count: data.Length, size: size);
 		}
 
@@ -1730,14 +1734,6 @@ namespace TensorFlow
 				type = type.GetElementType ();
 
 			return type;
-		}
-
-		private static long[] getShape(Array array)
-		{
-			long[] dims = new long[array.Rank];
-			for (int i = 0; i < dims.Length; i++)
-				dims[i] = array.GetLength(i);
-			return dims;
 		}
 
 	}
