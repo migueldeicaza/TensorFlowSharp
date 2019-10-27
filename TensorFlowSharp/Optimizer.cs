@@ -17,6 +17,7 @@ namespace TensorFlow
         /// Varaible to keep track of number of iterations (mini-batch processed)
         /// </summary>
         public Variable Iterations { get; }
+        public TFOutput CurrentIteration { get; }
 
         private readonly string _lrName = "LearningRate";
         /// <summary>
@@ -62,6 +63,7 @@ namespace TensorFlow
                 Iterations = _graph.Variable(_graph.Const(new TFTensor(0L)), trainable: false, operName: "iterations");
                 var initialLearningRate = _graph.Const(learningRate);
                 var inc = _graph.AssignAddVariableOp(Iterations, _graph.Const(1L));
+                CurrentIteration = Iterations.ReadAfter(inc);
                 _updateOps.Add(inc);
                 using (_graph.WithDependencies(inc))
                 {
@@ -368,10 +370,10 @@ namespace TensorFlow
             for (int i = 0; i < gradientsAndVariables.Length; i++)
             {
                 var gv = gradientsAndVariables[i];
-                var lr = _graph.Cast(LearningRate.Read, gv.gradient.OutputType);
+                var lr = _graph.Cast(LearningRate, gv.gradient.OutputType);
                 var one = _graph.Const(1f);
-
-                var t = _graph.Cast(Iterations.Read, _beta1.OutputType);
+                
+                var t = _graph.Cast(CurrentIteration, _beta1.OutputType);
                 var lr_t = _graph.Mul(lr, _graph.Div(
                                                 _graph.Sqrt(_graph.Sub(one, _graph.Pow(_beta2, t))),
                                                 _graph.Sub(one, _graph.Pow(_beta1, t))));
