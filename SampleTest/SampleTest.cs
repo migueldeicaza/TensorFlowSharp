@@ -341,7 +341,7 @@ namespace SampleTest
                             var tensors = sesssion.GetRunner()
                                .AddInput(X, new TFTensor(train_x[j]))
                                .AddInput(Y, new TFTensor(train_y[j]))
-                               .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate.Read).Run();
+                               .AddTarget(updateOps).Fetch(sgd.Iterations.Read, cost, W.Read, b.Read, sgd.LearningRate).Run();
                             avgLoss += (double)tensors[1].GetValue();
                         }
                         var tensors2 = sesssion.GetRunner()

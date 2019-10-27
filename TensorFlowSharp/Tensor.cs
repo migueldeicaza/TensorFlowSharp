@@ -358,7 +358,7 @@ namespace TensorFlow
 		{
 			var v = (bool*)Marshal.AllocHGlobal (sizeof (bool));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (int), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.Bool, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (bool), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
@@ -388,7 +388,7 @@ namespace TensorFlow
 		{
 			var v = (ushort*)Marshal.AllocHGlobal (sizeof (ushort));
 			*v = value;
-			handle = TF_NewTensor (TFDataType.Int16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
+			handle = TF_NewTensor (TFDataType.UInt16, zeroDims: IntPtr.Zero, num_dims: 0, data: (IntPtr)v, len: (UIntPtr)sizeof (ushort), deallocator: FreeTensorDataDelegate, deallocator_arg: IntPtr.Zero);
 		}
 
 		/// <summary>
