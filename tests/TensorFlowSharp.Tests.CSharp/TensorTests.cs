@@ -476,5 +476,326 @@ namespace TensorFlowSharp.Tests.CSharp
 				Assert.Equal (array, tensor.GetValue ());
 			}
 		}
+
+		[Fact]
+		public void SetArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { 123, 456 }))
+			{
+				tensor.SetValue (new [] { 234, 567 });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [] { 234, 567 }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [,] { { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetMultiDimArrayTensorWithJagged ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+
+			}
+		}
+
+		[Fact]
+		public void SetJaggedArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { new [] { 123, 456 } }))
+			{
+				tensor.SetValue (new [] { new [] { 234, 567 } });
+				Assert.Equal ((uint)sizeof (int) * 2, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new [,] { { 234, 567 } }, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetBoolTensor ()
+		{
+			using (var tensor = new TFTensor (true))
+			{
+				tensor.SetValue (false);
+				Assert.Equal ((uint)sizeof (bool), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (false, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetByteTensor ()
+		{
+			using (var tensor = new TFTensor ((byte)123))
+			{
+
+				tensor.SetValue ((byte)234);
+				Assert.Equal ((uint)sizeof (byte), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal ((byte)234, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetSignedByteTensor ()
+		{
+			using (var tensor = new TFTensor ((sbyte)123))
+			{
+				tensor.SetValue ((sbyte)-123);
+				Assert.Equal ((uint)sizeof (sbyte), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal ((sbyte)-123, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetShortTensor ()
+		{
+			using (var tensor = new TFTensor ((short)123))
+			{
+				tensor.SetValue ((short)234);
+				Assert.Equal ((uint)sizeof (short), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal ((short)234, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetUnsignedShortTensor ()
+		{
+			using (var tensor = new TFTensor ((ushort)123))
+			{
+				tensor.SetValue ((ushort)234);
+				Assert.Equal ((uint)sizeof (ushort), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal ((ushort)234, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetIntTensor ()
+		{
+			using (var tensor = new TFTensor (123))
+			{
+				tensor.SetValue (234);
+				Assert.Equal ((uint)sizeof (int), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (234, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetLongTensor ()
+		{
+			using (var tensor = new TFTensor (123L))
+			{
+				tensor.SetValue (234L);
+				Assert.Equal ((uint)sizeof (long), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (234L, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetComplexTensor ()
+		{
+			using (var tensor = new TFTensor (new Complex (1, 2)))
+			{
+				tensor.SetValue (new Complex (2, -1));
+				Assert.Equal ((uint)16, tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (new Complex (2, -1), tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetFloatTensor ()
+		{
+			using (var tensor = new TFTensor (123.456f))
+			{
+
+				tensor.SetValue (234.567f);
+				Assert.Equal ((uint)sizeof (float), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (234.567f, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetDoubleTensor ()
+		{
+			using (var tensor = new TFTensor (123.456))
+			{
+				tensor.SetValue (234.567);
+				Assert.Equal ((uint)sizeof (double), tensor.TensorByteSize.ToUInt32 ());
+				Assert.Equal (234.567, tensor.GetValue ());
+			}
+		}
+
+		[Fact]
+		public void SetTensorWithWrongType ()
+		{
+			using (var tensor = new TFTensor (123))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue ((ushort)234));
+				Assert.Equal ("The tensor is of type Int32, not UInt16", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetArrayTensorWithSimple ()
+		{
+			using (var tensor = new TFTensor (new [] { 123 }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (234));
+				Assert.Equal ("This tensor is an array tensor, not a simple tensor", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetArrayTensorWithWrongDimensions ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123 } }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (new [] { 234 }));
+				Assert.Equal ("This tensor has 2 dimensions, the given array has 1", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetArrayTensorWithWrongLength ()
+		{
+			using (var tensor = new TFTensor (new [,] { { 123 } }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (new [,] { { 234, 567 } }));
+				Assert.Equal ("This tensor has shape [1,1], the given array has shape [1,2]", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetJaggedArrayTensorWithWrongDimensions ()
+		{
+			using (var tensor = new TFTensor (new [] { new [] { 123 } }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (new [] { new [] { new [] { 234 } } }));
+				Assert.Equal ("This tensor has 2 dimensions, the given array has 3", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void SetJaggedArrayTensorWithWrongLength ()
+		{
+			using (var tensor = new TFTensor (new [] { new [] { 123 } }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (new [] { new [] { 234, 567 } }));
+				Assert.Equal ("This tensor has shape [1,1], given array has shape [1,2]", exception.Message);
+			}
+		}
+
+		private static IEnumerable<object []> checkShapeData ()
+		{
+			yield return new object [] { new [] { 123 }, new [] { 234 }, null };
+			yield return new object [] { new [] { 123 }, new [,] { { 234 } }, "This tensor has 1 dimensions, the given array has 2" };
+			yield return new object [] { new [] { 123 }, new [] { 234, 567 }, "This tensor has shape [1], the given array has shape [2]" };
+
+			yield return new object [] { new [] { 123, 456 }, new [] { 234, 567 }, null };
+			yield return new object [] { new [] { 123, 456 }, new [,] { { 234, 567 } }, "This tensor has 1 dimensions, the given array has 2" };
+			yield return new object [] { new [] { 123, 456 }, new [] { 234 }, "This tensor has shape [2], the given array has shape [1]" };
+
+			yield return new object [] { new [,] { { 123 } }, new [,] { { 234 } }, null };
+			yield return new object [] { new [,] { { 123 } }, new [] { 234 }, "This tensor has 2 dimensions, the given array has 1" };
+			yield return new object [] { new [,] { { 123 } }, new [,] { { 234, 567 } }, "This tensor has shape [1,1], the given array has shape [1,2]" };
+
+			yield return new object [] { new [,] { { 123, 456 }, { 789, 012 } }, new [,] { { 234, 567 }, { 890, 123 } }, null };
+			yield return new object [] { new [,] { { 123, 456 }, { 789, 012 } }, new [] { 234, 567 }, "This tensor has 2 dimensions, the given array has 1" };
+			yield return new object [] { new [,] { { 123, 456 }, { 789, 012 } }, new [,] { { 234 }, { 890 } }, "This tensor has shape [2,2], the given array has shape [2,1]" };
+		}
+
+		[Theory]
+		[MemberData (nameof (checkShapeData))]
+		public void CheckShape (Array tensorArray, Array checkArray, String expected)
+		{
+			using (var tensor = new TFTensor (tensorArray))
+				AssertCheck (() => tensor.CheckShape (checkArray), expected);
+		}
+
+		[Fact]
+		public void CheckShapeOnSimpleTensor ()
+		{
+			using (var tensor = new TFTensor (123))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.CheckShape (new [] { 123 }));
+				Assert.Equal ("This tensor has 0 dimensions, the given array has 1", exception.Message);
+			}
+		}
+
+		private static IEnumerable<object []> checkSimpleDataTypeData ()
+		{
+			yield return new object [] { typeof (int), null };
+			yield return new object [] { typeof (short), "The tensor is of type Int32, not Int16" };
+			yield return new object [] { typeof (byte), "The tensor is of type Int32, not UInt8" };
+		}
+
+		[Theory]
+		[MemberData (nameof (checkSimpleDataTypeData))]
+		public void CheckSimpleDataType (Type type, String expected)
+		{
+			using (var tensor = new TFTensor (123))
+				AssertCheck(() => tensor.CheckSimpleDataType (type), expected);
+		}
+
+		[Fact]
+		public void CheckSimpleDataTypeWithArray ()
+		{
+			using (var tensor = new TFTensor (123))
+			{
+				var exception = Assert.Throws<InvalidOperationException> (() => tensor.CheckSimpleDataType (typeof (Array)));
+				Assert.Equal ("An array is not a simple type, use CheckDataTypeAndSize(Type type, long length)", exception.Message);
+			}
+		}
+
+		[Fact]
+		public void CheckSimpleDataTypeOnArrayTensor ()
+		{
+			using (var tensor = new TFTensor (new [] { 123 }))
+			{
+				var exception = Assert.Throws<ArgumentException> (() => tensor.CheckSimpleDataType (typeof (int)));
+				Assert.Equal ("This tensor is an array tensor, not a simple tensor", exception.Message);
+			}
+		}
+
+		private static IEnumerable<object []> checkDataTypeAndSizeData ()
+		{
+			yield return new object [] { new TFTensor (123), typeof (int), 1, null };
+			yield return new object [] { new TFTensor (123), typeof (short), 1, "The tensor is of type Int32, not Int16" };
+			yield return new object [] { new TFTensor (123), typeof (byte), 1, "The tensor is of type Int32, not UInt8" };
+			yield return new object [] { new TFTensor (new [] { 123 }), typeof (int), 1, null };
+			yield return new object [] { new TFTensor (new [] { 123, 456 }), typeof (int), 2, null };
+			yield return new object [] { new TFTensor (new [] { 123, 456, 789 }), typeof (int), 2, "The tensor is of size 12, not 8" };
+			yield return new object [] { new TFTensor (new short [] { 123 }), typeof (ushort), 1, "The tensor is of type Int16, not UInt16" };
+		}
+
+		[Theory]
+		[MemberData (nameof (checkDataTypeAndSizeData))]
+		public void CheckDataTypeAndSize (TFTensor tensor, Type type, long length, String expected)
+		{
+			using (tensor)
+				AssertCheck(() => tensor.CheckDataTypeAndSize(type, length), expected);
+		}
+
+		public void AssertCheck (Action check, string expected)
+		{
+			if (expected == null)
+			{
+				check ();
+			}
+			else
+			{
+				var exception = Assert.Throws<ArgumentException> (check);
+				Assert.Equal (expected, exception.Message);
+			}
+		}
 	}
 }

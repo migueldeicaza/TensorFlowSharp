@@ -856,6 +856,10 @@ namespace TensorFlowSharp.Tests.CSharp
                 var sgd = new AdamOptimizer(graph, learning_rate);
                 var updateOps = sgd.Minimize(cost);
 
+                var iter = sgd.Iterations.ReadAfter (updateOps);
+                var readW = W.ReadAfter (updateOps);
+                var readb = b.ReadAfter (updateOps);
+
                 using (var sesssion = new TFSession(graph))
                 {
                     sesssion.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
@@ -868,7 +872,7 @@ namespace TensorFlowSharp.Tests.CSharp
                             var tensors = sesssion.GetRunner()
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
-                                .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
+                                .AddTarget(updateOps).Fetch(cost, readW, readb, pred).Run();
                             var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
@@ -912,6 +916,10 @@ namespace TensorFlowSharp.Tests.CSharp
                 var sgd = new AdamOptimizer(graph, learning_rate, decay: 0.5f);
                 var updateOps = sgd.Minimize(cost);
 
+                var iter = sgd.Iterations.ReadAfter (updateOps);
+                var readW = W.ReadAfter (updateOps);
+                var readb = b.ReadAfter (updateOps);
+
                 using (var sesssion = new TFSession(graph))
                 {
                     sesssion.GetRunner().AddTarget(graph.GetGlobalVariablesInitializer()).Run();
@@ -924,7 +932,7 @@ namespace TensorFlowSharp.Tests.CSharp
                             var tensors = sesssion.GetRunner()
                                 .AddInput(X, new TFTensor(train_x[j]))
                                 .AddInput(Y, new TFTensor(train_y[j]))
-                                .AddTarget(updateOps).Fetch(cost, W.Read, b.Read, pred).Run();
+                                .AddTarget(updateOps).Fetch(cost, readW, readb, pred).Run();
                             var output = Invariant($"loss: {tensors[0].GetValue():F4}, W: {tensors[1].GetValue():F4}, b: {tensors[2].GetValue():F4}");
                             Assert.Equal(expectedLines[i * n_samples + j], output);
                         }
