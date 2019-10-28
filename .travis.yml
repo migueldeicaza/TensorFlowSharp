@@ -1,9 +1,15 @@
 language: csharp
 solution: TensorFlowSharp.sln
 script:
-  - tsh_version=1.4.0-pre1
+  - tsh_version=1.13.0
   - wget "https://www.nuget.org/api/v2/package/TensorFlowSharp/$tsh_version"
-  - tar xzvf $tsh_version native
+  - mkdir native
+  - tar xzvf $tsh_version runtimes/linux/native
+  - cp runtimes/linux/native/* native
+  - tar xzvf $tsh_version runtimes/win7-x64/native
+  - cp runtimes/win7-x64/native/* native
+  - tar xzvf $tsh_version runtimes/osx/native
+  - cp runtimes/osx/native/* native
   - msbuild /t:Restore $TRAVIS_BUILD_DIR/TensorFlowSharp.sln
   - cd $TRAVIS_BUILD_DIR/
   - msbuild /p:Configuration=Release TensorFlowSharp.sln

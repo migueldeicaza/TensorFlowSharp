@@ -71,7 +71,8 @@ namespace ExampleObjectDetection
 					Console.WriteLine("Detecting objects");
 
 					foreach (var tuple in fileTuples) {
-						var tensor = ImageUtil.CreateTensorFromImageFile (tuple.input, TFDataType.UInt8);
+						//var tensor = ImageUtil.CreateTensorFromImageFile (tuple.input, TFDataType.UInt8);
+						var tensor = ImageUtil.CreateTensorFromImageFileAlt (tuple.input, TFDataType.UInt8);
 						var runner = session.GetRunner ();
 
 

@@ -53,11 +53,31 @@ namespace TensorFlow
 		/// <value>The read op.</value>
 		public TFOutput Read => readHandle;
 
-		/// <summary>
-		/// Returns the AssignVariableOp that is used to assign the initial value to the variable from the graph.
-		/// </summary>
-		/// <value>The assign op.</value>
-		public TFOperation Assign => assignOp;
+        /// <summary>
+        /// Returns the ReadVariableOp that is used to fetch the value of the variable from the graph.
+        /// </summary>
+        /// <value>The read op.</value>
+        public TFOutput ReadAfter(params TFOperation[] dependencies)
+        {
+            if(dependencies.Length > 0)
+            {
+                var graph = dependencies[0].graph;
+                using (graph.WithDependencies(dependencies))
+                {
+                    return graph.ReadVariableOp(variableHandle, readHandle.OutputType);
+                }
+            }
+            else
+            {
+                return readHandle;
+            }
+        }
+
+        /// <summary>
+        /// Returns the AssignVariableOp that is used to assign the initial value to the variable from the graph.
+        /// </summary>
+        /// <value>The assign op.</value>
+        public TFOperation Assign => assignOp;
 
 		/// <summary>
 		/// Returns the VarHandleOp that was created using the shape of the initial value.
