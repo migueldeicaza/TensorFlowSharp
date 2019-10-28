@@ -2942,14 +2942,28 @@ namespace TensorFlow
 			// Parses user strings that contain both the operation name and an index.
 			TFOutput ParseOutput (string operation)
 			{
+				TFOperation tfOperation;
 				var p = operation.IndexOf (':');
-				if (p != -1 && p != operation.Length - 1){
+				if (p != -1 && p != operation.Length - 1)
+				{
+					
 					var op = operation.Substring (0, p);
-					if (int.TryParse (operation.Substring (p + 1), out var idx)){
-						return session.Graph [op] [idx];
+					if (int.TryParse (operation.Substring (p + 1), out var idx))
+					{
+						tfOperation = session.Graph [op];
+						if (tfOperation == null)
+						{
+							throw new ArgumentOutOfRangeException($"An operation named {op} is not in this graph.");
+						}
+						return tfOperation [idx];
 					}
 				}
-				return session.Graph [operation] [0];
+				tfOperation = session.Graph [operation];
+				if (tfOperation == null)
+				{
+					throw new ArgumentOutOfRangeException($"An operation named {operation} is not in this graph.");
+				}
+				return tfOperation [0];
 			}
 
 			/// <summary>

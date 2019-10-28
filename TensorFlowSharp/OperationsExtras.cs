@@ -119,7 +119,7 @@ namespace TensorFlow
 
 			using (var newScope = WithScope (scopeName)) {
 				var type = initialValue.OutputType;
-				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)), shared_name: operName);
+				var variableHandle = VarHandleOp (type, new TFShape (GetShape (initialValue)), shared_name: scopeName);
 				using (var aScope = WithScope ("Assign")) {
 					var assignOp = AssignVariableOp (variableHandle, initialValue);
 					using (var rScope = WithScope ("Read")) {
