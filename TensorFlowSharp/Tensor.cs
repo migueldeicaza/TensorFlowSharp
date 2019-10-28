@@ -1395,6 +1395,191 @@ namespace TensorFlow
 		}
 
 		/// <summary>
+		/// Sets the tensor's value to the given array.
+		/// </summary>
+		/// <param name="array">An array of the tensor's type, size and shape.
+		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
+		public unsafe void SetValue(Array array)
+		{
+			CheckShape (array);
+
+			if (isJagged (array)) array = deepFlatten (array);
+
+			var type = getInnerMostType(array);
+			CheckDataTypeAndSize(type, array.Length);
+
+			var h = GCHandle.Alloc(array, GCHandleType.Pinned);
+			Copy(h.AddrOfPinnedObject(), (void*)Data, (int)TensorByteSize);
+			h.Free();
+		}
+
+		/// <summary>
+		/// Sets the value of a boolean tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(bool value)
+		{
+			CheckSimpleDataType (typeof(bool));
+			*(bool*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a byte tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(byte value)
+		{
+			CheckSimpleDataType (typeof(byte));
+			*(byte*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a sbyte tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(sbyte value)
+		{
+			CheckSimpleDataType (typeof(sbyte));
+			*(sbyte*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a short tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(short value)
+		{
+			CheckSimpleDataType (typeof(short));
+			*(short*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a ushort tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(ushort value)
+		{
+			CheckSimpleDataType (typeof(ushort));
+			*(ushort*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of an int tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(int value)
+		{
+			CheckSimpleDataType (typeof(int));
+			*(int*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a long tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(long value)
+		{
+			CheckSimpleDataType (typeof(long));
+			*(long*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a Complex tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(Complex value)
+		{
+			CheckSimpleDataType (typeof(Complex));
+			*(Complex*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a float tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(float value)
+		{
+			CheckSimpleDataType (typeof(float));
+			*(float*)Data = value;
+		}
+
+		/// <summary>
+		/// Sets the value of a double tensor.
+		/// </summary>
+		/// <param name="value">the new value</param>
+		public unsafe void SetValue(double value)
+		{
+			CheckSimpleDataType (typeof(double));
+			*(double*)Data = value;
+		}
+
+		/// <summary>
+		/// Checks this tensor's shape is identical to the given array's shape.
+		/// </summary>
+		/// <param name="array">Array to check</param>
+		/// <remarks>This method is expensive for jagged arrays.</remarks>
+		public void CheckShape(Array array)
+		{
+			if (isJagged (array))
+			{
+				// checking jagged arrays is expensive
+				var dims = getLength (array);
+
+				if (dims.Length != Shape.Length)
+					throw new ArgumentException ($"This tensor has {Shape.Length} dimensions, the given array has {dims.Length}");
+
+				if (dims.Length != Shape.Length || dims.Zip (Shape, (i, l) => i == l).Any ((equal) => !equal))
+					throw new ArgumentException ($"This tensor has shape [{string.Join (",", Shape)}], given array has shape [{string.Join (",", dims)}]");
+			}
+			else
+			{
+				// checking multi-dimensional arrays is cheap
+				if (array.Rank != Shape.Length)
+					throw new ArgumentException ($"This tensor has {Shape.Length} dimensions, the given array has {array.Rank}");
+
+				for (int i = 0; i < Shape.Length; i++)
+					if (array.GetLength (i) != Shape [i])
+						throw new ArgumentException ($"This tensor has shape [{string.Join (",", Shape)}], the given array has shape [{string.Join (",", getLength (array))}]");
+			}
+		}
+
+		/// <summary>
+		/// Checks this tensor is a simple tensor of the given type.
+		/// </summary>
+		/// <param name="type">Expected type</param>
+		public void CheckSimpleDataType (Type type)
+		{
+			if (type == typeof (Array))
+				throw new InvalidOperationException ("An array is not a simple type, use CheckDataTypeAndSize(Type type, long length)");
+
+			if (NumDims != 0)
+				throw new ArgumentException ("This tensor is an array tensor, not a simple tensor");
+
+			CheckDataTypeAndSize (type, 1);
+		}
+
+		/// <summary>
+		/// Checks this tensor's type and size.
+		/// </summary>
+		/// <param name="type">A type to check.</param>
+		/// <param name="length">A length to check.</param>
+		/// <remarks>
+		/// This does not distinguish between simple tensors and array tensors.
+		/// Use <see cref="CheckSimpleDataType(Type)"/> or <see cref="CheckShape(Array)"/>.
+		/// </remarks>
+		public void CheckDataTypeAndSize(Type type, long length)
+		{
+			var (dataType, dataSize) = TensorTypeAndSizeFromType(type);
+			var size = length * dataSize;
+
+			if (TensorType != dataType)
+				throw new ArgumentException($"The tensor is of type {TensorType}, not {dataType}");
+
+			if ((size_t)size != TensorByteSize)
+				throw new ArgumentException($"The tensor is of size {TensorByteSize}, not {size}");
+		}
+
+		/// <summary>
 		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.
 		/// </summary>
 		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TensorFlow.TFTensor"/>.</returns>
