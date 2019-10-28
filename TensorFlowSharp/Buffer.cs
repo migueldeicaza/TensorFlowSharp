@@ -112,7 +112,7 @@ namespace TensorFlow
 		/// </remarks>
 		unsafe public TFBuffer (IntPtr buffer, long size, BufferReleaseFunc release) : base ((IntPtr)TF_NewBuffer ())
 		{
-			LLBuffer* buf = (LLBuffer*)handle;
+			LLBuffer* buf = (LLBuffer*)Handle;
 			buf->data = buffer;
 			buf->length = (size_t)size;
 			if (release == null)
@@ -173,7 +173,7 @@ namespace TensorFlow
 			}
 		}
 
-		unsafe internal LLBuffer* LLBuffer => (LLBuffer*)handle;
+		unsafe internal LLBuffer* LLBuffer => (LLBuffer*)Handle;
 
 		// extern void TF_DeleteBuffer (TF_Buffer *);
 		[DllImport (NativeBinding.TensorFlowLibrary)]
@@ -194,12 +194,12 @@ namespace TensorFlow
 		/// <returns>The array.</returns>
 		public byte [] ToArray ()
 		{
-			if (handle == IntPtr.Zero)
+			if (Handle == IntPtr.Zero)
 				return null;
 
 			unsafe
 			{
-				var lb = (LLBuffer*)handle;
+				var lb = (LLBuffer*)Handle;
 
 				var result = new byte [(int)lb->length];
 				Marshal.Copy (lb->data, result, 0, (int)lb->length);
