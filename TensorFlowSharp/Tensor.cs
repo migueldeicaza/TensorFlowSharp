@@ -334,8 +334,7 @@ namespace TensorFlow
 			}
 
 			var dims = new long [array.Rank];
-			for (int i = 0; i < array.Rank; i++)
-			{
+			for (int i = 0; i < array.Rank; i++) {
 				dims [i] = array.GetLength (i);
 				size *= (int)dims [i];
 			}
