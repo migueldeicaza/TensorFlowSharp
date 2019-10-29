@@ -3074,7 +3074,7 @@ namespace TensorFlow
 			/// <returns>The <paramref name="outputValues"/> tensors provided.</returns>
 			/// <param name="outputValues">The outputs referencing all tensor to be fetched. Reuses this tensors array.</param>
 			/// <param name="status">Status buffer, if specified a status code will be left here, if not specified, a <see cref="T:TensorFlow.TFException"/> exception is raised if there is an error.</param>
-			public TFTensor [] Run (TFTensor [] outputValues, TFStatus status = null)
+			public void Run (TFTensor [] outputValues, TFStatus status = null)
 			{
 				int iLen = inputs.Count;
 				if (iLen != inputValues.Count)
@@ -3119,7 +3119,7 @@ namespace TensorFlow
 				for (int i = 0; i < outputValues.Length; i++)
 					outputValues[i].Handle = outputValueHandles[i];
 
-				return outputValues;
+				return;
 			}
 
 			/// <summary>
