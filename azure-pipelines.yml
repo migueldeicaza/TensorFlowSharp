@@ -35,13 +35,13 @@ steps:
        curl -O $BASE/$DARWIN
        curl -O $BASE/$LINUX
    fi
-   
+      
    echo Unzipping Windows
    unzip -d PAYLOAD $WIN lib/tensorflow.dll
+   mv lib/tensorflow.dll PAYLOAD
    
    echo Unzipping Darwin
    tar xzvf $DARWIN lib
-   chmod +w lib/libtensorflow*
    mv -f lib/libtensorflow* PAYLOAD/
    
    echo Unzipping Linux
