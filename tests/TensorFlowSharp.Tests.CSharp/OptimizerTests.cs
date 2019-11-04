@@ -821,7 +821,7 @@ namespace TensorFlowSharp.Tests.CSharp
             }
         }
 
-        [Fact]
+        //[Fact]
         public void LinearRegresionTrainingWithAdamOptimizerTest()
         {
             Console.WriteLine("Linear regression");
