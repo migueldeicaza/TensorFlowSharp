@@ -1,0 +1,83 @@
+pool:
+  name: Hosted macOS
+  demands: msbuild
+
+steps:
+- bash: |
+   echo at:
+   pwd
+   echo env:
+   set
+   echo dir:
+   ls
+  displayName: Environment
+
+- bash: |
+   if echo $BUILD_SOURCEBRANCH | grep /release/; then
+       perl -pi -e "s/PackageVersion>.*</PackageVersion>${BUILD_SOURCEBRANCHNAME}</" TensorFlowSharp/TensorFlowSharp.csproj
+   fi
+   
+  displayName: 'Update version based on branch name'
+
+- bash: |
+   TFVERSION=`sed -n 's/.*TensorFlowRuntimeVersion>\(.*\)<.*/\1/p' TensorFlowSharp/TensorFlowSharp.csproj`
+   echo TFVERSION is $TFVERSION
+   mono --version
+   ROOT=`pwd`
+   echo Root is: $ROOT
+   BASE=https://storage.googleapis.com/tensorflow/libtensorflow
+   
+   WIN=libtensorflow-cpu-windows-x86_64-${TFVERSION}.zip
+   DARWIN=libtensorflow-cpu-darwin-x86_64-${TFVERSION}.tar.gz
+   LINUX=libtensorflow-cpu-linux-x86_64-${TFVERSION}.tar.gz
+   if test x$SKIP_DOWNLOAD = x; then
+       curl -O $BASE/$WIN
+       curl -O $BASE/$DARWIN
+       curl -O $BASE/$LINUX
+   fi
+   
+   echo Unzipping Windows
+   unzip -d PAYLOAD $WIN lib/tensorflow.dll
+   
+   echo Unzipping Darwin
+   tar xzvf $DARWIN lib
+   chmod +w lib/libtensorflow*
+   mv -f lib/libtensorflow* PAYLOAD/
+   
+   echo Unzipping Linux
+   tar xzvf $LINUX lib
+   mv -f lib/* PAYLOAD/
+   mkdir -p $ROOT/native
+   mv PAYLOAD/lib/tensorflow.dll PAYLOAD/libtensorflow.dll
+   rmdir PAYLOAD/lib
+   cp PAYLOAD/* $ROOT/native
+  displayName: 'Script - Unpack remote payload'
+  env:
+    TFVERSION: 1.9.0
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+
+- task: MSBuild@1
+  displayName: 'MSBuild Restore'
+  inputs:
+    msbuildArguments: '/t:restore'
+
+- bash: 'ls -lR'
+  displayName: 'List contents'
+
+- task: MSBuild@1
+  displayName: 'Build Solution'
+  inputs:
+    msbuildArguments: '/p:Configuration=Release'
+    restoreNugetPackages: true
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: TensorFlowSharp/bin/Release
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+
