@@ -9,7 +9,7 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.1</ReleaseVersion>
-    <TensorFlowRuntimeVersion>1.15.0-pre1</TensorFlowRuntimeVersion>
+    <TensorFlowRuntimeVersion>1.15.0-pre2</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
