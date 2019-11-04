@@ -20,7 +20,7 @@ steps:
   displayName: 'Update version based on branch name'
 
 - bash: |
-   TFVERSION=`sed -n 's/.*TensorFlowRuntimeVersion>\(.*\)<.*/\1/p' TensorFlowSharp/TensorFlowSharp.csproj`
+   TFVERSION=`sed -n 's/.*TensorFlowRuntimeVersion>\(.*\)<.*/\1/p' TensorFlowSharp/TensorFlowSharp.csproj | sed 's/-pre.*//'`
    echo TFVERSION is $TFVERSION
    mono --version
    ROOT=`pwd`
