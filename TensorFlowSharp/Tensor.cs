@@ -884,21 +884,41 @@ namespace TensorFlow
 		public IntPtr Data => TF_TensorData (Handle);
 
 		/// <summary>
+		/// Cached result of <see cref="GetShape"/>. This assumes immutability of a tensor wrt. its size.
+		/// Caching this improves performance and reduces allocation of objects when callingaccessing <see cref="Shape"/>.
+		/// </summary>
+		private long [] shape;
+
+		/// <summary>
 		/// Returns the tensor shape, this is an array whose size determines the number of dimensions on the tensor, and each element is the size of the dimension
 		/// </summary>
 		/// <remarks>
 		///     An array of size 0 is used for constants, an array of size 1 is used
 		///     for single-dimension arrays, where the dimension is the value of the
 		///     first element.   And so on.
+		///     
+		///     Assumes immutability of this tensor wrt. its shape.
+		///     The first call detemines the size, subsequent calls are cheap.
 		/// </remarks>
 		public long [] Shape {
 			get {
-				var dims = new long [TF_NumDims (Handle)];
-				for (int i = 0; i < dims.Length; i++)
-					dims [i] = (int)TF_Dim (Handle, i);
-
-				return dims;
+				if (shape == null)
+					shape = GetShape ();
+				return shape;
 			}
+		}
+
+		/// <summary>
+		/// Helper method that calls into the C TensorFlow API to determine this tensor's shape.
+		/// </summary>
+		/// <returns>the shape</returns>
+		private long [] GetShape ()
+		{
+			var dims = new long [TF_NumDims (Handle)];
+			for (int i = 0; i < dims.Length; i++)
+				dims [i] = (int)TF_Dim (Handle, i);
+
+			return dims;
 		}
 
 		/// <summary>
@@ -1367,7 +1387,10 @@ namespace TensorFlow
 		/// Jagged arrays create various intermediate arrays, while multi-dimensional arrays are more
 		/// efficient memory-wise.
 		/// </remarks>
-		/// <returns>The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.</returns>
+		/// <returns>
+		/// The value encodes the contents of the tensor, and could include simple values, arrays and multi-dimensional values.
+		/// For simple values, the method does not allocate any objects.
+		/// </returns>
 		public object GetValue (bool jagged = false)
 		{
 			var dims = NumDims;
@@ -1395,22 +1418,45 @@ namespace TensorFlow
 		}
 
 		/// <summary>
-		/// Sets the tensor's value to the given array.
+		/// Returns the value of the Tensor in the provided array.
+		/// In contrast to <see cref="GetValue(bool)"/>, this method reuses the given array and does not allocate any objects.
+		/// The array must be of identical shape. It will be fully overwritten.
+		/// </summary>
+		/// <param name="array">tensor value array</param>
+		/// <remarks>Does not support jagged arrays.</remarks>
+		public unsafe void GetValue (Array array)
+		{
+			if (isJagged (array))
+				throw new ArgumentException ("Array must not be jagged");
+
+			CheckShape (array);
+			var type = getInnerMostType (array);
+			CheckDataTypeAndSize (type, array.Length);
+
+			var h = GCHandle.Alloc (array, GCHandleType.Pinned);
+			var size = TensorByteSize.ToUInt64 ();
+			Buffer.MemoryCopy (Data.ToPointer (), h.AddrOfPinnedObject ().ToPointer (), size, size);
+			h.Free ();
+		}
+
+		/// <summary>
+		/// Sets the tensor's value to the given array. This copies the data over into the tensor.
 		/// </summary>
 		/// <param name="array">An array of the tensor's type, size and shape.
-		/// The array can be flat (best performant), multi-dimensional or jagged but must be of the right shape.</param>
-		public unsafe void SetValue(Array array)
+		/// The array can be flat, multi-dimensional or jagged (not performant) but must be of the right shape.</param>
+		public unsafe void SetValue (Array array)
 		{
 			CheckShape (array);
 
 			if (isJagged (array)) array = deepFlatten (array);
 
-			var type = getInnerMostType(array);
-			CheckDataTypeAndSize(type, array.Length);
+			var type = getInnerMostType (array);
+			CheckDataTypeAndSize (type, array.Length);
 
-			var h = GCHandle.Alloc(array, GCHandleType.Pinned);
-			Copy(h.AddrOfPinnedObject(), (void*)Data, (int)TensorByteSize);
-			h.Free();
+			var h = GCHandle.Alloc (array, GCHandleType.Pinned);
+			var size = TensorByteSize.ToUInt64 ();
+			Buffer.MemoryCopy (h.AddrOfPinnedObject ().ToPointer (), Data.ToPointer (), size, size);
+			h.Free ();
 		}
 
 		/// <summary>

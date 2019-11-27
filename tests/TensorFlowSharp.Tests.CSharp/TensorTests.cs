@@ -433,9 +433,9 @@ namespace TensorFlowSharp.Tests.CSharp
 		}
 
 		[Fact]
-		public void ConstrucComplexArrayTensor()
+		public void ConstrucComplexArrayTensor ()
 		{
-			var array = new[] { new Complex(1, 2), new Complex(2, -1) };
+			var array = new [] { new Complex (1, 2), new Complex (2, -1) };
 			using (var tensor = new TFTensor (array))
 			{
 				Assert.Equal (TFDataType.Complex128, tensor.TensorType);
@@ -691,6 +691,30 @@ namespace TensorFlowSharp.Tests.CSharp
 			{
 				var exception = Assert.Throws<ArgumentException> (() => tensor.SetValue (new [] { new [] { 234, 567 } }));
 				Assert.Equal ("This tensor has shape [1,1], given array has shape [1,2]", exception.Message);
+			}
+		}
+
+		public static IEnumerable<object []> GetArrayValueInPlaceData => new List<object []>
+		{
+			new [] { new [] { 123 } },
+			new [] { new [,] { { 123, 456 } } },
+			new [] { new [,,] { { { 123, 456, 789 } } } },
+			new [] { new [,] { { 123, 456 }, { 789, 012 } } }
+		};
+
+		[Theory]
+		[MemberData(nameof(GetArrayValueInPlaceData))]
+		public void GetArrayValueInPlace (Array array)
+		{
+			using (var tensor = new TFTensor (array))
+			{
+				var type = array.GetType ().GetElementType ();
+				var value = Array.CreateInstance (type, tensor.Shape);
+				Assert.NotEqual (array, value);
+
+				tensor.GetValue (value);
+
+				Assert.Equal (array, value);
 			}
 		}
 

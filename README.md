@@ -75,18 +75,72 @@ runner to setup inputs and outputs and execute the pipeline.
 Something like this:
 
 ```csharp
-using(var graph = new TFGraph ())
+using (var graph = new TFGraph ())
 {
+    // Load the model
     graph.Import (File.ReadAllBytes ("MySavedModel"));
-    var session = new TFSession (graph);
-    var runner = session.GetRunner ();
-    runner.AddInput (graph ["input"] [0], tensor);
-    runner.Fetch (graph ["output"] [0]);
+    using (var session = new TFSession (graph))
+    {
+        // Setup the runner
+        var runner = session.GetRunner ();
+        runner.AddInput (graph ["input"] [0], tensor);
+        runner.Fetch (graph ["output"] [0]);
 
-    var output = runner.Run ();
+        // Run the model
+        var output = runner.Run ();
 
-    // Fetch the results from output:
-    TFTensor result = output [0];
+        // Fetch the results from output:
+        TFTensor result = output [0];
+    }
+}
+```
+
+If your application is sensitive to GC cycles, you can run your model as follows.
+The `Run` method will then allocate managed memory only at the first call and reuse it later on.
+Note that this requires you to reuse the `Runner` instance and not to change the shape of the input data:
+
+```csharp
+// Some input matrices
+var inputs = new float[][,] {
+    new float[,] { { 1, 2 }, { 3, 4 } },
+    new float[,] { { 2, 4 }, { 6, 8 } }
+};
+
+// Assumes all input matrices have identical shape
+var shape = new long[] { inputs[0].GetLongLength(0), inputs[0].GetLongLength(1) };
+var size = inputs[0].Length * sizeof(float);
+
+// Empty input and output tensors
+var input = new TFTensor(TFDataType.Float, shape, size);
+var output = new TFTensor[1];
+
+// Result array for a single run
+var result = new float[1, 1];
+
+using (var graph = new TFGraph())
+{
+    // Load the model
+    graph.Import(File.ReadAllBytes("MySavedModel"));
+    using (var session = new TFSession(graph))
+    {
+        // Setup the runner
+        var runner = session.GetRunner();
+        runner.AddInput(graph["input"][0], input);
+        runner.Fetch(graph["output"][0]);
+
+        // Run the model on each input matrix
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            // Mutate the input tensor
+            input.SetValue(inputs[i]);
+
+            // Run the model
+            runner.Run(output);
+
+            // Fetch the result from output into `result`
+            output[0].GetValue(result);
+        }
+    }
 }
 ```
 
