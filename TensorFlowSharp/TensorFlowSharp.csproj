@@ -9,13 +9,13 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.1</ReleaseVersion>
-    <TensorFlowRuntimeVersion>1.15.1-pre1</TensorFlowRuntimeVersion>
+    <TensorFlowRuntimeVersion>1.15.0</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.15.0-pre1</PackageVersion>
+    <PackageVersion>1.15.1-pre1</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
