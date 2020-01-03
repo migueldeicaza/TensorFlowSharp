@@ -12,9 +12,9 @@ namespace TensorFlowSharp.Tests.CSharp
 	{
         private static IEnumerable<object[]> atanData1()
         {
-            var x = new double[] { 1.731261, 0.99920404 };
-            var expected = new double[] { 0.9529039, };
-            yield return new object[] { 1.047, 0.785 };
+            var x = new double[] { 1.731261, 1 };
+            var expected = new double[] { 1.04700003, 0.78539816 };
+            yield return new object[] { x, expected};
         }
 
         [Theory]
@@ -24,7 +24,7 @@ namespace TensorFlowSharp.Tests.CSharp
             using (var graph = new TFGraph())
             using (var session = new TFSession(graph))
             {
-                var tX = graph.Placeholder(TFDataType.Double, new TFShape(1));
+                var tX = graph.Placeholder(TFDataType.Double, new TFShape(2));
                 var actual = graph.Atan(tX);
 
                 var result = (double[])session.Run(new[] { tX }, new TFTensor[] { x }, new[] { actual })[0].GetValue();
