@@ -10,6 +10,7 @@
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.1</ReleaseVersion>
     <TensorFlowRuntimeVersion>1.15.0</TensorFlowRuntimeVersion>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup>
