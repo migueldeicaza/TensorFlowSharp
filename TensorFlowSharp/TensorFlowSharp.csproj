@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net471;netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>TensorFlowSharp</RootNamespace>
     <AssemblyName>TensorFlowSharp</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -14,7 +14,7 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
-    <PackageId>TensorFlowSharp</PackageId>
+    <PackageId>TensorFlowSharp-Lite</PackageId>
     <PackageVersion>1.15.2</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
