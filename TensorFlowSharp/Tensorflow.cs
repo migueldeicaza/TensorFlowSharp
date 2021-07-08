@@ -1977,7 +1977,8 @@ namespace TensorFlow
 					IntPtr array = Marshal.AllocHGlobal (sizeof (long) * shapeList [i].dims.Length);
 					Marshal.Copy (shapeList [i].dims, 0, array, shapeList [i].dims.Length);
 					Marshal.WriteIntPtr (unmanaged, ofs, array);
-					ofs += sizeof (IntPtr);
+				    num_dims[i] = shapeList[i].NumDimensions;
+                    ofs += sizeof (IntPtr);
 				}
 				TF_SetAttrShapeList (Handle, attrName, unmanaged, num_dims, num_shapes);
 				ofs = 0;
