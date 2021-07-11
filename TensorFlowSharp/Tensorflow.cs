@@ -156,6 +156,36 @@ namespace TensorFlow
 		}
 	}
 
+	internal class DefaultGraphStack
+	{
+		[ThreadStatic]
+		private static IList<TFGraph> stack;
+		private static object lockObj = new object();
+
+		internal static TFGraph Instance => stack.Last();
+
+		internal static void SetGraph(TFGraph graph)
+		{
+			if (stack == null)
+			{
+				lock (lockObj)
+				{
+					if (stack == null)
+					{
+						stack = new List<TFGraph>();
+					}
+				}
+			}
+
+			stack.Add(graph);
+		}
+
+		internal static void RemoveGraph(TFGraph graph)
+		{
+			stack.Remove(graph);
+		}
+	}
+
 	/// <summary>
 	/// Base class for many TensorFlow data types that provides a common idiom to dispose and
 	/// release resources associated with the native data types.   Generally, you do not need to use this.
@@ -573,12 +603,13 @@ namespace TensorFlow
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:TensorFlow.TFGraph"/> class.
 		/// </summary>
-		public TFGraph () : base (TF_NewGraph ())
+		public TFGraph () : this (TF_NewGraph ())
 		{
 		}
 
 		internal TFGraph (IntPtr handle) : base (handle)
 		{
+			DefaultGraphStack.SetGraph(this);
 		}
 
 		// extern void TF_DeleteGraph (TF_Graph *);
@@ -586,6 +617,7 @@ namespace TensorFlow
 		static extern unsafe void TF_DeleteGraph (TF_Graph graph);
 		internal override void NativeDispose (IntPtr handle)
 		{
+			DefaultGraphStack.RemoveGraph(this);
 			TF_DeleteGraph (handle);
 		}
 
@@ -3906,6 +3938,50 @@ namespace TensorFlow
 		public override string ToString ()
 		{
 			return string.Format ("[{3} Index={1} Operation={2} (0x{0:X})]", (long) LLOperation, Index, Operation, OutputType);
+		}
+
+		/// <summary>
+		/// Plus operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator + (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Add (o1, o2);
+		}
+
+		/// <summary>
+		/// Multiplication operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator * (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Mul (o1, o2);
+		}
+
+		/// <summary>
+		/// Division operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator / (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Div (o1, o2);
+		}
+
+		/// <summary>
+		/// Subtraction operation.
+		/// </summary>
+		/// <param name="o1">First output</param>
+		/// <param name="o2">Second output</param>
+		/// <returns></returns>
+		public static TFOutput operator - (TFOutput o1, TFOutput o2)
+		{
+			return DefaultGraphStack.Instance.Sub (o1, o2);
 		}
 	}
 
