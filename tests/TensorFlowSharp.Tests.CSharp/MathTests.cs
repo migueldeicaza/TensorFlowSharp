@@ -10,7 +10,31 @@ namespace TensorFlowSharp.Tests.CSharp
 {
 	public class MathTests
 	{
-		[Fact]
+        private static IEnumerable<object[]> atanData1()
+        {
+            var x = new double[] { 1.731261, 1 };
+            var expected = new double[] { 1.04700003, 0.78539816 };
+            yield return new object[] { x, expected};
+        }
+
+        [Theory]
+        [MemberData(nameof(atanData1))]
+        public void ShouldAtan(double[] x, double[] expected)
+        {
+            using (var graph = new TFGraph())
+            using (var session = new TFSession(graph))
+            {
+                var tX = graph.Placeholder(TFDataType.Double, new TFShape(2));
+                var actual = graph.Atan(tX);
+
+                var result = (double[])session.Run(new[] { tX }, new TFTensor[] { x }, new[] { actual })[0].GetValue();
+
+                TestUtils.MatrixEqual(expected, result, 8);
+            }
+
+        }
+
+        [Fact]
 		public void Should_CalculateTanhGrad_Correctly ()
 		{
 			using (TFGraph graph = new TFGraph ())
