@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,13 +9,13 @@
     <DocumentationFile>bin\Debug\TensorFlowSharp.xml</DocumentationFile>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
     <ReleaseVersion>0.1</ReleaseVersion>
-    <TensorFlowRuntimeVersion>1.15.0</TensorFlowRuntimeVersion>
+    <TensorFlowRuntimeVersion>2.8.0</TensorFlowRuntimeVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>TensorFlowSharp</PackageId>
-    <PackageVersion>1.15.3</PackageVersion>
+    <PackageVersion>2.8.0</PackageVersion>
     <Authors>Miguel de Icaza</Authors>
     <PackageLicenseUrl>https://github.com/migueldeicaza/TensorFlowSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/migueldeicaza/TensorFlowSharp/</PackageProjectUrl>
@@ -23,19 +23,8 @@
     <Description>.NET Bindings for TensorFlow</Description>
     <Owners>Miguel de Icaza</Owners>
     <Summary>.NET API for TensorFlow, Google's Machine Intelligence framework</Summary>
-    <PackageReleaseNotes>1.15.3: Fixed libtensorflow.dll not being copied to output directory on .NET Core; 1.15.1: Add a Runner.Run method that does not allocate - contribution from Enrico Minack; 1.15.0: Updated to TensorFlow 1.15; 1.13.1: Fixes boolean and ushort tensor construction fixes from Enrico Minack;  Runner.AddInput fixes from Colin Versteeg; captainst provided a convenience function for the samples; Zeeshan Ahmed added AdamOptimizer; Kevin Malenfant fixes a few bugs; Enrico Minack added support for mutable tensors;  1.13.0: An optimization implementation now exists for C#, contributed by Zeeshan Ahmed from the Microsoft data science team (RMSProp, SGD optimizer bindings);  TFSession now has a static method for loading models;  New methods for loading strings into tensors (also Zeeshan)</PackageReleaseNotes>
+    <PackageReleaseNotes>2.8.0: Updated to TensorFlow 2.8.0; 1.15.3: Fixed libtensorflow.dll not being copied to output directory on .NET Core; 1.15.1: Add a Runner.Run method that does not allocate - contribution from Enrico Minack; 1.15.0: Updated to TensorFlow 1.15; 1.13.1: Fixes boolean and ushort tensor construction fixes from Enrico Minack;  Runner.AddInput fixes from Colin Versteeg; captainst provided a convenience function for the samples; Zeeshan Ahmed added AdamOptimizer; Kevin Malenfant fixes a few bugs; Enrico Minack added support for mutable tensors;  1.13.0: An optimization implementation now exists for C#, contributed by Zeeshan Ahmed from the Microsoft data science team (RMSProp, SGD optimizer bindings);  TFSession now has a static method for loading models;  New methods for loading strings into tensors (also Zeeshan)</PackageReleaseNotes>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="nuget\build\net45\TensorFlowSharp.targets" />
-    <None Include="nuget\build\net45\TensorFlowSharp.targets" PackagePath="build\net45\TensorFlowSharp.targets" Pack="true" />
-    <None Include="..\native\libtensorflow.dll" Link="nuget\runtimes\win7-x64\native\libtensorflow.dll" PackagePath="runtimes\win7-x64\native\libtensorflow.dll" Pack="true" />
-    <None Include="..\native\libtensorflow.dll" Link="nuget\runtimes\win-x64\native\libtensorflow.dll" PackagePath="runtimes\win-x64\native\libtensorflow.dll" Pack="true" />
-    <None Include="..\native\libtensorflow.dylib" Link="nuget\runtimes\osx\native\libtensorflow.dylib" PackagePath="runtimes\osx\native\libtensorflow.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.dylib" Link="nuget\runtimes\osx\native\libtensorflow_framework.dylib" PackagePath="runtimes\osx\native\libtensorflow_framework.dylib" Pack="true" />
-    <None Include="..\native\libtensorflow.so" Link="nuget\runtimes\linux\native\libtensorflow.so" PackagePath="runtimes\linux\native\libtensorflow.so" Pack="true" />
-    <None Include="..\native\libtensorflow_framework.so" Link="nuget\runtimes\linux\native\libtensorflow_framework.so" PackagePath="runtimes\linux\native\libtensorflow_framework.so" Pack="true" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Ops\" />
